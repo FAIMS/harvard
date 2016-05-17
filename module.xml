@@ -69,42 +69,779 @@
   <!--</RelationshipElement>-->
 </rels>
 
+<User f="nolabel">
+  <User_List>
+    <Users t="dropdown" f="user"/>
+    <Trench t="dropdown">
+      <!--TODO: Populate me-->
+    </Trench>
+    <Device_Code t="dropdown">
+      <!--TODO: Populate me-->
+    </Device_Code>
+    <Login t="button" l="Control"/>
+    <Module_Guide t="button" l="User/Help"/>
+  </User_List>
+  <Help>
+    <Help t="webview" f="nolabel"/>
+  </Help>
+</User>
+
+<Control>
+  <Contexts>
+    <Create_New_Context t="button" l="Context"/>
+    <Create_New_Feature t="button" l="Context_Group"/>
+    <Create_New_Diary   t="button" l="Diary"/>
+  </Contexts>
+  <search/>
+</Control>
+
 <Context>
   <desc>The physical result of any single action whether it leaves a positive or negative record within the stratigraphic sequence. (MoLAS 1994)</desc>
-  <AreaCode f="id">
-    <desc>The excavation trench, designated by a letter code and assigned automatically by the module based on your selection when you log in.</desc>
-    <str>
-      <fmt><![CDATA[$1]]></fmt>
-    </str>
-    <opts>
-      <opt>H</opt>
-      <opt>K</opt>
-      <opt>L</opt>
-      <opt>M</opt>
-      <opt>N</opt>
-      <opt>P</opt>
-      <opt>Q</opt>
-      <opt>X</opt>
-    </opts>
-  </AreaCode>
-  <Context_ID f="id">
-    <desc>Every archaeological context (negative element (cut), deposit, structure, skeleton, artefact cluster) is given a unique 3 or 4 letter context code. Each trench is designated with a separate letter which starts the code, so it is immediately obvious to which trench a context belongs. For example context HAA belongs to Trench H, context MQP to Trench M etc.
+  <General>
+    <cols>
+      <AreaCode f="id">
+        <desc>The excavation trench, designated by a letter code and assigned automatically by the module based on your selection when you log in.</desc>
+        <str>
+          <fmt><![CDATA[$1]]></fmt>
+        </str>
+        <opts>
+          <opt>H</opt>
+          <opt>K</opt>
+          <opt>L</opt>
+          <opt>M</opt>
+          <opt>N</opt>
+          <opt>P</opt>
+          <opt>Q</opt>
+          <opt>X</opt>
+        </opts>
+      </AreaCode>
+      <Context_ID f="id">
+        <desc>Every archaeological context (negative element (cut), deposit, structure, skeleton, artefact cluster) is given a unique 3 or 4 letter context code. Each trench is designated with a separate letter which starts the code, so it is immediately obvious to which trench a context belongs. For example context HAA belongs to Trench H, context MQP to Trench M etc.
 
-    The contexts are labelled consecutively in alphabetical order using the letters following the trench letter. For Trench H the first context would be HAA, the second HAB, the third HAB and so on. In addition sets of letters can denote parts of trenches, buildings etc. E.g. HFs might denote contexts from a specific building.
+        The contexts are labelled consecutively in alphabetical order using the letters following the trench letter. For Trench H the first context would be HAA, the second HAB, the third HAB and so on. In addition sets of letters can denote parts of trenches, buildings etc. E.g. HFs might denote contexts from a specific building.
 
-    Burial context codes begin with the letter Z, followed by the trench letter. Hence burial ZHA is the first burial context from trench H.
+        Burial context codes begin with the letter Z, followed by the trench letter. Hence burial ZHA is the first burial context from trench H.
 
-    Check with the trench supervisor who will assign the context code from the central register.</desc>
-    <str>
-      <fmt><![CDATA[Cxtx-$2-]]></fmt>
-    </str>
-  </Context_ID>
-  <Context_Name f="id">
-    <desc>Enter a brief, clear name for the Context eg 'House A - west wall'</desc>
-    <str>
-      <fmt><![CDATA[$2]]></fmt>
-    </str>
-  </Context_Name>
+        Check with the trench supervisor who will assign the context code from the central register.</desc>
+        <str>
+          <fmt><![CDATA[Cxtx-$2-]]></fmt>
+        </str>
+      </Context_ID>
+      <Context_Name f="id">
+        <desc>Enter a brief, clear name for the Context eg 'House A - west wall'</desc>
+        <str>
+          <fmt><![CDATA[$2]]></fmt>
+        </str>
+      </Context_Name>
+    </cols>
+    <cols>
+      <Grid_X>
+        <desc>The X coordinate on the SW corner of the context.</desc>
+      </Grid_X>
+      <Grid_Y>
+        <desc>The Y coordinate on the SW corner of the context.</desc>
+      </Grid_Y>
+    </cols>
+    <Location_Note>
+      <desc>Record the approximate location in the excavation area, for example: centre of Area A; NW corner area A. Also include, where relevant, the position in relation to other archaeological contexts or features e.g. between walls x and y.</desc>
+    </Location_Note>
+    <cols>
+      <col>
+        <Date_Opened>
+          <desc>Date on which the Context was first excavated. This will automatically be set to the date on which the context is recorded but can be edited using the keyboard.</desc>
+        </Date_Opened>
+        <Excavators>
+          <desc>Initials of the excavators that have worked on the context.</desc>
+          <!-- Instead of UBAF-27, we're sticking in a textarea-->
+        </Excavators>
+      </col>
+      <Excavation_Method>
+        <desc>Enter details here about the method of archaeological excavation.</desc>
+        <opts>
+          <opt>Hand-pick
+          <desc>Excavated by hand-pick.</desc></opt>
+          <opt>Trowel
+          <desc>Excavated by trowel.</desc></opt>
+          <opt>Pick
+          <desc>Excavated by pick.</desc></opt>
+          <opt>Other
+          <desc>Excavated by another method. Add details in Annotation field.</desc></opt>
+        </opts>
+      </Excavation_Method>
+    </cols>
+    <cols>
+      <Horizon_Boundary>
+        <desc>Describe the boundary between this and the next context.</desc>
+        <opts>
+          <opt>No Observation<desc>data not collected</desc></opt>
+          <opt>Doubtful<desc>You are uncertain of whether you accurately excavated a boundary between deposits</desc> </opt>
+          <opt>Ambiguous<desc>You are uncertain as to whether there was a boundary between contexts.</desc> </opt>
+          <opt>Merging<desc>There is a distinction between the excavated context and earlier context(s) but the excavated contexts and the earlier contexts grade into each other</desc> </opt>
+          <opt>Clear<desc>The boundary with the earlier context(s) was very clearly defined during excavation.</desc> </opt>
+          <opt>ArbitrarySpit<desc>There is no meaningful boundary with an earlier context. The boundary has been artificially created by the excavation process.</desc> </opt>
+        </opts>
+      </Horizon_Boundary>
+      <Contamination>
+        <desc>The extent to which the context has been contaminated.</desc>
+        <opts>
+          <opt>No Observation</opt>
+          <opt>Contaminated
+          <desc>Contaminated by later material eg by unidentified cut at time of initial excavation by large scale animal or root activity which were not isolated by excavation by excavation processes some annoying person mixed the material or stuff fell into deposit from the section.</desc></opt>
+          <opt>Possibly Contaminated
+          <desc>At Boncuklu as at many sites there is significant animal activity represented by burrows. We aim to remove most animal burrow fill. This is easier in contexts with clear and compact sediment characteristics like plaster floors walls building fills more difficult in loose middens. In one sense at Boncuklu as at many sites every context is possibly contaminated but there would be little point in indicating that since it is something we generally understand. Therefore this option is to be
+          used to indicate those situations where one may have tried to remove animal introduced or other contamination but are unsure this has been successful and there is a likely but not definitive chance of some later contamination beyond. This option also applies where there may have been later cuts not recognised but we are not sure.</desc></opt>
+          <opt>High likelihood high amount derived
+          <desc>It is very likely that significant amounts of earlier artifact and ecofact material has become incorporated in the deposit. For example; is this context a mud brick wall or other structure or building or structural debris or a deposit which has seen the redeposition of material excavated from cuts. These are all situations in which earlier material is likely to have been dug up and re-used (in the mud brick) or re-deposited (when digging out pits).</desc></opt>
+          <opt>Low likelihood low amount derived
+          <desc>You think there is little chance that very much earlier material has made it's way into this deposit.</desc></opt>
+          <opt>Primary deposit
+          <desc>You are very sure that the deposit and all finds therein directly relate to activity within a specific period of time and there is thus minimal amounts of derived material and no contamination.</desc></opt>
+        </opts>
+      </Contamination>
+    </cols>
+    <Context_Type>
+      <desc>Describe the context type by selecting an icon as defined below.
+  When you have selected a context type you can proceed to open the "Fill in context type details" page. Note this page will not open unless you have selected a context type.</desc>
+      <opts>
+        <opt p="gallery/Blanks/Trail.png">No Observation
+        <desc>data not collected</desc></opt>
+        <opt p="gallery/ContextType/Orange/Cut.png">Negative Element
+        <desc>Any Context which represents the removal of earlier deposit and thus forms a negative interface (cut) with another context, such as a cut for a pit, burial, ditch, wall foundation or robber trench.</desc></opt>
+        <opt p="gallery/ContextType/Orange/Deposit.png">Deposit
+        <desc>Any Context with deposited sediment and soil, such as floor layers, pit and grave fills, hearth fills and natural sediments.</desc></opt>
+        <opt p="gallery/ContextType/Orange/Structure.png">Structure
+        <desc>Any Context consisting of deliberately constructed structural element, independent of a Negative Element (i.e. cut, such as a wall or a hearth).</desc></opt>
+        <opt p="gallery/ContextType/Orange/Skeleton.png">Skeleton
+        <desc>Human skeletal remains.</desc></opt>
+      </opts>
+    </Context_Type>
+    <Fill_in_Context_Type_Details t="button"/>
+    <cols>
+      <Plans>
+        <desc>Reference numbers to plans or drawings of this Context.</desc>
+      </Plans>
+      <Section_Numbers>
+        <desc>Reference numbers to section drawings of this Context</desc>
+      </Section_Numbers>
+    </cols>
+    <cols>
+      <Date_Closed>
+        <desc>The date excavation of the Context ended and it was closed. Press the 'Add Date Closed' button to insert today's date.</desc>
+      </Date_Closed>
+      <Add_Date_Closed t="button"/>
+    </cols>
+    <cols>
+      <author>Record Created By:</author>
+      <timestamp>Record Created Date:</timestamp>
+    </cols>
+  </General>
+  <Measure f="noscroll">
+    <cols>
+      <Highest_Level>
+        <desc>The highest elevation or 'starting level' recorded for that context relative to the site grid.</desc>
+      </Highest_Level>
+      <Lowest_Level>
+        <desc>The lowest elevation recorded for that context relative to the site grid.</desc>
+      </Lowest_Level>
+    </cols>
+    <cols>
+      <Length>
+        <desc>Longest dimension in metres.</desc>
+      </Length>
+      <Width>
+        <desc>Width or diameter in metres.</desc>
+      </Width>
+      <Depth>
+        <desc>Depth or Height in metres.</desc>
+      </Depth>
+    </cols>
+    <Volume>
+      <desc>Estimate the volume of the context in litres. All soil will be collected in buckets of a known volume. A tally should be kept of buckets produced from a context and the total volume calculated using that tally.</desc>
+    </Volume>
+    <Add_Height lc="Height"/>
+    <Height_List ec="Height" t="list"/>
+  </Measure>
+  <Cut>
+    <Cut_Your_Interpretation>
+      <desc>Your interpretation of the likely function of the Context using standardised definitions.</desc>
+      <opts>
+        <opt>No Observation</opt>
+        <opt>Indeterminate
+        </opt>
+        <opt>Animal/Plant hole
+        </opt>
+        <opt>Stakehole
+        </opt>
+        <opt>Posthole
+        </opt>
+        <opt>Pit
+        </opt>
+        <opt>Hearth/Fire pit
+        </opt>
+        <opt>Ditch/Trench
+        </opt>
+        <opt>Construction Cut
+        </opt>
+        <opt>Burial
+        </opt>
+        <opt>Erosional Feature
+        </opt>
+        <opt>Other
+        <desc>Function not elsewhere described. Provide details in Annotation field.</desc></opt>
+      </opts>
+    </Cut_Your_Interpretation>
+    <cols>
+      <Shape_of_Cut>
+        <desc>Describe the shape of the negative element/cut viewed from above.</desc>
+        <opts>
+          <opt>No Observation
+          <desc>data not collected</desc></opt>
+          <opt>Circular
+          <desc>Round</desc></opt>
+          <opt>Linear
+          <desc>Straight sided but not square or rectangular.</desc></opt>
+          <opt>Ovoid
+          <desc>Oval or elliptical.</desc></opt>
+          <opt>Rectangular
+          <desc>Two sides longer than the other.</desc></opt>
+          <opt>Semi-Circular
+          <desc>Half circle.</desc></opt>
+          <opt>Square
+          <desc>Equal on four sides.</desc></opt>
+          <opt>Sub-Circular
+          <desc>Nearly circular.</desc></opt>
+          <opt>Sub-rectangular
+          <desc>Nearly rectangular in shape.</desc></opt>
+        </opts>
+      </Shape_of_Cut>
+      <Shape_of_Cut_-_Note>
+        <desc>Additional notes about the shape of the cut.</desc>
+      </Shape_of_Cut_-_Note>
+    </cols>
+    <Shape_of_Corners>
+      <desc>Describe the shape of any visible corners of the negative element/cut.</desc>
+      <opts>
+        <opt>Other
+        <desc>Other shapes</desc></opt>
+        <opt>Rounded
+        <desc>Rounded corners.</desc></opt>
+        <opt>Square
+        <desc>Sharp perpendicular corners.</desc></opt>
+      </opts>
+    </Shape_of_Corners>
+    <Break_of_Slope_-_Top>
+      <desc>The degree with which the top surface of the edge of the cut breaks into the sides.</desc>
+      <opts>
+        <opt>Gradual
+        <desc>Some rounding to the top.</desc></opt>
+        <opt>Not perceptible
+        <desc>Well-rounded; there is no perceptible difference between the sides of the cut and the surface into which it protrudes.</desc></opt>
+        <opt>Sharp
+        <desc>Clear sharp slope, almost right-angled.</desc></opt>
+        <opt>Shallow
+        <desc>Gentle slope less than 45 degrees.</desc></opt>
+      </opts>
+    </Break_of_Slope_-_Top>
+    <cols>
+      <Sides_of_Cut>
+        <desc>Describe the shape of the cut as seen in cross section.</desc>
+        <opts>
+          <opt>No Observation</opt>
+          <opt>Vertical
+          <desc>Sides are vertical</desc></opt>
+          <opt>Convex
+          </opt>
+          <opt>Concave
+          </opt>
+          <opt>Stepped
+          </opt>
+          <opt>Sloping
+          <opt>Slightly Sloping
+          </opt>
+          <opt>Steeply Sloping
+          </opt>v</opt>
+        </opts>
+      </Sides_of_Cut>
+      <Shape_of_Base>
+        <desc>The shape of the base of the cut in profile.</desc>
+        <opts>
+          <opt>No Observation
+          <desc>data not collected</desc></opt>
+          <opt>Concave
+          </opt>
+          <opt>Flat
+          </opt>
+          <opt>Pointed
+          </opt>
+          <opt>Sloping
+          </opt>
+          <opt>Tapered
+          <opt>Blunt
+          </opt>
+          <opt>Sharp
+          </opt></opt>
+          <opt>Uneven
+          </opt>
+        </opts>
+      </Shape_of_Base>
+    </cols>
+    <Cut_Function>
+      <desc>Comment in more specific detail on your understanding of the reasons for the shape and nature of the cut.</desc>
+    </Cut_Function>
+    <Orientation>
+      <desc>Orientation of linear cuts eg N-S.</desc>
+      <opts>
+        <opt>No Observation
+        <desc>data not collected</desc></opt>
+        <opt>E-W
+        <desc>Oriented East to West.</desc></opt>
+        <opt>N-S
+        <desc>Oriented North to South.</desc></opt>
+        <opt>NE-SW
+        <desc>Oriented North-east to South-west.</desc></opt>
+        <opt>NW-SE
+        <desc>Oriented North-west to South-east.</desc></opt>
+      </opts>
+    </Orientation>
+    <Inclination_of_axis>
+      <desc>Inclination of the axis of post- and stakeholes.</desc>
+      <opts>
+        <opt>No Observation
+        <desc>data not collected</desc></opt>
+        <opt>Vertical
+        </opt>
+        <opt>Between 45 and 90 degrees from horizontal
+        </opt>
+        <opt>45 degrees
+        </opt>
+        <opt>Less than 45 degrees from horizontal
+        </opt>
+      </opts>
+    </Inclination_of_axis>
+  </Cut>
+  <Structures>
+    <Structure_Your_Interpretation>
+      <desc>Your interpretation of the likely function of the structure.</desc>
+      <opts>
+        <opt>No Observation</opt>
+        <opt>Indeterminate
+        </opt>
+        <opt>Floor/Surface
+        </opt>
+        <opt>Mud/Plaster Face
+        </opt>
+        <opt>Wall
+        </opt>
+        <opt>Platform/Bench
+        </opt>
+        <opt>Paving
+        </opt>
+        <opt>Bin
+        </opt>
+        <opt>Oven
+        </opt>
+        <opt>Pillar
+        </opt>
+        <opt>Other
+        <desc>Function not elsewhere described. Provide details in Annotation field.</desc></opt>
+      </opts>
+    </Structure_Your_Interpretation>
+    <Structural_Components>
+      <desc>Primary components of structure or feature eg dry-pressed brick rough-hewn stone.</desc>
+      <opts>
+        <opt>Brick
+        <desc>Fired or sun-dried clay block used in masonry construction.</desc>
+        <opt>Dry-pressed
+        <desc>Dry pressed brick</desc></opt>
+        <opt>Glazed brick
+        </opt>
+        <opt>Sandstock
+        <desc>Hand-made colonial bricks</desc></opt></opt>
+        <opt>Earth
+        <desc>Compact earthen wall or floor.</desc></opt>
+        <opt>Stone
+        <desc>Worked or unworked stone used in masonry walls.</desc>
+        <opt>Ashlar
+        <desc>Finely dressed stone with flat face.</desc></opt>
+        <opt>Other
+        </opt>
+        <opt>Roughly-hewn
+        <desc>Roughly cut stone: shows some sign of shaping.</desc></opt>
+        <opt>Rubble
+        <desc>Stone fragments with few signs of shaping</desc></opt></opt>
+        <opt>Timber
+        <desc>Timber uprights or other elements for a wall or fence.</desc>
+        <opt>Beam
+        <desc>Timber beam or support.</desc></opt>
+        <opt>Plank
+        <desc>Timber plank for flooring or panelling.</desc></opt>
+        <opt>Post
+        <desc>Round or square timber post.</desc></opt></opt>
+      </opts>
+    </Structural_Components>
+    <Component_Finish>
+      <desc>How have the material types been prepared (i.e dressed stones polished/smoothed/painted plaster surface).</desc>
+    </Component_Finish>
+    <Bonding>
+      <desc>Additional details of the bonding/packing material.</desc>
+      <opts>
+        <opt>No Observation
+        <desc>data not collected</desc></opt>
+        <opt>Mortar
+        <desc>Paste used to bind masonry blocks together.</desc>
+        <opt>Cement mortar
+        <desc>Cement based mortar.</desc></opt>
+        <opt>Lime-shell mortar
+        <desc>Sandy mortar with lime and burnt shell inclusion.</desc></opt></opt>
+        <opt>Unmortared
+        <desc>No visible bonding material ie unmortared.</desc></opt>
+        <opt>Stones
+        <desc>Unmortared stones.</desc></opt>
+        <opt>Other
+        <desc>Other bonding/packing material.</desc></opt>
+      </opts>
+    </Bonding>
+    <Bonding_Details>
+      <desc>What has been used to bind the major elements together? Is there mud mortar in a wall, or chinking stones? </desc>
+    </Bonding_Details>
+    <Distinguishing_Marks>
+      <desc>Describe and distinguishing marks on the bricks or stone, such as makers marks, score marks etc.</desc>
+    </Distinguishing_Marks>
+    <Structure_Description>
+      <desc>Describe the structure.</desc>
+    </Structure_Description>
+    <Number_Courses>
+      <desc>The number of vertical layers of structural elements such as bricks.</desc>
+    </Number_Courses>
+    <Set_In_Cut>
+      <desc>Give the cut context code if relevant. If not set in cut then put 'NA'.</desc>
+    </Set_In_Cut>
+    <Structure_Shape>
+      <desc>The shape of the structural element, in plan.</desc>
+      <opts>
+        <opt>No Observation
+        <desc>data not collected</desc></opt>
+        <opt>Circular
+        <desc>Round</desc></opt>
+        <opt>Linear
+        <desc>Straight sided but not square or rectangular.</desc></opt>
+        <opt>Ovoid
+        <desc>Oval or elliptical.</desc></opt>
+        <opt>Rectangular
+        <desc>Two sides longer than the other.</desc></opt>
+        <opt>Semi-Circular
+        <desc>Half circle.</desc></opt>
+        <opt>Square
+        <desc>Equal on four sides.</desc></opt>
+        <opt>Sub-Circular
+        <desc>Nearly circular.</desc></opt>
+        <opt>Sub-rectangular
+        <desc>Nearly rectangular in shape.</desc></opt>
+      </opts>
+    </Structure_Shape>
+    <Mudbrick_Shape>
+      <desc>The shape of mudbrick(s).</desc>
+      <opts>
+        <opt>No Observation</opt>
+        <opt>Rectangular
+        <desc>With straight edges, upper and lower surfaces.</desc></opt>
+        <opt>Elongated oval
+        <desc>Steep slope.</desc></opt>
+        <opt>Plano-convex
+        <desc>Shallow slope.</desc></opt>
+        <opt>Boat shaped
+        <desc>Concave surface opposite convex surface</desc></opt>
+        <opt>Ovoid
+        </opt>
+      </opts>
+    </Mudbrick_Shape>
+    <Enter_Sediment_Description t="button"/>
+  </Structures>
+  <Dep>
+    <Deposit_Your_Interpretation>
+      <desc>Your interpretation of the likely function of the context.</desc>
+      <opts>
+        <opt>No Observation</opt>
+        <opt>Indeterminate
+        <desc>You are unable to make an assessment of possible function.</desc></opt>
+        <opt>Packing
+        <desc>Packing in a post hole for post material fulfilling a constructional purpose other than deliberate levelling deposits.</desc></opt>
+        <opt>Makeup/Levelling
+        <desc>Material laid down to level or raise an area for constructional purposes or other activities.</desc></opt>
+        <opt>Dump
+        <desc>Material probably dumped as a result of other activity e.g. material removed from cuts or other constructional or destructional activity.</desc></opt>
+        <opt>Midden
+        <desc>Distinct area of organic rubbish accumulation</desc></opt>
+        <opt>Burial
+        <desc>A fill or other deposit associated with a skeleton and forming part of a burial feature.</desc></opt>
+        <opt>Structural Debris/Collapse
+        <desc>Material derived from collapse of a wall, roof or other structure</desc></opt>
+        <opt>Partly naturally derived
+        <desc>A deposit partly or wholly accumulating through natural sedimentary processes, such as water or wind deposition.</desc></opt>
+        <opt>Wholly naturally derived
+        <desc>All of the deposit accumulating through the deposition of natural sediments through geomorphological processes eg wind borne sediments water-laid natural sediments material flaking from cave and rock shelter walls.</desc></opt>
+        <opt>Erosional products
+        <desc>Material deriving from the erosion of earlier archaeological sediments.</desc></opt>
+        <opt>Artifact Cluster
+        <desc>A distinct concentration of artifacts or ecofacts. Make sure you record its xyz coordinates centre and edges.</desc></opt>
+        <opt>Ash/Charcoal
+        <desc>A deposit consisting largely of carbonized/charred plant material and/or ash</desc></opt>
+        <opt>Arbitrary
+        <desc>This applies to artificial contexts excavated for excavational convenience eg section cleaning material whose precise provenience is unclear. Does not include arbitrary spits or spatial units deliberately excavated for finer control of horizontal and vert</desc></opt>
+        <opt>Distinct floor contact
+        <desc>To be used for material that directly reflects the use of a surface or floor - artefact material on the surface perhaps thin deposits of occupation material. These contexts will be gridded into spatial units for closer control of artifact distributions.</desc></opt>
+        <opt>Animal/Plant
+        <desc>Deposit derived from plant or animal activity</desc></opt>
+        <opt>Other
+        <desc>Function not elsewhere described. Provide details in Annotation field.</desc></opt>
+      </opts>
+    </Deposit_Your_Interpretation>
+    <Soil_Compaction_Type>
+      <desc>Describe the compaction of the sediments in the Context.</desc>
+      <opts>
+        <opt>No Observation</opt>
+        <opt>Loose
+        <desc>Soft and uncemented/bonded</desc></opt>
+        <opt>Compact
+        <desc>Firm and relatively hard</desc></opt>
+        <opt>Medium Compact
+        <desc>Somewhere between loose and compact.</desc></opt>
+        <opt>Concrete
+        <desc>Rock hard resistant to trowelling.</desc></opt>
+        <opt>Friable
+        <desc>Deposit disintegrates into small particles under pressure.</desc></opt>
+        <opt>Crumbly
+        <desc>Deposit disintegrates into lumps under pressure.</desc></opt>
+      </opts>
+    </Soil_Compaction_Type>
+    <Soil_Compaction_Description>
+      <desc>Description of the compaction of soil including changes throughout the deposit. Eg "Varies from loose to compact."</desc>
+    </Soil_Compaction_Description>
+    <Soil_Particle_Sorting>
+      <desc>Assessment of the frequency with which particles of the same size occur.</desc>
+      <opts>
+        <opt p="gallery/Other/NA.png">No Observation
+        <desc>data not collected</desc></opt>
+        <opt p="gallery/Sorting/ModeratelySorted.png">Moderately sorted
+        <desc>Particles are mostly the same size and evenly distributed but there are some larger particles.</desc></opt>
+        <opt p="gallery/Sorting/PoorlySorted.png">Poorly sorted
+        <desc>Particles are different sizes and unevenly distributed.</desc></opt>
+        <opt p="gallery/Sorting/VeryPoorlySorted.png">Very poorly sorted
+        <desc>Particles are very different sizes and very unevenly distributed.</desc></opt>
+        <opt p="gallery/Sorting/WellSorted.png">Well sorted
+        <desc>Particles are roughly the same size and evenly distributed.</desc></opt>
+      </opts>
+    </Soil_Particle_Sorting>
+    <cols>
+      <Soil_Texture>
+        <desc>The type of sediment, eg clay, silt, sand and loam. Use the Material Helper or a Soil Sediment diagram for assisance.</desc>
+        <opts>
+          <opt>No Observation
+          <desc>No Observation. Use the Texture helper to prefil this.</desc></opt>
+          <opt>Sand
+          <desc>A sand has a loose gritty feel and does not stick together. Individual sand grains can be seen or felt. (VDEPI 2009: AG0058)</desc></opt>
+          <opt>Loamy Sand
+          <desc>In a loamy sand particles barely stick together and a moulded piece of soil just holds its shape. (VDEPI 2009: AG0058)</desc></opt>
+          <opt>Silty Clay Loam
+          <desc>A silty clay loam is like a clay loam but silty as well and smooth to the touch. (VDEPI 2009: AG0058)</desc></opt>
+          <opt>Clay Loam
+          <desc>More easily moulded into a shape than a loam a clay loam rolls out to a thin ribbon between the palms while a loam will break-up. When dry a clay loam will form a lump but is not as tough to break as a clay.(VDEPI 2009: AG0058)</desc></opt>
+          <opt>Sandy Clay Loam
+          <desc>A sandy clay loam is like a clay loam but sand grains can be felt (and heard - see Sandy Loam) (VDEPI 2009: AG0058)</desc></opt>
+          <opt>Silt Loam
+          <desc>A silty loam is like a loam but has a smooth silky feel when a moist sample is pushed between the index finger and thumb. On drying a sample can form a hard lump but this may be broken by hand. (VDEPI 2009: AG0058)</desc></opt>
+          <opt>Loam
+          <desc>A loam breaks into crumbs but will tend to stick together. Sand grains cannot be felt in a moist sample which when squeezed will retain its shape when handled freely. Loams are usually soft to the feel. (VDEPI 2009: AG0058)</desc></opt>
+          <opt>Sandy Loam
+          <desc>A sandy loam sticks together more than a loamy sand but can be easily broken. Individual sand grains can be felt and heard if a wet sample is rubbed between the index finger and thumb and held close to the ear. (VDEPI 2009: AG0058)</desc></opt>
+          <opt>Silty Clay
+          <desc>A silty clay is like a clay but smoother. (VDEPI 2009: AG0058)</desc></opt>
+          <opt>Clay
+          <desc>Clays are tough and can be moulded into shapes when moist. Clays form a long flexible ribbon when rubbed between the palms and the ribbon can often be bent into a U shape without breaking. Clays dry into very hard clods. (VDEPI 2009: AG0058)</desc></opt>
+          <opt>Sandy Clay
+          <desc>A sandy clay is like a clay but sand grains can be felt (and heard - see Sandy Loam). (VDEPI 2009: AG0058)</desc></opt>
+          <opt>Silt
+          <desc>Silt.</desc></opt>
+          <opt>Sandy Silt
+          <desc>Sandy silt.</desc></opt>
+          <opt>Other
+          <desc>Other: describe in Annotation.</desc></opt>
+        </opts>
+      </Soil_Texture>
+      <Texture_Helper t="button"/>
+    </cols>
+    <Soil_Colour>
+      <desc>Broad colour  description of the soil, eg 'mid greyish brown'.
+      </desc>
+    </Soil_Colour>
+    <cols>
+      <Composition_Type>
+        <desc>Describe the structure of the Context sediment. The components making up the structure are added below as aggregates.</desc>
+        <opts>
+          <opt>No Observation</opt>
+          <opt>Homogenous
+          <desc>Uniform throughout.</desc></opt>
+          <opt>Heterogeneous
+          <desc>Deposit with different mixed components which need to be described.</desc></opt>
+          <opt>Laminated
+          <desc>Laminated Deposit consists of lots of fine lenses of the same material. Compact laminated Deposit consists of a number of fine lenses of different materials.</desc></opt>
+          <opt>Compact Laminated
+          <desc>Deposit consists of a number of fine lenses of different materials</desc></opt>
+        </opts>
+      </Composition_Type>
+      <Deposit_Bedding>
+        <desc>Describes the base of the deposit</desc>
+        <opts>
+          <opt>No Observation</opt>
+          <opt>Horizontal
+          <desc>Horizontal.</desc></opt>
+          <opt>Oblique steep
+          <desc>Steep slope.</desc></opt>
+          <opt>Oblique shallow
+          <desc>Shallow slope.</desc></opt>
+          <opt>Uneven
+          <desc>Mix of horizontal, oblique and undulating - make sure you describe this</desc></opt>
+        </opts>
+      </Deposit_Bedding>
+    </cols>
+    <cols>
+      <Sterile>
+        <desc>Whether or not the deposit is sterile, ie contains no artefacts</desc>
+        <opts>
+          <opt>Yes
+          <desc>Deposit is sterile</desc></opt>
+          <opt>No
+          <desc>Object is not sterile</desc></opt>
+        </opts>
+      </Sterile>
+      <Deposit_Inclusions>
+        <desc>Enter a brief description of inclusions (eg stone flecks artefacts).</desc>
+      </Deposit_Inclusions>
+    </cols>
+    <Add_New_Matrix lc="Matrix"/>
+    <Associated_Matrices t="dropdown" ec="Matrix"/>
+  </Dep>
+  <Skeleton>
+    <cols>
+      <Space>
+        <desc>Enter the space number, which may define an internal or external area in which the skeleton is located.</desc>
+      </Space>
+      <Building>
+        <desc>A building can comprise one or more internal spaces so enter the building number in which the skeleton is located.</desc>
+      </Building>
+    </cols>
+    <cols>
+      <Mid_X>
+        <desc>An appropriate mid-point on the skeleton under excavation should be recorded on the X / Y co-ordinates. This will locate the skeleton on the site grid system.</desc>
+      </Mid_X>
+      <Mid_Y>
+        <desc>An appropriate mid-point on the skeleton under excavation should be recorded on the X / Y co-ordinates. This will locate the skeleton on the site grid system.</desc>
+      </Mid_Y>
+    </cols>
+    <Skeleton_Dimensions>
+      <desc>Record the approximate extent of the skeletal remains (in meters or millimetres only) and the axis of measurement. Detailed dimensions can be taken from the plan.</desc>
+    </Skeleton_Dimensions>
+    <cols>
+      <Skeleton_Head>
+        <desc>Which way up the head faces and/or points</desc>
+      </Skeleton_Head>
+      <Skeleton_Body>
+        <desc>Describe the attitude of the body, whether it is extended, crouched, flexed, supine (front up), prone (face down) and the orientation.</desc>
+      </Skeleton_Body>
+    </cols>
+    <cols>
+      <Skeleton_Left_Arm>
+        <desc>Record whether left arm is straight or flexed, is along the side of the body, over the chest or on the pelvis, and the position of the hand.</desc>
+      </Skeleton_Left_Arm>
+      <Skeleton_Right_Arm>
+        <desc>Record whether right arm is straight or flexed, is along the side of the body, over the chest or on the pelvis, and the position of the hand.</desc>
+      </Skeleton_Right_Arm>
+    </cols>
+    <cols>
+      <Skeleton_Left_Leg>
+        <desc>Record whether the leg is straight or bent, crossed left over right or right over left and the position of the foot</desc>
+      </Skeleton_Left_Leg>
+      <Skeleton_Right_Leg>
+        <desc>Record whether the leg is straight or bent, crossed left over right or right over left and the position of the foot</desc>
+      </Skeleton_Right_Leg>
+    </cols>
+    <Skeleton_Condition>
+      <desc>Describe the general condition of the skeleton and any comments on articulation. Any degeneration of bone in situ is important to record as well as accidental damage during excavation and lifting. Record disturbances through later activity or animal/root activity as well as damage due to stone pressure on the bones. It is important to note whether the patellae, hyoid, phalanges, basi-occipital etc are present or not, and their location, as this may give an indication of the state of the body at the time of interment.</desc>
+    </Skeleton_Condition>
+    <Skeleton_Surface_Modifications>
+      <desc>Note any cut marks, evidence of stains and/or colour during the course of the excavation, burning, chewing marks, root activity etc.</desc>
+    </Skeleton_Surface_Modifications>
+    <Skeleton_Environment>
+      <desc>The physical environment at the time of excavation may affect the state of the bone therefore it is important to note the weather and conditions you are working in.</desc>
+    </Skeleton_Environment>
+    <Skeleton_Days_Exposed>
+      <desc>It is important to excavate skeletal remains as quickly as possible as the state of the bone will change during exposure. Any conditional change should also be noted. Excavate as quickly as possible because the bones will degrade rapidly.</desc>
+    </Skeleton_Days_Exposed>
+    <cols>
+      <Target_A_X>
+        <desc>The X coordinate of Target A. Targets are white-painted, large-headed nails used to rectify photographs.</desc>
+      </Target_A_X>
+      <Target_A_Y>
+        <desc>The Y coordinate of Target A. Targets are white-painted, large-headed nails used to rectify photographs.</desc>
+      </Target_A_Y>
+      <Target_A_Z>
+        <desc>The Z coordinate of Target A. Targets are white-painted, large-headed nails used to rectify photographs.</desc>
+      </Target_A_Z>
+    </cols>
+    <cols>
+      <Target_B_X>
+        <desc>The X coordinate of Target B. Targets are white-painted, large-headed nails used to rectify photographs.</desc>
+      </Target_B_X>
+      <Target_B_Y>
+        <desc>The Y coordinate of Target B. Targets are white-painted, large-headed nails used to rectify photographs.</desc>
+      </Target_B_Y>
+      <Target_B_Z>
+        <desc>The Z coordinate of Target B. Targets are white-painted, large-headed nails used to rectify photographs.</desc>
+      </Target_B_Z>
+    </cols>
+    <cols>
+      <Target_C_X>
+        <desc>The X coordinate of Target C. Targets are white-painted, large-headed nails used to rectify photographs.</desc>
+      </Target_C_X>
+      <Target_C_Y>
+        <desc>The Y coordinate of Target C. Targets are white-painted, large-headed nails used to rectify photographs.</desc>
+      </Target_C_Y>
+      <Target_C_Z>
+        <desc>The Z coordinate of Target C. Targets are white-painted, large-headed nails used to rectify photographs.</desc>
+      </Target_C_Z>
+    </cols>
+    <cols>
+      <Target_D_X>
+        <desc>The X coordinate of Target D. Targets are white-painted, large-headed nails used to rectify photographs.</desc>
+      </Target_D_X>
+      <Target_D_Y>
+        <desc>The Y coordinate of Target D. Targets are white-painted, large-headed nails used to rectify photographs.</desc>
+      </Target_D_Y>
+      <Target_D_Z>
+        <desc>The Z coordinate of Target D. Targets are white-painted, large-headed nails used to rectify photographs.</desc>
+      </Target_D_Z>
+    </cols>
+    <Skeleton_Notes/>
+  </Skeleton>
+  <Int>
+    <Your_description>
+      <desc>Enter a verbal description of the Context, including its form, contexts, relationship to other Contexts and any other relevant information. This is the main place to record all other descriptive information that may be treated briefly or not covered elsewhere, including signs of disturbance  by burrowing animals etc.</desc>
+    </Your_description>
+    <Your_Discussion>
+      <desc>Enter an interpretation of the function of the Context and its place in the stratigraphical sequence.</desc>
+    </Your_Discussion>
+  </Int>
+  <Feature>
+  </Feature>
+  <Rel>
+  </Rel>
+  <Artefacts>
+  </Artefacts>
+  <Samples>
+  </Samples>
+  <Add>
+  </Add>
+
   <Site_Code>
     <desc>Short code to signify the excavation site and often the year of excavation. Assigned automatically by the module.</desc>
   </Site_Code>
@@ -122,498 +859,89 @@
       <opt>9</opt>
     </opts>
   </Device_Code>
-  <Excavators>
-    <desc>Initials of the excavators that have worked on the context.</desc>
-    <!-- Instead of UBAF-27, we're sticking in a textarea-->
-  </Excavators>
-  <Plans>
-    <desc>Reference numbers to plans or drawings of this Context.</desc>
-  </Plans>
-  <Grid_X>
-    <desc>The X coordinate on the SW corner of the context.</desc>
-  </Grid_X>
-  <Grid_Y>
-    <desc>The Y coordinate on the SW corner of the context.</desc>
-  </Grid_Y>
-  <Context_Type>
-    <desc>Describe the context type by selecting an icon as defined below.
-When you have selected a context type you can proceed to open the "Fill in context type details" page. Note this page will not open unless you have selected a context type.</desc>
-    <opts>
-      <opt p="gallery/Blanks/Trail.png">{No_Observation}
-      <desc>data not collected</desc></opt>
-      <opt p="gallery/ContextType/Orange/Cut.png">{Cut}
-      <desc>Any Context which represents the removal of earlier deposit and thus forms a negative interface (cut) with another context, such as a cut for a pit, burial, ditch, wall foundation or robber trench.</desc></opt>
-      <opt p="gallery/ContextType/Orange/Deposit.png">{Deposit}
-      <desc>Any Context with deposited sediment and soil, such as floor layers, pit and grave fills, hearth fills and natural sediments.</desc></opt>
-      <opt p="gallery/ContextType/Orange/Structure.png">{Structure}
-      <desc>Any Context consisting of deliberately constructed structural element, independent of a Negative Element (i.e. cut, such as a wall or a hearth).</desc></opt>
-      <opt p="gallery/ContextType/Orange/Skeleton.png">{Skeleton}
-      <desc>Human skeletal remains.</desc></opt>
-    </opts>
-  </Context_Type>
-  <Date_Opened>
-    <desc>Date on which the Context was first excavated. This will automatically be set to the date on which the context is recorded but can be edited using the keyboard.</desc>
-  </Date_Opened>
-  <Date_Closed>
-    <desc>The date excavation of the Context ended and it was closed. Press the 'Add Date Closed' button to insert today's date.</desc>
-  </Date_Closed>
-  <Location_Note>
-    <desc>Record the approximate location in the excavation area, for example: centre of Area A; NW corner area A. Also include, where relevant, the position in relation to other archaeological contexts or features e.g. between walls x and y.</desc>
-  </Location_Note>
-  <Excavation_Method>
-    <desc>Enter details here about the method of archaeological excavation.</desc>
-    <opts>
-      <opt>{Hand_pick}
-      <desc>Excavated by hand-pick.</desc></opt>
-      <opt>{Trowel}
-      <desc>Excavated by trowel.</desc></opt>
-      <opt>{Pick}
-      <desc>Excavated by pick.</desc></opt>
-      <opt>{Other}
-      <desc>Excavated by another method. Add details in Annotation field.</desc></opt>
-    </opts>
-  </Excavation_Method>
-  <Highest_Level>
-    <desc>The highest elevation or 'starting level' recorded for that context relative to the site grid.</desc>
-  </Highest_Level>
-  <Lowest_Level>
-    <desc>The lowest elevation recorded for that context relative to the site grid.</desc>
-  </Lowest_Level>
-  <Length>
-    <desc>Longest dimension in metres.</desc>
-  </Length>
-  <Width>
-    <desc>Width or diameter in metres.</desc>
-  </Width>
-  <Depth>
-    <desc>Depth or Height in metres.</desc>
-  </Depth>
-  <Section_Numbers>
-    <desc>Reference numbers to section drawings of this Context</desc>
-  </Section_Numbers>
-  <Soil_Compaction_Type>
-    <desc>Describe the compaction of the sediments in the Context.</desc>
-    <opts>
-      <opt>{No_Observation}</opt>
-      <opt>{Loose}
-      <desc>Soft and uncemented/bonded</desc></opt>
-      <opt>{Compact}
-      <desc>Firm and relatively hard</desc></opt>
-      <opt>{Medium_Compact}
-      <desc>Somewhere between loose and compact.</desc></opt>
-      <opt>{Concrete}
-      <desc>Rock hard resistant to trowelling.</desc></opt>
-      <opt>{Friable}
-      <desc>Deposit disintegrates into small particles under pressure.</desc></opt>
-      <opt>{Crumbly}
-      <desc>Deposit disintegrates into lumps under pressure.</desc></opt>
-    </opts>
-  </Soil_Compaction_Type>
-  <Soil_Compaction_Description>
-    <desc>Description of the compaction of soil including changes throughout the deposit. Eg "Varies from loose to compact."</desc>
-  </Soil_Compaction_Description>
   <Soil_Texture_Helper>
     <desc>This helper is based on the standard flow chart for determining soil texture. Start by taking 25g of soil and placing it in your palm. Select each option and follow the prompts for TASKS (like roll ribbon) until you get a result, eg 'silty loam'. Then click the 'Update' button to have that value pasted onto your Context record.</desc>
     <opts>
-      <opt>{Soil_does_NOT_remain_in_ball_when_squeezed}
+      <opt>Soil does NOT remain in ball when squeezed       
       <desc>Place approximately 25 g soil in palm. Add water dropwise and knead the soil to break down all aggregates. Soil is at the proper consistency when plastic and moldable like moist putty.</desc>
-      <opt>{Is_too_dry}
+      <opt>Is too dry
       <desc>The soil sample is too dry.</desc>
       <opt>NO RESULT: Add more water and start again
       </opt></opt>
-      <opt>{Is_too_wet}
+      <opt>Is too wet
       <desc>The soil sample is too wet.</desc>
       <opt>NO RESULT: Add dry soil and start again
       <desc>NO RESULT: add dry soil to soak up water</desc></opt></opt>
-      <opt>{NOT_too_wet_nor_too_dry}
+      <opt>NOT too wet nor too dry
       <desc>The soil is NOT too wet nor too dry.</desc>
-      <opt>{Sand}
+      <opt>Sand
       <desc>A sand has a loose gritty feel and does not stick together. Individual sand grains can be seen or felt. (VDEPI 2009: AG0058)</desc></opt></opt></opt>
-      <opt>{Soil_remains_in_ball_when_squeezed}
+      <opt>Soil remains in ball when squeezed
       <desc>Place approximately 25 g soil in palm. Add water dropwise and knead the soil to break down all aggregates. Soil is at the proper consistency when plastic and moldable like moist putty.</desc>
-      <opt>{TASK_Roll_ribbon}
+      <opt>TASK: Roll ribbon
       <desc>Rub a ball of soil between thumb and forefinger to make a 'ribbon'</desc>
-      <opt>{Does_NOT_form_a_ribbom}
+      <opt>Does NOT form a ribbom
       <desc>A 'ribbon' is NOT formed when a ball of soil is rubbed between thumb and forefinger.</desc>
-      <opt>{Loamy_Sand}
+      <opt>Loamy Sand
       <desc>In a loamy sand particles barely stick together and a moulded piece of soil just holds its shape. (VDEPI 2009: AG0058)</desc></opt></opt>
-      <opt>{Forms_ribbon}
+      <opt>Forms ribbon
       <desc>A 'ribbon' is formed when a ball of soil is rubbed between thumb and forefinger.</desc>
-      <opt>{Medium_ribbon_(2.5-5cm_long)}
+      <opt>Medium ribbon (2.5-5cm long)
       <desc>The ribbon formed when a ball of soil is rubbed between thumb and forefinger is between 2.5 and 5cm long.</desc>
-      <opt>{TASK_Wet_soil_and_rub_with_forefinger}
+      <opt>TASK: Wet soil and rub with forefinger
       <desc>Excessively wet a small pinch of soil in palm and rub with forefinger.</desc>
-      <opt>{Does_NOT_feel_very_gritty}
+      <opt>Does NOT feel very gritty
       <desc>The wetted soil does NOT feel very gritty when rubbed on the palm and with forefinger.</desc>
-      <opt>{Feels_very_smooth}
+      <opt>Feels very smooth
       <desc>The wetted soil feels very smooth when rubbed on the palm and with forefinger.</desc>
-      <opt>{Silty_Clay_Loam}
+      <opt>Silty Clay Loam
       <desc>A silty clay loam is like a clay loam but silty as well and smooth to the touch. (VDEPI 2009: AG0058)</desc></opt></opt>
-      <opt>{Neither_very_gritty_nor_very_smooth}
+      <opt>Neither very gritty nor very smooth
       <desc>The wetted soil does NOT feel very smooth nor very gritty when rubbed on the palm and with forefinger.</desc>
-      <opt>{Clay_Loam}
+      <opt>Clay Loam
       <desc>More easily moulded into a shape than a loam a clay loam rolls out to a thin ribbon between the palms while a loam will break-up. When dry a clay loam will form a lump but is not as tough to break as a clay.(VDEPI 2009: AG0058)</desc></opt></opt></opt>
-      <opt>{Feels_very_gritty}
+      <opt>Feels very gritty
       <desc>The wetted soil feels very gritty when rubbed on the palm and with forefinger.</desc>
-      <opt>{Sandy_Clay_Loam}
+      <opt>Sandy Clay Loam
       <desc>A sandy clay loam is like a clay loam but sand grains can be felt (and heard - see Sandy Loam) (VDEPI 2009: AG0058)</desc></opt></opt></opt></opt>
-      <opt>{Strong_ribbon}
+      <opt>Strong ribbon
       <desc>The ribbon formed when a ball of soil is rubbed between thumb and forefinger is strong and over 5cm long.</desc>
-      <opt>{TASK_Wet_soil_and_rub_with_forefinger}
+      <opt>TASK: Wet soil and rub with forefinger
       <desc>Excessively wet a small pinch of soil in palm and rub with forefinger.</desc>
-      <opt>{Does_NOT_feel_very_gritty}
+      <opt>Does NOT feel very gritty
       <desc>The wetted soil does NOT feel very gritty when rubbed on the palm and with forefinger.</desc>
-      <opt>{Feels_very_smooth}
+      <opt>Feels very smooth
       <desc>The wetted soil feels very smooth when rubbed on the palm and with forefinger.</desc>
-      <opt>{Silty_Clay}
+      <opt>Silty Clay
       <desc>A silty clay is like a clay but smoother. (VDEPI 2009: AG0058)</desc></opt></opt>
-      <opt>{Neither_very_gritty_nor_very_smooth}
+      <opt>Neither very gritty nor very smooth
       <desc>The wetted soil does NOT feel very smooth nor very gritty when rubbed on the palm and with forefinger.</desc>
-      <opt>{Clay}
+      <opt>Clay
       <desc>Clays are tough and can be moulded into shapes when moist. Clays form a long flexible ribbon when rubbed between the palms and the ribbon can often be bent into a U shape without breaking. Clays dry into very hard clods. (VDEPI 2009: AG0058)</desc></opt></opt></opt>
-      <opt>{Feels_very_gritty}
+      <opt>Feels very gritty
       <desc>The wetted soil feels very gritty when rubbed on the palm and with forefinger.</desc>
-      <opt>{Sandy_Clay}
+      <opt>Sandy Clay
       <desc>A sandy clay is like a clay but sand grains can be felt (and heard - see Sandy Loam). (VDEPI 2009: AG0058)</desc></opt></opt></opt></opt>
-      <opt>{Weak_ribbon}
+      <opt>Weak ribbon (less than 2.5cm long)
       <desc>The ribbon formed when a ball of soil is rubbed between thumb and forefinger is less than 2.5cm long.</desc>
-      <opt>{TASK_Wet_soil_and_rub_with_forefinger}
+      <opt>TASK: Wet soil and rub with forefinger
       <desc>Excessively wet a small pinch of soil in palm and rub with forefinger.</desc>
-      <opt>{Does_NOT_feel_very_gritty}
+      <opt>Does NOT feel very gritty
       <desc>The wetted soil does NOT feel very gritty when rubbed on the palm and with forefinger.</desc>
-      <opt>{Feels_very_smooth}
+      <opt>Feels very smooth
       <desc>The wetted soil feels very smooth when rubbed on the palm and with forefinger.</desc>
-      <opt>{Silt_Loam}
+      <opt>Silt Loam
       <desc>A silty loam is like a loam but has a smooth silky feel when a moist sample is pushed between the index finger and thumb. On drying a sample can form a hard lump but this may be broken by hand. (VDEPI 2009: AG0058)</desc></opt></opt>
-      <opt>{Neither_very_gritty_nor_very_smooth}
+      <opt>Neither very gritty nor very smooth
       <desc>The wetted soil does NOT feel very smooth nor very gritty when rubbed on the palm and with forefinger.</desc>
-      <opt>{Loam}
+      <opt>Loam
       <desc>A loam breaks into crumbs but will tend to stick together. Sand grains cannot be felt in a moist sample which when squeezed will retain its shape when handled freely. Loams are usually soft to the feel. (VDEPI 2009: AG0058)</desc></opt></opt></opt>
-      <opt>{Feels_very_gritty}
+      <opt>Feels very gritty
       <desc>The wetted soil feels very gritty when rubbed on the palm and with forefinger.</desc>
-      <opt>{Sandy_Loam}
+      <opt>Sandy Loam
       <desc>A sandy loam sticks together more than a loamy sand but can be easily broken. Individual sand grains can be felt and heard if a wet sample is rubbed between the index finger and thumb and held close to the ear. (VDEPI 2009: AG0058)</desc></opt></opt></opt></opt></opt></opt></opt>
     </opts>
   </Soil_Texture_Helper>
-  <Soil_Texture>
-    <desc>The type of sediment, eg clay, silt, sand and loam. Use the {Texture_Helper} or a Soil Sediment diagram for assisance.</desc>
-    <opts>
-      <opt>{No_Observation}
-      <desc>No Observation. Use the Texture helper to prefil this.</desc></opt>
-      <opt>{Sand}
-      <desc>A sand has a loose gritty feel and does not stick together. Individual sand grains can be seen or felt. (VDEPI 2009: AG0058)</desc></opt>
-      <opt>{Loamy_Sand}
-      <desc>In a loamy sand particles barely stick together and a moulded piece of soil just holds its shape. (VDEPI 2009: AG0058)</desc></opt>
-      <opt>{Silty_Clay_Loam}
-      <desc>A silty clay loam is like a clay loam but silty as well and smooth to the touch. (VDEPI 2009: AG0058)</desc></opt>
-      <opt>{Clay_Loam}
-      <desc>More easily moulded into a shape than a loam a clay loam rolls out to a thin ribbon between the palms while a loam will break-up. When dry a clay loam will form a lump but is not as tough to break as a clay.(VDEPI 2009: AG0058)</desc></opt>
-      <opt>{Sandy_Clay_Loam}
-      <desc>A sandy clay loam is like a clay loam but sand grains can be felt (and heard - see Sandy Loam) (VDEPI 2009: AG0058)</desc></opt>
-      <opt>{Silt_Loam}
-      <desc>A silty loam is like a loam but has a smooth silky feel when a moist sample is pushed between the index finger and thumb. On drying a sample can form a hard lump but this may be broken by hand. (VDEPI 2009: AG0058)</desc></opt>
-      <opt>{Loam}
-      <desc>A loam breaks into crumbs but will tend to stick together. Sand grains cannot be felt in a moist sample which when squeezed will retain its shape when handled freely. Loams are usually soft to the feel. (VDEPI 2009: AG0058)</desc></opt>
-      <opt>{Sandy_Loam}
-      <desc>A sandy loam sticks together more than a loamy sand but can be easily broken. Individual sand grains can be felt and heard if a wet sample is rubbed between the index finger and thumb and held close to the ear. (VDEPI 2009: AG0058)</desc></opt>
-      <opt>{Silty_Clay}
-      <desc>A silty clay is like a clay but smoother. (VDEPI 2009: AG0058)</desc></opt>
-      <opt>{Clay}
-      <desc>Clays are tough and can be moulded into shapes when moist. Clays form a long flexible ribbon when rubbed between the palms and the ribbon can often be bent into a U shape without breaking. Clays dry into very hard clods. (VDEPI 2009: AG0058)</desc></opt>
-      <opt>{Sandy_Clay}
-      <desc>A sandy clay is like a clay but sand grains can be felt (and heard - see Sandy Loam). (VDEPI 2009: AG0058)</desc></opt>
-      <opt>{Silt}
-      <desc>Silt.</desc></opt>
-      <opt>{Sandy_Silt}
-      <desc>Sandy silt.</desc></opt>
-      <opt>{Other}
-      <desc>Other: describe in Annotation.</desc></opt>
-    </opts>
-  </Soil_Texture>
-  <Soil_Particle_Sorting>
-    <desc>Assessment of the frequency with which particles of the same size occur.</desc>
-    <opts>
-      <opt p="gallery/Other/NA.png">{No_Observation}
-      <desc>data not collected</desc></opt>
-      <opt p="gallery/Sorting/ModeratelySorted.png">{Moderately_sorted}
-      <desc>Particles are mostly the same size and evenly distributed but there are some larger particles.</desc></opt>
-      <opt p="gallery/Sorting/PoorlySorted.png">{Poorly_sorted}
-      <desc>Particles are different sizes and unevenly distributed.</desc></opt>
-      <opt p="gallery/Sorting/VeryPoorlySorted.png">{Very_poorly_sorted}
-      <desc>Particles are very different sizes and very unevenly distributed.</desc></opt>
-      <opt p="gallery/Sorting/WellSorted.png">{Well_sorted}
-      <desc>Particles are roughly the same size and evenly distributed.</desc></opt>
-    </opts>
-  </Soil_Particle_Sorting>
-  <Soil_Colour>
-    <desc>Broad colour  description of the soil, eg 'mid greyish brown'.
-    </desc>
-  </Soil_Colour>
-  <Sterile>
-    <desc>Whether or not the deposit is sterile, ie contains no artefacts</desc>
-    <opts>
-      <opt>{Yes}
-      <desc>Deposit is sterile</desc></opt>
-      <opt>{No}
-      <desc>Object is not sterile</desc></opt>
-    </opts>
-  </Sterile>
-  <Deposit_Inclusions>
-    <desc>Enter a brief description of inclusions (eg stone flecks artefacts).</desc>
-  </Deposit_Inclusions>
-  <Volume>
-    <desc>Estimate the volume of the context in litres. All soil will be collected in buckets of a known volume. A tally should be kept of buckets produced from a context and the total volume calculated using that tally.</desc>
-  </Volume>
-  <Contamination>
-    <desc>The extent to which the context has been contaminated.</desc>
-    <opts>
-      <opt>{No_Observation}</opt>
-      <opt>{Contaminated}
-      <desc>Contaminated by later material eg by unidentified cut at time of initial excavation by large scale animal or root activity which were not isolated by excavation by excavation processes some annoying person mixed the material or stuff fell into deposit from the section.</desc></opt>
-      <opt>{Possibly_Contaminated}
-      <desc>At Boncuklu as at many sites there is significant animal activity represented by burrows. We aim to remove most animal burrow fill. This is easier in contexts with clear and compact sediment characteristics like plaster floors walls building fills more difficult in loose middens. In one sense at Boncuklu as at many sites every context is possibly contaminated but there would be little point in indicating that since it is something we generally understand. Therefore this option is to be
-      used to indicate those situations where one may have tried to remove animal introduced or other contamination but are unsure this has been successful and there is a likely but not definitive chance of some later contamination beyond. This option also applies where there may have been later cuts not recognised but we are not sure.</desc></opt>
-      <opt>{High_Likely_Contaminated}
-      <desc>It is very likely that significant amounts of earlier artifact and ecofact material has become incorporated in the deposit. For example; is this context a mud brick wall or other structure or building or structural debris or a deposit which has seen the redeposition of material excavated from cuts. These are all situations in which earlier material is likely to have been dug up and re-used (in the mud brick) or re-deposited (when digging out pits).</desc></opt>
-      <opt>{Low_Likely_Contaminated}
-      <desc>You think there is little chance that very much earlier material has made it's way into this deposit.</desc></opt>
-      <opt>{Primary_Deposit}
-      <desc>You are very sure that the deposit and all finds therein directly relate to activity within a specific period of time and there is thus minimal amounts of derived material and no contamination.</desc></opt>
-    </opts>
-  </Contamination>
-  <Horizon_Boundary>
-    <desc>Describe the boundary between this and the next context.</desc>
-    <opts>
-      <opt>{No_Observation}<desc>data not collected</desc></opt>
-      <opt>{Doubtful}<desc>You are uncertain of whether you accurately excavated a boundary between deposits. </desc> </opt>
-      <opt>{Ambiguous}<desc>You are uncertain as to whether there was a boundary between contexts.</desc> </opt>
-      <opt>{Merging}<desc>There is a distinction between the excavated context and earlier context(s) but the excavated contexts and the earlier contexts grade into each other. </desc> </opt>
-      <opt>{Clear}<desc>The boundary with the earlier context(s) was very clearly defined during excavation.</desc> </opt>
-      <opt>{Arbitrary_Spit}<desc>There is no meaningful boundary with an earlier context. The boundary has been artificially created by the excavation process.</desc> </opt>
-    </opts>
-  </Horizon_Boundary>
-  <Shape_of_Cut>
-    <desc>Describe the shape of the negative element/cut viewed from above.</desc>
-    <opts>
-      <opt>{No_Observation}
-      <desc>data not collected</desc></opt>
-      <opt>{Circular}
-      <desc>Round</desc></opt>
-      <opt>{Linear}
-      <desc>Straight sided but not square or rectangular.</desc></opt>
-      <opt>{Ovoid}
-      <desc>Oval or elliptical.</desc></opt>
-      <opt>{Rectangular}
-      <desc>Two sides longer than the other.</desc></opt>
-      <opt>{Semi-Circular}
-      <desc>Half circle.</desc></opt>
-      <opt>{Square}
-      <desc>Equal on four sides.</desc></opt>
-      <opt>{Sub-Circular}
-      <desc>Nearly circular.</desc></opt>
-      <opt>{Sub-rectangular}
-      <desc>Nearly rectangular in shape.</desc></opt>
-    </opts>
-  </Shape_of_Cut>
-  <Shape_of_Cut_-_Note>
-    <desc>Additional notes about the shape of the cut.</desc>
-  </Shape_of_Cut_-_Note>
-  <Shape_of_Corners>
-    <desc>Describe the shape of any visible corners of the negative element/cut.</desc>
-    <opts>
-      <opt>{Other}
-      <desc>Other shapes</desc></opt>
-      <opt>{Rounded}
-      <desc>Rounded corners.</desc></opt>
-      <opt>{Square}
-      <desc>Sharp perpendicular corners.</desc></opt>
-    </opts>
-  </Shape_of_Corners>
-  <Break_of_Slope_-_Top>
-    <desc>The degree with which the top surface of the edge of the cut breaks into the sides.</desc>
-    <opts>
-      <opt>{Gradual}
-      <desc>Some rounding to the top.</desc></opt>
-      <opt>{Not_perceptible}
-      <desc>Well-rounded; there is no perceptible difference between the sides of the cut and the surface into which it protrudes.</desc></opt>
-      <opt>{Sharp}
-      <desc>Clear sharp slope, almost right-angled.</desc></opt>
-      <opt>{Shallow}
-      <desc>Gentle slope less than 45 degrees.</desc></opt>
-    </opts>
-  </Break_of_Slope_-_Top>
-  <Sides_of_Cut>
-    <desc>Describe the shape of the cut as seen in cross section.</desc>
-    <opts>
-      <opt>{No_Observation}</opt>
-      <opt>{Vertical}
-      <desc>Sides are vertical</desc></opt>
-      <opt>{Convex}
-      </opt>
-      <opt>{Concave}
-      </opt>
-      <opt>{Stepped}
-      </opt>
-      <opt>{Sloping}
-      <opt>{Slightly_sloping}
-      </opt>
-      <opt>{Steeply_sloping}
-      </opt>v</opt>
-    </opts>
-  </Sides_of_Cut>
-  <Shape_of_Base>
-    <desc>The shape of the base of the cut in profile.</desc>
-    <opts>
-      <opt>{No_Observation}
-      <desc>data not collected</desc></opt>
-      <opt>{Concave}
-      </opt>
-      <opt>{Flat}
-      </opt>
-      <opt>{Pointed}
-      </opt>
-      <opt>{Sloping}
-      </opt>
-      <opt>{Tapered}
-      <opt>{Blunt}
-      </opt>
-      <opt>{Sharp}
-      </opt></opt>
-      <opt>{Uneven}
-      </opt>
-    </opts>
-  </Shape_of_Base>
-  <Cut_Function>
-    <desc>Comment in more specific detail on your understanding of the reasons for the shape and nature of the cut.</desc>
-  </Cut_Function>
-  <Orientation>
-    <desc>Orientation of linear cuts eg N-S.</desc>
-    <opts>
-      <opt>{No_Observation}
-      <desc>data not collected</desc></opt>
-      <opt>{E-W}
-      <desc>Oriented East to West.</desc></opt>
-      <opt>{N-S}
-      <desc>Oriented North to South.</desc></opt>
-      <opt>{NE-SW}
-      <desc>Oriented North-east to South-west.</desc></opt>
-      <opt>{NW-SE}
-      <desc>Oriented North-west to South-east.</desc></opt>
-    </opts>
-  </Orientation>
-  <Inclination_of_axis>
-    <desc>Inclination of the axis of post- and stakeholes.</desc>
-    <opts>
-      <opt>{No_Observation}
-      <desc>data not collected</desc></opt>
-      <opt>{Vertical}
-      </opt>
-      <opt>{45-90_degrees}
-      </opt>
-      <opt>{45_degrees}
-      </opt>
-      <opt>{less_than_45}
-      </opt>
-    </opts>
-  </Inclination_of_axis>
-  <Structure_Your_Interpretation>
-    <desc>Your interpretation of the likely function of the structure.</desc>
-    <opts>
-      <opt>{No_Observation}</opt>
-      <opt>{Your_Interpretation_Structure_Indeterminate}
-      </opt>
-      <opt>{Floor_or_Surface}
-      </opt>
-      <opt>{Mud_or_Plaster_Face}
-      </opt>
-      <opt>{Wall}
-      </opt>
-      <opt>{Platform_or_Bench}
-      </opt>
-      <opt>{Paving}
-      </opt>
-      <opt>{Bin}
-      </opt>
-      <opt>{Oven}
-      </opt>
-      <opt>{Pillar}
-      </opt>
-      <opt>{Other}
-      <desc>Function not elsewhere described. Provide details in Annotation field.</desc></opt>
-    </opts>
-  </Structure_Your_Interpretation>
-  <Cut_Your_Interpretation>
-    <desc>Your interpretation of the likely function of the Context using standardised definitions.</desc>
-    <opts>
-      <opt>{No_Observation}</opt>
-      <opt>{Your_Interpretation_Cut_Indeterminate}
-      </opt>
-      <opt>{Animal_or_Plant_hole}
-      </opt>
-      <opt>{Stakehole}
-      </opt>
-      <opt>{Posthole}
-      </opt>
-      <opt>{Pit}
-      </opt>
-      <opt>{Hearth_or_Fire_pit}
-      </opt>
-      <opt>{Ditch_or_Trench}
-      </opt>
-      <opt>{Construction_Cut}
-      </opt>
-      <opt>{Burial}
-      </opt>
-      <opt>{Erosional_Feature}
-      </opt>
-      <opt>{Other}
-      <desc>Function not elsewhere described. Provide details in Annotation field.</desc></opt>
-    </opts>
-  </Cut_Your_Interpretation>
-  <Deposit_Your_Interpretation>
-    <desc>Your interpretation of the likely function of the context.</desc>
-    <opts>
-      <opt>{No_Observation}</opt>
-      <opt>{Indeterminate}
-      <desc>You are unable to make an assessment of possible function.</desc></opt>
-      <opt>{Packing}
-      <desc>Packing in a post hole for post material fulfilling a constructional purpose other than deliberate levelling deposits.</desc></opt>
-      <opt>{Levelling_Fill}
-      <desc>Material laid down to level or raise an area for constructional purposes or other activities.</desc></opt>
-      <opt>{Dump}
-      <desc>Material probably dumped as a result of other activity e.g. material removed from cuts or other constructional or destructional activity.</desc></opt>
-      <opt>{Midden}
-      <desc>Distinct area of organic rubbish accumulation</desc></opt>
-      <opt>{Burial}
-      <desc>A fill or other deposit associated with a skeleton and forming part of a burial feature.</desc></opt>
-      <opt>{Structural_Debris}
-      <desc>Material derived from collapse of a wall, roof or other structure</desc></opt>
-      <opt>{Partly_naturally_derived}
-      <desc>A deposit partly or wholly accumulating through natural sedimentary processes, such as water or wind deposition.</desc></opt>
-      <opt>{Wholly_naturally_derived}
-      <desc>All of the deposit accumulating through the deposition of natural sediments through geomorphological processes eg wind borne sediments water-laid natural sediments material flaking from cave and rock shelter walls.</desc></opt>
-      <opt>{Erosional_products}
-      <desc>Material deriving from the erosion of earlier archaeological sediments.</desc></opt>
-      <opt>{Artifact_cluster}
-      <desc>A distinct concentration of artifacts or ecofacts. Make sure you record its xyz coordinates centre and edges.</desc></opt>
-      <opt>{Ash_or_Charcoal}
-      <desc>A deposit consisting largely of carbonized/charred plant material and/or ash</desc></opt>
-      <opt>{Arbitrary}
-      <desc>This applies to artificial contexts excavated for excavational convenience eg section cleaning material whose precise provenience is unclear. Does not include arbitrary spits or spatial units deliberately excavated for finer control of horizontal and vert</desc></opt>
-      <opt>{Distinct_floor_contact}
-      <desc>To be used for material that directly reflects the use of a surface or floor - artefact material on the surface perhaps thin deposits of occupation material. These contexts will be gridded into spatial units for closer control of artifact distributions.</desc></opt>
-      <opt>{Animal_or_Plant}
-      <desc>Deposit derived from plant or animal activity</desc></opt>
-      <opt>{Other}
-      <desc>Function not elsewhere described. Provide details in Annotation field.</desc></opt>
-    </opts>
-  </Deposit_Your_Interpretation>
-  <Your_Discussion>
-    <desc>Enter an interpretation of the function of the Context and its place in the stratigraphical sequence.</desc>
-  </Your_Discussion>
-  <Your_description>
-    <desc>Enter a verbal description of the Context, including its form, contexts, relationship to other Contexts and any other relevant information. This is the main place to record all other descriptive information that may be treated briefly or not covered elsewhere, including signs of disturbance  by burrowing animals etc.</desc>
-  </Your_description>
   <Sketch file="true" thumbnail="true">
     <desc>Upload the file of a sketch of the context drawn on another application using the button below</desc>
   </Sketch>
@@ -629,365 +957,221 @@ When you have selected a context type you can proceed to open the "Fill in conte
   <Structural_Components>
     <desc>Describe what the structure is made from.</desc>
     <opts>
-      <opt>{No_Observation}
+      <opt>No Observation
       <desc>data not collected</desc></opt>
-      <opt>{Stone}
+      <opt>Stone
       <desc>Worked or unworked stone used in masonry walls.</desc></opt>
-      <opt>{Plaster}
+      <opt>Plaster
       </opt>
-      <opt>{Mudbrick}
+      <opt>Mudbrick
       </opt>
-      <opt>{Other}
+      <opt>Other
       <desc>Material not otherwise described. Add description and notes in Annotation field.</desc></opt>
     </opts>
   </Structural_Components>
-  <Bonding>
-    <desc>Additional details of the bonding/packing material.</desc>
-    <opts>
-      <opt>{No_Observation}
-      <desc>data not collected</desc></opt>
-      <opt>{Mortar}
-      <desc>Paste used to bind masonry blocks together.</desc>
-      <opt>{Cement_mortar}
-      <desc>Cement based mortar.</desc></opt>
-      <opt>{Lime-shell_mortar}
-      <desc>Sandy mortar with lime and burnt shell inclusion.</desc></opt></opt>
-      <opt>{Unmortared}
-      <desc>No visible bonding material ie unmortared.</desc></opt>
-      <opt>{Stones}
-      <desc>Unmortared stones.</desc></opt>
-      <opt>{Other}
-      <desc>Other bonding/packing material.</desc></opt>
-    </opts>
-  </Bonding>
-  <Bonding_Details>
-    <desc>What has been used to bind the major elements together? Is there mud mortar in a wall, or chinking stones? </desc>
-  </Bonding_Details>
   <Bond_Type>
     <desc>The type of bonding course eg 'English bond'</desc>
     <opts>
-      <opt>{No_Observation}
+      <opt>No Observation
       <desc>data not collected</desc></opt>
-      <opt>{Brick}
-      <opt p="gallery/BrickBonds/Brown/English.png">{English_Bond}
+      <opt>Brick
+      <opt p="gallery/BrickBonds/Brown/English.png">English Bond
       <desc>Full courses of headers alternating with full courses of stretchers.</desc></opt>
-      <opt p="gallery/BrickBonds/Brown/Flemish.png">{Flemish_Bond}
+      <opt p="gallery/BrickBonds/Brown/Flemish.png">Flemish Bond
       <desc>Courses of alternating headers and stretchers.</desc></opt>
-      <opt p="gallery/BrickBonds/Brown/Header.png">{Header_Bond}
+      <opt p="gallery/BrickBonds/Brown/Header.png">Header Bond
       <desc>Courses of headers only.</desc></opt>
-      <opt p="gallery/BrickBonds/Brown/Stretcher.png">{Stretcher}
+      <opt p="gallery/BrickBonds/Brown/Stretcher.png">Stretcher
       <desc>Courses of full bricks where every course is offset half a brick from the course below.</desc></opt></opt>
-      <opt>{Stone}
-      <opt>{Quoins_stressed}
+      <opt>Stone
+      <opt>Quoins stressed
       <desc>Large corner blocks set along side regular courses blocks.</desc></opt>
-      <opt>{Random_coursed}
+      <opt>Random coursed
       <desc>Patterning of different shaped rubble stone.</desc></opt>
-      <opt>{Random_uncoursed}
+      <opt>Random uncoursed
       <desc>No regular pattern</desc></opt>
-      <opt>{Regular_courses}
+      <opt>Regular courses
       <desc>Lines or courses of regular size.</desc></opt>
-      <opt>{String_courses}
+      <opt>String courses
       <desc>Long stones in regular lines or courses.</desc></opt>
-      <opt>{Uneven_courses}
+      <opt>Uneven courses
       <desc>Lines or courses of different size</desc></opt></opt>
     </opts>
   </Bond_Type>
-  <Distinguishing_Marks>
-    <desc>Describe and distinguishing marks on the bricks or stone, such as makers marks, score marks etc.</desc>
-  </Distinguishing_Marks>
-  <Structure_Description>
-    <desc>Describe the structure.</desc>
-  </Structure_Description>
-  <Number_Courses>
-    <desc>The number of vertical layers of structural elements such as bricks.</desc>
-  </Number_Courses>
-  <Set_In_Cut>
-    <desc>Give the cut context code if relevant. If not set in cut then put 'NA'.</desc>
-  </Set_In_Cut>
-  <Structure_Shape>
-    <desc>The shape of the structural element, in plan.</desc>
-    <opts>
-      <opt>{No_Observation}
-      <desc>data not collected</desc></opt>
-      <opt>{Circular}
-      <desc>Round</desc></opt>
-      <opt>{Linear}
-      <desc>Straight sided but not square or rectangular.</desc></opt>
-      <opt>{Ovoid}
-      <desc>Oval or elliptical.</desc></opt>
-      <opt>{Rectangular}
-      <desc>Two sides longer than the other.</desc></opt>
-      <opt>{Semi-Circular}
-      <desc>Half circle.</desc></opt>
-      <opt>{Square}
-      <desc>Equal on four sides.</desc></opt>
-      <opt>{Sub-Circular}
-      <desc>Nearly circular.</desc></opt>
-      <opt>{Sub-rectangular}
-      <desc>Nearly rectangular in shape.</desc></opt>
-    </opts>
-  </Structure_Shape>
-  <Mudbrick_Shape>
-    <desc>The shape of mudbrick(s).</desc>
-    <opts>
-      <opt>{No_Observation}</opt>
-      <opt>{Rectangular}
-      <desc>With straight edges, upper and lower surfaces.</desc></opt>
-      <opt>{Elongated_oval}
-      <desc>Steep slope.</desc></opt>
-      <opt>{Plano_convex}
-      <desc>Shallow slope.</desc></opt>
-      <opt>{Boat_shaped}
-      <desc>Concave surface opposite convex surface</desc></opt>
-      <opt>{Ovoid}
-      </opt>
-    </opts>
-  </Mudbrick_Shape>
-  <Component_Finish>
-    <desc>How have the material types been prepared (i.e dressed stones polished/smoothed/painted plaster surface).</desc>
-  </Component_Finish>
-  <Composition_Type>
-    <desc>Describe the structure of the Context sediment. The components making up the structure are added below as aggregates.</desc>
-    <opts>
-      <opt>{No_Observation}</opt>
-      <opt>{Homogenous}
-      <desc>Uniform throughout.</desc></opt>
-      <opt>{Heterogeneous}
-      <desc>Deposit with different mixed components which need to be described.</desc></opt>
-      <opt>{Laminated}
-      <desc>Laminated Deposit consists of lots of fine lenses of the same material. Compact laminated Deposit consists of a number of fine lenses of different materials.</desc></opt>
-      <opt>{Compact_Laminated}
-      <desc>Deposit consists of a number of fine lenses of different materials</desc></opt>
-    </opts>
-  </Composition_Type>
-  <Deposit_Bedding>
-    <desc>Describes the base of the deposit</desc>
-    <opts>
-      <opt>{No_Observation}</opt>
-      <opt>{Horizontal}
-      <desc>Horizontal.</desc></opt>
-      <opt>{Oblique_steep}
-      <desc>Steep slope.</desc></opt>
-      <opt>{Oblique_shallow}
-      <desc>Shallow slope.</desc></opt>
-      <opt>{Uneven}
-      <desc>Mix of horizontal, oblique and undulating - make sure you describe this</desc></opt>
-    </opts>
-  </Deposit_Bedding>
-  <Space>
-    <desc>Enter the space number, which may define an internal or external area in which the skeleton is located.</desc>
-  </Space>
-  <Building>
-    <desc>A building can comprise one or more internal spaces so enter the building number in which the skeleton is located.</desc>
-  </Building>
-  <Mid_X>
-    <desc>An appropriate mid-point on the skeleton under excavation should be recorded on the X / Y co-ordinates. This will locate the skeleton on the site grid system.</desc>
-  </Mid_X>
-  <Mid_Y>
-    <desc>An appropriate mid-point on the skeleton under excavation should be recorded on the X / Y co-ordinates. This will locate the skeleton on the site grid system.</desc>
-  </Mid_Y>
-  <Skeleton_Dimensions>
-    <desc>Record the approximate extent of the skeletal remains (in meters or millimetres only) and the axis of measurement. Detailed dimensions can be taken from the plan.</desc>
-  </Skeleton_Dimensions>
-  <Skeleton_Body>
-    <desc>Describe the attitude of the body, whether it is extended, crouched, flexed, supine (front up), prone (face down) and the orientation.</desc>
-  </Skeleton_Body>
-  <Skeleton_Head>
-    <desc>Which way up the head faces and/or points</desc>
-  </Skeleton_Head>
-  <Skeleton_Right_Arm>
-    <desc>Record whether right arm is straight or flexed, is along the side of the body, over the chest or on the pelvis, and the position of the hand.</desc>
-  </Skeleton_Right_Arm>
-  <Skeleton_Left_Arm>
-    <desc>Record whether left arm is straight or flexed, is along the side of the body, over the chest or on the pelvis, and the position of the hand.</desc>
-  </Skeleton_Left_Arm>
-  <Skeleton_Right_Leg>
-    <desc>Record whether the leg is straight or bent, crossed left over right or right over left and the position of the foot</desc>
-  </Skeleton_Right_Leg>
-  <Skeleton_Left_Leg>
-    <desc>Record whether the leg is straight or bent, crossed left over right or right over left and the position of the foot</desc>
-  </Skeleton_Left_Leg>
-  <Skeleton_Condition>
-    <desc>Describe the general condition of the skeleton and any comments on articulation. Any degeneration of bone in situ is important to record as well as accidental damage during excavation and lifting. Record disturbances through later activity or animal/root activity as well as damage due to stone pressure on the bones. It is important to note whether the patellae, hyoid, phalanges, basi-occipital etc are present or not, and their location, as this may give an indication of the state of the body at the time of interment.</desc>
-  </Skeleton_Condition>
-  <Skeleton_Surface_Modifications>
-    <desc>Note any cut marks, evidence of stains and/or colour during the course of the excavation, burning, chewing marks, root activity etc.</desc>
-  </Skeleton_Surface_Modifications>
-  <Skeleton_Environment>
-    <desc>The physical environment at the time of excavation may affect the state of the bone therefore it is important to note the weather and conditions you are working in.</desc>
-  </Skeleton_Environment>
-  <Skeleton_Days_Exposed>
-    <desc>It is important to excavate skeletal remains as quickly as possible as the state of the bone will change during exposure. Any conditional change should also be noted. Excavate as quickly as possible because the bones will degrade rapidly.</desc>
-  </Skeleton_Days_Exposed>
-  <Skeleton_Notes>
-  </Skeleton_Notes>
-  <Target_A_X>
-    <desc>The X coordinate of Target A. Targets are white-painted, large-headed nails used to rectify photographs.</desc>
-  </Target_A_X>
-  <Target_A_Y>
-    <desc>The Y coordinate of Target A. Targets are white-painted, large-headed nails used to rectify photographs.</desc>
-  </Target_A_Y>
-  <Target_A_Z>
-    <desc>The Z coordinate of Target A. Targets are white-painted, large-headed nails used to rectify photographs.</desc>
-  </Target_A_Z>
-  <Target_B_X>
-    <desc>The X coordinate of Target B. Targets are white-painted, large-headed nails used to rectify photographs.</desc>
-  </Target_B_X>
-  <Target_B_Y>
-    <desc>The Y coordinate of Target B. Targets are white-painted, large-headed nails used to rectify photographs.</desc>
-  </Target_B_Y>
-  <Target_B_Z>
-    <desc>The Z coordinate of Target B. Targets are white-painted, large-headed nails used to rectify photographs.</desc>
-  </Target_B_Z>
-  <Target_C_X>
-    <desc>The X coordinate of Target C. Targets are white-painted, large-headed nails used to rectify photographs.</desc>
-  </Target_C_X>
-  <Target_C_Y>
-    <desc>The Y coordinate of Target C. Targets are white-painted, large-headed nails used to rectify photographs.</desc>
-  </Target_C_Y>
-  <Target_C_Z>
-    <desc>The Z coordinate of Target C. Targets are white-painted, large-headed nails used to rectify photographs.</desc>
-  </Target_C_Z>
-  <Target_D_X>
-    <desc>The X coordinate of Target D. Targets are white-painted, large-headed nails used to rectify photographs.</desc>
-  </Target_D_X>
-  <Target_D_Y>
-    <desc>The Y coordinate of Target D. Targets are white-painted, large-headed nails used to rectify photographs.</desc>
-  </Target_D_Y>
-  <Target_D_Z>
-    <desc>The Z coordinate of Target D. Targets are white-painted, large-headed nails used to rectify photographs.</desc>
-  </Target_D_Z>
   <SearchHelp>
     <desc>This allows you to find any contexts that contain your search term or string in any field in a context record. Type in your term/string and press the "Search" button. Press "My Contexts" to return to the full list of contexts for this trench.</desc>
   </SearchHelp>
 </Context>
 
 <Context_Group>
+  Feature
   <desc>A group of contexts.</desc>
-  <AreaCode f="id">
-    <desc>The excavation trench, designated by a letter code and assigned automatically by the module based on your selection when you log in.</desc>
-    <str>
-      <fmt><![CDATA[$1]]></fmt>
-    </str>
-  </AreaCode>
-  <Context_Group_ID f="id">
-    <desc>Feature number taken from the central register.</desc>
-    <str>
-      <fmt><![CDATA[Feat-$2-]]></fmt>
-    </str>
-  </Context_Group_ID>
-  <Title f="id">
-    <desc>Enter the Feature name e.g. Hearth in Building 2.</desc>
-    <str>
-      <fmt><![CDATA[$2]]></fmt>
-    </str>
-  </Title>
-  <Device_Code>
-    <opts>
-      <opt>0</opt>
-      <opt>1</opt>
-      <opt>2</opt>
-      <opt>3</opt>
-      <opt>4</opt>
-      <opt>5</opt>
-      <opt>6</opt>
-      <opt>7</opt>
-      <opt>8</opt>
-      <opt>9</opt>
-    </opts>
-  </Device_Code>
-  <Site_Code>
-    <desc>Short code to signify the excavation site and often the year of excavation. Assigned automatically by the module.</desc>
-  </Site_Code>
-  <Location_Note_CG>
-    <desc>Record where the feature is within a space / building/area if relevant and in particular its relationship to other features or key contexts.</desc>
-  </Location_Note_CG>
-  <Building>
-    <desc>Identify the building in which the feature is located.</desc>
-  </Building>
-  <Space>
-    <desc>Identify the space in which the feature is located if relevant.</desc>
-  </Space>
-  <CG_Context_Type>
-    <desc>Enter the type of feature you are describing.</desc>
-    <opts>
-      <opt p="gallery/ContextType/Other/NA.png">{No_Observation}
-      <desc>data not collected</desc></opt>
-      <opt p="gallery/ContextType/Orange/Cut.png">{Cut}
-      <desc>Any Context which forms a negative interface (cut) with another context, such as a cut for a pit, burial, ditch, wall foundation or robber trench.</desc></opt>
-      <opt p="gallery/ContextType/Orange/Deposit.png">{Deposit}
-      <desc>Any Context with deposited sediment and soil, such as floor layers, pit and grave fills, hearth fills and natural sediments.</desc></opt>
-      <opt p="gallery/ContextType/Orange/Structure.png">{Structure}
-      <desc>Any Context consisting of deliberately constructed structures, independent of a Negative Element (i.e. cut, such as walls and hearths).</desc></opt>
-      <opt>{Wall}
-      <desc>A structured vertical barrier made from durable materials defining a space.</desc></opt>
-      <opt>{Floor}
-      <desc>A  prepared surface, internal or external, including those made from plaster, earth etc.</desc></opt>
-      <opt>{Well}
-      <desc>A deep pit excavated to reach the water table.</desc></opt>
-      <opt>{Pit}
-      <desc>A large cut filled with sediment or other materials.</desc></opt>
-      <opt>{Room}
-      <desc>A discrete space within a house or other building.</desc></opt>
-      <opt>{Burial}
-      <desc>The cut, fill plus any associated structures relating to the deposition of human remains, including those remains, such as a skeleton.</desc></opt>
-      <opt>{Building}
-      <desc>A building is defined when several walls surround a discrete space</desc></opt>
-      <opt>{Surface}
-      <desc>A compacted horizontal layer, internal or external, on which activities took place.</desc></opt>
-      <opt>{Space} <desc>A space is an area bounded by a structure of some kind, either external or internal, and can be for example a courtyard, room, ante-room etc.</desc></opt>
-      <opt>{Posthole}<desc>A small pit cut to hold an upright post.</desc></opt>
-      <opt>{Stakehole}<desc>Cuts smaller than postholes, typically c. 1-5 cm diameter.</desc></opt>
-      <opt>{Hearth}<desc>A prepared structure in which a fire is set.</desc></opt>
-      <opt>{Stakehole_row} <desc>A row of cuts smaller than postholes, typically c. 1-5 cm diameter.</desc></opt>
-      <opt>{Other}<desc>Function not elsewhere described. Provide details in Annotation field.</desc></opt>
-    </opts>
-  </CG_Context_Type>
-  <CG_Your_Interpretation>
-    <desc>Describe your understanding of the feature function, phasing etc.</desc>
-  </CG_Your_Interpretation>
-  <CG_Your_description>
-    <desc>Describe the feature, any details of dimensions, disturbance, orientation etc.</desc>
-  </CG_Your_description>
-  <Your_Discussion>
-    <desc>Add here any elaborations on the interpretation and description.</desc>
-  </Your_Discussion>
-  <Length>
-    <desc>Longest dimension in metres.</desc>
-  </Length>
-  <Width>
-    <desc>Width or diameter in metres.</desc>
-  </Width>
-  <Depth>
-    <desc>Depth or Height in metres.</desc>
-  </Depth>
-  <Mid_X>
-    <desc>An appropriate mid-point on the feature should be recorded on the X/Y coordinates. This will locate the feature on the site grid system.</desc>
-  </Mid_X>
-  <Mid_Y>
-    <desc>An appropriate mid-point on the feature should be recorded on the X/Y coordinates. This will locate the feature on the site grid system.</desc>
-  </Mid_Y>
-  <CG_Phase_Notes>
-    <desc>The site or building phase in which this feature was constructed or deposited.</desc>
-  </CG_Phase_Notes>
-  <CG_Plans>
-    <desc>Reference numbers to plans or drawings of this feature.</desc>
-  </CG_Plans>
-  <CG_Section_Numbers>
-    <desc>Reference numbers to section drawings of this feature</desc>
-  </CG_Section_Numbers>
-  <Sketch file="true" thumbnail="true">
-    <desc>Upload the file of a sketch of the feature drawn on another application using the button below</desc>
-  </Sketch>
-  <Photo file="true" thumbnail="true">
-    <desc>Use this button to take a photo of the feature using the camera on the tablet. Remember to include a scale in the photo.</desc>
-  </Photo>
-  <Audio file="true" thumbnail="true">
-    <desc>Use this button to record an audio file of your observations concerning this feature</desc>
-  </Audio>
-  <Video file="true" thumbnail="true">
-    <desc>Use this button to record a video using the tablet of this feature</desc>
-  </Video>
+  <Gen>
+    <cols>
+      <AreaCode f="id">
+        Trench
+        <desc>The excavation trench, designated by a letter code and assigned automatically by the module based on your selection when you log in.</desc>
+        <str>
+          <fmt><![CDATA[$1]]></fmt>
+        </str>
+      </AreaCode>
+      <Context_Group_ID f="id">
+        Feature ID
+        <desc>Feature number taken from the central register.</desc>
+        <str>
+          <fmt><![CDATA[Feat-$2-]]></fmt>
+        </str>
+      </Context_Group_ID>
+      <Title f="id">
+        Feature Title
+        <desc>Enter the Feature name e.g. Hearth in Building 2.</desc>
+        <str>
+          <fmt><![CDATA[$2]]></fmt>
+        </str>
+      </Title>
+    </cols>
+    <cols>
+      <Building>
+        <desc>Identify the building in which the feature is located.</desc>
+      </Building>
+      <Space>
+        <desc>Identify the space in which the feature is located if relevant.</desc>
+      </Space>
+    </cols>
+    <Location_Note_CG>
+      <desc>Record where the feature is within a space / building/area if relevant and in particular its relationship to other features or key contexts.</desc>
+    </Location_Note_CG>
+    <CG_Context_Type>
+      <desc>Enter the type of feature you are describing.</desc>
+      <opts>
+        <opt p="gallery/ContextType/Other/NA.png">No Observation
+        <desc>data not collected</desc></opt>
+        <opt p="gallery/ContextType/Orange/Cut.png">Negative Element
+        <desc>Any Context which forms a negative interface (cut) with another context, such as a cut for a pit, burial, ditch, wall foundation or robber trench.</desc></opt>
+        <opt p="gallery/ContextType/Orange/Deposit.png">Deposit
+        <desc>Any Context with deposited sediment and soil, such as floor layers, pit and grave fills, hearth fills and natural sediments.</desc></opt>
+        <opt p="gallery/ContextType/Orange/Structure.png">Structure
+        <desc>Any Context consisting of deliberately constructed structures, independent of a Negative Element (i.e. cut, such as walls and hearths).</desc></opt>
+        <opt>Wall
+        <desc>A structured vertical barrier made from durable materials defining a space.</desc></opt>
+        <opt>Floor
+        <desc>A  prepared surface, internal or external, including those made from plaster, earth etc.</desc></opt>
+        <opt>Well
+        <desc>A deep pit excavated to reach the water table.</desc></opt>
+        <opt>Pit
+        <desc>A large cut filled with sediment or other materials.</desc></opt>
+        <opt>Room
+        <desc>A discrete space within a house or other building.</desc></opt>
+        <opt>Burial
+        <desc>The cut, fill plus any associated structures relating to the deposition of human remains, including those remains, such as a skeleton.</desc></opt>
+        <opt>Building
+        <desc>A building is defined when several walls surround a discrete space</desc></opt>
+        <opt>Surface
+        <desc>A compacted horizontal layer, internal or external, on which activities took place.</desc></opt>
+        <opt>Space <desc>A space is an area bounded by a structure of some kind, either external or internal, and can be for example a courtyard, room, ante-room etc.</desc></opt>
+        <opt>Posthole<desc>A small pit cut to hold an upright post.</desc></opt>
+        <opt>Stakehole<desc>Cuts smaller than postholes, typically c. 1-5 cm diameter.</desc></opt>
+        <opt>Hearth<desc>A prepared structure in which a fire is set.</desc></opt>
+        <opt>Stakehole row <desc>A row of cuts smaller than postholes, typically c. 1-5 cm diameter.</desc></opt>
+        <opt>Other<desc>Function not elsewhere described. Provide details in Annotation field.</desc></opt>
+      </opts>
+    </CG_Context_Type>
+    <CG_Your_description>
+      <desc>Describe the feature, any details of dimensions, disturbance, orientation etc.</desc>
+    </CG_Your_description>
+    <CG_Your_Interpretation>
+      <desc>Describe your understanding of the feature function, phasing etc.</desc>
+    </CG_Your_Interpretation>
+    <Your_Discussion>
+      <desc>Add here any elaborations on the interpretation and description.</desc>
+    </Your_Discussion>
+    <cols>
+      <Length>
+        <desc>Longest dimension in metres.</desc>
+      </Length>
+      <Width>
+        <desc>Width or diameter in metres.</desc>
+      </Width>
+      <Depth>
+        <desc>Depth or Height in metres.</desc>
+      </Depth>
+    </cols>
+    <cols>
+      <Mid_X>
+        <desc>An appropriate mid-point on the feature should be recorded on the X/Y coordinates. This will locate the feature on the site grid system.</desc>
+      </Mid_X>
+      <Mid_Y>
+        <desc>An appropriate mid-point on the feature should be recorded on the X/Y coordinates. This will locate the feature on the site grid system.</desc>
+      </Mid_Y>
+    </cols>
+    <CG_Phase_Notes>
+      <desc>The site or building phase in which this feature was constructed or deposited.</desc>
+    </CG_Phase_Notes>
+    <CG_Plans>
+      <desc>Reference numbers to plans or drawings of this feature.</desc>
+    </CG_Plans>
+    <CG_Section_Numbers>
+      <desc>Reference numbers to section drawings of this feature</desc>
+    </CG_Section_Numbers>
+    <cols>
+      <author>
+        Record Created By:
+      </author>
+      <timestamp>
+        Date recorded:
+      </timestamp>
+    </cols>
+  </Gen>
+  <Contexts>
+    <Guide_0 t="webview">
+      Not yet implemented
+    </Guide_0>
+  </Contexts>
+  <Rel>
+    <Guide_1 t="webview">
+      Not yet implemented
+    </Guide_1>
+  </Rel>
+  <Add>
+    <View_Attached_Files t="viewfiles"/>
+    <Sketch t="file">
+      <desc>Upload the file of a sketch of the feature drawn on another application using the button below</desc>
+    </Sketch>
+    <Photo t="camera">
+      <desc>Use this button to take a photo of the feature using the camera on the tablet. Remember to include a scale in the photo.</desc>
+    </Photo>
+    <Audio t="audio">
+      <desc>Use this button to record an audio file of your observations concerning this feature</desc>
+    </Audio>
+    <Video t="video">
+      <desc>Use this button to record a video using the tablet of this feature</desc>
+    </Video>
+    <Guide_2 t="webview">
+      Here you can enter filenames or unique reference numbers for image stored on another device.
+    </Guide_2>
+    <Add_Photograph_Log t="button" lc="Photograph_Log"/>
+    <Select_a_Photograph_Log t="dropdown" ec="Photograph_Log"/>
+  </Add>
+  <Vars f="hidden">
+    <!--TODO: Do something with these-->
+    <Device_Code>
+      <opts>
+        <opt>0</opt>
+        <opt>1</opt>
+        <opt>2</opt>
+        <opt>3</opt>
+        <opt>4</opt>
+        <opt>5</opt>
+        <opt>6</opt>
+        <opt>7</opt>
+        <opt>8</opt>
+        <opt>9</opt>
+      </opts>
+    </Device_Code>
+    <Site_Code>
+      <desc>Short code to signify the excavation site and often the year of excavation. Assigned automatically by the module.</desc>
+    </Site_Code>
+  </Vars>
 </Context_Group>
 
 <Matrix>
@@ -1003,25 +1187,25 @@ When you have selected a context type you can proceed to open the "Fill in conte
       <fmt><![CDATA[$1]]></fmt>
     </str>
     <opts>
-      <opt>{No_Observation}
+      <opt>No Observation
       <desc>data not collected</desc></opt>
-      <opt>{Grit}
+      <opt>Grit
       <desc>Size up to 5 mm.</desc></opt>
-      <opt>{Small_Stones}
+      <opt>Small Stones
       <desc>Size up to 10 mm.</desc></opt>
-      <opt>{Large_stones}
+      <opt>Large stones
       <desc>Size over 10 mm.</desc></opt>
-      <opt>{Tauf}
+      <opt>Tauf
       <desc>Mud building material including mortar.</desc></opt>
-      <opt>{Midden}
+      <opt>Midden
       <desc>Organic debris e.g. bones carbonised material phytoliths etc</desc></opt>
-      <opt>{Plaster}
+      <opt>Plaster
       <desc>Fragments of plaster.</desc></opt>
-      <opt>{Mudbrick}
+      <opt>Mudbrick
       <desc>Fragments of mudbrick or whole mudbricks not part of a coherent structural element.</desc></opt>
-      <opt>{Ash}
+      <opt>Ash
       <desc>White/grey fine material which may contain charcoal and other burnt plant material.</desc></opt>
-      <opt>{Artefacts}
+      <opt>Artefacts
       <desc>Human manufactured materials including lithics, beads, ground stone etc.</desc></opt>
     </opts>
   </Component>
@@ -1046,29 +1230,29 @@ When you have selected a context type you can proceed to open the "Fill in conte
   <Shape>
     <desc>Shape and roundness of stones and pebbles in the deposit.</desc>
     <opts>
-      <opt p="gallery/Other/NA.png">{No_Observation}
+      <opt p="gallery/Other/NA.png">No Observation
       <desc>data not collected</desc></opt>
-      <opt p="gallery/Pebbles/Angular.png">{Angular}
+      <opt p="gallery/Pebbles/Angular.png">Angular
       <desc>Sharp pebbles or stones.</desc>
-      <opt p="gallery/Pebbles/AngularAngular.png">{Angular}
+      <opt p="gallery/Pebbles/AngularAngular.png">Angular
       <desc>Sharp and pointed.</desc></opt>
-      <opt p="gallery/Pebbles/AngularSub.png">{Sub-angular}
+      <opt p="gallery/Pebbles/AngularSub.png">Sub-angular
       <desc>A little sharp and pointed.</desc></opt>
-      <opt p="gallery/Pebbles/AngularVery.png">{Very_angular}
+      <opt p="gallery/Pebbles/AngularVery.png">Very angular
       <desc>Very sharp and pointed.</desc></opt></opt>
-      <opt p="gallery/Pebbles/Rounded.png">{Rounded}
+      <opt p="gallery/Pebbles/Rounded.png">Rounded
       <desc>Rounded stones and pebbles.</desc>
-      <opt p="gallery/Pebbles/RoundedRounded.png">{Rounded}
+      <opt p="gallery/Pebbles/RoundedRounded.png">Rounded
       <desc>Mostly rounded pebble or stone.</desc></opt>
-      <opt p="gallery/Pebbles/RoundedSub.png">{Sub-rounded}
+      <opt p="gallery/Pebbles/RoundedSub.png">Sub-rounded
       <desc>Some rounding to pebbles or stones.</desc></opt>
-      <opt p="gallery/Pebbles/RoundedWell.png">{Well-rounded}
+      <opt p="gallery/Pebbles/RoundedWell.png">Well-rounded
       <desc>Very rounded pebble or stone.</desc></opt></opt>
-      <opt p="gallery/Pebbles/DressedStone.png">{Dressed_Stone}
+      <opt p="gallery/Pebbles/DressedStone.png">Dressed Stone
       <desc>Those that have been clearly shaped for use.</desc></opt>
-      <opt p="gallery/Pebbles/Tabular.png">{Tabular}
+      <opt p="gallery/Pebbles/Tabular.png">Tabular
       <desc>Stones with flattened upper and lower surfaces.</desc></opt>
-      <opt p="gallery/Pebbles/Ground.png">{Ground}
+      <opt p="gallery/Pebbles/Ground.png">Ground
       <desc>Stones that have been deliberately shaped smooth by grinding.</desc></opt>
     </opts>
   </Shape>
@@ -1154,29 +1338,29 @@ When you have selected a context type you can proceed to open the "Fill in conte
       <fmt><![CDATA[$1]]></fmt>
     </str>
     <opts>
-      <opt>{No_Observation}
+      <opt>No Observation
       <desc>data not collected</desc></opt>
-      <opt>{Building_Materials}
+      <opt>Building Materials
       <desc>Sample of bricks or worked stone collected from this Context.</desc></opt>
-      <opt>{Soil}
+      <opt>Soil
       <desc>General collection of soil deposit from the Context.</desc></opt>
-      <opt>{Wood/Charcoal}
+      <opt>Wood/Charcoal
       <desc>Collection of wood or charcoal fragments from the Context.</desc></opt>
-      <opt>{C14_Sample}<desc>An organic sample recovered for radiocarbon dating.</desc></opt>
-      <opt>{Flot_Sample}<desc>Flotation sample for recovery of plant remains.</desc></opt>
-      <opt>{Phytolith_Sample}
+      <opt>C14 Sample<desc>An organic sample recovered for radiocarbon dating.</desc></opt>
+      <opt>Flot Sample<desc>Flotation sample for recovery of plant remains.</desc></opt>
+      <opt>Phytolith Sample
       <desc>Small soil sample for phytolith analysis.</desc></opt>
-      <opt>{Arch_Soil}
+      <opt>Arch Soil
       <desc>A small archive soil sample.</desc></opt>
-      <opt>{Thin_Section}
+      <opt>Thin Section
      <desc>Specially collected blocks for soil thin sectioning.</desc></opt>
-      <opt>{Wet_Sieve}
+      <opt>Wet Sieve
       <desc>Bulk soil sample for wet-sieving.</desc></opt>
-      <opt>{Animal_Bone}
+      <opt>Animal Bone
       <desc>A sample of bone identified as animal.</desc></opt>
-      <opt>{Human_Bone}
+      <opt>Human Bone
       <desc>A sample of bone identified as human.</desc></opt>
-      <opt>{Other}
+      <opt>Other
       <desc>Sample not elsewhere described. Include details in Annotation field.</desc></opt>
     </opts>
   </Sample_Type>
@@ -1206,12 +1390,12 @@ When you have selected a context type you can proceed to open the "Fill in conte
   <Sample_Location>
     <desc>The storage location of the sample at the time of entry.</desc>
     <opts>
-      <opt>{No_Observation}<desc>data not collected</desc></opt>
-      <opt>{Site_depot}</opt>
-      <opt>{Export_Liverpool}</opt>
-      <opt>{Export_Turkey}</opt>
-      <opt>{Museum}</opt>
-      <opt>{OtherWithAnnotation}</opt>
+      <opt>No Observation<desc>data not collected</desc></opt>
+      <opt>Site depot</opt>
+      <opt>Export (Liverpool)</opt>
+      <opt>Export (Turkey)</opt>
+      <opt>Museum</opt>
+      <opt>Other (add Annotation)</opt>
     </opts>
   </Sample_Location>
   <Sample_X>
@@ -1223,49 +1407,16 @@ When you have selected a context type you can proceed to open the "Fill in conte
   <Sample_Z>
     <desc>The elevation or depth of the Sample at the time of excavation.</desc>
   </Sample_Z>
-  <Structural_Components>
-    <desc>Primary components of structure or feature eg dry-pressed brick rough-hewn stone.</desc>
-    <opts>
-      <opt>{Brick}
-      <desc>Fired or sun-dried clay block used in masonry construction.</desc>
-      <opt>{Dry-pressed}
-      <desc>Dry pressed brick</desc></opt>
-      <opt>{Glazed_brick}
-      </opt>
-      <opt>{Sandstock}
-      <desc>Hand-made colonial bricks</desc></opt></opt>
-      <opt>{Earth}
-      <desc>Compact earthen wall or floor.</desc></opt>
-      <opt>{Stone}
-      <desc>Worked or unworked stone used in masonry walls.</desc>
-      <opt>{Ashlar}
-      <desc>Finely dressed stone with flat face.</desc></opt>
-      <opt>{Other}
-      </opt>
-      <opt>{Roughly-hewn}
-      <desc>Roughly cut stone: shows some sign of shaping.</desc></opt>
-      <opt>{Rubble}
-      <desc>Stone fragments with few signs of shaping</desc></opt></opt>
-      <opt>{Timber}
-      <desc>Timber uprights or other elements for a wall or fence.</desc>
-      <opt>{Beam}
-      <desc>Timber beam or support.</desc></opt>
-      <opt>{Plank}
-      <desc>Timber plank for flooring or panelling.</desc></opt>
-      <opt>{Post}
-      <desc>Round or square timber post.</desc></opt></opt>
-    </opts>
-  </Structural_Components>
   <Bonding>
     <desc>Primary bonding material of structure or feature eg mortar.</desc>
     <opts>
-      <opt>{Mortar}
+      <opt>Mortar
       <desc>Paste used to bind masonry blocks together.</desc>
-      <opt>{Cement_mortar}
+      <opt>Cement mortar
       <desc>Cement based mortar</desc></opt>
-      <opt>{Lime-shell_mortar}
+      <opt>Lime-shell mortar
       <desc>Sandy mortar with lime and burnt shell inlcusion</desc></opt></opt>
-      <opt>{Unmortared}
+      <opt>Unmortared
       <desc>No visible bonding material ie unmortared</desc></opt>
     </opts>
   </Bonding>
@@ -1321,129 +1472,129 @@ When you have selected a context type you can proceed to open the "Fill in conte
   <Special_Find_Class f="id">
     <desc>Broad Artefact Class for each Artefact (eg Chipped stone, Clay object, Building Material).</desc>
     <opts>
-      <opt>{No_Observation}
+      <opt>No Observation
       <desc>data not collected</desc></opt>
-      <opt>{Chipped_Stone}
-        <opt>{Blade}
+      <opt>Chipped Stone
+        <opt>Blade
         </opt>
-        <opt>{Core}
+        <opt>Core
         </opt>
-        <opt>{Cache}
+        <opt>Cache
         </opt>
-        <opt>{Other}
-        </opt>
-      </opt>
-      <opt>{Ground_Stone}
-        <opt>{Bead}
-        </opt>
-        <opt>{Grinder}
-        </opt>
-        <opt>{Pestle}
-        </opt>
-        <opt>{Shaft_Straightener}
-        </opt>
-        <opt>{Pendant}
-        </opt>
-        <opt>{Incised_Stone}
-        </opt>
-        <opt>{Polisher}
-        </opt>
-        <opt>{Other}
+        <opt>Other
         </opt>
       </opt>
-      <opt>{Bone}
-        <opt>{Point}
+      <opt>Ground Stone
+        <opt>Bead
         </opt>
-        <opt>{Bead}
+        <opt>Grinder
         </opt>
-        <opt>{Other}
+        <opt>Pestle
         </opt>
-      </opt>
-      <opt>{Shell}
-        <opt>{Bead}
+        <opt>Shaft Straightener
         </opt>
-        <opt>{Other}
+        <opt>Pendant
         </opt>
-      </opt>
-      <opt>{Plant}
-        <opt>{Charcoal}
+        <opt>Incised Stone
         </opt>
-        <opt>{Hackberry}
+        <opt>Polisher
         </opt>
-        <opt>{Charred_Seed}
-        </opt>
-        <opt>{Siliceous_Material}
-        </opt>
-        <opt>{Phytolith}
-        </opt>
-        <opt>{Impression_Cast}
-        </opt>
-        <opt>{Other}
+        <opt>Other
         </opt>
       </opt>
-      <opt>{Ochre}
-      </opt>
-      <opt>{Clay_Object}
-        <opt>{Figurine}
+      <opt>Bone
+        <opt>Point
         </opt>
-        <opt>{Geometric_Object}
+        <opt>Bead
         </opt>
-        <opt>{Token}
-        </opt>
-        <opt>{Other}
+        <opt>Other
         </opt>
       </opt>
-      <opt>{Ceramic}
-        <opt>{Coarse}
+      <opt>Shell
+        <opt>Bead
         </opt>
-        <opt>{Fine}
-        </opt>
-        <opt>{Terracotta}
-        </opt>
-        <opt>{Other}
+        <opt>Other
         </opt>
       </opt>
-      <opt>{Glass}
-        <opt>{Black}
+      <opt>Plant
+        <opt>Charcoal
         </opt>
-        <opt>{Colourless}
+        <opt>Hackberry
         </opt>
-        <opt>{Coloured}
+        <opt>Charred Seed
+        </opt>
+        <opt>Siliceous Material
+        </opt>
+        <opt>Phytolith
+        </opt>
+        <opt>Impression Cast
+        </opt>
+        <opt>Other
         </opt>
       </opt>
-      <opt>{Metal}
-        <opt>{Ferrous}
+      <opt>Ochre
+      </opt>
+      <opt>Clay Object
+        <opt>Figurine
         </opt>
-        <opt>{Copper-alloy}
+        <opt>Geometric object
         </opt>
-        <opt>{Other}
+        <opt>Token
+        </opt>
+        <opt>Other
         </opt>
       </opt>
-      <opt>{Building_Materials}
+      <opt>Ceramic
+        <opt>Coarse
+        </opt>
+        <opt>Fine
+        </opt>
+        <opt>Terracotta
+        </opt>
+        <opt>Other
+        </opt>
       </opt>
-      <opt>{Miscellaneous}
+      <opt>Glass
+        <opt>Black
+        </opt>
+        <opt>Colourless
+        </opt>
+        <opt>Coloured
+        </opt>
+      </opt>
+      <opt>Metal
+        <opt>Ferrous
+        </opt>
+        <opt>Copper-alloy
+        </opt>
+        <opt>Other
+        </opt>
+      </opt>
+      <opt>Building Materials
+      </opt>
+      <opt>Miscellaneous
       <desc>Add detail in the Annotation field</desc></opt>
     </opts>
   </Special_Find_Class>
   <Source>
     <desc>Record the source of the artefact and whether it was collected during the excavation at the trench or from a sample</desc>
     <opts>
-      <opt>{No_Observation}</opt>
-      <opt>{Excavation}</opt>
-      <opt>{Flotation}</opt>
-      <opt>{Wet_Sieve}</opt>
-      <opt>{Other}</opt>
+      <opt>No Observation</opt>
+      <opt>Excavation</opt>
+      <opt>Flotation</opt>
+      <opt>Wet Sieve</opt>
+      <opt>Other</opt>
     </opts>
   </Source>
   <Special_Find_Location>
     <desc>The storage location of the artefact at the time of entry.</desc>
     <opts>
-      <opt>{No_Observation}<desc>data not collected</desc></opt>
-      <opt>{Site_depot}</opt>
-      <opt>{Export_Liverpool}</opt>
-      <opt>{Export_Turkey}</opt>
-      <opt>{Museum}</opt>
-      <opt>{OtherWithAnnotation}</opt>
+      <opt>No Observation<desc>data not collected</desc></opt>
+      <opt>Site depot</opt>
+      <opt>Export (Liverpool)</opt>
+      <opt>Export (Turkey)</opt>
+      <opt>Museum</opt>
+      <opt>Other (add Annotation)</opt>
     </opts>
   </Special_Find_Location>
   <Device_Code>
@@ -1532,7 +1683,7 @@ When you have selected a context type you can proceed to open the "Fill in conte
     </str>
   </Photograph_Reference_ID>
   <Site_Code>
-    <desc>Short code to signify the excavation site and often the year of excavation. </desc>
+    <desc>Short code to signify the excavation site and often the year of excavation</desc>
   </Site_Code>
   <Device_Code>
     <opts>
@@ -1551,7 +1702,7 @@ When you have selected a context type you can proceed to open the "Fill in conte
   <Scene_Type>
     <desc>The type of scene captured, eg opening or closing view of the Context. (Vocab: Open, Close, Other)</desc>
     <opts>
-      <opt>{No_Observation}
+      <opt>No Observation
       <desc>data not collected</desc></opt>
       <opt> Open
         <desc>Photograph taken on opening the Context.</desc>
