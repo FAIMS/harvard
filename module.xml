@@ -668,7 +668,7 @@
           <desc>Other: describe in Annotation.</desc></opt>
         </opts>
       </Soil_Texture>
-      <Texture_Helper t="button"/>
+      <Texture_Helper t="button" l="Context/Material_Helper"/>
     </cols>
     <Soil_Colour>
       <desc>Broad colour  description of the soil, eg 'mid greyish brown'.
@@ -831,176 +831,147 @@
       <desc>Enter an interpretation of the function of the Context and its place in the stratigraphical sequence.</desc>
     </Your_Discussion>
   </Int>
-  <Feature>
-  </Feature>
-  <Rel>
-  </Rel>
-  <Artefacts>
+  <Context_Group f="noscroll">
+    <Add_Context_Group lc="Context_Group"/>
+    <List_of_Related_Context_Groups ec="Context_Group" t="list"/>
+  </Context_Group>
+  <Relationships>
+    <Guide_3 t="webview">
+      Implement me pls :3
+    </Guide_3>
+  </Relationships>
+  <Artefacts f="noscroll">
+    <Add_Special_Find lc="Special_Find"/>
+    <List_of_Related_Special_Finds ec="Special_Find"/>
   </Artefacts>
-  <Samples>
+  <Samples f="noscroll">
+    <Add_Sample lc="Sample"/>
+    <List_of_Sample ec="Sample"/>
   </Samples>
   <Add>
+    <Sketch t="file">
+      <desc>Upload the file of a sketch of the context drawn on another application using the button below</desc>
+    </Sketch>
+    <Photo t="camera">
+      <desc>Use this button to take a photo of the context using the camera on the tablet. Use a scale in the photo</desc>
+    </Photo>
+    <Audio t="audio">
+      <desc>Use this button to record an audio file of your observations concerning this context</desc>
+    </Audio>
+    <Video t="video">
+      <desc>Use this button to record a video using the tablet of this context</desc>
+    </Video>
   </Add>
-
-  <Site_Code>
-    <desc>Short code to signify the excavation site and often the year of excavation. Assigned automatically by the module.</desc>
-  </Site_Code>
-  <Device_Code>
-    <opts>
-      <opt>0</opt>
-      <opt>1</opt>
-      <opt>2</opt>
-      <opt>3</opt>
-      <opt>4</opt>
-      <opt>5</opt>
-      <opt>6</opt>
-      <opt>7</opt>
-      <opt>8</opt>
-      <opt>9</opt>
-    </opts>
-  </Device_Code>
-  <Soil_Texture_Helper>
-    <desc>This helper is based on the standard flow chart for determining soil texture. Start by taking 25g of soil and placing it in your palm. Select each option and follow the prompts for TASKS (like roll ribbon) until you get a result, eg 'silty loam'. Then click the 'Update' button to have that value pasted onto your Context record.</desc>
-    <opts>
-      <opt>Soil does NOT remain in ball when squeezed       
-      <desc>Place approximately 25 g soil in palm. Add water dropwise and knead the soil to break down all aggregates. Soil is at the proper consistency when plastic and moldable like moist putty.</desc>
-      <opt>Is too dry
-      <desc>The soil sample is too dry.</desc>
-      <opt>NO RESULT: Add more water and start again
-      </opt></opt>
-      <opt>Is too wet
-      <desc>The soil sample is too wet.</desc>
-      <opt>NO RESULT: Add dry soil and start again
-      <desc>NO RESULT: add dry soil to soak up water</desc></opt></opt>
-      <opt>NOT too wet nor too dry
-      <desc>The soil is NOT too wet nor too dry.</desc>
-      <opt>Sand
-      <desc>A sand has a loose gritty feel and does not stick together. Individual sand grains can be seen or felt. (VDEPI 2009: AG0058)</desc></opt></opt></opt>
-      <opt>Soil remains in ball when squeezed
-      <desc>Place approximately 25 g soil in palm. Add water dropwise and knead the soil to break down all aggregates. Soil is at the proper consistency when plastic and moldable like moist putty.</desc>
-      <opt>TASK: Roll ribbon
-      <desc>Rub a ball of soil between thumb and forefinger to make a 'ribbon'</desc>
-      <opt>Does NOT form a ribbom
-      <desc>A 'ribbon' is NOT formed when a ball of soil is rubbed between thumb and forefinger.</desc>
-      <opt>Loamy Sand
-      <desc>In a loamy sand particles barely stick together and a moulded piece of soil just holds its shape. (VDEPI 2009: AG0058)</desc></opt></opt>
-      <opt>Forms ribbon
-      <desc>A 'ribbon' is formed when a ball of soil is rubbed between thumb and forefinger.</desc>
-      <opt>Medium ribbon (2.5-5cm long)
-      <desc>The ribbon formed when a ball of soil is rubbed between thumb and forefinger is between 2.5 and 5cm long.</desc>
-      <opt>TASK: Wet soil and rub with forefinger
-      <desc>Excessively wet a small pinch of soil in palm and rub with forefinger.</desc>
-      <opt>Does NOT feel very gritty
-      <desc>The wetted soil does NOT feel very gritty when rubbed on the palm and with forefinger.</desc>
-      <opt>Feels very smooth
-      <desc>The wetted soil feels very smooth when rubbed on the palm and with forefinger.</desc>
-      <opt>Silty Clay Loam
-      <desc>A silty clay loam is like a clay loam but silty as well and smooth to the touch. (VDEPI 2009: AG0058)</desc></opt></opt>
-      <opt>Neither very gritty nor very smooth
-      <desc>The wetted soil does NOT feel very smooth nor very gritty when rubbed on the palm and with forefinger.</desc>
-      <opt>Clay Loam
-      <desc>More easily moulded into a shape than a loam a clay loam rolls out to a thin ribbon between the palms while a loam will break-up. When dry a clay loam will form a lump but is not as tough to break as a clay.(VDEPI 2009: AG0058)</desc></opt></opt></opt>
-      <opt>Feels very gritty
-      <desc>The wetted soil feels very gritty when rubbed on the palm and with forefinger.</desc>
-      <opt>Sandy Clay Loam
-      <desc>A sandy clay loam is like a clay loam but sand grains can be felt (and heard - see Sandy Loam) (VDEPI 2009: AG0058)</desc></opt></opt></opt></opt>
-      <opt>Strong ribbon
-      <desc>The ribbon formed when a ball of soil is rubbed between thumb and forefinger is strong and over 5cm long.</desc>
-      <opt>TASK: Wet soil and rub with forefinger
-      <desc>Excessively wet a small pinch of soil in palm and rub with forefinger.</desc>
-      <opt>Does NOT feel very gritty
-      <desc>The wetted soil does NOT feel very gritty when rubbed on the palm and with forefinger.</desc>
-      <opt>Feels very smooth
-      <desc>The wetted soil feels very smooth when rubbed on the palm and with forefinger.</desc>
-      <opt>Silty Clay
-      <desc>A silty clay is like a clay but smoother. (VDEPI 2009: AG0058)</desc></opt></opt>
-      <opt>Neither very gritty nor very smooth
-      <desc>The wetted soil does NOT feel very smooth nor very gritty when rubbed on the palm and with forefinger.</desc>
-      <opt>Clay
-      <desc>Clays are tough and can be moulded into shapes when moist. Clays form a long flexible ribbon when rubbed between the palms and the ribbon can often be bent into a U shape without breaking. Clays dry into very hard clods. (VDEPI 2009: AG0058)</desc></opt></opt></opt>
-      <opt>Feels very gritty
-      <desc>The wetted soil feels very gritty when rubbed on the palm and with forefinger.</desc>
-      <opt>Sandy Clay
-      <desc>A sandy clay is like a clay but sand grains can be felt (and heard - see Sandy Loam). (VDEPI 2009: AG0058)</desc></opt></opt></opt></opt>
-      <opt>Weak ribbon (less than 2.5cm long)
-      <desc>The ribbon formed when a ball of soil is rubbed between thumb and forefinger is less than 2.5cm long.</desc>
-      <opt>TASK: Wet soil and rub with forefinger
-      <desc>Excessively wet a small pinch of soil in palm and rub with forefinger.</desc>
-      <opt>Does NOT feel very gritty
-      <desc>The wetted soil does NOT feel very gritty when rubbed on the palm and with forefinger.</desc>
-      <opt>Feels very smooth
-      <desc>The wetted soil feels very smooth when rubbed on the palm and with forefinger.</desc>
-      <opt>Silt Loam
-      <desc>A silty loam is like a loam but has a smooth silky feel when a moist sample is pushed between the index finger and thumb. On drying a sample can form a hard lump but this may be broken by hand. (VDEPI 2009: AG0058)</desc></opt></opt>
-      <opt>Neither very gritty nor very smooth
-      <desc>The wetted soil does NOT feel very smooth nor very gritty when rubbed on the palm and with forefinger.</desc>
-      <opt>Loam
-      <desc>A loam breaks into crumbs but will tend to stick together. Sand grains cannot be felt in a moist sample which when squeezed will retain its shape when handled freely. Loams are usually soft to the feel. (VDEPI 2009: AG0058)</desc></opt></opt></opt>
-      <opt>Feels very gritty
-      <desc>The wetted soil feels very gritty when rubbed on the palm and with forefinger.</desc>
-      <opt>Sandy Loam
-      <desc>A sandy loam sticks together more than a loamy sand but can be easily broken. Individual sand grains can be felt and heard if a wet sample is rubbed between the index finger and thumb and held close to the ear. (VDEPI 2009: AG0058)</desc></opt></opt></opt></opt></opt></opt></opt>
-    </opts>
-  </Soil_Texture_Helper>
-  <Sketch file="true" thumbnail="true">
-    <desc>Upload the file of a sketch of the context drawn on another application using the button below</desc>
-  </Sketch>
-  <Photo file="true" thumbnail="true">
-    <desc>Use this button to take a photo of the context using the camera on the tablet. Use a scale in the photo</desc>
-  </Photo>
-  <Audio file="true" thumbnail="true">
-    <desc>Use this button to record an audio file of your observations concerning this context</desc>
-  </Audio>
-  <Video file="true" thumbnail="true">
-    <desc>Use this button to record a video using the tablet of this context</desc>
-  </Video>
-  <Structural_Components>
-    <desc>Describe what the structure is made from.</desc>
-    <opts>
-      <opt>No Observation
-      <desc>data not collected</desc></opt>
-      <opt>Stone
-      <desc>Worked or unworked stone used in masonry walls.</desc></opt>
-      <opt>Plaster
-      </opt>
-      <opt>Mudbrick
-      </opt>
-      <opt>Other
-      <desc>Material not otherwise described. Add description and notes in Annotation field.</desc></opt>
-    </opts>
-  </Structural_Components>
-  <Bond_Type>
-    <desc>The type of bonding course eg 'English bond'</desc>
-    <opts>
-      <opt>No Observation
-      <desc>data not collected</desc></opt>
-      <opt>Brick
-      <opt p="gallery/BrickBonds/Brown/English.png">English Bond
-      <desc>Full courses of headers alternating with full courses of stretchers.</desc></opt>
-      <opt p="gallery/BrickBonds/Brown/Flemish.png">Flemish Bond
-      <desc>Courses of alternating headers and stretchers.</desc></opt>
-      <opt p="gallery/BrickBonds/Brown/Header.png">Header Bond
-      <desc>Courses of headers only.</desc></opt>
-      <opt p="gallery/BrickBonds/Brown/Stretcher.png">Stretcher
-      <desc>Courses of full bricks where every course is offset half a brick from the course below.</desc></opt></opt>
-      <opt>Stone
-      <opt>Quoins stressed
-      <desc>Large corner blocks set along side regular courses blocks.</desc></opt>
-      <opt>Random coursed
-      <desc>Patterning of different shaped rubble stone.</desc></opt>
-      <opt>Random uncoursed
-      <desc>No regular pattern</desc></opt>
-      <opt>Regular courses
-      <desc>Lines or courses of regular size.</desc></opt>
-      <opt>String courses
-      <desc>Long stones in regular lines or courses.</desc></opt>
-      <opt>Uneven courses
-      <desc>Lines or courses of different size</desc></opt></opt>
-    </opts>
-  </Bond_Type>
-  <SearchHelp>
-    <desc>This allows you to find any contexts that contain your search term or string in any field in a context record. Type in your term/string and press the "Search" button. Press "My Contexts" to return to the full list of contexts for this trench.</desc>
-  </SearchHelp>
+  <Material_Helper>
+    <Soil_Texture_Helper>
+      Material Helper
+      <desc>This helper is based on the standard flow chart for determining soil texture. Start by taking 25g of soil and placing it in your palm. Select each option and follow the prompts for TASKS (like roll ribbon) until you get a result, eg 'silty loam'. Then click the 'Update' button to have that value pasted onto your Context record.</desc>
+      <opts>
+        <opt>Soil does NOT remain in ball when squeezed       
+        <desc>Place approximately 25 g soil in palm. Add water dropwise and knead the soil to break down all aggregates. Soil is at the proper consistency when plastic and moldable like moist putty.</desc>
+        <opt>Is too dry
+        <desc>The soil sample is too dry.</desc>
+        <opt>NO RESULT: Add more water and start again
+        </opt></opt>
+        <opt>Is too wet
+        <desc>The soil sample is too wet.</desc>
+        <opt>NO RESULT: Add dry soil and start again
+        <desc>NO RESULT: add dry soil to soak up water</desc></opt></opt>
+        <opt>NOT too wet nor too dry
+        <desc>The soil is NOT too wet nor too dry.</desc>
+        <opt>Sand
+        <desc>A sand has a loose gritty feel and does not stick together. Individual sand grains can be seen or felt. (VDEPI 2009: AG0058)</desc></opt></opt></opt>
+        <opt>Soil remains in ball when squeezed
+        <desc>Place approximately 25 g soil in palm. Add water dropwise and knead the soil to break down all aggregates. Soil is at the proper consistency when plastic and moldable like moist putty.</desc>
+        <opt>TASK: Roll ribbon
+        <desc>Rub a ball of soil between thumb and forefinger to make a 'ribbon'</desc>
+        <opt>Does NOT form a ribbom
+        <desc>A 'ribbon' is NOT formed when a ball of soil is rubbed between thumb and forefinger.</desc>
+        <opt>Loamy Sand
+        <desc>In a loamy sand particles barely stick together and a moulded piece of soil just holds its shape. (VDEPI 2009: AG0058)</desc></opt></opt>
+        <opt>Forms ribbon
+        <desc>A 'ribbon' is formed when a ball of soil is rubbed between thumb and forefinger.</desc>
+        <opt>Medium ribbon (2.5-5cm long)
+        <desc>The ribbon formed when a ball of soil is rubbed between thumb and forefinger is between 2.5 and 5cm long.</desc>
+        <opt>TASK: Wet soil and rub with forefinger
+        <desc>Excessively wet a small pinch of soil in palm and rub with forefinger.</desc>
+        <opt>Does NOT feel very gritty
+        <desc>The wetted soil does NOT feel very gritty when rubbed on the palm and with forefinger.</desc>
+        <opt>Feels very smooth
+        <desc>The wetted soil feels very smooth when rubbed on the palm and with forefinger.</desc>
+        <opt>Silty Clay Loam
+        <desc>A silty clay loam is like a clay loam but silty as well and smooth to the touch. (VDEPI 2009: AG0058)</desc></opt></opt>
+        <opt>Neither very gritty nor very smooth
+        <desc>The wetted soil does NOT feel very smooth nor very gritty when rubbed on the palm and with forefinger.</desc>
+        <opt>Clay Loam
+        <desc>More easily moulded into a shape than a loam a clay loam rolls out to a thin ribbon between the palms while a loam will break-up. When dry a clay loam will form a lump but is not as tough to break as a clay.(VDEPI 2009: AG0058)</desc></opt></opt></opt>
+        <opt>Feels very gritty
+        <desc>The wetted soil feels very gritty when rubbed on the palm and with forefinger.</desc>
+        <opt>Sandy Clay Loam
+        <desc>A sandy clay loam is like a clay loam but sand grains can be felt (and heard - see Sandy Loam) (VDEPI 2009: AG0058)</desc></opt></opt></opt></opt>
+        <opt>Strong ribbon
+        <desc>The ribbon formed when a ball of soil is rubbed between thumb and forefinger is strong and over 5cm long.</desc>
+        <opt>TASK: Wet soil and rub with forefinger
+        <desc>Excessively wet a small pinch of soil in palm and rub with forefinger.</desc>
+        <opt>Does NOT feel very gritty
+        <desc>The wetted soil does NOT feel very gritty when rubbed on the palm and with forefinger.</desc>
+        <opt>Feels very smooth
+        <desc>The wetted soil feels very smooth when rubbed on the palm and with forefinger.</desc>
+        <opt>Silty Clay
+        <desc>A silty clay is like a clay but smoother. (VDEPI 2009: AG0058)</desc></opt></opt>
+        <opt>Neither very gritty nor very smooth
+        <desc>The wetted soil does NOT feel very smooth nor very gritty when rubbed on the palm and with forefinger.</desc>
+        <opt>Clay
+        <desc>Clays are tough and can be moulded into shapes when moist. Clays form a long flexible ribbon when rubbed between the palms and the ribbon can often be bent into a U shape without breaking. Clays dry into very hard clods. (VDEPI 2009: AG0058)</desc></opt></opt></opt>
+        <opt>Feels very gritty
+        <desc>The wetted soil feels very gritty when rubbed on the palm and with forefinger.</desc>
+        <opt>Sandy Clay
+        <desc>A sandy clay is like a clay but sand grains can be felt (and heard - see Sandy Loam). (VDEPI 2009: AG0058)</desc></opt></opt></opt></opt>
+        <opt>Weak ribbon (less than 2.5cm long)
+        <desc>The ribbon formed when a ball of soil is rubbed between thumb and forefinger is less than 2.5cm long.</desc>
+        <opt>TASK: Wet soil and rub with forefinger
+        <desc>Excessively wet a small pinch of soil in palm and rub with forefinger.</desc>
+        <opt>Does NOT feel very gritty
+        <desc>The wetted soil does NOT feel very gritty when rubbed on the palm and with forefinger.</desc>
+        <opt>Feels very smooth
+        <desc>The wetted soil feels very smooth when rubbed on the palm and with forefinger.</desc>
+        <opt>Silt Loam
+        <desc>A silty loam is like a loam but has a smooth silky feel when a moist sample is pushed between the index finger and thumb. On drying a sample can form a hard lump but this may be broken by hand. (VDEPI 2009: AG0058)</desc></opt></opt>
+        <opt>Neither very gritty nor very smooth
+        <desc>The wetted soil does NOT feel very smooth nor very gritty when rubbed on the palm and with forefinger.</desc>
+        <opt>Loam
+        <desc>A loam breaks into crumbs but will tend to stick together. Sand grains cannot be felt in a moist sample which when squeezed will retain its shape when handled freely. Loams are usually soft to the feel. (VDEPI 2009: AG0058)</desc></opt></opt></opt>
+        <opt>Feels very gritty
+        <desc>The wetted soil feels very gritty when rubbed on the palm and with forefinger.</desc>
+        <opt>Sandy Loam
+        <desc>A sandy loam sticks together more than a loamy sand but can be easily broken. Individual sand grains can be felt and heard if a wet sample is rubbed between the index finger and thumb and held close to the ear. (VDEPI 2009: AG0058)</desc></opt></opt></opt></opt></opt></opt></opt>
+      </opts>
+    </Soil_Texture_Helper>
+    <Update_Material t="button"/>
+  </Material_Helper>
+  <Vars>
+    <!--TODO: Inherit these-->
+    <Site_Code>
+      <desc>Short code to signify the excavation site and often the year of excavation. Assigned automatically by the module.</desc>
+    </Site_Code>
+    <Device_Code>
+      <opts>
+        <opt>0</opt>
+        <opt>1</opt>
+        <opt>2</opt>
+        <opt>3</opt>
+        <opt>4</opt>
+        <opt>5</opt>
+        <opt>6</opt>
+        <opt>7</opt>
+        <opt>8</opt>
+        <opt>9</opt>
+      </opts>
+    </Device_Code>
+    <SearchHelp>
+      <desc>This allows you to find any contexts that contain your search term or string in any field in a context record. Type in your term/string and press the "Search" button. Press "My Contexts" to return to the full list of contexts for this trench.</desc>
+    </SearchHelp>
+  </Vars>
 </Context>
 
 <Context_Group>
@@ -1175,600 +1146,628 @@
 </Context_Group>
 
 <Matrix>
-  <Percentage f="id">
-    <desc>Enter the approximate % volume of this material in the Context.</desc>
-    <str>
-      <fmt><![CDATA[$2% ]]></fmt>
-    </str>
-  </Percentage>
-  <Component f="id">
-    <desc>Describe the components which make up 10% or more of the deposit.</desc>
-    <str>
-      <fmt><![CDATA[$1]]></fmt>
-    </str>
-    <opts>
-      <opt>No Observation
-      <desc>data not collected</desc></opt>
-      <opt>Grit
-      <desc>Size up to 5 mm.</desc></opt>
-      <opt>Small Stones
-      <desc>Size up to 10 mm.</desc></opt>
-      <opt>Large stones
-      <desc>Size over 10 mm.</desc></opt>
-      <opt>Tauf
-      <desc>Mud building material including mortar.</desc></opt>
-      <opt>Midden
-      <desc>Organic debris e.g. bones carbonised material phytoliths etc</desc></opt>
-      <opt>Plaster
-      <desc>Fragments of plaster.</desc></opt>
-      <opt>Mudbrick
-      <desc>Fragments of mudbrick or whole mudbricks not part of a coherent structural element.</desc></opt>
-      <opt>Ash
-      <desc>White/grey fine material which may contain charcoal and other burnt plant material.</desc></opt>
-      <opt>Artefacts
-      <desc>Human manufactured materials including lithics, beads, ground stone etc.</desc></opt>
-    </opts>
-  </Component>
-  <AreaCode>
-    <desc>The excavation trench, designated by a letter code and assigned automatically by the module based on your selection when you log in.</desc>
-    <str>
-      <fmt><![CDATA[$1]]></fmt>
-    </str>
-    <opts>
-      <opt>H</opt>
-      <opt>K</opt>
-      <opt>L</opt>
-      <opt>M</opt>
-      <opt>N</opt>
-      <opt>P</opt>
-      <opt>Q</opt>
-      <opt>X</opt>
-    </opts>
-  </AreaCode>
-  <Context_ID>
-  </Context_ID>
-  <Shape>
-    <desc>Shape and roundness of stones and pebbles in the deposit.</desc>
-    <opts>
-      <opt p="gallery/Other/NA.png">No Observation
-      <desc>data not collected</desc></opt>
-      <opt p="gallery/Pebbles/Angular.png">Angular
-      <desc>Sharp pebbles or stones.</desc>
-      <opt p="gallery/Pebbles/AngularAngular.png">Angular
-      <desc>Sharp and pointed.</desc></opt>
-      <opt p="gallery/Pebbles/AngularSub.png">Sub-angular
-      <desc>A little sharp and pointed.</desc></opt>
-      <opt p="gallery/Pebbles/AngularVery.png">Very angular
-      <desc>Very sharp and pointed.</desc></opt></opt>
-      <opt p="gallery/Pebbles/Rounded.png">Rounded
-      <desc>Rounded stones and pebbles.</desc>
-      <opt p="gallery/Pebbles/RoundedRounded.png">Rounded
-      <desc>Mostly rounded pebble or stone.</desc></opt>
-      <opt p="gallery/Pebbles/RoundedSub.png">Sub-rounded
-      <desc>Some rounding to pebbles or stones.</desc></opt>
-      <opt p="gallery/Pebbles/RoundedWell.png">Well-rounded
-      <desc>Very rounded pebble or stone.</desc></opt></opt>
-      <opt p="gallery/Pebbles/DressedStone.png">Dressed Stone
-      <desc>Those that have been clearly shaped for use.</desc></opt>
-      <opt p="gallery/Pebbles/Tabular.png">Tabular
-      <desc>Stones with flattened upper and lower surfaces.</desc></opt>
-      <opt p="gallery/Pebbles/Ground.png">Ground
-      <desc>Stones that have been deliberately shaped smooth by grinding.</desc></opt>
-    </opts>
-  </Shape>
+  <Matrix>
+    <cols>
+      <Component f="id">
+        <desc>Describe the components which make up 10% or more of the deposit.</desc>
+        <str>
+          <fmt><![CDATA[$1]]></fmt>
+        </str>
+        <opts>
+          <opt>No Observation
+          <desc>data not collected</desc></opt>
+          <opt>Grit
+          <desc>Size up to 5 mm.</desc></opt>
+          <opt>Small Stones
+          <desc>Size up to 10 mm.</desc></opt>
+          <opt>Large stones
+          <desc>Size over 10 mm.</desc></opt>
+          <opt>Tauf
+          <desc>Mud building material including mortar.</desc></opt>
+          <opt>Midden
+          <desc>Organic debris e.g. bones carbonised material phytoliths etc</desc></opt>
+          <opt>Plaster
+          <desc>Fragments of plaster.</desc></opt>
+          <opt>Mudbrick
+          <desc>Fragments of mudbrick or whole mudbricks not part of a coherent structural element.</desc></opt>
+          <opt>Ash
+          <desc>White/grey fine material which may contain charcoal and other burnt plant material.</desc></opt>
+          <opt>Artefacts
+          <desc>Human manufactured materials including lithics, beads, ground stone etc.</desc></opt>
+        </opts>
+      </Component>
+      <Percentage f="id">
+        <desc>Enter the approximate % volume of this material in the Context.</desc>
+        <str>
+          <fmt><![CDATA[$2% ]]></fmt>
+        </str>
+      </Percentage>
+    </cols>
+    <Shape>
+      <desc>Shape and roundness of stones and pebbles in the deposit.</desc>
+      <opts>
+        <opt p="gallery/Other/NA.png">No Observation
+        <desc>data not collected</desc></opt>
+        <opt p="gallery/Pebbles/Angular.png">Angular
+        <desc>Sharp pebbles or stones.</desc>
+        <opt p="gallery/Pebbles/AngularAngular.png">Angular
+        <desc>Sharp and pointed.</desc></opt>
+        <opt p="gallery/Pebbles/AngularSub.png">Sub-angular
+        <desc>A little sharp and pointed.</desc></opt>
+        <opt p="gallery/Pebbles/AngularVery.png">Very angular
+        <desc>Very sharp and pointed.</desc></opt></opt>
+        <opt p="gallery/Pebbles/Rounded.png">Rounded
+        <desc>Rounded stones and pebbles.</desc>
+        <opt p="gallery/Pebbles/RoundedRounded.png">Rounded
+        <desc>Mostly rounded pebble or stone.</desc></opt>
+        <opt p="gallery/Pebbles/RoundedSub.png">Sub-rounded
+        <desc>Some rounding to pebbles or stones.</desc></opt>
+        <opt p="gallery/Pebbles/RoundedWell.png">Well-rounded
+        <desc>Very rounded pebble or stone.</desc></opt></opt>
+        <opt p="gallery/Pebbles/DressedStone.png">Dressed Stone
+        <desc>Those that have been clearly shaped for use.</desc></opt>
+        <opt p="gallery/Pebbles/Tabular.png">Tabular
+        <desc>Stones with flattened upper and lower surfaces.</desc></opt>
+        <opt p="gallery/Pebbles/Ground.png">Ground
+        <desc>Stones that have been deliberately shaped smooth by grinding.</desc></opt>
+      </opts>
+    </Shape>
+  </Matrix>
+  <Vars>
+    <!--TODO: Inherit these-->
+    <AreaCode>
+      <desc>The excavation trench, designated by a letter code and assigned automatically by the module based on your selection when you log in.</desc>
+      <str>
+        <fmt><![CDATA[$1]]></fmt>
+      </str>
+      <opts>
+        <opt>H</opt>
+        <opt>K</opt>
+        <opt>L</opt>
+        <opt>M</opt>
+        <opt>N</opt>
+        <opt>P</opt>
+        <opt>Q</opt>
+        <opt>X</opt>
+      </opts>
+    </AreaCode>
+    <Context_ID/>
+  </Vars>
 </Matrix>
 
 <Height>
-  <Number f="id">
-    <desc>Add a short description of the point being recorded, for example, 1. North edge of floor, 2. South edge of floor. Mark your points on the sketch for each context.</desc>
-    <str>
-      <fmt><![CDATA[$2]]></fmt>
-    </str>
-  </Number>
-  <X f="id">
-    <desc>Add X coordinate using the site grid</desc>
-    <str>
-      <fmt><![CDATA[ $2,]]></fmt>
-    </str>
-  </X>
-  <Y f="id">
-    <desc>Add Y coordinate using the site grid</desc>
-    <str>
-      <fmt><![CDATA[ $2,]]></fmt>
-    </str>
-  </Y>
-  <Z f="id">
-    <desc>Add Z coordinate using the site grid</desc>
-    <str>
-      <fmt><![CDATA[ $2]]></fmt>
-    </str>
-  </Z>
-  <Notes>
-    <desc>Add a description here concerning the entity whose position you have recorded</desc>
-  </Notes>
-  <AreaCode>
-    <desc>The excavation trench, designated by a letter code and assigned automatically by the module based on your selection when you log in.</desc>
-    <opts>
-      <opt>H</opt>
-      <opt>K</opt>
-      <opt>L</opt>
-      <opt>M</opt>
-      <opt>N</opt>
-      <opt>P</opt>
-      <opt>Q</opt>
-      <opt>X</opt>
-    </opts>
-  </AreaCode>
-  <Context_ID/>
+  <Height>
+    <Number f="id">
+      <desc>Add a short description of the point being recorded, for example, 1. North edge of floor, 2. South edge of floor. Mark your points on the sketch for each context.</desc>
+      <str>
+        <fmt><![CDATA[$2]]></fmt>
+      </str>
+    </Number>
+    <X f="id">
+      <desc>Add X coordinate using the site grid</desc>
+      <str>
+        <fmt><![CDATA[ $2,]]></fmt>
+      </str>
+    </X>
+    <Y f="id">
+      <desc>Add Y coordinate using the site grid</desc>
+      <str>
+        <fmt><![CDATA[ $2,]]></fmt>
+      </str>
+    </Y>
+    <Z f="id">
+      <desc>Add Z coordinate using the site grid</desc>
+      <str>
+        <fmt><![CDATA[ $2]]></fmt>
+      </str>
+    </Z>
+    <Notes>
+      <desc>Add a description here concerning the entity whose position you have recorded</desc>
+    </Notes>
+  </Height>
+  <Vars>
+    <!--TODO: Inherit these-->
+    <AreaCode>
+      <desc>The excavation trench, designated by a letter code and assigned automatically by the module based on your selection when you log in.</desc>
+      <opts>
+        <opt>H</opt>
+        <opt>K</opt>
+        <opt>L</opt>
+        <opt>M</opt>
+        <opt>N</opt>
+        <opt>P</opt>
+        <opt>Q</opt>
+        <opt>X</opt>
+      </opts>
+    </AreaCode>
+    <Context_ID/>
+  </Vars>
 </Height>
 
 <Sample>
   <desc>Deposit samples or samples of building elements recovered from this Context for the purpose of further analysis or ongoing reference.</desc>
-  <AreaCode f="id">
-    <desc>The excavation trench, designated by a letter code and assigned automatically by the module based on your selection when you log in.</desc>
-    <str>
-      <fmt><![CDATA[$1]]></fmt>
-    </str>
-    <opts>
-      <opt>H</opt>
-      <opt>K</opt>
-      <opt>L</opt>
-      <opt>M</opt>
-      <opt>N</opt>
-      <opt>P</opt>
-      <opt>Q</opt>
-      <opt>X</opt>
-    </opts>
-  </AreaCode>
-  <Context_ID f="id">
-    <desc>Unique number or code for the Context from which this Artefact Cluster was collected.</desc>
-    <str>
-      <fmt><![CDATA[Cxtx-$2-]]></fmt>
-    </str>
-  </Context_ID>
-  <Sample_ID f="id">
-    <desc>The unique code or reference for the Sample. This should be assigned with reference to the central register</desc>
-    <str>
-      <fmt><![CDATA[Sample-$2-]]></fmt>
-    </str>
-  </Sample_ID>
-  <Sample_Type f="id">
-    <desc>The type of Sample collected as detailed below.</desc>
-    <str>
-      <fmt><![CDATA[$1]]></fmt>
-    </str>
-    <opts>
-      <opt>No Observation
-      <desc>data not collected</desc></opt>
-      <opt>Building Materials
-      <desc>Sample of bricks or worked stone collected from this Context.</desc></opt>
-      <opt>Soil
-      <desc>General collection of soil deposit from the Context.</desc></opt>
-      <opt>Wood/Charcoal
-      <desc>Collection of wood or charcoal fragments from the Context.</desc></opt>
-      <opt>C14 Sample<desc>An organic sample recovered for radiocarbon dating.</desc></opt>
-      <opt>Flot Sample<desc>Flotation sample for recovery of plant remains.</desc></opt>
-      <opt>Phytolith Sample
-      <desc>Small soil sample for phytolith analysis.</desc></opt>
-      <opt>Arch Soil
-      <desc>A small archive soil sample.</desc></opt>
-      <opt>Thin Section
-     <desc>Specially collected blocks for soil thin sectioning.</desc></opt>
-      <opt>Wet Sieve
-      <desc>Bulk soil sample for wet-sieving.</desc></opt>
-      <opt>Animal Bone
-      <desc>A sample of bone identified as animal.</desc></opt>
-      <opt>Human Bone
-      <desc>A sample of bone identified as human.</desc></opt>
-      <opt>Other
-      <desc>Sample not elsewhere described. Include details in Annotation field.</desc></opt>
-    </opts>
-  </Sample_Type>
-  <Device_Code>
-    <opts>
-      <opt>0</opt>
-      <opt>1</opt>
-      <opt>2</opt>
-      <opt>3</opt>
-      <opt>4</opt>
-      <opt>5</opt>
-      <opt>6</opt>
-      <opt>7</opt>
-      <opt>8</opt>
-      <opt>9</opt>
-    </opts>
-  </Device_Code>
-  <Site_Code>
-    <desc>Short code to signify the excavation site and often the year of excavation. Assigned automatically by the module.</desc>
-  </Site_Code>
-  <Sample_Volume>
-    <desc>Volume (in litres) of the sample collected.</desc>
-  </Sample_Volume>
-  <Sample_Comments>
-    <desc>Additional comments about this sample or its collection.</desc>
-  </Sample_Comments>
-  <Sample_Location>
-    <desc>The storage location of the sample at the time of entry.</desc>
-    <opts>
-      <opt>No Observation<desc>data not collected</desc></opt>
-      <opt>Site depot</opt>
-      <opt>Export (Liverpool)</opt>
-      <opt>Export (Turkey)</opt>
-      <opt>Museum</opt>
-      <opt>Other (add Annotation)</opt>
-    </opts>
-  </Sample_Location>
-  <Sample_X>
-    <desc>The reading from the x-axis (horizontal) of an arbitrary site grid corresponding to the location of the Sample at the time of excavation.</desc>
-  </Sample_X>
-  <Sample_Y>
-    <desc>The reading from the y-axis (vertical) of an arbitrary site grid corresponding to the location of the Sample at the time of excavation.</desc>
-  </Sample_Y>
-  <Sample_Z>
-    <desc>The elevation or depth of the Sample at the time of excavation.</desc>
-  </Sample_Z>
-  <Bonding>
-    <desc>Primary bonding material of structure or feature eg mortar.</desc>
-    <opts>
-      <opt>Mortar
-      <desc>Paste used to bind masonry blocks together.</desc>
-      <opt>Cement mortar
-      <desc>Cement based mortar</desc></opt>
-      <opt>Lime-shell mortar
-      <desc>Sandy mortar with lime and burnt shell inlcusion</desc></opt></opt>
-      <opt>Unmortared
-      <desc>No visible bonding material ie unmortared</desc></opt>
-    </opts>
-  </Bonding>
-  <Distinguishing_Marks>
-    <desc>stinguishing marks on brick or stone.</desc>
-  </Distinguishing_Marks>
-  <Structure_Description>
-    <desc>Other description about structural elements eg slate dry-proofing.</desc>
-  </Structure_Description>
-  <Sketch file="true" thumbnail="true">
-    <desc>Upload the file of a sketch of the sample/sample location drawn on another application using the button below</desc>
-  </Sketch>
-  <Photo file="true" thumbnail="true">
-    <desc>Use this button to take a photo of the sample/sample location using the camera on the tablet</desc>
-  </Photo>
-  <Audio file="true" thumbnail="true">
-    <desc>Use this button to record an audio file of your observations concerning this sample</desc>
-  </Audio>
-  <Video file="true" thumbnail="true">
-    <desc>Use this button to record a video using the tablet of this sample</desc>
-  </Video>
+  <Deposit_Samples>
+    <cols>
+      <Context_ID f="id">
+        <desc>Unique number or code for the Context from which this Artefact Cluster was collected.</desc>
+        <str>
+          <fmt><![CDATA[Cxtx-$2-]]></fmt>
+        </str>
+      </Context_ID>
+      <Sample_ID f="id">
+        <desc>The unique code or reference for the Sample. This should be assigned with reference to the central register</desc>
+        <str>
+          <fmt><![CDATA[Sample-$2-]]></fmt>
+        </str>
+      </Sample_ID>
+      <Sample_Type f="id">
+        <desc>The type of Sample collected as detailed below.</desc>
+        <str>
+          <fmt><![CDATA[$1]]></fmt>
+        </str>
+        <opts>
+          <opt>No Observation
+          <desc>data not collected</desc></opt>
+          <opt>Building Materials
+          <desc>Sample of bricks or worked stone collected from this Context.</desc></opt>
+          <opt>Soil
+          <desc>General collection of soil deposit from the Context.</desc></opt>
+          <opt>Wood/Charcoal
+          <desc>Collection of wood or charcoal fragments from the Context.</desc></opt>
+          <opt>C14 Sample<desc>An organic sample recovered for radiocarbon dating.</desc></opt>
+          <opt>Flot Sample<desc>Flotation sample for recovery of plant remains.</desc></opt>
+          <opt>Phytolith Sample
+          <desc>Small soil sample for phytolith analysis.</desc></opt>
+          <opt>Arch Soil
+          <desc>A small archive soil sample.</desc></opt>
+          <opt>Thin Section
+         <desc>Specially collected blocks for soil thin sectioning.</desc></opt>
+          <opt>Wet Sieve
+          <desc>Bulk soil sample for wet-sieving.</desc></opt>
+          <opt>Animal Bone
+          <desc>A sample of bone identified as animal.</desc></opt>
+          <opt>Human Bone
+          <desc>A sample of bone identified as human.</desc></opt>
+          <opt>Other
+          <desc>Sample not elsewhere described. Include details in Annotation field.</desc></opt>
+        </opts>
+      </Sample_Type>
+    </cols>
+    <Sample_Volume>
+      <desc>Volume (in litres) of the sample collected.</desc>
+    </Sample_Volume>
+    <cols>
+      <Sample_X>
+        <desc>The reading from the x-axis (horizontal) of an arbitrary site grid corresponding to the location of the Sample at the time of excavation.</desc>
+      </Sample_X>
+      <Sample_Y>
+        <desc>The reading from the y-axis (vertical) of an arbitrary site grid corresponding to the location of the Sample at the time of excavation.</desc>
+      </Sample_Y>
+      <Sample_Z>
+        <desc>The elevation or depth of the Sample at the time of excavation.</desc>
+      </Sample_Z>
+    </cols>
+    <cols>
+      <Sample_Location>
+        <desc>The storage location of the sample at the time of entry.</desc>
+        <opts>
+          <opt>No Observation<desc>data not collected</desc></opt>
+          <opt>Site depot</opt>
+          <opt>Export (Liverpool)</opt>
+          <opt>Export (Turkey)</opt>
+          <opt>Museum</opt>
+          <opt>Other (add Annotation)</opt>
+        </opts>
+      </Sample_Location>
+      <Sample_Comments>
+        <desc>Additional comments about this sample or its collection.</desc>
+      </Sample_Comments>
+    </cols>
+  </Deposit_Samples>
+  <Add>
+    <Sketch t="file">
+      <desc>Upload the file of a sketch of the sample/sample location drawn on another application using the button below</desc>
+    </Sketch>
+    <Photo t="camera">
+      <desc>Use this button to take a photo of the sample/sample location using the camera on the tablet</desc>
+    </Photo>
+    <Audio t="audio">
+      <desc>Use this button to record an audio file of your observations concerning this sample</desc>
+    </Audio>
+    <Video t="video">
+      <desc>Use this button to record a video using the tablet of this sample</desc>
+    </Video>
+  </Add>
+  <Vars>
+    <!--TODO: Inherit-->
+    <AreaCode f="id">
+      <desc>The excavation trench, designated by a letter code and assigned automatically by the module based on your selection when you log in.</desc>
+      <str>
+        <fmt><![CDATA[$1]]></fmt>
+      </str>
+      <opts>
+        <opt>H</opt>
+        <opt>K</opt>
+        <opt>L</opt>
+        <opt>M</opt>
+        <opt>N</opt>
+        <opt>P</opt>
+        <opt>Q</opt>
+        <opt>X</opt>
+      </opts>
+    </AreaCode>
+    <Device_Code>
+      <opts>
+        <opt>0</opt>
+        <opt>1</opt>
+        <opt>2</opt>
+        <opt>3</opt>
+        <opt>4</opt>
+        <opt>5</opt>
+        <opt>6</opt>
+        <opt>7</opt>
+        <opt>8</opt>
+        <opt>9</opt>
+      </opts>
+    </Device_Code>
+    <Site_Code>
+      <desc>Short code to signify the excavation site and often the year of excavation. Assigned automatically by the module.</desc>
+    </Site_Code>
+  </Vars>
 </Sample>
 
 <Special_Find>
-  <AreaCode f="id">
-    <desc>The excavation trench, designated by a letter code and assigned automatically by the module based on your selection when you log in.</desc>
-    <str>
-      <fmt><![CDATA[$1]]></fmt>
-    </str>
-    <opts>
-      <opt>H</opt>
-      <opt>K</opt>
-      <opt>L</opt>
-      <opt>M</opt>
-      <opt>N</opt>
-      <opt>P</opt>
-      <opt>Q</opt>
-      <opt>X</opt>
-    </opts>
-  </AreaCode>
-  <Context_ID f="id">
-    <desc>Unique number or code for each Context.</desc>
-    <str>
-      <fmt><![CDATA[Cxtx-$2-]]></fmt>
-    </str>
-  </Context_ID>
-  <Special_Find_ID f="id">
-    <desc>Unique number or code for the artefact applying either a Small Find or Groundstone number from the site register.</desc>
-    <str>
-      <fmt><![CDATA[Artefact-$2-]]></fmt>
-    </str>
-  </Special_Find_ID>
-  <Special_Find_Class f="id">
-    <desc>Broad Artefact Class for each Artefact (eg Chipped stone, Clay object, Building Material).</desc>
-    <opts>
-      <opt>No Observation
-      <desc>data not collected</desc></opt>
-      <opt>Chipped Stone
-        <opt>Blade
-        </opt>
-        <opt>Core
-        </opt>
-        <opt>Cache
-        </opt>
-        <opt>Other
-        </opt>
-      </opt>
-      <opt>Ground Stone
-        <opt>Bead
-        </opt>
-        <opt>Grinder
-        </opt>
-        <opt>Pestle
-        </opt>
-        <opt>Shaft Straightener
-        </opt>
-        <opt>Pendant
-        </opt>
-        <opt>Incised Stone
-        </opt>
-        <opt>Polisher
-        </opt>
-        <opt>Other
-        </opt>
-      </opt>
-      <opt>Bone
-        <opt>Point
-        </opt>
-        <opt>Bead
-        </opt>
-        <opt>Other
-        </opt>
-      </opt>
-      <opt>Shell
-        <opt>Bead
-        </opt>
-        <opt>Other
-        </opt>
-      </opt>
-      <opt>Plant
-        <opt>Charcoal
-        </opt>
-        <opt>Hackberry
-        </opt>
-        <opt>Charred Seed
-        </opt>
-        <opt>Siliceous Material
-        </opt>
-        <opt>Phytolith
-        </opt>
-        <opt>Impression Cast
-        </opt>
-        <opt>Other
-        </opt>
-      </opt>
-      <opt>Ochre
-      </opt>
-      <opt>Clay Object
-        <opt>Figurine
-        </opt>
-        <opt>Geometric object
-        </opt>
-        <opt>Token
-        </opt>
-        <opt>Other
-        </opt>
-      </opt>
-      <opt>Ceramic
-        <opt>Coarse
-        </opt>
-        <opt>Fine
-        </opt>
-        <opt>Terracotta
-        </opt>
-        <opt>Other
-        </opt>
-      </opt>
-      <opt>Glass
-        <opt>Black
-        </opt>
-        <opt>Colourless
-        </opt>
-        <opt>Coloured
-        </opt>
-      </opt>
-      <opt>Metal
-        <opt>Ferrous
-        </opt>
-        <opt>Copper-alloy
-        </opt>
-        <opt>Other
-        </opt>
-      </opt>
-      <opt>Building Materials
-      </opt>
-      <opt>Miscellaneous
-      <desc>Add detail in the Annotation field</desc></opt>
-    </opts>
-  </Special_Find_Class>
-  <Source>
-    <desc>Record the source of the artefact and whether it was collected during the excavation at the trench or from a sample</desc>
-    <opts>
-      <opt>No Observation</opt>
-      <opt>Excavation</opt>
-      <opt>Flotation</opt>
-      <opt>Wet Sieve</opt>
-      <opt>Other</opt>
-    </opts>
-  </Source>
-  <Special_Find_Location>
-    <desc>The storage location of the artefact at the time of entry.</desc>
-    <opts>
-      <opt>No Observation<desc>data not collected</desc></opt>
-      <opt>Site depot</opt>
-      <opt>Export (Liverpool)</opt>
-      <opt>Export (Turkey)</opt>
-      <opt>Museum</opt>
-      <opt>Other (add Annotation)</opt>
-    </opts>
-  </Special_Find_Location>
-  <Device_Code>
-    <opts>
-      <opt>0</opt>
-      <opt>1</opt>
-      <opt>2</opt>
-      <opt>3</opt>
-      <opt>4</opt>
-      <opt>5</opt>
-      <opt>6</opt>
-      <opt>7</opt>
-      <opt>8</opt>
-      <opt>9</opt>
-    </opts>
-  </Device_Code>
-  <Site_Code>
-    <desc>Short code to signify the excavation site and often the year of excavation. Assigned automatically by the module.</desc>
-  </Site_Code>
-  <Special_Find_Name>
-    <desc>Enter a brief name for or description of the artefact e.g. Ground Stone Pounder</desc>
-  </Special_Find_Name>
-  <Special_Find_X>
-    <desc>The reading from the x-axis (horizontal) of an arbitrary site grid corresponding to the location of the Small Find at the time of excavation.</desc>
-  </Special_Find_X>
-  <Special_Find_Y>
-    <desc>The reading from the y-axis (vertical) of an arbitrary site grid corresponding to the location of the Small Find at the time of excavation.</desc>
-  </Special_Find_Y>
-  <Special_Find_Z>
-    <desc>The elevation or depth of the Small Find at the time of excavation.</desc>
-  </Special_Find_Z>
-  <Special_Find_Description>
-    <desc>Description of the Artefact.</desc>
-  </Special_Find_Description>
-  <Special_Find_Comment>
-    <desc>Enter any additional observations concerning the artefact, its context and/or events surrounding it, for example damage or breakage suring excavation and storage.</desc>
-  </Special_Find_Comment>
-  <Photo file="true" thumbnail="true">
-    <desc>Use this button to take a photo of the artefact etc using the camera on the tablet. Make sure the artefact is shown with a scale</desc>
-  </Photo>
-  <Audio file="true" thumbnail="true">
-    <desc>Use this button to record an audio file of your observations concerning this artefact</desc>
-  </Audio>
-  <Video file="true" thumbnail="true">
-    <desc>Use this button to record a video using the tablet of this artefact etc</desc>
-  </Video>
+  <Special_Find>
+    <cols>
+      <Context_ID f="id">
+        <desc>Unique number or code for each Context.</desc>
+        <str>
+          <fmt><![CDATA[Cxtx-$2-]]></fmt>
+        </str>
+      </Context_ID>
+      <Special_Find_ID f="id">
+        <desc>Unique number or code for the artefact applying either a Small Find or Groundstone number from the site register.</desc>
+        <str>
+          <fmt><![CDATA[Artefact-$2-]]></fmt>
+        </str>
+      </Special_Find_ID>
+      <Special_Find_Class f="id">
+        <desc>Broad Artefact Class for each Artefact (eg Chipped stone, Clay object, Building Material).</desc>
+        <opts>
+          <opt>No Observation
+          <desc>data not collected</desc></opt>
+          <opt>Chipped Stone
+            <opt>Blade
+            </opt>
+            <opt>Core
+            </opt>
+            <opt>Cache
+            </opt>
+            <opt>Other
+            </opt>
+          </opt>
+          <opt>Ground Stone
+            <opt>Bead
+            </opt>
+            <opt>Grinder
+            </opt>
+            <opt>Pestle
+            </opt>
+            <opt>Shaft Straightener
+            </opt>
+            <opt>Pendant
+            </opt>
+            <opt>Incised Stone
+            </opt>
+            <opt>Polisher
+            </opt>
+            <opt>Other
+            </opt>
+          </opt>
+          <opt>Bone
+            <opt>Point
+            </opt>
+            <opt>Bead
+            </opt>
+            <opt>Other
+            </opt>
+          </opt>
+          <opt>Shell
+            <opt>Bead
+            </opt>
+            <opt>Other
+            </opt>
+          </opt>
+          <opt>Plant
+            <opt>Charcoal
+            </opt>
+            <opt>Hackberry
+            </opt>
+            <opt>Charred Seed
+            </opt>
+            <opt>Siliceous Material
+            </opt>
+            <opt>Phytolith
+            </opt>
+            <opt>Impression Cast
+            </opt>
+            <opt>Other
+            </opt>
+          </opt>
+          <opt>Ochre
+          </opt>
+          <opt>Clay Object
+            <opt>Figurine
+            </opt>
+            <opt>Geometric object
+            </opt>
+            <opt>Token
+            </opt>
+            <opt>Other
+            </opt>
+          </opt>
+          <opt>Ceramic
+            <opt>Coarse
+            </opt>
+            <opt>Fine
+            </opt>
+            <opt>Terracotta
+            </opt>
+            <opt>Other
+            </opt>
+          </opt>
+          <opt>Glass
+            <opt>Black
+            </opt>
+            <opt>Colourless
+            </opt>
+            <opt>Coloured
+            </opt>
+          </opt>
+          <opt>Metal
+            <opt>Ferrous
+            </opt>
+            <opt>Copper-alloy
+            </opt>
+            <opt>Other
+            </opt>
+          </opt>
+          <opt>Building Materials
+          </opt>
+          <opt>Miscellaneous
+          <desc>Add detail in the Annotation field</desc></opt>
+        </opts>
+      </Special_Find_Class>
+    </cols>
+    <Source>
+      <desc>Record the source of the artefact and whether it was collected during the excavation at the trench or from a sample</desc>
+      <opts>
+        <opt>No Observation</opt>
+        <opt>Excavation</opt>
+        <opt>Flotation</opt>
+        <opt>Wet Sieve</opt>
+        <opt>Other</opt>
+      </opts>
+    </Source>
+    <Special_Find_Location>
+      <desc>The storage location of the artefact at the time of entry.</desc>
+      <opts>
+        <opt>No Observation<desc>data not collected</desc></opt>
+        <opt>Site depot</opt>
+        <opt>Export (Liverpool)</opt>
+        <opt>Export (Turkey)</opt>
+        <opt>Museum</opt>
+        <opt>Other (add Annotation)</opt>
+      </opts>
+    </Special_Find_Location>
+    <Special_Find_Description>
+      <desc>Description of the Artefact.</desc>
+    </Special_Find_Description>
+    <cols>
+      <Special_Find_X>
+        <desc>The reading from the x-axis (horizontal) of an arbitrary site grid corresponding to the location of the Small Find at the time of excavation.</desc>
+      </Special_Find_X>
+      <Special_Find_Y>
+        <desc>The reading from the y-axis (vertical) of an arbitrary site grid corresponding to the location of the Small Find at the time of excavation.</desc>
+      </Special_Find_Y>
+      <Special_Find_Z>
+        <desc>The elevation or depth of the Small Find at the time of excavation.</desc>
+      </Special_Find_Z>
+    </cols>
+    <Special_Find_Comment>
+      <desc>Enter any additional observations concerning the artefact, its context and/or events surrounding it, for example damage or breakage suring excavation and storage.</desc>
+    </Special_Find_Comment>
+    <Photo t="camera">
+      <desc>Use this button to take a photo of the artefact etc using the camera on the tablet. Make sure the artefact is shown with a scale</desc>
+    </Photo>
+    <Audio t="audio">
+      <desc>Use this button to record an audio file of your observations concerning this artefact</desc>
+    </Audio>
+    <Video t="video">
+      <desc>Use this button to record a video using the tablet of this artefact etc</desc>
+    </Video>
+    <View_Attached_Files t="files"/>
+  </Special_Find>
+  <Vars>
+    <!--TODO: Inherit-->
+    <AreaCode f="id">
+      <desc>The excavation trench, designated by a letter code and assigned automatically by the module based on your selection when you log in.</desc>
+      <str>
+        <fmt><![CDATA[$1]]></fmt>
+      </str>
+      <opts>
+        <opt>H</opt>
+        <opt>K</opt>
+        <opt>L</opt>
+        <opt>M</opt>
+        <opt>N</opt>
+        <opt>P</opt>
+        <opt>Q</opt>
+        <opt>X</opt>
+      </opts>
+    </AreaCode>
+    <Device_Code>
+      <opts>
+        <opt>0</opt>
+        <opt>1</opt>
+        <opt>2</opt>
+        <opt>3</opt>
+        <opt>4</opt>
+        <opt>5</opt>
+        <opt>6</opt>
+        <opt>7</opt>
+        <opt>8</opt>
+        <opt>9</opt>
+      </opts>
+    </Device_Code>
+    <Site_Code>
+      <desc>Short code to signify the excavation site and often the year of excavation. Assigned automatically by the module.</desc>
+    </Site_Code>
+  </Vars>
 </Special_Find>
 
 <Photograph_Log>
   <desc>A record of images created and stored on another device, eg by a professional site photographer.</desc>
-  <AreaCode f="id">
-    <desc>The excavation trench, designated by a letter code and assigned automatically by the module based on your selection when you log in.</desc>
-    <str>
-      <fmt><![CDATA[$1-]]></fmt>
-    </str>
-    <app><![CDATA[-]]></app>
-    <opts>
-      <opt>H</opt>
-      <opt>K</opt>
-      <opt>L</opt>
-      <opt>M</opt>
-      <opt>N</opt>
-      <opt>P</opt>
-      <opt>Q</opt>
-      <opt>X</opt>
-    </opts>
-  </AreaCode>
-  <Photo_Context_ID f="id">
-    <desc>Unique number or code for each Context</desc>
-    <str>
-      <fmt><![CDATA[{{if $2 then "Cxtx-$2-" else ""}}]]></fmt>
-    </str>
-    <app><![CDATA[-]]></app>
-  </Photo_Context_ID>
-  <Photo_Context_Group_ID f="id">
-    <desc>Unique number or code for each Context Group</desc>
-    <str>
-      <fmt><![CDATA[{{if $2 then "Feature-$2-" else ""}}]]></fmt>
-    </str>
-    <app><![CDATA[-]]></app>
-  </Photo_Context_Group_ID>
-  <Photograph_Reference_ID f="id">
-    <desc>Unique number or code allocated by creator of the image. It could be a filename or a reference number</desc>
-    <str>
-      <fmt><![CDATA[Photo-$2]]></fmt>
-    </str>
-  </Photograph_Reference_ID>
-  <Site_Code>
-    <desc>Short code to signify the excavation site and often the year of excavation</desc>
-  </Site_Code>
-  <Device_Code>
-    <opts>
-      <opt>0</opt>
-      <opt>1</opt>
-      <opt>2</opt>
-      <opt>3</opt>
-      <opt>4</opt>
-      <opt>5</opt>
-      <opt>6</opt>
-      <opt>7</opt>
-      <opt>8</opt>
-      <opt>9</opt>
-    </opts>
-  </Device_Code>
-  <Scene_Type>
-    <desc>The type of scene captured, eg opening or closing view of the Context. (Vocab: Open, Close, Other)</desc>
-    <opts>
-      <opt>No Observation
-      <desc>data not collected</desc></opt>
-      <opt> Open
-        <desc>Photograph taken on opening the Context.</desc>
-      </opt>
-      <opt> Close
-        <desc>Photograph taken on closing the Context.</desc>
-      </opt>
-      <opt> Other
-        <desc>Scene not elsewhere described. Enter detail into Annotation field.</desc>
-      </opt>
-    </opts>
-  </Scene_Type>
-  <Photograph_Description/>
+  <Photograph_Log>
+    <cols>
+      <Photo_Context_ID f="id">
+        <desc>Unique number or code for each Context</desc>
+        <str>
+          <fmt><![CDATA[{{if $2 then "Cxtx-$2-" else ""}}]]></fmt>
+        </str>
+        <app><![CDATA[-]]></app>
+      </Photo_Context_ID>
+      <Photo_Context_Group_ID f="id">
+        <desc>Unique number or code for each Context Group</desc>
+        <str>
+          <fmt><![CDATA[{{if $2 then "Feature-$2-" else ""}}]]></fmt>
+        </str>
+        <app><![CDATA[-]]></app>
+      </Photo_Context_Group_ID>
+      <Photograph_Reference_ID f="id">
+        <desc>Unique number or code allocated by creator of the image. It could be a filename or a reference number</desc>
+        <str>
+          <fmt><![CDATA[Photo-$2]]></fmt>
+        </str>
+      </Photograph_Reference_ID>
+    </cols>
+    <Scene_Type>
+      <desc>The type of scene captured, eg opening or closing view of the Context. (Vocab: Open, Close, Other)</desc>
+      <opts>
+        <opt>No Observation
+        <desc>data not collected</desc></opt>
+        <opt> Open
+          <desc>Photograph taken on opening the Context.</desc>
+        </opt>
+        <opt> Close
+          <desc>Photograph taken on closing the Context.</desc>
+        </opt>
+        <opt> Other
+          <desc>Scene not elsewhere described. Enter detail into Annotation field.</desc>
+        </opt>
+      </opts>
+    </Scene_Type>
+    <Photograph_Description/>
+  </Photograph_Log>
+  <Vars>
+    <!--TODO: Inherit these-->
+    <AreaCode f="id">
+      <desc>The excavation trench, designated by a letter code and assigned automatically by the module based on your selection when you log in.</desc>
+      <str>
+        <fmt><![CDATA[$1-]]></fmt>
+      </str>
+      <app><![CDATA[-]]></app>
+      <opts>
+        <opt>H</opt>
+        <opt>K</opt>
+        <opt>L</opt>
+        <opt>M</opt>
+        <opt>N</opt>
+        <opt>P</opt>
+        <opt>Q</opt>
+        <opt>X</opt>
+      </opts>
+    </AreaCode>
+    <Site_Code>
+      <desc>Short code to signify the excavation site and often the year of excavation</desc>
+    </Site_Code>
+    <Device_Code>
+      <opts>
+        <opt>0</opt>
+        <opt>1</opt>
+        <opt>2</opt>
+        <opt>3</opt>
+        <opt>4</opt>
+        <opt>5</opt>
+        <opt>6</opt>
+        <opt>7</opt>
+        <opt>8</opt>
+        <opt>9</opt>
+      </opts>
+    </Device_Code>
+  </Vars>
 </Photograph_Log>
 
 <Diary>
-  <AreaCode f="id">
-    <desc>The excavation trench, designated by a letter code and assigned automatically by the module based on your selection when you log in.</desc>
-    <str>
-      <fmt><![CDATA[$1-]]></fmt>
-      <app><![CDATA[-]]></app>
-    </str>
-    <opts>
-      <opt>H</opt>
-      <opt>K</opt>
-      <opt>L</opt>
-      <opt>M</opt>
-      <opt>N</opt>
-      <opt>P</opt>
-      <opt>Q</opt>
-      <opt>X</opt>
-    </opts>
-  </AreaCode>
-  <Timestamp f="id">
-    <desc>The date this entry is created will automatically appear here</desc>
-    <str>
-      <fmt><![CDATA[ $2 by: ]]></fmt>
-    </str>
-  </Timestamp>
-  <CreatedName f="id" >
-    <desc>Your name will be added here based on your login</desc>
-    <str>
-      <fmt><![CDATA[$2 - Diary:]]></fmt>
-    </str>
-    <app><![CDATA[-]]></app>
-  </CreatedName>
-  <Title f="id">
-    <desc>Give your entry a simple, short title, such as Daily Trench Update, Burial 34, Storm Damage. Note that diary entries allow you to add information in addition to the context, feature and artefact records elsewhere in the module and should not be the primary description point for those entities</desc>
-    <str>
-      <fmt><![CDATA[$2]]></fmt>
-    </str>
-  </Title>
-  <Text>
-    <desc>Record your diary entry here in as much detail as necessary and append with photographs, video and/or audio</desc>
-  </Text>
-  <Audio file="true" thumbnail="true">
-    <desc>Use this button to record an audio file of your observations concerning this entry</desc>
-  </Audio>
-  <Video file="true" thumbnail="true">
-    <desc>Use this button to record a video relevant to this entry using the tablet's camera</desc>
-  </Video>
-  <Photo file="true" thumbnail="true">
-    <desc>Use this button to take a photo relevant to this entry using the camera on the tablet</desc>
-  </Photo>
-  <FileAttach file="true" thumbnail="true">
-  </FileAttach>
+  <Diary>
+    <cols>
+      <timestamp f="id">
+        <desc>The date this entry is created will automatically appear here</desc>
+        <str>
+          <fmt><![CDATA[ $2 by: ]]></fmt>
+        </str>
+      </timestamp>
+      <author f="id">
+        <desc>Your name will be added here based on your login</desc>
+        <str>
+          <fmt><![CDATA[$2 - Diary:]]></fmt>
+        </str>
+        <app><![CDATA[-]]></app>
+      </author>
+    </cols>
+    <Title f="id">
+      <desc>Give your entry a simple, short title, such as Daily Trench Update, Burial 34, Storm Damage. Note that diary entries allow you to add information in addition to the context, feature and artefact records elsewhere in the module and should not be the primary description point for those entities</desc>
+      <str>
+        <fmt><![CDATA[$2]]></fmt>
+      </str>
+    </Title>
+    <Text>
+      <desc>Record your diary entry here in as much detail as necessary and append with photographs, video and/or audio</desc>
+    </Text>
+    <FileAttach t="file">
+      Attach sketch
+    </FileAttach>
+    <Audio t="audio">
+      <desc>Use this button to record an audio file of your observations concerning this entry</desc>
+    </Audio>
+    <Video t="video">
+      <desc>Use this button to record a video relevant to this entry using the tablet's camera</desc>
+    </Video>
+    <Photo t="camera">
+      <desc>Use this button to take a photo relevant to this entry using the camera on the tablet</desc>
+    </Photo>
+    <View_Attached_Files t="viewfiles"/>
+  </Diary>
+  <Vars>
+    <!--TODO: Inherit these-->
+    <AreaCode f="id">
+      <desc>The excavation trench, designated by a letter code and assigned automatically by the module based on your selection when you log in.</desc>
+      <str>
+        <fmt><![CDATA[$1-]]></fmt>
+        <app><![CDATA[-]]></app>
+      </str>
+      <opts>
+        <opt>H</opt>
+        <opt>K</opt>
+        <opt>L</opt>
+        <opt>M</opt>
+        <opt>N</opt>
+        <opt>P</opt>
+        <opt>Q</opt>
+        <opt>X</opt>
+      </opts>
+    </AreaCode>
+  </Vars>
 </Diary>
 
 <Legacy f="noui">
