@@ -71,6 +71,7 @@
 
 <User f="nolabel">
   <User_List>
+    <!--TODO: Validation-->
     <Users t="dropdown" f="user"/>
     <Trench t="dropdown">
       <!--TODO: Populate me-->
@@ -91,6 +92,7 @@
     <Create_New_Context t="button" l="Context"/>
     <Create_New_Feature t="button" l="Context_Group"/>
     <Create_New_Diary   t="button" l="Diary"/>
+    <Create_New_Legacy  t="button" l="Legacy"/>
   </Contexts>
   <search/>
 </Control>
@@ -117,11 +119,8 @@
       </AreaCode>
       <Context_ID f="id">
         <desc>Every archaeological context (negative element (cut), deposit, structure, skeleton, artefact cluster) is given a unique 3 or 4 letter context code. Each trench is designated with a separate letter which starts the code, so it is immediately obvious to which trench a context belongs. For example context HAA belongs to Trench H, context MQP to Trench M etc.
-
         The contexts are labelled consecutively in alphabetical order using the letters following the trench letter. For Trench H the first context would be HAA, the second HAB, the third HAB and so on. In addition sets of letters can denote parts of trenches, buildings etc. E.g. HFs might denote contexts from a specific building.
-
         Burial context codes begin with the letter Z, followed by the trench letter. Hence burial ZHA is the first burial context from trench H.
-
         Check with the trench supervisor who will assign the context code from the central register.</desc>
         <str>
           <fmt><![CDATA[Cxtx-$2-]]></fmt>
@@ -215,7 +214,9 @@
         <desc>Human skeletal remains.</desc></opt>
       </opts>
     </Context_Type>
-    <Fill_in_Context_Type_Details t="button"/>
+    <Fill_in_Context_Type_Details t="button">
+      <!--TODO: Make this update the GUI-->
+    </Fill_in_Context_Type_Details>
     <cols>
       <Plans>
         <desc>Reference numbers to plans or drawings of this Context.</desc>
@@ -228,7 +229,9 @@
       <Date_Closed>
         <desc>The date excavation of the Context ended and it was closed. Press the 'Add Date Closed' button to insert today's date.</desc>
       </Date_Closed>
-      <Add_Date_Closed t="button"/>
+      <Add_Date_Closed t="button">
+        <!--TODO: -->
+      </Add_Date_Closed>
     </cols>
     <cols>
       <author>Record Created By:</author>
@@ -557,7 +560,7 @@
     </Mudbrick_Shape>
     <Enter_Sediment_Description t="button"/>
   </Structures>
-  <Dep>
+  <Deposit>
     <Deposit_Your_Interpretation>
       <desc>Your interpretation of the likely function of the context.</desc>
       <opts>
@@ -718,9 +721,13 @@
         <desc>Enter a brief description of inclusions (eg stone flecks artefacts).</desc>
       </Deposit_Inclusions>
     </cols>
-    <Add_New_Matrix lc="Matrix"/>
-    <Associated_Matrices t="dropdown" ec="Matrix"/>
-  </Dep>
+    <Add_New_Matrix lc="Matrix">
+      Add New Sediemnt/Aggregate
+    </Add_New_Matrix>
+    <Associated_Matrices t="dropdown" ec="Matrix">
+      Associated Sediemnt/Aggregates
+    </Associated_Matrices>
+  </Deposit>
   <Skeleton>
     <cols>
       <Space>
@@ -836,9 +843,16 @@
     <List_of_Related_Context_Groups ec="Context_Group" t="list"/>
   </Context_Group>
   <Relationships>
-    <Guide_3 t="webview">
-      Implement me pls :3
-    </Guide_3>
+    <!--TODO: Wire me up, Scotty!-->
+    <Create_Relationships_to_This_Context t="button" l="Relationship"/>
+    <cols>
+      <Existing_Relationships_to_This_Context t="list" f="nodata"/>
+      <col>
+        <Selected_Relationship t="webview"/>
+        <Load_Related_Context  t="button"/>
+        <Delete_Relationship   t="button"/>
+      </col>
+    </cols>
   </Relationships>
   <Artefacts f="noscroll">
     <Add_Special_Find lc="Special_Find"/>
@@ -1093,16 +1107,27 @@
       </timestamp>
     </cols>
   </Gen>
-  <Contexts>
-    <Guide_0 t="webview">
-      Not yet implemented
-    </Guide_0>
-  </Contexts>
-  <Rel>
-    <Guide_1 t="webview">
-      Not yet implemented
-    </Guide_1>
-  </Rel>
+  <Context_Group_Contexts f="noscroll">
+    <!--TODO: Wire me up, Scotty!-->
+    <cols>
+      <Square  f="nodata" t="dropdown"/>
+      <Populate_Target_Context t="button"/>
+    </cols>
+    <Add_Additional_Context f="nodata" t="dropdown"/>
+    <Add_Context_to_Group t="button"/>
+    <cols>
+      <Contexts_in_Group f="nodata" t="list"/>
+      <col>
+        <Selected_Entity t="webview"/>
+        <Guide_0 t="webview">
+          To load or remove Contexts, tap one from the list on the left and
+          press button below:
+        </Guide_0>
+        <Load_Context t="button"/>
+        <Remove_Context_from_Group t="button"/>
+      </col>
+    </cols>
+  </Context_Group_Contexts>
   <Add>
     <View_Attached_Files t="viewfiles"/>
     <Sketch t="file">
@@ -1770,12 +1795,38 @@
   </Vars>
 </Diary>
 
-<Legacy f="noui">
+<Legacy>
   <LegacyIdentifier f="id">
     <str>
       <fmt><![CDATA[Legacy-$2]]></fmt>
     </str>
   </LegacyIdentifier>
 </Legacy>
+
+<Relationship f="nodata">
+  <!--TODO: Wire me up, Scotty!-->
+  <Relationships f="noscroll">
+    <LOT_Label t="webview"/>
+    <cols>
+      <Square            t="dropdown"/>
+      <Relationship_Type t="dropdown"/>
+    </cols>
+    <Search            t="button"/>
+    <cols>
+      <col>
+        <Add_Relationship      t="button"/>
+        <Proposed_Relationship t="webview"/>
+      </col>
+      <col>
+        <Delete_Relationship t="button"/>
+        <Selected_Relationship t="webview"/>
+      </col>
+    </cols>
+    <cols>
+      <Unrelated_Contexts     t="list"/>
+      <Existing_Relationships t="list"/>
+    </cols>
+  </Relationships>
+</Relationship>
 
 </module>
