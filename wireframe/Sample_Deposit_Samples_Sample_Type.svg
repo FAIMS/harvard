@@ -30,9 +30,9 @@ stroke-opacity 0
 
 font-size 10
 text 10,70 "Dropdown"		
-<text x="5" y="12" font-family="Roboto" font-size="10pt" fill="black"> Sample Type </text>
-stroke black
-fill black
+<text x="5" y="12" font-family="Roboto" font-size="10pt" fill="red"> Sample Type </text>
+stroke red
+fill red
 stroke-width 0
 stroke-opacity 0
 font-size 16

@@ -84,9 +84,19 @@
 ./makeElement.sh Context_Skeleton_Mid_X "Mid X" input 2 false false true false false .
 ./makeElement.sh Context_Skeleton_Mid_Y "Mid Y" input 2 false false true false false .
 ./makeElement.sh Context_Skeleton_Skeleton_Dimensions "Skeleton Dimensions" input 1 false false true false false .
+./makeElement.sh Context_Skeleton_Skeleton_Head "Skeleton Head" input 2 false false true true false .
+./makeElement.sh Context_Skeleton_Skeleton_Body "Skeleton Body" input 2 false false true true false .
+./makeElement.sh Context_Skeleton_Skeleton_Left_Arm "Skeleton Left Arm" input 2 false false true true false .
+./makeElement.sh Context_Skeleton_Skeleton_Right_Arm "Skeleton Right Arm" input 2 false false true true false .
+./makeElement.sh Context_Skeleton_Skeleton_Left_Leg "Skeleton Left Leg" input 2 false false true true false .
+./makeElement.sh Context_Skeleton_Skeleton_Right_Leg "Skeleton Right Leg" input 2 false false true true false .
+./makeElement.sh Context_Skeleton_Skeleton_Condition "Skeleton Condition" input 1 false false true true false .
 ./makeElement.sh Context_Skeleton_Skeleton_Surface_Modifications "Skeleton Surface Modifications" input 1 false false true false false .
 ./makeElement.sh Context_Skeleton_Skeleton_Environment "Skeleton Environment" input 1 false false true false false .
 ./makeElement.sh Context_Skeleton_Skeleton_Days_Exposed "Skeleton Days Exposed" input 1 false false true false false .
+./makeElement.sh Context_Skeleton_Target_A_X "Target A X" input 3 false false true true false .
+./makeElement.sh Context_Skeleton_Target_A_Y "Target A Y" input 3 false false true true false .
+./makeElement.sh Context_Skeleton_Target_A_Z "Target A Z" input 3 false false true true false .
 ./makeElement.sh Context_Skeleton_Target_B_X "Target B X" input 3 false false true false false .
 ./makeElement.sh Context_Skeleton_Target_B_Y "Target B Y" input 3 false false true false false .
 ./makeElement.sh Context_Skeleton_Target_B_Z "Target B Z" input 3 false false true false false .
@@ -97,6 +107,8 @@
 ./makeElement.sh Context_Skeleton_Target_D_Y "Target D Y" input 3 false false true false false .
 ./makeElement.sh Context_Skeleton_Target_D_Z "Target D Z" input 3 false false true false false .
 ./makeElement.sh Context_Skeleton_Skeleton_Notes "Skeleton Notes" input 1 false false true false false .
+./makeElement.sh Context_Int_Your_description "Your description" input 1 false false true true false .
+./makeElement.sh Context_Int_Your_Discussion "Your Discussion" input 1 false false true true false .
 ./makeElement.sh Context_Context_Group_Add_Context_Group "Add Context Group" button 1 false false false false false .
 ./makeElement.sh Context_Context_Group_List_of_Related_Context_Groups "List of Related Context Groups" list 1 false false false false false .
 ./makeElement.sh Context_Relationships_Create_Relationships_to_This_Context "Create Relationships to This Context" button 1 false false false false false .
@@ -121,15 +133,15 @@
 ./makeElement.sh Context_Vars_Site_Code "Site Code" input 1 false false true false false .
 ./makeElement.sh Context_Vars_Device_Code "Device Code" dropdown 1 false false true false false .
 ./makeElement.sh Context_Vars_SearchHelp "SearchHelp" input 1 false false true false false .
-./makeElement.sh Context_Group_Gen_AreaCode "Trench" input 3 false false true false false .
-./makeElement.sh Context_Group_Gen_Context_Group_ID "Feature ID" input 3 false false true false false .
-./makeElement.sh Context_Group_Gen_Title "Feature Title" input 3 false false true false false .
+./makeElement.sh Context_Group_Gen_AreaCode "Trench" input 3 false false true true false .
+./makeElement.sh Context_Group_Gen_Context_Group_ID "Feature ID" input 3 false false true true false .
+./makeElement.sh Context_Group_Gen_Title "Feature Title" input 3 false false true true false .
 ./makeElement.sh Context_Group_Gen_Building "Building" input 2 false false true false false .
 ./makeElement.sh Context_Group_Gen_Space "Space" input 2 false false true false false .
 ./makeElement.sh Context_Group_Gen_Location_Note_CG "Location Note CG" input 1 false false true false false .
-./makeElement.sh Context_Group_Gen_CG_Context_Type "CG Context Type" pictureGallery 1 false false true false false .
-./makeElement.sh Context_Group_Gen_CG_Your_description "CG Your description" input 1 false false true false false .
-./makeElement.sh Context_Group_Gen_CG_Your_Interpretation "CG Your Interpretation" input 1 false false true false false .
+./makeElement.sh Context_Group_Gen_CG_Context_Type "CG Context Type" pictureGallery 1 false false true true false .
+./makeElement.sh Context_Group_Gen_CG_Your_description "CG Your description" input 1 false false true true false .
+./makeElement.sh Context_Group_Gen_CG_Your_Interpretation "CG Your Interpretation" input 1 false false true true false .
 ./makeElement.sh Context_Group_Gen_Your_Discussion "Your Discussion" input 1 false false true false false .
 ./makeElement.sh Context_Group_Gen_Length "Length" input 3 false false true false false .
 ./makeElement.sh Context_Group_Gen_Width "Width" input 3 false false true false false .
@@ -165,20 +177,20 @@
 ./makeElement.sh Matrix_Matrix_Shape "Shape" pictureGallery 1 false false true false false .
 ./makeElement.sh Matrix_Vars_AreaCode "AreaCode" dropdown 1 false false true false false .
 ./makeElement.sh Matrix_Vars_Context_ID "Context ID" input 1 false false true false false .
-./makeElement.sh Height_Height_Number "Number" input 1 false false true false false .
-./makeElement.sh Height_Height_X "X" input 1 false false true false false .
-./makeElement.sh Height_Height_Y "Y" input 1 false false true false false .
-./makeElement.sh Height_Height_Z "Z" input 1 false false true false false .
-./makeElement.sh Height_Height_Notes "Notes" input 1 false false true false false .
+./makeElement.sh Height_Height_Number "Number" input 1 false false true true false .
+./makeElement.sh Height_Height_X "X" input 1 false false true true false .
+./makeElement.sh Height_Height_Y "Y" input 1 false false true true false .
+./makeElement.sh Height_Height_Z "Z" input 1 false false true true false .
+./makeElement.sh Height_Height_Notes "Notes" input 1 false false true true false .
 ./makeElement.sh Height_Vars_AreaCode "AreaCode" dropdown 1 false false true false false .
 ./makeElement.sh Height_Vars_Context_ID "Context ID" input 1 false false true false false .
-./makeElement.sh Sample_Deposit_Samples_Context_ID "Context ID" input 3 false false true false false .
-./makeElement.sh Sample_Deposit_Samples_Sample_ID "Sample ID" input 3 false false true false false .
-./makeElement.sh Sample_Deposit_Samples_Sample_Type "Sample Type" dropdown 3 false false true false false .
+./makeElement.sh Sample_Deposit_Samples_Context_ID "Context ID" input 3 false false true true false .
+./makeElement.sh Sample_Deposit_Samples_Sample_ID "Sample ID" input 3 false false true true false .
+./makeElement.sh Sample_Deposit_Samples_Sample_Type "Sample Type" dropdown 3 false false true true false .
 ./makeElement.sh Sample_Deposit_Samples_Sample_Volume "Sample Volume" input 1 false false true false false .
-./makeElement.sh Sample_Deposit_Samples_Sample_X "Sample X" input 3 false false true false false .
-./makeElement.sh Sample_Deposit_Samples_Sample_Y "Sample Y" input 3 false false true false false .
-./makeElement.sh Sample_Deposit_Samples_Sample_Z "Sample Z" input 3 false false true false false .
+./makeElement.sh Sample_Deposit_Samples_Sample_X "Sample X" input 3 false false true true false .
+./makeElement.sh Sample_Deposit_Samples_Sample_Y "Sample Y" input 3 false false true true false .
+./makeElement.sh Sample_Deposit_Samples_Sample_Z "Sample Z" input 3 false false true true false .
 ./makeElement.sh Sample_Deposit_Samples_Sample_Location "Sample Location" dropdown 2 false false true false false .
 ./makeElement.sh Sample_Deposit_Samples_Sample_Comments "Sample Comments" input 2 false false true false false .
 ./makeElement.sh Sample_Add_Sketch "Sketch" file 1 false false true false false .
@@ -189,18 +201,19 @@
 ./makeElement.sh Sample_Add_Button_Audio "Attach Audio" button 1 false false false false false .
 ./makeElement.sh Sample_Add_Video "Video" file 1 false false true false false .
 ./makeElement.sh Sample_Add_Button_Video "Attach Video" button 1 false false false false false .
+./makeElement.sh Sample_Add_View_Attached_Files "View Attached Files" button 1 false false false false false .
 ./makeElement.sh Sample_Vars_AreaCode "AreaCode" dropdown 1 false false true false false .
 ./makeElement.sh Sample_Vars_Device_Code "Device Code" dropdown 1 false false true false false .
 ./makeElement.sh Sample_Vars_Site_Code "Site Code" input 1 false false true false false .
-./makeElement.sh Special_Find_Special_Find_Context_ID "Context ID" input 3 false false true false false .
-./makeElement.sh Special_Find_Special_Find_Special_Find_ID "Special Find ID" input 3 false false true false false .
+./makeElement.sh Special_Find_Special_Find_Context_ID "Context ID" input 3 false false true false true .
+./makeElement.sh Special_Find_Special_Find_Special_Find_ID "Special Find ID" input 3 false false true true false .
 ./makeElement.sh Special_Find_Special_Find_Special_Find_Class "Special Find Class" dropdown 3 false false true false false .
 ./makeElement.sh Special_Find_Special_Find_Source "Source" dropdown 1 false false true false false .
 ./makeElement.sh Special_Find_Special_Find_Special_Find_Location "Special Find Location" dropdown 1 false false true false false .
-./makeElement.sh Special_Find_Special_Find_Special_Find_Description "Special Find Description" input 1 false false true false false .
-./makeElement.sh Special_Find_Special_Find_Special_Find_X "Special Find X" input 3 false false true false false .
-./makeElement.sh Special_Find_Special_Find_Special_Find_Y "Special Find Y" input 3 false false true false false .
-./makeElement.sh Special_Find_Special_Find_Special_Find_Z "Special Find Z" input 3 false false true false false .
+./makeElement.sh Special_Find_Special_Find_Special_Find_Description "Special Find Description" input 1 false false true true false .
+./makeElement.sh Special_Find_Special_Find_Special_Find_X "Special Find X" input 3 false false true true false .
+./makeElement.sh Special_Find_Special_Find_Special_Find_Y "Special Find Y" input 3 false false true true false .
+./makeElement.sh Special_Find_Special_Find_Special_Find_Z "Special Find Z" input 3 false false true true false .
 ./makeElement.sh Special_Find_Special_Find_Special_Find_Comment "Special Find Comment" input 1 false false true false false .
 ./makeElement.sh Special_Find_Special_Find_Photo "Photo" file 1 false false true false false .
 ./makeElement.sh Special_Find_Special_Find_Button_Photo "Attach Photograph" button 1 false false false false false .
@@ -214,7 +227,7 @@
 ./makeElement.sh Special_Find_Vars_Device_Code "Device Code" dropdown 1 false false true false false .
 ./makeElement.sh Special_Find_Vars_Site_Code "Site Code" input 1 false false true false false .
 ./makeElement.sh Photograph_Log_Photograph_Log_Photo_Context_ID "Photo Context ID" input 3 false false true false false .
-./makeElement.sh Photograph_Log_Photograph_Log_Photo_Context_Group_ID "Photo Context Group ID" input 3 false false true false false .
+./makeElement.sh Photograph_Log_Photograph_Log_Photo_Context_Group_ID "Photo Context Group ID" input 3 false false true false true .
 ./makeElement.sh Photograph_Log_Photograph_Log_Photograph_Reference_ID "Photograph Reference ID" input 3 false false true false false .
 ./makeElement.sh Photograph_Log_Photograph_Log_Scene_Type "Scene Type" dropdown 1 false false true false false .
 ./makeElement.sh Photograph_Log_Photograph_Log_Photograph_Description "Photograph Description" input 1 false false true false false .
@@ -224,6 +237,7 @@
 ./makeElement.sh Diary_Diary_timestamp "Timestamp" input 2 false false true false false .
 ./makeElement.sh Diary_Diary_author "Author" input 2 false false true false false .
 ./makeElement.sh Diary_Diary_Title "Title" input 1 false false true false false .
+./makeElement.sh Diary_Diary_AreaCode "AreaCode" dropdown 1 false false true false false .
 ./makeElement.sh Diary_Diary_Text "Text" input 1 false false true false false .
 ./makeElement.sh Diary_Diary_FileAttach "FileAttach" file 1 false false true false false .
 ./makeElement.sh Diary_Diary_Button_FileAttach "Attach File" button 1 false false false false false .
@@ -234,7 +248,6 @@
 ./makeElement.sh Diary_Diary_Photo "Photo" file 1 false false true false false .
 ./makeElement.sh Diary_Diary_Button_Photo "Attach Photograph" button 1 false false false false false .
 ./makeElement.sh Diary_Diary_View_Attached_Files "View Attached Files" button 1 false false false false false .
-./makeElement.sh Diary_Vars_AreaCode "AreaCode" dropdown 1 false false true false false .
 ./makeElement.sh Legacy_Legacy_LegacyIdentifier "LegacyIdentifier" input 1 false false true false false .
 ./makeElement.sh Relationship_Relationships_Parent_Identifier "Parent Identifier" webview 1 false false false false false .
 ./makeElement.sh Relationship_Relationships_Square "Square" dropdown 2 false false false false false .

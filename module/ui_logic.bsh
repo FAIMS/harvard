@@ -185,7 +185,7 @@ addOnEvent("Special_Find/Vars/Device_Code", "click", "dropdownItemValue = getFie
 addOnEvent("Photograph_Log/Photograph_Log/Scene_Type", "click", "dropdownItemValue = getFieldValue(\"Photograph_Log/Photograph_Log/Scene_Type\")");
 addOnEvent("Photograph_Log/Vars/AreaCode", "click", "dropdownItemValue = getFieldValue(\"Photograph_Log/Vars/AreaCode\")");
 addOnEvent("Photograph_Log/Vars/Device_Code", "click", "dropdownItemValue = getFieldValue(\"Photograph_Log/Vars/Device_Code\")");
-addOnEvent("Diary/Vars/AreaCode", "click", "dropdownItemValue = getFieldValue(\"Diary/Vars/AreaCode\")");
+addOnEvent("Diary/Diary/AreaCode", "click", "dropdownItemValue = getFieldValue(\"Diary/Diary/AreaCode\")");
 addOnEvent("Relationship/Relationships/Square", "click", "dropdownItemValue = getFieldValue(\"Relationship/Relationships/Square\")");
 addOnEvent("Relationship/Relationships/Relationship_Type", "click", "dropdownItemValue = getFieldValue(\"Relationship/Relationships/Relationship_Type\")");
 addOnEvent("Context_Group_Relationship/Relationships/Square", "click", "dropdownItemValue = getFieldValue(\"Context_Group_Relationship/Relationships/Square\")");
@@ -554,7 +554,7 @@ makeVocab("DropDown", "Special_Find/Vars/Device_Code", "Device Code");
 makeVocab("DropDown", "Photograph_Log/Photograph_Log/Scene_Type", "Scene Type");
 makeVocab("DropDown", "Photograph_Log/Vars/AreaCode", "AreaCode");
 makeVocab("DropDown", "Photograph_Log/Vars/Device_Code", "Device Code");
-makeVocab("DropDown", "Diary/Vars/AreaCode", "AreaCode");
+makeVocab("DropDown", "Diary/Diary/AreaCode", "AreaCode");
 
 
 /******************************************************************************/
@@ -655,6 +655,72 @@ validateContext() {
   f.add(fieldPair("Context/Deposit/Composition_Type", "{Composition_Type}"));
   f.add(fieldPair("Context/Deposit/Deposit_Bedding", "{Deposit_Bedding}"));
   f.add(fieldPair("Context/Deposit/Deposit_Inclusions", "{Deposit_Inclusions}"));
+  f.add(fieldPair("Context/Skeleton/Skeleton_Head", "{Skeleton_Head}"));
+  f.add(fieldPair("Context/Skeleton/Skeleton_Body", "{Skeleton_Body}"));
+  f.add(fieldPair("Context/Skeleton/Skeleton_Left_Arm", "{Skeleton_Left_Arm}"));
+  f.add(fieldPair("Context/Skeleton/Skeleton_Right_Arm", "{Skeleton_Right_Arm}"));
+  f.add(fieldPair("Context/Skeleton/Skeleton_Left_Leg", "{Skeleton_Left_Leg}"));
+  f.add(fieldPair("Context/Skeleton/Skeleton_Right_Leg", "{Skeleton_Right_Leg}"));
+  f.add(fieldPair("Context/Skeleton/Skeleton_Condition", "{Skeleton_Condition}"));
+  f.add(fieldPair("Context/Skeleton/Target_A_X", "{Target_A_X}"));
+  f.add(fieldPair("Context/Skeleton/Target_A_Y", "{Target_A_Y}"));
+  f.add(fieldPair("Context/Skeleton/Target_A_Z", "{Target_A_Z}"));
+  f.add(fieldPair("Context/Int/Your_description", "{Your_description}"));
+  f.add(fieldPair("Context/Int/Your_Discussion", "{Your_Discussion}"));
+
+  String validationMessage = validateFields(f, "PLAINTEXT");
+  showWarning("Validation Results", validationMessage);
+}
+
+validateContextGroup() {
+  List f = new ArrayList(); // Fields to be validated
+
+  f.add(fieldPair("Context_Group/Gen/AreaCode", "{Trench}"));
+  f.add(fieldPair("Context_Group/Gen/Context_Group_ID", "{Feature_ID}"));
+  f.add(fieldPair("Context_Group/Gen/Title", "{Feature_Title}"));
+  f.add(fieldPair("Context_Group/Gen/CG_Context_Type", "{CG_Context_Type}"));
+  f.add(fieldPair("Context_Group/Gen/CG_Your_description", "{CG_Your_description}"));
+  f.add(fieldPair("Context_Group/Gen/CG_Your_Interpretation", "{CG_Your_Interpretation}"));
+
+  String validationMessage = validateFields(f, "PLAINTEXT");
+  showWarning("Validation Results", validationMessage);
+}
+
+validateHeight() {
+  List f = new ArrayList(); // Fields to be validated
+
+  f.add(fieldPair("Height/Height/Number", "{Number}"));
+  f.add(fieldPair("Height/Height/X", "{X}"));
+  f.add(fieldPair("Height/Height/Y", "{Y}"));
+  f.add(fieldPair("Height/Height/Z", "{Z}"));
+  f.add(fieldPair("Height/Height/Notes", "{Notes}"));
+
+  String validationMessage = validateFields(f, "PLAINTEXT");
+  showWarning("Validation Results", validationMessage);
+}
+
+validateSample() {
+  List f = new ArrayList(); // Fields to be validated
+
+  f.add(fieldPair("Sample/Deposit_Samples/Context_ID", "{Context_ID}"));
+  f.add(fieldPair("Sample/Deposit_Samples/Sample_ID", "{Sample_ID}"));
+  f.add(fieldPair("Sample/Deposit_Samples/Sample_Type", "{Sample_Type}"));
+  f.add(fieldPair("Sample/Deposit_Samples/Sample_X", "{Sample_X}"));
+  f.add(fieldPair("Sample/Deposit_Samples/Sample_Y", "{Sample_Y}"));
+  f.add(fieldPair("Sample/Deposit_Samples/Sample_Z", "{Sample_Z}"));
+
+  String validationMessage = validateFields(f, "PLAINTEXT");
+  showWarning("Validation Results", validationMessage);
+}
+
+validateSpecialFind() {
+  List f = new ArrayList(); // Fields to be validated
+
+  f.add(fieldPair("Special_Find/Special_Find/Special_Find_ID", "{Special_Find_ID}"));
+  f.add(fieldPair("Special_Find/Special_Find/Special_Find_Description", "{Special_Find_Description}"));
+  f.add(fieldPair("Special_Find/Special_Find/Special_Find_X", "{Special_Find_X}"));
+  f.add(fieldPair("Special_Find/Special_Find/Special_Find_Y", "{Special_Find_Y}"));
+  f.add(fieldPair("Special_Find/Special_Find/Special_Find_Z", "{Special_Find_Z}"));
 
   String validationMessage = validateFields(f, "PLAINTEXT");
   showWarning("Validation Results", validationMessage);
@@ -959,6 +1025,7 @@ addOnEvent("Diary/Diary/Button_Video", "click", "attachVideoTo(\"Diary/Diary/Vid
 /*                 BINDINGS FOR 'VIEW ATTACHED FILES' BUTTONS                 */
 /******************************************************************************/
 addOnEvent("Context_Group/Add/View_Attached_Files", "click", "viewArchEntAttachedFiles(getUuid(\"Context_Group\"))");
+addOnEvent("Sample/Add/View_Attached_Files", "click", "viewArchEntAttachedFiles(getUuid(\"Sample\"))");
 addOnEvent("Diary/Diary/View_Attached_Files", "click", "viewArchEntAttachedFiles(getUuid(\"Diary\"))");
 
 /******************************************************************************/
@@ -975,6 +1042,10 @@ addNavigationButtons(String tabgroup) {
   removeNavigationButtons();
   List tabgroupsToValidate = new ArrayList();
   tabgroupsToValidate.add("Context");
+  tabgroupsToValidate.add("Context_Group");
+  tabgroupsToValidate.add("Height");
+  tabgroupsToValidate.add("Sample");
+  tabgroupsToValidate.add("Special_Find");
 
   addNavigationButton("new", new ActionButtonCallback() {
     actionOnLabel() {

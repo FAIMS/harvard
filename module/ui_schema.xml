@@ -556,6 +556,7 @@
               <Button_Audio/>
               <Video/>
               <Button_Video/>
+              <View_Attached_Files/>
             </Add>
             <Vars>
               <AreaCode/>
@@ -639,6 +640,7 @@
                 </Col_1>
               </Colgroup_0>
               <Title/>
+              <AreaCode/>
               <Text/>
               <FileAttach/>
               <Button_FileAttach/>
@@ -650,9 +652,6 @@
               <Button_Photo/>
               <View_Attached_Files/>
             </Diary>
-            <Vars>
-              <AreaCode/>
-            </Vars>
           </Diary>
           <Legacy>
             <Legacy>
@@ -842,7 +841,6 @@
             <label/>
             <select1 faims_attribute_type="vocab" ref="AreaCode" faims_attribute_name="AreaCode" faims_style_class="required">
               <label>{AreaCode}</label>
-              <!--WARNING: No type t was given for this view; assuming it is a dropdown-->
               <item>
                 <label>Options not loaded</label>
                 <value>0</value>
@@ -853,14 +851,12 @@
             <label/>
             <input faims_attribute_type="measure" ref="Context_ID" faims_attribute_name="Context ID" faims_style_class="required">
               <label>{Context_ID}</label>
-              <!--WARNING: No type t was given for this view; assuming it is an input-->
             </input>
           </group>
           <group ref="Col_2" faims_style="even">
             <label/>
             <input faims_attribute_type="measure" ref="Context_Name" faims_attribute_name="Context Name">
               <label>{Context_Name}</label>
-              <!--WARNING: No type t was given for this view; assuming it is an input-->
             </input>
           </group>
         </group>
@@ -870,20 +866,17 @@
             <label/>
             <input faims_attribute_type="measure" ref="Grid_X" faims_attribute_name="Grid X">
               <label>{Grid_X}</label>
-              <!--WARNING: No type t was given for this view; assuming it is an input-->
             </input>
           </group>
           <group ref="Col_1" faims_style="even">
             <label/>
             <input faims_attribute_type="measure" ref="Grid_Y" faims_attribute_name="Grid Y">
               <label>{Grid_Y}</label>
-              <!--WARNING: No type t was given for this view; assuming it is an input-->
             </input>
           </group>
         </group>
         <input faims_attribute_type="measure" ref="Location_Note" faims_attribute_name="Location Note" faims_style_class="required">
           <label>{Location_Note}</label>
-          <!--WARNING: No type t was given for this view; assuming it is an input-->
         </input>
         <group ref="Colgroup_2" faims_style="orientation">
           <label/>
@@ -891,11 +884,9 @@
             <label/>
             <input faims_attribute_type="measure" ref="Date_Opened" faims_attribute_name="Date Opened">
               <label>{Date_Opened}</label>
-              <!--WARNING: No type t was given for this view; assuming it is an input-->
             </input>
             <input faims_attribute_type="measure" ref="Excavators" faims_attribute_name="Excavators">
               <label>{Excavators}</label>
-              <!--WARNING: No type t was given for this view; assuming it is an input-->
             </input>
           </group>
           <group ref="Col_1" faims_style="even">
@@ -915,7 +906,6 @@
             <label/>
             <select1 faims_attribute_type="vocab" ref="Horizon_Boundary" faims_attribute_name="Horizon Boundary">
               <label>{Horizon_Boundary}</label>
-              <!--WARNING: No type t was given for this view; assuming it is a dropdown-->
               <item>
                 <label>Options not loaded</label>
                 <value>0</value>
@@ -926,7 +916,6 @@
             <label/>
             <select1 faims_attribute_type="vocab" ref="Contamination" faims_attribute_name="Contamination">
               <label>{Contamination}</label>
-              <!--WARNING: No type t was given for this view; assuming it is a dropdown-->
               <item>
                 <label>Options not loaded</label>
                 <value>0</value>
@@ -936,7 +925,6 @@
         </group>
         <select1 type="image" faims_attribute_type="vocab" ref="Context_Type" faims_attribute_name="Context Type">
           <label>{Context_Type}</label>
-          <!--WARNING: No type t was given for this view; assuming it is a picture gallery-->
           <item>
             <label>Options not loaded</label>
             <value>0</value>
@@ -951,14 +939,12 @@
             <label/>
             <input faims_attribute_type="measure" ref="Plans" faims_attribute_name="Plans" faims_style_class="required">
               <label>{Plans}</label>
-              <!--WARNING: No type t was given for this view; assuming it is an input-->
             </input>
           </group>
           <group ref="Col_1" faims_style="even">
             <label/>
             <input faims_attribute_type="measure" ref="Section_Numbers" faims_attribute_name="Section Numbers" faims_style_class="required">
               <label>{Section_Numbers}</label>
-              <!--WARNING: No type t was given for this view; assuming it is an input-->
             </input>
           </group>
         </group>
@@ -968,7 +954,6 @@
             <label/>
             <input faims_attribute_type="measure" ref="Date_Closed" faims_attribute_name="Date Closed">
               <label>{Date_Closed}</label>
-              <!--WARNING: No type t was given for this view; assuming it is an input-->
             </input>
           </group>
           <group ref="Col_1" faims_style="even">
@@ -984,14 +969,12 @@
             <label/>
             <input faims_attribute_type="measure" ref="author" faims_attribute_name="author">
               <label>{Record_Created_By_}</label>
-              <!--WARNING: No type t was given for this view; assuming it is an input-->
             </input>
           </group>
           <group ref="Col_1" faims_style="even">
             <label/>
             <input faims_attribute_type="measure" ref="timestamp" faims_attribute_name="timestamp">
               <label>{Record_Created_Date_}</label>
-              <!--WARNING: No type t was given for this view; assuming it is an input-->
             </input>
           </group>
         </group>
@@ -1004,14 +987,12 @@
             <label/>
             <input faims_attribute_type="measure" ref="Highest_Level" faims_attribute_name="Highest Level" faims_style_class="required">
               <label>{Highest_Level}</label>
-              <!--WARNING: No type t was given for this view; assuming it is an input-->
             </input>
           </group>
           <group ref="Col_1" faims_style="even">
             <label/>
             <input faims_attribute_type="measure" ref="Lowest_Level" faims_attribute_name="Lowest Level" faims_style_class="required">
               <label>{Lowest_Level}</label>
-              <!--WARNING: No type t was given for this view; assuming it is an input-->
             </input>
           </group>
         </group>
@@ -1021,27 +1002,23 @@
             <label/>
             <input faims_attribute_type="measure" ref="Length" faims_attribute_name="Length" faims_style_class="required">
               <label>{Length}</label>
-              <!--WARNING: No type t was given for this view; assuming it is an input-->
             </input>
           </group>
           <group ref="Col_1" faims_style="even">
             <label/>
             <input faims_attribute_type="measure" ref="Width" faims_attribute_name="Width" faims_style_class="required">
               <label>{Width}</label>
-              <!--WARNING: No type t was given for this view; assuming it is an input-->
             </input>
           </group>
           <group ref="Col_2" faims_style="even">
             <label/>
             <input faims_attribute_type="measure" ref="Depth" faims_attribute_name="Depth" faims_style_class="required">
               <label>{Depth}</label>
-              <!--WARNING: No type t was given for this view; assuming it is an input-->
             </input>
           </group>
         </group>
         <input faims_attribute_type="measure" ref="Volume" faims_attribute_name="Volume" faims_style_class="required">
           <label>{Volume}</label>
-          <!--WARNING: No type t was given for this view; assuming it is an input-->
         </input>
         <trigger ref="Add_Height">
           <label>{Add_Height}</label>
@@ -1058,7 +1035,6 @@
         <label>{Cut}</label>
         <select1 faims_attribute_type="vocab" ref="Cut_Your_Interpretation" faims_attribute_name="Cut Your Interpretation" faims_style_class="required">
           <label>{Cut_Your_Interpretation}</label>
-          <!--WARNING: No type t was given for this view; assuming it is a dropdown-->
           <item>
             <label>Options not loaded</label>
             <value>0</value>
@@ -1070,7 +1046,6 @@
             <label/>
             <select1 faims_attribute_type="vocab" ref="Shape_of_Cut" faims_attribute_name="Shape of Cut" faims_style_class="required">
               <label>{Shape_of_Cut}</label>
-              <!--WARNING: No type t was given for this view; assuming it is a dropdown-->
               <item>
                 <label>Options not loaded</label>
                 <value>0</value>
@@ -1081,7 +1056,6 @@
             <label/>
             <input faims_attribute_type="measure" ref="Shape_of_Cut_-_Note" faims_attribute_name="Shape of Cut - Note">
               <label>{Shape_of_Cut_-_Note}</label>
-              <!--WARNING: No type t was given for this view; assuming it is an input-->
             </input>
           </group>
         </group>
@@ -1105,7 +1079,6 @@
             <label/>
             <select1 faims_attribute_type="vocab" ref="Sides_of_Cut" faims_attribute_name="Sides of Cut" faims_style_class="required">
               <label>{Sides_of_Cut}</label>
-              <!--WARNING: No type t was given for this view; assuming it is a dropdown-->
               <item>
                 <label>Options not loaded</label>
                 <value>0</value>
@@ -1116,7 +1089,6 @@
             <label/>
             <select1 faims_attribute_type="vocab" ref="Shape_of_Base" faims_attribute_name="Shape of Base" faims_style_class="required">
               <label>{Shape_of_Base}</label>
-              <!--WARNING: No type t was given for this view; assuming it is a dropdown-->
               <item>
                 <label>Options not loaded</label>
                 <value>0</value>
@@ -1126,11 +1098,9 @@
         </group>
         <input faims_attribute_type="measure" ref="Cut_Function" faims_attribute_name="Cut Function" faims_style_class="required">
           <label>{Cut_Function}</label>
-          <!--WARNING: No type t was given for this view; assuming it is an input-->
         </input>
         <select1 faims_attribute_type="vocab" ref="Orientation" faims_attribute_name="Orientation" faims_style_class="required">
           <label>{Orientation}</label>
-          <!--WARNING: No type t was given for this view; assuming it is a dropdown-->
           <item>
             <label>Options not loaded</label>
             <value>0</value>
@@ -1138,7 +1108,6 @@
         </select1>
         <select1 faims_attribute_type="vocab" ref="Inclination_of_axis" faims_attribute_name="Inclination of axis" faims_style_class="required">
           <label>{Inclination_of_axis}</label>
-          <!--WARNING: No type t was given for this view; assuming it is a dropdown-->
           <item>
             <label>Options not loaded</label>
             <value>0</value>
@@ -1149,7 +1118,6 @@
         <label>{Structures}</label>
         <select1 faims_attribute_type="vocab" ref="Structure_Your_Interpretation" faims_attribute_name="Structure Your Interpretation" faims_style_class="required">
           <label>{Structure_Your_Interpretation}</label>
-          <!--WARNING: No type t was given for this view; assuming it is a dropdown-->
           <item>
             <label>Options not loaded</label>
             <value>0</value>
@@ -1157,7 +1125,6 @@
         </select1>
         <select1 faims_attribute_type="vocab" ref="Structural_Components" faims_attribute_name="Structural Components">
           <label>{Structural_Components}</label>
-          <!--WARNING: No type t was given for this view; assuming it is a dropdown-->
           <item>
             <label>Options not loaded</label>
             <value>0</value>
@@ -1165,11 +1132,9 @@
         </select1>
         <input faims_attribute_type="measure" ref="Component_Finish" faims_attribute_name="Component Finish">
           <label>{Component_Finish}</label>
-          <!--WARNING: No type t was given for this view; assuming it is an input-->
         </input>
         <select1 faims_attribute_type="vocab" ref="Bonding" faims_attribute_name="Bonding">
           <label>{Bonding}</label>
-          <!--WARNING: No type t was given for this view; assuming it is a dropdown-->
           <item>
             <label>Options not loaded</label>
             <value>0</value>
@@ -1177,27 +1142,21 @@
         </select1>
         <input faims_attribute_type="measure" ref="Bonding_Details" faims_attribute_name="Bonding Details">
           <label>{Bonding_Details}</label>
-          <!--WARNING: No type t was given for this view; assuming it is an input-->
         </input>
         <input faims_attribute_type="measure" ref="Distinguishing_Marks" faims_attribute_name="Distinguishing Marks">
           <label>{Distinguishing_Marks}</label>
-          <!--WARNING: No type t was given for this view; assuming it is an input-->
         </input>
         <input faims_attribute_type="measure" ref="Structure_Description" faims_attribute_name="Structure Description" faims_style_class="required">
           <label>{Structure_Description}</label>
-          <!--WARNING: No type t was given for this view; assuming it is an input-->
         </input>
         <input faims_attribute_type="measure" ref="Number_Courses" faims_attribute_name="Number Courses">
           <label>{Number_Courses}</label>
-          <!--WARNING: No type t was given for this view; assuming it is an input-->
         </input>
         <input faims_attribute_type="measure" ref="Set_In_Cut" faims_attribute_name="Set In Cut">
           <label>{Set_In_Cut}</label>
-          <!--WARNING: No type t was given for this view; assuming it is an input-->
         </input>
         <select1 faims_attribute_type="vocab" ref="Structure_Shape" faims_attribute_name="Structure Shape">
           <label>{Structure_Shape}</label>
-          <!--WARNING: No type t was given for this view; assuming it is a dropdown-->
           <item>
             <label>Options not loaded</label>
             <value>0</value>
@@ -1205,7 +1164,6 @@
         </select1>
         <select1 faims_attribute_type="vocab" ref="Mudbrick_Shape" faims_attribute_name="Mudbrick Shape">
           <label>{Mudbrick_Shape}</label>
-          <!--WARNING: No type t was given for this view; assuming it is a dropdown-->
           <item>
             <label>Options not loaded</label>
             <value>0</value>
@@ -1219,7 +1177,6 @@
         <label>{Deposit}</label>
         <select1 faims_attribute_type="vocab" ref="Deposit_Your_Interpretation" faims_attribute_name="Deposit Your Interpretation" faims_style_class="required">
           <label>{Deposit_Your_Interpretation}</label>
-          <!--WARNING: No type t was given for this view; assuming it is a dropdown-->
           <item>
             <label>Options not loaded</label>
             <value>0</value>
@@ -1227,7 +1184,6 @@
         </select1>
         <select1 faims_attribute_type="vocab" ref="Soil_Compaction_Type" faims_attribute_name="Soil Compaction Type" faims_style_class="required">
           <label>{Soil_Compaction_Type}</label>
-          <!--WARNING: No type t was given for this view; assuming it is a dropdown-->
           <item>
             <label>Options not loaded</label>
             <value>0</value>
@@ -1235,11 +1191,9 @@
         </select1>
         <input faims_attribute_type="measure" ref="Soil_Compaction_Description" faims_attribute_name="Soil Compaction Description">
           <label>{Soil_Compaction_Description}</label>
-          <!--WARNING: No type t was given for this view; assuming it is an input-->
         </input>
         <select1 type="image" faims_attribute_type="vocab" ref="Soil_Particle_Sorting" faims_attribute_name="Soil Particle Sorting">
           <label>{Soil_Particle_Sorting}</label>
-          <!--WARNING: No type t was given for this view; assuming it is a picture gallery-->
           <item>
             <label>Options not loaded</label>
             <value>0</value>
@@ -1251,7 +1205,6 @@
             <label/>
             <select1 faims_attribute_type="vocab" ref="Soil_Texture" faims_attribute_name="Soil Texture" faims_style_class="required">
               <label>{Soil_Texture}</label>
-              <!--WARNING: No type t was given for this view; assuming it is a dropdown-->
               <item>
                 <label>Options not loaded</label>
                 <value>0</value>
@@ -1267,7 +1220,6 @@
         </group>
         <input faims_attribute_type="measure" ref="Soil_Colour" faims_attribute_name="Soil Colour">
           <label>{Soil_Colour}</label>
-          <!--WARNING: No type t was given for this view; assuming it is an input-->
         </input>
         <group ref="Colgroup_1" faims_style="orientation">
           <label/>
@@ -1275,7 +1227,6 @@
             <label/>
             <select1 faims_attribute_type="vocab" ref="Composition_Type" faims_attribute_name="Composition Type" faims_style_class="required">
               <label>{Composition_Type}</label>
-              <!--WARNING: No type t was given for this view; assuming it is a dropdown-->
               <item>
                 <label>Options not loaded</label>
                 <value>0</value>
@@ -1286,7 +1237,6 @@
             <label/>
             <select1 faims_attribute_type="vocab" ref="Deposit_Bedding" faims_attribute_name="Deposit Bedding" faims_style_class="required">
               <label>{Deposit_Bedding}</label>
-              <!--WARNING: No type t was given for this view; assuming it is a dropdown-->
               <item>
                 <label>Options not loaded</label>
                 <value>0</value>
@@ -1310,7 +1260,6 @@
             <label/>
             <input faims_attribute_type="measure" ref="Deposit_Inclusions" faims_attribute_name="Deposit Inclusions" faims_style_class="required">
               <label>{Deposit_Inclusions}</label>
-              <!--WARNING: No type t was given for this view; assuming it is an input-->
             </input>
           </group>
         </group>
@@ -1333,14 +1282,12 @@
             <label/>
             <input faims_attribute_type="measure" ref="Space" faims_attribute_name="Space">
               <label>{Space}</label>
-              <!--WARNING: No type t was given for this view; assuming it is an input-->
             </input>
           </group>
           <group ref="Col_1" faims_style="even">
             <label/>
             <input faims_attribute_type="measure" ref="Building" faims_attribute_name="Building">
               <label>{Building}</label>
-              <!--WARNING: No type t was given for this view; assuming it is an input-->
             </input>
           </group>
         </group>
@@ -1350,110 +1297,94 @@
             <label/>
             <input faims_attribute_type="measure" ref="Mid_X" faims_attribute_name="Mid X">
               <label>{Mid_X}</label>
-              <!--WARNING: No type t was given for this view; assuming it is an input-->
             </input>
           </group>
           <group ref="Col_1" faims_style="even">
             <label/>
             <input faims_attribute_type="measure" ref="Mid_Y" faims_attribute_name="Mid Y">
               <label>{Mid_Y}</label>
-              <!--WARNING: No type t was given for this view; assuming it is an input-->
             </input>
           </group>
         </group>
         <input faims_attribute_type="measure" ref="Skeleton_Dimensions" faims_attribute_name="Skeleton Dimensions">
           <label>{Skeleton_Dimensions}</label>
-          <!--WARNING: No type t was given for this view; assuming it is an input-->
         </input>
         <group ref="Colgroup_2" faims_style="orientation">
           <label/>
           <group ref="Col_0" faims_style="even">
             <label/>
-            <notnull ref="Skeleton_Head" faims_attribute_name="Skeleton Head">
+            <input faims_attribute_type="measure" ref="Skeleton_Head" faims_attribute_name="Skeleton Head" faims_style_class="required">
               <label>{Skeleton_Head}</label>
-              <!--WARNING: This view was created from an element whose t attribute's value is unexpected-->
-            </notnull>
+            </input>
           </group>
           <group ref="Col_1" faims_style="even">
             <label/>
-            <notnull ref="Skeleton_Body" faims_attribute_name="Skeleton Body">
+            <input faims_attribute_type="measure" ref="Skeleton_Body" faims_attribute_name="Skeleton Body" faims_style_class="required">
               <label>{Skeleton_Body}</label>
-              <!--WARNING: This view was created from an element whose t attribute's value is unexpected-->
-            </notnull>
+            </input>
           </group>
         </group>
         <group ref="Colgroup_3" faims_style="orientation">
           <label/>
           <group ref="Col_0" faims_style="even">
             <label/>
-            <notnull ref="Skeleton_Left_Arm" faims_attribute_name="Skeleton Left Arm">
+            <input faims_attribute_type="measure" ref="Skeleton_Left_Arm" faims_attribute_name="Skeleton Left Arm" faims_style_class="required">
               <label>{Skeleton_Left_Arm}</label>
-              <!--WARNING: This view was created from an element whose t attribute's value is unexpected-->
-            </notnull>
+            </input>
           </group>
           <group ref="Col_1" faims_style="even">
             <label/>
-            <notnull ref="Skeleton_Right_Arm" faims_attribute_name="Skeleton Right Arm">
+            <input faims_attribute_type="measure" ref="Skeleton_Right_Arm" faims_attribute_name="Skeleton Right Arm" faims_style_class="required">
               <label>{Skeleton_Right_Arm}</label>
-              <!--WARNING: This view was created from an element whose t attribute's value is unexpected-->
-            </notnull>
+            </input>
           </group>
         </group>
         <group ref="Colgroup_4" faims_style="orientation">
           <label/>
           <group ref="Col_0" faims_style="even">
             <label/>
-            <notnull ref="Skeleton_Left_Leg" faims_attribute_name="Skeleton Left Leg">
+            <input faims_attribute_type="measure" ref="Skeleton_Left_Leg" faims_attribute_name="Skeleton Left Leg" faims_style_class="required">
               <label>{Skeleton_Left_Leg}</label>
-              <!--WARNING: This view was created from an element whose t attribute's value is unexpected-->
-            </notnull>
+            </input>
           </group>
           <group ref="Col_1" faims_style="even">
             <label/>
-            <notnull ref="Skeleton_Right_Leg" faims_attribute_name="Skeleton Right Leg">
+            <input faims_attribute_type="measure" ref="Skeleton_Right_Leg" faims_attribute_name="Skeleton Right Leg" faims_style_class="required">
               <label>{Skeleton_Right_Leg}</label>
-              <!--WARNING: This view was created from an element whose t attribute's value is unexpected-->
-            </notnull>
+            </input>
           </group>
         </group>
-        <notnull ref="Skeleton_Condition" faims_attribute_name="Skeleton Condition">
+        <input faims_attribute_type="measure" ref="Skeleton_Condition" faims_attribute_name="Skeleton Condition" faims_style_class="required">
           <label>{Skeleton_Condition}</label>
-          <!--WARNING: This view was created from an element whose t attribute's value is unexpected-->
-        </notnull>
+        </input>
         <input faims_attribute_type="measure" ref="Skeleton_Surface_Modifications" faims_attribute_name="Skeleton Surface Modifications">
           <label>{Skeleton_Surface_Modifications}</label>
-          <!--WARNING: No type t was given for this view; assuming it is an input-->
         </input>
         <input faims_attribute_type="measure" ref="Skeleton_Environment" faims_attribute_name="Skeleton Environment">
           <label>{Skeleton_Environment}</label>
-          <!--WARNING: No type t was given for this view; assuming it is an input-->
         </input>
         <input faims_attribute_type="measure" ref="Skeleton_Days_Exposed" faims_attribute_name="Skeleton Days Exposed">
           <label>{Skeleton_Days_Exposed}</label>
-          <!--WARNING: No type t was given for this view; assuming it is an input-->
         </input>
         <group ref="Colgroup_5" faims_style="orientation">
           <label/>
           <group ref="Col_0" faims_style="even">
             <label/>
-            <notnull ref="Target_A_X" faims_attribute_name="Target A X">
+            <input faims_attribute_type="measure" ref="Target_A_X" faims_attribute_name="Target A X" faims_style_class="required">
               <label>{Target_A_X}</label>
-              <!--WARNING: This view was created from an element whose t attribute's value is unexpected-->
-            </notnull>
+            </input>
           </group>
           <group ref="Col_1" faims_style="even">
             <label/>
-            <notnull ref="Target_A_Y" faims_attribute_name="Target A Y">
+            <input faims_attribute_type="measure" ref="Target_A_Y" faims_attribute_name="Target A Y" faims_style_class="required">
               <label>{Target_A_Y}</label>
-              <!--WARNING: This view was created from an element whose t attribute's value is unexpected-->
-            </notnull>
+            </input>
           </group>
           <group ref="Col_2" faims_style="even">
             <label/>
-            <notnull ref="Target_A_Z" faims_attribute_name="Target A Z">
+            <input faims_attribute_type="measure" ref="Target_A_Z" faims_attribute_name="Target A Z" faims_style_class="required">
               <label>{Target_A_Z}</label>
-              <!--WARNING: This view was created from an element whose t attribute's value is unexpected-->
-            </notnull>
+            </input>
           </group>
         </group>
         <group ref="Colgroup_6" faims_style="orientation">
@@ -1462,21 +1393,18 @@
             <label/>
             <input faims_attribute_type="measure" ref="Target_B_X" faims_attribute_name="Target B X">
               <label>{Target_B_X}</label>
-              <!--WARNING: No type t was given for this view; assuming it is an input-->
             </input>
           </group>
           <group ref="Col_1" faims_style="even">
             <label/>
             <input faims_attribute_type="measure" ref="Target_B_Y" faims_attribute_name="Target B Y">
               <label>{Target_B_Y}</label>
-              <!--WARNING: No type t was given for this view; assuming it is an input-->
             </input>
           </group>
           <group ref="Col_2" faims_style="even">
             <label/>
             <input faims_attribute_type="measure" ref="Target_B_Z" faims_attribute_name="Target B Z">
               <label>{Target_B_Z}</label>
-              <!--WARNING: No type t was given for this view; assuming it is an input-->
             </input>
           </group>
         </group>
@@ -1486,21 +1414,18 @@
             <label/>
             <input faims_attribute_type="measure" ref="Target_C_X" faims_attribute_name="Target C X">
               <label>{Target_C_X}</label>
-              <!--WARNING: No type t was given for this view; assuming it is an input-->
             </input>
           </group>
           <group ref="Col_1" faims_style="even">
             <label/>
             <input faims_attribute_type="measure" ref="Target_C_Y" faims_attribute_name="Target C Y">
               <label>{Target_C_Y}</label>
-              <!--WARNING: No type t was given for this view; assuming it is an input-->
             </input>
           </group>
           <group ref="Col_2" faims_style="even">
             <label/>
             <input faims_attribute_type="measure" ref="Target_C_Z" faims_attribute_name="Target C Z">
               <label>{Target_C_Z}</label>
-              <!--WARNING: No type t was given for this view; assuming it is an input-->
             </input>
           </group>
         </group>
@@ -1510,39 +1435,33 @@
             <label/>
             <input faims_attribute_type="measure" ref="Target_D_X" faims_attribute_name="Target D X">
               <label>{Target_D_X}</label>
-              <!--WARNING: No type t was given for this view; assuming it is an input-->
             </input>
           </group>
           <group ref="Col_1" faims_style="even">
             <label/>
             <input faims_attribute_type="measure" ref="Target_D_Y" faims_attribute_name="Target D Y">
               <label>{Target_D_Y}</label>
-              <!--WARNING: No type t was given for this view; assuming it is an input-->
             </input>
           </group>
           <group ref="Col_2" faims_style="even">
             <label/>
             <input faims_attribute_type="measure" ref="Target_D_Z" faims_attribute_name="Target D Z">
               <label>{Target_D_Z}</label>
-              <!--WARNING: No type t was given for this view; assuming it is an input-->
             </input>
           </group>
         </group>
         <input faims_attribute_type="measure" ref="Skeleton_Notes" faims_attribute_name="Skeleton Notes">
           <label>{Skeleton_Notes}</label>
-          <!--WARNING: No type t was given for this view; assuming it is an input-->
         </input>
       </group>
       <group ref="Int">
         <label>{Int}</label>
-        <notnull ref="Your_description" faims_attribute_name="Your description">
+        <input faims_attribute_type="measure" ref="Your_description" faims_attribute_name="Your description" faims_style_class="required">
           <label>{Your_description}</label>
-          <!--WARNING: This view was created from an element whose t attribute's value is unexpected-->
-        </notnull>
-        <notnull ref="Your_Discussion" faims_attribute_name="Your Discussion">
+        </input>
+        <input faims_attribute_type="measure" ref="Your_Discussion" faims_attribute_name="Your Discussion" faims_style_class="required">
           <label>{Your_Discussion}</label>
-          <!--WARNING: This view was created from an element whose t attribute's value is unexpected-->
-        </notnull>
+        </input>
       </group>
       <group ref="Context_Group" faims_scrollable="false">
         <label>{Context_Group}</label>
@@ -1660,8 +1579,7 @@
       <group ref="Material_Helper">
         <label>{Material_Helper}</label>
         <select1 faims_attribute_type="vocab" ref="Soil_Texture_Helper" faims_attribute_name="Soil Texture Helper">
-          <label><!--WARNING: For this element, a label was explicitly given. It may have been able to be represented more succinctly by allowing it to be inferred from its element's tag-->{Material_Helper}</label>
-          <!--WARNING: No type t was given for this view; assuming it is a dropdown-->
+          <label>{Material_Helper}</label>
           <item>
             <label>Options not loaded</label>
             <value>0</value>
@@ -1675,11 +1593,9 @@
         <label>{Vars}</label>
         <input faims_attribute_type="measure" ref="Site_Code" faims_attribute_name="Site Code">
           <label>{Site_Code}</label>
-          <!--WARNING: No type t was given for this view; assuming it is an input-->
         </input>
         <select1 faims_attribute_type="vocab" ref="Device_Code" faims_attribute_name="Device Code">
           <label>{Device_Code}</label>
-          <!--WARNING: No type t was given for this view; assuming it is a dropdown-->
           <item>
             <label>Options not loaded</label>
             <value>0</value>
@@ -1687,35 +1603,31 @@
         </select1>
         <input faims_attribute_type="measure" ref="SearchHelp" faims_attribute_name="SearchHelp">
           <label>{SearchHelp}</label>
-          <!--WARNING: No type t was given for this view; assuming it is an input-->
         </input>
       </group>
     </group>
     <group ref="Context_Group" faims_archent_type="Context Group">
-      <label><!--WARNING: For this element, a label was explicitly given. It may have been able to be represented more succinctly by allowing it to be inferred from its element's tag-->{Feature}</label>
+      <label>{Feature}</label>
       <group ref="Gen">
         <label>{Gen}</label>
         <group ref="Colgroup_0" faims_style="orientation">
           <label/>
           <group ref="Col_0" faims_style="even">
             <label/>
-            <input faims_attribute_type="measure" ref="AreaCode" faims_attribute_name="AreaCode">
-              <label><!--WARNING: For this element, a label was explicitly given. It may have been able to be represented more succinctly by allowing it to be inferred from its element's tag-->{Trench}</label>
-              <!--WARNING: No type t was given for this view; assuming it is an input-->
+            <input faims_attribute_type="measure" ref="AreaCode" faims_attribute_name="AreaCode" faims_style_class="required">
+              <label>{Trench}</label>
             </input>
           </group>
           <group ref="Col_1" faims_style="even">
             <label/>
-            <input faims_attribute_type="measure" ref="Context_Group_ID" faims_attribute_name="Context Group ID">
-              <label><!--WARNING: For this element, a label was explicitly given. It may have been able to be represented more succinctly by allowing it to be inferred from its element's tag-->{Feature_ID}</label>
-              <!--WARNING: No type t was given for this view; assuming it is an input-->
+            <input faims_attribute_type="measure" ref="Context_Group_ID" faims_attribute_name="Context Group ID" faims_style_class="required">
+              <label>{Feature_ID}</label>
             </input>
           </group>
           <group ref="Col_2" faims_style="even">
             <label/>
-            <input faims_attribute_type="measure" ref="Title" faims_attribute_name="Title">
-              <label><!--WARNING: For this element, a label was explicitly given. It may have been able to be represented more succinctly by allowing it to be inferred from its element's tag-->{Feature_Title}</label>
-              <!--WARNING: No type t was given for this view; assuming it is an input-->
+            <input faims_attribute_type="measure" ref="Title" faims_attribute_name="Title" faims_style_class="required">
+              <label>{Feature_Title}</label>
             </input>
           </group>
         </group>
@@ -1725,40 +1637,33 @@
             <label/>
             <input faims_attribute_type="measure" ref="Building" faims_attribute_name="Building">
               <label>{Building}</label>
-              <!--WARNING: No type t was given for this view; assuming it is an input-->
             </input>
           </group>
           <group ref="Col_1" faims_style="even">
             <label/>
             <input faims_attribute_type="measure" ref="Space" faims_attribute_name="Space">
               <label>{Space}</label>
-              <!--WARNING: No type t was given for this view; assuming it is an input-->
             </input>
           </group>
         </group>
         <input faims_attribute_type="measure" ref="Location_Note_CG" faims_attribute_name="Location Note CG">
           <label>{Location_Note_CG}</label>
-          <!--WARNING: No type t was given for this view; assuming it is an input-->
         </input>
-        <select1 type="image" faims_attribute_type="vocab" ref="CG_Context_Type" faims_attribute_name="CG Context Type">
+        <select1 type="image" faims_attribute_type="vocab" ref="CG_Context_Type" faims_attribute_name="CG Context Type" faims_style_class="required">
           <label>{CG_Context_Type}</label>
-          <!--WARNING: No type t was given for this view; assuming it is a picture gallery-->
           <item>
             <label>Options not loaded</label>
             <value>0</value>
           </item>
         </select1>
-        <input faims_attribute_type="measure" ref="CG_Your_description" faims_attribute_name="CG Your description">
+        <input faims_attribute_type="measure" ref="CG_Your_description" faims_attribute_name="CG Your description" faims_style_class="required">
           <label>{CG_Your_description}</label>
-          <!--WARNING: No type t was given for this view; assuming it is an input-->
         </input>
-        <input faims_attribute_type="measure" ref="CG_Your_Interpretation" faims_attribute_name="CG Your Interpretation">
+        <input faims_attribute_type="measure" ref="CG_Your_Interpretation" faims_attribute_name="CG Your Interpretation" faims_style_class="required">
           <label>{CG_Your_Interpretation}</label>
-          <!--WARNING: No type t was given for this view; assuming it is an input-->
         </input>
         <input faims_attribute_type="measure" ref="Your_Discussion" faims_attribute_name="Your Discussion">
           <label>{Your_Discussion}</label>
-          <!--WARNING: No type t was given for this view; assuming it is an input-->
         </input>
         <group ref="Colgroup_2" faims_style="orientation">
           <label/>
@@ -1766,21 +1671,18 @@
             <label/>
             <input faims_attribute_type="measure" ref="Length" faims_attribute_name="Length">
               <label>{Length}</label>
-              <!--WARNING: No type t was given for this view; assuming it is an input-->
             </input>
           </group>
           <group ref="Col_1" faims_style="even">
             <label/>
             <input faims_attribute_type="measure" ref="Width" faims_attribute_name="Width">
               <label>{Width}</label>
-              <!--WARNING: No type t was given for this view; assuming it is an input-->
             </input>
           </group>
           <group ref="Col_2" faims_style="even">
             <label/>
             <input faims_attribute_type="measure" ref="Depth" faims_attribute_name="Depth">
               <label>{Depth}</label>
-              <!--WARNING: No type t was given for this view; assuming it is an input-->
             </input>
           </group>
         </group>
@@ -1790,28 +1692,23 @@
             <label/>
             <input faims_attribute_type="measure" ref="Mid_X" faims_attribute_name="Mid X">
               <label>{Mid_X}</label>
-              <!--WARNING: No type t was given for this view; assuming it is an input-->
             </input>
           </group>
           <group ref="Col_1" faims_style="even">
             <label/>
             <input faims_attribute_type="measure" ref="Mid_Y" faims_attribute_name="Mid Y">
               <label>{Mid_Y}</label>
-              <!--WARNING: No type t was given for this view; assuming it is an input-->
             </input>
           </group>
         </group>
         <input faims_attribute_type="measure" ref="CG_Phase_Notes" faims_attribute_name="CG Phase Notes">
           <label>{CG_Phase_Notes}</label>
-          <!--WARNING: No type t was given for this view; assuming it is an input-->
         </input>
         <input faims_attribute_type="measure" ref="CG_Plans" faims_attribute_name="CG Plans">
           <label>{CG_Plans}</label>
-          <!--WARNING: No type t was given for this view; assuming it is an input-->
         </input>
         <input faims_attribute_type="measure" ref="CG_Section_Numbers" faims_attribute_name="CG Section Numbers">
           <label>{CG_Section_Numbers}</label>
-          <!--WARNING: No type t was given for this view; assuming it is an input-->
         </input>
         <group ref="Colgroup_4" faims_style="orientation">
           <label/>
@@ -1819,14 +1716,12 @@
             <label/>
             <input faims_attribute_type="measure" ref="author" faims_attribute_name="author">
               <label>{Record_Created_By_}</label>
-              <!--WARNING: No type t was given for this view; assuming it is an input-->
             </input>
           </group>
           <group ref="Col_1" faims_style="even">
             <label/>
             <input faims_attribute_type="measure" ref="timestamp" faims_attribute_name="timestamp">
               <label>{Date_recorded_}</label>
-              <!--WARNING: No type t was given for this view; assuming it is an input-->
             </input>
           </group>
         </group>
@@ -1925,7 +1820,6 @@
         <label>{Vars}</label>
         <select1 faims_attribute_type="vocab" ref="Device_Code" faims_attribute_name="Device Code">
           <label>{Device_Code}</label>
-          <!--WARNING: No type t was given for this view; assuming it is a dropdown-->
           <item>
             <label>Options not loaded</label>
             <value>0</value>
@@ -1933,7 +1827,6 @@
         </select1>
         <input faims_attribute_type="measure" ref="Site_Code" faims_attribute_name="Site Code">
           <label>{Site_Code}</label>
-          <!--WARNING: No type t was given for this view; assuming it is an input-->
         </input>
       </group>
     </group>
@@ -1947,7 +1840,6 @@
             <label/>
             <select1 faims_attribute_type="vocab" ref="Component" faims_attribute_name="Component">
               <label>{Component}</label>
-              <!--WARNING: No type t was given for this view; assuming it is a dropdown-->
               <item>
                 <label>Options not loaded</label>
                 <value>0</value>
@@ -1958,13 +1850,11 @@
             <label/>
             <input faims_attribute_type="measure" ref="Percentage" faims_attribute_name="Percentage">
               <label>{Percentage}</label>
-              <!--WARNING: No type t was given for this view; assuming it is an input-->
             </input>
           </group>
         </group>
         <select1 type="image" faims_attribute_type="vocab" ref="Shape" faims_attribute_name="Shape">
           <label>{Shape}</label>
-          <!--WARNING: No type t was given for this view; assuming it is a picture gallery-->
           <item>
             <label>Options not loaded</label>
             <value>0</value>
@@ -1975,7 +1865,6 @@
         <label>{Vars}</label>
         <select1 faims_attribute_type="vocab" ref="AreaCode" faims_attribute_name="AreaCode">
           <label>{AreaCode}</label>
-          <!--WARNING: No type t was given for this view; assuming it is a dropdown-->
           <item>
             <label>Options not loaded</label>
             <value>0</value>
@@ -1983,7 +1872,6 @@
         </select1>
         <input faims_attribute_type="measure" ref="Context_ID" faims_attribute_name="Context ID">
           <label>{Context_ID}</label>
-          <!--WARNING: No type t was given for this view; assuming it is an input-->
         </input>
       </group>
     </group>
@@ -1991,32 +1879,26 @@
       <label>{Height}</label>
       <group ref="Height">
         <label>{Height}</label>
-        <input faims_attribute_type="measure" ref="Number" faims_attribute_name="Number">
+        <input faims_attribute_type="measure" ref="Number" faims_attribute_name="Number" faims_style_class="required">
           <label>{Number}</label>
-          <!--WARNING: No type t was given for this view; assuming it is an input-->
         </input>
-        <input faims_attribute_type="measure" ref="X" faims_attribute_name="X">
+        <input faims_attribute_type="measure" ref="X" faims_attribute_name="X" faims_style_class="required">
           <label>{X}</label>
-          <!--WARNING: No type t was given for this view; assuming it is an input-->
         </input>
-        <input faims_attribute_type="measure" ref="Y" faims_attribute_name="Y">
+        <input faims_attribute_type="measure" ref="Y" faims_attribute_name="Y" faims_style_class="required">
           <label>{Y}</label>
-          <!--WARNING: No type t was given for this view; assuming it is an input-->
         </input>
-        <input faims_attribute_type="measure" ref="Z" faims_attribute_name="Z">
+        <input faims_attribute_type="measure" ref="Z" faims_attribute_name="Z" faims_style_class="required">
           <label>{Z}</label>
-          <!--WARNING: No type t was given for this view; assuming it is an input-->
         </input>
-        <input faims_attribute_type="measure" ref="Notes" faims_attribute_name="Notes">
+        <input faims_attribute_type="measure" ref="Notes" faims_attribute_name="Notes" faims_style_class="required">
           <label>{Notes}</label>
-          <!--WARNING: No type t was given for this view; assuming it is an input-->
         </input>
       </group>
       <group ref="Vars" faims_hidden="true">
         <label>{Vars}</label>
         <select1 faims_attribute_type="vocab" ref="AreaCode" faims_attribute_name="AreaCode">
           <label>{AreaCode}</label>
-          <!--WARNING: No type t was given for this view; assuming it is a dropdown-->
           <item>
             <label>Options not loaded</label>
             <value>0</value>
@@ -2024,7 +1906,6 @@
         </select1>
         <input faims_attribute_type="measure" ref="Context_ID" faims_attribute_name="Context ID">
           <label>{Context_ID}</label>
-          <!--WARNING: No type t was given for this view; assuming it is an input-->
         </input>
       </group>
     </group>
@@ -2036,23 +1917,20 @@
           <label/>
           <group ref="Col_0" faims_style="even">
             <label/>
-            <input faims_attribute_type="measure" ref="Context_ID" faims_attribute_name="Context ID">
+            <input faims_attribute_type="measure" ref="Context_ID" faims_attribute_name="Context ID" faims_style_class="required">
               <label>{Context_ID}</label>
-              <!--WARNING: No type t was given for this view; assuming it is an input-->
             </input>
           </group>
           <group ref="Col_1" faims_style="even">
             <label/>
-            <input faims_attribute_type="measure" ref="Sample_ID" faims_attribute_name="Sample ID">
+            <input faims_attribute_type="measure" ref="Sample_ID" faims_attribute_name="Sample ID" faims_style_class="required">
               <label>{Sample_ID}</label>
-              <!--WARNING: No type t was given for this view; assuming it is an input-->
             </input>
           </group>
           <group ref="Col_2" faims_style="even">
             <label/>
-            <select1 faims_attribute_type="vocab" ref="Sample_Type" faims_attribute_name="Sample Type">
+            <select1 faims_attribute_type="vocab" ref="Sample_Type" faims_attribute_name="Sample Type" faims_style_class="required">
               <label>{Sample_Type}</label>
-              <!--WARNING: No type t was given for this view; assuming it is a dropdown-->
               <item>
                 <label>Options not loaded</label>
                 <value>0</value>
@@ -2062,29 +1940,25 @@
         </group>
         <input faims_attribute_type="measure" ref="Sample_Volume" faims_attribute_name="Sample Volume">
           <label>{Sample_Volume}</label>
-          <!--WARNING: No type t was given for this view; assuming it is an input-->
         </input>
         <group ref="Colgroup_1" faims_style="orientation">
           <label/>
           <group ref="Col_0" faims_style="even">
             <label/>
-            <input faims_attribute_type="measure" ref="Sample_X" faims_attribute_name="Sample X">
+            <input faims_attribute_type="measure" ref="Sample_X" faims_attribute_name="Sample X" faims_style_class="required">
               <label>{Sample_X}</label>
-              <!--WARNING: No type t was given for this view; assuming it is an input-->
             </input>
           </group>
           <group ref="Col_1" faims_style="even">
             <label/>
-            <input faims_attribute_type="measure" ref="Sample_Y" faims_attribute_name="Sample Y">
+            <input faims_attribute_type="measure" ref="Sample_Y" faims_attribute_name="Sample Y" faims_style_class="required">
               <label>{Sample_Y}</label>
-              <!--WARNING: No type t was given for this view; assuming it is an input-->
             </input>
           </group>
           <group ref="Col_2" faims_style="even">
             <label/>
-            <input faims_attribute_type="measure" ref="Sample_Z" faims_attribute_name="Sample Z">
+            <input faims_attribute_type="measure" ref="Sample_Z" faims_attribute_name="Sample Z" faims_style_class="required">
               <label>{Sample_Z}</label>
-              <!--WARNING: No type t was given for this view; assuming it is an input-->
             </input>
           </group>
         </group>
@@ -2094,7 +1968,6 @@
             <label/>
             <select1 faims_attribute_type="vocab" ref="Sample_Location" faims_attribute_name="Sample Location">
               <label>{Sample_Location}</label>
-              <!--WARNING: No type t was given for this view; assuming it is a dropdown-->
               <item>
                 <label>Options not loaded</label>
                 <value>0</value>
@@ -2105,7 +1978,6 @@
             <label/>
             <input faims_attribute_type="measure" ref="Sample_Comments" faims_attribute_name="Sample Comments">
               <label>{Sample_Comments}</label>
-              <!--WARNING: No type t was given for this view; assuming it is an input-->
             </input>
           </group>
         </group>
@@ -2152,12 +2024,14 @@
         <trigger ref="Button_Video">
           <label>{Button_Video}</label>
         </trigger>
+        <trigger ref="View_Attached_Files">
+          <label>{View_Attached_Files}</label>
+        </trigger>
       </group>
       <group ref="Vars" faims_hidden="true">
         <label>{Vars}</label>
         <select1 faims_attribute_type="vocab" ref="AreaCode" faims_attribute_name="AreaCode">
           <label>{AreaCode}</label>
-          <!--WARNING: No type t was given for this view; assuming it is a dropdown-->
           <item>
             <label>Options not loaded</label>
             <value>0</value>
@@ -2165,7 +2039,6 @@
         </select1>
         <select1 faims_attribute_type="vocab" ref="Device_Code" faims_attribute_name="Device Code">
           <label>{Device_Code}</label>
-          <!--WARNING: No type t was given for this view; assuming it is a dropdown-->
           <item>
             <label>Options not loaded</label>
             <value>0</value>
@@ -2173,7 +2046,6 @@
         </select1>
         <input faims_attribute_type="measure" ref="Site_Code" faims_attribute_name="Site Code">
           <label>{Site_Code}</label>
-          <!--WARNING: No type t was given for this view; assuming it is an input-->
         </input>
       </group>
     </group>
@@ -2185,23 +2057,20 @@
           <label/>
           <group ref="Col_0" faims_style="even">
             <label/>
-            <input faims_attribute_type="measure" ref="Context_ID" faims_attribute_name="Context ID">
+            <input faims_attribute_type="measure" ref="Context_ID" faims_attribute_name="Context ID" faims_read_only="true">
               <label>{Context_ID}</label>
-              <!--WARNING: No type t was given for this view; assuming it is an input-->
             </input>
           </group>
           <group ref="Col_1" faims_style="even">
             <label/>
-            <input faims_attribute_type="measure" ref="Special_Find_ID" faims_attribute_name="Special Find ID">
+            <input faims_attribute_type="measure" ref="Special_Find_ID" faims_attribute_name="Special Find ID" faims_style_class="required">
               <label>{Special_Find_ID}</label>
-              <!--WARNING: No type t was given for this view; assuming it is an input-->
             </input>
           </group>
           <group ref="Col_2" faims_style="even">
             <label/>
             <select1 faims_attribute_type="vocab" ref="Special_Find_Class" faims_attribute_name="Special Find Class">
               <label>{Special_Find_Class}</label>
-              <!--WARNING: No type t was given for this view; assuming it is a dropdown-->
               <item>
                 <label>Options not loaded</label>
                 <value>0</value>
@@ -2211,7 +2080,6 @@
         </group>
         <select1 faims_attribute_type="vocab" ref="Source" faims_attribute_name="Source">
           <label>{Source}</label>
-          <!--WARNING: No type t was given for this view; assuming it is a dropdown-->
           <item>
             <label>Options not loaded</label>
             <value>0</value>
@@ -2219,43 +2087,37 @@
         </select1>
         <select1 faims_attribute_type="vocab" ref="Special_Find_Location" faims_attribute_name="Special Find Location">
           <label>{Special_Find_Location}</label>
-          <!--WARNING: No type t was given for this view; assuming it is a dropdown-->
           <item>
             <label>Options not loaded</label>
             <value>0</value>
           </item>
         </select1>
-        <input faims_attribute_type="measure" ref="Special_Find_Description" faims_attribute_name="Special Find Description">
+        <input faims_attribute_type="measure" ref="Special_Find_Description" faims_attribute_name="Special Find Description" faims_style_class="required">
           <label>{Special_Find_Description}</label>
-          <!--WARNING: No type t was given for this view; assuming it is an input-->
         </input>
         <group ref="Colgroup_1" faims_style="orientation">
           <label/>
           <group ref="Col_0" faims_style="even">
             <label/>
-            <input faims_attribute_type="measure" ref="Special_Find_X" faims_attribute_name="Special Find X">
+            <input faims_attribute_type="measure" ref="Special_Find_X" faims_attribute_name="Special Find X" faims_style_class="required">
               <label>{Special_Find_X}</label>
-              <!--WARNING: No type t was given for this view; assuming it is an input-->
             </input>
           </group>
           <group ref="Col_1" faims_style="even">
             <label/>
-            <input faims_attribute_type="measure" ref="Special_Find_Y" faims_attribute_name="Special Find Y">
+            <input faims_attribute_type="measure" ref="Special_Find_Y" faims_attribute_name="Special Find Y" faims_style_class="required">
               <label>{Special_Find_Y}</label>
-              <!--WARNING: No type t was given for this view; assuming it is an input-->
             </input>
           </group>
           <group ref="Col_2" faims_style="even">
             <label/>
-            <input faims_attribute_type="measure" ref="Special_Find_Z" faims_attribute_name="Special Find Z">
+            <input faims_attribute_type="measure" ref="Special_Find_Z" faims_attribute_name="Special Find Z" faims_style_class="required">
               <label>{Special_Find_Z}</label>
-              <!--WARNING: No type t was given for this view; assuming it is an input-->
             </input>
           </group>
         </group>
         <input faims_attribute_type="measure" ref="Special_Find_Comment" faims_attribute_name="Special Find Comment">
           <label>{Special_Find_Comment}</label>
-          <!--WARNING: No type t was given for this view; assuming it is an input-->
         </input>
         <select type="camera" faims_attribute_type="measure" faims_sync="true" ref="Photo" faims_attribute_name="Photo">
           <label>{Photo}</label>
@@ -2302,7 +2164,6 @@
         <label>{Vars}</label>
         <select1 faims_attribute_type="vocab" ref="AreaCode" faims_attribute_name="AreaCode">
           <label>{AreaCode}</label>
-          <!--WARNING: No type t was given for this view; assuming it is a dropdown-->
           <item>
             <label>Options not loaded</label>
             <value>0</value>
@@ -2310,7 +2171,6 @@
         </select1>
         <select1 faims_attribute_type="vocab" ref="Device_Code" faims_attribute_name="Device Code">
           <label>{Device_Code}</label>
-          <!--WARNING: No type t was given for this view; assuming it is a dropdown-->
           <item>
             <label>Options not loaded</label>
             <value>0</value>
@@ -2318,7 +2178,6 @@
         </select1>
         <input faims_attribute_type="measure" ref="Site_Code" faims_attribute_name="Site Code">
           <label>{Site_Code}</label>
-          <!--WARNING: No type t was given for this view; assuming it is an input-->
         </input>
       </group>
     </group>
@@ -2332,27 +2191,23 @@
             <label/>
             <input faims_attribute_type="measure" ref="Photo_Context_ID" faims_attribute_name="Photo Context ID">
               <label>{Photo_Context_ID}</label>
-              <!--WARNING: No type t was given for this view; assuming it is an input-->
             </input>
           </group>
           <group ref="Col_1" faims_style="even">
             <label/>
-            <input faims_attribute_type="measure" ref="Photo_Context_Group_ID" faims_attribute_name="Photo Context Group ID">
+            <input faims_attribute_type="measure" ref="Photo_Context_Group_ID" faims_attribute_name="Photo Context Group ID" faims_read_only="true">
               <label>{Photo_Context_Group_ID}</label>
-              <!--WARNING: No type t was given for this view; assuming it is an input-->
             </input>
           </group>
           <group ref="Col_2" faims_style="even">
             <label/>
             <input faims_attribute_type="measure" ref="Photograph_Reference_ID" faims_attribute_name="Photograph Reference ID">
               <label>{Photograph_Reference_ID}</label>
-              <!--WARNING: No type t was given for this view; assuming it is an input-->
             </input>
           </group>
         </group>
         <select1 faims_attribute_type="vocab" ref="Scene_Type" faims_attribute_name="Scene Type">
           <label>{Scene_Type}</label>
-          <!--WARNING: No type t was given for this view; assuming it is a dropdown-->
           <item>
             <label>Options not loaded</label>
             <value>0</value>
@@ -2360,14 +2215,12 @@
         </select1>
         <input faims_attribute_type="measure" ref="Photograph_Description" faims_attribute_name="Photograph Description">
           <label>{Photograph_Description}</label>
-          <!--WARNING: No type t was given for this view; assuming it is an input-->
         </input>
       </group>
       <group ref="Vars" faims_hidden="true">
         <label>{Vars}</label>
         <select1 faims_attribute_type="vocab" ref="AreaCode" faims_attribute_name="AreaCode">
           <label>{AreaCode}</label>
-          <!--WARNING: No type t was given for this view; assuming it is a dropdown-->
           <item>
             <label>Options not loaded</label>
             <value>0</value>
@@ -2375,11 +2228,9 @@
         </select1>
         <input faims_attribute_type="measure" ref="Site_Code" faims_attribute_name="Site Code">
           <label>{Site_Code}</label>
-          <!--WARNING: No type t was given for this view; assuming it is an input-->
         </input>
         <select1 faims_attribute_type="vocab" ref="Device_Code" faims_attribute_name="Device Code">
           <label>{Device_Code}</label>
-          <!--WARNING: No type t was given for this view; assuming it is a dropdown-->
           <item>
             <label>Options not loaded</label>
             <value>0</value>
@@ -2397,24 +2248,27 @@
             <label/>
             <input faims_attribute_type="measure" ref="timestamp" faims_attribute_name="timestamp">
               <label>{timestamp}</label>
-              <!--WARNING: No type t was given for this view; assuming it is an input-->
             </input>
           </group>
           <group ref="Col_1" faims_style="even">
             <label/>
             <input faims_attribute_type="measure" ref="author" faims_attribute_name="author">
               <label>{author}</label>
-              <!--WARNING: No type t was given for this view; assuming it is an input-->
             </input>
           </group>
         </group>
         <input faims_attribute_type="measure" ref="Title" faims_attribute_name="Title">
           <label>{Title}</label>
-          <!--WARNING: No type t was given for this view; assuming it is an input-->
         </input>
+        <select1 faims_attribute_type="vocab" ref="AreaCode" faims_attribute_name="AreaCode">
+          <label>{AreaCode}</label>
+          <item>
+            <label>Options not loaded</label>
+            <value>0</value>
+          </item>
+        </select1>
         <input faims_attribute_type="measure" ref="Text" faims_attribute_name="Text">
           <label>{Text}</label>
-          <!--WARNING: No type t was given for this view; assuming it is an input-->
         </input>
         <select type="file" faims_attribute_type="measure" faims_sync="true" ref="FileAttach" faims_attribute_name="FileAttach">
           <label>{FileAttach}</label>
@@ -2460,17 +2314,6 @@
           <label>{View_Attached_Files}</label>
         </trigger>
       </group>
-      <group ref="Vars" faims_hidden="true">
-        <label>{Vars}</label>
-        <select1 faims_attribute_type="vocab" ref="AreaCode" faims_attribute_name="AreaCode">
-          <label>{AreaCode}</label>
-          <!--WARNING: No type t was given for this view; assuming it is a dropdown-->
-          <item>
-            <label>Options not loaded</label>
-            <value>0</value>
-          </item>
-        </select1>
-      </group>
     </group>
     <group ref="Legacy" faims_archent_type="Legacy">
       <label>{Legacy}</label>
@@ -2478,7 +2321,6 @@
         <label>{Legacy}</label>
         <input faims_attribute_type="measure" ref="LegacyIdentifier" faims_attribute_name="LegacyIdentifier">
           <label>{LegacyIdentifier}</label>
-          <!--WARNING: No type t was given for this view; assuming it is an input-->
         </input>
       </group>
     </group>

@@ -17,9 +17,9 @@
 
 <path d="M 5 30 L 5 35 L 61 35 L 61 30" stroke="black" fill="white" stroke-width="1"/>
 
-<text x="5" y="12" font-family="Roboto" font-size="10pt" fill="black"> Feature Title </text>
-stroke black
-fill black
+<text x="5" y="12" font-family="Roboto" font-size="10pt" fill="red"> Feature Title </text>
+stroke red
+fill red
 stroke-width 0
 stroke-opacity 0
 font-size 16

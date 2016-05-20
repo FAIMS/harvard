@@ -49,9 +49,9 @@ text 340, 50 "Picture 4"
 
 
 
-<text x="5" y="12" font-family="Roboto" font-size="10pt" fill="black"> CG Context Type </text>
-stroke black
-fill black
+<text x="5" y="12" font-family="Roboto" font-size="10pt" fill="red"> CG Context Type </text>
+stroke red
+fill red
 stroke-width 0
 stroke-opacity 0
 font-size 16
