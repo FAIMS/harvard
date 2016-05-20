@@ -1,0 +1,158 @@
+<?xml version="1.0"?>
+<ValidationSchema>
+  <ArchaeologicalElement name="Context">
+    <property name="AreaCode">
+      <validator type="blankchecker">
+        <param value="measure" type="field"/>
+      </validator>
+    </property>
+    <property name="Context ID">
+      <validator type="blankchecker">
+        <param value="measure" type="field"/>
+      </validator>
+    </property>
+    <property name="Location Note">
+      <validator type="blankchecker">
+        <param value="measure" type="field"/>
+      </validator>
+    </property>
+    <property name="Excavation Method">
+      <validator type="blankchecker">
+        <param value="vocab" type="field"/>
+      </validator>
+    </property>
+    <property name="Plans">
+      <validator type="blankchecker">
+        <param value="measure" type="field"/>
+      </validator>
+    </property>
+    <property name="Section Numbers">
+      <validator type="blankchecker">
+        <param value="measure" type="field"/>
+      </validator>
+    </property>
+    <property name="Highest Level">
+      <validator type="blankchecker">
+        <param value="measure" type="field"/>
+      </validator>
+    </property>
+    <property name="Lowest Level">
+      <validator type="blankchecker">
+        <param value="measure" type="field"/>
+      </validator>
+    </property>
+    <property name="Length">
+      <validator type="blankchecker">
+        <param value="measure" type="field"/>
+      </validator>
+    </property>
+    <property name="Width">
+      <validator type="blankchecker">
+        <param value="measure" type="field"/>
+      </validator>
+    </property>
+    <property name="Depth">
+      <validator type="blankchecker">
+        <param value="measure" type="field"/>
+      </validator>
+    </property>
+    <property name="Volume">
+      <validator type="blankchecker">
+        <param value="measure" type="field"/>
+      </validator>
+    </property>
+    <property name="Cut Your Interpretation">
+      <validator type="blankchecker">
+        <param value="measure" type="field"/>
+      </validator>
+    </property>
+    <property name="Shape of Cut">
+      <validator type="blankchecker">
+        <param value="measure" type="field"/>
+      </validator>
+    </property>
+    <property name="Shape of Corners">
+      <validator type="blankchecker">
+        <param value="vocab" type="field"/>
+      </validator>
+    </property>
+    <property name="Break of Slope - Top">
+      <validator type="blankchecker">
+        <param value="vocab" type="field"/>
+      </validator>
+    </property>
+    <property name="Sides of Cut">
+      <validator type="blankchecker">
+        <param value="measure" type="field"/>
+      </validator>
+    </property>
+    <property name="Shape of Base">
+      <validator type="blankchecker">
+        <param value="measure" type="field"/>
+      </validator>
+    </property>
+    <property name="Cut Function">
+      <validator type="blankchecker">
+        <param value="measure" type="field"/>
+      </validator>
+    </property>
+    <property name="Orientation">
+      <validator type="blankchecker">
+        <param value="measure" type="field"/>
+      </validator>
+    </property>
+    <property name="Inclination of axis">
+      <validator type="blankchecker">
+        <param value="measure" type="field"/>
+      </validator>
+    </property>
+    <property name="Structure Your Interpretation">
+      <validator type="blankchecker">
+        <param value="measure" type="field"/>
+      </validator>
+    </property>
+    <property name="Structure Description">
+      <validator type="blankchecker">
+        <param value="measure" type="field"/>
+      </validator>
+    </property>
+    <property name="Deposit Your Interpretation">
+      <validator type="blankchecker">
+        <param value="measure" type="field"/>
+      </validator>
+    </property>
+    <property name="Soil Compaction Type">
+      <validator type="blankchecker">
+        <param value="measure" type="field"/>
+      </validator>
+    </property>
+    <property name="Soil Texture">
+      <validator type="blankchecker">
+        <param value="measure" type="field"/>
+      </validator>
+    </property>
+    <property name="Composition Type">
+      <validator type="blankchecker">
+        <param value="measure" type="field"/>
+      </validator>
+    </property>
+    <property name="Deposit Bedding">
+      <validator type="blankchecker">
+        <param value="measure" type="field"/>
+      </validator>
+    </property>
+    <property name="Deposit Inclusions">
+      <validator type="blankchecker">
+        <param value="measure" type="field"/>
+      </validator>
+    </property>
+  </ArchaeologicalElement>
+  <ArchaeologicalElement name="Context_Group"/>
+  <ArchaeologicalElement name="Matrix"/>
+  <ArchaeologicalElement name="Height"/>
+  <ArchaeologicalElement name="Sample"/>
+  <ArchaeologicalElement name="Special_Find"/>
+  <ArchaeologicalElement name="Photograph_Log"/>
+  <ArchaeologicalElement name="Diary"/>
+  <ArchaeologicalElement name="Legacy"/>
+</ValidationSchema>

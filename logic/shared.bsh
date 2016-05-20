@@ -1,0 +1,54 @@
+/*********************************** SHARED ***********************************/
+/* Shared functions which are not general enough to be placed in utils.bsh.   */
+/******************************************************************************/
+String WEB_REL_NONE = "<i>None</i>";
+
+contextIdentifer = "";
+
+populateSquare(ref) {
+  String q = "";
+  q += " SELECT DISTINCT measure, measure";
+  q += " FROM            latestnondeletedaentvalue";
+  q += " JOIN            attributekey USING (attributeid)";
+  q += " WHERE           attributename = 'Square'";
+  q += " AND             measure IS NOT NULL";
+  q += " ORDER BY        measure;";
+
+  FetchCallback populate = new FetchCallback() {
+    onFetch(result) {
+      populateDropDown(ref, result);
+    }
+  };
+
+  fetchAll(q, populate);
+}
+
+setFieldToIdentifier(String identiferType, String lotRef) {
+  String uuid = getUuid(identiferType);
+
+  if (isNull(uuid)) {
+    populateWebViewHtml(lotRef, "&nbsp;");
+    return;
+  }
+
+  String q = "";
+  q += "SELECT uuid, response ";
+  q += "FROM latestnondeletedarchentformattedidentifiers ";
+  q += "WHERE uuid = '%s' ";
+  q  = replaceFirst(q, "%s", uuid);
+
+  cb = new FetchCallback() {
+    onFetch(result) {
+      contextIdentifer  = result.get(1);
+
+      populateWebViewHtml(lotRef, contextIdentifer);
+    }
+  };
+
+  fetchOne(q, cb);
+}
+
+populateLotLabel(lotRef) {
+  identiferType = "Context";
+  setFieldToIdentifier(identiferType, lotRef);
+}

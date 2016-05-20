@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--@PREPROC:  ./proc/pre.sh-->
+<!--@POSTPROC: ./proc/post.sh-->
 <module>
 
 <rels>
+  <!--Context group-to-Context relationship(s)-->
+  <RelationshipElement name="Context Group - Context" type="hierarchical">
+    <description>A 1-to-n relationship between the parent and its children, respectively.</description>
+    <parent>includes</parent>
+    <child>is included in</child>
+  </RelationshipElement>
+
+  <!--Context-to-Context relationship(s)-->
   <RelationshipElement name="Butts - Butted By" type="hierarchical">
     <description>Implements a Butts-ButtedBy for contexts.</description>
     <parent>Butts</parent>
@@ -69,7 +79,7 @@
   <!--</RelationshipElement>-->
 </rels>
 
-<User f="nolabel">
+<User f="nodata nolabel">
   <User_List>
     <!--TODO: Validation-->
     <Users t="dropdown" f="user"/>
@@ -101,7 +111,7 @@
   <desc>The physical result of any single action whether it leaves a positive or negative record within the stratigraphic sequence. (MoLAS 1994)</desc>
   <General>
     <cols>
-      <AreaCode f="id">
+      <AreaCode f="id notnull">
         <desc>The excavation trench, designated by a letter code and assigned automatically by the module based on your selection when you log in.</desc>
         <str>
           <fmt><![CDATA[$1]]></fmt>
@@ -117,7 +127,7 @@
           <opt>X</opt>
         </opts>
       </AreaCode>
-      <Context_ID f="id">
+      <Context_ID f="id notnull">
         <desc>Every archaeological context (negative element (cut), deposit, structure, skeleton, artefact cluster) is given a unique 3 or 4 letter context code. Each trench is designated with a separate letter which starts the code, so it is immediately obvious to which trench a context belongs. For example context HAA belongs to Trench H, context MQP to Trench M etc.
         The contexts are labelled consecutively in alphabetical order using the letters following the trench letter. For Trench H the first context would be HAA, the second HAB, the third HAB and so on. In addition sets of letters can denote parts of trenches, buildings etc. E.g. HFs might denote contexts from a specific building.
         Burial context codes begin with the letter Z, followed by the trench letter. Hence burial ZHA is the first burial context from trench H.
@@ -141,7 +151,7 @@
         <desc>The Y coordinate on the SW corner of the context.</desc>
       </Grid_Y>
     </cols>
-    <Location_Note>
+    <Location_Note f="notnull">
       <desc>Record the approximate location in the excavation area, for example: centre of Area A; NW corner area A. Also include, where relevant, the position in relation to other archaeological contexts or features e.g. between walls x and y.</desc>
     </Location_Note>
     <cols>
@@ -154,7 +164,7 @@
           <!-- Instead of UBAF-27, we're sticking in a textarea-->
         </Excavators>
       </col>
-      <Excavation_Method>
+      <Excavation_Method t="checkbox" f="notnull">
         <desc>Enter details here about the method of archaeological excavation.</desc>
         <opts>
           <opt>Hand-pick
@@ -218,10 +228,10 @@
       <!--TODO: Make this update the GUI-->
     </Fill_in_Context_Type_Details>
     <cols>
-      <Plans>
+      <Plans f="notnull">
         <desc>Reference numbers to plans or drawings of this Context.</desc>
       </Plans>
-      <Section_Numbers>
+      <Section_Numbers f="notnull">
         <desc>Reference numbers to section drawings of this Context</desc>
       </Section_Numbers>
     </cols>
@@ -240,32 +250,32 @@
   </General>
   <Measure f="noscroll">
     <cols>
-      <Highest_Level>
+      <Highest_Level f="notnull">
         <desc>The highest elevation or 'starting level' recorded for that context relative to the site grid.</desc>
       </Highest_Level>
-      <Lowest_Level>
+      <Lowest_Level f="notnull">
         <desc>The lowest elevation recorded for that context relative to the site grid.</desc>
       </Lowest_Level>
     </cols>
     <cols>
-      <Length>
+      <Length f="notnull">
         <desc>Longest dimension in metres.</desc>
       </Length>
-      <Width>
+      <Width f="notnull">
         <desc>Width or diameter in metres.</desc>
       </Width>
-      <Depth>
+      <Depth f="notnull">
         <desc>Depth or Height in metres.</desc>
       </Depth>
     </cols>
-    <Volume>
+    <Volume f="notnull">
       <desc>Estimate the volume of the context in litres. All soil will be collected in buckets of a known volume. A tally should be kept of buckets produced from a context and the total volume calculated using that tally.</desc>
     </Volume>
-    <Add_Height lc="Height"/>
+    <Add_Height t="button" lc="Height"/>
     <Height_List ec="Height" t="list"/>
   </Measure>
   <Cut>
-    <Cut_Your_Interpretation>
+    <Cut_Your_Interpretation f="notnull">
       <desc>Your interpretation of the likely function of the Context using standardised definitions.</desc>
       <opts>
         <opt>No Observation</opt>
@@ -294,7 +304,7 @@
       </opts>
     </Cut_Your_Interpretation>
     <cols>
-      <Shape_of_Cut>
+      <Shape_of_Cut f="notnull">
         <desc>Describe the shape of the negative element/cut viewed from above.</desc>
         <opts>
           <opt>No Observation
@@ -321,7 +331,7 @@
         <desc>Additional notes about the shape of the cut.</desc>
       </Shape_of_Cut_-_Note>
     </cols>
-    <Shape_of_Corners>
+    <Shape_of_Corners t="radio" f="notnull">
       <desc>Describe the shape of any visible corners of the negative element/cut.</desc>
       <opts>
         <opt>Other
@@ -332,7 +342,7 @@
         <desc>Sharp perpendicular corners.</desc></opt>
       </opts>
     </Shape_of_Corners>
-    <Break_of_Slope_-_Top>
+    <Break_of_Slope_-_Top t="radio" f="notnull">
       <desc>The degree with which the top surface of the edge of the cut breaks into the sides.</desc>
       <opts>
         <opt>Gradual
@@ -346,7 +356,7 @@
       </opts>
     </Break_of_Slope_-_Top>
     <cols>
-      <Sides_of_Cut>
+      <Sides_of_Cut f="notnull">
         <desc>Describe the shape of the cut as seen in cross section.</desc>
         <opts>
           <opt>No Observation</opt>
@@ -365,7 +375,7 @@
           </opt>v</opt>
         </opts>
       </Sides_of_Cut>
-      <Shape_of_Base>
+      <Shape_of_Base f="notnull">
         <desc>The shape of the base of the cut in profile.</desc>
         <opts>
           <opt>No Observation
@@ -388,10 +398,10 @@
         </opts>
       </Shape_of_Base>
     </cols>
-    <Cut_Function>
+    <Cut_Function f="notnull">
       <desc>Comment in more specific detail on your understanding of the reasons for the shape and nature of the cut.</desc>
     </Cut_Function>
-    <Orientation>
+    <Orientation f="notnull">
       <desc>Orientation of linear cuts eg N-S.</desc>
       <opts>
         <opt>No Observation
@@ -406,7 +416,7 @@
         <desc>Oriented North-west to South-east.</desc></opt>
       </opts>
     </Orientation>
-    <Inclination_of_axis>
+    <Inclination_of_axis f="notnull">
       <desc>Inclination of the axis of post- and stakeholes.</desc>
       <opts>
         <opt>No Observation
@@ -423,7 +433,7 @@
     </Inclination_of_axis>
   </Cut>
   <Structures>
-    <Structure_Your_Interpretation>
+    <Structure_Your_Interpretation f="notnull">
       <desc>Your interpretation of the likely function of the structure.</desc>
       <opts>
         <opt>No Observation</opt>
@@ -510,7 +520,7 @@
     <Distinguishing_Marks>
       <desc>Describe and distinguishing marks on the bricks or stone, such as makers marks, score marks etc.</desc>
     </Distinguishing_Marks>
-    <Structure_Description>
+    <Structure_Description f="notnull">
       <desc>Describe the structure.</desc>
     </Structure_Description>
     <Number_Courses>
@@ -561,7 +571,7 @@
     <Enter_Sediment_Description t="button"/>
   </Structures>
   <Deposit>
-    <Deposit_Your_Interpretation>
+    <Deposit_Your_Interpretation f="notnull">
       <desc>Your interpretation of the likely function of the context.</desc>
       <opts>
         <opt>No Observation</opt>
@@ -599,7 +609,7 @@
         <desc>Function not elsewhere described. Provide details in Annotation field.</desc></opt>
       </opts>
     </Deposit_Your_Interpretation>
-    <Soil_Compaction_Type>
+    <Soil_Compaction_Type f="notnull">
       <desc>Describe the compaction of the sediments in the Context.</desc>
       <opts>
         <opt>No Observation</opt>
@@ -636,7 +646,7 @@
       </opts>
     </Soil_Particle_Sorting>
     <cols>
-      <Soil_Texture>
+      <Soil_Texture f="notnull">
         <desc>The type of sediment, eg clay, silt, sand and loam. Use the Material Helper or a Soil Sediment diagram for assisance.</desc>
         <opts>
           <opt>No Observation
@@ -678,7 +688,7 @@
       </desc>
     </Soil_Colour>
     <cols>
-      <Composition_Type>
+      <Composition_Type f="notnull">
         <desc>Describe the structure of the Context sediment. The components making up the structure are added below as aggregates.</desc>
         <opts>
           <opt>No Observation</opt>
@@ -692,7 +702,7 @@
           <desc>Deposit consists of a number of fine lenses of different materials</desc></opt>
         </opts>
       </Composition_Type>
-      <Deposit_Bedding>
+      <Deposit_Bedding f="notnull">
         <desc>Describes the base of the deposit</desc>
         <opts>
           <opt>No Observation</opt>
@@ -708,7 +718,7 @@
       </Deposit_Bedding>
     </cols>
     <cols>
-      <Sterile>
+      <Sterile t="radio">
         <desc>Whether or not the deposit is sterile, ie contains no artefacts</desc>
         <opts>
           <opt>Yes
@@ -717,15 +727,15 @@
           <desc>Object is not sterile</desc></opt>
         </opts>
       </Sterile>
-      <Deposit_Inclusions>
+      <Deposit_Inclusions f="notnull">
         <desc>Enter a brief description of inclusions (eg stone flecks artefacts).</desc>
       </Deposit_Inclusions>
     </cols>
-    <Add_New_Matrix lc="Matrix">
-      Add New Sediemnt/Aggregate
+    <Add_New_Matrix t="button" lc="Matrix">
+      Add New Sediment/Aggregate
     </Add_New_Matrix>
     <Associated_Matrices t="dropdown" ec="Matrix">
-      Associated Sediemnt/Aggregates
+      Associated Sediment/Aggregates
     </Associated_Matrices>
   </Deposit>
   <Skeleton>
@@ -749,30 +759,30 @@
       <desc>Record the approximate extent of the skeletal remains (in meters or millimetres only) and the axis of measurement. Detailed dimensions can be taken from the plan.</desc>
     </Skeleton_Dimensions>
     <cols>
-      <Skeleton_Head>
+      <Skeleton_Head t="notnull">
         <desc>Which way up the head faces and/or points</desc>
       </Skeleton_Head>
-      <Skeleton_Body>
+      <Skeleton_Body t="notnull">
         <desc>Describe the attitude of the body, whether it is extended, crouched, flexed, supine (front up), prone (face down) and the orientation.</desc>
       </Skeleton_Body>
     </cols>
     <cols>
-      <Skeleton_Left_Arm>
+      <Skeleton_Left_Arm t="notnull">
         <desc>Record whether left arm is straight or flexed, is along the side of the body, over the chest or on the pelvis, and the position of the hand.</desc>
       </Skeleton_Left_Arm>
-      <Skeleton_Right_Arm>
+      <Skeleton_Right_Arm t="notnull">
         <desc>Record whether right arm is straight or flexed, is along the side of the body, over the chest or on the pelvis, and the position of the hand.</desc>
       </Skeleton_Right_Arm>
     </cols>
     <cols>
-      <Skeleton_Left_Leg>
+      <Skeleton_Left_Leg t="notnull">
         <desc>Record whether the leg is straight or bent, crossed left over right or right over left and the position of the foot</desc>
       </Skeleton_Left_Leg>
-      <Skeleton_Right_Leg>
+      <Skeleton_Right_Leg t="notnull">
         <desc>Record whether the leg is straight or bent, crossed left over right or right over left and the position of the foot</desc>
       </Skeleton_Right_Leg>
     </cols>
-    <Skeleton_Condition>
+    <Skeleton_Condition t="notnull">
       <desc>Describe the general condition of the skeleton and any comments on articulation. Any degeneration of bone in situ is important to record as well as accidental damage during excavation and lifting. Record disturbances through later activity or animal/root activity as well as damage due to stone pressure on the bones. It is important to note whether the patellae, hyoid, phalanges, basi-occipital etc are present or not, and their location, as this may give an indication of the state of the body at the time of interment.</desc>
     </Skeleton_Condition>
     <Skeleton_Surface_Modifications>
@@ -785,13 +795,13 @@
       <desc>It is important to excavate skeletal remains as quickly as possible as the state of the bone will change during exposure. Any conditional change should also be noted. Excavate as quickly as possible because the bones will degrade rapidly.</desc>
     </Skeleton_Days_Exposed>
     <cols>
-      <Target_A_X>
+      <Target_A_X t="notnull">
         <desc>The X coordinate of Target A. Targets are white-painted, large-headed nails used to rectify photographs.</desc>
       </Target_A_X>
-      <Target_A_Y>
+      <Target_A_Y t="notnull">
         <desc>The Y coordinate of Target A. Targets are white-painted, large-headed nails used to rectify photographs.</desc>
       </Target_A_Y>
-      <Target_A_Z>
+      <Target_A_Z t="notnull">
         <desc>The Z coordinate of Target A. Targets are white-painted, large-headed nails used to rectify photographs.</desc>
       </Target_A_Z>
     </cols>
@@ -831,16 +841,16 @@
     <Skeleton_Notes/>
   </Skeleton>
   <Int>
-    <Your_description>
+    <Your_description t="notnull">
       <desc>Enter a verbal description of the Context, including its form, contexts, relationship to other Contexts and any other relevant information. This is the main place to record all other descriptive information that may be treated briefly or not covered elsewhere, including signs of disturbance  by burrowing animals etc.</desc>
     </Your_description>
-    <Your_Discussion>
+    <Your_Discussion t="notnull">
       <desc>Enter an interpretation of the function of the Context and its place in the stratigraphical sequence.</desc>
     </Your_Discussion>
   </Int>
   <Context_Group f="noscroll">
     <!--TODO: Should this go buh-byes?-->
-    <Add_Context_Group lc="Context_Group"/>
+    <Add_Context_Group t="button" lc="Context_Group"/>
     <List_of_Related_Context_Groups ec="Context_Group" t="list"/>
   </Context_Group>
   <Relationships>
@@ -856,12 +866,12 @@
     </cols>
   </Relationships>
   <Artefacts f="noscroll">
-    <Add_Special_Find lc="Special_Find"/>
-    <List_of_Related_Special_Finds ec="Special_Find"/>
+    <Add_Special_Find t="button" lc="Special_Find"/>
+    <List_of_Related_Special_Finds ec="Special_Find" t="list"/>
   </Artefacts>
   <Samples f="noscroll">
-    <Add_Sample lc="Sample"/>
-    <List_of_Sample ec="Sample"/>
+    <Add_Sample t="button" lc="Sample"/>
+    <List_of_Sample ec="Sample" t="list"/>
   </Samples>
   <Add>
     <Sketch t="file">
@@ -964,7 +974,7 @@
     </Soil_Texture_Helper>
     <Update_Material t="button"/>
   </Material_Helper>
-  <Vars>
+  <Vars f="hidden">
     <!--TODO: Inherit these-->
     <Site_Code>
       <desc>Short code to signify the excavation site and often the year of excavation. Assigned automatically by the module.</desc>
@@ -1230,7 +1240,7 @@
       </opts>
     </Shape>
   </Matrix>
-  <Vars>
+  <Vars f="hidden">
     <!--TODO: Inherit these-->
     <AreaCode>
       <desc>The excavation trench, designated by a letter code and assigned automatically by the module based on your selection when you log in.</desc>
@@ -1282,7 +1292,7 @@
       <desc>Add a description here concerning the entity whose position you have recorded</desc>
     </Notes>
   </Height>
-  <Vars>
+  <Vars f="hidden">
     <!--TODO: Inherit these-->
     <AreaCode>
       <desc>The excavation trench, designated by a letter code and assigned automatically by the module based on your selection when you log in.</desc>
@@ -1395,7 +1405,7 @@
       <desc>Use this button to record a video using the tablet of this sample</desc>
     </Video>
   </Add>
-  <Vars>
+  <Vars f="hidden">
     <!--TODO: Inherit-->
     <AreaCode f="id">
       <desc>The excavation trench, designated by a letter code and assigned automatically by the module based on your selection when you log in.</desc>
@@ -1603,9 +1613,9 @@
     <Video t="video">
       <desc>Use this button to record a video using the tablet of this artefact etc</desc>
     </Video>
-    <View_Attached_Files t="files"/>
+    <View_Attached_Files t="file"/>
   </Special_Find>
-  <Vars>
+  <Vars f="hidden">
     <!--TODO: Inherit-->
     <AreaCode f="id">
       <desc>The excavation trench, designated by a letter code and assigned automatically by the module based on your selection when you log in.</desc>
@@ -1686,7 +1696,7 @@
     </Scene_Type>
     <Photograph_Description/>
   </Photograph_Log>
-  <Vars>
+  <Vars f="hidden">
     <!--TODO: Inherit these-->
     <AreaCode f="id">
       <desc>The excavation trench, designated by a letter code and assigned automatically by the module based on your selection when you log in.</desc>
@@ -1751,9 +1761,7 @@
     <Text>
       <desc>Record your diary entry here in as much detail as necessary and append with photographs, video and/or audio</desc>
     </Text>
-    <FileAttach t="file">
-      Attach sketch
-    </FileAttach>
+    <FileAttach t="file"/>
     <Audio t="audio">
       <desc>Use this button to record an audio file of your observations concerning this entry</desc>
     </Audio>
@@ -1765,7 +1773,7 @@
     </Photo>
     <View_Attached_Files t="viewfiles"/>
   </Diary>
-  <Vars>
+  <Vars f="hidden">
     <!--TODO: Inherit these-->
     <AreaCode f="id">
       <desc>The excavation trench, designated by a letter code and assigned automatically by the module based on your selection when you log in.</desc>
@@ -1788,17 +1796,19 @@
 </Diary>
 
 <Legacy>
-  <LegacyIdentifier f="id">
-    <str>
-      <fmt><![CDATA[Legacy-$2]]></fmt>
-    </str>
-  </LegacyIdentifier>
+  <Legacy>
+    <LegacyIdentifier f="id">
+      <str>
+        <fmt><![CDATA[Legacy-$2]]></fmt>
+      </str>
+    </LegacyIdentifier>
+  </Legacy>
 </Legacy>
 
 <Relationship f="nodata">
   <!--TODO: Wire me up, Scotty!-->
   <Relationships f="noscroll">
-    <LOT_Label t="webview"/>
+    <Parent_Identifier t="webview"/>
     <cols>
       <Square            t="dropdown"/>
       <Relationship_Type t="dropdown"/>
@@ -1844,4 +1854,12 @@
   </Relationships>
 </Context_Group_Relationship>
 
+<logic><![CDATA[
+  <!--@SOURCE: logic/utils.bsh-->
+  <!--@SOURCE: logic/shared.bsh-->
+  <!--@SOURCE: logic/relationships-shared.bsh-->
+
+  <!--@SOURCE: logic/relationships-context-to-context.bsh-->
+  <!--@SOURCE: logic/relationships-context-group-to-context.bsh-->
+]]></logic>
 </module>

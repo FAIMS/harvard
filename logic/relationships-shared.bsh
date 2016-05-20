@@ -1,0 +1,110 @@
+/******************************* RELATIONSHIPS ********************************/
+/* Variables and functions shared by entity-specfic code fo relating          */
+/* entities.                                                                  */
+/******************************************************************************/
+addOnEvent("Context",                    "show", "onDisplayParent()");
+addOnEvent("Relationship",               "show", "onDisplayRelationship()");
+addOnEvent("Context_Group",              "show", "CGonDisplayParent()");
+addOnEvent("Context_Group_Relationship", "show", "CGonDisplayRelationship()");
+
+String WEB_REL_DESC_FMT      = "%s <u>&nbsp;%s&nbsp;</u> <u>&nbsp;%s&nbsp;</u>";
+String WEB_REL_DESC_FILL     = "?";
+String WEB_REL_BLANK         = "&nbsp;";
+
+String selectedRelId         = null;
+String selectedRelIdentifier = null;
+String selectedChildUuid     = null;
+
+String proposedChildUuid       = null;
+String proposedChildIdentifier = null;
+
+String displayedTabGroup     = null;
+
+onDisplayParent()         {displayedTabGroup = "Context";}
+onDisplayRelationship()   {displayedTabGroup = "Relationship";}
+isDisplayedParent()       {return displayedTabGroup.equals("Context");}
+isDisplayedRelationship() {return displayedTabGroup.equals("Relationship");}
+
+CGonDisplayParent()         {displayedTabGroup = "Context_Group";}
+CGonDisplayRelationship()   {displayedTabGroup = "Context_Group_Relationship";}
+CGisDisplayedParent()       {return displayedTabGroup.equals("Context_Group");}
+CGisDisplayedRelationship() {return displayedTabGroup.equals("Context_Group_Relationship");}
+
+// Depends on the following globals:
+//   - selectedRelId
+//   - userid        (Defined by autogen)
+deleteRelationship() {
+  if (isNull(selectedRelId)) {
+    showToast("No relationship selected");
+    return;
+  }
+
+  String q = "";
+  q += " INSERT INTO aentreln (uuid, relationshipid, deleted, participatesverb, userid)";
+  q += " SELECT uuid, relationshipid, 'true', participatesverb, '"+userid+"'";
+  q += " FROM latestnondeletedaentreln";
+  q += " WHERE relationshipid = '"+selectedRelId+"'";
+
+  DeleteCallback cb = new DeleteCallback() {
+    onDelete(uuid) {
+      deleteRelationshipSuceeded();
+    }
+  };
+
+  fetchOne(q);
+  deleteRel(selectedRelId, cb);
+}
+
+deleteRelationshipSuceeded() {
+  selectedRelId         = null;
+  selectedRelIdentifier = null;
+
+  String refSelectedRelRel    = "Relationship/Relationships/Selected_Relationship";
+  String refSelectedRelParent = "Context/Relationships/Selected_Relationship";
+  if (isDisplayedParent()) {
+    populateWebViewHtml(refSelectedRelParent, WEB_REL_NONE);
+    populateExistingRelationships();
+  }
+  if (isDisplayedRelationship()) {
+    populateWebViewHtml(refSelectedRelRel,    WEB_REL_NONE);
+    searchRelationship();
+  }
+
+  String CGrefSelectedRelRel    = "Context_Group_Relationship/Relationships/Selected_Relationship";
+  String CGrefSelectedRelParent = "Context_Group/Context_Group_Contexts/Selected_Relationship";
+  if (CGisDisplayedParent()) {
+    populateWebViewHtml(CGrefSelectedRelParent, WEB_REL_NONE);
+    CGpopulateExistingRelationships();
+  }
+  if (CGisDisplayedRelationship()) {
+    populateWebViewHtml(CGrefSelectedRelRel,    WEB_REL_NONE);
+    CGsearchRelationship();
+  }
+}
+
+getSelectedRelationshipComponent(String ref, String component) {
+  String   val       = getFieldValue(ref);
+  String[] arguments = null;
+  if (val == null)
+      return null;
+  else
+      arguments = val.split("~!~");
+
+  String   relationshipName = arguments[0];
+  String   parentRole       = arguments[1];
+  String   childRole        = arguments[2];
+
+  component = component.toLowerCase();
+  if      (component.equals("name"))   return relationshipName;
+  else if (component.equals("parent")) return parentRole;
+  else if (component.equals("child"))  return childRole;
+  else                                 return null;
+}
+
+loadRelatedEntity() {
+  if (isNull(selectedChildUuid)) {
+    showToast("No relationship selected");
+    return;
+  }
+  loadEntityFrom(selectedChildUuid);
+}

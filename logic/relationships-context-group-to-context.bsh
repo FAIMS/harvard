@@ -1,0 +1,245 @@
+/******************************* RELATIONSHIPS ********************************/
+/* Context Group to Context relationships.                                    */
+/*                                                                            */
+/* Uses functions and globals from logic/relationships-shared.bsh             */
+/*                                                                            */
+/* Modifies onClickContextGroupCreateRelationshipstoThisContextGroup using    */
+/* @POSTPROC.                                                                 */
+/******************************************************************************/
+//////////////// FUNCTIONS AFFECTING "CONTEXT GROUP" TAB GROUP /////////////////
+addOnEvent("Context_Group",                                    "show",  "CGinitParentRelationshipGlobals()");
+addOnEvent("Context_Group",                                    "show",  "CGpopulateExistingRelationships()");
+addOnEvent("Context_Group/Context_Group_Contexts/Load_Related_Context", "click", "loadRelatedEntity()");
+
+addOnEvent("Context_Group/Context_Group_Contexts/Existing_Relationships_to_This_Context_Group", "click", "CGSelectRelationship()");
+addOnEvent("Context_Group/Context_Group_Contexts/Delete_Relationship",                    "click", "deleteRelationship()");
+
+CGinitParentRelationshipGlobals() {
+  String refSelectedRelParent = "Context_Group/Context_Group_Contexts/Selected_Relationship";
+
+  selectedChildUuid     = null;
+  selectedRelId         = null;
+  selectedRelIdentifier = null;
+
+  populateWebViewHtml(refSelectedRelParent, WEB_REL_NONE);
+}
+
+CGpopulateExistingRelationships(){
+  String tabGroup    = "Context_Group";
+  String currentUuid = getUuid(tabGroup);
+  String refExistingRelationships = "Context_Group/Context_Group_Contexts/Existing_Relationships_to_This_Context_Group";
+
+  String q = getCGChildQuery(currentUuid);
+
+  populateCursorList(refExistingRelationships, q, 25);
+  refreshTabgroupCSS(tabGroup);
+}
+
+CGSelectRelationship() {
+  String refSelectedRelParent = "Context_Group/Context_Group_Contexts/Selected_Relationship";
+
+  String val = getListItemValue();
+  if (isNull(val)) return;
+
+  String[] arguments = val.split(SEP); // `SEP` defined by autogen as \0
+  String   listName  = arguments[0];
+  if (!listName.equals("related")) return;
+
+  selectedRelId         = arguments[1];
+  selectedRelIdentifier = arguments[2];
+  selectedChildUuid     = arguments[3];
+
+  populateWebViewHtml(refSelectedRelParent, selectedRelIdentifier);
+}
+
+////////////////// FUNCTIONS AFFECTING RELATIONSHIP TAB GROUP //////////////////
+addOnEvent("Context_Group_Relationship",                                      "show",  "CGinitRelationshipRelationshipGlobals()");
+addOnEvent("Context_Group_Relationship/Relationships/Add_Relationship",       "click", "CGaddRelationship()");
+addOnEvent("Context_Group_Relationship/Relationships/Delete_Relationship",    "click", "deleteRelationship()");
+addOnEvent("Context_Group_Relationship/Relationships/Existing_Relationships", "click", "CGselectExistingRelationship()");
+addOnEvent("Context_Group_Relationship/Relationships/Search",                 "click", "CGpopulateProposedRelationship()");
+addOnEvent("Context_Group_Relationship/Relationships/Search",                 "click", "CGsearchRelationship()");
+addOnEvent("Context_Group_Relationship/Relationships/Unrelated_Contexts",     "click", "CGselectUnrelatedEntity()");
+
+CGinitRelationshipRelationshipGlobals() {
+  proposedChildUuid       = null;
+  selectedRelId           = null;
+  proposedChildIdentifier = null;
+  selectedRelIdentifier   = null;
+
+  CGpopulateParentIdentiferRelationships();
+  CGpopulateRelationshipSquare();
+  CGpopulateProposedRelationship();
+  CGclearSearch();
+}
+
+CGpopulateRelationshipSquare() {
+  String ref = "Context_Group_Relationship/Relationships/Square";
+  populateSquare(ref);
+}
+
+CGpopulateProposedRelationship() {
+  String refProposedRel = "Context_Group_Relationship/Relationships/Proposed_Relationship";
+
+  String identifierFrom;
+  String relationship;
+  String identifierTo;
+
+  identifierFrom = contextIdentifer; // Defined in logic/shared.bsh
+  relationship   = "includes";
+  identifierTo   = proposedChildIdentifier;
+
+  if (isNull(identifierFrom)) identifierFrom = WEB_REL_DESC_FILL;
+  if (isNull(relationship  )) relationship   = WEB_REL_DESC_FILL;
+  if (isNull(identifierTo  )) identifierTo   = WEB_REL_DESC_FILL;
+
+  String webviewHtml = WEB_REL_DESC_FMT;
+  webviewHtml = replaceFirst(webviewHtml, "%s", identifierFrom);
+  webviewHtml = replaceFirst(webviewHtml, "%s", relationship  );
+  webviewHtml = replaceFirst(webviewHtml, "%s", identifierTo  );
+
+  populateWebViewHtml(refProposedRel, webviewHtml);
+}
+
+CGsearchRelationship() {
+  String parentTabGroup = "Context_Group";
+  String parentUuid     = getUuid(parentTabGroup);
+
+  String tabGroup     = "Context_Group_Relationship";
+  String refUnrelated = "Context_Group_Relationship/Relationships/Unrelated_Contexts";
+  String refRelated   = "Context_Group_Relationship/Relationships/Existing_Relationships";
+  String refSquare    = "Context_Group_Relationship/Relationships/Square";
+
+  String square     = getFieldValue(refSquare);
+  String parentRole = "includes";
+  String unrelatedQ = "";
+  String relatedQ   = "";
+
+  unrelatedQ += " SELECT 'unrelated' || char(0) || uuid || char(0) || response, response  ";
+  unrelatedQ += "   FROM latestNonDeletedArchEntFormattedIdentifiers   ";
+  unrelatedQ += "  WHERE uuid IN (SELECT uuid ";
+  unrelatedQ += "         FROM latestnondeletedaentvalue  ";
+  unrelatedQ += "         JOIN attributekey USING (attributeid) ";
+  unrelatedQ += "         WHERE uuid IN (   SELECT uuid  ";
+  unrelatedQ += "                             FROM latestnondeletedaentvalue JOIN attributekey USING (attributeid) ";
+  unrelatedQ += "                            WHERE attributename = 'Square' ";
+  unrelatedQ += "                              AND measure = '"+square+"' ";
+  unrelatedQ += "                              and uuid not in (select childuuid ";
+  unrelatedQ += "                                                 from parentchild ";
+  unrelatedQ += "                                                where parentuuid = '"+parentUuid+"' ";
+  unrelatedQ += "                                                  and parentparticipatesverb = '"+parentRole+"')";
+  unrelatedQ += "                              AND uuid != '"+parentUuid+"'";
+  unrelatedQ += "                       )   ";
+  unrelatedQ += "                ) ";
+  unrelatedQ += "  ORDER BY response ";
+  unrelatedQ += "  LIMIT ? OFFSET ?";
+
+  relatedQ += getCGChildQuery(parentUuid);
+
+  populateCursorList(refUnrelated, unrelatedQ, 25);
+  populateCursorList(refRelated,   relatedQ,   25);
+
+  proposedChildUuid = null; proposedChildIdentifier = null;
+  CGpopulateProposedRelationship();
+}
+
+CGclearSearch() {
+  String refUnrelated = "Context_Group_Relationship/Relationships/Unrelated_Contexts";
+  String refRelated   = "Context_Group_Relationship/Relationships/Existing_Relationships";
+
+  String q = "SELECT '' WHERE 0 LIMIT ? OFFSET ?";
+  populateCursorList(refUnrelated, q, 25);
+  populateCursorList(refRelated,   q, 25);
+}
+
+CGselectUnrelatedEntity() {
+  String val = getListItemValue();
+  if (isNull(val)) return;
+  String[] arguments = val.split(SEP); // `SEP` defined by autogen as \0
+  String   listName  = arguments[0];
+  if (!listName.equals("unrelated")) return;
+
+  proposedChildUuid       = arguments[1];
+  proposedChildIdentifier = arguments[2];
+
+  CGpopulateProposedRelationship();
+}
+
+CGaddRelationship() {
+  String parentTabGroup = "Context_Group";
+
+  String relName    = "Context Group - Context";
+  String parentUuid = getUuid(parentTabGroup);
+  String childUuid  = proposedChildUuid;
+  String parentRole = "includes";
+  String childRole  = "is included by";
+  String callback   = "CGaddRelationshipSucceeded()";
+
+  if (isNull(parentUuid)) {
+    String msgHead = "Logic Error";
+    String msgBody = "Something happened which never should.";
+    showWarning(msgHead, msgBody);
+    return;
+  }
+  if (isNull(childUuid)) {
+    showToast("No Context selected");
+    return;
+  }
+
+  saveEntitiesToHierRel(
+      relName,
+      parentUuid, childUuid,
+      parentRole, childRole,
+      callback
+  );
+}
+
+CGaddRelationshipSucceeded() {
+  String refProposedRel = "Context_Group_Relationship/Relationships/Proposed_Relationship";
+
+  proposedChildUuid       = null;
+  proposedChildIdentifier = null;
+
+  populateWebViewHtml(refProposedRel, WEB_REL_BLANK);
+
+  CGsearchRelationship();
+}
+
+CGselectExistingRelationship() {
+  String refSelectedRelRel = "Context_Group_Relationship/Relationships/Selected_Relationship";
+
+  String val = getListItemValue();
+  if (isNull(val)) return;
+
+  String[] arguments = val.split(SEP); // `SEP` defined by autogen as \0
+  String   listName  = arguments[0];
+  if (!listName.equals("related")) return;
+
+  selectedRelId         = arguments[1];
+  selectedRelIdentifier = arguments[2];
+
+  populateWebViewHtml(refSelectedRelRel, selectedRelIdentifier);
+}
+
+CGpopulateParentIdentiferRelationships() {
+  String lotRef = "Context_Group_Relationship/Relationships/Parent_Identifier";
+  setFieldToIdentifier("Context_Group", lotRef);
+}
+
+getCGChildQuery(String parentUuid) {
+  // `contextIdentifer` is defined in logic/shared.bsh
+  String parentIdentifier = contextIdentifer;
+  String relntypename     = "Context Group - Context";
+
+  String relatedQ = "";
+  relatedQ += "SELECT 'related' || char(0) || relationshipid || char(0) || '"+parentIdentifier+" ' || parentparticipatesverb ||' '|| response || char(0) || childuuid, '"+parentIdentifier+"'||' '||parentparticipatesverb||' '||response";
+  relatedQ += "  FROM parentchild JOIN latestNonDeletedArchEntFormattedIdentifiers on (childuuid = uuid) ";
+  relatedQ += "  JOIN createdmodifiedatby USING (uuid) ";
+  relatedQ += " WHERE relationshipid IN (SELECT relationshipid  ";
+  relatedQ += "                            FROM latestnondeletedrelationship JOIN relntype USING (relntypeid)  ";
+  relatedQ += "                           WHERE relntypename = '"+relntypename+"') ";
+  relatedQ += "   and parentuuid = '"+parentUuid+"' ";
+  relatedQ += " ORDER BY createdat desc ";
+  relatedQ += " LIMIT ? OFFSET ? ";
+  return relatedQ;
+}

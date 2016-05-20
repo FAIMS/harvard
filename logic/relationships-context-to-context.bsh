@@ -1,0 +1,285 @@
+/******************************* RELATIONSHIPS ********************************/
+/* Context-to-Context relationships.                                          */
+/*                                                                            */
+/* Uses functions from logic/relationships-shared.bsh                         */
+/*                                                                            */
+/* Modifies onClickContextCreateRelationshipstoThisContext using @POSTPROC.   */
+/******************************************************************************/
+//////////////////// FUNCTIONS AFFECTING CONTEXT TAB GROUP /////////////////////
+addOnEvent("Context",                                    "show",  "initParentRelationshipGlobals()");
+addOnEvent("Context",                                    "show",  "populateExistingRelationships()");
+addOnEvent("Context/Relationships/Load_Related_Context", "click", "loadRelatedEntity()");
+
+addOnEvent("Context/Relationships/Existing_Relationships_to_This_Context", "click", "selectRelationship()");
+addOnEvent("Context/Relationships/Delete_Relationship",                    "click", "deleteRelationship()");
+
+String selectedChildUuid = null;
+
+initParentRelationshipGlobals() {
+  String refSelectedRelParent = "Context/Relationships/Selected_Relationship";
+
+  selectedChildUuid     = null;
+  selectedRelId         = null;
+  selectedRelIdentifier = null;
+
+  populateWebViewHtml(refSelectedRelParent, WEB_REL_NONE);
+}
+
+populateExistingRelationships(){
+  String tabGroup    = "Context";
+  String currentUuid = getUuid(tabGroup);
+  String refExistingRelationships = "Context/Relationships/Existing_Relationships_to_This_Context";
+
+  String q = getRelatedChildQuery(currentUuid);
+
+  populateCursorList(refExistingRelationships, q, 25);
+  refreshTabgroupCSS(tabGroup);
+}
+
+selectRelationship() {
+  String refSelectedRelParent = "Context/Relationships/Selected_Relationship";
+
+  String val = getListItemValue();
+  if (isNull(val)) return;
+
+  String[] arguments = val.split(SEP); // `SEP` defined by autogen as \0
+  String   listName  = arguments[0];
+  if (!listName.equals("related")) return;
+
+  selectedRelId         = arguments[1];
+  selectedRelIdentifier = arguments[2];
+  selectedChildUuid     = arguments[3];
+
+  populateWebViewHtml(refSelectedRelParent, selectedRelIdentifier);
+}
+
+loadRelatedEntity() {
+  if (isNull(selectedChildUuid)) {
+    showToast("No relationship selected");
+    return;
+  }
+  loadEntityFrom(selectedChildUuid);
+}
+
+////////////////// FUNCTIONS AFFECTING RELATIONSHIP TAB GROUP //////////////////
+addOnEvent("Relationship",                                      "show",  "initRelationshipRelationshipGlobals()");
+addOnEvent("Relationship/Relationships/Add_Relationship",       "click", "addRelationship()");
+addOnEvent("Relationship/Relationships/Delete_Relationship",    "click", "deleteRelationship()");
+addOnEvent("Relationship/Relationships/Existing_Relationships", "click", "selectExistingRelationship()");
+addOnEvent("Relationship/Relationships/Relationship_Type",      "click", "populateProposedRelationship()");
+addOnEvent("Relationship/Relationships/Search",                 "click", "populateProposedRelationship()");
+addOnEvent("Relationship/Relationships/Search",                 "click", "searchRelationship()");
+addOnEvent("Relationship/Relationships/Unrelated_Contexts",     "click", "selectUnrelatedEntity()");
+
+String proposedChildUuid       = null;
+String proposedChildIdentifier = null;
+
+initRelationshipRelationshipGlobals() {
+  proposedChildUuid       = null;
+  selectedRelId           = null;
+  proposedChildIdentifier = null;
+  selectedRelIdentifier   = null;
+
+  populateParentIdentiferRelationships();
+  populateRelationshipSquare();
+  populateRelationshipType();
+  populateProposedRelationship();
+  clearSearch();
+}
+
+populateRelationshipSquare() {
+  String ref = "Relationship/Relationships/Square";
+  populateSquare(ref);
+}
+
+populateRelationshipType() {
+  refRelationshipType = "Relationship/Relationships/Relationship_Type";
+
+  String q = "";
+  q += "SELECT relntypename||'~!~'||coalesce(nullif(parent||'~!~'||child,'~!~'),relntypename||'~!~'||relntypename) as relntypeid, coalesce(nullif(parent,''), relntypename) as name, relntypeid ";
+  q += "  FROM relntype ";
+  q += " WHERE relntypename not like '%Context%' ";
+  q += "   AND relntypename not like '%Special Find%' ";
+  q += " UNION ";
+  q += " SELECT relntypename||'~!~'||coalesce(nullif(child||'~!~'||parent,'~!~'),relntypename||'~!~'||relntypename), coalesce(nullif(child,''), relntypename) as name, relntypeid ";
+  q += "  FROM relntype ";
+  q += " WHERE relntypename not like '%Context%' ";
+  q += "   AND relntypename not like '%Special Find%' ";
+  q += " ORDER BY relntypeid, name";
+
+  FetchCallback populate = new FetchCallback() {
+    onFetch(result) {
+      populateDropDown(refRelationshipType, result);
+    }
+  };
+
+  fetchAll(q, populate);
+}
+
+populateProposedRelationship() {
+  String refProposedRel = "Relationship/Relationships/Proposed_Relationship";
+  String refRelType     = "Relationship/Relationships/Relationship_Type";
+
+  String identifierFrom;
+  String relationship;
+  String identifierTo;
+
+  identifierFrom = contextIdentifer; // Defined in logic/shared.bsh
+  relationship   = getSelectedRelationshipComponent(refRelType, "parent");
+  identifierTo   = proposedChildIdentifier;
+
+  if (isNull(identifierFrom)) identifierFrom = WEB_REL_DESC_FILL;
+  if (isNull(relationship  )) relationship   = WEB_REL_DESC_FILL;
+  if (isNull(identifierTo  )) identifierTo   = WEB_REL_DESC_FILL;
+
+  String webviewHtml = WEB_REL_DESC_FMT;
+  webviewHtml = replaceFirst(webviewHtml, "%s", identifierFrom);
+  webviewHtml = replaceFirst(webviewHtml, "%s", relationship  );
+  webviewHtml = replaceFirst(webviewHtml, "%s", identifierTo  );
+
+  populateWebViewHtml(refProposedRel, webviewHtml);
+}
+
+searchRelationship() {
+  String parentTabGroup = "Context";
+  String parentUuid     = getUuid(parentTabGroup);
+
+  String tabGroup     = "Relationship";
+  String refUnrelated = "Relationship/Relationships/Unrelated_Contexts";
+  String refRelated   = "Relationship/Relationships/Existing_Relationships";
+  String refSquare    = "Relationship/Relationships/Square";
+  String refRelType   = "Relationship/Relationships/Relationship_Type";
+
+  String square     = getFieldValue(refSquare);
+  String parentRole = getSelectedRelationshipComponent(refRelType, "parent");
+  String unrelatedQ = "";
+  String relatedQ   = "";
+
+  unrelatedQ += " SELECT 'unrelated' || char(0) || uuid || char(0) || response, response  ";
+  unrelatedQ += "   FROM latestNonDeletedArchEntFormattedIdentifiers   ";
+  unrelatedQ += "  WHERE uuid IN (SELECT uuid ";
+  unrelatedQ += "         FROM latestnondeletedaentvalue  ";
+  unrelatedQ += "         JOIN attributekey USING (attributeid) ";
+  unrelatedQ += "         WHERE uuid IN (   SELECT uuid  ";
+  unrelatedQ += "                             FROM latestnondeletedaentvalue JOIN attributekey USING (attributeid) ";
+  unrelatedQ += "                            WHERE attributename = 'Square' ";
+  unrelatedQ += "                              AND measure = '"+square+"' ";
+  unrelatedQ += "                              and uuid not in (select childuuid ";
+  unrelatedQ += "                                                 from parentchild ";
+  unrelatedQ += "                                                where parentuuid = '"+parentUuid+"' ";
+  unrelatedQ += "                                                  and parentparticipatesverb = '"+parentRole+"')";
+  unrelatedQ += "                              AND uuid != '"+parentUuid+"'";
+  unrelatedQ += "                       )   ";
+  unrelatedQ += "                ) ";
+  unrelatedQ += "  ORDER BY response ";
+  unrelatedQ += "  LIMIT ? OFFSET ?";
+
+  relatedQ += getRelatedChildQuery(parentUuid);
+
+  populateCursorList(refUnrelated, unrelatedQ, 25);
+  populateCursorList(refRelated,   relatedQ,   25);
+
+  proposedChildUuid = null; proposedChildIdentifier = null;
+  populateProposedRelationship();
+}
+
+clearSearch() {
+  String refUnrelated = "Relationship/Relationships/Unrelated_Contexts";
+  String refRelated   = "Relationship/Relationships/Existing_Relationships";
+
+  String q = "SELECT '' WHERE 0 LIMIT ? OFFSET ?";
+  populateCursorList(refUnrelated, q, 25);
+  populateCursorList(refRelated,   q, 25);
+}
+
+selectUnrelatedEntity() {
+  String val = getListItemValue();
+  if (isNull(val)) return;
+  String[] arguments = val.split(SEP); // `SEP` defined by autogen as \0
+  String   listName  = arguments[0];
+  if (!listName.equals("unrelated")) return;
+
+  proposedChildUuid       = arguments[1];
+  proposedChildIdentifier = arguments[2];
+
+  populateProposedRelationship();
+}
+
+addRelationship() {
+  String parentTabGroup = "Context";
+  String refRelType     = "Relationship/Relationships/Relationship_Type";
+
+  String relName    = getSelectedRelationshipComponent(refRelType, "name");
+  String parentUuid = getUuid(parentTabGroup);
+  String childUuid  = proposedChildUuid;
+  String parentRole = getSelectedRelationshipComponent(refRelType, "parent");
+  String childRole  = getSelectedRelationshipComponent(refRelType, "child");
+  String callback   = "addRelationshipSucceeded()";
+
+  if (isNull(parentUuid)) {
+    String msgHead = "Logic Error";
+    String msgBody = "Something happened which never should.";
+    showWarning(msgHead, msgBody);
+    return;
+  }
+  if (isNull(childUuid)) {
+    showToast("No Context selected");
+    return;
+  }
+
+  saveEntitiesToHierRel(
+      relName,
+      parentUuid, childUuid,
+      parentRole, childRole,
+      callback
+  );
+}
+
+addRelationshipSucceeded() {
+  String refProposedRel = "Relationship/Relationships/Proposed_Relationship";
+
+  proposedChildUuid       = null;
+  proposedChildIdentifier = null;
+
+  populateWebViewHtml(refProposedRel, WEB_REL_BLANK);
+
+  searchRelationship();
+}
+
+selectExistingRelationship() {
+  String refSelectedRelRel = "Relationship/Relationships/Selected_Relationship";
+
+  String val = getListItemValue();
+  if (isNull(val)) return;
+
+  String[] arguments = val.split(SEP); // `SEP` defined by autogen as \0
+  String   listName  = arguments[0];
+  if (!listName.equals("related")) return;
+
+  selectedRelId         = arguments[1];
+  selectedRelIdentifier = arguments[2];
+
+  populateWebViewHtml(refSelectedRelRel, selectedRelIdentifier);
+}
+
+populateParentIdentiferRelationships() {
+  String lotRef = "Relationship/Relationships/Parent_Identifier";
+  populateLotLabel(lotRef); // Defined in logic/shared.bsh
+}
+
+getRelatedChildQuery(String parentUuid) {
+  // `contextIdentifer` is defined in logic/shared.bsh
+  String parentIdentifier = contextIdentifer;
+
+  String relatedQ = "";
+  relatedQ += "SELECT 'related' || char(0) || relationshipid || char(0) || '"+parentIdentifier+" ' || parentparticipatesverb ||' '|| response || char(0) || childuuid, '"+parentIdentifier+"'||' '||parentparticipatesverb||' '||response";
+  relatedQ += "  FROM parentchild JOIN latestNonDeletedArchEntFormattedIdentifiers on (childuuid = uuid) ";
+  relatedQ += "  JOIN createdmodifiedatby USING (uuid) ";
+  relatedQ += " WHERE relationshipid IN (SELECT relationshipid  ";
+  relatedQ += "                            FROM latestnondeletedrelationship JOIN relntype USING (relntypeid)  ";
+  relatedQ += "                           WHERE relntypename NOT like '% - %') ";
+  relatedQ += "   and parentuuid = '"+parentUuid+"' ";
+  relatedQ += " ORDER BY createdat desc ";
+  relatedQ += " LIMIT ? OFFSET ? ";
+  return relatedQ;
+}
