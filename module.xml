@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<module name="Boncuklu" preparer="Penny Crook">
+<module>
 
 <rels>
   <RelationshipElement name="Butts - Butted By" type="hierarchical">
@@ -22,7 +22,7 @@
   </RelationshipElement>
   <RelationshipElement name="Fill Of - Filled With" type="hierarchical">
     <description>Implements a fillof-filledwith for contexts.</description>
-    <parent>Fill Of </parent>
+    <parent>Fill Of</parent>
     <child>Filled With </child>
   </RelationshipElement>
   <RelationshipElement name="Arbitrarily separated from" type="bidirectional">
@@ -839,6 +839,7 @@
     </Your_Discussion>
   </Int>
   <Context_Group f="noscroll">
+    <!--TODO: Should this go buh-byes?-->
     <Add_Context_Group lc="Context_Group"/>
     <List_of_Related_Context_Groups ec="Context_Group" t="list"/>
   </Context_Group>
@@ -1108,23 +1109,14 @@
     </cols>
   </Gen>
   <Context_Group_Contexts f="noscroll">
-    <!--TODO: Wire me up, Scotty!-->
+    <!--TODO-->
+    <Create_Relationships_to_This_Context_Group t="button" l="Context_Group_Relationship"/>
     <cols>
-      <Square  f="nodata" t="dropdown"/>
-      <Populate_Target_Context t="button"/>
-    </cols>
-    <Add_Additional_Context f="nodata" t="dropdown"/>
-    <Add_Context_to_Group t="button"/>
-    <cols>
-      <Contexts_in_Group f="nodata" t="list"/>
+      <Existing_Relationships_to_This_Context_Group t="list" f="nodata"/>
       <col>
-        <Selected_Entity t="webview"/>
-        <Guide_0 t="webview">
-          To load or remove Contexts, tap one from the list on the left and
-          press button below:
-        </Guide_0>
-        <Load_Context t="button"/>
-        <Remove_Context_from_Group t="button"/>
+        <Selected_Relationship t="webview"/>
+        <Load_Related_Context t="button"/>
+        <Delete_Relationship   t="button"/>
       </col>
     </cols>
   </Context_Group_Contexts>
@@ -1828,5 +1820,28 @@
     </cols>
   </Relationships>
 </Relationship>
+
+<Context_Group_Relationship f="nodata">
+  <!--TODO: Wire me up, Scotty!-->
+  <Relationships f="noscroll">
+    <Parent_Identifier t="webview"/>
+    <Square            t="dropdown"/>
+    <Search            t="button"/>
+    <cols>
+      <col>
+        <Add_Relationship      t="button"/>
+        <Proposed_Relationship t="webview"/>
+      </col>
+      <col>
+        <Delete_Relationship t="button"/>
+        <Selected_Relationship t="webview"/>
+      </col>
+    </cols>
+    <cols>
+      <Unrelated_Contexts     t="list"/>
+      <Existing_Relationships t="list"/>
+    </cols>
+  </Relationships>
+</Context_Group_Relationship>
 
 </module>
