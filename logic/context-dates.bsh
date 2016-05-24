@@ -1,0 +1,17 @@
+/******************************* CONTEXT DATES ********************************/
+addOnEvent("Context/General/Add_Date_Closed", "click", "setContextDateClosed()");
+
+setTimestamp(String path) {
+  setFieldValue(path, new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss z").format(new Date()));
+}
+
+// Linked using @POSTPROC
+setContextDateOpened() {
+  String ref = "Context/General/Date_Opened";
+  setTimestamp(ref);
+}
+
+setContextDateClosed() {
+  String ref = "Context/General/Date_Closed";
+  setTimestamp(ref);
+}

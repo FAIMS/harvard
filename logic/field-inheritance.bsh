@@ -1,0 +1,153 @@
+/***************************** FIELD INHERITANCE ******************************/
+String moduleYear     = new java.text.SimpleDateFormat("yy").format(new Date());
+String moduleSiteCode = "BK" + moduleYear;
+
+copyFieldValue(src, dst) {
+  val = getFieldValue(src);
+  setFieldValue(dst, val);
+}
+
+inheritContextFields() {
+  copyFieldValue(
+    "Control/Contexts/Team_Members",
+    "Context/General/Excavators"
+  );
+
+  copyFieldValue(
+    "User/User_List/AreaCode",
+    "Context/General/AreaCode"
+  );
+
+  copyFieldValue(
+    "User/User_List/Device_Code",
+    "Context/Vars/Device_Code"
+  );
+
+  setFieldValue(
+    "Context/Vars/Site_Code",
+    moduleSiteCode
+  );
+}
+
+inheritContextGroupFields() {
+  copyFieldValue(
+    "User/User_List/AreaCode",
+    "Context_Group/Gen/AreaCode"
+  );
+
+  copyFieldValue(
+    "User/User_List/Device_Code",
+    "Context_Group/Vars/Device_Code"
+  );
+
+  setFieldValue(
+    "Context_Group/Vars/Site_Code",
+    moduleSiteCode
+  );
+}
+
+inheritMatrixFields() {
+  copyFieldValue(
+    "User/User_List/AreaCode",
+    "Matrix/Vars/AreaCode"
+  );
+
+  copyFieldValue(
+    "Context/General/Context_ID",
+    "Matrix/Vars/Context_ID"
+  );
+}
+
+inheritHeightFields() {
+  copyFieldValue(
+    "User/User_List/AreaCode",
+    "Height/Vars/AreaCode"
+  );
+
+  copyFieldValue(
+    "Context/General/Context_ID",
+    "Height/Vars/Context_ID"
+  );
+}
+
+inheritSampleFields() {
+  copyFieldValue(
+    "User/User_List/AreaCode",
+    "Sample/Vars/AreaCode"
+  );
+
+  copyFieldValue(
+    "Context/General/Context_ID",
+    "Sample/Deposit_Samples/Context_ID"
+  );
+
+  copyFieldValue(
+    "User/User_List/Device_Code",
+    "Sample/Vars/Device_Code"
+  );
+
+  setFieldValue(
+    "Sample/Vars/Site_Code",
+    moduleSiteCode
+  );
+}
+
+inheritSpecialFindFields() {
+  copyFieldValue(
+    "Context/General/Context_ID",
+    "Special_Find/Special_Find/Context_ID"
+  );
+
+  copyFieldValue(
+    "User/User_List/AreaCode",
+    "Special_Find/Vars/AreaCode"
+  );
+
+  copyFieldValue(
+    "User/User_List/Device_Code",
+    "Special_Find/Vars/Device_Code"
+  );
+
+  setFieldValue(
+    "Special_Find/Vars/Site_Code",
+    moduleSiteCode
+  );
+}
+
+inheritPhotographLogFields() {
+  //BEWARE! Weird formatting!
+  if (parentTabgroup__.equals("Context"))
+  copyFieldValue(
+    "Context/General/Context_ID",
+    "Photograph_Log/Photograph_Log/Photo_Context_ID"
+  );
+
+  //BEWARE! Weird formatting!
+  if (parentTabgroup__.equals("Context_Group"))
+  copyFieldValue(
+    "Context_Group/Gen/Context_Group_ID",
+    "Photograph_Log/Photograph_Log/Photo_Context_Group_ID"
+  );
+
+  copyFieldValue(
+    "User/User_List/AreaCode",
+    "Photograph_Log/Vars/AreaCode"
+  );
+
+  copyFieldValue(
+    "User/User_List/Device_Code",
+    "Photograph_Log/Vars/Device_Code"
+  );
+
+  setFieldValue(
+    "Photograph_Log/Vars/Site_Code",
+    moduleSiteCode
+  );
+}
+
+inheritDiaryFields() {
+  copyFieldValue(
+    "User/User_List/AreaCode",
+    "Diary/Diary/AreaCode"
+  );
+}

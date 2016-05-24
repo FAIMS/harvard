@@ -1,0 +1,44 @@
+/*************************** LOCAL SETTINGS ACCESS ****************************/
+/* Loading and saving things in localSettings.                                */
+/******************************************************************************/
+addOnEvent("User/User_List/AreaCode",       "click", "saveAreaCode()");
+addOnEvent("User/User_List/AreaCode",       "show",  "loadAreaCode()");
+addOnEvent("User/User_List/Device_Code",    "click", "saveDeviceCode()");
+addOnEvent("User/User_List/Device_Code",    "show",  "loadDeviceCode()");
+onFocus   ("Control/Contexts/Team_Members", "",      "saveTeamMembers()");
+addOnEvent("Control/Contexts/Team_Members", "show",  "loadTeamMembers()");
+
+insertFieldValueIntoLocalSettings(String ref) {
+  String val = getFieldValue(ref);
+  insertIntoLocalSettings(ref, val);
+}
+
+saveAreaCode () {
+  String ref = "User/User_List/AreaCode";
+  insertFieldValueIntoLocalSettings(ref);
+}
+
+loadAreaCode () {
+  String ref ="User/User_List/AreaCode";
+  setFieldValueFromLocalSettings(ref, ref);
+}
+
+saveDeviceCode() {
+  String ref = "User/User_List/Device_Code";
+  insertFieldValueIntoLocalSettings(ref);
+}
+
+loadDeviceCode() {
+  String ref = "User/User_List/Device_Code";
+  setFieldValueFromLocalSettings(ref, ref);
+}
+
+saveTeamMembers() {
+  String ref = "Control/Contexts/Team_Members";
+  insertFieldValueIntoLocalSettings(ref);
+}
+
+loadTeamMembers() {
+  String ref = "Control/Contexts/Team_Members";
+  setFieldValueFromLocalSettings(ref, ref);
+}

@@ -1,0 +1,15 @@
+<desc>The excavation trench, designated by a letter code and assigned automatically by the module based on your selection when you log in.</desc>
+<str>
+  <fmt><![CDATA[$1-]]></fmt>
+  <app><![CDATA[-]]></app>
+</str>
+<opts>
+  <opt>H</opt>
+  <opt>K</opt>
+  <opt>L</opt>
+  <opt>M</opt>
+  <opt>N</opt>
+  <opt>P</opt>
+  <opt>Q</opt>
+  <opt>X</opt>
+</opts>

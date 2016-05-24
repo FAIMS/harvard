@@ -1,0 +1,74 @@
+/************************ DYNAMIC UI - OPEN/CLOSE SITE ************************/
+/* There are two cases to handle:                                             */
+/*   (a) When a record is newly created.                                      */
+/*   (b) When a record has been loaded.                                       */
+/*                                                                            */
+/* Case (a) is handled by events which trigger a UI update.                   */
+/*                                                                            */
+/* Case (b) is handled by a callback to `showTabGroup`. This is implemented   */
+/* by overwriting the auto-generated record loading function using @POSTPROC. */
+/******************************************************************************/
+addOnEvent("Context",                                      "show",  "openContextTabs()");
+addOnEvent("Context/General/Fill_in_Context_Type_Details", "click", "openContextTabs()");
+
+openContextTabs() {
+  openContextTabs(false);
+}
+
+openContextTabs(Boolean showGeneralInformationTab){
+    fetchOne("SELECT vocabName FROM vocabulary WHERE vocabid = '"+getFieldValue("Context/General/Context_Type")+"';",
+        new FetchCallback() {
+          onFetch(name) {
+            if (!isNull(name)){
+                String vocab = name.get(0);
+                if ((vocab.equals("{Deposit}"))){
+                    cancelTab("Context/Cut", false);
+                    cancelTab("Context/Structure", false);
+                    cancelTab("Context/Skeleton", false);
+                    showTab("Context/Deposit");
+                } else if (vocab.equals("{Negative_Element}")){
+                    cancelTab("Context/Deposit", false);
+                    cancelTab("Context/Structure", false);
+                    cancelTab("Context/Skeleton", false);
+                    showTab("Context/Cut");
+                } else if (vocab.equals("{Structure}")){
+                    cancelTab("Context/Deposit", false);
+                    cancelTab("Context/Cut", false);
+                    cancelTab("Context/Skeleton", false);
+                    showTab("Context/Structure");
+                } else if (vocab.equals("{Skeleton}")){
+                    cancelTab("Context/Deposit", false);
+                    cancelTab("Context/Cut", false);
+                    cancelTab("Context/Structure", false);
+                    showTab("Context/Skeleton");
+                } else {
+                    cancelTab("Context/Cut", false);
+                    cancelTab("Context/Deposit", false);
+                    cancelTab("Context/Structure", false);
+                    cancelTab("Context/Skeleton", false);
+                }
+            } else {
+                cancelTab("Context/Cut", false);
+                cancelTab("Context/Deposit", false);
+                cancelTab("Context/Structure", false);
+                cancelTab("Context/Skeleton", false);
+            }
+            if(showGeneralInformationTab) {
+              showTab("Context/General");
+            }
+        }
+    });
+}
+
+loadContextFrom(String uuid) {
+  String tabgroup = "Context";
+  setUuid(tabgroup, uuid);
+  if (isNull(uuid)) return;
+
+  FetchCallback cb = new FetchCallback() {
+    onFetch(result) {
+      openContextTabs(true);
+    }
+  };
+  showTabGroup(tabgroup, uuid, cb);
+}

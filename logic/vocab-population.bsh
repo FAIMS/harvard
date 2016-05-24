@@ -1,0 +1,3 @@
+/****************************** VOCAB POPULATION ******************************/
+makeVocab("DropDown", "User/User_List/AreaCode", "AreaCode");
+makeVocab("DropDown", "User/User_List/Device_Code", "Device Code");

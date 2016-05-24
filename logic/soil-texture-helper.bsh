@@ -1,0 +1,32 @@
+/******************************* TEXTURE HELPER *******************************/
+onEvent("Context/Soil_Texture_Helper/Update_Soil_Texture", "click", "setTextureActual()");
+
+// Overrides the original function definition using @POSTPROC.
+onClickContextSoilTextureHelper () {
+  showTab("Context/Soil_Texture_Helper");
+}
+
+setTextureActual(){
+    String soilQuery= "SELECT vocabid " +
+                      "  FROM vocabulary JOIN attributekey USING (attributeid) "+
+                      " WHERE attributeName = 'Soil Texture' "+
+                      "   AND vocabname = (SELECT vocabname " +
+                                          "  FROM vocabulary JOIN attributekey USING (attributeid) " +
+                                          " WHERE vocabid = '"+ getFieldValue("Context/Soil_Texture_Helper/Soil_Texture_Helper") +"' "+
+                                          "   AND attributeName = 'Soil Texture Helper'); ";
+    //This function makes the hierarchical soil texture selector write to the texture dropdown. We should discuss.
+    Log.d("foo1", soilQuery);
+
+    fetchOne(soilQuery, new FetchCallback() {
+        onFetch(textureToSet) {
+            if(!isNull(textureToSet)){
+                Log.d("foo1", textureToSet.get(0));
+                setFieldValue("Context/Deposit/Soil_Texture", textureToSet.get(0));
+            } else {
+                showToast("Match not found. You shouldn't see this, but select the result manually.");
+            }
+            cancelTab("Context/Soil_Texture_Helper", false);
+            showTab("Context/Deposit");
+        }
+    });
+}

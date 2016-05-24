@@ -1,0 +1,42 @@
+/**************************** USER TAB VALIDATION *****************************/
+/* The autogen defines its own `onClickUserLogin` function. This is           */
+/* overridden using @POSTPROC.                                                */
+/******************************************************************************/
+
+onClickUserLogin () {
+  String refUsers      = userMenuPath; // Defined by autogen
+  String refAreaCode   = "User/User_List/AreaCode";
+  String refDeviceCode = "User/User_List/Device_Code";
+
+  String vocabIdUsers      = getFieldValue(refUsers);
+  String vocabIdAreaCode   = getFieldValue(refAreaCode);
+  String vocabIdDeviceCode = getFieldValue(refDeviceCode);
+
+  Boolean isSelectedUsers      = !isNull(vocabIdUsers);
+  Boolean isSelectedAreaCode   = !isNull(vocabIdAreaCode);
+  Boolean isSelectedDeviceCode = !isNull(vocabIdDeviceCode);
+
+  if (!isSelectedUsers)      { noUsersSelected();      return; }
+  if (!isSelectedAreaCode)   { noAreaCodeSelected();   return; }
+  if (!isSelectedDeviceCode) { noDeviceCodeSelected(); return; }
+
+  newTab("Control", true);
+}
+
+noUsersSelected() {
+  String msgHead = "No User selected";
+  String msgBody = "A User must be selected in order to log in.";
+  showWarning(msgHead, msgBody);
+}
+
+noAreaCodeSelected() {
+  msgHead = "No {AreaCode} Selected";
+  msgBody = "A {AreaCode} must be selected in order to log in.";
+  showWarning(msgHead, msgBody);
+}
+
+noDeviceCodeSelected() {
+  msgHead = "No {Device_Code} Selected";
+  msgBody = "A {Device_Code} must be selected in order to log in.";
+  showWarning(msgHead, msgBody);
+}
