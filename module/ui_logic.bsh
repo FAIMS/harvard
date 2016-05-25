@@ -2,6 +2,7 @@ import android.util.Log;
 
 Object dialog;          // Used to help coordinate the display of a "busy..." dialog
 String parentTabgroup;  // Used to allow entities to be saved as children
+String parentTabgroup__;// Used to allow entities to be saved as children
 String redirectTab;     // makes newTab work as expected
 String username = "";
 String userid   = "";
@@ -144,9 +145,8 @@ getDropdownItemValue() {
 }
 
 addOnEvent("User/User_List/Users", "click", "dropdownItemValue = getFieldValue(\"User/User_List/Users\")");
-addOnEvent("User/User_List/Trench", "click", "dropdownItemValue = getFieldValue(\"User/User_List/Trench\")");
+addOnEvent("User/User_List/AreaCode", "click", "dropdownItemValue = getFieldValue(\"User/User_List/AreaCode\")");
 addOnEvent("User/User_List/Device_Code", "click", "dropdownItemValue = getFieldValue(\"User/User_List/Device_Code\")");
-addOnEvent("Context/General/AreaCode", "click", "dropdownItemValue = getFieldValue(\"Context/General/AreaCode\")");
 addOnEvent("Context/General/Horizon_Boundary", "click", "dropdownItemValue = getFieldValue(\"Context/General/Horizon_Boundary\")");
 addOnEvent("Context/General/Contamination", "click", "dropdownItemValue = getFieldValue(\"Context/General/Contamination\")");
 addOnEvent("Context/Cut/Cut_Your_Interpretation", "click", "dropdownItemValue = getFieldValue(\"Context/Cut/Cut_Your_Interpretation\")");
@@ -155,40 +155,27 @@ addOnEvent("Context/Cut/Sides_of_Cut", "click", "dropdownItemValue = getFieldVal
 addOnEvent("Context/Cut/Shape_of_Base", "click", "dropdownItemValue = getFieldValue(\"Context/Cut/Shape_of_Base\")");
 addOnEvent("Context/Cut/Orientation", "click", "dropdownItemValue = getFieldValue(\"Context/Cut/Orientation\")");
 addOnEvent("Context/Cut/Inclination_of_axis", "click", "dropdownItemValue = getFieldValue(\"Context/Cut/Inclination_of_axis\")");
-addOnEvent("Context/Structures/Structure_Your_Interpretation", "click", "dropdownItemValue = getFieldValue(\"Context/Structures/Structure_Your_Interpretation\")");
-addOnEvent("Context/Structures/Structural_Components", "click", "dropdownItemValue = getFieldValue(\"Context/Structures/Structural_Components\")");
-addOnEvent("Context/Structures/Bonding", "click", "dropdownItemValue = getFieldValue(\"Context/Structures/Bonding\")");
-addOnEvent("Context/Structures/Structure_Shape", "click", "dropdownItemValue = getFieldValue(\"Context/Structures/Structure_Shape\")");
-addOnEvent("Context/Structures/Mudbrick_Shape", "click", "dropdownItemValue = getFieldValue(\"Context/Structures/Mudbrick_Shape\")");
+addOnEvent("Context/Structure/CG_Context_Type", "click", "dropdownItemValue = getFieldValue(\"Context/Structure/CG_Context_Type\")");
 addOnEvent("Context/Deposit/Deposit_Your_Interpretation", "click", "dropdownItemValue = getFieldValue(\"Context/Deposit/Deposit_Your_Interpretation\")");
 addOnEvent("Context/Deposit/Soil_Compaction_Type", "click", "dropdownItemValue = getFieldValue(\"Context/Deposit/Soil_Compaction_Type\")");
 addOnEvent("Context/Deposit/Soil_Texture", "click", "dropdownItemValue = getFieldValue(\"Context/Deposit/Soil_Texture\")");
+addOnEvent("Context/Deposit/Soil_Munsel_Color", "click", "dropdownItemValue = getFieldValue(\"Context/Deposit/Soil_Munsel_Color\")");
 addOnEvent("Context/Deposit/Composition_Type", "click", "dropdownItemValue = getFieldValue(\"Context/Deposit/Composition_Type\")");
 addOnEvent("Context/Deposit/Deposit_Bedding", "click", "dropdownItemValue = getFieldValue(\"Context/Deposit/Deposit_Bedding\")");
 addOnEvent("Context/Deposit/Associated_Matrices", "click", "dropdownItemValue = getFieldValue(\"Context/Deposit/Associated_Matrices\")");
-addOnEvent("Context/Material_Helper/Soil_Texture_Helper", "click", "dropdownItemValue = getFieldValue(\"Context/Material_Helper/Soil_Texture_Helper\")");
+addOnEvent("Context/Add/Select_a_Photograph_Log", "click", "dropdownItemValue = getFieldValue(\"Context/Add/Select_a_Photograph_Log\")");
+addOnEvent("Context/Soil_Texture_Helper/Soil_Texture_Helper", "click", "dropdownItemValue = getFieldValue(\"Context/Soil_Texture_Helper/Soil_Texture_Helper\")");
 addOnEvent("Context/Vars/Device_Code", "click", "dropdownItemValue = getFieldValue(\"Context/Vars/Device_Code\")");
 addOnEvent("Context_Group/Add/Select_a_Photograph_Log", "click", "dropdownItemValue = getFieldValue(\"Context_Group/Add/Select_a_Photograph_Log\")");
 addOnEvent("Context_Group/Vars/Device_Code", "click", "dropdownItemValue = getFieldValue(\"Context_Group/Vars/Device_Code\")");
 addOnEvent("Matrix/Matrix/Component", "click", "dropdownItemValue = getFieldValue(\"Matrix/Matrix/Component\")");
-addOnEvent("Matrix/Vars/AreaCode", "click", "dropdownItemValue = getFieldValue(\"Matrix/Vars/AreaCode\")");
-addOnEvent("Height/Vars/AreaCode", "click", "dropdownItemValue = getFieldValue(\"Height/Vars/AreaCode\")");
-addOnEvent("Sample/Deposit_Samples/Sample_Type", "click", "dropdownItemValue = getFieldValue(\"Sample/Deposit_Samples/Sample_Type\")");
-addOnEvent("Sample/Deposit_Samples/Sample_Location", "click", "dropdownItemValue = getFieldValue(\"Sample/Deposit_Samples/Sample_Location\")");
-addOnEvent("Sample/Vars/AreaCode", "click", "dropdownItemValue = getFieldValue(\"Sample/Vars/AreaCode\")");
-addOnEvent("Sample/Vars/Device_Code", "click", "dropdownItemValue = getFieldValue(\"Sample/Vars/Device_Code\")");
-addOnEvent("Special_Find/Special_Find/Special_Find_Class", "click", "dropdownItemValue = getFieldValue(\"Special_Find/Special_Find/Special_Find_Class\")");
-addOnEvent("Special_Find/Special_Find/Source", "click", "dropdownItemValue = getFieldValue(\"Special_Find/Special_Find/Source\")");
-addOnEvent("Special_Find/Special_Find/Special_Find_Location", "click", "dropdownItemValue = getFieldValue(\"Special_Find/Special_Find/Special_Find_Location\")");
-addOnEvent("Special_Find/Vars/AreaCode", "click", "dropdownItemValue = getFieldValue(\"Special_Find/Vars/AreaCode\")");
-addOnEvent("Special_Find/Vars/Device_Code", "click", "dropdownItemValue = getFieldValue(\"Special_Find/Vars/Device_Code\")");
 addOnEvent("Photograph_Log/Photograph_Log/Scene_Type", "click", "dropdownItemValue = getFieldValue(\"Photograph_Log/Photograph_Log/Scene_Type\")");
-addOnEvent("Photograph_Log/Vars/AreaCode", "click", "dropdownItemValue = getFieldValue(\"Photograph_Log/Vars/AreaCode\")");
 addOnEvent("Photograph_Log/Vars/Device_Code", "click", "dropdownItemValue = getFieldValue(\"Photograph_Log/Vars/Device_Code\")");
-addOnEvent("Diary/Diary/AreaCode", "click", "dropdownItemValue = getFieldValue(\"Diary/Diary/AreaCode\")");
 addOnEvent("Relationship/Relationships/Square", "click", "dropdownItemValue = getFieldValue(\"Relationship/Relationships/Square\")");
 addOnEvent("Relationship/Relationships/Relationship_Type", "click", "dropdownItemValue = getFieldValue(\"Relationship/Relationships/Relationship_Type\")");
 addOnEvent("Context_Group_Relationship/Relationships/Square", "click", "dropdownItemValue = getFieldValue(\"Context_Group_Relationship/Relationships/Square\")");
+addOnEvent("FCN/General/Collection_Method", "click", "dropdownItemValue = getFieldValue(\"FCN/General/Collection_Method\")");
+addOnEvent("FCN/General/FCN_Class", "click", "dropdownItemValue = getFieldValue(\"FCN/General/FCN_Class\")");
 
 /******************************************************************************/
 /*                                 ACTION BAR                                 */
@@ -287,9 +274,10 @@ addActionBarItem("external_gps", new ToggleActionButtonCallback() {
 /******************************************************************************/
 /*                                    GPS                                     */
 /******************************************************************************/
+addOnEvent("Control/Contexts", "show", "updateGPSDiagnostics()");
 
 updateGPSDiagnostics() {
-  String diagnosticsRef = "";
+  String diagnosticsRef = "Control/Contexts/GPS_Diagnostics";
   if (diagnosticsRef.equals("")) {
     return;
   }
@@ -509,7 +497,6 @@ makeVocab(String type, String path, String attrib, List vocabExclusions, String 
       }
     });
 }
-makeVocab("DropDown", "Context/General/AreaCode", "AreaCode");
 makeVocab("CheckBoxGroup", "Context/General/Excavation_Method", "Excavation Method");
 makeVocab("DropDown", "Context/General/Horizon_Boundary", "Horizon Boundary");
 makeVocab("DropDown", "Context/General/Contamination", "Contamination");
@@ -518,43 +505,32 @@ makeVocab("DropDown", "Context/Cut/Cut_Your_Interpretation", "Cut Your Interpret
 makeVocab("DropDown", "Context/Cut/Shape_of_Cut", "Shape of Cut");
 makeVocab("RadioGroup", "Context/Cut/Shape_of_Corners", "Shape of Corners");
 makeVocab("RadioGroup", "Context/Cut/Break_of_Slope_-_Top", "Break of Slope - Top");
+makeVocab("RadioGroup", "Context/Cut/Break_of_Slope_-_Base", "Break of Slope - Base");
 makeVocab("HierarchicalDropDown", "Context/Cut/Sides_of_Cut", "Sides of Cut");
 makeVocab("HierarchicalDropDown", "Context/Cut/Shape_of_Base", "Shape of Base");
 makeVocab("DropDown", "Context/Cut/Orientation", "Orientation");
 makeVocab("DropDown", "Context/Cut/Inclination_of_axis", "Inclination of axis");
-makeVocab("DropDown", "Context/Structures/Structure_Your_Interpretation", "Structure Your Interpretation");
-makeVocab("HierarchicalDropDown", "Context/Structures/Structural_Components", "Structural Components");
-makeVocab("HierarchicalDropDown", "Context/Structures/Bonding", "Bonding");
-makeVocab("DropDown", "Context/Structures/Structure_Shape", "Structure Shape");
-makeVocab("DropDown", "Context/Structures/Mudbrick_Shape", "Mudbrick Shape");
+makeVocab("DropDown", "Context/Structure/CG_Context_Type", "CG Context Type");
 makeVocab("DropDown", "Context/Deposit/Deposit_Your_Interpretation", "Deposit Your Interpretation");
 makeVocab("DropDown", "Context/Deposit/Soil_Compaction_Type", "Soil Compaction Type");
 makeVocab("PictureGallery", "Context/Deposit/Soil_Particle_Sorting", "Soil Particle Sorting");
 makeVocab("DropDown", "Context/Deposit/Soil_Texture", "Soil Texture");
+makeVocab("HierarchicalDropDown", "Context/Deposit/Soil_Munsel_Color", "Soil Munsel Color");
 makeVocab("DropDown", "Context/Deposit/Composition_Type", "Composition Type");
 makeVocab("DropDown", "Context/Deposit/Deposit_Bedding", "Deposit Bedding");
 makeVocab("RadioGroup", "Context/Deposit/Sterile", "Sterile");
-makeVocab("HierarchicalDropDown", "Context/Material_Helper/Soil_Texture_Helper", "Soil Texture Helper");
+makeVocab("HierarchicalDropDown", "Context/Soil_Texture_Helper/Soil_Texture_Helper", "Soil Texture Helper");
 makeVocab("DropDown", "Context/Vars/Device_Code", "Device Code");
-makeVocab("PictureGallery", "Context_Group/Gen/CG_Context_Type", "CG Context Type");
 makeVocab("DropDown", "Context_Group/Vars/Device_Code", "Device Code");
 makeVocab("DropDown", "Matrix/Matrix/Component", "Component");
 makeVocab("HierarchicalPictureGallery", "Matrix/Matrix/Shape", "Shape");
-makeVocab("DropDown", "Matrix/Vars/AreaCode", "AreaCode");
-makeVocab("DropDown", "Height/Vars/AreaCode", "AreaCode");
-makeVocab("DropDown", "Sample/Deposit_Samples/Sample_Type", "Sample Type");
-makeVocab("DropDown", "Sample/Deposit_Samples/Sample_Location", "Sample Location");
-makeVocab("DropDown", "Sample/Vars/AreaCode", "AreaCode");
-makeVocab("DropDown", "Sample/Vars/Device_Code", "Device Code");
-makeVocab("HierarchicalDropDown", "Special_Find/Special_Find/Special_Find_Class", "Special Find Class");
-makeVocab("DropDown", "Special_Find/Special_Find/Source", "Source");
-makeVocab("DropDown", "Special_Find/Special_Find/Special_Find_Location", "Special Find Location");
-makeVocab("DropDown", "Special_Find/Vars/AreaCode", "AreaCode");
-makeVocab("DropDown", "Special_Find/Vars/Device_Code", "Device Code");
 makeVocab("DropDown", "Photograph_Log/Photograph_Log/Scene_Type", "Scene Type");
-makeVocab("DropDown", "Photograph_Log/Vars/AreaCode", "AreaCode");
 makeVocab("DropDown", "Photograph_Log/Vars/Device_Code", "Device Code");
-makeVocab("DropDown", "Diary/Diary/AreaCode", "AreaCode");
+makeVocab("DropDown", "FCN/General/Collection_Method", "Collection Method");
+makeVocab("HierarchicalDropDown", "FCN/General/FCN_Class", "FCN Class");
+makeVocab("RadioGroup", "FCN/General/Washed", "Washed");
+makeVocab("RadioGroup", "FCN/General/Weighted", "Weighted");
+makeVocab("RadioGroup", "FCN/General/Analyzed", "Analyzed");
 
 
 /******************************************************************************/
@@ -626,34 +602,33 @@ validateFields(List fields, String format) {
 validateContext() {
   List f = new ArrayList(); // Fields to be validated
 
-  f.add(fieldPair("Context/General/AreaCode", "{AreaCode}"));
-  f.add(fieldPair("Context/General/Context_ID", "{Context_ID}"));
-  f.add(fieldPair("Context/General/Location_Note", "{Location_Note}"));
+  f.add(fieldPair("Context/General/AreaCode", "{Trench_ID}"));
+  f.add(fieldPair("Context/General/Context_ID", "{Locus_ID}"));
   f.add(fieldPair("Context/General/Excavation_Method", "{Excavation_Method}"));
   f.add(fieldPair("Context/General/Plans", "{Plans}"));
   f.add(fieldPair("Context/General/Section_Numbers", "{Section_Numbers}"));
-  f.add(fieldPair("Context/Measure/Highest_Level", "{Highest_Level}"));
-  f.add(fieldPair("Context/Measure/Lowest_Level", "{Lowest_Level}"));
-  f.add(fieldPair("Context/Measure/Length", "{Length}"));
-  f.add(fieldPair("Context/Measure/Width", "{Width}"));
-  f.add(fieldPair("Context/Measure/Depth", "{Depth}"));
-  f.add(fieldPair("Context/Measure/Volume", "{Volume}"));
-  f.add(fieldPair("Context/Cut/Cut_Your_Interpretation", "{Cut_Your_Interpretation}"));
-  f.add(fieldPair("Context/Cut/Shape_of_Cut", "{Shape_of_Cut}"));
+  f.add(fieldPair("Context/Measure/Highest_Level", "{Absolute_Height_Top__m_}"));
+  f.add(fieldPair("Context/Measure/Lowest_Level", "{Absolute_Height_Bottom__m_}"));
+  f.add(fieldPair("Context/Measure/Length", "{Length__m_}"));
+  f.add(fieldPair("Context/Measure/Width", "{Width__m_}"));
+  f.add(fieldPair("Context/Measure/Depth", "{Depth__m_}"));
+  f.add(fieldPair("Context/Measure/Volume", "{Volume__litres_}"));
+  f.add(fieldPair("Context/Cut/Cut_Your_Interpretation", "{Your_Interpretation}"));
+  f.add(fieldPair("Context/Cut/Shape_of_Cut", "{Shape_in_Plan}"));
   f.add(fieldPair("Context/Cut/Shape_of_Corners", "{Shape_of_Corners}"));
   f.add(fieldPair("Context/Cut/Break_of_Slope_-_Top", "{Break_of_Slope___Top}"));
+  f.add(fieldPair("Context/Cut/Break_of_Slope_-_Base", "{Break_of_Slope___Base}"));
   f.add(fieldPair("Context/Cut/Sides_of_Cut", "{Sides_of_Cut}"));
   f.add(fieldPair("Context/Cut/Shape_of_Base", "{Shape_of_Base}"));
-  f.add(fieldPair("Context/Cut/Cut_Function", "{Cut_Function}"));
   f.add(fieldPair("Context/Cut/Orientation", "{Orientation}"));
   f.add(fieldPair("Context/Cut/Inclination_of_axis", "{Inclination_of_axis}"));
-  f.add(fieldPair("Context/Structures/Structure_Your_Interpretation", "{Structure_Your_Interpretation}"));
-  f.add(fieldPair("Context/Structures/Structure_Description", "{Structure_Description}"));
-  f.add(fieldPair("Context/Deposit/Deposit_Your_Interpretation", "{Deposit_Your_Interpretation}"));
-  f.add(fieldPair("Context/Deposit/Soil_Compaction_Type", "{Soil_Compaction_Type}"));
-  f.add(fieldPair("Context/Deposit/Soil_Texture", "{Soil_Texture}"));
-  f.add(fieldPair("Context/Deposit/Composition_Type", "{Composition_Type}"));
-  f.add(fieldPair("Context/Deposit/Deposit_Bedding", "{Deposit_Bedding}"));
+  f.add(fieldPair("Context/Structure/CG_Context_Type", "{CG_Context_Type}"));
+  f.add(fieldPair("Context/Structure/CG_Your_description", "{Your_Description}"));
+  f.add(fieldPair("Context/Deposit/Deposit_Your_Interpretation", "{Your_Interpretation}"));
+  f.add(fieldPair("Context/Deposit/Soil_Compaction_Type", "{Texture}"));
+  f.add(fieldPair("Context/Deposit/Soil_Texture", "{Material}"));
+  f.add(fieldPair("Context/Deposit/Composition_Type", "{Deposit_Structure}"));
+  f.add(fieldPair("Context/Deposit/Deposit_Bedding", "{Bedding}"));
   f.add(fieldPair("Context/Deposit/Deposit_Inclusions", "{Deposit_Inclusions}"));
   f.add(fieldPair("Context/Skeleton/Skeleton_Head", "{Skeleton_Head}"));
   f.add(fieldPair("Context/Skeleton/Skeleton_Body", "{Skeleton_Body}"));
@@ -675,12 +650,10 @@ validateContext() {
 validateContextGroup() {
   List f = new ArrayList(); // Fields to be validated
 
-  f.add(fieldPair("Context_Group/Gen/AreaCode", "{Trench}"));
-  f.add(fieldPair("Context_Group/Gen/Context_Group_ID", "{Feature_ID}"));
-  f.add(fieldPair("Context_Group/Gen/Title", "{Feature_Title}"));
-  f.add(fieldPair("Context_Group/Gen/CG_Context_Type", "{CG_Context_Type}"));
-  f.add(fieldPair("Context_Group/Gen/CG_Your_description", "{CG_Your_description}"));
-  f.add(fieldPair("Context_Group/Gen/CG_Your_Interpretation", "{CG_Your_Interpretation}"));
+  f.add(fieldPair("Context_Group/Gen/AreaCode", "{Stratum_ID}"));
+  f.add(fieldPair("Context_Group/Gen/Context_Group_ID", "{Stratum_ID}"));
+  f.add(fieldPair("Context_Group/Gen/CG_Your_description", "{Description}"));
+  f.add(fieldPair("Context_Group/Gen/CG_Your_Interpretation", "{Interpretation}"));
 
   String validationMessage = validateFields(f, "PLAINTEXT");
   showWarning("Validation Results", validationMessage);
@@ -699,28 +672,11 @@ validateHeight() {
   showWarning("Validation Results", validationMessage);
 }
 
-validateSample() {
+validateFCN() {
   List f = new ArrayList(); // Fields to be validated
 
-  f.add(fieldPair("Sample/Deposit_Samples/Context_ID", "{Context_ID}"));
-  f.add(fieldPair("Sample/Deposit_Samples/Sample_ID", "{Sample_ID}"));
-  f.add(fieldPair("Sample/Deposit_Samples/Sample_Type", "{Sample_Type}"));
-  f.add(fieldPair("Sample/Deposit_Samples/Sample_X", "{Sample_X}"));
-  f.add(fieldPair("Sample/Deposit_Samples/Sample_Y", "{Sample_Y}"));
-  f.add(fieldPair("Sample/Deposit_Samples/Sample_Z", "{Sample_Z}"));
-
-  String validationMessage = validateFields(f, "PLAINTEXT");
-  showWarning("Validation Results", validationMessage);
-}
-
-validateSpecialFind() {
-  List f = new ArrayList(); // Fields to be validated
-
-  f.add(fieldPair("Special_Find/Special_Find/Special_Find_ID", "{Special_Find_ID}"));
-  f.add(fieldPair("Special_Find/Special_Find/Special_Find_Description", "{Special_Find_Description}"));
-  f.add(fieldPair("Special_Find/Special_Find/Special_Find_X", "{Special_Find_X}"));
-  f.add(fieldPair("Special_Find/Special_Find/Special_Find_Y", "{Special_Find_Y}"));
-  f.add(fieldPair("Special_Find/Special_Find/Special_Find_Z", "{Special_Find_Z}"));
+  f.add(fieldPair("FCN/General/AreaCode", "{Trench_ID}"));
+  f.add(fieldPair("FCN/General/Context_ID", "{Locus_ID}"));
 
   String validationMessage = validateFields(f, "PLAINTEXT");
   showWarning("Validation Results", validationMessage);
@@ -819,10 +775,6 @@ populateAuthorAndTimestamp(String tabgroup) {
   if (!isNull(timestampPath)) setFieldValue(timestampPath, timestampVal);
 }
 
-onShowControl () {
-  // TODO: Add some things which should happen when this tabgroup is shown
-  saveTabGroup("Control");
-}
 onShowContext () {
   // TODO: Add some things which should happen when this tabgroup is shown
   saveTabGroup("Context");
@@ -839,14 +791,6 @@ onShowHeight () {
   // TODO: Add some things which should happen when this tabgroup is shown
   saveTabGroup("Height");
 }
-onShowSample () {
-  // TODO: Add some things which should happen when this tabgroup is shown
-  saveTabGroup("Sample");
-}
-onShowSpecialFind () {
-  // TODO: Add some things which should happen when this tabgroup is shown
-  saveTabGroup("Special_Find");
-}
 onShowPhotographLog () {
   // TODO: Add some things which should happen when this tabgroup is shown
   saveTabGroup("Photograph_Log");
@@ -855,49 +799,34 @@ onShowDiary () {
   // TODO: Add some things which should happen when this tabgroup is shown
   saveTabGroup("Diary");
 }
-onShowLegacy () {
+onShowFCN () {
   // TODO: Add some things which should happen when this tabgroup is shown
-  saveTabGroup("Legacy");
+  saveTabGroup("FCN");
 }
 
-addOnEvent("Control", "show", "onShowControl()");
 addOnEvent("Context", "show", "onShowContext()");
 addOnEvent("Context_Group", "show", "onShowContextGroup()");
 addOnEvent("Matrix", "show", "onShowMatrix()");
 addOnEvent("Height", "show", "onShowHeight()");
-addOnEvent("Sample", "show", "onShowSample()");
-addOnEvent("Special_Find", "show", "onShowSpecialFind()");
 addOnEvent("Photograph_Log", "show", "onShowPhotographLog()");
 addOnEvent("Diary", "show", "onShowDiary()");
-addOnEvent("Legacy", "show", "onShowLegacy()");
+addOnEvent("FCN", "show", "onShowFCN()");
 
-onClickUserLogin () {
-  // TODO: Add some things which should happen when this element is clicked
-  newControl();
-}
 onClickUserModuleGuide () {
   // TODO: Add some things which should happen when this element is clicked
   newTab("User/Help", true);
 }
-onClickControlCreateNewContext () {
+onClickControlCreateNewLocus () {
   // TODO: Add some things which should happen when this element is clicked
   newContext();
 }
-onClickControlCreateNewFeature () {
+onClickControlCreateNewStratum () {
   // TODO: Add some things which should happen when this element is clicked
   newContextGroup();
 }
 onClickControlCreateNewDiary () {
   // TODO: Add some things which should happen when this element is clicked
   newDiary();
-}
-onClickControlCreateNewLegacy () {
-  // TODO: Add some things which should happen when this element is clicked
-  newLegacy();
-}
-onClickContextTextureHelper () {
-  // TODO: Add some things which should happen when this element is clicked
-  newTab("Context/Material_Helper", true);
 }
 onClickContextCreateRelationshipstoThisContext () {
   // TODO: Add some things which should happen when this element is clicked
@@ -926,7 +855,7 @@ onClickContextAddHeight () {
     showToast("{You_must_save_this_tabgroup_first}");
     return;
   }
-  parentTabgroup = tabgroup;
+  parentTabgroup   = tabgroup;  parentTabgroup__ = tabgroup;
   newHeight();
 }
 onClickContextAddNewMatrix () {
@@ -936,18 +865,18 @@ onClickContextAddNewMatrix () {
     showToast("{You_must_save_this_tabgroup_first}");
     return;
   }
-  parentTabgroup = tabgroup;
+  parentTabgroup   = tabgroup;  parentTabgroup__ = tabgroup;
   newMatrix();
 }
-onClickContextAddContextGroup () {
+onClickContextAddNewStratum () {
   // TODO: Add some things which should happen when this element is clicked
   String tabgroup = "Context";
   if (isNull(getUuid(tabgroup))){
     showToast("{You_must_save_this_tabgroup_first}");
     return;
   }
-  parentTabgroup = tabgroup;
-  newContextGroup();
+  parentTabgroup   = tabgroup;  parentTabgroup__ = tabgroup;
+  newStratum();
 }
 onClickContextAddSpecialFind () {
   // TODO: Add some things which should happen when this element is clicked
@@ -956,18 +885,18 @@ onClickContextAddSpecialFind () {
     showToast("{You_must_save_this_tabgroup_first}");
     return;
   }
-  parentTabgroup = tabgroup;
-  newSpecialFind();
+  parentTabgroup   = tabgroup;  parentTabgroup__ = tabgroup;
+  newFCN();
 }
-onClickContextAddSample () {
+onClickContextAddPhotographLog () {
   // TODO: Add some things which should happen when this element is clicked
   String tabgroup = "Context";
   if (isNull(getUuid(tabgroup))){
     showToast("{You_must_save_this_tabgroup_first}");
     return;
   }
-  parentTabgroup = tabgroup;
-  newSample();
+  parentTabgroup   = tabgroup;  parentTabgroup__ = tabgroup;
+  newPhotographLog();
 }
 onClickContextGroupAddPhotographLog () {
   // TODO: Add some things which should happen when this element is clicked
@@ -976,23 +905,22 @@ onClickContextGroupAddPhotographLog () {
     showToast("{You_must_save_this_tabgroup_first}");
     return;
   }
-  parentTabgroup = tabgroup;
+  parentTabgroup   = tabgroup;  parentTabgroup__ = tabgroup;
   newPhotographLog();
 }
 
 addOnEvent("User/User_List/Login", "click", "onClickUserLogin()");
 addOnEvent("User/User_List/Module_Guide", "click", "onClickUserModuleGuide()");
-addOnEvent("Control/Contexts/Create_New_Context", "click", "onClickControlCreateNewContext()");
-addOnEvent("Control/Contexts/Create_New_Feature", "click", "onClickControlCreateNewFeature()");
+addOnEvent("Control/Contexts/Create_New_Locus", "click", "onClickControlCreateNewLocus()");
+addOnEvent("Control/Contexts/Create_New_Stratum", "click", "onClickControlCreateNewStratum()");
 addOnEvent("Control/Contexts/Create_New_Diary", "click", "onClickControlCreateNewDiary()");
-addOnEvent("Control/Contexts/Create_New_Legacy", "click", "onClickControlCreateNewLegacy()");
 addOnEvent("Context/Measure/Add_Height", "click", "onClickContextAddHeight()");
-addOnEvent("Context/Deposit/Texture_Helper", "click", "onClickContextTextureHelper()");
+addOnEvent("Context/Deposit/Soil_Texture_Helper", "click", "onClickContextSoilTextureHelper()");
 addOnEvent("Context/Deposit/Add_New_Matrix", "click", "onClickContextAddNewMatrix()");
-addOnEvent("Context/Context_Group/Add_Context_Group", "click", "onClickContextAddContextGroup()");
+addOnEvent("Context/Stratum/Add_New_Stratum", "click", "onClickContextAddNewStratum()");
 addOnEvent("Context/Relationships/Create_Relationships_to_This_Context", "click", "onClickContextCreateRelationshipstoThisContext()");
-addOnEvent("Context/Artefacts/Add_Special_Find", "click", "onClickContextAddSpecialFind()");
-addOnEvent("Context/Samples/Add_Sample", "click", "onClickContextAddSample()");
+addOnEvent("Context/FCN/Add_Special_Find", "click", "onClickContextAddSpecialFind()");
+addOnEvent("Context/Add/Add_Photograph_Log", "click", "onClickContextAddPhotographLog()");
 addOnEvent("Context_Group/Context_Group_Contexts/Create_Relationships_to_This_Context_Group", "click", "onClickContextGroupCreateRelationshipstoThisContextGroup()");
 addOnEvent("Context_Group/Add/Add_Photograph_Log", "click", "onClickContextGroupAddPhotographLog()");
 
@@ -1001,32 +929,18 @@ addOnEvent("Context_Group/Add/Add_Photograph_Log", "click", "onClickContextGroup
 /*                   AUDIO, CAMERA, FILE AND VIDEO BINDINGS                   */
 /******************************************************************************/
 addOnEvent("Context/Add/Button_Audio", "click", "attachAudioTo(\"Context/Add/Audio\")");
-addOnEvent("Context_Group/Add/Button_Audio", "click", "attachAudioTo(\"Context_Group/Add/Audio\")");
-addOnEvent("Sample/Add/Button_Audio", "click", "attachAudioTo(\"Sample/Add/Audio\")");
-addOnEvent("Special_Find/Special_Find/Button_Audio", "click", "attachAudioTo(\"Special_Find/Special_Find/Audio\")");
-addOnEvent("Diary/Diary/Button_Audio", "click", "attachAudioTo(\"Diary/Diary/Audio\")");
 addOnEvent("Context/Add/Button_Photo", "click", "attachPictureTo(\"Context/Add/Photo\")");
 addOnEvent("Context_Group/Add/Button_Photo", "click", "attachPictureTo(\"Context_Group/Add/Photo\")");
-addOnEvent("Sample/Add/Button_Photo", "click", "attachPictureTo(\"Sample/Add/Photo\")");
-addOnEvent("Special_Find/Special_Find/Button_Photo", "click", "attachPictureTo(\"Special_Find/Special_Find/Photo\")");
 addOnEvent("Diary/Diary/Button_Photo", "click", "attachPictureTo(\"Diary/Diary/Photo\")");
+addOnEvent("FCN/General/Button_Attach_Photograph", "click", "attachPictureTo(\"FCN/General/Attach_Photograph\")");
 addOnEvent("Context/Add/Button_Sketch", "click", "attachFileTo(\"Context/Add/Sketch\")");
-addOnEvent("Context_Group/Add/Button_Sketch", "click", "attachFileTo(\"Context_Group/Add/Sketch\")");
-addOnEvent("Sample/Add/Button_Sketch", "click", "attachFileTo(\"Sample/Add/Sketch\")");
-addOnEvent("Special_Find/Special_Find/Button_View_Attached_Files", "click", "attachFileTo(\"Special_Find/Special_Find/View_Attached_Files\")");
-addOnEvent("Diary/Diary/Button_FileAttach", "click", "attachFileTo(\"Diary/Diary/FileAttach\")");
+addOnEvent("FCN/General/Button_Attach_File", "click", "attachFileTo(\"FCN/General/Attach_File\")");
 addOnEvent("Context/Add/Button_Video", "click", "attachVideoTo(\"Context/Add/Video\")");
-addOnEvent("Context_Group/Add/Button_Video", "click", "attachVideoTo(\"Context_Group/Add/Video\")");
-addOnEvent("Sample/Add/Button_Video", "click", "attachVideoTo(\"Sample/Add/Video\")");
-addOnEvent("Special_Find/Special_Find/Button_Video", "click", "attachVideoTo(\"Special_Find/Special_Find/Video\")");
-addOnEvent("Diary/Diary/Button_Video", "click", "attachVideoTo(\"Diary/Diary/Video\")");
 
 /******************************************************************************/
 /*                 BINDINGS FOR 'VIEW ATTACHED FILES' BUTTONS                 */
 /******************************************************************************/
-addOnEvent("Context_Group/Add/View_Attached_Files", "click", "viewArchEntAttachedFiles(getUuid(\"Context_Group\"))");
-addOnEvent("Sample/Add/View_Attached_Files", "click", "viewArchEntAttachedFiles(getUuid(\"Sample\"))");
-addOnEvent("Diary/Diary/View_Attached_Files", "click", "viewArchEntAttachedFiles(getUuid(\"Diary\"))");
+addOnEvent("Context/Add/View_Attached_Files", "click", "viewArchEntAttachedFiles(getUuid(\"Context\"))");
 
 /******************************************************************************/
 /*                             NAVIGATION DRAWER                              */
@@ -1044,8 +958,7 @@ addNavigationButtons(String tabgroup) {
   tabgroupsToValidate.add("Context");
   tabgroupsToValidate.add("Context_Group");
   tabgroupsToValidate.add("Height");
-  tabgroupsToValidate.add("Sample");
-  tabgroupsToValidate.add("Special_Find");
+  tabgroupsToValidate.add("FCN");
 
   addNavigationButton("new", new ActionButtonCallback() {
     actionOnLabel() {
@@ -1238,81 +1151,24 @@ loadEntityFrom(String entityID) {
   });
 }
 
-newControl(){
-  String tabgroup = "Control";
-
-
-  setUuid(tabgroup, null);
-  newTabGroup(tabgroup);
-  populateAuthorAndTimestamp(tabgroup);
-}
-
-duplicateControl(){
-  String tabgroup = "Control";
-  String uuidOld = getUuid(tabgroup);
-
-  disableAutoSave(tabgroup);
-
-
-
-
-  saveCallback = new SaveCallback() {
-    onSave(uuid, newRecord) {
-      setUuid(tabgroup, uuid);
-      populateAuthorAndTimestamp(tabgroup);
-
-      Boolean enable_autosave = true;
-
-      fetchAll(getDuplicateRelnQuery(uuidOld), new FetchCallback(){
-        onFetch(result) {
-          Log.e("Module", result.toString());
-          makeDuplicateRelationships(result, getUuid(tabgroup));
-          showToast("{Duplicated_record}");
-          dialog.dismiss();
-        }
-      });
-
-      saveTabGroup(tabgroup, getUuid(tabgroup), null, null, new SaveCallback(){
-        onSave(autosaveUuid, autosaveNewRecord) {
-          setUuid(tabgroup, autosaveUuid);
-        }
-      }, enable_autosave);
-    }
-  };
-
-  String extraDupeAttributes = "";
-  fetchAll(getDuplicateAttributeQuery(getUuid(tabgroup), extraDupeAttributes), new FetchCallback(){
-    onFetch(result) {
-      excludeAttributes = new ArrayList();
-
-      duplicateTabGroup(tabgroup, null, getExtraAttributes(result), excludeAttributes, saveCallback);
-    }
-  });
-}
-
-deleteControl(){
-  String tabgroup = "Control";
-
-  if (isNull(getUuid(tabgroup))) {
-    cancelTabGroup(tabgroup, true);
-  } else {
-    showAlert("{Confirm_Deletion}", "{Press_OK_to_Delete_this_Record}", "reallyDeleteControl()", "doNotDelete()");
-  }
-}
-
-reallyDeleteControl(){
-  String tabgroup = "Control";
-  deleteArchEnt(getUuid(tabgroup));
-  cancelTabGroup(tabgroup, false);
-}
-
 newContext(){
   String tabgroup = "Context";
 
+  String autoNumSource = "";
+  autoNumSource = getFieldValue("Control/Contexts/Next_Context_ID");
+  if (isNull(autoNumSource)) {
+    showWarning("{Alert}","{A_next_ID_has_not_been_entered_please_provide_one}");
+    return;
+  }
 
   setUuid(tabgroup, null);
   newTabGroup(tabgroup);
   populateAuthorAndTimestamp(tabgroup);
+  String autoNumDest = "";
+  autoNumDest = "Context/General/Context_ID";
+  incAutoNum(autoNumDest);
+  inheritContextFields();
+  setContextDateOpened();
 }
 
 duplicateContext(){
@@ -1321,6 +1177,9 @@ duplicateContext(){
 
   disableAutoSave(tabgroup);
 
+  String autoNumDest = "";
+  autoNumDest = "Context/General/Context_ID";
+  incAutoNum(autoNumDest);
 
   populateFileList("Context/Add/Sketch", new ArrayList());
   populateCameraPictureGallery("Context/Add/Photo", new ArrayList());
@@ -1385,10 +1244,20 @@ reallyDeleteContext(){
 newContextGroup(){
   String tabgroup = "Context_Group";
 
+  String autoNumSource = "";
+  autoNumSource = getFieldValue("Control/Contexts/Next_Context_Group_ID");
+  if (isNull(autoNumSource)) {
+    showWarning("{Alert}","{A_next_ID_has_not_been_entered_please_provide_one}");
+    return;
+  }
 
   setUuid(tabgroup, null);
   newTabGroup(tabgroup);
   populateAuthorAndTimestamp(tabgroup);
+  String autoNumDest = "";
+  autoNumDest = "Context_Group/Gen/Context_Group_ID";
+  incAutoNum(autoNumDest);
+  inheritContextGroupFields();
 }
 
 duplicateContextGroup(){
@@ -1397,11 +1266,11 @@ duplicateContextGroup(){
 
   disableAutoSave(tabgroup);
 
+  String autoNumDest = "";
+  autoNumDest = "Context_Group/Gen/Context_Group_ID";
+  incAutoNum(autoNumDest);
 
-  populateFileList("Context_Group/Add/Sketch", new ArrayList());
   populateCameraPictureGallery("Context_Group/Add/Photo", new ArrayList());
-  populateFileList("Context_Group/Add/Audio", new ArrayList());
-  populateVideoGallery("Context_Group/Add/Video", new ArrayList());
 
 
   saveCallback = new SaveCallback() {
@@ -1432,10 +1301,7 @@ duplicateContextGroup(){
   fetchAll(getDuplicateAttributeQuery(getUuid(tabgroup), extraDupeAttributes), new FetchCallback(){
     onFetch(result) {
       excludeAttributes = new ArrayList();
-      excludeAttributes.add("Sketch");
       excludeAttributes.add("Photo");
-      excludeAttributes.add("Audio");
-      excludeAttributes.add("Video");
 
       duplicateTabGroup(tabgroup, null, getExtraAttributes(result), excludeAttributes, saveCallback);
     }
@@ -1465,6 +1331,7 @@ newMatrix(){
   setUuid(tabgroup, null);
   newTabGroup(tabgroup);
   populateAuthorAndTimestamp(tabgroup);
+  inheritMatrixFields();
 }
 
 duplicateMatrix(){
@@ -1533,6 +1400,7 @@ newHeight(){
   setUuid(tabgroup, null);
   newTabGroup(tabgroup);
   populateAuthorAndTimestamp(tabgroup);
+  inheritHeightFields();
 }
 
 duplicateHeight(){
@@ -1594,158 +1462,6 @@ reallyDeleteHeight(){
   cancelTabGroup(tabgroup, false);
 }
 
-newSample(){
-  String tabgroup = "Sample";
-
-
-  setUuid(tabgroup, null);
-  newTabGroup(tabgroup);
-  populateAuthorAndTimestamp(tabgroup);
-}
-
-duplicateSample(){
-  String tabgroup = "Sample";
-  String uuidOld = getUuid(tabgroup);
-
-  disableAutoSave(tabgroup);
-
-
-  populateFileList("Sample/Add/Sketch", new ArrayList());
-  populateCameraPictureGallery("Sample/Add/Photo", new ArrayList());
-  populateFileList("Sample/Add/Audio", new ArrayList());
-  populateVideoGallery("Sample/Add/Video", new ArrayList());
-
-
-  saveCallback = new SaveCallback() {
-    onSave(uuid, newRecord) {
-      setUuid(tabgroup, uuid);
-      populateAuthorAndTimestamp(tabgroup);
-
-      Boolean enable_autosave = true;
-
-      fetchAll(getDuplicateRelnQuery(uuidOld), new FetchCallback(){
-        onFetch(result) {
-          Log.e("Module", result.toString());
-          makeDuplicateRelationships(result, getUuid(tabgroup));
-          showToast("{Duplicated_record}");
-          dialog.dismiss();
-        }
-      });
-
-      saveTabGroup(tabgroup, getUuid(tabgroup), null, null, new SaveCallback(){
-        onSave(autosaveUuid, autosaveNewRecord) {
-          setUuid(tabgroup, autosaveUuid);
-        }
-      }, enable_autosave);
-    }
-  };
-
-  String extraDupeAttributes = "";
-  fetchAll(getDuplicateAttributeQuery(getUuid(tabgroup), extraDupeAttributes), new FetchCallback(){
-    onFetch(result) {
-      excludeAttributes = new ArrayList();
-      excludeAttributes.add("Sketch");
-      excludeAttributes.add("Photo");
-      excludeAttributes.add("Audio");
-      excludeAttributes.add("Video");
-
-      duplicateTabGroup(tabgroup, null, getExtraAttributes(result), excludeAttributes, saveCallback);
-    }
-  });
-}
-
-deleteSample(){
-  String tabgroup = "Sample";
-
-  if (isNull(getUuid(tabgroup))) {
-    cancelTabGroup(tabgroup, true);
-  } else {
-    showAlert("{Confirm_Deletion}", "{Press_OK_to_Delete_this_Record}", "reallyDeleteSample()", "doNotDelete()");
-  }
-}
-
-reallyDeleteSample(){
-  String tabgroup = "Sample";
-  deleteArchEnt(getUuid(tabgroup));
-  cancelTabGroup(tabgroup, false);
-}
-
-newSpecialFind(){
-  String tabgroup = "Special_Find";
-
-
-  setUuid(tabgroup, null);
-  newTabGroup(tabgroup);
-  populateAuthorAndTimestamp(tabgroup);
-}
-
-duplicateSpecialFind(){
-  String tabgroup = "Special_Find";
-  String uuidOld = getUuid(tabgroup);
-
-  disableAutoSave(tabgroup);
-
-
-  populateCameraPictureGallery("Special_Find/Special_Find/Photo", new ArrayList());
-  populateFileList("Special_Find/Special_Find/Audio", new ArrayList());
-  populateVideoGallery("Special_Find/Special_Find/Video", new ArrayList());
-  populateFileList("Special_Find/Special_Find/View_Attached_Files", new ArrayList());
-
-
-  saveCallback = new SaveCallback() {
-    onSave(uuid, newRecord) {
-      setUuid(tabgroup, uuid);
-      populateAuthorAndTimestamp(tabgroup);
-
-      Boolean enable_autosave = true;
-
-      fetchAll(getDuplicateRelnQuery(uuidOld), new FetchCallback(){
-        onFetch(result) {
-          Log.e("Module", result.toString());
-          makeDuplicateRelationships(result, getUuid(tabgroup));
-          showToast("{Duplicated_record}");
-          dialog.dismiss();
-        }
-      });
-
-      saveTabGroup(tabgroup, getUuid(tabgroup), null, null, new SaveCallback(){
-        onSave(autosaveUuid, autosaveNewRecord) {
-          setUuid(tabgroup, autosaveUuid);
-        }
-      }, enable_autosave);
-    }
-  };
-
-  String extraDupeAttributes = "";
-  fetchAll(getDuplicateAttributeQuery(getUuid(tabgroup), extraDupeAttributes), new FetchCallback(){
-    onFetch(result) {
-      excludeAttributes = new ArrayList();
-      excludeAttributes.add("Photo");
-      excludeAttributes.add("Audio");
-      excludeAttributes.add("Video");
-      excludeAttributes.add("View Attached Files");
-
-      duplicateTabGroup(tabgroup, null, getExtraAttributes(result), excludeAttributes, saveCallback);
-    }
-  });
-}
-
-deleteSpecialFind(){
-  String tabgroup = "Special_Find";
-
-  if (isNull(getUuid(tabgroup))) {
-    cancelTabGroup(tabgroup, true);
-  } else {
-    showAlert("{Confirm_Deletion}", "{Press_OK_to_Delete_this_Record}", "reallyDeleteSpecialFind()", "doNotDelete()");
-  }
-}
-
-reallyDeleteSpecialFind(){
-  String tabgroup = "Special_Find";
-  deleteArchEnt(getUuid(tabgroup));
-  cancelTabGroup(tabgroup, false);
-}
-
 newPhotographLog(){
   String tabgroup = "Photograph_Log";
 
@@ -1753,6 +1469,7 @@ newPhotographLog(){
   setUuid(tabgroup, null);
   newTabGroup(tabgroup);
   populateAuthorAndTimestamp(tabgroup);
+  inheritPhotographLogFields();
 }
 
 duplicatePhotographLog(){
@@ -1821,6 +1538,7 @@ newDiary(){
   setUuid(tabgroup, null);
   newTabGroup(tabgroup);
   populateAuthorAndTimestamp(tabgroup);
+  inheritDiaryFields();
 }
 
 duplicateDiary(){
@@ -1830,9 +1548,6 @@ duplicateDiary(){
   disableAutoSave(tabgroup);
 
 
-  populateFileList("Diary/Diary/FileAttach", new ArrayList());
-  populateFileList("Diary/Diary/Audio", new ArrayList());
-  populateVideoGallery("Diary/Diary/Video", new ArrayList());
   populateCameraPictureGallery("Diary/Diary/Photo", new ArrayList());
 
 
@@ -1864,9 +1579,6 @@ duplicateDiary(){
   fetchAll(getDuplicateAttributeQuery(getUuid(tabgroup), extraDupeAttributes), new FetchCallback(){
     onFetch(result) {
       excludeAttributes = new ArrayList();
-      excludeAttributes.add("FileAttach");
-      excludeAttributes.add("Audio");
-      excludeAttributes.add("Video");
       excludeAttributes.add("Photo");
 
       duplicateTabGroup(tabgroup, null, getExtraAttributes(result), excludeAttributes, saveCallback);
@@ -1890,22 +1602,37 @@ reallyDeleteDiary(){
   cancelTabGroup(tabgroup, false);
 }
 
-newLegacy(){
-  String tabgroup = "Legacy";
+newFCN(){
+  String tabgroup = "FCN";
 
+  String autoNumSource = "";
+  autoNumSource = getFieldValue("Control/Contexts/Next_Context_ID");
+  if (isNull(autoNumSource)) {
+    showWarning("{Alert}","{A_next_ID_has_not_been_entered_please_provide_one}");
+    return;
+  }
 
   setUuid(tabgroup, null);
   newTabGroup(tabgroup);
   populateAuthorAndTimestamp(tabgroup);
+  String autoNumDest = "";
+  autoNumDest = "FCN/General/Context_ID";
+  incAutoNum(autoNumDest);
+  inheritFCNFields();
 }
 
-duplicateLegacy(){
-  String tabgroup = "Legacy";
+duplicateFCN(){
+  String tabgroup = "FCN";
   String uuidOld = getUuid(tabgroup);
 
   disableAutoSave(tabgroup);
 
+  String autoNumDest = "";
+  autoNumDest = "FCN/General/Context_ID";
+  incAutoNum(autoNumDest);
 
+  populateFileList("FCN/General/Attach_File", new ArrayList());
+  populateCameraPictureGallery("FCN/General/Attach_Photograph", new ArrayList());
 
 
   saveCallback = new SaveCallback() {
@@ -1936,24 +1663,26 @@ duplicateLegacy(){
   fetchAll(getDuplicateAttributeQuery(getUuid(tabgroup), extraDupeAttributes), new FetchCallback(){
     onFetch(result) {
       excludeAttributes = new ArrayList();
+      excludeAttributes.add("Attach File");
+      excludeAttributes.add("Attach Photograph");
 
       duplicateTabGroup(tabgroup, null, getExtraAttributes(result), excludeAttributes, saveCallback);
     }
   });
 }
 
-deleteLegacy(){
-  String tabgroup = "Legacy";
+deleteFCN(){
+  String tabgroup = "FCN";
 
   if (isNull(getUuid(tabgroup))) {
     cancelTabGroup(tabgroup, true);
   } else {
-    showAlert("{Confirm_Deletion}", "{Press_OK_to_Delete_this_Record}", "reallyDeleteLegacy()", "doNotDelete()");
+    showAlert("{Confirm_Deletion}", "{Press_OK_to_Delete_this_Record}", "reallyDeleteFCN()", "doNotDelete()");
   }
 }
 
-reallyDeleteLegacy(){
-  String tabgroup = "Legacy";
+reallyDeleteFCN(){
+  String tabgroup = "FCN";
   deleteArchEnt(getUuid(tabgroup));
   cancelTabGroup(tabgroup, false);
 }
@@ -1963,18 +1692,16 @@ doNotDelete(){
   showToast("{Delete_Cancelled}");
 }
 addOnEvent("User", "show", "removeNavigationButtons()");
+addOnEvent("Control", "show", "removeNavigationButtons()");
 addOnEvent("Relationship", "show", "removeNavigationButtons()");
 addOnEvent("Context_Group_Relationship", "show", "removeNavigationButtons()");
-addOnEvent("Control", "show", "addNavigationButtons(\"Control\")");
 addOnEvent("Context", "show", "addNavigationButtons(\"Context\")");
 addOnEvent("Context_Group", "show", "addNavigationButtons(\"Context_Group\")");
 addOnEvent("Matrix", "show", "addNavigationButtons(\"Matrix\")");
 addOnEvent("Height", "show", "addNavigationButtons(\"Height\")");
-addOnEvent("Sample", "show", "addNavigationButtons(\"Sample\")");
-addOnEvent("Special_Find", "show", "addNavigationButtons(\"Special_Find\")");
 addOnEvent("Photograph_Log", "show", "addNavigationButtons(\"Photograph_Log\")");
 addOnEvent("Diary", "show", "addNavigationButtons(\"Diary\")");
-addOnEvent("Legacy", "show", "addNavigationButtons(\"Legacy\")");
+addOnEvent("FCN", "show", "addNavigationButtons(\"FCN\")");
 
 /******************************************************************************/
 /*                                   SEARCH                                   */
@@ -1987,16 +1714,13 @@ addOnEvent("Control/Search/Entity_Types"  , "click" , "search()");
 
 entityTypes = new ArrayList();
 entityTypes.add(new NameValuePair("{All}", ""));
-entityTypes.add(new NameValuePair("{Control}", "Control"));
-entityTypes.add(new NameValuePair("{Context}", "Context"));
-entityTypes.add(new NameValuePair("{Feature}", "Context Group"));
-entityTypes.add(new NameValuePair("{Matrix}", "Matrix"));
+entityTypes.add(new NameValuePair("{Locus}", "Context"));
+entityTypes.add(new NameValuePair("{Stratum}", "Context Group"));
+entityTypes.add(new NameValuePair("{Sediment_Aggregate}", "Matrix"));
 entityTypes.add(new NameValuePair("{Height}", "Height"));
-entityTypes.add(new NameValuePair("{Sample}", "Sample"));
-entityTypes.add(new NameValuePair("{Special_Find}", "Special Find"));
 entityTypes.add(new NameValuePair("{Photograph_Log}", "Photograph Log"));
 entityTypes.add(new NameValuePair("{Diary}", "Diary"));
-entityTypes.add(new NameValuePair("{Legacy}", "Legacy"));
+entityTypes.add(new NameValuePair("{FCN}", "FCN"));
 populateDropDown("Control/Search/Entity_Types", entityTypes);
 
 clearSearch(){
@@ -2028,21 +1752,6 @@ search(){
   Log.d("Module", "Search query: " + searchQuery);
 }
 
-loadControlFrom(String uuid) {
-  String tabgroup = "Control";
-  setUuid(tabgroup, uuid);
-  if (isNull(uuid)) return;
-
-  showTabGroup(tabgroup, uuid);
-}
-
-loadContextFrom(String uuid) {
-  String tabgroup = "Context";
-  setUuid(tabgroup, uuid);
-  if (isNull(uuid)) return;
-
-  showTabGroup(tabgroup, uuid);
-}
 
 loadContextGroupFrom(String uuid) {
   String tabgroup = "Context_Group";
@@ -2068,22 +1777,6 @@ loadHeightFrom(String uuid) {
   showTabGroup(tabgroup, uuid);
 }
 
-loadSampleFrom(String uuid) {
-  String tabgroup = "Sample";
-  setUuid(tabgroup, uuid);
-  if (isNull(uuid)) return;
-
-  showTabGroup(tabgroup, uuid);
-}
-
-loadSpecialFindFrom(String uuid) {
-  String tabgroup = "Special_Find";
-  setUuid(tabgroup, uuid);
-  if (isNull(uuid)) return;
-
-  showTabGroup(tabgroup, uuid);
-}
-
 loadPhotographLogFrom(String uuid) {
   String tabgroup = "Photograph_Log";
   setUuid(tabgroup, uuid);
@@ -2100,14 +1793,162 @@ loadDiaryFrom(String uuid) {
   showTabGroup(tabgroup, uuid);
 }
 
-loadLegacyFrom(String uuid) {
-  String tabgroup = "Legacy";
+loadFCNFrom(String uuid) {
+  String tabgroup = "FCN";
   setUuid(tabgroup, uuid);
   if (isNull(uuid)) return;
 
   showTabGroup(tabgroup, uuid);
 }
 
+
+/******************************************************************************/
+/*                          TAKE FROM GPS BUTTON(S)                           */
+/******************************************************************************/
+addOnEvent("FCN/General/Take_From_GPS", "click", "takePoint(\"FCN\")");
+
+/* Takes the current point using gps. */
+takePoint(String tabgroup) {
+  Map tabgroupToTabRef = new HashMap();
+  tabgroupToTabRef.put("FCN", "FCN/General/");
+
+  String archEntType = tabgroup.replaceAll("_", " ");
+  String currentUuid = getUuid(tabgroup);
+  if (isNull(currentUuid)){
+    showToast("Please enter data first and let a save occur.");
+    return;
+  }
+
+  Object position = getGPSPosition();
+  if (position == null) {
+    showToast("{GPS_Not_Initialised}");
+    return;
+  }
+
+  Object projPosition = getGPSPositionProjected();
+  Double latitude     = position.getLatitude();
+  Double longitude    = position.getLongitude();
+  Double northing     = projPosition.getLatitude();
+  Double easting      = projPosition.getLongitude();
+
+  samplePoint = new Point(new MapPos(easting, northing), null, (PointStyle) null, null);
+  ArrayList geolist = new ArrayList();
+  geolist.add(samplePoint);
+
+  String accuracy = "Accuracy: " + getGPSEstimatedAccuracy();
+  setFieldAnnotation(tabgroupToTabRef.get(tabgroup) + "Latitude", accuracy);
+
+  saveArchEnt(currentUuid, archEntType, geolist, null, new SaveCallback() {
+    onSave(uuid, newRecord) {
+      print("[takePoint()] Added geometry: " + geolist);
+      fillInGPS(tabgroup);
+    }
+  });
+}
+
+/* Sets the value of GPS views for the given tab path. */
+fillInGPS(String tabgroup) {
+  Map tabgroupToTabRef = new HashMap();
+  tabgroupToTabRef.put("FCN", "FCN/General/");
+
+  String currentUuid = getUuid(tabgroup);
+  if (isNull(currentUuid)) {
+    return;
+  }
+
+  String query = "SELECT x(transform(geospatialcolumn,                4326)) as longtiude, " +
+                 "       y(transform(geospatialcolumn,                4326)) as latitude, " +
+                 "       x(transform(geospatialcolumn, "+getModuleSrid()+")) as easting, " +
+                 "       y(transform(geospatialcolumn, "+getModuleSrid()+")) as northing " +
+                 "  FROM latestnondeletedarchent, vocabulary " +
+                 " WHERE uuid = '" + currentUuid + "';";
+
+  fetchOne(query, new FetchCallback() {
+    onFetch(result) {
+      print("[fillInGPS()] Fetched DB transformed geometry: " + result);
+      setFieldValue(tabgroupToTabRef.get(tabgroup) + "Longitude" , result.get(0));
+      setFieldValue(tabgroupToTabRef.get(tabgroup) + "Latitude"  , result.get(1));
+      setFieldValue(tabgroupToTabRef.get(tabgroup) + "Easting"   , result.get(2));
+      setFieldValue(tabgroupToTabRef.get(tabgroup) + "Northing"  , result.get(3));
+    }
+  });
+}
+
+/******************************************************************************/
+/*                       AUTONUMBERING HELPER FUNCTIONS                       */
+/******************************************************************************/
+/*
+ * If value of field specified by `ref` is null, sets the field to `defaultVal`,
+ * otherwise increments its value.
+ *
+ * Returns the value the field was updated to.
+ */
+incField(String ref, Integer defaultVal) {
+  String val = getFieldValue(ref);
+
+  if (isNull(val)) {
+    setFieldValue(ref, defaultVal);
+    return defaultVal;
+  }
+
+  Integer inc = Integer.parseInt(val) + 1;
+  setFieldValue(ref, inc);
+  insertIntoLocalSettings(ref, inc.toString());
+
+  return inc;
+}
+
+/* Increments the field at `ref` or returns null if it does not contain a
+ * number.
+ */
+incField(String ref) {
+  return incField(ref, 1);
+}
+
+addOnEvent("Control/Contexts", "show", "onShowAutonum()");
+
+/* This function should only be called once since it creates event handlers,
+ * otherwise multiple copies of the same handler will trigger with the event.
+ */
+onShowAutonum() {
+  List l = new ArrayList();
+  l.add("Control/Contexts/Next_Context_ID");
+  l.add("Control/Contexts/Next_Context_Group_ID");
+  l.add("Control/Contexts/Next_Context_ID");
+
+
+  for (ref : l) {
+    loadStartingId(ref);
+  }
+  for (ref : l) {
+    onFocus(ref, null,  "insertIntoLocalSettings(\"" + ref + "\", getFieldValue(\"" + ref + "\"));");
+  }
+}
+
+loadStartingId(String ref) {
+  String idQ = "SELECT value FROM localSettings WHERE key = '" + ref + "';";
+  fetchOne(idQ, new FetchCallback() {
+    onFetch(result) {
+      if (!isNull(result)) {
+        setFieldValue(ref, result.get(0));
+      } else {
+        setFieldValue(ref, "1");
+      }
+    }
+  });
+}
+
+incAutoNum(String destPath) {
+  Map destToSource = new HashMap();
+  destToSource.put("Context/General/Context_ID", "Control/Contexts/Next_Context_ID");
+  destToSource.put("Context_Group/Gen/Context_Group_ID", "Control/Contexts/Next_Context_Group_ID");
+  destToSource.put("FCN/General/Context_ID", "Control/Contexts/Next_Context_ID");
+
+  String sourcePath = destToSource.get(destPath);
+  String destVal    = getFieldValue(sourcePath);
+  setFieldValue(destPath, destVal);
+  incField(sourcePath);
+}
 
 /******************************************************************************/
 /*                POPULATION OF ENTITY AND CHILD ENTITY LISTS                 */
@@ -2191,24 +2032,24 @@ menus.add(new String[] {
 });
 menus.add(new String[] {
   "List",
-  "Context/Context_Group/List_of_Related_Context_Groups",
+  "Context/Stratum/List_of_Related_Strata",
   "getUuid(\"Context\")",
-  "Context Group",
-  "Context - Context Group",
+  "Stratum",
+  "Context - Stratum",
 });
 menus.add(new String[] {
   "List",
-  "Context/Artefacts/List_of_Related_Special_Finds",
+  "Context/FCN/List_of_Related_Special_Finds",
   "getUuid(\"Context\")",
-  "Special Find",
-  "Context - Special Find",
+  "FCN",
+  "Context - FCN",
 });
 menus.add(new String[] {
-  "List",
-  "Context/Samples/List_of_Sample",
+  "DropDown",
+  "Context/Add/Select_a_Photograph_Log",
   "getUuid(\"Context\")",
-  "Sample",
-  "Context - Sample",
+  "Photograph Log",
+  "Context - Photograph Log",
 });
 menus.add(new String[] {
   "DropDown",
@@ -2241,9 +2082,9 @@ for (m : menus) {
 }
 addOnEvent("Context/Measure/Height_List", "click", "loadEntity()");
 addOnEvent("Context/Deposit/Associated_Matrices", "click", "loadEntity(true)");
-addOnEvent("Context/Context_Group/List_of_Related_Context_Groups", "click", "loadEntity()");
-addOnEvent("Context/Artefacts/List_of_Related_Special_Finds", "click", "loadEntity()");
-addOnEvent("Context/Samples/List_of_Sample", "click", "loadEntity()");
+addOnEvent("Context/Stratum/List_of_Related_Strata", "click", "loadEntity()");
+addOnEvent("Context/FCN/List_of_Related_Special_Finds", "click", "loadEntity()");
+addOnEvent("Context/Add/Select_a_Photograph_Log", "click", "loadEntity(true)");
 addOnEvent("Context_Group/Add/Select_a_Photograph_Log", "click", "loadEntity(true)");
 
 /******************************************************************************/
@@ -2426,6 +2267,204 @@ loadRelatedEntity() {
   loadEntityFrom(selectedChildUuid);
 }
 
+/****************************** VOCAB POPULATION ******************************/
+makeVocab("DropDown", "User/User_List/AreaCode", "AreaCode");
+makeVocab("DropDown", "User/User_List/Device_Code", "Device Code");
+/**************************** USER TAB VALIDATION *****************************/
+/* The autogen defines its own `onClickUserLogin` function. This is           */
+/* overridden using @POSTPROC.                                                */
+/******************************************************************************/
+
+onClickUserLogin () {
+  String refUsers      = userMenuPath; // Defined by autogen
+  String refAreaCode   = "User/User_List/AreaCode";
+  String refDeviceCode = "User/User_List/Device_Code";
+
+  String vocabIdUsers      = getFieldValue(refUsers);
+  String vocabIdAreaCode   = getFieldValue(refAreaCode);
+  String vocabIdDeviceCode = getFieldValue(refDeviceCode);
+
+  Boolean isSelectedUsers      = !isNull(vocabIdUsers);
+  Boolean isSelectedAreaCode   = !isNull(vocabIdAreaCode);
+  Boolean isSelectedDeviceCode = !isNull(vocabIdDeviceCode);
+
+  if (!isSelectedUsers)      { noUsersSelected();      return; }
+  if (!isSelectedAreaCode)   { noAreaCodeSelected();   return; }
+  if (!isSelectedDeviceCode) { noDeviceCodeSelected(); return; }
+
+  newTab("Control", true);
+}
+
+noUsersSelected() {
+  String msgHead = "No User selected";
+  String msgBody = "A User must be selected in order to log in.";
+  showWarning(msgHead, msgBody);
+}
+
+noAreaCodeSelected() {
+  msgHead = "No {AreaCode} Selected";
+  msgBody = "A {AreaCode} must be selected in order to log in.";
+  showWarning(msgHead, msgBody);
+}
+
+noDeviceCodeSelected() {
+  msgHead = "No {Device_Code} Selected";
+  msgBody = "A {Device_Code} must be selected in order to log in.";
+  showWarning(msgHead, msgBody);
+}
+/***************************** FIELD INHERITANCE ******************************/
+String moduleYear     = new java.text.SimpleDateFormat("yy").format(new Date());
+String moduleSiteCode = "BK" + moduleYear;
+
+copyFieldValue(src, dst) {
+  val = getFieldValue(src);
+  setFieldValue(dst, val);
+}
+
+inheritContextFields() {
+  copyFieldValue(
+    "Control/Contexts/Team_Members",
+    "Context/General/Excavators"
+  );
+
+  copyFieldValue(
+    "User/User_List/AreaCode",
+    "Context/General/AreaCode"
+  );
+
+  copyFieldValue(
+    "User/User_List/Device_Code",
+    "Context/Vars/Device_Code"
+  );
+
+  setFieldValue(
+    "Context/Vars/Site_Code",
+    moduleSiteCode
+  );
+}
+
+inheritContextGroupFields() {
+  copyFieldValue(
+    "User/User_List/AreaCode",
+    "Context_Group/Gen/AreaCode"
+  );
+
+  copyFieldValue(
+    "User/User_List/Device_Code",
+    "Context_Group/Vars/Device_Code"
+  );
+
+  setFieldValue(
+    "Context_Group/Vars/Site_Code",
+    moduleSiteCode
+  );
+}
+
+inheritMatrixFields() {
+  copyFieldValue(
+    "User/User_List/AreaCode",
+    "Matrix/Vars/AreaCode"
+  );
+
+  copyFieldValue(
+    "Context/General/Context_ID",
+    "Matrix/Vars/Context_ID"
+  );
+}
+
+inheritHeightFields() {
+  copyFieldValue(
+    "User/User_List/AreaCode",
+    "Height/Vars/AreaCode"
+  );
+
+  copyFieldValue(
+    "Context/General/Context_ID",
+    "Height/Vars/Context_ID"
+  );
+}
+
+inheritSampleFields() {
+  copyFieldValue(
+    "User/User_List/AreaCode",
+    "Sample/Vars/AreaCode"
+  );
+
+  copyFieldValue(
+    "Context/General/Context_ID",
+    "Sample/Deposit_Samples/Context_ID"
+  );
+
+  copyFieldValue(
+    "User/User_List/Device_Code",
+    "Sample/Vars/Device_Code"
+  );
+
+  setFieldValue(
+    "Sample/Vars/Site_Code",
+    moduleSiteCode
+  );
+}
+
+inheritSpecialFindFields() {
+  copyFieldValue(
+    "Context/General/Context_ID",
+    "Special_Find/Special_Find/Context_ID"
+  );
+
+  copyFieldValue(
+    "User/User_List/AreaCode",
+    "Special_Find/Vars/AreaCode"
+  );
+
+  copyFieldValue(
+    "User/User_List/Device_Code",
+    "Special_Find/Vars/Device_Code"
+  );
+
+  setFieldValue(
+    "Special_Find/Vars/Site_Code",
+    moduleSiteCode
+  );
+}
+
+inheritPhotographLogFields() {
+  //BEWARE! Weird formatting!
+  if (parentTabgroup__.equals("Context"))
+  copyFieldValue(
+    "Context/General/Context_ID",
+    "Photograph_Log/Photograph_Log/Photo_Context_ID"
+  );
+
+  //BEWARE! Weird formatting!
+  if (parentTabgroup__.equals("Context_Group"))
+  copyFieldValue(
+    "Context_Group/Gen/Context_Group_ID",
+    "Photograph_Log/Photograph_Log/Photo_Context_Group_ID"
+  );
+
+  copyFieldValue(
+    "User/User_List/AreaCode",
+    "Photograph_Log/Vars/AreaCode"
+  );
+
+  copyFieldValue(
+    "User/User_List/Device_Code",
+    "Photograph_Log/Vars/Device_Code"
+  );
+
+  setFieldValue(
+    "Photograph_Log/Vars/Site_Code",
+    moduleSiteCode
+  );
+}
+
+inheritDiaryFields() {
+  copyFieldValue(
+    "User/User_List/AreaCode",
+    "Diary/Diary/AreaCode"
+  );
+}
 /******************************* RELATIONSHIPS ********************************/
 /* Context-to-Context relationships.                                          */
 /*                                                                            */
@@ -2955,6 +2994,173 @@ getCGChildQuery(String parentUuid) {
   relatedQ += " ORDER BY createdat desc ";
   relatedQ += " LIMIT ? OFFSET ? ";
   return relatedQ;
+}
+/*************************** LOCAL SETTINGS ACCESS ****************************/
+/* Loading and saving things in localSettings.                                */
+/******************************************************************************/
+addOnEvent("User/User_List/AreaCode",       "click", "saveAreaCode()");
+addOnEvent("User/User_List/AreaCode",       "show",  "loadAreaCode()");
+addOnEvent("User/User_List/Device_Code",    "click", "saveDeviceCode()");
+addOnEvent("User/User_List/Device_Code",    "show",  "loadDeviceCode()");
+onFocus   ("Control/Contexts/Team_Members", "",      "saveTeamMembers()");
+addOnEvent("Control/Contexts/Team_Members", "show",  "loadTeamMembers()");
+
+insertFieldValueIntoLocalSettings(String ref) {
+  String val = getFieldValue(ref);
+  insertIntoLocalSettings(ref, val);
+}
+
+saveAreaCode () {
+  String ref = "User/User_List/AreaCode";
+  insertFieldValueIntoLocalSettings(ref);
+}
+
+loadAreaCode () {
+  String ref ="User/User_List/AreaCode";
+  setFieldValueFromLocalSettings(ref, ref);
+}
+
+saveDeviceCode() {
+  String ref = "User/User_List/Device_Code";
+  insertFieldValueIntoLocalSettings(ref);
+}
+
+loadDeviceCode() {
+  String ref = "User/User_List/Device_Code";
+  setFieldValueFromLocalSettings(ref, ref);
+}
+
+saveTeamMembers() {
+  String ref = "Control/Contexts/Team_Members";
+  insertFieldValueIntoLocalSettings(ref);
+}
+
+loadTeamMembers() {
+  String ref = "Control/Contexts/Team_Members";
+  setFieldValueFromLocalSettings(ref, ref);
+}
+/************************ DYNAMIC UI - OPEN/CLOSE SITE ************************/
+/* There are two cases to handle:                                             */
+/*   (a) When a record is newly created.                                      */
+/*   (b) When a record has been loaded.                                       */
+/*                                                                            */
+/* Case (a) is handled by events which trigger a UI update.                   */
+/*                                                                            */
+/* Case (b) is handled by a callback to `showTabGroup`. This is implemented   */
+/* by overwriting the auto-generated record loading function using @POSTPROC. */
+/******************************************************************************/
+addOnEvent("Context",                                      "show",  "openContextTabs()");
+addOnEvent("Context/General/Fill_in_Context_Type_Details", "click", "openContextTabs()");
+
+openContextTabs() {
+  openContextTabs(false);
+}
+
+openContextTabs(Boolean showGeneralInformationTab){
+    fetchOne("SELECT vocabName FROM vocabulary WHERE vocabid = '"+getFieldValue("Context/General/Context_Type")+"';",
+        new FetchCallback() {
+          onFetch(name) {
+            if (!isNull(name)){
+                String vocab = name.get(0);
+                if ((vocab.equals("{Deposit}"))){
+                    cancelTab("Context/Cut", false);
+                    cancelTab("Context/Structure", false);
+                    cancelTab("Context/Skeleton", false);
+                    showTab("Context/Deposit");
+                } else if (vocab.equals("{Negative_Element}")){
+                    cancelTab("Context/Deposit", false);
+                    cancelTab("Context/Structure", false);
+                    cancelTab("Context/Skeleton", false);
+                    showTab("Context/Cut");
+                } else if (vocab.equals("{Structure}")){
+                    cancelTab("Context/Deposit", false);
+                    cancelTab("Context/Cut", false);
+                    cancelTab("Context/Skeleton", false);
+                    showTab("Context/Structure");
+                } else if (vocab.equals("{Skeleton}")){
+                    cancelTab("Context/Deposit", false);
+                    cancelTab("Context/Cut", false);
+                    cancelTab("Context/Structure", false);
+                    showTab("Context/Skeleton");
+                } else {
+                    cancelTab("Context/Cut", false);
+                    cancelTab("Context/Deposit", false);
+                    cancelTab("Context/Structure", false);
+                    cancelTab("Context/Skeleton", false);
+                }
+            } else {
+                cancelTab("Context/Cut", false);
+                cancelTab("Context/Deposit", false);
+                cancelTab("Context/Structure", false);
+                cancelTab("Context/Skeleton", false);
+            }
+            if(showGeneralInformationTab) {
+              showTab("Context/General");
+            }
+        }
+    });
+}
+
+loadContextFrom(String uuid) {
+  String tabgroup = "Context";
+  setUuid(tabgroup, uuid);
+  if (isNull(uuid)) return;
+
+  FetchCallback cb = new FetchCallback() {
+    onFetch(result) {
+      openContextTabs(true);
+    }
+  };
+  showTabGroup(tabgroup, uuid, cb);
+}
+/******************************* CONTEXT DATES ********************************/
+addOnEvent("Context/General/Add_Date_Closed", "click", "setContextDateClosed()");
+
+setTimestamp(String path) {
+  setFieldValue(path, new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss z").format(new Date()));
+}
+
+// Linked using @POSTPROC
+setContextDateOpened() {
+  String ref = "Context/General/Date_Opened";
+  setTimestamp(ref);
+}
+
+setContextDateClosed() {
+  String ref = "Context/General/Date_Closed";
+  setTimestamp(ref);
+}
+/******************************* TEXTURE HELPER *******************************/
+onEvent("Context/Soil_Texture_Helper/Update_Soil_Texture", "click", "setTextureActual()");
+
+// Overrides the original function definition using @POSTPROC.
+onClickContextSoilTextureHelper () {
+  showTab("Context/Soil_Texture_Helper");
+}
+
+setTextureActual(){
+    String soilQuery= "SELECT vocabid " +
+                      "  FROM vocabulary JOIN attributekey USING (attributeid) "+
+                      " WHERE attributeName = 'Soil Texture' "+
+                      "   AND vocabname = (SELECT vocabname " +
+                                          "  FROM vocabulary JOIN attributekey USING (attributeid) " +
+                                          " WHERE vocabid = '"+ getFieldValue("Context/Soil_Texture_Helper/Soil_Texture_Helper") +"' "+
+                                          "   AND attributeName = 'Soil Texture Helper'); ";
+    //This function makes the hierarchical soil texture selector write to the texture dropdown. We should discuss.
+    Log.d("foo1", soilQuery);
+
+    fetchOne(soilQuery, new FetchCallback() {
+        onFetch(textureToSet) {
+            if(!isNull(textureToSet)){
+                Log.d("foo1", textureToSet.get(0));
+                setFieldValue("Context/Deposit/Soil_Texture", textureToSet.get(0));
+            } else {
+                showToast("Match not found. You shouldn't see this, but select the result manually.");
+            }
+            cancelTab("Context/Soil_Texture_Helper", false);
+            showTab("Context/Deposit");
+        }
+    });
 }
 
 /******************************************************************************/

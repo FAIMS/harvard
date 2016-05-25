@@ -1,7 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--TODO: Ask Brian for specifics on the relationship tabs or tab groups-->
-<!--TODO: Ask brian how important it is for the labels to match bon-->
-
 <!--@PREPROC:  ./proc/pre.sh-->
 <!--@POSTPROC: ./proc/post.sh-->
 <module suppressWarnings="true">
@@ -69,10 +66,9 @@
 
 <Control f="nodata">
   <Contexts>
-    <Create_New_Context       t="button" l="Context"/>
-    <Create_New_Context_Group t="button" l="Context_Group"/>
-    <Create_New_Diary         t="button" l="Diary"/>
-    <Create_New_Legacy        t="button" l="Legacy"/>
+    <Create_New_Locus   t="button" l="Context"/>
+    <Create_New_Stratum t="button" l="Context_Group"/>
+    <Create_New_Diary   t="button" l="Diary"/>
     <Team_Members/>
     <autonum/>
     <GPS_Diagnostics t="gpsdiag"/>
@@ -81,13 +77,16 @@
 </Control>
 
 <Context>
+  Locus
   <desc>The physical result of any single action whether it leaves a positive or negative record within the stratigraphic sequence. (MoLAS 1994)</desc>
   <General>
     <cols>
       <AreaCode f="id notnull">
+        Trench ID
         <!--@SOURCE: logic/area-code.xml-->
       </AreaCode>
-      <Context_ID f="id notnull autonum">
+      <Context_ID f="id notnull autonum readonly">
+        Locus ID
         <desc>Every archaeological context (negative element (cut), deposit, structure, skeleton, artefact cluster) is given a unique 3 or 4 letter context code. Each trench is designated with a separate letter which starts the code, so it is immediately obvious to which trench a context belongs. For example context HAA belongs to Trench H, context MQP to Trench M etc.
         The contexts are labelled consecutively in alphabetical order using the letters following the trench letter. For Trench H the first context would be HAA, the second HAB, the third HAB and so on. In addition sets of letters can denote parts of trenches, buildings etc. E.g. HFs might denote contexts from a specific building.
         Burial context codes begin with the letter Z, followed by the trench letter. Hence burial ZHA is the first burial context from trench H.
@@ -97,6 +96,7 @@
         </str>
       </Context_ID>
       <Context_Name f="id">
+        Brief Description
         <desc>Enter a brief, clear name for the Context eg 'House A - west wall'</desc>
         <str>
           <fmt><![CDATA[$2]]></fmt>
@@ -111,9 +111,6 @@
         <desc>The Y coordinate on the SW corner of the context.</desc>
       </Grid_Y>
     </cols>
-    <Location_Note f="notnull">
-      <desc>Record the approximate location in the excavation area, for example: centre of Area A; NW corner area A. Also include, where relevant, the position in relation to other archaeological contexts or features e.g. between walls x and y.</desc>
-    </Location_Note>
     <cols>
       <col>
         <Date_Opened>
@@ -140,6 +137,7 @@
     </cols>
     <cols>
       <Horizon_Boundary>
+        Basal Edge Definition
         <desc>Describe the boundary between this and the next context.</desc>
         <opts>
           <opt>No Observation<desc>data not collected</desc></opt>
@@ -169,22 +167,27 @@
       </Contamination>
     </cols>
     <Context_Type>
+      Locus Type
       <desc>Describe the context type by selecting an icon as defined below.
   When you have selected a context type you can proceed to open the "Fill in context type details" page. Note this page will not open unless you have selected a context type.</desc>
       <opts>
         <opt p="gallery/Blanks/Trail.png">No Observation
         <desc>data not collected</desc></opt>
-        <opt p="gallery/ContextType/Orange/Cut.png">Negative Element
+        <opt p="gallery/ContextType/Orange/Cut.png">Cut
+          <!--TODO: Update dynamic UI code-->
         <desc>Any Context which represents the removal of earlier deposit and thus forms a negative interface (cut) with another context, such as a cut for a pit, burial, ditch, wall foundation or robber trench.</desc></opt>
         <opt p="gallery/ContextType/Orange/Deposit.png">Deposit
         <desc>Any Context with deposited sediment and soil, such as floor layers, pit and grave fills, hearth fills and natural sediments.</desc></opt>
-        <opt p="gallery/ContextType/Orange/Structure.png">Structure
+        <opt p="gallery/ContextType/Orange/Structure.png">Feature
+          <!--TODO: Update dynamic UI code-->
         <desc>Any Context consisting of deliberately constructed structural element, independent of a Negative Element (i.e. cut, such as a wall or a hearth).</desc></opt>
         <opt p="gallery/ContextType/Orange/Skeleton.png">Skeleton
         <desc>Human skeletal remains.</desc></opt>
       </opts>
     </Context_Type>
-    <Fill_in_Context_Type_Details t="button"/>
+    <Fill_in_Context_Type_Details t="button">
+      Fill in Locus Type Details
+    </Fill_in_Context_Type_Details>
     <cols>
       <Plans f="notnull">
         <desc>Reference numbers to plans or drawings of this Context.</desc>
@@ -207,24 +210,30 @@
   <Measure f="noscroll">
     <cols>
       <Highest_Level f="notnull" b="decimal">
+        Absolute Height Top (m)
         <desc>The highest elevation or 'starting level' recorded for that context relative to the site grid.</desc>
       </Highest_Level>
       <Lowest_Level f="notnull" b="decimal">
+        Absolute Height Bottom (m)
         <desc>The lowest elevation recorded for that context relative to the site grid.</desc>
       </Lowest_Level>
     </cols>
     <cols>
       <Length f="notnull" b="decimal">
+        Length (m)
         <desc>Longest dimension in metres.</desc>
       </Length>
       <Width f="notnull" b="decimal">
+        Width (m)
         <desc>Width or diameter in metres.</desc>
       </Width>
       <Depth f="notnull" b="decimal">
+        Depth (m)
         <desc>Depth or Height in metres.</desc>
       </Depth>
     </cols>
     <Volume f="notnull" b="decimal">
+      Volume (litres)
       <desc>Estimate the volume of the context in litres. All soil will be collected in buckets of a known volume. A tally should be kept of buckets produced from a context and the total volume calculated using that tally.</desc>
     </Volume>
     <Add_Height t="button" lc="Height"/>
@@ -232,6 +241,7 @@
   </Measure>
   <Cut>
     <Cut_Your_Interpretation f="notnull">
+      Your Interpretation
       <desc>Your interpretation of the likely function of the Context using standardised definitions.</desc>
       <opts>
         <opt>No Observation</opt>
@@ -250,6 +260,7 @@
     </Cut_Your_Interpretation>
     <cols>
       <Shape_of_Cut f="notnull">
+        Shape in Plan
         <desc>Describe the shape of the negative element/cut viewed from above.</desc>
         <opts>
           <opt>No Observation <desc>data not collected</desc></opt>
@@ -284,6 +295,15 @@
         <opt>Shallow <desc>Gentle slope less than 45 degrees.</desc></opt>
       </opts>
     </Break_of_Slope_-_Top>
+    <Break_of_Slope_-_Base t="radio" f="notnull">
+      <desc>The degree with which the top surface of the edge of the cut breaks into the sides.</desc>
+      <opts>
+        <opt>Gradual <desc>Some rounding to the top.</desc></opt>
+        <opt>Not perceptible <desc>Well-rounded; there is no perceptible difference between the sides of the cut and the surface into which it protrudes.</desc></opt>
+        <opt>Sharp <desc>Clear sharp slope, almost right-angled.</desc></opt>
+        <opt>Shallow <desc>Gentle slope less than 45 degrees.</desc></opt>
+      </opts>
+    </Break_of_Slope_-_Base>
     <cols>
       <Sides_of_Cut f="notnull">
         <desc>Describe the shape of the cut as seen in cross section.</desc>
@@ -315,9 +335,6 @@
         </opts>
       </Shape_of_Base>
     </cols>
-    <Cut_Function f="notnull">
-      <desc>Comment in more specific detail on your understanding of the reasons for the shape and nature of the cut.</desc>
-    </Cut_Function>
     <Orientation f="notnull">
       <desc>Orientation of linear cuts eg N-S.</desc>
       <opts>
@@ -338,137 +355,95 @@
         <opt>Less than 45 degrees from horizontal </opt>
       </opts>
     </Inclination_of_axis>
+    <Truncation/>
   </Cut>
   <Structure>
-    <Structure_Your_Interpretation f="notnull">
-      <desc>Your interpretation of the likely function of the structure.</desc>
-      <opts>
-        <opt>No Observation</opt>
-        <opt>Indeterminate </opt>
-        <opt>Floor/Surface </opt>
-        <opt>Mud/Plaster Face </opt>
-        <opt>Wall </opt>
-        <opt>Platform/Bench </opt>
-        <opt>Paving </opt>
-        <opt>Bin </opt>
-        <opt>Oven </opt>
-        <opt>Pillar </opt>
-        <opt>Other <desc>Function not elsewhere described. Provide details in Annotation field.</desc></opt>
-      </opts>
-    </Structure_Your_Interpretation>
-    <Structural_Components>
-      <desc>Primary components of structure or feature eg dry-pressed brick rough-hewn stone.</desc>
-      <opts>
-        <opt>Brick
-        <desc>Fired or sun-dried clay block used in masonry construction.</desc>
-        <opt>Dry-pressed
-        <desc>Dry pressed brick</desc></opt>
-        <opt>Glazed brick
-        </opt>
-        <opt>Sandstock
-        <desc>Hand-made colonial bricks</desc></opt></opt>
-        <opt>Earth
-        <desc>Compact earthen wall or floor.</desc></opt>
-        <opt>Stone
-        <desc>Worked or unworked stone used in masonry walls.</desc>
-        <opt>Ashlar
-        <desc>Finely dressed stone with flat face.</desc></opt>
-        <opt>Other
-        </opt>
-        <opt>Roughly-hewn
-        <desc>Roughly cut stone: shows some sign of shaping.</desc></opt>
-        <opt>Rubble
-        <desc>Stone fragments with few signs of shaping</desc></opt></opt>
-        <opt>Timber
-        <desc>Timber uprights or other elements for a wall or fence.</desc>
-        <opt>Beam
-        <desc>Timber beam or support.</desc></opt>
-        <opt>Plank
-        <desc>Timber plank for flooring or panelling.</desc></opt>
-        <opt>Post
-        <desc>Round or square timber post.</desc></opt></opt>
-      </opts>
-    </Structural_Components>
-    <Component_Finish>
-      <desc>How have the material types been prepared (i.e dressed stones polished/smoothed/painted plaster surface).</desc>
-    </Component_Finish>
-    <Bonding>
-      <desc>Additional details of the bonding/packing material.</desc>
+    Feature
+    <CG_Context_Type f="notnull">
+      <desc>Enter the type of feature you are describing.</desc>
       <opts>
         <opt>No Observation
         <desc>data not collected</desc></opt>
-        <opt>Mortar
-        <desc>Paste used to bind masonry blocks together.</desc>
-        <opt>Cement mortar
-        <desc>Cement based mortar.</desc></opt>
-        <opt>Lime-shell mortar
-        <desc>Sandy mortar with lime and burnt shell inclusion.</desc></opt></opt>
-        <opt>Unmortared
-        <desc>No visible bonding material ie unmortared.</desc></opt>
-        <opt>Stones
-        <desc>Unmortared stones.</desc></opt>
-        <opt>Other
-        <desc>Other bonding/packing material.</desc></opt>
+        <opt>Negative Element
+        <desc>Any Context which forms a negative interface (cut) with another context, such as a cut for a pit, burial, ditch, wall foundation or robber trench.</desc></opt>
+        <opt>Deposit
+        <desc>Any Context with deposited sediment and soil, such as floor layers, pit and grave fills, hearth fills and natural sediments.</desc></opt>
+        <opt>Structure
+        <desc>Any Context consisting of deliberately constructed structures, independent of a Negative Element (i.e. cut, such as walls and hearths).</desc></opt>
+        <opt>Wall
+        <desc>A structured vertical barrier made from durable materials defining a space.</desc></opt>
+        <opt>Floor
+        <desc>A  prepared surface, internal or external, including those made from plaster, earth etc.</desc></opt>
+        <opt>Well
+        <desc>A deep pit excavated to reach the water table.</desc></opt>
+        <opt>Pit
+        <desc>A large cut filled with sediment or other materials.</desc></opt>
+        <opt>Room
+        <desc>A discrete space within a house or other building.</desc></opt>
+        <opt>Burial
+        <desc>The cut, fill plus any associated structures relating to the deposition of human remains, including those remains, such as a skeleton.</desc></opt>
+        <opt>Building
+        <desc>A building is defined when several walls surround a discrete space</desc></opt>
+        <opt>Surface
+        <desc>A compacted horizontal layer, internal or external, on which activities took place.</desc></opt>
+        <opt>Space <desc>A space is an area bounded by a structure of some kind, either external or internal, and can be for example a courtyard, room, ante-room etc.</desc></opt>
+        <opt>Posthole<desc>A small pit cut to hold an upright post.</desc></opt>
+        <opt>Stakehole<desc>Cuts smaller than postholes, typically c. 1-5 cm diameter.</desc></opt>
+        <opt>Hearth<desc>A prepared structure in which a fire is set.</desc></opt>
+        <opt>Stakehole row <desc>A row of cuts smaller than postholes, typically c. 1-5 cm diameter.</desc></opt>
+        <opt>Other<desc>Function not elsewhere described. Provide details in Annotation field.</desc></opt>
       </opts>
-    </Bonding>
-    <Bonding_Details>
-      <desc>What has been used to bind the major elements together? Is there mud mortar in a wall, or chinking stones? </desc>
-    </Bonding_Details>
-    <Distinguishing_Marks>
-      <desc>Describe and distinguishing marks on the bricks or stone, such as makers marks, score marks etc.</desc>
-    </Distinguishing_Marks>
-    <Structure_Description f="notnull">
-      <desc>Describe the structure.</desc>
-    </Structure_Description>
-    <Number_Courses>
-      <desc>The number of vertical layers of structural elements such as bricks.</desc>
-    </Number_Courses>
-    <Set_In_Cut>
-      <desc>Give the cut context code if relevant. If not set in cut then put 'NA'.</desc>
-    </Set_In_Cut>
-    <Structure_Shape>
-      <desc>The shape of the structural element, in plan.</desc>
-      <opts>
-        <opt>No Observation
-        <desc>data not collected</desc></opt>
-        <opt>Circular
-        <desc>Round</desc></opt>
-        <opt>Linear
-        <desc>Straight sided but not square or rectangular.</desc></opt>
-        <opt>Ovoid
-        <desc>Oval or elliptical.</desc></opt>
-        <opt>Rectangular
-        <desc>Two sides longer than the other.</desc></opt>
-        <opt>Semi-Circular
-        <desc>Half circle.</desc></opt>
-        <opt>Square
-        <desc>Equal on four sides.</desc></opt>
-        <opt>Sub-Circular
-        <desc>Nearly circular.</desc></opt>
-        <opt>Sub-rectangular
-        <desc>Nearly rectangular in shape.</desc></opt>
-      </opts>
-    </Structure_Shape>
-    <Mudbrick_Shape>
-      <desc>The shape of mudbrick(s).</desc>
-      <opts>
-        <opt>No Observation</opt>
-        <opt>Rectangular
-        <desc>With straight edges, upper and lower surfaces.</desc></opt>
-        <opt>Elongated oval
-        <desc>Steep slope.</desc></opt>
-        <opt>Plano-convex
-        <desc>Shallow slope.</desc></opt>
-        <opt>Boat shaped
-        <desc>Concave surface opposite convex surface</desc></opt>
-        <opt>Ovoid
-        </opt>
-      </opts>
-    </Mudbrick_Shape>
-    <Enter_Sediment_Description t="button"/>
+    </CG_Context_Type>
+    <CG_Your_description f="notnull">
+      Your Description
+      <desc>Describe the feature, any details of dimensions, disturbance, orientation etc.</desc>
+    </CG_Your_description>
+    <Your_Discussion>
+      Discussion
+      <desc>Add here any elaborations on the interpretation and description.</desc>
+    </Your_Discussion>
+    <cols>
+      <Length b="decimal">
+        Length (m)
+        <desc>Longest dimension in metres.</desc>
+      </Length>
+      <Width b="decimal">
+        Width (m)
+        <desc>Width or diameter in metres.</desc>
+      </Width>
+      <Top_Depth_m b="decimal">
+        Top Depth (m)
+        <desc>Depth or Height in metres.</desc>
+      </Top_Depth_m>
+      <Bottom_Depth_m b="decimal">
+        Bottom Depth (m)
+        <desc>Depth or Height in metres.</desc>
+      </Bottom_Depth_m>
+    </cols>
+    <cols>
+      <Mid_X b="decimal">
+        <desc>An appropriate mid-point on the feature should be recorded on the X/Y coordinates. This will locate the feature on the site grid system.</desc>
+      </Mid_X>
+      <Mid_Y b="decimal">
+        <desc>An appropriate mid-point on the feature should be recorded on the X/Y coordinates. This will locate the feature on the site grid system.</desc>
+      </Mid_Y>
+    </cols>
+    <CG_Phase_Notes>
+      Notes
+      <desc>The site or building phase in which this feature was constructed or deposited.</desc>
+    </CG_Phase_Notes>
+    <CG_Plans>
+      Plans
+      <desc>Reference numbers to plans or drawings of this feature.</desc>
+    </CG_Plans>
+    <CG_Section_Numbers>
+      Section Numbers
+      <desc>Reference numbers to section drawings of this feature</desc>
+    </CG_Section_Numbers>
   </Structure>
   <Deposit>
     <Deposit_Your_Interpretation f="notnull">
+      Your Interpretation
       <desc>Your interpretation of the likely function of the context.</desc>
       <opts>
         <opt>No Observation</opt>
@@ -507,6 +482,7 @@
       </opts>
     </Deposit_Your_Interpretation>
     <Soil_Compaction_Type f="notnull">
+      Texture
       <desc>Describe the compaction of the sediments in the Context.</desc>
       <opts>
         <opt>No Observation</opt>
@@ -525,6 +501,7 @@
       </opts>
     </Soil_Compaction_Type>
     <Soil_Compaction_Description>
+      Texture Description
       <desc>Description of the compaction of soil including changes throughout the deposit. Eg "Varies from loose to compact."</desc>
     </Soil_Compaction_Description>
     <Soil_Particle_Sorting>
@@ -544,6 +521,7 @@
     </Soil_Particle_Sorting>
     <cols>
       <Soil_Texture f="notnull">
+        Material
         <desc>The type of sediment, eg clay, silt, sand and loam. Use the Material Helper or a Soil Sediment diagram for assisance.</desc>
         <opts>
           <opt>No Observation
@@ -579,6 +557,7 @@
         </opts>
       </Soil_Texture>
       <Soil_Texture_Helper t="button" l="Context/Soil_Texture_Helper">
+        Material Helper
         <!--Here the semantics of the `l` attribute have been altered using
             @POSTPROC-->
       </Soil_Texture_Helper>
@@ -587,8 +566,12 @@
       <desc>Broad colour  description of the soil, eg 'mid greyish brown'.
       </desc>
     </Soil_Colour>
+    <Soil_Munsel_Color>
+      <!--@SOURCE: vocabs/munsel.xml-->
+    </Soil_Munsel_Color>
     <cols>
       <Composition_Type f="notnull">
+        Deposit Structure
         <desc>Describe the structure of the Context sediment. The components making up the structure are added below as aggregates.</desc>
         <opts>
           <opt>No Observation</opt>
@@ -603,6 +586,7 @@
         </opts>
       </Composition_Type>
       <Deposit_Bedding f="notnull">
+        Bedding
         <desc>Describes the base of the deposit</desc>
         <opts>
           <opt>No Observation</opt>
@@ -741,6 +725,7 @@
     <Skeleton_Notes/>
   </Skeleton>
   <Int>
+    Interpretation
     <Your_description f="notnull">
       <desc>Enter a verbal description of the Context, including its form, contexts, relationship to other Contexts and any other relevant information. This is the main place to record all other descriptive information that may be treated briefly or not covered elsewhere, including signs of disturbance  by burrowing animals etc.</desc>
     </Your_description>
@@ -748,6 +733,10 @@
       <desc>Enter an interpretation of the function of the Context and its place in the stratigraphical sequence.</desc>
     </Your_Discussion>
   </Int>
+  <Stratum f="noscroll">
+    <Add_New_Stratum t="button" lc="Stratum"/>
+    <List_of_Related_Strata t="list" ec="Stratum"/>
+  </Stratum>
   <Relationships>
     <Create_Relationships_to_This_Context t="button" l="Relationship"/>
     <cols>
@@ -759,14 +748,10 @@
       </col>
     </cols>
   </Relationships>
-  <Artefacts f="noscroll">
-    <Add_Special_Find t="button" lc="Special_Find"/>
-    <List_of_Related_Special_Finds ec="Special_Find" t="list"/>
-  </Artefacts>
-  <Samples f="noscroll">
-    <Add_Sample t="button" lc="Sample"/>
-    <List_of_Sample ec="Sample" t="list"/>
-  </Samples>
+  <FCN f="noscroll">
+    <Add_Special_Find t="button" lc="FCN"/>
+    <List_of_Related_Special_Finds ec="FCN" t="list"/>
+  </FCN>
   <Add>
     <Sketch t="file">
       <desc>Upload the file of a sketch of the context drawn on another application using the button below</desc>
@@ -881,95 +866,63 @@
       <desc>This allows you to find any contexts that contain your search term or string in any field in a context record. Type in your term/string and press the "Search" button. Press "My Contexts" to return to the full list of contexts for this trench.</desc>
     </SearchHelp>
   </Vars>
+  <!--<Artefacts f="noscroll">-->
+    <!--<Add_Special_Find t="button" lc="Special_Find"/>-->
+    <!--<List_of_Related_Special_Finds ec="Special_Find" t="list"/>-->
+  <!--</Artefacts>-->
+  <!--<Samples f="noscroll">-->
+    <!--<Add_Sample t="button" lc="Sample"/>-->
+    <!--<List_of_Sample ec="Sample" t="list"/>-->
+  <!--</Samples>-->
 </Context>
 
 <Context_Group>
+  Stratum
   <desc>A group of contexts.</desc>
   <Gen>
+    General
     <cols>
       <AreaCode f="id notnull">
-        Trench
+        Stratum ID
         <!--@SOURCE: logic/area-code.xml-->
       </AreaCode>
       <Context_Group_ID f="id notnull autonum">
+        Stratum ID
         <desc>Feature number taken from the central register.</desc>
         <str>
           <fmt><![CDATA[Feat-$2-]]></fmt>
         </str>
       </Context_Group_ID>
-      <Title f="id notnull">
-        Feature Title
-        <desc>Enter the Feature name e.g. Hearth in Building 2.</desc>
-        <str>
-          <fmt><![CDATA[$2]]></fmt>
-        </str>
-      </Title>
     </cols>
-    <cols>
-      <Building>
-        <desc>Identify the building in which the feature is located.</desc>
-      </Building>
-      <Space>
-        <desc>Identify the space in which the feature is located if relevant.</desc>
-      </Space>
-    </cols>
-    <Location_Note_CG>
-      <desc>Record where the feature is within a space / building/area if relevant and in particular its relationship to other features or key contexts.</desc>
-    </Location_Note_CG>
-    <CG_Context_Type f="notnull">
-      <desc>Enter the type of feature you are describing.</desc>
-      <opts>
-        <opt>No Observation
-        <desc>data not collected</desc></opt>
-        <opt>Negative Element
-        <desc>Any Context which forms a negative interface (cut) with another context, such as a cut for a pit, burial, ditch, wall foundation or robber trench.</desc></opt>
-        <opt>Deposit
-        <desc>Any Context with deposited sediment and soil, such as floor layers, pit and grave fills, hearth fills and natural sediments.</desc></opt>
-        <opt>Structure
-        <desc>Any Context consisting of deliberately constructed structures, independent of a Negative Element (i.e. cut, such as walls and hearths).</desc></opt>
-        <opt>Wall
-        <desc>A structured vertical barrier made from durable materials defining a space.</desc></opt>
-        <opt>Floor
-        <desc>A  prepared surface, internal or external, including those made from plaster, earth etc.</desc></opt>
-        <opt>Well
-        <desc>A deep pit excavated to reach the water table.</desc></opt>
-        <opt>Pit
-        <desc>A large cut filled with sediment or other materials.</desc></opt>
-        <opt>Room
-        <desc>A discrete space within a house or other building.</desc></opt>
-        <opt>Burial
-        <desc>The cut, fill plus any associated structures relating to the deposition of human remains, including those remains, such as a skeleton.</desc></opt>
-        <opt>Building
-        <desc>A building is defined when several walls surround a discrete space</desc></opt>
-        <opt>Surface
-        <desc>A compacted horizontal layer, internal or external, on which activities took place.</desc></opt>
-        <opt>Space <desc>A space is an area bounded by a structure of some kind, either external or internal, and can be for example a courtyard, room, ante-room etc.</desc></opt>
-        <opt>Posthole<desc>A small pit cut to hold an upright post.</desc></opt>
-        <opt>Stakehole<desc>Cuts smaller than postholes, typically c. 1-5 cm diameter.</desc></opt>
-        <opt>Hearth<desc>A prepared structure in which a fire is set.</desc></opt>
-        <opt>Stakehole row <desc>A row of cuts smaller than postholes, typically c. 1-5 cm diameter.</desc></opt>
-        <opt>Other<desc>Function not elsewhere described. Provide details in Annotation field.</desc></opt>
-      </opts>
-    </CG_Context_Type>
     <CG_Your_description f="notnull">
+      Description
       <desc>Describe the feature, any details of dimensions, disturbance, orientation etc.</desc>
     </CG_Your_description>
     <CG_Your_Interpretation f="notnull">
+      Interpretation
       <desc>Describe your understanding of the feature function, phasing etc.</desc>
     </CG_Your_Interpretation>
     <Your_Discussion>
+      Discussion
       <desc>Add here any elaborations on the interpretation and description.</desc>
     </Your_Discussion>
     <cols>
       <Length b="decimal">
+        Length (m)
         <desc>Longest dimension in metres.</desc>
       </Length>
       <Width b="decimal">
+        Width (m)
         <desc>Width or diameter in metres.</desc>
       </Width>
-      <Depth b="decimal">
+      <Top_Depth_m b="decimal">
+        Top Depth (m)
         <desc>Depth or Height in metres.</desc>
-      </Depth>
+      </Top_Depth_m>
+      <Bottom_Depth_m b="decimal">
+        Bottom Depth (m)
+        <desc>Depth or Height in metres.</desc>
+      </Bottom_Depth_m>
     </cols>
     <cols>
       <Mid_X b="decimal">
@@ -979,13 +932,12 @@
         <desc>An appropriate mid-point on the feature should be recorded on the X/Y coordinates. This will locate the feature on the site grid system.</desc>
       </Mid_Y>
     </cols>
-    <CG_Phase_Notes>
-      <desc>The site or building phase in which this feature was constructed or deposited.</desc>
-    </CG_Phase_Notes>
     <CG_Plans>
+      Plans
       <desc>Reference numbers to plans or drawings of this feature.</desc>
     </CG_Plans>
     <CG_Section_Numbers>
+      Section Numbers
       <desc>Reference numbers to section drawings of this feature</desc>
     </CG_Section_Numbers>
     <cols>
@@ -1009,19 +961,10 @@
     </cols>
   </Context_Group_Contexts>
   <Add>
-    <View_Attached_Files t="viewfiles"/>
-    <Sketch t="file">
-      <desc>Upload the file of a sketch of the feature drawn on another application using the button below</desc>
-    </Sketch>
+    Attachments
     <Photo t="camera">
       <desc>Use this button to take a photo of the feature using the camera on the tablet. Remember to include a scale in the photo.</desc>
     </Photo>
-    <Audio t="audio">
-      <desc>Use this button to record an audio file of your observations concerning this feature</desc>
-    </Audio>
-    <Video t="video">
-      <desc>Use this button to record a video using the tablet of this feature</desc>
-    </Video>
     <Guide_2 t="webview">
       Here you can enter filenames or unique reference numbers for image stored on another device.
     </Guide_2>
@@ -1039,7 +982,9 @@
 </Context_Group>
 
 <Matrix>
+  Sediment/Aggregate
   <Matrix>
+    Sediment/Aggregate
     <cols>
       <Component f="id">
         <desc>Describe the components which make up 10% or more of the deposit.</desc>
@@ -1152,304 +1097,12 @@
   </Vars>
 </Height>
 
-<Sample>
-  <desc>Deposit samples or samples of building elements recovered from this Context for the purpose of further analysis or ongoing reference.</desc>
-  <Deposit_Samples>
-    <cols>
-      <Context_ID f="id notnull">
-        <desc>Unique number or code for the Context from which this Artefact Cluster was collected.</desc>
-        <str>
-          <fmt><![CDATA[Cxtx-$2-]]></fmt>
-        </str>
-      </Context_ID>
-      <Sample_ID f="id notnull autonum">
-        <desc>The unique code or reference for the Sample. This should be assigned with reference to the central register</desc>
-        <str>
-          <fmt><![CDATA[Sample-$2-]]></fmt>
-        </str>
-      </Sample_ID>
-      <Sample_Type f="id notnull">
-        <desc>The type of Sample collected as detailed below.</desc>
-        <str>
-          <fmt><![CDATA[$1]]></fmt>
-        </str>
-        <opts>
-          <opt>No Observation
-          <desc>data not collected</desc></opt>
-          <opt>Building Materials
-          <desc>Sample of bricks or worked stone collected from this Context.</desc></opt>
-          <opt>Soil
-          <desc>General collection of soil deposit from the Context.</desc></opt>
-          <opt>Wood/Charcoal
-          <desc>Collection of wood or charcoal fragments from the Context.</desc></opt>
-          <opt>C14 Sample<desc>An organic sample recovered for radiocarbon dating.</desc></opt>
-          <opt>Flot Sample<desc>Flotation sample for recovery of plant remains.</desc></opt>
-          <opt>Phytolith Sample
-          <desc>Small soil sample for phytolith analysis.</desc></opt>
-          <opt>Arch Soil
-          <desc>A small archive soil sample.</desc></opt>
-          <opt>Thin Section
-         <desc>Specially collected blocks for soil thin sectioning.</desc></opt>
-          <opt>Wet Sieve
-          <desc>Bulk soil sample for wet-sieving.</desc></opt>
-          <opt>Animal Bone
-          <desc>A sample of bone identified as animal.</desc></opt>
-          <opt>Human Bone
-          <desc>A sample of bone identified as human.</desc></opt>
-          <opt>Other
-          <desc>Sample not elsewhere described. Include details in Annotation field.</desc></opt>
-        </opts>
-      </Sample_Type>
-    </cols>
-    <Sample_Volume b="decimal">
-      <desc>Volume (in litres) of the sample collected.</desc>
-    </Sample_Volume>
-    <cols>
-      <Sample_X f="notnull" b="decimal">
-        <desc>The reading from the x-axis (horizontal) of an arbitrary site grid corresponding to the location of the Sample at the time of excavation.</desc>
-      </Sample_X>
-      <Sample_Y f="notnull" b="decimal">
-        <desc>The reading from the y-axis (vertical) of an arbitrary site grid corresponding to the location of the Sample at the time of excavation.</desc>
-      </Sample_Y>
-      <Sample_Z f="notnull" b="decimal">
-        <desc>The elevation or depth of the Sample at the time of excavation.</desc>
-      </Sample_Z>
-    </cols>
-    <cols>
-      <Sample_Location>
-        <desc>The storage location of the sample at the time of entry.</desc>
-        <opts>
-          <opt>No Observation<desc>data not collected</desc></opt>
-          <opt>Site depot</opt>
-          <opt>Export (Liverpool)</opt>
-          <opt>Export (Turkey)</opt>
-          <opt>Museum</opt>
-          <opt>Other (add Annotation)</opt>
-        </opts>
-      </Sample_Location>
-      <Sample_Comments>
-        <desc>Additional comments about this sample or its collection.</desc>
-      </Sample_Comments>
-    </cols>
-  </Deposit_Samples>
-  <Add>
-    <Sketch t="file">
-      <desc>Upload the file of a sketch of the sample/sample location drawn on another application using the button below</desc>
-    </Sketch>
-    <Photo t="camera">
-      <desc>Use this button to take a photo of the sample/sample location using the camera on the tablet</desc>
-    </Photo>
-    <Audio t="audio">
-      <desc>Use this button to record an audio file of your observations concerning this sample</desc>
-    </Audio>
-    <Video t="video">
-      <desc>Use this button to record a video using the tablet of this sample</desc>
-    </Video>
-    <View_Attached_Files t="viewfiles"/>
-  </Add>
-  <Vars f="hidden">
-    <AreaCode f="id">
-      <!--@SOURCE: logic/area-code.xml-->
-    </AreaCode>
-    <Device_Code>
-      <!--@SOURCE: vocabs/device-code.xml-->
-    </Device_Code>
-    <Site_Code>
-      <desc>Short code to signify the excavation site and often the year of excavation. Assigned automatically by the module.</desc>
-    </Site_Code>
-  </Vars>
-</Sample>
-
-<Special_Find>
-  <Special_Find>
-    <cols>
-      <Context_ID f="id readonly">
-        <desc>Unique number or code for each Context.</desc>
-        <str>
-          <fmt><![CDATA[Cxtx-$2-]]></fmt>
-        </str>
-      </Context_ID>
-      <Special_Find_ID f="id notnull">
-        <desc>Unique number or code for the artefact applying either a Small Find or Groundstone number from the site register.</desc>
-        <str>
-          <fmt><![CDATA[Artefact-$2-]]></fmt>
-        </str>
-      </Special_Find_ID>
-      <Special_Find_Class f="id">
-        <desc>Broad Artefact Class for each Artefact (eg Chipped stone, Clay object, Building Material).</desc>
-        <opts>
-          <opt>No Observation
-          <desc>data not collected</desc></opt>
-          <opt>Chipped Stone
-            <opt>Blade
-            </opt>
-            <opt>Core
-            </opt>
-            <opt>Cache
-            </opt>
-            <opt>Other
-            </opt>
-          </opt>
-          <opt>Ground Stone
-            <opt>Bead
-            </opt>
-            <opt>Grinder
-            </opt>
-            <opt>Pestle
-            </opt>
-            <opt>Shaft Straightener
-            </opt>
-            <opt>Pendant
-            </opt>
-            <opt>Incised Stone
-            </opt>
-            <opt>Polisher
-            </opt>
-            <opt>Other
-            </opt>
-          </opt>
-          <opt>Bone
-            <opt>Point
-            </opt>
-            <opt>Bead
-            </opt>
-            <opt>Other
-            </opt>
-          </opt>
-          <opt>Shell
-            <opt>Bead
-            </opt>
-            <opt>Other
-            </opt>
-          </opt>
-          <opt>Plant
-            <opt>Charcoal
-            </opt>
-            <opt>Hackberry
-            </opt>
-            <opt>Charred Seed
-            </opt>
-            <opt>Siliceous Material
-            </opt>
-            <opt>Phytolith
-            </opt>
-            <opt>Impression Cast
-            </opt>
-            <opt>Other
-            </opt>
-          </opt>
-          <opt>Ochre
-          </opt>
-          <opt>Clay Object
-            <opt>Figurine
-            </opt>
-            <opt>Geometric object
-            </opt>
-            <opt>Token
-            </opt>
-            <opt>Other
-            </opt>
-          </opt>
-          <opt>Ceramic
-            <opt>Coarse
-            </opt>
-            <opt>Fine
-            </opt>
-            <opt>Terracotta
-            </opt>
-            <opt>Other
-            </opt>
-          </opt>
-          <opt>Glass
-            <opt>Black
-            </opt>
-            <opt>Colourless
-            </opt>
-            <opt>Coloured
-            </opt>
-          </opt>
-          <opt>Metal
-            <opt>Ferrous
-            </opt>
-            <opt>Copper-alloy
-            </opt>
-            <opt>Other
-            </opt>
-          </opt>
-          <opt>Building Materials
-          </opt>
-          <opt>Miscellaneous
-          <desc>Add detail in the Annotation field</desc></opt>
-        </opts>
-      </Special_Find_Class>
-    </cols>
-    <Source>
-      <desc>Record the source of the artefact and whether it was collected during the excavation at the trench or from a sample</desc>
-      <opts>
-        <opt>No Observation</opt>
-        <opt>Excavation</opt>
-        <opt>Flotation</opt>
-        <opt>Wet Sieve</opt>
-        <opt>Other</opt>
-      </opts>
-    </Source>
-    <Special_Find_Location>
-      <desc>The storage location of the artefact at the time of entry.</desc>
-      <opts>
-        <opt>No Observation<desc>data not collected</desc></opt>
-        <opt>Site depot</opt>
-        <opt>Export (Liverpool)</opt>
-        <opt>Export (Turkey)</opt>
-        <opt>Museum</opt>
-        <opt>Other (add Annotation)</opt>
-      </opts>
-    </Special_Find_Location>
-    <Special_Find_Description f="notnull">
-      <desc>Description of the Artefact.</desc>
-    </Special_Find_Description>
-    <cols>
-      <Special_Find_X f="notnull" b="decimal">
-        <desc>The reading from the x-axis (horizontal) of an arbitrary site grid corresponding to the location of the Small Find at the time of excavation.</desc>
-      </Special_Find_X>
-      <Special_Find_Y f="notnull" b="decimal">
-        <desc>The reading from the y-axis (vertical) of an arbitrary site grid corresponding to the location of the Small Find at the time of excavation.</desc>
-      </Special_Find_Y>
-      <Special_Find_Z f="notnull" b="decimal">
-        <desc>The elevation or depth of the Small Find at the time of excavation.</desc>
-      </Special_Find_Z>
-    </cols>
-    <Special_Find_Comment>
-      <desc>Enter any additional observations concerning the artefact, its context and/or events surrounding it, for example damage or breakage suring excavation and storage.</desc>
-    </Special_Find_Comment>
-    <Photo t="camera">
-      <desc>Use this button to take a photo of the artefact etc using the camera on the tablet. Make sure the artefact is shown with a scale</desc>
-    </Photo>
-    <Audio t="audio">
-      <desc>Use this button to record an audio file of your observations concerning this artefact</desc>
-    </Audio>
-    <Video t="video">
-      <desc>Use this button to record a video using the tablet of this artefact etc</desc>
-    </Video>
-    <View_Attached_Files t="file"/>
-  </Special_Find>
-  <Vars f="hidden">
-    <AreaCode f="id">
-      <!--@SOURCE: logic/area-code.xml-->
-    </AreaCode>
-    <Device_Code>
-      <!--@SOURCE: vocabs/device-code.xml-->
-    </Device_Code>
-    <Site_Code>
-      <desc>Short code to signify the excavation site and often the year of excavation. Assigned automatically by the module.</desc>
-    </Site_Code>
-  </Vars>
-</Special_Find>
-
 <Photograph_Log>
   <desc>A record of images created and stored on another device, eg by a professional site photographer.</desc>
   <Photograph_Log>
     <cols>
       <Photo_Context_ID f="id readonly">
+        Locus ID
         <desc>Unique number or code for each Context</desc>
         <str>
           <fmt><![CDATA[{{if $2 then "Cxtx-$2-" else ""}}]]></fmt>
@@ -1457,6 +1110,7 @@
         <app><![CDATA[-]]></app>
       </Photo_Context_ID>
       <Photo_Context_Group_ID f="id readonly">
+        Stratum ID
         <desc>Unique number or code for each Context Group</desc>
         <str>
           <fmt><![CDATA[{{if $2 then "Feature-$2-" else ""}}]]></fmt>
@@ -1486,7 +1140,9 @@
         </opt>
       </opts>
     </Scene_Type>
-    <Photograph_Description/>
+    <Photograph_Description>
+      Brief Description
+    </Photograph_Description>
   </Photograph_Log>
   <Vars f="hidden">
     <AreaCode f="id">
@@ -1503,6 +1159,12 @@
 
 <Diary>
   <Diary>
+    <Title f="id">
+      <desc>Give your entry a simple, short title, such as Daily Trench Update, Burial 34, Storm Damage. Note that diary entries allow you to add information in addition to the context, feature and artefact records elsewhere in the module and should not be the primary description point for those entities</desc>
+      <str>
+        <fmt><![CDATA[$2]]></fmt>
+      </str>
+    </Title>
     <cols>
       <timestamp f="id readonly">
         <desc>The date this entry is created will automatically appear here</desc>
@@ -1518,41 +1180,14 @@
         <app><![CDATA[-]]></app>
       </author>
     </cols>
-    <Title f="id">
-      <desc>Give your entry a simple, short title, such as Daily Trench Update, Burial 34, Storm Damage. Note that diary entries allow you to add information in addition to the context, feature and artefact records elsewhere in the module and should not be the primary description point for those entities</desc>
-      <str>
-        <fmt><![CDATA[$2]]></fmt>
-      </str>
-    </Title>
-    <AreaCode f="id">
-      <!--@SOURCE: logic/area-code.xml-->
-    </AreaCode>
     <Text>
       <desc>Record your diary entry here in as much detail as necessary and append with photographs, video and/or audio</desc>
     </Text>
-    <FileAttach t="file"/>
-    <Audio t="audio">
-      <desc>Use this button to record an audio file of your observations concerning this entry</desc>
-    </Audio>
-    <Video t="video">
-      <desc>Use this button to record a video relevant to this entry using the tablet's camera</desc>
-    </Video>
     <Photo t="camera">
       <desc>Use this button to take a photo relevant to this entry using the camera on the tablet</desc>
     </Photo>
-    <View_Attached_Files t="viewfiles"/>
   </Diary>
 </Diary>
-
-<Legacy>
-  <Legacy>
-    <LegacyIdentifier f="id">
-      <str>
-        <fmt><![CDATA[Legacy-$2]]></fmt>
-      </str>
-    </LegacyIdentifier>
-  </Legacy>
-</Legacy>
 
 <Relationship f="nodata">
   <Relationships f="noscroll">
@@ -1600,6 +1235,77 @@
     </cols>
   </Relationships>
 </Context_Group_Relationship>
+
+<FCN>
+  <General>
+    <FCN_ID/>
+    <Site_Name/>
+    <AreaCode f="id notnull">
+      Trench ID
+      <!--@SOURCE: logic/area-code.xml-->
+    </AreaCode>
+    <Context_ID f="id notnull autonum readonly">
+      Locus ID
+      <desc>Every archaeological context (negative element (cut), deposit, structure, skeleton, artefact cluster) is given a unique 3 or 4 letter context code. Each trench is designated with a separate letter which starts the code, so it is immediately obvious to which trench a context belongs. For example context HAA belongs to Trench H, context MQP to Trench M etc.
+      The contexts are labelled consecutively in alphabetical order using the letters following the trench letter. For Trench H the first context would be HAA, the second HAB, the third HAB and so on. In addition sets of letters can denote parts of trenches, buildings etc. E.g. HFs might denote contexts from a specific building.
+      Burial context codes begin with the letter Z, followed by the trench letter. Hence burial ZHA is the first burial context from trench H.
+      Check with the trench supervisor who will assign the context code from the central register.</desc>
+      <str>
+        <fmt><![CDATA[Cxtx-$2-]]></fmt>
+      </str>
+    </Context_ID>
+    <Collection_Area/>
+    <gps/>
+    <Collection_Method>
+      <opts>
+        <opt>Dog Leash</opt>
+        <opt>Field</opt>
+        <opt>Luoyang Spade</opt>
+        <opt>Surface survey</opt>
+        <opt>Excavation</opt>
+        <opt>Profile Sample</opt>
+        <opt>Other</opt>
+      </opts>
+    </Collection_Method>
+    <Reason_for_Collection/>
+    <FCN_Class>
+      <opts>
+        <opt>Sediment</opt>
+        <opt>Charcoal</opt>
+        <opt>Lithic
+          <opt>Lithic</opt>
+          <opt>Lithic Small Find</opt>
+        </opt>
+        <opt>Fired Earth
+          <opt>Fired Earth</opt>
+          <opt>Ceramic</opt>
+          <opt>Ceramic Small Find</opt>
+        </opt>
+        <opt>Bone
+          <opt>Human Bone</opt>
+          <opt>Bone</opt>
+          <opt>Bone Small Find</opt>
+        </opt>
+        <opt>Plaster</opt>
+        <opt>Other</opt>
+      </opts>
+    </FCN_Class>
+    <FCN_Quantity/>
+    <FCN_Weight/>
+    <Washed t="radio">
+      <!--@SOURCE: logic/boolean.xml-->
+    </Washed>
+    <Weighted t="radio">
+      <!--@SOURCE: logic/boolean.xml-->
+    </Weighted>
+    <Analyzed t="radio">
+      <!--@SOURCE: logic/boolean.xml-->
+    </Analyzed>
+    <FCN_Group_Comment/>
+    <Attach_File t="file"/>
+    <Attach_Photograph t="camera"/>
+  </General>
+</FCN>
 
 <logic><![CDATA[
   <!--@SOURCE: logic/utils.bsh-->

@@ -11,11 +11,6 @@
         <param value="measure" type="field"/>
       </validator>
     </property>
-    <property name="Location Note">
-      <validator type="blankchecker">
-        <param value="measure" type="field"/>
-      </validator>
-    </property>
     <property name="Excavation Method">
       <validator type="blankchecker">
         <param value="vocab" type="field"/>
@@ -81,17 +76,17 @@
         <param value="vocab" type="field"/>
       </validator>
     </property>
+    <property name="Break of Slope - Base">
+      <validator type="blankchecker">
+        <param value="vocab" type="field"/>
+      </validator>
+    </property>
     <property name="Sides of Cut">
       <validator type="blankchecker">
         <param value="measure" type="field"/>
       </validator>
     </property>
     <property name="Shape of Base">
-      <validator type="blankchecker">
-        <param value="measure" type="field"/>
-      </validator>
-    </property>
-    <property name="Cut Function">
       <validator type="blankchecker">
         <param value="measure" type="field"/>
       </validator>
@@ -106,12 +101,12 @@
         <param value="measure" type="field"/>
       </validator>
     </property>
-    <property name="Structure Your Interpretation">
+    <property name="CG Context Type">
       <validator type="blankchecker">
         <param value="measure" type="field"/>
       </validator>
     </property>
-    <property name="Structure Description">
+    <property name="CG Your description">
       <validator type="blankchecker">
         <param value="measure" type="field"/>
       </validator>
@@ -218,16 +213,6 @@
         <param value="measure" type="field"/>
       </validator>
     </property>
-    <property name="Title">
-      <validator type="blankchecker">
-        <param value="measure" type="field"/>
-      </validator>
-    </property>
-    <property name="CG Context Type">
-      <validator type="blankchecker">
-        <param value="measure" type="field"/>
-      </validator>
-    </property>
     <property name="CG Your description">
       <validator type="blankchecker">
         <param value="measure" type="field"/>
@@ -267,66 +252,18 @@
       </validator>
     </property>
   </ArchaeologicalElement>
-  <ArchaeologicalElement name="Sample">
+  <ArchaeologicalElement name="Photograph_Log"/>
+  <ArchaeologicalElement name="Diary"/>
+  <ArchaeologicalElement name="FCN">
+    <property name="AreaCode">
+      <validator type="blankchecker">
+        <param value="measure" type="field"/>
+      </validator>
+    </property>
     <property name="Context ID">
       <validator type="blankchecker">
         <param value="measure" type="field"/>
       </validator>
     </property>
-    <property name="Sample ID">
-      <validator type="blankchecker">
-        <param value="measure" type="field"/>
-      </validator>
-    </property>
-    <property name="Sample Type">
-      <validator type="blankchecker">
-        <param value="measure" type="field"/>
-      </validator>
-    </property>
-    <property name="Sample X">
-      <validator type="blankchecker">
-        <param value="measure" type="field"/>
-      </validator>
-    </property>
-    <property name="Sample Y">
-      <validator type="blankchecker">
-        <param value="measure" type="field"/>
-      </validator>
-    </property>
-    <property name="Sample Z">
-      <validator type="blankchecker">
-        <param value="measure" type="field"/>
-      </validator>
-    </property>
   </ArchaeologicalElement>
-  <ArchaeologicalElement name="Special_Find">
-    <property name="Special Find ID">
-      <validator type="blankchecker">
-        <param value="measure" type="field"/>
-      </validator>
-    </property>
-    <property name="Special Find Description">
-      <validator type="blankchecker">
-        <param value="measure" type="field"/>
-      </validator>
-    </property>
-    <property name="Special Find X">
-      <validator type="blankchecker">
-        <param value="measure" type="field"/>
-      </validator>
-    </property>
-    <property name="Special Find Y">
-      <validator type="blankchecker">
-        <param value="measure" type="field"/>
-      </validator>
-    </property>
-    <property name="Special Find Z">
-      <validator type="blankchecker">
-        <param value="measure" type="field"/>
-      </validator>
-    </property>
-  </ArchaeologicalElement>
-  <ArchaeologicalElement name="Photograph_Log"/>
-  <ArchaeologicalElement name="Diary"/>
-  <ArchaeologicalElement name="Legacy"/>
 </ValidationSchema>
