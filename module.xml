@@ -83,7 +83,7 @@
     <cols>
       <AreaCode f="id notnull">
         Trench ID
-        <!--@SOURCE: logic/area-code.xml-->
+        <!--@SOURCE: vocabs/area-code.xml-->
       </AreaCode>
       <Context_ID f="id notnull autonum readonly">
         Locus ID
@@ -219,18 +219,18 @@
       </Lowest_Level>
     </cols>
     <cols>
-      <Length f="notnull" b="decimal">
+      <Measure_Length f="notnull" b="decimal">
         Length (m)
         <desc>Longest dimension in metres.</desc>
-      </Length>
-      <Width f="notnull" b="decimal">
+      </Measure_Length>
+      <Measure_Width f="notnull" b="decimal">
         Width (m)
         <desc>Width or diameter in metres.</desc>
-      </Width>
-      <Depth f="notnull" b="decimal">
+      </Measure_Width>
+      <Measure_Depth f="notnull" b="decimal">
         Depth (m)
         <desc>Depth or Height in metres.</desc>
-      </Depth>
+      </Measure_Depth>
     </cols>
     <Volume f="notnull" b="decimal">
       Volume (litres)
@@ -398,35 +398,35 @@
       Your Description
       <desc>Describe the feature, any details of dimensions, disturbance, orientation etc.</desc>
     </CG_Your_description>
-    <Your_Discussion>
+    <CG_Your_Discussion>
       Discussion
       <desc>Add here any elaborations on the interpretation and description.</desc>
-    </Your_Discussion>
+    </CG_Your_Discussion>
     <cols>
-      <Length b="decimal">
+      <Feature_Length b="decimal">
         Length (m)
         <desc>Longest dimension in metres.</desc>
-      </Length>
-      <Width b="decimal">
+      </Feature_Length>
+      <Feature_Width b="decimal">
         Width (m)
         <desc>Width or diameter in metres.</desc>
-      </Width>
-      <Top_Depth_m b="decimal">
+      </Feature_Width>
+      <Feature_Top_Depth_m b="decimal">
         Top Depth (m)
         <desc>Depth or Height in metres.</desc>
-      </Top_Depth_m>
-      <Bottom_Depth_m b="decimal">
+      </Feature_Top_Depth_m>
+      <Feature_Bottom_Depth_m b="decimal">
         Bottom Depth (m)
         <desc>Depth or Height in metres.</desc>
-      </Bottom_Depth_m>
+      </Feature_Bottom_Depth_m>
     </cols>
     <cols>
-      <Mid_X b="decimal">
+      <CG_Mid_X b="decimal">
         <desc>An appropriate mid-point on the feature should be recorded on the X/Y coordinates. This will locate the feature on the site grid system.</desc>
-      </Mid_X>
-      <Mid_Y b="decimal">
+      </CG_Mid_X>
+      <CG_Mid_Y b="decimal">
         <desc>An appropriate mid-point on the feature should be recorded on the X/Y coordinates. This will locate the feature on the site grid system.</desc>
-      </Mid_Y>
+      </CG_Mid_Y>
     </cols>
     <CG_Phase_Notes>
       Notes
@@ -734,23 +734,29 @@
     </Your_Discussion>
   </Int>
   <Stratum f="noscroll">
-    <Add_New_Stratum t="button" lc="Stratum"/>
-    <List_of_Related_Strata t="list" ec="Stratum"/>
+    <Add_New_Stratum t="button" lc="Context_Group"/>
+    <List_of_Related_Strata t="list" ec="Context_Group"/>
   </Stratum>
   <Relationships>
-    <Create_Relationships_to_This_Context t="button" l="Relationship"/>
+    <Create_Relationships_to_This_Context t="button" l="Relationship">
+      Create Relationships to This Stratum
+    </Create_Relationships_to_This_Context>
     <cols>
-      <Existing_Relationships_to_This_Context t="list" f="nodata"/>
+      <Existing_Relationships_to_This_Context t="list" f="nodata">
+        Existing Relationships to This Stratum
+      </Existing_Relationships_to_This_Context>
       <col>
         <Selected_Relationship t="webview"/>
-        <Load_Related_Context  t="button"/>
+        <Load_Related_Context  t="button">
+          Load Related Stratum
+        </Load_Related_Context>
         <Delete_Relationship   t="button"/>
       </col>
     </cols>
   </Relationships>
   <FCN f="noscroll">
-    <Add_Special_Find t="button" lc="FCN"/>
-    <List_of_Related_Special_Finds ec="FCN" t="list"/>
+    <Add_FCN t="button" lc="FCN">
+    <List_of_Related_FCNs e="FCN" t="list"/>
   </FCN>
   <Add>
     <Sketch t="file">
@@ -884,7 +890,7 @@
     <cols>
       <AreaCode f="id notnull">
         Stratum ID
-        <!--@SOURCE: logic/area-code.xml-->
+        <!--@SOURCE: vocabs/area-code.xml-->
       </AreaCode>
       <Context_Group_ID f="id notnull autonum">
         Stratum ID
@@ -950,9 +956,13 @@
     </cols>
   </Gen>
   <Context_Group_Contexts f="noscroll">
-    <Create_Relationships_to_This_Context_Group t="button" l="Context_Group_Relationship"/>
+    <Create_Relationships_to_This_Context_Group t="button" l="Context_Group_Relationship">
+      Create Relationships to this Stratum
+    </Create_Relationships_to_This_Context_Group>
     <cols>
-      <Existing_Relationships_to_This_Context_Group t="list" f="nodata"/>
+      <Existing_Relationships_to_This_Context_Group t="list" f="nodata">
+        Existing Relationships to this Stratum
+      </Existing_Relationships_to_This_Context_Group>
       <col>
         <Selected_Relationship t="webview"/>
         <Load_Related_Context t="button"/>
@@ -1054,7 +1064,7 @@
   <Vars f="hidden">
     <Context_ID/>
     <AreaCode>
-      <!--@SOURCE: logic/area-code.xml-->
+      <!--@SOURCE: vocabs/area-code.xml-->
     </AreaCode>
   </Vars>
 </Matrix>
@@ -1092,7 +1102,7 @@
   <Vars f="hidden">
     <Context_ID/>
     <AreaCode>
-      <!--@SOURCE: logic/area-code.xml-->
+      <!--@SOURCE: vocabs/area-code.xml-->
     </AreaCode>
   </Vars>
 </Height>
@@ -1106,16 +1116,16 @@
         <desc>Unique number or code for each Context</desc>
         <str>
           <fmt><![CDATA[{{if $2 then "Cxtx-$2-" else ""}}]]></fmt>
+          <app><![CDATA[-]]></app>
         </str>
-        <app><![CDATA[-]]></app>
       </Photo_Context_ID>
       <Photo_Context_Group_ID f="id readonly">
         Stratum ID
         <desc>Unique number or code for each Context Group</desc>
         <str>
           <fmt><![CDATA[{{if $2 then "Feature-$2-" else ""}}]]></fmt>
+          <app><![CDATA[-]]></app>
         </str>
-        <app><![CDATA[-]]></app>
       </Photo_Context_Group_ID>
       <Photograph_Reference_ID f="id">
         <desc>Unique number or code allocated by creator of the image. It could be a filename or a reference number</desc>
@@ -1146,7 +1156,7 @@
   </Photograph_Log>
   <Vars f="hidden">
     <AreaCode f="id">
-      <!--@SOURCE: logic/area-code.xml-->
+      <!--@SOURCE: vocabs/area-code.xml-->
     </AreaCode>
     <Device_Code>
       <!--@SOURCE: vocabs/device-code.xml-->
@@ -1238,13 +1248,13 @@
 
 <FCN>
   <General>
-    <FCN_ID/>
+    <FCN_ID f="id notnull autonum"/>
     <Site_Name/>
     <AreaCode f="id notnull">
       Trench ID
-      <!--@SOURCE: logic/area-code.xml-->
+      <!--@SOURCE: vocabs/area-code.xml-->
     </AreaCode>
-    <Context_ID f="id notnull autonum readonly">
+    <Context_ID f="id notnull">
       Locus ID
       <desc>Every archaeological context (negative element (cut), deposit, structure, skeleton, artefact cluster) is given a unique 3 or 4 letter context code. Each trench is designated with a separate letter which starts the code, so it is immediately obvious to which trench a context belongs. For example context HAA belongs to Trench H, context MQP to Trench M etc.
       The contexts are labelled consecutively in alphabetical order using the letters following the trench letter. For Trench H the first context would be HAA, the second HAB, the third HAB and so on. In addition sets of letters can denote parts of trenches, buildings etc. E.g. HFs might denote contexts from a specific building.
@@ -1293,13 +1303,13 @@
     <FCN_Quantity/>
     <FCN_Weight/>
     <Washed t="radio">
-      <!--@SOURCE: logic/boolean.xml-->
+      <!--@SOURCE: vocabs/boolean.xml-->
     </Washed>
     <Weighted t="radio">
-      <!--@SOURCE: logic/boolean.xml-->
+      <!--@SOURCE: vocabs/boolean.xml-->
     </Weighted>
     <Analyzed t="radio">
-      <!--@SOURCE: logic/boolean.xml-->
+      <!--@SOURCE: vocabs/boolean.xml-->
     </Analyzed>
     <FCN_Group_Comment/>
     <Attach_File t="file"/>
