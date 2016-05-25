@@ -36,17 +36,17 @@
         <param value="measure" type="field"/>
       </validator>
     </property>
-    <property name="Length">
+    <property name="Measure Length">
       <validator type="blankchecker">
         <param value="measure" type="field"/>
       </validator>
     </property>
-    <property name="Width">
+    <property name="Measure Width">
       <validator type="blankchecker">
         <param value="measure" type="field"/>
       </validator>
     </property>
-    <property name="Depth">
+    <property name="Measure Depth">
       <validator type="blankchecker">
         <param value="measure" type="field"/>
       </validator>
@@ -255,6 +255,11 @@
   <ArchaeologicalElement name="Photograph_Log"/>
   <ArchaeologicalElement name="Diary"/>
   <ArchaeologicalElement name="FCN">
+    <property name="FCN ID">
+      <validator type="blankchecker">
+        <param value="measure" type="field"/>
+      </validator>
+    </property>
     <property name="AreaCode">
       <validator type="blankchecker">
         <param value="measure" type="field"/>

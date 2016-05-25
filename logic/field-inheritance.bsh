@@ -1,4 +1,6 @@
 /***************************** FIELD INHERITANCE ******************************/
+/* Linked using @POSTPROC.                                                    */
+/******************************************************************************/
 String moduleYear     = new java.text.SimpleDateFormat("yy").format(new Date());
 String moduleSiteCode = "BK" + moduleYear;
 
@@ -145,9 +147,18 @@ inheritPhotographLogFields() {
   );
 }
 
+// Don't delete me. This simplifies the code in @POSTPROC.
 inheritDiaryFields() {
+  return;
+}
+
+inheritFCNFields() {
+  copyFieldValue(
+    "Context/General/Context_ID",
+    "FCN/General/Context_ID"
+  );
   copyFieldValue(
     "User/User_List/AreaCode",
-    "Diary/Diary/AreaCode"
+    "FCN/General/AreaCode"
   );
 }

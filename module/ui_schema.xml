@@ -80,7 +80,7 @@
               <Team_Members/>
               <Next_Context_ID/>
               <Next_Context_Group_ID/>
-              <Next_Context_ID/>
+              <Next_FCN_ID/>
               <GPS_Diagnostics/>
             </Contexts>
             <Search>
@@ -172,13 +172,13 @@
               </Colgroup_0>
               <Colgroup_1>
                 <Col_0>
-                  <Length/>
+                  <Measure_Length/>
                 </Col_0>
                 <Col_1>
-                  <Width/>
+                  <Measure_Width/>
                 </Col_1>
                 <Col_2>
-                  <Depth/>
+                  <Measure_Depth/>
                 </Col_2>
               </Colgroup_1>
               <Volume/>
@@ -213,27 +213,27 @@
             <Structure>
               <CG_Context_Type/>
               <CG_Your_description/>
-              <Your_Discussion/>
+              <CG_Your_Discussion/>
               <Colgroup_0>
                 <Col_0>
-                  <Length/>
+                  <Feature_Length/>
                 </Col_0>
                 <Col_1>
-                  <Width/>
+                  <Feature_Width/>
                 </Col_1>
                 <Col_2>
-                  <Top_Depth_m/>
+                  <Feature_Top_Depth_m/>
                 </Col_2>
                 <Col_3>
-                  <Bottom_Depth_m/>
+                  <Feature_Bottom_Depth_m/>
                 </Col_3>
               </Colgroup_0>
               <Colgroup_1>
                 <Col_0>
-                  <Mid_X/>
+                  <CG_Mid_X/>
                 </Col_0>
                 <Col_1>
-                  <Mid_Y/>
+                  <CG_Mid_Y/>
                 </Col_1>
               </Colgroup_1>
               <CG_Phase_Notes/>
@@ -388,8 +388,8 @@
               </Colgroup_0>
             </Relationships>
             <FCN>
-              <Add_Special_Find/>
-              <List_of_Related_Special_Finds/>
+              <Add_FCN/>
+              <List_of_Related_FCNs/>
             </FCN>
             <Add>
               <Sketch/>
@@ -648,22 +648,22 @@
       </instance>
       <bind type="decimal" nodeset="/faims/Control/Contexts/Next_Context_ID"/>
       <bind type="decimal" nodeset="/faims/Control/Contexts/Next_Context_Group_ID"/>
-      <bind type="decimal" nodeset="/faims/Control/Contexts/Next_Context_ID"/>
+      <bind type="decimal" nodeset="/faims/Control/Contexts/Next_FCN_ID"/>
       <bind type="decimal" nodeset="/faims/Context/General/Colgroup_0/Col_1/Context_ID"/>
       <bind type="decimal" nodeset="/faims/Context/General/Colgroup_1/Col_0/Grid_X"/>
       <bind type="decimal" nodeset="/faims/Context/General/Colgroup_1/Col_1/Grid_Y"/>
       <bind type="decimal" nodeset="/faims/Context/Measure/Colgroup_0/Col_0/Highest_Level"/>
       <bind type="decimal" nodeset="/faims/Context/Measure/Colgroup_0/Col_1/Lowest_Level"/>
-      <bind type="decimal" nodeset="/faims/Context/Measure/Colgroup_1/Col_0/Length"/>
-      <bind type="decimal" nodeset="/faims/Context/Measure/Colgroup_1/Col_1/Width"/>
-      <bind type="decimal" nodeset="/faims/Context/Measure/Colgroup_1/Col_2/Depth"/>
+      <bind type="decimal" nodeset="/faims/Context/Measure/Colgroup_1/Col_0/Measure_Length"/>
+      <bind type="decimal" nodeset="/faims/Context/Measure/Colgroup_1/Col_1/Measure_Width"/>
+      <bind type="decimal" nodeset="/faims/Context/Measure/Colgroup_1/Col_2/Measure_Depth"/>
       <bind type="decimal" nodeset="/faims/Context/Measure/Volume"/>
-      <bind type="decimal" nodeset="/faims/Context/Structure/Colgroup_0/Col_0/Length"/>
-      <bind type="decimal" nodeset="/faims/Context/Structure/Colgroup_0/Col_1/Width"/>
-      <bind type="decimal" nodeset="/faims/Context/Structure/Colgroup_0/Col_2/Top_Depth_m"/>
-      <bind type="decimal" nodeset="/faims/Context/Structure/Colgroup_0/Col_3/Bottom_Depth_m"/>
-      <bind type="decimal" nodeset="/faims/Context/Structure/Colgroup_1/Col_0/Mid_X"/>
-      <bind type="decimal" nodeset="/faims/Context/Structure/Colgroup_1/Col_1/Mid_Y"/>
+      <bind type="decimal" nodeset="/faims/Context/Structure/Colgroup_0/Col_0/Feature_Length"/>
+      <bind type="decimal" nodeset="/faims/Context/Structure/Colgroup_0/Col_1/Feature_Width"/>
+      <bind type="decimal" nodeset="/faims/Context/Structure/Colgroup_0/Col_2/Feature_Top_Depth_m"/>
+      <bind type="decimal" nodeset="/faims/Context/Structure/Colgroup_0/Col_3/Feature_Bottom_Depth_m"/>
+      <bind type="decimal" nodeset="/faims/Context/Structure/Colgroup_1/Col_0/CG_Mid_X"/>
+      <bind type="decimal" nodeset="/faims/Context/Structure/Colgroup_1/Col_1/CG_Mid_Y"/>
       <bind type="decimal" nodeset="/faims/Context/Skeleton/Colgroup_1/Col_0/Mid_X"/>
       <bind type="decimal" nodeset="/faims/Context/Skeleton/Colgroup_1/Col_1/Mid_Y"/>
       <bind type="decimal" nodeset="/faims/Context/Skeleton/Skeleton_Days_Exposed"/>
@@ -690,7 +690,7 @@
       <bind type="decimal" nodeset="/faims/Height/Height/X"/>
       <bind type="decimal" nodeset="/faims/Height/Height/Y"/>
       <bind type="decimal" nodeset="/faims/Height/Height/Z"/>
-      <bind type="decimal" nodeset="/faims/FCN/General/Context_ID"/>
+      <bind type="decimal" nodeset="/faims/FCN/General/FCN_ID"/>
     </model>
   </h:head>
   <h:body>
@@ -776,8 +776,8 @@
         <input ref="Next_Context_Group_ID" faims_style_class="required">
           <label>{Next_Context_Group_ID}</label>
         </input>
-        <input ref="Next_Context_ID" faims_style_class="required">
-          <label>{Next_Context_ID}</label>
+        <input ref="Next_FCN_ID" faims_style_class="required">
+          <label>{Next_FCN_ID}</label>
         </input>
         <input faims_read_only="true" ref="GPS_Diagnostics">
           <label>{GPS_Diagnostics}</label>
@@ -824,9 +824,13 @@
           <label/>
           <group ref="Col_0" faims_style="even">
             <label/>
-            <input faims_attribute_type="measure" ref="AreaCode" faims_attribute_name="AreaCode" faims_style_class="required">
+            <select1 faims_attribute_type="vocab" ref="AreaCode" faims_attribute_name="AreaCode" faims_style_class="required">
               <label>{Trench_ID}</label>
-            </input>
+              <item>
+                <label>Options not loaded</label>
+                <value>0</value>
+              </item>
+            </select1>
           </group>
           <group ref="Col_1" faims_style="even">
             <label/>
@@ -978,19 +982,19 @@
           <label/>
           <group ref="Col_0" faims_style="even">
             <label/>
-            <input faims_attribute_type="measure" ref="Length" faims_attribute_name="Length" faims_style_class="required">
+            <input faims_attribute_type="measure" ref="Measure_Length" faims_attribute_name="Measure Length" faims_style_class="required">
               <label>{Length__m_}</label>
             </input>
           </group>
           <group ref="Col_1" faims_style="even">
             <label/>
-            <input faims_attribute_type="measure" ref="Width" faims_attribute_name="Width" faims_style_class="required">
+            <input faims_attribute_type="measure" ref="Measure_Width" faims_attribute_name="Measure Width" faims_style_class="required">
               <label>{Width__m_}</label>
             </input>
           </group>
           <group ref="Col_2" faims_style="even">
             <label/>
-            <input faims_attribute_type="measure" ref="Depth" faims_attribute_name="Depth" faims_style_class="required">
+            <input faims_attribute_type="measure" ref="Measure_Depth" faims_attribute_name="Measure Depth" faims_style_class="required">
               <label>{Depth__m_}</label>
             </input>
           </group>
@@ -1111,32 +1115,32 @@
         <input faims_attribute_type="measure" ref="CG_Your_description" faims_attribute_name="CG Your description" faims_style_class="required">
           <label>{Your_Description}</label>
         </input>
-        <input faims_attribute_type="measure" ref="Your_Discussion" faims_attribute_name="Your Discussion">
+        <input faims_attribute_type="measure" ref="CG_Your_Discussion" faims_attribute_name="CG Your Discussion">
           <label>{Discussion}</label>
         </input>
         <group ref="Colgroup_0" faims_style="orientation">
           <label/>
           <group ref="Col_0" faims_style="even">
             <label/>
-            <input faims_attribute_type="measure" ref="Length" faims_attribute_name="Length">
+            <input faims_attribute_type="measure" ref="Feature_Length" faims_attribute_name="Feature Length">
               <label>{Length__m_}</label>
             </input>
           </group>
           <group ref="Col_1" faims_style="even">
             <label/>
-            <input faims_attribute_type="measure" ref="Width" faims_attribute_name="Width">
+            <input faims_attribute_type="measure" ref="Feature_Width" faims_attribute_name="Feature Width">
               <label>{Width__m_}</label>
             </input>
           </group>
           <group ref="Col_2" faims_style="even">
             <label/>
-            <input faims_attribute_type="measure" ref="Top_Depth_m" faims_attribute_name="Top Depth m">
+            <input faims_attribute_type="measure" ref="Feature_Top_Depth_m" faims_attribute_name="Feature Top Depth m">
               <label>{Top_Depth__m_}</label>
             </input>
           </group>
           <group ref="Col_3" faims_style="even">
             <label/>
-            <input faims_attribute_type="measure" ref="Bottom_Depth_m" faims_attribute_name="Bottom Depth m">
+            <input faims_attribute_type="measure" ref="Feature_Bottom_Depth_m" faims_attribute_name="Feature Bottom Depth m">
               <label>{Bottom_Depth__m_}</label>
             </input>
           </group>
@@ -1145,14 +1149,14 @@
           <label/>
           <group ref="Col_0" faims_style="even">
             <label/>
-            <input faims_attribute_type="measure" ref="Mid_X" faims_attribute_name="Mid X">
-              <label>{Mid_X}</label>
+            <input faims_attribute_type="measure" ref="CG_Mid_X" faims_attribute_name="CG Mid X">
+              <label>{CG_Mid_X}</label>
             </input>
           </group>
           <group ref="Col_1" faims_style="even">
             <label/>
-            <input faims_attribute_type="measure" ref="Mid_Y" faims_attribute_name="Mid Y">
-              <label>{Mid_Y}</label>
+            <input faims_attribute_type="measure" ref="CG_Mid_Y" faims_attribute_name="CG Mid Y">
+              <label>{CG_Mid_Y}</label>
             </input>
           </group>
         </group>
@@ -1479,14 +1483,14 @@
       <group ref="Relationships">
         <label>{Relationships}</label>
         <trigger ref="Create_Relationships_to_This_Context">
-          <label>{Create_Relationships_to_This_Context}</label>
+          <label>{Create_Relationships_to_This_Stratum}</label>
         </trigger>
         <group ref="Colgroup_0" faims_style="orientation">
           <label/>
           <group ref="Col_0" faims_style="even">
             <label/>
             <select1 appearance="compact" ref="Existing_Relationships_to_This_Context" faims_certainty="false" faims_annotation="false">
-              <label>{Existing_Relationships_to_This_Context}</label>
+              <label>{Existing_Relationships_to_This_Stratum}</label>
               <item>
                 <label>Options not loaded</label>
                 <value>0</value>
@@ -1499,7 +1503,7 @@
               <label>{Selected_Relationship}</label>
             </input>
             <trigger ref="Load_Related_Context">
-              <label>{Load_Related_Context}</label>
+              <label>{Load_Related_Stratum}</label>
             </trigger>
             <trigger ref="Delete_Relationship">
               <label>{Delete_Relationship}</label>
@@ -1509,11 +1513,11 @@
       </group>
       <group ref="FCN" faims_scrollable="false">
         <label>{FCN}</label>
-        <trigger ref="Add_Special_Find">
-          <label>{Add_Special_Find}</label>
+        <trigger ref="Add_FCN">
+          <label>{Add_FCN}</label>
         </trigger>
-        <select1 appearance="compact" ref="List_of_Related_Special_Finds" faims_annotation="false" faims_certainty="false">
-          <label>{List_of_Related_Special_Finds}</label>
+        <select1 appearance="compact" ref="List_of_Related_FCNs" faims_annotation="false" faims_certainty="false">
+          <label>{List_of_Related_FCNs}</label>
           <item>
             <label>Options not loaded</label>
             <value>0</value>
@@ -1614,9 +1618,13 @@
           <label/>
           <group ref="Col_0" faims_style="even">
             <label/>
-            <input faims_attribute_type="measure" ref="AreaCode" faims_attribute_name="AreaCode" faims_style_class="required">
-              <label>{Stratum_ID}</label>
-            </input>
+            <select1 faims_attribute_type="vocab" ref="AreaCode" faims_attribute_name="AreaCode" faims_style_class="required">
+              <label>{Trench_ID}</label>
+              <item>
+                <label>Options not loaded</label>
+                <value>0</value>
+              </item>
+            </select1>
           </group>
           <group ref="Col_1" faims_style="even">
             <label/>
@@ -1701,14 +1709,14 @@
       <group ref="Context_Group_Contexts" faims_scrollable="false">
         <label>{Context_Group_Contexts}</label>
         <trigger ref="Create_Relationships_to_This_Context_Group">
-          <label>{Create_Relationships_to_This_Context_Group}</label>
+          <label>{Create_Relationships_to_this_Stratum}</label>
         </trigger>
         <group ref="Colgroup_0" faims_style="orientation">
           <label/>
           <group ref="Col_0" faims_style="even">
             <label/>
             <select1 appearance="compact" ref="Existing_Relationships_to_This_Context_Group" faims_certainty="false" faims_annotation="false">
-              <label>{Existing_Relationships_to_This_Context_Group}</label>
+              <label>{Existing_Relationships_to_this_Stratum}</label>
               <item>
                 <label>Options not loaded</label>
                 <value>0</value>
@@ -1805,9 +1813,13 @@
         <input faims_attribute_type="measure" ref="Context_ID" faims_attribute_name="Context ID">
           <label>{Context_ID}</label>
         </input>
-        <input faims_attribute_type="measure" ref="AreaCode" faims_attribute_name="AreaCode">
+        <select1 faims_attribute_type="vocab" ref="AreaCode" faims_attribute_name="AreaCode">
           <label>{AreaCode}</label>
-        </input>
+          <item>
+            <label>Options not loaded</label>
+            <value>0</value>
+          </item>
+        </select1>
       </group>
     </group>
     <group ref="Height" faims_archent_type="Height">
@@ -1835,9 +1847,13 @@
         <input faims_attribute_type="measure" ref="Context_ID" faims_attribute_name="Context ID">
           <label>{Context_ID}</label>
         </input>
-        <input faims_attribute_type="measure" ref="AreaCode" faims_attribute_name="AreaCode">
+        <select1 faims_attribute_type="vocab" ref="AreaCode" faims_attribute_name="AreaCode">
           <label>{AreaCode}</label>
-        </input>
+          <item>
+            <label>Options not loaded</label>
+            <value>0</value>
+          </item>
+        </select1>
       </group>
     </group>
     <group ref="Photograph_Log" faims_archent_type="Photograph Log">
@@ -1878,9 +1894,13 @@
       </group>
       <group ref="Vars" faims_hidden="true">
         <label>{Vars}</label>
-        <input faims_attribute_type="measure" ref="AreaCode" faims_attribute_name="AreaCode">
+        <select1 faims_attribute_type="vocab" ref="AreaCode" faims_attribute_name="AreaCode">
           <label>{AreaCode}</label>
-        </input>
+          <item>
+            <label>Options not loaded</label>
+            <value>0</value>
+          </item>
+        </select1>
         <select1 faims_attribute_type="vocab" ref="Device_Code" faims_attribute_name="Device Code">
           <label>{Device_Code}</label>
           <item>
@@ -2076,16 +2096,20 @@
       <label>{FCN}</label>
       <group ref="General">
         <label>{General}</label>
-        <input faims_attribute_type="measure" ref="FCN_ID" faims_attribute_name="FCN ID">
+        <input faims_attribute_type="measure" ref="FCN_ID" faims_attribute_name="FCN ID" faims_style_class="required">
           <label>{FCN_ID}</label>
         </input>
         <input faims_attribute_type="measure" ref="Site_Name" faims_attribute_name="Site Name">
           <label>{Site_Name}</label>
         </input>
-        <input faims_attribute_type="measure" ref="AreaCode" faims_attribute_name="AreaCode" faims_style_class="required">
+        <select1 faims_attribute_type="vocab" ref="AreaCode" faims_attribute_name="AreaCode" faims_style_class="required">
           <label>{Trench_ID}</label>
-        </input>
-        <input faims_attribute_type="measure" ref="Context_ID" faims_attribute_name="Context ID" faims_read_only="true" faims_style_class="required">
+          <item>
+            <label>Options not loaded</label>
+            <value>0</value>
+          </item>
+        </select1>
+        <input faims_attribute_type="measure" ref="Context_ID" faims_attribute_name="Context ID" faims_style_class="required">
           <label>{Locus_ID}</label>
         </input>
         <input faims_attribute_type="measure" ref="Collection_Area" faims_attribute_name="Collection Area">

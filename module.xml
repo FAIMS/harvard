@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--TODO: Petra's changes-->
+<!--TODO: Searching-->
+<!--TODO: Guide-->
+<!--TODO: Relationships-->
 <!--@PREPROC:  ./proc/pre.sh-->
 <!--@POSTPROC: ./proc/post.sh-->
 <module suppressWarnings="true">
@@ -70,6 +74,9 @@
     <Create_New_Stratum t="button" l="Context_Group"/>
     <Create_New_Diary   t="button" l="Diary"/>
     <Team_Members/>
+    <Trench_Dimensions>
+      <!--TODO: Make some records inherit me-->
+    </Trench_Dimensions>
     <autonum/>
     <GPS_Diagnostics t="gpsdiag"/>
   </Contexts>
@@ -95,14 +102,14 @@
           <fmt><![CDATA[Cxtx-$2-]]></fmt>
         </str>
       </Context_ID>
-      <Context_Name f="id">
-        Brief Description
-        <desc>Enter a brief, clear name for the Context eg 'House A - west wall'</desc>
-        <str>
-          <fmt><![CDATA[$2]]></fmt>
-        </str>
-      </Context_Name>
     </cols>
+    <Context_Name f="id">
+      Brief Description
+      <desc>Enter a brief, clear name for the Context eg 'House A - west wall'</desc>
+      <str>
+        <fmt><![CDATA[$2]]></fmt>
+      </str>
+    </Context_Name>
     <cols>
       <Grid_X b="decimal">
         <desc>The X coordinate on the SW corner of the context.</desc>
@@ -174,12 +181,10 @@
         <opt p="gallery/Blanks/Trail.png">No Observation
         <desc>data not collected</desc></opt>
         <opt p="gallery/ContextType/Orange/Cut.png">Cut
-          <!--TODO: Update dynamic UI code-->
         <desc>Any Context which represents the removal of earlier deposit and thus forms a negative interface (cut) with another context, such as a cut for a pit, burial, ditch, wall foundation or robber trench.</desc></opt>
         <opt p="gallery/ContextType/Orange/Deposit.png">Deposit
         <desc>Any Context with deposited sediment and soil, such as floor layers, pit and grave fills, hearth fills and natural sediments.</desc></opt>
         <opt p="gallery/ContextType/Orange/Structure.png">Feature
-          <!--TODO: Update dynamic UI code-->
         <desc>Any Context consisting of deliberately constructed structural element, independent of a Negative Element (i.e. cut, such as a wall or a hearth).</desc></opt>
         <opt p="gallery/ContextType/Orange/Skeleton.png">Skeleton
         <desc>Human skeletal remains.</desc></opt>
@@ -313,10 +318,6 @@
           <opt>Convex </opt>
           <opt>Concave </opt>
           <opt>Stepped </opt>
-          <opt>Sloping
-            <opt>Slightly Sloping</opt>
-            <opt>Steeply Sloping</opt>
-         </opt>
         </opts>
       </Sides_of_Cut>
       <Shape_of_Base f="notnull">
@@ -411,6 +412,8 @@
         Width (m)
         <desc>Width or diameter in metres.</desc>
       </Feature_Width>
+    </cols>
+    <cols>
       <Feature_Top_Depth_m b="decimal">
         Top Depth (m)
         <desc>Depth or Height in metres.</desc>
@@ -422,9 +425,11 @@
     </cols>
     <cols>
       <CG_Mid_X b="decimal">
+        Mid X
         <desc>An appropriate mid-point on the feature should be recorded on the X/Y coordinates. This will locate the feature on the site grid system.</desc>
       </CG_Mid_X>
       <CG_Mid_Y b="decimal">
+        Mid Y
         <desc>An appropriate mid-point on the feature should be recorded on the X/Y coordinates. This will locate the feature on the site grid system.</desc>
       </CG_Mid_Y>
     </cols>
@@ -755,28 +760,21 @@
     </cols>
   </Relationships>
   <FCN f="noscroll">
-    <Add_FCN t="button" lc="FCN">
+    <Add_FCN t="button" lc="FCN"/>
     <List_of_Related_FCNs e="FCN" t="list"/>
   </FCN>
   <Add>
-    <Sketch t="file">
-      <desc>Upload the file of a sketch of the context drawn on another application using the button below</desc>
-    </Sketch>
     <Photo t="camera">
       <desc>Use this button to take a photo of the context using the camera on the tablet. Use a scale in the photo</desc>
     </Photo>
-    <Audio t="audio">
-      <desc>Use this button to record an audio file of your observations concerning this context</desc>
-    </Audio>
-    <Video t="video">
-      <desc>Use this button to record a video using the tablet of this context</desc>
-    </Video>
     <View_Attached_Files t="viewfiles"/>
     <Add_Photograph_Log t="button" lc="Photograph_Log"/>
     <Select_a_Photograph_Log t="dropdown" ec="Photograph_Log"/>
   </Add>
   <Soil_Texture_Helper f="hidden">
+    Material Helper
     <Soil_Texture_Helper>
+      Material Helper
       <desc>This helper is based on the standard flow chart for determining soil texture. Start by taking 25g of soil and placing it in your palm. Select each option and follow the prompts for TASKS (like roll ribbon) until you get a result, eg 'silty loam'. Then click the 'Update' button to have that value pasted onto your Context record.</desc>
       <opts>
         <opt>Soil does NOT remain in ball when squeezed       
@@ -859,7 +857,9 @@
         <desc>A sandy loam sticks together more than a loamy sand but can be easily broken. Individual sand grains can be felt and heard if a wet sample is rubbed between the index finger and thumb and held close to the ear. (VDEPI 2009: AG0058)</desc></opt></opt></opt></opt></opt></opt></opt>
       </opts>
     </Soil_Texture_Helper>
-    <Update_Soil_Texture t="button"/>
+    <Update_Soil_Texture t="button">
+      Update Material
+    </Update_Soil_Texture>
   </Soil_Texture_Helper>
   <Vars f="hidden">
     <Device_Code>
@@ -872,14 +872,6 @@
       <desc>This allows you to find any contexts that contain your search term or string in any field in a context record. Type in your term/string and press the "Search" button. Press "My Contexts" to return to the full list of contexts for this trench.</desc>
     </SearchHelp>
   </Vars>
-  <!--<Artefacts f="noscroll">-->
-    <!--<Add_Special_Find t="button" lc="Special_Find"/>-->
-    <!--<List_of_Related_Special_Finds ec="Special_Find" t="list"/>-->
-  <!--</Artefacts>-->
-  <!--<Samples f="noscroll">-->
-    <!--<Add_Sample t="button" lc="Sample"/>-->
-    <!--<List_of_Sample ec="Sample" t="list"/>-->
-  <!--</Samples>-->
 </Context>
 
 <Context_Group>
@@ -889,7 +881,7 @@
     General
     <cols>
       <AreaCode f="id notnull">
-        Stratum ID
+        Trench ID
         <!--@SOURCE: vocabs/area-code.xml-->
       </AreaCode>
       <Context_Group_ID f="id notnull autonum">
@@ -921,6 +913,8 @@
         Width (m)
         <desc>Width or diameter in metres.</desc>
       </Width>
+    </cols>
+    <cols>
       <Top_Depth_m b="decimal">
         Top Depth (m)
         <desc>Depth or Height in metres.</desc>
@@ -956,6 +950,7 @@
     </cols>
   </Gen>
   <Context_Group_Contexts f="noscroll">
+    Relationships
     <Create_Relationships_to_This_Context_Group t="button" l="Context_Group_Relationship">
       Create Relationships to this Stratum
     </Create_Relationships_to_This_Context_Group>
@@ -997,6 +992,7 @@
     Sediment/Aggregate
     <cols>
       <Component f="id">
+        Component Type
         <desc>Describe the components which make up 10% or more of the deposit.</desc>
         <str>
           <fmt><![CDATA[$1]]></fmt>
@@ -1032,6 +1028,7 @@
       </Percentage>
     </cols>
     <Shape>
+      Soil Stone Shape
       <desc>Shape and roundness of stones and pebbles in the deposit.</desc>
       <opts>
         <opt p="gallery/Other/NA.png">No Observation

@@ -10,7 +10,7 @@
     <parent>Parent Of</parent>
     <child>Child Of</child>
   </RelationshipElement>
-  <RelationshipElement name="Context - Stratum" type="hierarchical">
+  <RelationshipElement name="Context - Context Group" type="hierarchical">
     <description>A 1-to-n relationship between the parent and its children, respectively.</description>
     <parent>Parent Of</parent>
     <child>Child Of</child>
@@ -74,10 +74,28 @@
   </RelationshipElement>
   <ArchaeologicalElement name="Context">
     <description>The physical result of any single action whether it leaves a positive or negative record within the stratigraphic sequence. (MoLAS 1994)</description>
-    <property name="AreaCode" isIdentifier="true" type="measure">
-      <description/>
-      <formatString><![CDATA[{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}]]></formatString>
-      <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
+    <property name="AreaCode" isIdentifier="true" type="vocab">
+      <description>The excavation trench, designated by a letter code and assigned automatically by the module based on your selection when you log in.</description>
+      <formatString><![CDATA[$1-]]></formatString>
+      <appendCharacterString><![CDATA[-]]></appendCharacterString>
+      <lookup>
+        <term>{H}
+<description/></term>
+        <term>{K}
+<description/></term>
+        <term>{L}
+<description/></term>
+        <term>{M}
+<description/></term>
+        <term>{N}
+<description/></term>
+        <term>{P}
+<description/></term>
+        <term>{Q}
+<description/></term>
+        <term>{X}
+<description/></term>
+      </lookup>
     </property>
     <property name="Context ID" isIdentifier="true" type="measure">
       <description>Every archaeological context (negative element (cut), deposit, structure, skeleton, artefact cluster) is given a unique 3 or 4 letter context code. Each trench is designated with a separate letter which starts the code, so it is immediately obvious to which trench a context belongs. For example context HAA belongs to Trench H, context MQP to Trench M etc.
@@ -219,17 +237,17 @@
       <formatString><![CDATA[{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
     </property>
-    <property name="Length" type="measure">
+    <property name="Measure Length" type="measure">
       <description>Longest dimension in metres.</description>
       <formatString><![CDATA[{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
     </property>
-    <property name="Width" type="measure">
+    <property name="Measure Width" type="measure">
       <description>Width or diameter in metres.</description>
       <formatString><![CDATA[{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
     </property>
-    <property name="Depth" type="measure">
+    <property name="Measure Depth" type="measure">
       <description>Depth or Height in metres.</description>
       <formatString><![CDATA[{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
@@ -474,39 +492,37 @@
       <formatString><![CDATA[{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
     </property>
-    <property name="Your Discussion" type="measure">
+    <property name="CG Your Discussion" type="measure">
       <description>Add here any elaborations on the interpretation and description.</description>
       <formatString><![CDATA[{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
     </property>
-    <property name="Length" type="measure">
-      <!--ERROR: This view's name is a duplicate of one or more other views' in this tab group-->
+    <property name="Feature Length" type="measure">
       <description>Longest dimension in metres.</description>
       <formatString><![CDATA[{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
     </property>
-    <property name="Width" type="measure">
-      <!--ERROR: This view's name is a duplicate of one or more other views' in this tab group-->
+    <property name="Feature Width" type="measure">
       <description>Width or diameter in metres.</description>
       <formatString><![CDATA[{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
     </property>
-    <property name="Top Depth m" type="measure">
+    <property name="Feature Top Depth m" type="measure">
       <description>Depth or Height in metres.</description>
       <formatString><![CDATA[{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
     </property>
-    <property name="Bottom Depth m" type="measure">
+    <property name="Feature Bottom Depth m" type="measure">
       <description>Depth or Height in metres.</description>
       <formatString><![CDATA[{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
     </property>
-    <property name="Mid X" type="measure">
+    <property name="CG Mid X" type="measure">
       <description>An appropriate mid-point on the feature should be recorded on the X/Y coordinates. This will locate the feature on the site grid system.</description>
       <formatString><![CDATA[{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
     </property>
-    <property name="Mid Y" type="measure">
+    <property name="CG Mid Y" type="measure">
       <description>An appropriate mid-point on the feature should be recorded on the X/Y coordinates. This will locate the feature on the site grid system.</description>
       <formatString><![CDATA[{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
@@ -3875,13 +3891,11 @@
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
     </property>
     <property name="Mid X" type="measure">
-      <!--ERROR: This view's name is a duplicate of one or more other views' in this tab group-->
       <description>An appropriate mid-point on the skeleton under excavation should be recorded on the X / Y co-ordinates. This will locate the skeleton on the site grid system.</description>
       <formatString><![CDATA[{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
     </property>
     <property name="Mid Y" type="measure">
-      <!--ERROR: This view's name is a duplicate of one or more other views' in this tab group-->
       <description>An appropriate mid-point on the skeleton under excavation should be recorded on the X / Y co-ordinates. This will locate the skeleton on the site grid system.</description>
       <formatString><![CDATA[{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
@@ -4012,7 +4026,6 @@
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
     </property>
     <property name="Your Discussion" type="measure">
-      <!--ERROR: This view's name is a duplicate of one or more other views' in this tab group-->
       <description>Enter an interpretation of the function of the Context and its place in the stratigraphical sequence.</description>
       <formatString><![CDATA[{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
@@ -4125,10 +4138,28 @@
   </ArchaeologicalElement>
   <ArchaeologicalElement name="Context Group">
     <description>A group of contexts.</description>
-    <property name="AreaCode" isIdentifier="true" type="measure">
-      <description/>
-      <formatString><![CDATA[{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}]]></formatString>
-      <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
+    <property name="AreaCode" isIdentifier="true" type="vocab">
+      <description>The excavation trench, designated by a letter code and assigned automatically by the module based on your selection when you log in.</description>
+      <formatString><![CDATA[$1-]]></formatString>
+      <appendCharacterString><![CDATA[-]]></appendCharacterString>
+      <lookup>
+        <term>{H}
+<description/></term>
+        <term>{K}
+<description/></term>
+        <term>{L}
+<description/></term>
+        <term>{M}
+<description/></term>
+        <term>{N}
+<description/></term>
+        <term>{P}
+<description/></term>
+        <term>{Q}
+<description/></term>
+        <term>{X}
+<description/></term>
+      </lookup>
     </property>
     <property name="Context Group ID" isIdentifier="true" type="measure">
       <description>Feature number taken from the central register.</description>
@@ -4302,10 +4333,28 @@
       <formatString><![CDATA[{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
     </property>
-    <property name="AreaCode" type="measure">
-      <description/>
-      <formatString><![CDATA[{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}]]></formatString>
-      <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
+    <property name="AreaCode" type="vocab">
+      <description>The excavation trench, designated by a letter code and assigned automatically by the module based on your selection when you log in.</description>
+      <formatString><![CDATA[$1-]]></formatString>
+      <appendCharacterString><![CDATA[-]]></appendCharacterString>
+      <lookup>
+        <term>{H}
+<description/></term>
+        <term>{K}
+<description/></term>
+        <term>{L}
+<description/></term>
+        <term>{M}
+<description/></term>
+        <term>{N}
+<description/></term>
+        <term>{P}
+<description/></term>
+        <term>{Q}
+<description/></term>
+        <term>{X}
+<description/></term>
+      </lookup>
     </property>
   </ArchaeologicalElement>
   <ArchaeologicalElement name="Height">
@@ -4340,10 +4389,28 @@
       <formatString><![CDATA[{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
     </property>
-    <property name="AreaCode" type="measure">
-      <description/>
-      <formatString><![CDATA[{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}]]></formatString>
-      <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
+    <property name="AreaCode" type="vocab">
+      <description>The excavation trench, designated by a letter code and assigned automatically by the module based on your selection when you log in.</description>
+      <formatString><![CDATA[$1-]]></formatString>
+      <appendCharacterString><![CDATA[-]]></appendCharacterString>
+      <lookup>
+        <term>{H}
+<description/></term>
+        <term>{K}
+<description/></term>
+        <term>{L}
+<description/></term>
+        <term>{M}
+<description/></term>
+        <term>{N}
+<description/></term>
+        <term>{P}
+<description/></term>
+        <term>{Q}
+<description/></term>
+        <term>{X}
+<description/></term>
+      </lookup>
     </property>
   </ArchaeologicalElement>
   <ArchaeologicalElement name="Photograph Log">
@@ -4383,10 +4450,28 @@
       <formatString><![CDATA[{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
     </property>
-    <property name="AreaCode" isIdentifier="true" type="measure">
-      <description/>
-      <formatString><![CDATA[{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}]]></formatString>
-      <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
+    <property name="AreaCode" isIdentifier="true" type="vocab">
+      <description>The excavation trench, designated by a letter code and assigned automatically by the module based on your selection when you log in.</description>
+      <formatString><![CDATA[$1-]]></formatString>
+      <appendCharacterString><![CDATA[-]]></appendCharacterString>
+      <lookup>
+        <term>{H}
+<description/></term>
+        <term>{K}
+<description/></term>
+        <term>{L}
+<description/></term>
+        <term>{M}
+<description/></term>
+        <term>{N}
+<description/></term>
+        <term>{P}
+<description/></term>
+        <term>{Q}
+<description/></term>
+        <term>{X}
+<description/></term>
+      </lookup>
     </property>
     <property name="Device Code" type="vocab">
       <description/>
@@ -4451,7 +4536,7 @@
   </ArchaeologicalElement>
   <ArchaeologicalElement name="FCN">
     <description/>
-    <property name="FCN ID" type="measure">
+    <property name="FCN ID" isIdentifier="true" type="measure">
       <description/>
       <formatString><![CDATA[{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
@@ -4461,10 +4546,28 @@
       <formatString><![CDATA[{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
     </property>
-    <property name="AreaCode" isIdentifier="true" type="measure">
-      <description/>
-      <formatString><![CDATA[{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}]]></formatString>
-      <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
+    <property name="AreaCode" isIdentifier="true" type="vocab">
+      <description>The excavation trench, designated by a letter code and assigned automatically by the module based on your selection when you log in.</description>
+      <formatString><![CDATA[$1-]]></formatString>
+      <appendCharacterString><![CDATA[-]]></appendCharacterString>
+      <lookup>
+        <term>{H}
+<description/></term>
+        <term>{K}
+<description/></term>
+        <term>{L}
+<description/></term>
+        <term>{M}
+<description/></term>
+        <term>{N}
+<description/></term>
+        <term>{P}
+<description/></term>
+        <term>{Q}
+<description/></term>
+        <term>{X}
+<description/></term>
+      </lookup>
     </property>
     <property name="Context ID" isIdentifier="true" type="measure">
       <description>Every archaeological context (negative element (cut), deposit, structure, skeleton, artefact cluster) is given a unique 3 or 4 letter context code. Each trench is designated with a separate letter which starts the code, so it is immediately obvious to which trench a context belongs. For example context HAA belongs to Trench H, context MQP to Trench M etc.
@@ -4548,16 +4651,34 @@
       <description/>
       <formatString><![CDATA[{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
+      <lookup>
+        <term>{Yes}
+<description/></term>
+        <term>{No}
+<description/></term>
+      </lookup>
     </property>
     <property name="Weighted" type="vocab">
       <description/>
       <formatString><![CDATA[{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
+      <lookup>
+        <term>{Yes}
+<description/></term>
+        <term>{No}
+<description/></term>
+      </lookup>
     </property>
     <property name="Analyzed" type="vocab">
       <description/>
       <formatString><![CDATA[{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
+      <lookup>
+        <term>{Yes}
+<description/></term>
+        <term>{No}
+<description/></term>
+      </lookup>
     </property>
     <property name="FCN Group Comment" type="measure">
       <description/>

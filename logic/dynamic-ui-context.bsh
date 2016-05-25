@@ -26,12 +26,12 @@ openContextTabs(Boolean showGeneralInformationTab){
                     cancelTab("Context/Structure", false);
                     cancelTab("Context/Skeleton", false);
                     showTab("Context/Deposit");
-                } else if (vocab.equals("{Negative_Element}")){
+                } else if (vocab.equals("{Cut}")){
                     cancelTab("Context/Deposit", false);
                     cancelTab("Context/Structure", false);
                     cancelTab("Context/Skeleton", false);
                     showTab("Context/Cut");
-                } else if (vocab.equals("{Structure}")){
+                } else if (vocab.equals("{Feature}")){
                     cancelTab("Context/Deposit", false);
                     cancelTab("Context/Cut", false);
                     cancelTab("Context/Skeleton", false);

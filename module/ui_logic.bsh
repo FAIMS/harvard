@@ -147,6 +147,7 @@ getDropdownItemValue() {
 addOnEvent("User/User_List/Users", "click", "dropdownItemValue = getFieldValue(\"User/User_List/Users\")");
 addOnEvent("User/User_List/AreaCode", "click", "dropdownItemValue = getFieldValue(\"User/User_List/AreaCode\")");
 addOnEvent("User/User_List/Device_Code", "click", "dropdownItemValue = getFieldValue(\"User/User_List/Device_Code\")");
+addOnEvent("Context/General/AreaCode", "click", "dropdownItemValue = getFieldValue(\"Context/General/AreaCode\")");
 addOnEvent("Context/General/Horizon_Boundary", "click", "dropdownItemValue = getFieldValue(\"Context/General/Horizon_Boundary\")");
 addOnEvent("Context/General/Contamination", "click", "dropdownItemValue = getFieldValue(\"Context/General/Contamination\")");
 addOnEvent("Context/Cut/Cut_Your_Interpretation", "click", "dropdownItemValue = getFieldValue(\"Context/Cut/Cut_Your_Interpretation\")");
@@ -166,14 +167,19 @@ addOnEvent("Context/Deposit/Associated_Matrices", "click", "dropdownItemValue = 
 addOnEvent("Context/Add/Select_a_Photograph_Log", "click", "dropdownItemValue = getFieldValue(\"Context/Add/Select_a_Photograph_Log\")");
 addOnEvent("Context/Soil_Texture_Helper/Soil_Texture_Helper", "click", "dropdownItemValue = getFieldValue(\"Context/Soil_Texture_Helper/Soil_Texture_Helper\")");
 addOnEvent("Context/Vars/Device_Code", "click", "dropdownItemValue = getFieldValue(\"Context/Vars/Device_Code\")");
+addOnEvent("Context_Group/Gen/AreaCode", "click", "dropdownItemValue = getFieldValue(\"Context_Group/Gen/AreaCode\")");
 addOnEvent("Context_Group/Add/Select_a_Photograph_Log", "click", "dropdownItemValue = getFieldValue(\"Context_Group/Add/Select_a_Photograph_Log\")");
 addOnEvent("Context_Group/Vars/Device_Code", "click", "dropdownItemValue = getFieldValue(\"Context_Group/Vars/Device_Code\")");
 addOnEvent("Matrix/Matrix/Component", "click", "dropdownItemValue = getFieldValue(\"Matrix/Matrix/Component\")");
+addOnEvent("Matrix/Vars/AreaCode", "click", "dropdownItemValue = getFieldValue(\"Matrix/Vars/AreaCode\")");
+addOnEvent("Height/Vars/AreaCode", "click", "dropdownItemValue = getFieldValue(\"Height/Vars/AreaCode\")");
 addOnEvent("Photograph_Log/Photograph_Log/Scene_Type", "click", "dropdownItemValue = getFieldValue(\"Photograph_Log/Photograph_Log/Scene_Type\")");
+addOnEvent("Photograph_Log/Vars/AreaCode", "click", "dropdownItemValue = getFieldValue(\"Photograph_Log/Vars/AreaCode\")");
 addOnEvent("Photograph_Log/Vars/Device_Code", "click", "dropdownItemValue = getFieldValue(\"Photograph_Log/Vars/Device_Code\")");
 addOnEvent("Relationship/Relationships/Square", "click", "dropdownItemValue = getFieldValue(\"Relationship/Relationships/Square\")");
 addOnEvent("Relationship/Relationships/Relationship_Type", "click", "dropdownItemValue = getFieldValue(\"Relationship/Relationships/Relationship_Type\")");
 addOnEvent("Context_Group_Relationship/Relationships/Square", "click", "dropdownItemValue = getFieldValue(\"Context_Group_Relationship/Relationships/Square\")");
+addOnEvent("FCN/General/AreaCode", "click", "dropdownItemValue = getFieldValue(\"FCN/General/AreaCode\")");
 addOnEvent("FCN/General/Collection_Method", "click", "dropdownItemValue = getFieldValue(\"FCN/General/Collection_Method\")");
 addOnEvent("FCN/General/FCN_Class", "click", "dropdownItemValue = getFieldValue(\"FCN/General/FCN_Class\")");
 
@@ -497,6 +503,7 @@ makeVocab(String type, String path, String attrib, List vocabExclusions, String 
       }
     });
 }
+makeVocab("DropDown", "Context/General/AreaCode", "AreaCode");
 makeVocab("CheckBoxGroup", "Context/General/Excavation_Method", "Excavation Method");
 makeVocab("DropDown", "Context/General/Horizon_Boundary", "Horizon Boundary");
 makeVocab("DropDown", "Context/General/Contamination", "Contamination");
@@ -521,11 +528,16 @@ makeVocab("DropDown", "Context/Deposit/Deposit_Bedding", "Deposit Bedding");
 makeVocab("RadioGroup", "Context/Deposit/Sterile", "Sterile");
 makeVocab("HierarchicalDropDown", "Context/Soil_Texture_Helper/Soil_Texture_Helper", "Soil Texture Helper");
 makeVocab("DropDown", "Context/Vars/Device_Code", "Device Code");
+makeVocab("DropDown", "Context_Group/Gen/AreaCode", "AreaCode");
 makeVocab("DropDown", "Context_Group/Vars/Device_Code", "Device Code");
 makeVocab("DropDown", "Matrix/Matrix/Component", "Component");
 makeVocab("HierarchicalPictureGallery", "Matrix/Matrix/Shape", "Shape");
+makeVocab("DropDown", "Matrix/Vars/AreaCode", "AreaCode");
+makeVocab("DropDown", "Height/Vars/AreaCode", "AreaCode");
 makeVocab("DropDown", "Photograph_Log/Photograph_Log/Scene_Type", "Scene Type");
+makeVocab("DropDown", "Photograph_Log/Vars/AreaCode", "AreaCode");
 makeVocab("DropDown", "Photograph_Log/Vars/Device_Code", "Device Code");
+makeVocab("DropDown", "FCN/General/AreaCode", "AreaCode");
 makeVocab("DropDown", "FCN/General/Collection_Method", "Collection Method");
 makeVocab("HierarchicalDropDown", "FCN/General/FCN_Class", "FCN Class");
 makeVocab("RadioGroup", "FCN/General/Washed", "Washed");
@@ -609,9 +621,9 @@ validateContext() {
   f.add(fieldPair("Context/General/Section_Numbers", "{Section_Numbers}"));
   f.add(fieldPair("Context/Measure/Highest_Level", "{Absolute_Height_Top__m_}"));
   f.add(fieldPair("Context/Measure/Lowest_Level", "{Absolute_Height_Bottom__m_}"));
-  f.add(fieldPair("Context/Measure/Length", "{Length__m_}"));
-  f.add(fieldPair("Context/Measure/Width", "{Width__m_}"));
-  f.add(fieldPair("Context/Measure/Depth", "{Depth__m_}"));
+  f.add(fieldPair("Context/Measure/Measure_Length", "{Length__m_}"));
+  f.add(fieldPair("Context/Measure/Measure_Width", "{Width__m_}"));
+  f.add(fieldPair("Context/Measure/Measure_Depth", "{Depth__m_}"));
   f.add(fieldPair("Context/Measure/Volume", "{Volume__litres_}"));
   f.add(fieldPair("Context/Cut/Cut_Your_Interpretation", "{Your_Interpretation}"));
   f.add(fieldPair("Context/Cut/Shape_of_Cut", "{Shape_in_Plan}"));
@@ -650,7 +662,7 @@ validateContext() {
 validateContextGroup() {
   List f = new ArrayList(); // Fields to be validated
 
-  f.add(fieldPair("Context_Group/Gen/AreaCode", "{Stratum_ID}"));
+  f.add(fieldPair("Context_Group/Gen/AreaCode", "{Trench_ID}"));
   f.add(fieldPair("Context_Group/Gen/Context_Group_ID", "{Stratum_ID}"));
   f.add(fieldPair("Context_Group/Gen/CG_Your_description", "{Description}"));
   f.add(fieldPair("Context_Group/Gen/CG_Your_Interpretation", "{Interpretation}"));
@@ -675,6 +687,7 @@ validateHeight() {
 validateFCN() {
   List f = new ArrayList(); // Fields to be validated
 
+  f.add(fieldPair("FCN/General/FCN_ID", "{FCN_ID}"));
   f.add(fieldPair("FCN/General/AreaCode", "{Trench_ID}"));
   f.add(fieldPair("FCN/General/Context_ID", "{Locus_ID}"));
 
@@ -876,9 +889,9 @@ onClickContextAddNewStratum () {
     return;
   }
   parentTabgroup   = tabgroup;  parentTabgroup__ = tabgroup;
-  newStratum();
+  newContextGroup();
 }
-onClickContextAddSpecialFind () {
+onClickContextAddFCN () {
   // TODO: Add some things which should happen when this element is clicked
   String tabgroup = "Context";
   if (isNull(getUuid(tabgroup))){
@@ -919,7 +932,7 @@ addOnEvent("Context/Deposit/Soil_Texture_Helper", "click", "onClickContextSoilTe
 addOnEvent("Context/Deposit/Add_New_Matrix", "click", "onClickContextAddNewMatrix()");
 addOnEvent("Context/Stratum/Add_New_Stratum", "click", "onClickContextAddNewStratum()");
 addOnEvent("Context/Relationships/Create_Relationships_to_This_Context", "click", "onClickContextCreateRelationshipstoThisContext()");
-addOnEvent("Context/FCN/Add_Special_Find", "click", "onClickContextAddSpecialFind()");
+addOnEvent("Context/FCN/Add_FCN", "click", "onClickContextAddFCN()");
 addOnEvent("Context/Add/Add_Photograph_Log", "click", "onClickContextAddPhotographLog()");
 addOnEvent("Context_Group/Context_Group_Contexts/Create_Relationships_to_This_Context_Group", "click", "onClickContextGroupCreateRelationshipstoThisContextGroup()");
 addOnEvent("Context_Group/Add/Add_Photograph_Log", "click", "onClickContextGroupAddPhotographLog()");
@@ -1606,7 +1619,7 @@ newFCN(){
   String tabgroup = "FCN";
 
   String autoNumSource = "";
-  autoNumSource = getFieldValue("Control/Contexts/Next_Context_ID");
+  autoNumSource = getFieldValue("Control/Contexts/Next_FCN_ID");
   if (isNull(autoNumSource)) {
     showWarning("{Alert}","{A_next_ID_has_not_been_entered_please_provide_one}");
     return;
@@ -1616,7 +1629,7 @@ newFCN(){
   newTabGroup(tabgroup);
   populateAuthorAndTimestamp(tabgroup);
   String autoNumDest = "";
-  autoNumDest = "FCN/General/Context_ID";
+  autoNumDest = "FCN/General/FCN_ID";
   incAutoNum(autoNumDest);
   inheritFCNFields();
 }
@@ -1628,7 +1641,7 @@ duplicateFCN(){
   disableAutoSave(tabgroup);
 
   String autoNumDest = "";
-  autoNumDest = "FCN/General/Context_ID";
+  autoNumDest = "FCN/General/FCN_ID";
   incAutoNum(autoNumDest);
 
   populateFileList("FCN/General/Attach_File", new ArrayList());
@@ -1914,7 +1927,7 @@ onShowAutonum() {
   List l = new ArrayList();
   l.add("Control/Contexts/Next_Context_ID");
   l.add("Control/Contexts/Next_Context_Group_ID");
-  l.add("Control/Contexts/Next_Context_ID");
+  l.add("Control/Contexts/Next_FCN_ID");
 
 
   for (ref : l) {
@@ -1942,7 +1955,7 @@ incAutoNum(String destPath) {
   Map destToSource = new HashMap();
   destToSource.put("Context/General/Context_ID", "Control/Contexts/Next_Context_ID");
   destToSource.put("Context_Group/Gen/Context_Group_ID", "Control/Contexts/Next_Context_Group_ID");
-  destToSource.put("FCN/General/Context_ID", "Control/Contexts/Next_Context_ID");
+  destToSource.put("FCN/General/FCN_ID", "Control/Contexts/Next_FCN_ID");
 
   String sourcePath = destToSource.get(destPath);
   String destVal    = getFieldValue(sourcePath);
@@ -2018,6 +2031,13 @@ populateMenuWithEntities (
 menus = new ArrayList();
 menus.add(new String[] {
   "List",
+  "Context/FCN/List_of_Related_FCNs",
+  "getUuid(\"Context\")",
+  "FCN",
+  ""
+});
+menus.add(new String[] {
+  "List",
   "Context/Measure/Height_List",
   "getUuid(\"Context\")",
   "Height",
@@ -2034,15 +2054,8 @@ menus.add(new String[] {
   "List",
   "Context/Stratum/List_of_Related_Strata",
   "getUuid(\"Context\")",
-  "Stratum",
-  "Context - Stratum",
-});
-menus.add(new String[] {
-  "List",
-  "Context/FCN/List_of_Related_Special_Finds",
-  "getUuid(\"Context\")",
-  "FCN",
-  "Context - FCN",
+  "Context Group",
+  "Context - Context Group",
 });
 menus.add(new String[] {
   "DropDown",
@@ -2083,7 +2096,7 @@ for (m : menus) {
 addOnEvent("Context/Measure/Height_List", "click", "loadEntity()");
 addOnEvent("Context/Deposit/Associated_Matrices", "click", "loadEntity(true)");
 addOnEvent("Context/Stratum/List_of_Related_Strata", "click", "loadEntity()");
-addOnEvent("Context/FCN/List_of_Related_Special_Finds", "click", "loadEntity()");
+addOnEvent("Context/FCN/List_of_Related_FCNs", "click", "loadEntity()");
 addOnEvent("Context/Add/Select_a_Photograph_Log", "click", "loadEntity(true)");
 addOnEvent("Context_Group/Add/Select_a_Photograph_Log", "click", "loadEntity(true)");
 
@@ -2313,6 +2326,8 @@ noDeviceCodeSelected() {
   showWarning(msgHead, msgBody);
 }
 /***************************** FIELD INHERITANCE ******************************/
+/* Linked using @POSTPROC.                                                    */
+/******************************************************************************/
 String moduleYear     = new java.text.SimpleDateFormat("yy").format(new Date());
 String moduleSiteCode = "BK" + moduleYear;
 
@@ -2459,10 +2474,19 @@ inheritPhotographLogFields() {
   );
 }
 
+// Don't delete me. This simplifies the code in @POSTPROC.
 inheritDiaryFields() {
+  return;
+}
+
+inheritFCNFields() {
+  copyFieldValue(
+    "Context/General/Context_ID",
+    "FCN/General/Context_ID"
+  );
   copyFieldValue(
     "User/User_List/AreaCode",
-    "Diary/Diary/AreaCode"
+    "FCN/General/AreaCode"
   );
 }
 /******************************* RELATIONSHIPS ********************************/
@@ -3067,12 +3091,12 @@ openContextTabs(Boolean showGeneralInformationTab){
                     cancelTab("Context/Structure", false);
                     cancelTab("Context/Skeleton", false);
                     showTab("Context/Deposit");
-                } else if (vocab.equals("{Negative_Element}")){
+                } else if (vocab.equals("{Cut}")){
                     cancelTab("Context/Deposit", false);
                     cancelTab("Context/Structure", false);
                     cancelTab("Context/Skeleton", false);
                     showTab("Context/Cut");
-                } else if (vocab.equals("{Structure}")){
+                } else if (vocab.equals("{Feature}")){
                     cancelTab("Context/Deposit", false);
                     cancelTab("Context/Cut", false);
                     cancelTab("Context/Skeleton", false);
