@@ -5,19 +5,65 @@ String moduleYear     = new java.text.SimpleDateFormat("yy").format(new Date());
 String moduleSiteCode = "BK" + moduleYear;
 
 copyFieldValue(src, dst) {
-  val = getFieldValue(src);
-  setFieldValue(dst, val);
+  Boolean doFindVocabId = true;
+  copyFieldValue(src, dst, doFindVocabId);
+}
+
+copyFieldValue(src, dst, doFindVocabId) {
+  String vocabIdSrc  = getFieldValue(src);
+
+  String attrNameSrc = src.split("\\/")[2];
+  String attrNameDst = dst.split("\\/")[2];
+
+  attrNameSrc = attrNameSrc.replaceAll("_", " ");
+  attrNameDst = attrNameDst.replaceAll("_", " ");
+
+  if (attrNameSrc.equals(attrNameDst) || !doFindVocabId) {
+    setFieldValue(dst, vocabIdSrc);
+    return;
+  }
+
+  String q = "";
+  q += "    SELECT vocabid";
+  q += "      FROM vocabulary";
+  q += " LEFT JOIN attributekey";
+  q += "     USING (attributeid)";
+  q += "     WHERE attributename = '{attrNameDst}'";
+  q += "       AND vocabname";
+  q += "        IN (";
+  q += "                 SELECT vocabname";
+  q += "                   FROM vocabulary";
+  q += "              LEFT JOIN attributekey";
+  q += "                  USING (attributeid)";
+  q += "                  WHERE attributename = '{attrNameSrc}'";
+  q += "                    AND vocabid       = '{vocabIdSrc}'";
+  q += "           )";
+  q  = replaceFirst(q, "{vocabIdSrc}",  vocabIdSrc );
+  q  = replaceFirst(q, "{attrNameSrc}", attrNameSrc);
+  q  = replaceFirst(q, "{attrNameDst}", attrNameDst);
+
+
+  FetchCallback populate = new FetchCallback() {
+    onFetch(result) {
+      String vocabIdDst = result.get(0);
+      showWarning(vocabIdDst, q);
+      showWarning(dst, vocabIdDst);
+      setFieldValue(dst, vocabIdDst);
+    }
+  };
+
+  fetchOne(q, populate);
 }
 
 inheritContextFields() {
   copyFieldValue(
     "Control/Contexts/Team_Members",
-    "Context/General/Excavators"
+    "Context/General/Team_Members"
   );
 
   copyFieldValue(
-    "User/User_List/AreaCode",
-    "Context/General/AreaCode"
+    "Control/Contexts/Trench_Dimensions",
+    "Context/General/Trench_Dimensions"
   );
 
   copyFieldValue(
@@ -32,9 +78,12 @@ inheritContextFields() {
 }
 
 inheritContextGroupFields() {
+  //BEWARE! Weird formatting!
+  if (parentTabgroup__.equals("Context"))
   copyFieldValue(
-    "User/User_List/AreaCode",
-    "Context_Group/Gen/AreaCode"
+    "Context/General/Context_AreaCode",
+    "Context_Group/Gen/Context_Group_AreaCode",
+    false
   );
 
   copyFieldValue(
@@ -50,37 +99,43 @@ inheritContextGroupFields() {
 
 inheritMatrixFields() {
   copyFieldValue(
-    "User/User_List/AreaCode",
-    "Matrix/Vars/AreaCode"
+    "Context/General/Context_AreaCode",
+    "Matrix/Vars/AreaCode",
+    false
   );
 
   copyFieldValue(
-    "Context/General/Context_ID",
-    "Matrix/Vars/Context_ID"
+    "Context/General/Context_Context_ID",
+    "Matrix/Vars/Context_ID",
+    false
   );
 }
 
 inheritHeightFields() {
   copyFieldValue(
-    "User/User_List/AreaCode",
-    "Height/Vars/AreaCode"
+    "Context/General/Context_AreaCode",
+    "Height/Vars/AreaCode",
+    false
   );
 
   copyFieldValue(
-    "Context/General/Context_ID",
-    "Height/Vars/Context_ID"
+    "Context/General/Context_Context_ID",
+    "Height/Vars/Context_ID",
+    false
   );
 }
 
 inheritSampleFields() {
   copyFieldValue(
-    "User/User_List/AreaCode",
-    "Sample/Vars/AreaCode"
+    "Context/General/Context_AreaCode",
+    "Sample/Vars/AreaCode",
+    false
   );
 
   copyFieldValue(
-    "Context/General/Context_ID",
-    "Sample/Deposit_Samples/Context_ID"
+    "Context/General/Context_Context_ID",
+    "Sample/Deposit_Samples/Context_ID",
+    false
   );
 
   copyFieldValue(
@@ -96,13 +151,15 @@ inheritSampleFields() {
 
 inheritSpecialFindFields() {
   copyFieldValue(
-    "Context/General/Context_ID",
-    "Special_Find/Special_Find/Context_ID"
+    "Context/General/Context_Context_ID",
+    "Special_Find/Special_Find/Context_ID",
+    false
   );
 
   copyFieldValue(
-    "User/User_List/AreaCode",
-    "Special_Find/Vars/AreaCode"
+    "Context/General/Context_AreaCode",
+    "Special_Find/Vars/AreaCode",
+    false
   );
 
   copyFieldValue(
@@ -120,20 +177,23 @@ inheritPhotographLogFields() {
   //BEWARE! Weird formatting!
   if (parentTabgroup__.equals("Context"))
   copyFieldValue(
-    "Context/General/Context_ID",
-    "Photograph_Log/Photograph_Log/Photo_Context_ID"
+    "Context/General/Context_Context_ID",
+    "Photograph_Log/Photograph_Log/Photo_Context_ID",
+    false
   );
 
   //BEWARE! Weird formatting!
   if (parentTabgroup__.equals("Context_Group"))
   copyFieldValue(
     "Context_Group/Gen/Context_Group_ID",
-    "Photograph_Log/Photograph_Log/Photo_Context_Group_ID"
+    "Photograph_Log/Photograph_Log/Photo_Context_Group_ID",
+    false
   );
 
   copyFieldValue(
-    "User/User_List/AreaCode",
-    "Photograph_Log/Vars/AreaCode"
+    "Context/General/Context_AreaCode",
+    "Photograph_Log/Vars/AreaCode",
+    false
   );
 
   copyFieldValue(
@@ -154,11 +214,13 @@ inheritDiaryFields() {
 
 inheritFCNFields() {
   copyFieldValue(
-    "Context/General/Context_ID",
-    "FCN/General/Context_ID"
+    "Context/General/Context_Context_ID",
+    "FCN/General/Context_ID",
+    false
   );
   copyFieldValue(
-    "User/User_List/AreaCode",
-    "FCN/General/AreaCode"
+    "Context/General/Context_AreaCode",
+    "FCN/General/AreaCode",
+    false
   );
 }

@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <ValidationSchema>
   <ArchaeologicalElement name="Context">
-    <property name="AreaCode">
+    <property name="Context AreaCode">
       <validator type="blankchecker">
         <param value="measure" type="field"/>
       </validator>
     </property>
-    <property name="Context ID">
+    <property name="Context Context ID">
       <validator type="blankchecker">
         <param value="measure" type="field"/>
       </validator>
@@ -203,7 +203,7 @@
     </property>
   </ArchaeologicalElement>
   <ArchaeologicalElement name="Context_Group">
-    <property name="AreaCode">
+    <property name="Context Group AreaCode">
       <validator type="blankchecker">
         <param value="measure" type="field"/>
       </validator>
@@ -256,6 +256,11 @@
   <ArchaeologicalElement name="Diary"/>
   <ArchaeologicalElement name="FCN">
     <property name="FCN ID">
+      <validator type="blankchecker">
+        <param value="measure" type="field"/>
+      </validator>
+    </property>
+    <property name="Site Name">
       <validator type="blankchecker">
         <param value="measure" type="field"/>
       </validator>

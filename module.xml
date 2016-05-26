@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--TODO: Petra's changes-->
-<!--TODO: Searching-->
-<!--TODO: Guide-->
 <!--TODO: Relationships-->
+<!--TODO: Hide Vars tabs-->
 <!--@PREPROC:  ./proc/pre.sh-->
 <!--@POSTPROC: ./proc/post.sh-->
 <module suppressWarnings="true">
@@ -58,7 +56,6 @@
 <User f="nodata nolabel">
   <User_List>
     <Users t="dropdown" f="user"/>
-    <AreaCode t="dropdown"/>
     <Device_Code t="dropdown"/>
     <Login t="button" l="Control"/>
     <Module_Guide t="button" l="User/Help"/>
@@ -74,13 +71,18 @@
     <Create_New_Stratum t="button" l="Context_Group"/>
     <Create_New_Diary   t="button" l="Diary"/>
     <Team_Members/>
-    <Trench_Dimensions>
-      <!--TODO: Make some records inherit me-->
-    </Trench_Dimensions>
+    <Trench_Dimensions b="decimal"/>
     <autonum/>
     <GPS_Diagnostics t="gpsdiag"/>
   </Contexts>
-  <search/>
+  <search>
+    <!--The semantics of this element has been changed with @POSTPROC. A
+         Select_User dropdown has been placed beside the Entity_List.
+
+        This entails changes to ui_schema.xml, ui_logic.bsh and
+        english.0.properties.
+         -->
+  </search>
 </Control>
 
 <Context>
@@ -88,27 +90,29 @@
   <desc>The physical result of any single action whether it leaves a positive or negative record within the stratigraphic sequence. (MoLAS 1994)</desc>
   <General>
     <cols>
-      <AreaCode f="id notnull">
+      <Context_AreaCode f="id notnull autonum">
         Trench ID
-        <!--@SOURCE: vocabs/area-code.xml-->
-      </AreaCode>
-      <Context_ID f="id notnull autonum readonly">
+        <str>
+          <pos>3</pos>
+          <fmt>-TRC-$2</fmt>
+        </str>
+      </Context_AreaCode>
+      <Context_Context_ID f="id notnull autonum readonly">
         Locus ID
         <desc>Every archaeological context (negative element (cut), deposit, structure, skeleton, artefact cluster) is given a unique 3 or 4 letter context code. Each trench is designated with a separate letter which starts the code, so it is immediately obvious to which trench a context belongs. For example context HAA belongs to Trench H, context MQP to Trench M etc.
         The contexts are labelled consecutively in alphabetical order using the letters following the trench letter. For Trench H the first context would be HAA, the second HAB, the third HAB and so on. In addition sets of letters can denote parts of trenches, buildings etc. E.g. HFs might denote contexts from a specific building.
         Burial context codes begin with the letter Z, followed by the trench letter. Hence burial ZHA is the first burial context from trench H.
         Check with the trench supervisor who will assign the context code from the central register.</desc>
         <str>
-          <fmt><![CDATA[Cxtx-$2-]]></fmt>
+          <pos>1</pos>
+          <fmt>L-$2</fmt>
         </str>
-      </Context_ID>
+      </Context_Context_ID>
     </cols>
-    <Context_Name f="id">
+    <Trench_Dimensions b="decimal"/>
+    <Context_Name>
       Brief Description
       <desc>Enter a brief, clear name for the Context eg 'House A - west wall'</desc>
-      <str>
-        <fmt><![CDATA[$2]]></fmt>
-      </str>
     </Context_Name>
     <cols>
       <Grid_X b="decimal">
@@ -120,13 +124,16 @@
     </cols>
     <cols>
       <col>
-        <Date_Opened>
+        <Date_Opened f="id">
           <desc>Date on which the Context was first excavated. This will automatically be set to the date on which the context is recorded but can be edited using the keyboard.</desc>
+          <str>
+            <pos>4</pos>
+            <fmt>-$2-</fmt>
+          </str>
         </Date_Opened>
-        <Excavators>
+        <Team_Members>
           <desc>Initials of the excavators that have worked on the context.</desc>
-          <!-- Instead of UBAF-27, we're sticking in a textarea-->
-        </Excavators>
+        </Team_Members>
       </col>
       <Excavation_Method t="checkbox" f="notnull">
         <desc>Enter details here about the method of archaeological excavation.</desc>
@@ -173,10 +180,14 @@
         </opts>
       </Contamination>
     </cols>
-    <Context_Type>
+    <Context_Type f="id">
       Locus Type
       <desc>Describe the context type by selecting an icon as defined below.
   When you have selected a context type you can proceed to open the "Fill in context type details" page. Note this page will not open unless you have selected a context type.</desc>
+      <str>
+        <pos>2</pos>
+        <fmt>-$1</fmt>
+      </str>
       <opts>
         <opt p="gallery/Blanks/Trail.png">No Observation
         <desc>data not collected</desc></opt>
@@ -628,102 +639,110 @@
     </Associated_Matrices>
   </Deposit>
   <Skeleton>
-    <cols>
-      <Space>
-        <desc>Enter the space number, which may define an internal or external area in which the skeleton is located.</desc>
-      </Space>
-      <Building>
-        <desc>A building can comprise one or more internal spaces so enter the building number in which the skeleton is located.</desc>
-      </Building>
-    </cols>
-    <cols>
-      <Mid_X b="decimal">
-        <desc>An appropriate mid-point on the skeleton under excavation should be recorded on the X / Y co-ordinates. This will locate the skeleton on the site grid system.</desc>
-      </Mid_X>
-      <Mid_Y b="decimal">
-        <desc>An appropriate mid-point on the skeleton under excavation should be recorded on the X / Y co-ordinates. This will locate the skeleton on the site grid system.</desc>
-      </Mid_Y>
-    </cols>
+    <Location/>
     <Skeleton_Dimensions>
+      Dimensions
       <desc>Record the approximate extent of the skeletal remains (in meters or millimetres only) and the axis of measurement. Detailed dimensions can be taken from the plan.</desc>
     </Skeleton_Dimensions>
     <cols>
       <Skeleton_Head f="notnull">
+        Head
         <desc>Which way up the head faces and/or points</desc>
       </Skeleton_Head>
       <Skeleton_Body f="notnull">
+        Body
         <desc>Describe the attitude of the body, whether it is extended, crouched, flexed, supine (front up), prone (face down) and the orientation.</desc>
       </Skeleton_Body>
     </cols>
     <cols>
       <Skeleton_Left_Arm f="notnull">
+        Left Arm and Hand Location
         <desc>Record whether left arm is straight or flexed, is along the side of the body, over the chest or on the pelvis, and the position of the hand.</desc>
       </Skeleton_Left_Arm>
       <Skeleton_Right_Arm f="notnull">
+        Right Arm and Hand Location
         <desc>Record whether right arm is straight or flexed, is along the side of the body, over the chest or on the pelvis, and the position of the hand.</desc>
       </Skeleton_Right_Arm>
     </cols>
     <cols>
       <Skeleton_Left_Leg f="notnull">
+        Left Leg and Foot Location
         <desc>Record whether the leg is straight or bent, crossed left over right or right over left and the position of the foot</desc>
       </Skeleton_Left_Leg>
       <Skeleton_Right_Leg f="notnull">
+        Right Leg and Foot Location
         <desc>Record whether the leg is straight or bent, crossed left over right or right over left and the position of the foot</desc>
       </Skeleton_Right_Leg>
     </cols>
     <Skeleton_Condition f="notnull">
+      Condition
       <desc>Describe the general condition of the skeleton and any comments on articulation. Any degeneration of bone in situ is important to record as well as accidental damage during excavation and lifting. Record disturbances through later activity or animal/root activity as well as damage due to stone pressure on the bones. It is important to note whether the patellae, hyoid, phalanges, basi-occipital etc are present or not, and their location, as this may give an indication of the state of the body at the time of interment.</desc>
     </Skeleton_Condition>
     <Skeleton_Surface_Modifications>
+      Surface Modifications
       <desc>Note any cut marks, evidence of stains and/or colour during the course of the excavation, burning, chewing marks, root activity etc.</desc>
     </Skeleton_Surface_Modifications>
     <Skeleton_Environment>
+      Condition and Weather
       <desc>The physical environment at the time of excavation may affect the state of the bone therefore it is important to note the weather and conditions you are working in.</desc>
     </Skeleton_Environment>
     <Skeleton_Days_Exposed b="decimal">
+      Number of Days Exposed
       <desc>It is important to excavate skeletal remains as quickly as possible as the state of the bone will change during exposure. Any conditional change should also be noted. Excavate as quickly as possible because the bones will degrade rapidly.</desc>
     </Skeleton_Days_Exposed>
     <cols>
       <Target_A_X f="notnull" b="decimal">
+        Target A:X
         <desc>The X coordinate of Target A. Targets are white-painted, large-headed nails used to rectify photographs.</desc>
       </Target_A_X>
       <Target_A_Y f="notnull" b="decimal">
+        Target A:Y
         <desc>The Y coordinate of Target A. Targets are white-painted, large-headed nails used to rectify photographs.</desc>
       </Target_A_Y>
       <Target_A_Z f="notnull" b="decimal">
+        Target A:Z
         <desc>The Z coordinate of Target A. Targets are white-painted, large-headed nails used to rectify photographs.</desc>
       </Target_A_Z>
     </cols>
     <cols>
       <Target_B_X b="decimal">
+        Target B:X
         <desc>The X coordinate of Target B. Targets are white-painted, large-headed nails used to rectify photographs.</desc>
       </Target_B_X>
       <Target_B_Y b="decimal">
+        Target B:Y
         <desc>The Y coordinate of Target B. Targets are white-painted, large-headed nails used to rectify photographs.</desc>
       </Target_B_Y>
       <Target_B_Z b="decimal">
+        Target B:Z
         <desc>The Z coordinate of Target B. Targets are white-painted, large-headed nails used to rectify photographs.</desc>
       </Target_B_Z>
     </cols>
     <cols>
       <Target_C_X b="decimal">
+        Target C:X
         <desc>The X coordinate of Target C. Targets are white-painted, large-headed nails used to rectify photographs.</desc>
       </Target_C_X>
       <Target_C_Y b="decimal">
+        Target C:Y
         <desc>The Y coordinate of Target C. Targets are white-painted, large-headed nails used to rectify photographs.</desc>
       </Target_C_Y>
       <Target_C_Z b="decimal">
+        Target C:Z
         <desc>The Z coordinate of Target C. Targets are white-painted, large-headed nails used to rectify photographs.</desc>
       </Target_C_Z>
     </cols>
     <cols>
       <Target_D_X b="decimal">
+        Target D:X
         <desc>The X coordinate of Target D. Targets are white-painted, large-headed nails used to rectify photographs.</desc>
       </Target_D_X>
       <Target_D_Y b="decimal">
+        Target D:Y
         <desc>The Y coordinate of Target D. Targets are white-painted, large-headed nails used to rectify photographs.</desc>
       </Target_D_Y>
       <Target_D_Z b="decimal">
+        Target D:Z
         <desc>The Z coordinate of Target D. Targets are white-painted, large-headed nails used to rectify photographs.</desc>
       </Target_D_Z>
     </cols>
@@ -743,17 +762,18 @@
     <List_of_Related_Strata t="list" ec="Context_Group"/>
   </Stratum>
   <Relationships>
+    <!--TODO-->
     <Create_Relationships_to_This_Context t="button" l="Relationship">
-      Create Relationships to This Stratum
+      Create Relationships to This Locus
     </Create_Relationships_to_This_Context>
     <cols>
       <Existing_Relationships_to_This_Context t="list" f="nodata">
-        Existing Relationships to This Stratum
+        Existing Relationships to This Locus
       </Existing_Relationships_to_This_Context>
       <col>
         <Selected_Relationship t="webview"/>
         <Load_Related_Context  t="button">
-          Load Related Stratum
+          Load Related Locus
         </Load_Related_Context>
         <Delete_Relationship   t="button"/>
       </col>
@@ -880,14 +900,14 @@
   <Gen>
     General
     <cols>
-      <AreaCode f="id notnull">
+      <Context_Group_AreaCode f="notnull">
         Trench ID
-        <!--@SOURCE: vocabs/area-code.xml-->
-      </AreaCode>
+      </Context_Group_AreaCode>
       <Context_Group_ID f="id notnull autonum">
         Stratum ID
         <desc>Feature number taken from the central register.</desc>
         <str>
+          <pos>1</pos>
           <fmt><![CDATA[Feat-$2-]]></fmt>
         </str>
       </Context_Group_ID>
@@ -941,15 +961,24 @@
       <desc>Reference numbers to section drawings of this feature</desc>
     </CG_Section_Numbers>
     <cols>
-      <author f="readonly">
+      <author f="id readonly">
         Record Created By:
+        <str>
+          <pos>2</pos>
+          <fmt>-$2</fmt>
+        </str>
       </author>
       <timestamp f="readonly">
         Date recorded:
+        <str>
+          <pos>3</pos>
+          <fmt>-$2</fmt>
+        </str>
       </timestamp>
     </cols>
   </Gen>
   <Context_Group_Contexts f="noscroll">
+    <!--TODO-->
     Relationships
     <Create_Relationships_to_This_Context_Group t="button" l="Context_Group_Relationship">
       Create Relationships to this Stratum
@@ -960,7 +989,9 @@
       </Existing_Relationships_to_This_Context_Group>
       <col>
         <Selected_Relationship t="webview"/>
-        <Load_Related_Context t="button"/>
+        <Load_Related_Context t="button">
+          Load Related Locus
+        </Load_Related_Context>
         <Delete_Relationship   t="button"/>
       </col>
     </cols>
@@ -995,7 +1026,8 @@
         Component Type
         <desc>Describe the components which make up 10% or more of the deposit.</desc>
         <str>
-          <fmt><![CDATA[$1]]></fmt>
+          <pos>1</pos>
+          <fmt>$2-</fmt>
         </str>
         <opts>
           <opt>No Observation
@@ -1021,6 +1053,10 @@
         </opts>
       </Component>
       <Percentage f="id" b="decimal">
+        <str>
+          <pos>2</pos>
+          <fmt>$1</fmt>
+        </str>
         <desc>Enter the approximate % volume of this material in the Context.</desc>
         <str>
           <fmt><![CDATA[$2% ]]></fmt>
@@ -1060,9 +1096,7 @@
   </Matrix>
   <Vars f="hidden">
     <Context_ID/>
-    <AreaCode>
-      <!--@SOURCE: vocabs/area-code.xml-->
-    </AreaCode>
+    <AreaCode/>
   </Vars>
 </Matrix>
 
@@ -1098,9 +1132,7 @@
   </Height>
   <Vars f="hidden">
     <Context_ID/>
-    <AreaCode>
-      <!--@SOURCE: vocabs/area-code.xml-->
-    </AreaCode>
+    <AreaCode/>
   </Vars>
 </Height>
 
@@ -1112,22 +1144,23 @@
         Locus ID
         <desc>Unique number or code for each Context</desc>
         <str>
-          <fmt><![CDATA[{{if $2 then "Cxtx-$2-" else ""}}]]></fmt>
-          <app><![CDATA[-]]></app>
+          <pos>1</pos>
+          <fmt>LOC-$2-</fmt>
         </str>
       </Photo_Context_ID>
       <Photo_Context_Group_ID f="id readonly">
         Stratum ID
         <desc>Unique number or code for each Context Group</desc>
         <str>
-          <fmt><![CDATA[{{if $2 then "Feature-$2-" else ""}}]]></fmt>
-          <app><![CDATA[-]]></app>
+          <pos>2</pos>
+          <fmt>STRAT-$2-</fmt>
         </str>
       </Photo_Context_Group_ID>
       <Photograph_Reference_ID f="id">
         <desc>Unique number or code allocated by creator of the image. It could be a filename or a reference number</desc>
         <str>
-          <fmt><![CDATA[Photo-$2]]></fmt>
+          <pos>3</pos>
+          <fmt>PHOTO-$2</fmt>
         </str>
       </Photograph_Reference_ID>
     </cols>
@@ -1152,9 +1185,7 @@
     </Photograph_Description>
   </Photograph_Log>
   <Vars f="hidden">
-    <AreaCode f="id">
-      <!--@SOURCE: vocabs/area-code.xml-->
-    </AreaCode>
+    <AreaCode/>
     <Device_Code>
       <!--@SOURCE: vocabs/device-code.xml-->
     </Device_Code>
@@ -1169,22 +1200,24 @@
     <Title f="id">
       <desc>Give your entry a simple, short title, such as Daily Trench Update, Burial 34, Storm Damage. Note that diary entries allow you to add information in addition to the context, feature and artefact records elsewhere in the module and should not be the primary description point for those entities</desc>
       <str>
-        <fmt><![CDATA[$2]]></fmt>
+        <pos>1</pos>
+        <fmt>Diary-$1</fmt>
       </str>
     </Title>
     <cols>
       <timestamp f="id readonly">
         <desc>The date this entry is created will automatically appear here</desc>
         <str>
-          <fmt><![CDATA[ $2 by: ]]></fmt>
+          <pos>2</pos>
+          <fmt>-$2</fmt>
         </str>
       </timestamp>
       <author f="id readonly">
         <desc>Your name will be added here based on your login</desc>
         <str>
-          <fmt><![CDATA[$2 - Diary:]]></fmt>
+          <pos>3</pos>
+          <fmt>-$2</fmt>
         </str>
-        <app><![CDATA[-]]></app>
       </author>
     </cols>
     <Text>
@@ -1196,13 +1229,20 @@
   </Diary>
 </Diary>
 
+<!--Context-to-Context-->
 <Relationship f="nodata">
   <Relationships f="noscroll">
     <Parent_Identifier t="webview"/>
     <cols>
-      <Square            t="dropdown"/>
-      <Relationship_Type t="dropdown"/>
+      <!--TODO: Link these up together with Search button-->
+      <AreaCode>
+        Trench ID
+      </AreaCode>
+      <Context_ID>
+        Locus ID
+      </Context_ID>
     </cols>
+    <Relationship_Type t="dropdown"/>
     <Search            t="button"/>
     <cols>
       <col>
@@ -1221,10 +1261,19 @@
   </Relationships>
 </Relationship>
 
+<!--Context Group to Context-->
 <Context_Group_Relationship f="nodata">
   <Relationships f="noscroll">
     <Parent_Identifier t="webview"/>
-    <Square            t="dropdown"/>
+    <cols>
+      <!--TODO: Link these up together with Search button-->
+      <AreaCode>
+        Trench ID
+      </AreaCode>
+      <Context_ID>
+        Locus ID
+      </Context_ID>
+    </cols>
     <Search            t="button"/>
     <cols>
       <col>
@@ -1245,21 +1294,27 @@
 
 <FCN>
   <General>
-    <FCN_ID f="id notnull autonum"/>
-    <Site_Name/>
-    <AreaCode f="id notnull">
+    <FCN_ID f="id notnull autonum">
+      <str>
+        <pos>2</pos>
+        <fmt>-$2</fmt>
+      </str>
+    </FCN_ID>
+    <Site_Name f="id notnull">
+      <str>
+        <pos>1</pos>
+        <fmt>FCN-$2</fmt>
+      </str>
+    </Site_Name>
+    <AreaCode f="notnull">
       Trench ID
-      <!--@SOURCE: vocabs/area-code.xml-->
     </AreaCode>
-    <Context_ID f="id notnull">
+    <Context_ID f="notnull">
       Locus ID
       <desc>Every archaeological context (negative element (cut), deposit, structure, skeleton, artefact cluster) is given a unique 3 or 4 letter context code. Each trench is designated with a separate letter which starts the code, so it is immediately obvious to which trench a context belongs. For example context HAA belongs to Trench H, context MQP to Trench M etc.
       The contexts are labelled consecutively in alphabetical order using the letters following the trench letter. For Trench H the first context would be HAA, the second HAB, the third HAB and so on. In addition sets of letters can denote parts of trenches, buildings etc. E.g. HFs might denote contexts from a specific building.
       Burial context codes begin with the letter Z, followed by the trench letter. Hence burial ZHA is the first burial context from trench H.
       Check with the trench supervisor who will assign the context code from the central register.</desc>
-      <str>
-        <fmt><![CDATA[Cxtx-$2-]]></fmt>
-      </str>
     </Context_ID>
     <Collection_Area/>
     <gps/>
@@ -1328,5 +1383,6 @@
   <!--@SOURCE: logic/dynamic-ui-context.bsh-->
   <!--@SOURCE: logic/context-dates.bsh-->
   <!--@SOURCE: logic/soil-texture-helper.bsh-->
+  <!--@SOURCE: logic/search-extension.bsh-->
 ]]></logic>
 </module>
