@@ -13,6 +13,7 @@ populateSelectUser(){
   fetchAll(getNonDeletedUsersQuery, new FetchCallback() {
     onFetch(result) {
       populateDropDown(refSearchUsers, result, false);
+      search();
     }
   });
 }
@@ -24,11 +25,12 @@ search(){
   String refEntityList  = tabgroup + "/Search/Entity_List";
   String refSearchTerm  = tabgroup + "/Search/Search_Term";
   String refEntityTypes = tabgroup + "/Search/Entity_Types";
-  String refSelectUser = tabgroup + "/Search/Select_User";
+  String refSelectUser  = tabgroup + "/Search/Select_User";
 
   String type = getFieldValue(refEntityTypes);
   String term = getFieldValue(refSearchTerm);
   String id   = getFieldValue(refSelectUser);
+  if (isNull(id)) return;
   String searchQuery = "SELECT uuid, response "+
                        "  FROM latestNonDeletedArchEntFormattedIdentifiers  "+
                        " WHERE uuid in (SELECT uuid "+

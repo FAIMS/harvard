@@ -81,15 +81,9 @@ initRelationshipRelationshipGlobals() {
   selectedRelIdentifier   = null;
 
   populateParentIdentiferRelationships();
-  populateRelationshipSquare();
   populateRelationshipType();
   populateProposedRelationship();
   clearSearch();
-}
-
-populateRelationshipSquare() {
-  String ref = "Relationship/Relationships/Square";
-  populateSquare(ref);
 }
 
 populateRelationshipType() {
@@ -147,32 +141,54 @@ searchRelationship() {
   String tabGroup     = "Relationship";
   String refUnrelated = "Relationship/Relationships/Unrelated_Contexts";
   String refRelated   = "Relationship/Relationships/Existing_Relationships";
-  String refSquare    = "Relationship/Relationships/Square";
   String refRelType   = "Relationship/Relationships/Relationship_Type";
+  String refAreaCode  = "Relationship/Relationships/AreaCode";
+  String refContextId = "Relationship/Relationships/Context_ID";
 
-  String square     = getFieldValue(refSquare);
+  String areaCode   = getFieldValue(refAreaCode);
+  String contextId  = getFieldValue(refContextId);
   String parentRole = getSelectedRelationshipComponent(refRelType, "parent");
   String unrelatedQ = "";
   String relatedQ   = "";
 
-  unrelatedQ += " SELECT 'unrelated' || char(0) || uuid || char(0) || response, response  ";
-  unrelatedQ += "   FROM latestNonDeletedArchEntFormattedIdentifiers   ";
-  unrelatedQ += "  WHERE uuid IN (SELECT uuid ";
-  unrelatedQ += "         FROM latestnondeletedaentvalue  ";
-  unrelatedQ += "         JOIN attributekey USING (attributeid) ";
-  unrelatedQ += "         WHERE uuid IN (   SELECT uuid  ";
-  unrelatedQ += "                             FROM latestnondeletedaentvalue JOIN attributekey USING (attributeid) ";
-  unrelatedQ += "                            WHERE attributename = 'Square' ";
-  unrelatedQ += "                              AND measure = '"+square+"' ";
-  unrelatedQ += "                              and uuid not in (select childuuid ";
-  unrelatedQ += "                                                 from parentchild ";
-  unrelatedQ += "                                                where parentuuid = '"+parentUuid+"' ";
-  unrelatedQ += "                                                  and parentparticipatesverb = '"+parentRole+"')";
-  unrelatedQ += "                              AND uuid != '"+parentUuid+"'";
-  unrelatedQ += "                       )   ";
-  unrelatedQ += "                ) ";
-  unrelatedQ += "  ORDER BY response ";
-  unrelatedQ += "  LIMIT ? OFFSET ?";
+  if (isNull(areaCode)) {
+    msgHead  = "Trench ID required";
+    msgBody  = "Searching requires that the Trench ID field is filled in.";
+    showWarning(msgHead, msgBody);
+    return;
+  }
+  if (isNull(contextId)) {
+    msgHead  = "Locus ID required";
+    msgBody  = "Searching requires that the Locus ID field is filled in.";
+    showWarning(msgHead, msgBody);
+    return;
+  }
+
+  unrelatedQ += " SELECT 'unrelated' || char(0) || uuid || char(0) || response, response";
+  unrelatedQ += "   FROM latestNonDeletedArchEntFormattedIdentifiers";
+  unrelatedQ += "  WHERE uuid IN (";
+  unrelatedQ += "         SELECT uuid";
+  unrelatedQ += "           FROM latestnondeletedaentvalue JOIN attributekey USING (attributeid)";
+  unrelatedQ += "          WHERE attributename = 'Context AreaCode'";
+  unrelatedQ += "            AND measure = '{Context_AreaCode}'";
+  unrelatedQ += "            AND uuid IN (";
+  unrelatedQ += "                 SELECT uuid";
+  unrelatedQ += "                   FROM latestnondeletedaentvalue JOIN attributekey USING (attributeid) ";
+  unrelatedQ += "                  WHERE attributename = 'Context Context ID'";
+  unrelatedQ += "                    AND measure = '{Context_Context_ID}')";
+  unrelatedQ += "            AND uuid NOT IN (";
+  unrelatedQ += "                 SELECT childuuid";
+  unrelatedQ += "                   FROM parentchild";
+  unrelatedQ += "                  WHERE parentuuid = '{parentUuid}'";
+  unrelatedQ += "                    AND parentparticipatesverb = '{parentRole}')";
+  unrelatedQ += "            AND uuid != '{parentUuid}')";
+  unrelatedQ += " ORDER BY response";
+  unrelatedQ += " LIMIT ? OFFSET ?";
+  unrelatedQ  = replaceFirst(unrelatedQ, "{Context_AreaCode}",   areaCode  );
+  unrelatedQ  = replaceFirst(unrelatedQ, "{Context_Context_ID}", contextId );
+  unrelatedQ  = replaceFirst(unrelatedQ, "{parentUuid}",         parentUuid);
+  unrelatedQ  = replaceFirst(unrelatedQ, "{parentUuid}",         parentUuid);
+  unrelatedQ  = replaceFirst(unrelatedQ, "{parentRole}",         parentRole);
 
   relatedQ += getRelatedChildQuery(parentUuid);
 
@@ -223,7 +239,7 @@ addRelationship() {
     return;
   }
   if (isNull(childUuid)) {
-    showToast("No Context selected");
+    showToast("No {Context} selected");
     return;
   }
 

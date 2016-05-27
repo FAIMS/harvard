@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--TODO: Relationships-->
-<!--TODO: Hide Vars tabs-->
 <!--@PREPROC:  ./proc/pre.sh-->
 <!--@POSTPROC: ./proc/post.sh-->
 <module suppressWarnings="true">
@@ -757,11 +755,7 @@
       <desc>Enter an interpretation of the function of the Context and its place in the stratigraphical sequence.</desc>
     </Your_Discussion>
   </Int>
-  <Stratum f="noscroll">
-    <Add_New_Stratum t="button" lc="Context_Group"/>
-    <List_of_Related_Strata t="list" ec="Context_Group"/>
-  </Stratum>
-  <Relationships>
+  <Relationships f="noscroll">
     <!--TODO-->
     <Create_Relationships_to_This_Context t="button" l="Relationship">
       Create Relationships to This Locus
@@ -978,7 +972,6 @@
     </cols>
   </Gen>
   <Context_Group_Contexts f="noscroll">
-    <!--TODO-->
     Relationships
     <Create_Relationships_to_This_Context_Group t="button" l="Context_Group_Relationship">
       Create Relationships to this Stratum
@@ -1234,11 +1227,10 @@
   <Relationships f="noscroll">
     <Parent_Identifier t="webview"/>
     <cols>
-      <!--TODO: Link these up together with Search button-->
-      <AreaCode>
+      <AreaCode f="notnull">
         Trench ID
       </AreaCode>
-      <Context_ID>
+      <Context_ID f="notnull">
         Locus ID
       </Context_ID>
     </cols>
@@ -1255,7 +1247,9 @@
       </col>
     </cols>
     <cols>
-      <Unrelated_Contexts     t="list"/>
+      <Unrelated_Contexts     t="list">
+        Unrelated Loci
+      </Unrelated_Contexts>
       <Existing_Relationships t="list"/>
     </cols>
   </Relationships>
@@ -1266,11 +1260,10 @@
   <Relationships f="noscroll">
     <Parent_Identifier t="webview"/>
     <cols>
-      <!--TODO: Link these up together with Search button-->
-      <AreaCode>
+      <AreaCode f="notnull">
         Trench ID
       </AreaCode>
-      <Context_ID>
+      <Context_ID f="notnull">
         Locus ID
       </Context_ID>
     </cols>
@@ -1286,7 +1279,9 @@
       </col>
     </cols>
     <cols>
-      <Unrelated_Contexts     t="list"/>
+      <Unrelated_Contexts     t="list">
+        Unrelated Loci
+      </Unrelated_Contexts>
       <Existing_Relationships t="list"/>
     </cols>
   </Relationships>

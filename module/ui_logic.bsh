@@ -170,9 +170,7 @@ addOnEvent("Context_Group/Vars/Device_Code", "click", "dropdownItemValue = getFi
 addOnEvent("Matrix/Matrix/Component", "click", "dropdownItemValue = getFieldValue(\"Matrix/Matrix/Component\")");
 addOnEvent("Photograph_Log/Photograph_Log/Scene_Type", "click", "dropdownItemValue = getFieldValue(\"Photograph_Log/Photograph_Log/Scene_Type\")");
 addOnEvent("Photograph_Log/Vars/Device_Code", "click", "dropdownItemValue = getFieldValue(\"Photograph_Log/Vars/Device_Code\")");
-addOnEvent("Relationship/Relationships/Square", "click", "dropdownItemValue = getFieldValue(\"Relationship/Relationships/Square\")");
 addOnEvent("Relationship/Relationships/Relationship_Type", "click", "dropdownItemValue = getFieldValue(\"Relationship/Relationships/Relationship_Type\")");
-addOnEvent("Context_Group_Relationship/Relationships/Square", "click", "dropdownItemValue = getFieldValue(\"Context_Group_Relationship/Relationships/Square\")");
 addOnEvent("FCN/General/Collection_Method", "click", "dropdownItemValue = getFieldValue(\"FCN/General/Collection_Method\")");
 addOnEvent("FCN/General/FCN_Class", "click", "dropdownItemValue = getFieldValue(\"FCN/General/FCN_Class\")");
 
@@ -671,6 +669,26 @@ validateHeight() {
   showWarning("Validation Results", validationMessage);
 }
 
+validateRelationship() {
+  List f = new ArrayList(); // Fields to be validated
+
+  f.add(fieldPair("Relationship/Relationships/AreaCode", "{Trench_ID}"));
+  f.add(fieldPair("Relationship/Relationships/Context_ID", "{Locus_ID}"));
+
+  String validationMessage = validateFields(f, "PLAINTEXT");
+  showWarning("Validation Results", validationMessage);
+}
+
+validateContextGroupRelationship() {
+  List f = new ArrayList(); // Fields to be validated
+
+  f.add(fieldPair("Context_Group_Relationship/Relationships/AreaCode", "{Trench_ID}"));
+  f.add(fieldPair("Context_Group_Relationship/Relationships/Context_ID", "{Locus_ID}"));
+
+  String validationMessage = validateFields(f, "PLAINTEXT");
+  showWarning("Validation Results", validationMessage);
+}
+
 validateFCN() {
   List f = new ArrayList(); // Fields to be validated
 
@@ -819,14 +837,17 @@ onClickUserModuleGuide () {
 }
 onClickControlCreateNewLocus () {
   // TODO: Add some things which should happen when this element is clicked
+  parentTabgroup__ = "Control";
   newContext();
 }
 onClickControlCreateNewStratum () {
   // TODO: Add some things which should happen when this element is clicked
+  parentTabgroup__ = "Control";
   newContextGroup();
 }
 onClickControlCreateNewDiary () {
   // TODO: Add some things which should happen when this element is clicked
+  parentTabgroup__ = "Control";
   newDiary();
 }
 onClickContextCreateRelationshipstoThisContext () {
@@ -856,7 +877,8 @@ onClickContextAddHeight () {
     showToast("{You_must_save_this_tabgroup_first}");
     return;
   }
-  parentTabgroup   = tabgroup;  parentTabgroup__ = tabgroup;
+  parentTabgroup   = tabgroup;
+  parentTabgroup__ = tabgroup;
   newHeight();
 }
 onClickContextAddNewMatrix () {
@@ -866,18 +888,9 @@ onClickContextAddNewMatrix () {
     showToast("{You_must_save_this_tabgroup_first}");
     return;
   }
-  parentTabgroup   = tabgroup;  parentTabgroup__ = tabgroup;
+  parentTabgroup   = tabgroup;
+  parentTabgroup__ = tabgroup;
   newMatrix();
-}
-onClickContextAddNewStratum () {
-  // TODO: Add some things which should happen when this element is clicked
-  String tabgroup = "Context";
-  if (isNull(getUuid(tabgroup))){
-    showToast("{You_must_save_this_tabgroup_first}");
-    return;
-  }
-  parentTabgroup   = tabgroup;  parentTabgroup__ = tabgroup;
-  newContextGroup();
 }
 onClickContextAddFCN () {
   // TODO: Add some things which should happen when this element is clicked
@@ -886,7 +899,8 @@ onClickContextAddFCN () {
     showToast("{You_must_save_this_tabgroup_first}");
     return;
   }
-  parentTabgroup   = tabgroup;  parentTabgroup__ = tabgroup;
+  parentTabgroup   = tabgroup;
+  parentTabgroup__ = tabgroup;
   newFCN();
 }
 onClickContextAddPhotographLog () {
@@ -896,7 +910,8 @@ onClickContextAddPhotographLog () {
     showToast("{You_must_save_this_tabgroup_first}");
     return;
   }
-  parentTabgroup   = tabgroup;  parentTabgroup__ = tabgroup;
+  parentTabgroup   = tabgroup;
+  parentTabgroup__ = tabgroup;
   newPhotographLog();
 }
 onClickContextGroupAddPhotographLog () {
@@ -906,7 +921,8 @@ onClickContextGroupAddPhotographLog () {
     showToast("{You_must_save_this_tabgroup_first}");
     return;
   }
-  parentTabgroup   = tabgroup;  parentTabgroup__ = tabgroup;
+  parentTabgroup   = tabgroup;
+  parentTabgroup__ = tabgroup;
   newPhotographLog();
 }
 
@@ -918,7 +934,6 @@ addOnEvent("Control/Contexts/Create_New_Diary", "click", "onClickControlCreateNe
 addOnEvent("Context/Measure/Add_Height", "click", "onClickContextAddHeight()");
 addOnEvent("Context/Deposit/Soil_Texture_Helper", "click", "onClickContextSoilTextureHelper()");
 addOnEvent("Context/Deposit/Add_New_Matrix", "click", "onClickContextAddNewMatrix()");
-addOnEvent("Context/Stratum/Add_New_Stratum", "click", "onClickContextAddNewStratum()");
 addOnEvent("Context/Relationships/Create_Relationships_to_This_Context", "click", "onClickContextCreateRelationshipstoThisContext()");
 addOnEvent("Context/FCN/Add_FCN", "click", "onClickContextAddFCN()");
 addOnEvent("Context/Add/Add_Photograph_Log", "click", "onClickContextAddPhotographLog()");
@@ -956,6 +971,8 @@ addNavigationButtons(String tabgroup) {
   tabgroupsToValidate.add("Context");
   tabgroupsToValidate.add("Context_Group");
   tabgroupsToValidate.add("Height");
+  tabgroupsToValidate.add("Relationship");
+  tabgroupsToValidate.add("Context_Group_Relationship");
   tabgroupsToValidate.add("FCN");
 
   addNavigationButton("new", new ActionButtonCallback() {
@@ -2041,13 +2058,6 @@ menus.add(new String[] {
   "Context - Matrix",
 });
 menus.add(new String[] {
-  "List",
-  "Context/Stratum/List_of_Related_Strata",
-  "getUuid(\"Context\")",
-  "Context Group",
-  "Context - Context Group",
-});
-menus.add(new String[] {
   "DropDown",
   "Context/Add/Select_a_Photograph_Log",
   "getUuid(\"Context\")",
@@ -2085,7 +2095,6 @@ for (m : menus) {
 }
 addOnEvent("Context/Measure/Height_List", "click", "loadEntity()");
 addOnEvent("Context/Deposit/Associated_Matrices", "click", "loadEntity(true)");
-addOnEvent("Context/Stratum/List_of_Related_Strata", "click", "loadEntity()");
 addOnEvent("Context/FCN/List_of_Related_FCNs", "click", "loadEntity()");
 addOnEvent("Context/Add/Select_a_Photograph_Log", "click", "loadEntity(true)");
 addOnEvent("Context_Group/Add/Select_a_Photograph_Log", "click", "loadEntity(true)");
@@ -2613,15 +2622,9 @@ initRelationshipRelationshipGlobals() {
   selectedRelIdentifier   = null;
 
   populateParentIdentiferRelationships();
-  populateRelationshipSquare();
   populateRelationshipType();
   populateProposedRelationship();
   clearSearch();
-}
-
-populateRelationshipSquare() {
-  String ref = "Relationship/Relationships/Square";
-  populateSquare(ref);
 }
 
 populateRelationshipType() {
@@ -2679,32 +2682,54 @@ searchRelationship() {
   String tabGroup     = "Relationship";
   String refUnrelated = "Relationship/Relationships/Unrelated_Contexts";
   String refRelated   = "Relationship/Relationships/Existing_Relationships";
-  String refSquare    = "Relationship/Relationships/Square";
   String refRelType   = "Relationship/Relationships/Relationship_Type";
+  String refAreaCode  = "Relationship/Relationships/AreaCode";
+  String refContextId = "Relationship/Relationships/Context_ID";
 
-  String square     = getFieldValue(refSquare);
+  String areaCode   = getFieldValue(refAreaCode);
+  String contextId  = getFieldValue(refContextId);
   String parentRole = getSelectedRelationshipComponent(refRelType, "parent");
   String unrelatedQ = "";
   String relatedQ   = "";
 
-  unrelatedQ += " SELECT 'unrelated' || char(0) || uuid || char(0) || response, response  ";
-  unrelatedQ += "   FROM latestNonDeletedArchEntFormattedIdentifiers   ";
-  unrelatedQ += "  WHERE uuid IN (SELECT uuid ";
-  unrelatedQ += "         FROM latestnondeletedaentvalue  ";
-  unrelatedQ += "         JOIN attributekey USING (attributeid) ";
-  unrelatedQ += "         WHERE uuid IN (   SELECT uuid  ";
-  unrelatedQ += "                             FROM latestnondeletedaentvalue JOIN attributekey USING (attributeid) ";
-  unrelatedQ += "                            WHERE attributename = 'Square' ";
-  unrelatedQ += "                              AND measure = '"+square+"' ";
-  unrelatedQ += "                              and uuid not in (select childuuid ";
-  unrelatedQ += "                                                 from parentchild ";
-  unrelatedQ += "                                                where parentuuid = '"+parentUuid+"' ";
-  unrelatedQ += "                                                  and parentparticipatesverb = '"+parentRole+"')";
-  unrelatedQ += "                              AND uuid != '"+parentUuid+"'";
-  unrelatedQ += "                       )   ";
-  unrelatedQ += "                ) ";
-  unrelatedQ += "  ORDER BY response ";
-  unrelatedQ += "  LIMIT ? OFFSET ?";
+  if (isNull(areaCode)) {
+    msgHead  = "Trench ID required";
+    msgBody  = "Searching requires that the Trench ID field is filled in.";
+    showWarning(msgHead, msgBody);
+    return;
+  }
+  if (isNull(contextId)) {
+    msgHead  = "Locus ID required";
+    msgBody  = "Searching requires that the Locus ID field is filled in.";
+    showWarning(msgHead, msgBody);
+    return;
+  }
+
+  unrelatedQ += " SELECT 'unrelated' || char(0) || uuid || char(0) || response, response";
+  unrelatedQ += "   FROM latestNonDeletedArchEntFormattedIdentifiers";
+  unrelatedQ += "  WHERE uuid IN (";
+  unrelatedQ += "         SELECT uuid";
+  unrelatedQ += "           FROM latestnondeletedaentvalue JOIN attributekey USING (attributeid)";
+  unrelatedQ += "          WHERE attributename = 'Context AreaCode'";
+  unrelatedQ += "            AND measure = '{Context_AreaCode}'";
+  unrelatedQ += "            AND uuid IN (";
+  unrelatedQ += "                 SELECT uuid";
+  unrelatedQ += "                   FROM latestnondeletedaentvalue JOIN attributekey USING (attributeid) ";
+  unrelatedQ += "                  WHERE attributename = 'Context Context ID'";
+  unrelatedQ += "                    AND measure = '{Context_Context_ID}')";
+  unrelatedQ += "            AND uuid NOT IN (";
+  unrelatedQ += "                 SELECT childuuid";
+  unrelatedQ += "                   FROM parentchild";
+  unrelatedQ += "                  WHERE parentuuid = '{parentUuid}'";
+  unrelatedQ += "                    AND parentparticipatesverb = '{parentRole}')";
+  unrelatedQ += "            AND uuid != '{parentUuid}')";
+  unrelatedQ += " ORDER BY response";
+  unrelatedQ += " LIMIT ? OFFSET ?";
+  unrelatedQ  = replaceFirst(unrelatedQ, "{Context_AreaCode}",   areaCode  );
+  unrelatedQ  = replaceFirst(unrelatedQ, "{Context_Context_ID}", contextId );
+  unrelatedQ  = replaceFirst(unrelatedQ, "{parentUuid}",         parentUuid);
+  unrelatedQ  = replaceFirst(unrelatedQ, "{parentUuid}",         parentUuid);
+  unrelatedQ  = replaceFirst(unrelatedQ, "{parentRole}",         parentRole);
 
   relatedQ += getRelatedChildQuery(parentUuid);
 
@@ -2755,7 +2780,7 @@ addRelationship() {
     return;
   }
   if (isNull(childUuid)) {
-    showToast("No Context selected");
+    showToast("No {Context} selected");
     return;
   }
 
@@ -2885,14 +2910,8 @@ CGinitRelationshipRelationshipGlobals() {
   selectedRelIdentifier   = null;
 
   CGpopulateParentIdentiferRelationships();
-  CGpopulateRelationshipSquare();
   CGpopulateProposedRelationship();
   CGclearSearch();
-}
-
-CGpopulateRelationshipSquare() {
-  String ref = "Context_Group_Relationship/Relationships/Square";
-  populateSquare(ref);
 }
 
 CGpopulateProposedRelationship() {
@@ -2925,31 +2944,53 @@ CGsearchRelationship() {
   String tabGroup     = "Context_Group_Relationship";
   String refUnrelated = "Context_Group_Relationship/Relationships/Unrelated_Contexts";
   String refRelated   = "Context_Group_Relationship/Relationships/Existing_Relationships";
-  String refSquare    = "Context_Group_Relationship/Relationships/Square";
+  String refAreaCode  = "Context_Group_Relationship/Relationships/AreaCode";
+  String refContextId = "Context_Group_Relationship/Relationships/Context_ID";
 
-  String square     = getFieldValue(refSquare);
+  String areaCode   = getFieldValue(refAreaCode);
+  String contextId  = getFieldValue(refContextId);
   String parentRole = "includes";
   String unrelatedQ = "";
   String relatedQ   = "";
 
-  unrelatedQ += " SELECT 'unrelated' || char(0) || uuid || char(0) || response, response  ";
-  unrelatedQ += "   FROM latestNonDeletedArchEntFormattedIdentifiers   ";
-  unrelatedQ += "  WHERE uuid IN (SELECT uuid ";
-  unrelatedQ += "         FROM latestnondeletedaentvalue  ";
-  unrelatedQ += "         JOIN attributekey USING (attributeid) ";
-  unrelatedQ += "         WHERE uuid IN (   SELECT uuid  ";
-  unrelatedQ += "                             FROM latestnondeletedaentvalue JOIN attributekey USING (attributeid) ";
-  unrelatedQ += "                            WHERE attributename = 'Square' ";
-  unrelatedQ += "                              AND measure = '"+square+"' ";
-  unrelatedQ += "                              and uuid not in (select childuuid ";
-  unrelatedQ += "                                                 from parentchild ";
-  unrelatedQ += "                                                where parentuuid = '"+parentUuid+"' ";
-  unrelatedQ += "                                                  and parentparticipatesverb = '"+parentRole+"')";
-  unrelatedQ += "                              AND uuid != '"+parentUuid+"'";
-  unrelatedQ += "                       )   ";
-  unrelatedQ += "                ) ";
-  unrelatedQ += "  ORDER BY response ";
-  unrelatedQ += "  LIMIT ? OFFSET ?";
+  if (isNull(areaCode)) {
+    msgHead  = "Trench ID required";
+    msgBody  = "Searching requires that the Trench ID field is filled in.";
+    showWarning(msgHead, msgBody);
+    return;
+  }
+  if (isNull(contextId)) {
+    msgHead  = "Locus ID required";
+    msgBody  = "Searching requires that the Locus ID field is filled in.";
+    showWarning(msgHead, msgBody);
+    return;
+  }
+
+  unrelatedQ += " SELECT 'unrelated' || char(0) || uuid || char(0) || response, response";
+  unrelatedQ += "   FROM latestNonDeletedArchEntFormattedIdentifiers";
+  unrelatedQ += "  WHERE uuid IN (";
+  unrelatedQ += "         SELECT uuid";
+  unrelatedQ += "           FROM latestnondeletedaentvalue JOIN attributekey USING (attributeid)";
+  unrelatedQ += "          WHERE attributename = 'Context AreaCode'";
+  unrelatedQ += "            AND measure = '{Context_AreaCode}'";
+  unrelatedQ += "            AND uuid IN (";
+  unrelatedQ += "                 SELECT uuid";
+  unrelatedQ += "                   FROM latestnondeletedaentvalue JOIN attributekey USING (attributeid) ";
+  unrelatedQ += "                  WHERE attributename = 'Context Context ID'";
+  unrelatedQ += "                    AND measure = '{Context_Context_ID}')";
+  unrelatedQ += "            AND uuid NOT IN (";
+  unrelatedQ += "                 SELECT childuuid";
+  unrelatedQ += "                   FROM parentchild";
+  unrelatedQ += "                  WHERE parentuuid = '{parentUuid}'";
+  unrelatedQ += "                    AND parentparticipatesverb = '{parentRole}')";
+  unrelatedQ += "            AND uuid != '{parentUuid}')";
+  unrelatedQ += " ORDER BY response";
+  unrelatedQ += " LIMIT ? OFFSET ?";
+  unrelatedQ  = replaceFirst(unrelatedQ, "{Context_AreaCode}",   areaCode  );
+  unrelatedQ  = replaceFirst(unrelatedQ, "{Context_Context_ID}", contextId );
+  unrelatedQ  = replaceFirst(unrelatedQ, "{parentUuid}",         parentUuid);
+  unrelatedQ  = replaceFirst(unrelatedQ, "{parentUuid}",         parentUuid);
+  unrelatedQ  = replaceFirst(unrelatedQ, "{parentRole}",         parentRole);
 
   relatedQ += getCGChildQuery(parentUuid);
 
@@ -3242,21 +3283,24 @@ populateSelectUser(){
   fetchAll(getNonDeletedUsersQuery, new FetchCallback() {
     onFetch(result) {
       populateDropDown(refSearchUsers, result, false);
+      search();
     }
   });
 }
 
 
+// Overrides auto-generated definition
 search(){
   String tabgroup = "Control";
   String refEntityList  = tabgroup + "/Search/Entity_List";
   String refSearchTerm  = tabgroup + "/Search/Search_Term";
   String refEntityTypes = tabgroup + "/Search/Entity_Types";
-  String refSelectUser = tabgroup + "/Search/Select_User";
+  String refSelectUser  = tabgroup + "/Search/Select_User";
 
   String type = getFieldValue(refEntityTypes);
   String term = getFieldValue(refSearchTerm);
   String id   = getFieldValue(refSelectUser);
+  if (isNull(id)) return;
   String searchQuery = "SELECT uuid, response "+
                        "  FROM latestNonDeletedArchEntFormattedIdentifiers  "+
                        " WHERE uuid in (SELECT uuid "+
