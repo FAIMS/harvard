@@ -67,6 +67,11 @@ inheritContextFields() {
   );
 
   copyFieldValue(
+    "Control/Contexts/Trench_Dimensions",
+    "Context/General/Trench_Dimensions"
+  );
+
+  copyFieldValue(
     "User/User_List/Device_Code",
     "Context/Vars/Device_Code"
   );
@@ -120,7 +125,7 @@ inheritHeightFields() {
 
   copyFieldValue(
     "Context/General/Context_Context_ID",
-    "Height/Vars/Context_ID",
+    "Height/Height/Height_Context_ID",
     false
   );
 }

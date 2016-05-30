@@ -146,6 +146,8 @@ getDropdownItemValue() {
 
 addOnEvent("User/User_List/Users", "click", "dropdownItemValue = getFieldValue(\"User/User_List/Users\")");
 addOnEvent("User/User_List/Device_Code", "click", "dropdownItemValue = getFieldValue(\"User/User_List/Device_Code\")");
+addOnEvent("Control/Contexts/Trench_Dimensions", "click", "dropdownItemValue = getFieldValue(\"Control/Contexts/Trench_Dimensions\")");
+addOnEvent("Context/General/Trench_Dimensions", "click", "dropdownItemValue = getFieldValue(\"Context/General/Trench_Dimensions\")");
 addOnEvent("Context/General/Horizon_Boundary", "click", "dropdownItemValue = getFieldValue(\"Context/General/Horizon_Boundary\")");
 addOnEvent("Context/General/Contamination", "click", "dropdownItemValue = getFieldValue(\"Context/General/Contamination\")");
 addOnEvent("Context/Cut/Cut_Your_Interpretation", "click", "dropdownItemValue = getFieldValue(\"Context/Cut/Cut_Your_Interpretation\")");
@@ -494,6 +496,7 @@ makeVocab(String type, String path, String attrib, List vocabExclusions, String 
       }
     });
 }
+makeVocab("DropDown", "Context/General/Trench_Dimensions", "Trench Dimensions");
 makeVocab("CheckBoxGroup", "Context/General/Excavation_Method", "Excavation Method");
 makeVocab("DropDown", "Context/General/Horizon_Boundary", "Horizon Boundary");
 makeVocab("DropDown", "Context/General/Contamination", "Contamination");
@@ -619,7 +622,7 @@ validateContext() {
   f.add(fieldPair("Context/Cut/Shape_of_Base", "{Shape_of_Base}"));
   f.add(fieldPair("Context/Cut/Orientation", "{Orientation}"));
   f.add(fieldPair("Context/Cut/Inclination_of_axis", "{Inclination_of_axis}"));
-  f.add(fieldPair("Context/Structure/CG_Context_Type", "{CG_Context_Type}"));
+  f.add(fieldPair("Context/Structure/CG_Context_Type", "{Feature_Type}"));
   f.add(fieldPair("Context/Structure/CG_Your_description", "{Your_Description}"));
   f.add(fieldPair("Context/Deposit/Deposit_Your_Interpretation", "{Your_Interpretation}"));
   f.add(fieldPair("Context/Deposit/Soil_Compaction_Type", "{Texture}"));
@@ -637,7 +640,7 @@ validateContext() {
   f.add(fieldPair("Context/Skeleton/Target_A_X", "{Target_A_X}"));
   f.add(fieldPair("Context/Skeleton/Target_A_Y", "{Target_A_Y}"));
   f.add(fieldPair("Context/Skeleton/Target_A_Z", "{Target_A_Z}"));
-  f.add(fieldPair("Context/Int/Your_description", "{Your_description}"));
+  f.add(fieldPair("Context/Int/Your_description", "{Your_Description}"));
   f.add(fieldPair("Context/Int/Your_Discussion", "{Your_Discussion}"));
 
   String validationMessage = validateFields(f, "PLAINTEXT");
@@ -1735,7 +1738,7 @@ entityTypes.add(new NameValuePair("{All}", ""));
 entityTypes.add(new NameValuePair("{Locus}", "Context"));
 entityTypes.add(new NameValuePair("{Stratum}", "Context Group"));
 entityTypes.add(new NameValuePair("{Sediment_Aggregate}", "Matrix"));
-entityTypes.add(new NameValuePair("{Height}", "Height"));
+entityTypes.add(new NameValuePair("{Locus_Height}", "Height"));
 entityTypes.add(new NameValuePair("{Photograph_Log}", "Photograph Log"));
 entityTypes.add(new NameValuePair("{Diary}", "Diary"));
 entityTypes.add(new NameValuePair("{FCN}", "FCN"));
@@ -1923,7 +1926,7 @@ incField(String ref) {
   return incField(ref, 1);
 }
 
-addOnEvent("Control/Contexts", "show", "onShowAutonum()");
+addOnEvent("Control", "show", "onShowAutonum()");
 
 /* This function should only be called once since it creates event handlers,
  * otherwise multiple copies of the same handler will trigger with the event.
@@ -2281,6 +2284,7 @@ loadRelatedEntity() {
 
 /****************************** VOCAB POPULATION ******************************/
 makeVocab("DropDown", "User/User_List/Device_Code", "Device Code");
+makeVocab("DropDown", "Control/Contexts/Trench_Dimensions", "Trench Dimensions");
 /**************************** USER TAB VALIDATION *****************************/
 /* The autogen defines its own `onClickUserLogin` function. This is           */
 /* overridden using @POSTPROC.                                                */
@@ -2382,6 +2386,11 @@ inheritContextFields() {
   );
 
   copyFieldValue(
+    "Control/Contexts/Trench_Dimensions",
+    "Context/General/Trench_Dimensions"
+  );
+
+  copyFieldValue(
     "User/User_List/Device_Code",
     "Context/Vars/Device_Code"
   );
@@ -2435,7 +2444,7 @@ inheritHeightFields() {
 
   copyFieldValue(
     "Context/General/Context_Context_ID",
-    "Height/Vars/Context_ID",
+    "Height/Height/Height_Context_ID",
     false
   );
 }
@@ -3108,7 +3117,7 @@ addOnEvent("User/User_List/Device_Code",         "click", "saveDeviceCode()");
 addOnEvent("User/User_List/Device_Code",         "show",  "loadDeviceCode()");
 onFocus   ("Control/Contexts/Team_Members",      "",      "saveTeamMembers()");
 addOnEvent("Control/Contexts/Team_Members",      "show",  "loadTeamMembers()");
-onFocus   ("Control/Contexts/Trench_Dimensions", "",      "saveTrenchDimensions()");
+addOnEvent("Control/Contexts/Trench_Dimensions", "click", "saveTrenchDimensions()");
 addOnEvent("Control/Contexts/Trench_Dimensions", "show",  "loadTrenchDimensions()");
 
 insertFieldValueIntoLocalSettings(String ref) {

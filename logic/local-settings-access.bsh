@@ -5,7 +5,7 @@ addOnEvent("User/User_List/Device_Code",         "click", "saveDeviceCode()");
 addOnEvent("User/User_List/Device_Code",         "show",  "loadDeviceCode()");
 onFocus   ("Control/Contexts/Team_Members",      "",      "saveTeamMembers()");
 addOnEvent("Control/Contexts/Team_Members",      "show",  "loadTeamMembers()");
-onFocus   ("Control/Contexts/Trench_Dimensions", "",      "saveTrenchDimensions()");
+addOnEvent("Control/Contexts/Trench_Dimensions", "click", "saveTrenchDimensions()");
 addOnEvent("Control/Contexts/Trench_Dimensions", "show",  "loadTrenchDimensions()");
 
 insertFieldValueIntoLocalSettings(String ref) {

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--TODO: there are missing picture galleries, but I am sure you know about that.-->
 <!--@PREPROC:  ./proc/pre.sh-->
 <!--@POSTPROC: ./proc/post.sh-->
 <module suppressWarnings="true">
@@ -65,11 +66,12 @@
 
 <Control f="nodata">
   <Contexts>
+    Main
     <Create_New_Locus   t="button" l="Context"/>
     <Create_New_Stratum t="button" l="Context_Group"/>
     <Create_New_Diary   t="button" l="Diary"/>
     <Team_Members/>
-    <Trench_Dimensions b="decimal"/>
+    <Trench_Dimensions t="dropdown"/>
     <autonum/>
     <GPS_Diagnostics t="gpsdiag"/>
   </Contexts>
@@ -107,7 +109,17 @@
         </str>
       </Context_Context_ID>
     </cols>
-    <Trench_Dimensions b="decimal"/>
+    <Trench_Dimensions>
+      <opts>
+        <opt>0.5 x 0.5 m</opt>
+        <opt>1 x 1 m</opt>
+        <opt>2 x 1 m</opt>
+        <opt>5 x 5 m</opt>
+        <opt>10 x 10 m</opt>
+        <opt>No Observation</opt>
+        <opt>Other</opt>
+      </opts>
+    </Trench_Dimensions>
     <Context_Name>
       Brief Description
       <desc>Enter a brief, clear name for the Context eg 'House A - west wall'</desc>
@@ -370,6 +382,7 @@
   <Structure>
     Feature
     <CG_Context_Type f="notnull">
+      Feature Type
       <desc>Enter the type of feature you are describing.</desc>
       <opts>
         <opt>No Observation
@@ -749,6 +762,7 @@
   <Int>
     Interpretation
     <Your_description f="notnull">
+      Your Description
       <desc>Enter a verbal description of the Context, including its form, contexts, relationship to other Contexts and any other relevant information. This is the main place to record all other descriptive information that may be treated briefly or not covered elsewhere, including signs of disturbance  by burrowing animals etc.</desc>
     </Your_description>
     <Your_Discussion f="notnull">
@@ -756,7 +770,6 @@
     </Your_Discussion>
   </Int>
   <Relationships f="noscroll">
-    <!--TODO-->
     <Create_Relationships_to_This_Context t="button" l="Relationship">
       Create Relationships to This Locus
     </Create_Relationships_to_This_Context>
@@ -1020,7 +1033,7 @@
         <desc>Describe the components which make up 10% or more of the deposit.</desc>
         <str>
           <pos>1</pos>
-          <fmt>$2-</fmt>
+          <fmt>$1-</fmt>
         </str>
         <opts>
           <opt>No Observation
@@ -1048,12 +1061,9 @@
       <Percentage f="id" b="decimal">
         <str>
           <pos>2</pos>
-          <fmt>$1</fmt>
+          <fmt>$2%</fmt>
         </str>
         <desc>Enter the approximate % volume of this material in the Context.</desc>
-        <str>
-          <fmt><![CDATA[$2% ]]></fmt>
-        </str>
       </Percentage>
     </cols>
     <Shape>
@@ -1094,17 +1104,25 @@
 </Matrix>
 
 <Height>
+  Locus Height
   <Height>
+    Locus Height
+    <Height_Context_ID f="id readonly">
+      Locus ID
+      <str>
+        <fmt>Loc-$2-</fmt>
+      </str>
+    </Height_Context_ID>
     <Number f="id notnull">
       <desc>Add a short description of the point being recorded, for example, 1. North edge of floor, 2. South edge of floor. Mark your points on the sketch for each context.</desc>
       <str>
-        <fmt><![CDATA[$2]]></fmt>
+        <fmt>Height-$2-</fmt>
       </str>
     </Number>
     <X f="id notnull" b="decimal">
       <desc>Add X coordinate using the site grid</desc>
       <str>
-        <fmt><![CDATA[ $2,]]></fmt>
+        <fmt><![CDATA[$2,]]></fmt>
       </str>
     </X>
     <Y f="id notnull" b="decimal">
@@ -1124,7 +1142,6 @@
     </Notes>
   </Height>
   <Vars f="hidden">
-    <Context_ID/>
     <AreaCode/>
   </Vars>
 </Height>
@@ -1194,7 +1211,7 @@
       <desc>Give your entry a simple, short title, such as Daily Trench Update, Burial 34, Storm Damage. Note that diary entries allow you to add information in addition to the context, feature and artefact records elsewhere in the module and should not be the primary description point for those entities</desc>
       <str>
         <pos>1</pos>
-        <fmt>Diary-$1</fmt>
+        <fmt>Diary-$2</fmt>
       </str>
     </Title>
     <cols>
@@ -1347,8 +1364,10 @@
         <opt>Other</opt>
       </opts>
     </FCN_Class>
-    <FCN_Quantity/>
-    <FCN_Weight/>
+    <FCN_Quantity b="decimal"/>
+    <FCN_Weight_g b="decimal">
+      FCN Weight (g)
+    </FCN_Weight_g>
     <Washed t="radio">
       <!--@SOURCE: vocabs/boolean.xml-->
     </Washed>

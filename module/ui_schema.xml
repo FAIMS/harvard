@@ -491,6 +491,7 @@
           </Matrix>
           <Height>
             <Height>
+              <Height_Context_ID/>
               <Number/>
               <X/>
               <Y/>
@@ -498,7 +499,6 @@
               <Notes/>
             </Height>
             <Vars>
-              <Context_ID/>
               <AreaCode/>
             </Vars>
           </Height>
@@ -627,7 +627,7 @@
               <Reason_for_Collection/>
               <FCN_Class/>
               <FCN_Quantity/>
-              <FCN_Weight/>
+              <FCN_Weight_g/>
               <Washed/>
               <Weighted/>
               <Analyzed/>
@@ -641,14 +641,12 @@
           <logic/>
         </faims>
       </instance>
-      <bind type="decimal" nodeset="/faims/Control/Contexts/Trench_Dimensions"/>
       <bind type="decimal" nodeset="/faims/Control/Contexts/Next_Context_AreaCode"/>
       <bind type="decimal" nodeset="/faims/Control/Contexts/Next_Context_Context_ID"/>
       <bind type="decimal" nodeset="/faims/Control/Contexts/Next_Context_Group_ID"/>
       <bind type="decimal" nodeset="/faims/Control/Contexts/Next_FCN_ID"/>
       <bind type="decimal" nodeset="/faims/Context/General/Colgroup_0/Col_0/Context_AreaCode"/>
       <bind type="decimal" nodeset="/faims/Context/General/Colgroup_0/Col_1/Context_Context_ID"/>
-      <bind type="decimal" nodeset="/faims/Context/General/Trench_Dimensions"/>
       <bind type="decimal" nodeset="/faims/Context/General/Colgroup_1/Col_0/Grid_X"/>
       <bind type="decimal" nodeset="/faims/Context/General/Colgroup_1/Col_1/Grid_Y"/>
       <bind type="decimal" nodeset="/faims/Context/Measure/Colgroup_0/Col_0/Highest_Level"/>
@@ -688,6 +686,8 @@
       <bind type="decimal" nodeset="/faims/Height/Height/Y"/>
       <bind type="decimal" nodeset="/faims/Height/Height/Z"/>
       <bind type="decimal" nodeset="/faims/FCN/General/FCN_ID"/>
+      <bind type="decimal" nodeset="/faims/FCN/General/FCN_Quantity"/>
+      <bind type="decimal" nodeset="/faims/FCN/General/FCN_Weight_g"/>
     </model>
   </h:head>
   <h:body>
@@ -747,7 +747,7 @@
     <group ref="Control">
       <label>{Control}</label>
       <group ref="Contexts">
-        <label>{Contexts}</label>
+        <label>{Main}</label>
         <trigger ref="Create_New_Locus">
           <label>{Create_New_Locus}</label>
         </trigger>
@@ -760,9 +760,13 @@
         <input ref="Team_Members">
           <label>{Team_Members}</label>
         </input>
-        <input ref="Trench_Dimensions">
+        <select1 ref="Trench_Dimensions">
           <label>{Trench_Dimensions}</label>
-        </input>
+          <item>
+            <label>Options not loaded</label>
+            <value>0</value>
+          </item>
+        </select1>
         <input ref="Next_Context_AreaCode" faims_style_class="required">
           <label>{Next_Context_AreaCode}</label>
         </input>
@@ -847,9 +851,13 @@
             </input>
           </group>
         </group>
-        <input faims_attribute_type="measure" ref="Trench_Dimensions" faims_attribute_name="Trench Dimensions">
+        <select1 faims_attribute_type="vocab" ref="Trench_Dimensions" faims_attribute_name="Trench Dimensions">
           <label>{Trench_Dimensions}</label>
-        </input>
+          <item>
+            <label>Options not loaded</label>
+            <value>0</value>
+          </item>
+        </select1>
         <input faims_attribute_type="measure" ref="Context_Name" faims_attribute_name="Context Name">
           <label>{Brief_Description}</label>
         </input>
@@ -957,14 +965,16 @@
           <label/>
           <group ref="Col_0" faims_style="even">
             <label/>
-            <input faims_attribute_type="measure" ref="author" faims_attribute_name="author" faims_read_only="true">
+            <input ref="author" faims_attribute_name="Context author" faims_attribute_type="measure" faims_read_only="true" faims_annotation="false" faims_certainty="false">
               <label>{Record_Created_By_}</label>
+              <!--WARNING: Flags ignored-->
             </input>
           </group>
           <group ref="Col_1" faims_style="even">
             <label/>
-            <input faims_attribute_type="measure" ref="timestamp" faims_attribute_name="timestamp" faims_read_only="true">
+            <input ref="timestamp" faims_attribute_name="Context timestamp" faims_attribute_type="measure" faims_read_only="true" faims_annotation="false" faims_certainty="false">
               <label>{Record_Created_Date_}</label>
+              <!--WARNING: Flags ignored-->
             </input>
           </group>
         </group>
@@ -1114,7 +1124,7 @@
       <group ref="Structure">
         <label>{Feature}</label>
         <select1 faims_attribute_type="vocab" ref="CG_Context_Type" faims_attribute_name="CG Context Type" faims_style_class="required">
-          <label>{CG_Context_Type}</label>
+          <label>{Feature_Type}</label>
           <item>
             <label>Options not loaded</label>
             <value>0</value>
@@ -1445,7 +1455,7 @@
       <group ref="Int">
         <label>{Interpretation}</label>
         <input faims_attribute_type="measure" ref="Your_description" faims_attribute_name="Your description" faims_style_class="required">
-          <label>{Your_description}</label>
+          <label>{Your_Description}</label>
         </input>
         <input faims_attribute_type="measure" ref="Your_Discussion" faims_attribute_name="Your Discussion" faims_style_class="required">
           <label>{Your_Discussion}</label>
@@ -1634,20 +1644,22 @@
           <label/>
           <group ref="Col_0" faims_style="even">
             <label/>
-            <input faims_attribute_type="measure" ref="author" faims_attribute_name="author" faims_read_only="true">
+            <input ref="author" faims_attribute_name="Context_Group author" faims_attribute_type="measure" faims_read_only="true" faims_annotation="false" faims_certainty="false">
               <label>{Record_Created_By_}</label>
+              <!--WARNING: Flags ignored-->
             </input>
           </group>
           <group ref="Col_1" faims_style="even">
             <label/>
-            <input faims_attribute_type="measure" ref="timestamp" faims_attribute_name="timestamp" faims_read_only="true">
+            <input ref="timestamp" faims_attribute_name="Context_Group timestamp" faims_attribute_type="measure" faims_read_only="true" faims_annotation="false" faims_certainty="false">
               <label>{Date_recorded_}</label>
+              <!--WARNING: Flags ignored-->
             </input>
           </group>
         </group>
       </group>
       <group ref="Context_Group_Contexts" faims_scrollable="false">
-        <label>{Context_Group_Contexts}</label>
+        <label>{Relationships}</label>
         <trigger ref="Create_Relationships_to_This_Context_Group">
           <label>{Create_Relationships_to_this_Stratum}</label>
         </trigger>
@@ -1759,9 +1771,12 @@
       </group>
     </group>
     <group ref="Height" faims_archent_type="Height">
-      <label>{Height}</label>
+      <label>{Locus_Height}</label>
       <group ref="Height">
-        <label>{Height}</label>
+        <label>{Locus_Height}</label>
+        <input faims_attribute_type="measure" ref="Height_Context_ID" faims_attribute_name="Height Context ID" faims_read_only="true">
+          <label>{Locus_ID}</label>
+        </input>
         <input faims_attribute_type="measure" ref="Number" faims_attribute_name="Number" faims_style_class="required">
           <label>{Number}</label>
         </input>
@@ -1780,9 +1795,6 @@
       </group>
       <group ref="Vars" faims_hidden="true">
         <label>{Vars}</label>
-        <input faims_attribute_type="measure" ref="Context_ID" faims_attribute_name="Context ID">
-          <label>{Context_ID}</label>
-        </input>
         <input faims_attribute_type="measure" ref="AreaCode" faims_attribute_name="AreaCode">
           <label>{AreaCode}</label>
         </input>
@@ -1852,14 +1864,16 @@
           <label/>
           <group ref="Col_0" faims_style="even">
             <label/>
-            <input faims_attribute_type="measure" ref="timestamp" faims_attribute_name="timestamp" faims_read_only="true">
+            <input ref="timestamp" faims_attribute_name="Diary timestamp" faims_attribute_type="measure" faims_read_only="true" faims_annotation="false" faims_certainty="false">
               <label>{timestamp}</label>
+              <!--WARNING: Flags ignored-->
             </input>
           </group>
           <group ref="Col_1" faims_style="even">
             <label/>
-            <input faims_attribute_type="measure" ref="author" faims_attribute_name="author" faims_read_only="true">
+            <input ref="author" faims_attribute_name="Diary author" faims_attribute_type="measure" faims_read_only="true" faims_annotation="false" faims_certainty="false">
               <label>{author}</label>
+              <!--WARNING: Flags ignored-->
             </input>
           </group>
         </group>
@@ -2090,8 +2104,8 @@
         <input faims_attribute_type="measure" ref="FCN_Quantity" faims_attribute_name="FCN Quantity">
           <label>{FCN_Quantity}</label>
         </input>
-        <input faims_attribute_type="measure" ref="FCN_Weight" faims_attribute_name="FCN Weight">
-          <label>{FCN_Weight}</label>
+        <input faims_attribute_type="measure" ref="FCN_Weight_g" faims_attribute_name="FCN Weight g">
+          <label>{FCN_Weight__g_}</label>
         </input>
         <select1 appearance="full" faims_attribute_type="vocab" ref="Washed" faims_attribute_name="Washed">
           <label>{Washed}</label>

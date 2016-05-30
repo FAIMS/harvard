@@ -105,10 +105,26 @@
       <formatString><![CDATA[-$2-]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
     </property>
-    <property name="Trench Dimensions" type="measure">
+    <property name="Trench Dimensions" type="vocab">
       <description/>
       <formatString><![CDATA[{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
+      <lookup>
+        <term>{0_5_x_0_5_m}
+<description/></term>
+        <term>{1_x_1_m}
+<description/></term>
+        <term>{2_x_1_m}
+<description/></term>
+        <term>{5_x_5_m}
+<description/></term>
+        <term>{10_x_10_m}
+<description/></term>
+        <term>{No_Observation}
+<description/></term>
+        <term>{Other}
+<description/></term>
+      </lookup>
     </property>
     <property name="Context Name" type="measure">
       <description>Enter a brief, clear name for the Context eg 'House A - west wall'</description>
@@ -199,12 +215,12 @@
       <formatString><![CDATA[{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
     </property>
-    <property name="author" type="measure">
+    <property name="Context author" type="measure">
       <description/>
       <formatString><![CDATA[{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
     </property>
-    <property name="timestamp" type="measure">
+    <property name="Context timestamp" type="measure">
       <description/>
       <formatString><![CDATA[{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
@@ -4079,12 +4095,12 @@
       <formatString><![CDATA[Feat-$2-]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
     </property>
-    <property name="author" isIdentifier="true" type="measure">
+    <property name="Context_Group author" isIdentifier="true" type="measure">
       <description/>
       <formatString><![CDATA[-$2]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
     </property>
-    <property name="timestamp" type="measure">
+    <property name="Context_Group timestamp" type="measure">
       <description/>
       <formatString><![CDATA[-$2]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
@@ -4179,7 +4195,7 @@
     <description/>
     <property name="Component" isIdentifier="true" type="vocab">
       <description>Describe the components which make up 10% or more of the deposit.</description>
-      <formatString><![CDATA[$2-]]></formatString>
+      <formatString><![CDATA[$1-]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
       <lookup>
         <term>{No_Observation}
@@ -4206,7 +4222,7 @@
     </property>
     <property name="Percentage" isIdentifier="true" type="measure">
       <description>Enter the approximate % volume of this material in the Context.</description>
-      <formatString><![CDATA[$1]]></formatString>
+      <formatString><![CDATA[$2%]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
     </property>
     <property name="Shape" type="vocab">
@@ -4247,14 +4263,19 @@
   </ArchaeologicalElement>
   <ArchaeologicalElement name="Height">
     <description/>
+    <property name="Height Context ID" isIdentifier="true" type="measure">
+      <description/>
+      <formatString><![CDATA[Loc-$2-]]></formatString>
+      <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
+    </property>
     <property name="Number" isIdentifier="true" type="measure">
       <description>Add a short description of the point being recorded, for example, 1. North edge of floor, 2. South edge of floor. Mark your points on the sketch for each context.</description>
-      <formatString><![CDATA[$2]]></formatString>
+      <formatString><![CDATA[Height-$2-]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
     </property>
     <property name="X" isIdentifier="true" type="measure">
       <description>Add X coordinate using the site grid</description>
-      <formatString><![CDATA[ $2,]]></formatString>
+      <formatString><![CDATA[$2,]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
     </property>
     <property name="Y" isIdentifier="true" type="measure">
@@ -4269,11 +4290,6 @@
     </property>
     <property name="Notes" type="measure">
       <description>Add a description here concerning the entity whose position you have recorded</description>
-      <formatString><![CDATA[{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}]]></formatString>
-      <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
-    </property>
-    <property name="Context ID" type="measure">
-      <description/>
       <formatString><![CDATA[{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
     </property>
@@ -4350,15 +4366,15 @@
     <description/>
     <property name="Title" isIdentifier="true" type="measure">
       <description>Give your entry a simple, short title, such as Daily Trench Update, Burial 34, Storm Damage. Note that diary entries allow you to add information in addition to the context, feature and artefact records elsewhere in the module and should not be the primary description point for those entities</description>
-      <formatString><![CDATA[Diary-$1]]></formatString>
+      <formatString><![CDATA[Diary-$2]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
     </property>
-    <property name="timestamp" isIdentifier="true" type="measure">
+    <property name="Diary timestamp" isIdentifier="true" type="measure">
       <description>The date this entry is created will automatically appear here</description>
       <formatString><![CDATA[-$2]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
     </property>
-    <property name="author" isIdentifier="true" type="measure">
+    <property name="Diary author" isIdentifier="true" type="measure">
       <description>Your name will be added here based on your login</description>
       <formatString><![CDATA[-$2]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
@@ -4464,7 +4480,7 @@
       <formatString><![CDATA[{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
     </property>
-    <property name="FCN Weight" type="measure">
+    <property name="FCN Weight g" type="measure">
       <description/>
       <formatString><![CDATA[{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
