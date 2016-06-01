@@ -2811,7 +2811,7 @@ addRelationship() {
     return;
   }
   if (isNull(childUuid)) {
-    showToast("No {Context} selected");
+    showToast("No Locus selected");
     return;
   }
 
