@@ -53,12 +53,12 @@ deleteRelationship() {
 
   fetchOne(q);
   deleteRel(selectedRelId, cb);
+
+  selectedRelId         = null;
+  selectedRelIdentifier = null;
 }
 
 deleteRelationshipSuceeded() {
-  selectedRelId         = null;
-  selectedRelIdentifier = null;
-
   String refSelectedRelRel    = "Relationship/Relationships/Selected_Relationship";
   String refSelectedRelParent = "Context/Relationships/Selected_Relationship";
   if (isDisplayedParent()) {

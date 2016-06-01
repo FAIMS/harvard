@@ -208,13 +208,13 @@ CGaddRelationship() {
       parentRole, childRole,
       callback
   );
+
+  proposedChildUuid       = null;
+  proposedChildIdentifier = null;
 }
 
 CGaddRelationshipSucceeded() {
   String refProposedRel = "Context_Group_Relationship/Relationships/Proposed_Relationship";
-
-  proposedChildUuid       = null;
-  proposedChildIdentifier = null;
 
   populateWebViewHtml(refProposedRel, WEB_REL_BLANK);
 

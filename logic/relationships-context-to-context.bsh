@@ -249,13 +249,13 @@ addRelationship() {
       parentRole, childRole,
       callback
   );
+
+  proposedChildUuid       = null;
+  proposedChildIdentifier = null;
 }
 
 addRelationshipSucceeded() {
   String refProposedRel = "Relationship/Relationships/Proposed_Relationship";
-
-  proposedChildUuid       = null;
-  proposedChildIdentifier = null;
 
   populateWebViewHtml(refProposedRel, WEB_REL_BLANK);
 
