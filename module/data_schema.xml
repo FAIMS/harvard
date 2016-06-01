@@ -30,79 +30,79 @@
     <parent>includes</parent>
     <child>is included in</child>
   </RelationshipElement>
-  <RelationshipElement name="Butts - Butted By" type="hierarchical">
-    <description>Implements a Butts-ButtedBy for contexts.</description>
+  <RelationshipElement name="Butts" type="hierarchical">
+    <description>Implements a Butts-ButtedBy for loci.</description>
     <parent>Butts</parent>
     <child>Butted By</child>
   </RelationshipElement>
-  <RelationshipElement name="Rebuilt - Rebuilt By" type="hierarchical">
+  <RelationshipElement name="Rebuilt" type="hierarchical">
     <description>Implements a Rebuilt - Rebuilt By</description>
     <parent>Rebuilt</parent>
     <child>Rebuilt By</child>
   </RelationshipElement>
   <RelationshipElement name="Bonded To" type="bidirectional">
-    <description>Implements a bonded to for contexts</description>
+    <description>Implements a bonded to for loci</description>
   </RelationshipElement>
-  <RelationshipElement name="Cuts - Cut By" type="hierarchical">
-    <description>Implements a cuts-cutby for contexts.</description>
+  <RelationshipElement name="Cuts" type="hierarchical">
+    <description>Implements a cuts-cutby for loci.</description>
     <parent>Cuts</parent>
     <child>Cut by</child>
   </RelationshipElement>
-  <RelationshipElement name="Fill Of - Filled With" type="hierarchical">
-    <description>Implements a fillof-filledwith for contexts.</description>
+  <RelationshipElement name="Fill Of" type="hierarchical">
+    <description>Implements a fillof-filledwith for loci.</description>
     <parent>Fill Of</parent>
     <child>Filled With </child>
   </RelationshipElement>
   <RelationshipElement name="Arbitrarily separated from" type="bidirectional">
-    <description>When two or more context codes have been assigned to what is ultimately determined to be the same context</description>
+    <description>When two or more locus codes have been assigned to what is ultimately determined to be the same locus</description>
   </RelationshipElement>
   <RelationshipElement name="Precisely contemporary with" type="bidirectional">
-    <description>Contexts unequivocally contemporary</description>
+    <description>Loci unequivocally contemporary</description>
   </RelationshipElement>
   <RelationshipElement name="Broadly contemporary with" type="bidirectional">
-    <description>Contexts suspected to be contemporary but no direct physical relationship or evidence (i.e. adjacent buildings)</description>
+    <description>Loci suspected to be contemporary but no direct physical relationship or evidence (i.e. adjacent buildings)</description>
   </RelationshipElement>
   <RelationshipElement name="EarlierLater" type="hierarchical">
-    <description>Implements a Stratigraphically Immediately Earlier-Later for contexts.</description>
+    <description>Implements a Stratigraphically Immediately Earlier-Later for loci.</description>
     <parent>Immediately Earlier Than</parent>
     <child>Immediately Later Than</child>
   </RelationshipElement>
   <ArchaeologicalElement name="Context">
     <description>The physical result of any single action whether it leaves a positive or negative record within the stratigraphic sequence. (MoLAS 1994)</description>
     <property name="Context Context ID" isIdentifier="true" type="measure">
-      <description>Every archaeological context (negative element (cut), deposit, structure, skeleton, artefact cluster) is given a unique 3 or 4 letter context code. Each trench is designated with a separate letter which starts the code, so it is immediately obvious to which trench a context belongs. For example context HAA belongs to Trench H, context MQP to Trench M etc.
-        The contexts are labelled consecutively in alphabetical order using the letters following the trench letter. For Trench H the first context would be HAA, the second HAB, the third HAB and so on. In addition sets of letters can denote parts of trenches, buildings etc. E.g. HFs might denote contexts from a specific building.
-        Burial context codes begin with the letter Z, followed by the trench letter. Hence burial ZHA is the first burial context from trench H.
-        Check with the trench supervisor who will assign the context code from the central register.</description>
+      <description>Every archaeological locus (negative element (cut), deposit, structure, skeleton, artefact cluster) is given a unique 3 or 4 letter locus code. Each trench is designated with a separate letter which starts the code, so it is immediately obvious to which trench a locus belongs. For example locus HAA belongs to Trench H, locus MQP to Trench M etc.
+        The loci are labelled consecutively in alphabetical order using the letters following the trench letter. For Trench H the first locus would be HAA, the second HAB, the third HAB and so on. In addition sets of letters can denote parts of trenches, buildings etc. E.g. HFs might denote loci from a specific building.
+        Burial locus codes begin with the letter Z, followed by the trench letter. Hence burial ZHA is the first burial locus from trench H.
+        Check with the trench supervisor who will assign the locus code from the central register.</description>
       <formatString><![CDATA[L-$2]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
     </property>
     <property name="Context Type" isIdentifier="true" type="vocab">
-      <description>Describe the context type by selecting an icon as defined below.
-  When you have selected a context type you can proceed to open the "Fill in context type details" page. Note this page will not open unless you have selected a context type.</description>
+      <description>Describe the locus type by selecting an icon as defined below.
+  When you have selected a locus type you can proceed to open the "Fill in locus type details" page. Note this page will not open unless you have selected a locus type.</description>
       <formatString><![CDATA[-$1]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
       <lookup>
         <term pictureURL="files/data/gallery/Blanks/Trail.png">{No_Observation}
 <description>data not collected</description></term>
         <term pictureURL="files/data/gallery/ContextType/Orange/Cut.png">{Cut}
-<description>Any Context which represents the removal of earlier deposit and thus forms a negative interface (cut) with another context, such as a cut for a pit, burial, ditch, wall foundation or robber trench.</description></term>
+<description>Any Locus which represents the removal of earlier deposit and thus forms a negative interface (cut) with another locus, such as a cut for a pit, burial, ditch, wall foundation or robber trench.</description></term>
         <term pictureURL="files/data/gallery/ContextType/Orange/Deposit.png">{Deposit}
-<description>Any Context with deposited sediment and soil, such as floor layers, pit and grave fills, hearth fills and natural sediments.</description></term>
+<description>Any Locus with deposited sediment and soil, such as floor layers, pit and grave fills, hearth fills and natural sediments.</description></term>
         <term pictureURL="files/data/gallery/ContextType/Orange/Structure.png">{Feature}
-<description>Any Context consisting of deliberately constructed structural element, independent of a Negative Element (i.e. cut, such as a wall or a hearth).</description></term>
+<description>Any Locus consisting of deliberately constructed structural element, independent of a Negative Element (i.e. cut, such as a wall or a hearth).</description></term>
         <term pictureURL="files/data/gallery/ContextType/Orange/Skeleton.png">{Skeleton}
 <description>Human skeletal remains.</description></term>
       </lookup>
     </property>
     <property name="Context AreaCode" isIdentifier="true" type="measure">
       <description/>
-      <formatString><![CDATA[-TRC-$2]]></formatString>
+      <formatString><![CDATA[-Trench-$2]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
     </property>
     <property name="Date Opened" isIdentifier="true" type="measure">
-      <description>Date on which the Context was first excavated. This will automatically be set to the date on which the context is recorded but can be edited using the keyboard.</description>
-      <formatString><![CDATA[-$2-]]></formatString>
+      <description>Date on which the Locus was first excavated. This will automatically be set to the date on which the locus is recorded but can be edited using the keyboard.</description>
+      <formatString><![CDATA[-$2]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
     </property>
     <property name="Trench Dimensions" type="vocab">
@@ -132,17 +132,17 @@
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
     </property>
     <property name="Grid X" type="measure">
-      <description>The X coordinate on the SW corner of the context.</description>
+      <description>The X coordinate on the SW corner of the locus.</description>
       <formatString><![CDATA[{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
     </property>
     <property name="Grid Y" type="measure">
-      <description>The Y coordinate on the SW corner of the context.</description>
+      <description>The Y coordinate on the SW corner of the locus.</description>
       <formatString><![CDATA[{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
     </property>
     <property name="Team Members" type="measure">
-      <description>Initials of the excavators that have worked on the context.</description>
+      <description>Initials of the excavators that have worked on the locus.</description>
       <formatString><![CDATA[{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
     </property>
@@ -162,7 +162,7 @@
       </lookup>
     </property>
     <property name="Horizon Boundary" type="vocab">
-      <description>Describe the boundary between this and the next context.</description>
+      <description>Describe the boundary between this and the next locus.</description>
       <formatString><![CDATA[{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
       <lookup>
@@ -171,17 +171,17 @@
         <term>{Doubtful}
 <description>You are uncertain of whether you accurately excavated a boundary between deposits</description></term>
         <term>{Ambiguous}
-<description>You are uncertain as to whether there was a boundary between contexts.</description></term>
+<description>You are uncertain as to whether there was a boundary between loci.</description></term>
         <term>{Merging}
-<description>There is a distinction between the excavated context and earlier context(s) but the excavated contexts and the earlier contexts grade into each other</description></term>
+<description>There is a distinction between the excavated locus and earlier locus/loci but the excavated loci and the earlier loci grade into each other</description></term>
         <term>{Clear}
-<description>The boundary with the earlier context(s) was very clearly defined during excavation.</description></term>
+<description>The boundary with the earlier locus/loci was very clearly defined during excavation.</description></term>
         <term>{ArbitrarySpit}
-<description>There is no meaningful boundary with an earlier context. The boundary has been artificially created by the excavation process.</description></term>
+<description>There is no meaningful boundary with an earlier locus. The boundary has been artificially created by the excavation process.</description></term>
       </lookup>
     </property>
     <property name="Contamination" type="vocab">
-      <description>The extent to which the context has been contaminated.</description>
+      <description>The extent to which the locus has been contaminated.</description>
       <formatString><![CDATA[{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
       <lookup>
@@ -190,10 +190,10 @@
         <term>{Contaminated}
 <description>Contaminated by later material eg by unidentified cut at time of initial excavation by large scale animal or root activity which were not isolated by excavation by excavation processes some annoying person mixed the material or stuff fell into deposit from the section.</description></term>
         <term>{Possibly_Contaminated}
-<description>At Boncuklu as at many sites there is significant animal activity represented by burrows. We aim to remove most animal burrow fill. This is easier in contexts with clear and compact sediment characteristics like plaster floors walls building fills more difficult in loose middens. In one sense at Boncuklu as at many sites every context is possibly contaminated but there would be little point in indicating that since it is something we generally understand. Therefore this option is to be
+<description>At Boncuklu as at many sites there is significant animal activity represented by burrows. We aim to remove most animal burrow fill. This is easier in loci with clear and compact sediment characteristics like plaster floors walls building fills more difficult in loose middens. In one sense at Boncuklu as at many sites every locus is possibly contaminated but there would be little point in indicating that since it is something we generally understand. Therefore this option is to be
           used to indicate those situations where one may have tried to remove animal introduced or other contamination but are unsure this has been successful and there is a likely but not definitive chance of some later contamination beyond. This option also applies where there may have been later cuts not recognised but we are not sure.</description></term>
         <term>{High_likelihood_high_amount_derived}
-<description>It is very likely that significant amounts of earlier artifact and ecofact material has become incorporated in the deposit. For example; is this context a mud brick wall or other structure or building or structural debris or a deposit which has seen the redeposition of material excavated from cuts. These are all situations in which earlier material is likely to have been dug up and re-used (in the mud brick) or re-deposited (when digging out pits).</description></term>
+<description>It is very likely that significant amounts of earlier artifact and ecofact material has become incorporated in the deposit. For example; is this locus a mud brick wall or other structure or building or structural debris or a deposit which has seen the redeposition of material excavated from cuts. These are all situations in which earlier material is likely to have been dug up and re-used (in the mud brick) or re-deposited (when digging out pits).</description></term>
         <term>{Low_likelihood_low_amount_derived}
 <description>You think there is little chance that very much earlier material has made it's way into this deposit.</description></term>
         <term>{Primary_deposit}
@@ -201,17 +201,17 @@
       </lookup>
     </property>
     <property name="Plans" type="measure">
-      <description>Reference numbers to plans or drawings of this Context.</description>
+      <description>Reference numbers to plans or drawings of this Locus.</description>
       <formatString><![CDATA[{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
     </property>
     <property name="Section Numbers" type="measure">
-      <description>Reference numbers to section drawings of this Context</description>
+      <description>Reference numbers to section drawings of this Locus</description>
       <formatString><![CDATA[{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
     </property>
     <property name="Date Closed" type="measure">
-      <description>The date excavation of the Context ended and it was closed. Press the 'Add Date Closed' button to insert today's date.</description>
+      <description>The date excavation of the Locus ended and it was closed. Press the 'Add Date Closed' button to insert today's date.</description>
       <formatString><![CDATA[{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
     </property>
@@ -226,12 +226,12 @@
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
     </property>
     <property name="Highest Level" type="measure">
-      <description>The highest elevation or 'starting level' recorded for that context relative to the site grid.</description>
+      <description>The highest elevation or 'starting level' recorded for that locus relative to the site grid.</description>
       <formatString><![CDATA[{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
     </property>
     <property name="Lowest Level" type="measure">
-      <description>The lowest elevation recorded for that context relative to the site grid.</description>
+      <description>The lowest elevation recorded for that locus relative to the site grid.</description>
       <formatString><![CDATA[{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
     </property>
@@ -251,12 +251,12 @@
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
     </property>
     <property name="Volume" type="measure">
-      <description>Estimate the volume of the context in litres. All soil will be collected in buckets of a known volume. A tally should be kept of buckets produced from a context and the total volume calculated using that tally.</description>
+      <description>Estimate the volume of the locus in litres. All soil will be collected in buckets of a known volume. A tally should be kept of buckets produced from a locus and the total volume calculated using that tally.</description>
       <formatString><![CDATA[{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
     </property>
     <property name="Cut Your Interpretation" type="vocab">
-      <description>Your interpretation of the likely function of the Context using standardised definitions.</description>
+      <description>Your interpretation of the likely function of the Locus using standardised definitions.</description>
       <formatString><![CDATA[{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
       <lookup>
@@ -446,11 +446,11 @@
         <term>{No_Observation}
 <description>data not collected</description></term>
         <term>{Negative_Element}
-<description>Any Context which forms a negative interface (cut) with another context, such as a cut for a pit, burial, ditch, wall foundation or robber trench.</description></term>
+<description>Any Locus which forms a negative interface (cut) with another locus, such as a cut for a pit, burial, ditch, wall foundation or robber trench.</description></term>
         <term>{Deposit}
-<description>Any Context with deposited sediment and soil, such as floor layers, pit and grave fills, hearth fills and natural sediments.</description></term>
+<description>Any Locus with deposited sediment and soil, such as floor layers, pit and grave fills, hearth fills and natural sediments.</description></term>
         <term>{Structure}
-<description>Any Context consisting of deliberately constructed structures, independent of a Negative Element (i.e. cut, such as walls and hearths).</description></term>
+<description>Any Locus consisting of deliberately constructed structures, independent of a Negative Element (i.e. cut, such as walls and hearths).</description></term>
         <term>{Wall}
 <description>A structured vertical barrier made from durable materials defining a space.</description></term>
         <term>{Floor}
@@ -537,7 +537,7 @@
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
     </property>
     <property name="Deposit Your Interpretation" type="vocab">
-      <description>Your interpretation of the likely function of the context.</description>
+      <description>Your interpretation of the likely function of the locus.</description>
       <formatString><![CDATA[{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
       <lookup>
@@ -568,9 +568,9 @@
         <term>{Ash_Charcoal}
 <description>A deposit consisting largely of carbonized/charred plant material and/or ash</description></term>
         <term>{Arbitrary}
-<description>This applies to artificial contexts excavated for excavational convenience eg section cleaning material whose precise provenience is unclear. Does not include arbitrary spits or spatial units deliberately excavated for finer control of horizontal and vert</description></term>
+<description>This applies to artificial loci excavated for excavational convenience eg section cleaning material whose precise provenience is unclear. Does not include arbitrary spits or spatial units deliberately excavated for finer control of horizontal and vert</description></term>
         <term>{Distinct_floor_contact}
-<description>To be used for material that directly reflects the use of a surface or floor - artefact material on the surface perhaps thin deposits of occupation material. These contexts will be gridded into spatial units for closer control of artifact distributions.</description></term>
+<description>To be used for material that directly reflects the use of a surface or floor - artefact material on the surface perhaps thin deposits of occupation material. These loci will be gridded into spatial units for closer control of artifact distributions.</description></term>
         <term>{Animal_Plant}
 <description>Deposit derived from plant or animal activity</description></term>
         <term>{Other}
@@ -578,7 +578,7 @@
       </lookup>
     </property>
     <property name="Soil Compaction Type" type="vocab">
-      <description>Describe the compaction of the sediments in the Context.</description>
+      <description>Describe the compaction of the sediments in the Locus.</description>
       <formatString><![CDATA[{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
       <lookup>
@@ -3825,7 +3825,7 @@
       </lookup>
     </property>
     <property name="Composition Type" type="vocab">
-      <description>Describe the structure of the Context sediment. The components making up the structure are added below as aggregates.</description>
+      <description>Describe the structure of the Locus sediment. The components making up the structure are added below as aggregates.</description>
       <formatString><![CDATA[{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
       <lookup>
@@ -4000,22 +4000,22 @@
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
     </property>
     <property name="Your description" type="measure">
-      <description>Enter a verbal description of the Context, including its form, contexts, relationship to other Contexts and any other relevant information. This is the main place to record all other descriptive information that may be treated briefly or not covered elsewhere, including signs of disturbance  by burrowing animals etc.</description>
+      <description>Enter a verbal description of the Locus, including its form, loci, relationship to other Loci and any other relevant information. This is the main place to record all other descriptive information that may be treated briefly or not covered elsewhere, including signs of disturbance  by burrowing animals etc.</description>
       <formatString><![CDATA[{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
     </property>
     <property name="Your Discussion" type="measure">
-      <description>Enter an interpretation of the function of the Context and its place in the stratigraphical sequence.</description>
+      <description>Enter an interpretation of the function of the Locus and its place in the stratigraphical sequence.</description>
       <formatString><![CDATA[{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
     </property>
     <property name="Photo" type="file" file="true" thumbnail="true">
-      <description>Use this button to take a photo of the context using the camera on the tablet. Use a scale in the photo</description>
+      <description>Use this button to take a photo of the locus using the camera on the tablet. Use a scale in the photo</description>
       <formatString><![CDATA[{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
     </property>
     <property name="Soil Texture Helper" type="vocab">
-      <description>This helper is based on the standard flow chart for determining soil texture. Start by taking 25g of soil and placing it in your palm. Select each option and follow the prompts for TASKS (like roll ribbon) until you get a result, eg 'silty loam'. Then click the 'Update' button to have that value pasted onto your Context record.</description>
+      <description>This helper is based on the standard flow chart for determining soil texture. Start by taking 25g of soil and placing it in your palm. Select each option and follow the prompts for TASKS (like roll ribbon) until you get a result, eg 'silty loam'. Then click the 'Update' button to have that value pasted onto your Locus record.</description>
       <formatString><![CDATA[{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
       <lookup>
@@ -4083,16 +4083,16 @@
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
     </property>
     <property name="SearchHelp" type="measure">
-      <description>This allows you to find any contexts that contain your search term or string in any field in a context record. Type in your term/string and press the "Search" button. Press "My Contexts" to return to the full list of contexts for this trench.</description>
+      <description>This allows you to find any loci that contain your search term or string in any field in a locus record. Type in your term/string and press the "Search" button. Press "My Loci" to return to the full list of loci for this trench.</description>
       <formatString><![CDATA[{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
     </property>
   </ArchaeologicalElement>
   <ArchaeologicalElement name="Context Group">
-    <description>A group of contexts.</description>
+    <description>A group of loci.</description>
     <property name="Context Group ID" isIdentifier="true" type="measure">
       <description>Feature number taken from the central register.</description>
-      <formatString><![CDATA[Feat-$2-]]></formatString>
+      <formatString><![CDATA[Strat-$2-]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
     </property>
     <property name="Context_Group author" isIdentifier="true" type="measure">
@@ -4221,7 +4221,7 @@
       </lookup>
     </property>
     <property name="Percentage" isIdentifier="true" type="measure">
-      <description>Enter the approximate % volume of this material in the Context.</description>
+      <description>Enter the approximate % volume of this material in the Locus.</description>
       <formatString><![CDATA[$2%]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
     </property>
@@ -4269,7 +4269,7 @@
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
     </property>
     <property name="Number" isIdentifier="true" type="measure">
-      <description>Add a short description of the point being recorded, for example, 1. North edge of floor, 2. South edge of floor. Mark your points on the sketch for each context.</description>
+      <description>Add a short description of the point being recorded, for example, 1. North edge of floor, 2. South edge of floor. Mark your points on the sketch for each locus.</description>
       <formatString><![CDATA[Height-$2-]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
     </property>
@@ -4302,31 +4302,31 @@
   <ArchaeologicalElement name="Photograph Log">
     <description>A record of images created and stored on another device, eg by a professional site photographer.</description>
     <property name="Photo Context ID" isIdentifier="true" type="measure">
-      <description>Unique number or code for each Context</description>
-      <formatString><![CDATA[LOC-$2-]]></formatString>
+      <description>Unique number or code for each Locus</description>
+      <formatString><![CDATA[Loc-$2-]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
     </property>
     <property name="Photo Context Group ID" isIdentifier="true" type="measure">
-      <description>Unique number or code for each Context Group</description>
-      <formatString><![CDATA[STRAT-$2-]]></formatString>
+      <description>Unique number or code for each Stratum</description>
+      <formatString><![CDATA[Strat-$2-]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
     </property>
     <property name="Photograph Reference ID" isIdentifier="true" type="measure">
       <description>Unique number or code allocated by creator of the image. It could be a filename or a reference number</description>
-      <formatString><![CDATA[PHOTO-$2]]></formatString>
+      <formatString><![CDATA[Photo-$2]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
     </property>
     <property name="Scene Type" type="vocab">
-      <description>The type of scene captured, eg opening or closing view of the Context. (Vocab: Open, Close, Other)</description>
+      <description>The type of scene captured, eg opening or closing view of the Locus. (Vocab: Open, Close, Other)</description>
       <formatString><![CDATA[{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
       <lookup>
         <term>{No_Observation}
 <description>data not collected</description></term>
         <term>{Open}
-<description>Photograph taken on opening the Context.</description></term>
+<description>Photograph taken on opening the Locus.</description></term>
         <term>{Close}
-<description>Photograph taken on closing the Context.</description></term>
+<description>Photograph taken on closing the Locus.</description></term>
         <term>{Other}
 <description>Scene not elsewhere described. Enter detail into Annotation field.</description></term>
       </lookup>
@@ -4365,7 +4365,7 @@
   <ArchaeologicalElement name="Diary">
     <description/>
     <property name="Title" isIdentifier="true" type="measure">
-      <description>Give your entry a simple, short title, such as Daily Trench Update, Burial 34, Storm Damage. Note that diary entries allow you to add information in addition to the context, feature and artefact records elsewhere in the module and should not be the primary description point for those entities</description>
+      <description>Give your entry a simple, short title, such as Daily Trench Update, Burial 34, Storm Damage. Note that diary entries allow you to add information in addition to the locus, feature and artefact records elsewhere in the module and should not be the primary description point for those entities</description>
       <formatString><![CDATA[Diary-$2]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
     </property>
@@ -4402,16 +4402,45 @@
       <formatString><![CDATA[-$2]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
     </property>
+    <property name="FCN Class" isIdentifier="true" type="vocab">
+      <description/>
+      <formatString><![CDATA[-$1]]></formatString>
+      <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
+      <lookup>
+        <term>{Sediment}
+<description/></term>
+        <term>{Charcoal}
+<description/></term>
+        <term>{Lithic}
+<description/><term>{Lithic}
+<description/></term><term>{Lithic_Small_Find}
+<description/></term></term>
+        <term>{Fired_Earth}
+<description/><term>{Fired_Earth}
+<description/></term><term>{Ceramic}
+<description/></term><term>{Ceramic_Small_Find}
+<description/></term></term>
+        <term>{Bone}
+<description/><term>{Human_Bone}
+<description/></term><term>{Bone}
+<description/></term><term>{Bone_Small_Find}
+<description/></term></term>
+        <term>{Plaster}
+<description/></term>
+        <term>{Other}
+<description/></term>
+      </lookup>
+    </property>
     <property name="AreaCode" type="measure">
       <description/>
       <formatString><![CDATA[{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
     </property>
     <property name="Context ID" type="measure">
-      <description>Every archaeological context (negative element (cut), deposit, structure, skeleton, artefact cluster) is given a unique 3 or 4 letter context code. Each trench is designated with a separate letter which starts the code, so it is immediately obvious to which trench a context belongs. For example context HAA belongs to Trench H, context MQP to Trench M etc.
-      The contexts are labelled consecutively in alphabetical order using the letters following the trench letter. For Trench H the first context would be HAA, the second HAB, the third HAB and so on. In addition sets of letters can denote parts of trenches, buildings etc. E.g. HFs might denote contexts from a specific building.
-      Burial context codes begin with the letter Z, followed by the trench letter. Hence burial ZHA is the first burial context from trench H.
-      Check with the trench supervisor who will assign the context code from the central register.</description>
+      <description>Every archaeological locus (negative element (cut), deposit, structure, skeleton, artefact cluster) is given a unique 3 or 4 letter locus code. Each trench is designated with a separate letter which starts the code, so it is immediately obvious to which trench a locus belongs. For example locus HAA belongs to Trench H, locus MQP to Trench M etc.
+      The loci are labelled consecutively in alphabetical order using the letters following the trench letter. For Trench H the first locus would be HAA, the second HAB, the third HAB and so on. In addition sets of letters can denote parts of trenches, buildings etc. E.g. HFs might denote loci from a specific building.
+      Burial locus codes begin with the letter Z, followed by the trench letter. Hence burial ZHA is the first burial locus from trench H.
+      Check with the trench supervisor who will assign the locus code from the central register.</description>
       <formatString><![CDATA[{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
     </property>
@@ -4445,35 +4474,6 @@
       <description/>
       <formatString><![CDATA[{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
-    </property>
-    <property name="FCN Class" type="vocab">
-      <description/>
-      <formatString><![CDATA[{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}]]></formatString>
-      <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
-      <lookup>
-        <term>{Sediment}
-<description/></term>
-        <term>{Charcoal}
-<description/></term>
-        <term>{Lithic}
-<description/><term>{Lithic}
-<description/></term><term>{Lithic_Small_Find}
-<description/></term></term>
-        <term>{Fired_Earth}
-<description/><term>{Fired_Earth}
-<description/></term><term>{Ceramic}
-<description/></term><term>{Ceramic_Small_Find}
-<description/></term></term>
-        <term>{Bone}
-<description/><term>{Human_Bone}
-<description/></term><term>{Bone}
-<description/></term><term>{Bone_Small_Find}
-<description/></term></term>
-        <term>{Plaster}
-<description/></term>
-        <term>{Other}
-<description/></term>
-      </lookup>
     </property>
     <property name="FCN Quantity" type="measure">
       <description/>

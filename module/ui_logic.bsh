@@ -479,12 +479,16 @@ makeVocab(String type, String path, String attrib, List vocabExclusions, String 
           }
           result=filteredVocab;
         }
+        Boolean hasNull =
+                vocabExclusions == null
+            || !vocabExclusions.contains("")
+            && !vocabExclusions.contains(null);
         // print("makeVocab() filtered result: " + result);
         if(type.equals("CheckBoxGroup")) {
           populateCheckBoxGroup(path, result);
         } else if(type.equals("DropDown")) {
           // populateDropDown(path, result);
-          populateDropDown(path, result, true);
+          populateDropDown(path, result, hasNull);
         } else if(type.equals("RadioGroup")) {
           populateRadioGroup(path, result);
         } else if(type.equals("List")) {
@@ -2322,6 +2326,24 @@ noDeviceCodeSelected() {
 /******************************************************************************/
 String moduleYear     = new java.text.SimpleDateFormat("yy").format(new Date());
 String moduleSiteCode = "BK" + moduleYear;
+
+// Overrides autogenerator's definition
+incField(String ref, Integer defaultVal) {
+  String val = getFieldValue(ref);
+
+  if (isNull(val)) {
+    setFieldValue(ref, defaultVal);
+    return defaultVal;
+  }
+
+  Integer inc = Integer.parseInt(val);
+  if (!ref.equals("Control/Contexts/Next_Context_AreaCode"))
+    inc += 1;
+  setFieldValue(ref, inc);
+  insertIntoLocalSettings(ref, inc.toString());
+
+  return inc;
+}
 
 copyFieldValue(src, dst) {
   Boolean doFindVocabId = true;

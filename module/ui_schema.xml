@@ -1971,7 +1971,7 @@
       </group>
     </group>
     <group ref="Context_Group_Relationship">
-      <label>{Context_Group_Relationship}</label>
+      <label>{Stratum_Relationship}</label>
       <group ref="Relationships" faims_scrollable="false">
         <label>{Relationships}</label>
         <input faims_web="true" ref="Parent_Identifier">

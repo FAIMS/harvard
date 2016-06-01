@@ -4,6 +4,24 @@
 String moduleYear     = new java.text.SimpleDateFormat("yy").format(new Date());
 String moduleSiteCode = "BK" + moduleYear;
 
+// Overrides autogenerator's definition
+incField(String ref, Integer defaultVal) {
+  String val = getFieldValue(ref);
+
+  if (isNull(val)) {
+    setFieldValue(ref, defaultVal);
+    return defaultVal;
+  }
+
+  Integer inc = Integer.parseInt(val);
+  if (!ref.equals("Control/Contexts/Next_Context_AreaCode"))
+    inc += 1;
+  setFieldValue(ref, inc);
+  insertIntoLocalSettings(ref, inc.toString());
+
+  return inc;
+}
+
 copyFieldValue(src, dst) {
   Boolean doFindVocabId = true;
   copyFieldValue(src, dst, doFindVocabId);

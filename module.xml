@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--TODO: there are missing picture galleries, but I am sure you know about that.-->
 <!--@PREPROC:  ./proc/pre.sh-->
 <!--@POSTPROC: ./proc/post.sh-->
 <module suppressWarnings="true">
@@ -13,40 +12,41 @@
   </RelationshipElement>
 
   <!--Context-to-Context relationship(s)-->
-  <RelationshipElement name="Butts - Butted By" type="hierarchical">
-    <description>Implements a Butts-ButtedBy for contexts.</description>
+  <!--IMPORTANT: These must not contain dashes!-->
+  <RelationshipElement name="Butts" type="hierarchical">
+    <description>Implements a Butts-ButtedBy for loci.</description>
     <parent>Butts</parent>
     <child>Butted By</child>
   </RelationshipElement>
-  <RelationshipElement name="Rebuilt - Rebuilt By" type="hierarchical">
+  <RelationshipElement name="Rebuilt" type="hierarchical">
     <description>Implements a Rebuilt - Rebuilt By</description>
     <parent>Rebuilt</parent>
     <child>Rebuilt By</child>
   </RelationshipElement>
   <RelationshipElement name="Bonded To" type="bidirectional">
-    <description>Implements a bonded to for contexts</description>
+    <description>Implements a bonded to for loci</description>
   </RelationshipElement>
-  <RelationshipElement name="Cuts - Cut By" type="hierarchical">
-    <description>Implements a cuts-cutby for contexts.</description>
+  <RelationshipElement name="Cuts" type="hierarchical">
+    <description>Implements a cuts-cutby for loci.</description>
     <parent>Cuts</parent>
     <child>Cut by</child>
   </RelationshipElement>
-  <RelationshipElement name="Fill Of - Filled With" type="hierarchical">
-    <description>Implements a fillof-filledwith for contexts.</description>
+  <RelationshipElement name="Fill Of" type="hierarchical">
+    <description>Implements a fillof-filledwith for loci.</description>
     <parent>Fill Of</parent>
     <child>Filled With </child>
   </RelationshipElement>
   <RelationshipElement name="Arbitrarily separated from" type="bidirectional">
-    <description>When two or more context codes have been assigned to what is ultimately determined to be the same context</description>
+    <description>When two or more locus codes have been assigned to what is ultimately determined to be the same locus</description>
   </RelationshipElement>
   <RelationshipElement name="Precisely contemporary with" type="bidirectional">
-    <description>Contexts unequivocally contemporary</description>
+    <description>Loci unequivocally contemporary</description>
   </RelationshipElement>
   <RelationshipElement name="Broadly contemporary with" type="bidirectional">
-    <description>Contexts suspected to be contemporary but no direct physical relationship or evidence (i.e. adjacent buildings)</description>
+    <description>Loci suspected to be contemporary but no direct physical relationship or evidence (i.e. adjacent buildings)</description>
   </RelationshipElement>
   <RelationshipElement name="EarlierLater" type="hierarchical">
-    <description>Implements a Stratigraphically Immediately Earlier-Later for contexts.</description>
+    <description>Implements a Stratigraphically Immediately Earlier-Later for loci.</description>
     <parent>Immediately Earlier Than</parent>
     <child>Immediately Later Than</child>
   </RelationshipElement>
@@ -92,17 +92,19 @@
     <cols>
       <Context_AreaCode f="id notnull autonum">
         Trench ID
+        <!--The semantics of the autonum flag have been changed using
+             @POSTPROC-->
         <str>
           <pos>3</pos>
-          <fmt>-TRC-$2</fmt>
+          <fmt>-Trench-$2</fmt>
         </str>
       </Context_AreaCode>
       <Context_Context_ID f="id notnull autonum readonly">
         Locus ID
-        <desc>Every archaeological context (negative element (cut), deposit, structure, skeleton, artefact cluster) is given a unique 3 or 4 letter context code. Each trench is designated with a separate letter which starts the code, so it is immediately obvious to which trench a context belongs. For example context HAA belongs to Trench H, context MQP to Trench M etc.
-        The contexts are labelled consecutively in alphabetical order using the letters following the trench letter. For Trench H the first context would be HAA, the second HAB, the third HAB and so on. In addition sets of letters can denote parts of trenches, buildings etc. E.g. HFs might denote contexts from a specific building.
-        Burial context codes begin with the letter Z, followed by the trench letter. Hence burial ZHA is the first burial context from trench H.
-        Check with the trench supervisor who will assign the context code from the central register.</desc>
+        <desc>Every archaeological locus (negative element (cut), deposit, structure, skeleton, artefact cluster) is given a unique 3 or 4 letter locus code. Each trench is designated with a separate letter which starts the code, so it is immediately obvious to which trench a locus belongs. For example locus HAA belongs to Trench H, locus MQP to Trench M etc.
+        The loci are labelled consecutively in alphabetical order using the letters following the trench letter. For Trench H the first locus would be HAA, the second HAB, the third HAB and so on. In addition sets of letters can denote parts of trenches, buildings etc. E.g. HFs might denote loci from a specific building.
+        Burial locus codes begin with the letter Z, followed by the trench letter. Hence burial ZHA is the first burial locus from trench H.
+        Check with the trench supervisor who will assign the locus code from the central register.</desc>
         <str>
           <pos>1</pos>
           <fmt>L-$2</fmt>
@@ -126,23 +128,23 @@
     </Context_Name>
     <cols>
       <Grid_X b="decimal">
-        <desc>The X coordinate on the SW corner of the context.</desc>
+        <desc>The X coordinate on the SW corner of the locus.</desc>
       </Grid_X>
       <Grid_Y b="decimal">
-        <desc>The Y coordinate on the SW corner of the context.</desc>
+        <desc>The Y coordinate on the SW corner of the locus.</desc>
       </Grid_Y>
     </cols>
     <cols>
       <col>
         <Date_Opened f="id">
-          <desc>Date on which the Context was first excavated. This will automatically be set to the date on which the context is recorded but can be edited using the keyboard.</desc>
+          <desc>Date on which the Locus was first excavated. This will automatically be set to the date on which the locus is recorded but can be edited using the keyboard.</desc>
           <str>
             <pos>4</pos>
-            <fmt>-$2-</fmt>
+            <fmt>-$2</fmt>
           </str>
         </Date_Opened>
         <Team_Members>
-          <desc>Initials of the excavators that have worked on the context.</desc>
+          <desc>Initials of the excavators that have worked on the locus.</desc>
         </Team_Members>
       </col>
       <Excavation_Method t="checkbox" f="notnull">
@@ -162,27 +164,27 @@
     <cols>
       <Horizon_Boundary>
         Basal Edge Definition
-        <desc>Describe the boundary between this and the next context.</desc>
+        <desc>Describe the boundary between this and the next locus.</desc>
         <opts>
           <opt>No Observation<desc>data not collected</desc></opt>
           <opt>Doubtful<desc>You are uncertain of whether you accurately excavated a boundary between deposits</desc> </opt>
-          <opt>Ambiguous<desc>You are uncertain as to whether there was a boundary between contexts.</desc> </opt>
-          <opt>Merging<desc>There is a distinction between the excavated context and earlier context(s) but the excavated contexts and the earlier contexts grade into each other</desc> </opt>
-          <opt>Clear<desc>The boundary with the earlier context(s) was very clearly defined during excavation.</desc> </opt>
-          <opt>ArbitrarySpit<desc>There is no meaningful boundary with an earlier context. The boundary has been artificially created by the excavation process.</desc> </opt>
+          <opt>Ambiguous<desc>You are uncertain as to whether there was a boundary between loci.</desc> </opt>
+          <opt>Merging<desc>There is a distinction between the excavated locus and earlier locus/loci but the excavated loci and the earlier loci grade into each other</desc> </opt>
+          <opt>Clear<desc>The boundary with the earlier locus/loci was very clearly defined during excavation.</desc> </opt>
+          <opt>ArbitrarySpit<desc>There is no meaningful boundary with an earlier locus. The boundary has been artificially created by the excavation process.</desc> </opt>
         </opts>
       </Horizon_Boundary>
       <Contamination>
-        <desc>The extent to which the context has been contaminated.</desc>
+        <desc>The extent to which the locus has been contaminated.</desc>
         <opts>
           <opt>No Observation</opt>
           <opt>Contaminated
           <desc>Contaminated by later material eg by unidentified cut at time of initial excavation by large scale animal or root activity which were not isolated by excavation by excavation processes some annoying person mixed the material or stuff fell into deposit from the section.</desc></opt>
           <opt>Possibly Contaminated
-          <desc>At Boncuklu as at many sites there is significant animal activity represented by burrows. We aim to remove most animal burrow fill. This is easier in contexts with clear and compact sediment characteristics like plaster floors walls building fills more difficult in loose middens. In one sense at Boncuklu as at many sites every context is possibly contaminated but there would be little point in indicating that since it is something we generally understand. Therefore this option is to be
+          <desc>At Boncuklu as at many sites there is significant animal activity represented by burrows. We aim to remove most animal burrow fill. This is easier in loci with clear and compact sediment characteristics like plaster floors walls building fills more difficult in loose middens. In one sense at Boncuklu as at many sites every locus is possibly contaminated but there would be little point in indicating that since it is something we generally understand. Therefore this option is to be
           used to indicate those situations where one may have tried to remove animal introduced or other contamination but are unsure this has been successful and there is a likely but not definitive chance of some later contamination beyond. This option also applies where there may have been later cuts not recognised but we are not sure.</desc></opt>
           <opt>High likelihood high amount derived
-          <desc>It is very likely that significant amounts of earlier artifact and ecofact material has become incorporated in the deposit. For example; is this context a mud brick wall or other structure or building or structural debris or a deposit which has seen the redeposition of material excavated from cuts. These are all situations in which earlier material is likely to have been dug up and re-used (in the mud brick) or re-deposited (when digging out pits).</desc></opt>
+          <desc>It is very likely that significant amounts of earlier artifact and ecofact material has become incorporated in the deposit. For example; is this locus a mud brick wall or other structure or building or structural debris or a deposit which has seen the redeposition of material excavated from cuts. These are all situations in which earlier material is likely to have been dug up and re-used (in the mud brick) or re-deposited (when digging out pits).</desc></opt>
           <opt>Low likelihood low amount derived
           <desc>You think there is little chance that very much earlier material has made it's way into this deposit.</desc></opt>
           <opt>Primary deposit
@@ -192,8 +194,8 @@
     </cols>
     <Context_Type f="id">
       Locus Type
-      <desc>Describe the context type by selecting an icon as defined below.
-  When you have selected a context type you can proceed to open the "Fill in context type details" page. Note this page will not open unless you have selected a context type.</desc>
+      <desc>Describe the locus type by selecting an icon as defined below.
+  When you have selected a locus type you can proceed to open the "Fill in locus type details" page. Note this page will not open unless you have selected a locus type.</desc>
       <str>
         <pos>2</pos>
         <fmt>-$1</fmt>
@@ -202,11 +204,11 @@
         <opt p="gallery/Blanks/Trail.png">No Observation
         <desc>data not collected</desc></opt>
         <opt p="gallery/ContextType/Orange/Cut.png">Cut
-        <desc>Any Context which represents the removal of earlier deposit and thus forms a negative interface (cut) with another context, such as a cut for a pit, burial, ditch, wall foundation or robber trench.</desc></opt>
+        <desc>Any Locus which represents the removal of earlier deposit and thus forms a negative interface (cut) with another locus, such as a cut for a pit, burial, ditch, wall foundation or robber trench.</desc></opt>
         <opt p="gallery/ContextType/Orange/Deposit.png">Deposit
-        <desc>Any Context with deposited sediment and soil, such as floor layers, pit and grave fills, hearth fills and natural sediments.</desc></opt>
+        <desc>Any Locus with deposited sediment and soil, such as floor layers, pit and grave fills, hearth fills and natural sediments.</desc></opt>
         <opt p="gallery/ContextType/Orange/Structure.png">Feature
-        <desc>Any Context consisting of deliberately constructed structural element, independent of a Negative Element (i.e. cut, such as a wall or a hearth).</desc></opt>
+        <desc>Any Locus consisting of deliberately constructed structural element, independent of a Negative Element (i.e. cut, such as a wall or a hearth).</desc></opt>
         <opt p="gallery/ContextType/Orange/Skeleton.png">Skeleton
         <desc>Human skeletal remains.</desc></opt>
       </opts>
@@ -216,15 +218,15 @@
     </Fill_in_Context_Type_Details>
     <cols>
       <Plans f="notnull">
-        <desc>Reference numbers to plans or drawings of this Context.</desc>
+        <desc>Reference numbers to plans or drawings of this Locus.</desc>
       </Plans>
       <Section_Numbers f="notnull">
-        <desc>Reference numbers to section drawings of this Context</desc>
+        <desc>Reference numbers to section drawings of this Locus</desc>
       </Section_Numbers>
     </cols>
     <cols>
       <Date_Closed>
-        <desc>The date excavation of the Context ended and it was closed. Press the 'Add Date Closed' button to insert today's date.</desc>
+        <desc>The date excavation of the Locus ended and it was closed. Press the 'Add Date Closed' button to insert today's date.</desc>
       </Date_Closed>
       <Add_Date_Closed t="button"/>
     </cols>
@@ -237,11 +239,11 @@
     <cols>
       <Highest_Level f="notnull" b="decimal">
         Absolute Height Top (m)
-        <desc>The highest elevation or 'starting level' recorded for that context relative to the site grid.</desc>
+        <desc>The highest elevation or 'starting level' recorded for that locus relative to the site grid.</desc>
       </Highest_Level>
       <Lowest_Level f="notnull" b="decimal">
         Absolute Height Bottom (m)
-        <desc>The lowest elevation recorded for that context relative to the site grid.</desc>
+        <desc>The lowest elevation recorded for that locus relative to the site grid.</desc>
       </Lowest_Level>
     </cols>
     <cols>
@@ -260,7 +262,7 @@
     </cols>
     <Volume f="notnull" b="decimal">
       Volume (litres)
-      <desc>Estimate the volume of the context in litres. All soil will be collected in buckets of a known volume. A tally should be kept of buckets produced from a context and the total volume calculated using that tally.</desc>
+      <desc>Estimate the volume of the locus in litres. All soil will be collected in buckets of a known volume. A tally should be kept of buckets produced from a locus and the total volume calculated using that tally.</desc>
     </Volume>
     <Add_Height t="button" lc="Height"/>
     <Height_List ec="Height" t="list"/>
@@ -268,7 +270,7 @@
   <Cut>
     <Cut_Your_Interpretation f="notnull">
       Your Interpretation
-      <desc>Your interpretation of the likely function of the Context using standardised definitions.</desc>
+      <desc>Your interpretation of the likely function of the Locus using standardised definitions.</desc>
       <opts>
         <opt>No Observation</opt>
         <opt>Indeterminate </opt>
@@ -388,11 +390,11 @@
         <opt>No Observation
         <desc>data not collected</desc></opt>
         <opt>Negative Element
-        <desc>Any Context which forms a negative interface (cut) with another context, such as a cut for a pit, burial, ditch, wall foundation or robber trench.</desc></opt>
+        <desc>Any Locus which forms a negative interface (cut) with another locus, such as a cut for a pit, burial, ditch, wall foundation or robber trench.</desc></opt>
         <opt>Deposit
-        <desc>Any Context with deposited sediment and soil, such as floor layers, pit and grave fills, hearth fills and natural sediments.</desc></opt>
+        <desc>Any Locus with deposited sediment and soil, such as floor layers, pit and grave fills, hearth fills and natural sediments.</desc></opt>
         <opt>Structure
-        <desc>Any Context consisting of deliberately constructed structures, independent of a Negative Element (i.e. cut, such as walls and hearths).</desc></opt>
+        <desc>Any Locus consisting of deliberately constructed structures, independent of a Negative Element (i.e. cut, such as walls and hearths).</desc></opt>
         <opt>Wall
         <desc>A structured vertical barrier made from durable materials defining a space.</desc></opt>
         <opt>Floor
@@ -471,7 +473,7 @@
   <Deposit>
     <Deposit_Your_Interpretation f="notnull">
       Your Interpretation
-      <desc>Your interpretation of the likely function of the context.</desc>
+      <desc>Your interpretation of the likely function of the locus.</desc>
       <opts>
         <opt>No Observation</opt>
         <opt>Indeterminate
@@ -499,9 +501,9 @@
         <opt>Ash/Charcoal
         <desc>A deposit consisting largely of carbonized/charred plant material and/or ash</desc></opt>
         <opt>Arbitrary
-        <desc>This applies to artificial contexts excavated for excavational convenience eg section cleaning material whose precise provenience is unclear. Does not include arbitrary spits or spatial units deliberately excavated for finer control of horizontal and vert</desc></opt>
+        <desc>This applies to artificial loci excavated for excavational convenience eg section cleaning material whose precise provenience is unclear. Does not include arbitrary spits or spatial units deliberately excavated for finer control of horizontal and vert</desc></opt>
         <opt>Distinct floor contact
-        <desc>To be used for material that directly reflects the use of a surface or floor - artefact material on the surface perhaps thin deposits of occupation material. These contexts will be gridded into spatial units for closer control of artifact distributions.</desc></opt>
+        <desc>To be used for material that directly reflects the use of a surface or floor - artefact material on the surface perhaps thin deposits of occupation material. These loci will be gridded into spatial units for closer control of artifact distributions.</desc></opt>
         <opt>Animal/Plant
         <desc>Deposit derived from plant or animal activity</desc></opt>
         <opt>Other
@@ -510,7 +512,7 @@
     </Deposit_Your_Interpretation>
     <Soil_Compaction_Type f="notnull">
       Texture
-      <desc>Describe the compaction of the sediments in the Context.</desc>
+      <desc>Describe the compaction of the sediments in the Locus.</desc>
       <opts>
         <opt>No Observation</opt>
         <opt>Loose
@@ -599,7 +601,7 @@
     <cols>
       <Composition_Type f="notnull">
         Deposit Structure
-        <desc>Describe the structure of the Context sediment. The components making up the structure are added below as aggregates.</desc>
+        <desc>Describe the structure of the Locus sediment. The components making up the structure are added below as aggregates.</desc>
         <opts>
           <opt>No Observation</opt>
           <opt>Homogenous
@@ -763,10 +765,10 @@
     Interpretation
     <Your_description f="notnull">
       Your Description
-      <desc>Enter a verbal description of the Context, including its form, contexts, relationship to other Contexts and any other relevant information. This is the main place to record all other descriptive information that may be treated briefly or not covered elsewhere, including signs of disturbance  by burrowing animals etc.</desc>
+      <desc>Enter a verbal description of the Locus, including its form, loci, relationship to other Loci and any other relevant information. This is the main place to record all other descriptive information that may be treated briefly or not covered elsewhere, including signs of disturbance  by burrowing animals etc.</desc>
     </Your_description>
     <Your_Discussion f="notnull">
-      <desc>Enter an interpretation of the function of the Context and its place in the stratigraphical sequence.</desc>
+      <desc>Enter an interpretation of the function of the Locus and its place in the stratigraphical sequence.</desc>
     </Your_Discussion>
   </Int>
   <Relationships f="noscroll">
@@ -792,7 +794,7 @@
   </FCN>
   <Add>
     <Photo t="camera">
-      <desc>Use this button to take a photo of the context using the camera on the tablet. Use a scale in the photo</desc>
+      <desc>Use this button to take a photo of the locus using the camera on the tablet. Use a scale in the photo</desc>
     </Photo>
     <View_Attached_Files t="viewfiles"/>
     <Add_Photograph_Log t="button" lc="Photograph_Log"/>
@@ -802,7 +804,7 @@
     Material Helper
     <Soil_Texture_Helper>
       Material Helper
-      <desc>This helper is based on the standard flow chart for determining soil texture. Start by taking 25g of soil and placing it in your palm. Select each option and follow the prompts for TASKS (like roll ribbon) until you get a result, eg 'silty loam'. Then click the 'Update' button to have that value pasted onto your Context record.</desc>
+      <desc>This helper is based on the standard flow chart for determining soil texture. Start by taking 25g of soil and placing it in your palm. Select each option and follow the prompts for TASKS (like roll ribbon) until you get a result, eg 'silty loam'. Then click the 'Update' button to have that value pasted onto your Locus record.</desc>
       <opts>
         <opt>Soil does NOT remain in ball when squeezed       
         <desc>Place approximately 25 g soil in palm. Add water dropwise and knead the soil to break down all aggregates. Soil is at the proper consistency when plastic and moldable like moist putty.</desc>
@@ -896,14 +898,14 @@
       <desc>Short code to signify the excavation site and often the year of excavation. Assigned automatically by the module.</desc>
     </Site_Code>
     <SearchHelp>
-      <desc>This allows you to find any contexts that contain your search term or string in any field in a context record. Type in your term/string and press the "Search" button. Press "My Contexts" to return to the full list of contexts for this trench.</desc>
+      <desc>This allows you to find any loci that contain your search term or string in any field in a locus record. Type in your term/string and press the "Search" button. Press "My Loci" to return to the full list of loci for this trench.</desc>
     </SearchHelp>
   </Vars>
 </Context>
 
 <Context_Group>
   Stratum
-  <desc>A group of contexts.</desc>
+  <desc>A group of loci.</desc>
   <Gen>
     General
     <cols>
@@ -915,7 +917,7 @@
         <desc>Feature number taken from the central register.</desc>
         <str>
           <pos>1</pos>
-          <fmt><![CDATA[Feat-$2-]]></fmt>
+          <fmt><![CDATA[Strat-$2-]]></fmt>
         </str>
       </Context_Group_ID>
     </cols>
@@ -1063,7 +1065,7 @@
           <pos>2</pos>
           <fmt>$2%</fmt>
         </str>
-        <desc>Enter the approximate % volume of this material in the Context.</desc>
+        <desc>Enter the approximate % volume of this material in the Locus.</desc>
       </Percentage>
     </cols>
     <Shape>
@@ -1114,7 +1116,7 @@
       </str>
     </Height_Context_ID>
     <Number f="id notnull">
-      <desc>Add a short description of the point being recorded, for example, 1. North edge of floor, 2. South edge of floor. Mark your points on the sketch for each context.</desc>
+      <desc>Add a short description of the point being recorded, for example, 1. North edge of floor, 2. South edge of floor. Mark your points on the sketch for each locus.</desc>
       <str>
         <fmt>Height-$2-</fmt>
       </str>
@@ -1152,38 +1154,38 @@
     <cols>
       <Photo_Context_ID f="id readonly">
         Locus ID
-        <desc>Unique number or code for each Context</desc>
+        <desc>Unique number or code for each Locus</desc>
         <str>
           <pos>1</pos>
-          <fmt>LOC-$2-</fmt>
+          <fmt>Loc-$2-</fmt>
         </str>
       </Photo_Context_ID>
       <Photo_Context_Group_ID f="id readonly">
         Stratum ID
-        <desc>Unique number or code for each Context Group</desc>
+        <desc>Unique number or code for each Stratum</desc>
         <str>
           <pos>2</pos>
-          <fmt>STRAT-$2-</fmt>
+          <fmt>Strat-$2-</fmt>
         </str>
       </Photo_Context_Group_ID>
       <Photograph_Reference_ID f="id">
         <desc>Unique number or code allocated by creator of the image. It could be a filename or a reference number</desc>
         <str>
           <pos>3</pos>
-          <fmt>PHOTO-$2</fmt>
+          <fmt>Photo-$2</fmt>
         </str>
       </Photograph_Reference_ID>
     </cols>
     <Scene_Type>
-      <desc>The type of scene captured, eg opening or closing view of the Context. (Vocab: Open, Close, Other)</desc>
+      <desc>The type of scene captured, eg opening or closing view of the Locus. (Vocab: Open, Close, Other)</desc>
       <opts>
         <opt>No Observation
         <desc>data not collected</desc></opt>
         <opt> Open
-          <desc>Photograph taken on opening the Context.</desc>
+          <desc>Photograph taken on opening the Locus.</desc>
         </opt>
         <opt> Close
-          <desc>Photograph taken on closing the Context.</desc>
+          <desc>Photograph taken on closing the Locus.</desc>
         </opt>
         <opt> Other
           <desc>Scene not elsewhere described. Enter detail into Annotation field.</desc>
@@ -1208,7 +1210,7 @@
 <Diary>
   <Diary>
     <Title f="id">
-      <desc>Give your entry a simple, short title, such as Daily Trench Update, Burial 34, Storm Damage. Note that diary entries allow you to add information in addition to the context, feature and artefact records elsewhere in the module and should not be the primary description point for those entities</desc>
+      <desc>Give your entry a simple, short title, such as Daily Trench Update, Burial 34, Storm Damage. Note that diary entries allow you to add information in addition to the locus, feature and artefact records elsewhere in the module and should not be the primary description point for those entities</desc>
       <str>
         <pos>1</pos>
         <fmt>Diary-$2</fmt>
@@ -1274,6 +1276,7 @@
 
 <!--Context Group to Context-->
 <Context_Group_Relationship f="nodata">
+  Stratum Relationship
   <Relationships f="noscroll">
     <Parent_Identifier t="webview"/>
     <cols>
@@ -1323,10 +1326,10 @@
     </AreaCode>
     <Context_ID f="notnull">
       Locus ID
-      <desc>Every archaeological context (negative element (cut), deposit, structure, skeleton, artefact cluster) is given a unique 3 or 4 letter context code. Each trench is designated with a separate letter which starts the code, so it is immediately obvious to which trench a context belongs. For example context HAA belongs to Trench H, context MQP to Trench M etc.
-      The contexts are labelled consecutively in alphabetical order using the letters following the trench letter. For Trench H the first context would be HAA, the second HAB, the third HAB and so on. In addition sets of letters can denote parts of trenches, buildings etc. E.g. HFs might denote contexts from a specific building.
-      Burial context codes begin with the letter Z, followed by the trench letter. Hence burial ZHA is the first burial context from trench H.
-      Check with the trench supervisor who will assign the context code from the central register.</desc>
+      <desc>Every archaeological locus (negative element (cut), deposit, structure, skeleton, artefact cluster) is given a unique 3 or 4 letter locus code. Each trench is designated with a separate letter which starts the code, so it is immediately obvious to which trench a locus belongs. For example locus HAA belongs to Trench H, locus MQP to Trench M etc.
+      The loci are labelled consecutively in alphabetical order using the letters following the trench letter. For Trench H the first locus would be HAA, the second HAB, the third HAB and so on. In addition sets of letters can denote parts of trenches, buildings etc. E.g. HFs might denote loci from a specific building.
+      Burial locus codes begin with the letter Z, followed by the trench letter. Hence burial ZHA is the first burial locus from trench H.
+      Check with the trench supervisor who will assign the locus code from the central register.</desc>
     </Context_ID>
     <Collection_Area/>
     <gps/>
@@ -1342,7 +1345,11 @@
       </opts>
     </Collection_Method>
     <Reason_for_Collection/>
-    <FCN_Class>
+    <FCN_Class f="id">
+      <str>
+        <pos>3</pos>
+        <fmt>-$1</fmt>
+      </str>
       <opts>
         <opt>Sediment</opt>
         <opt>Charcoal</opt>
