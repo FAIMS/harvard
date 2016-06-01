@@ -58,12 +58,12 @@
     </property>
     <property name="Cut Your Interpretation">
       <validator type="blankchecker">
-        <param value="measure" type="field"/>
+        <param value="vocab" type="field"/>
       </validator>
     </property>
     <property name="Shape of Cut">
       <validator type="blankchecker">
-        <param value="measure" type="field"/>
+        <param value="vocab" type="field"/>
       </validator>
     </property>
     <property name="Shape of Corners">
@@ -83,27 +83,27 @@
     </property>
     <property name="Sides of Cut">
       <validator type="blankchecker">
-        <param value="measure" type="field"/>
+        <param value="vocab" type="field"/>
       </validator>
     </property>
     <property name="Shape of Base">
       <validator type="blankchecker">
-        <param value="measure" type="field"/>
+        <param value="vocab" type="field"/>
       </validator>
     </property>
     <property name="Orientation">
       <validator type="blankchecker">
-        <param value="measure" type="field"/>
+        <param value="vocab" type="field"/>
       </validator>
     </property>
     <property name="Inclination of axis">
       <validator type="blankchecker">
-        <param value="measure" type="field"/>
+        <param value="vocab" type="field"/>
       </validator>
     </property>
     <property name="CG Context Type">
       <validator type="blankchecker">
-        <param value="measure" type="field"/>
+        <param value="vocab" type="field"/>
       </validator>
     </property>
     <property name="CG Your description">
@@ -113,27 +113,27 @@
     </property>
     <property name="Deposit Your Interpretation">
       <validator type="blankchecker">
-        <param value="measure" type="field"/>
+        <param value="vocab" type="field"/>
       </validator>
     </property>
     <property name="Soil Compaction Type">
       <validator type="blankchecker">
-        <param value="measure" type="field"/>
+        <param value="vocab" type="field"/>
       </validator>
     </property>
     <property name="Soil Texture">
       <validator type="blankchecker">
-        <param value="measure" type="field"/>
+        <param value="vocab" type="field"/>
       </validator>
     </property>
     <property name="Composition Type">
       <validator type="blankchecker">
-        <param value="measure" type="field"/>
+        <param value="vocab" type="field"/>
       </validator>
     </property>
     <property name="Deposit Bedding">
       <validator type="blankchecker">
-        <param value="measure" type="field"/>
+        <param value="vocab" type="field"/>
       </validator>
     </property>
     <property name="Deposit Inclusions">
