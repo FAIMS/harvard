@@ -392,35 +392,64 @@
       <desc>Enter the type of feature you are describing.</desc>
       <opts>
         <opt>No Observation
-        <desc>data not collected</desc></opt>
+          <desc>data not collected</desc>
+        </opt>
         <opt>Negative Element
-        <desc>Any Locus which forms a negative interface (cut) with another locus, such as a cut for a pit, burial, ditch, wall foundation or robber trench.</desc></opt>
+          <desc>Any Locus which forms a negative interface (cut) with another locus, such as a cut for a pit, burial, ditch, wall foundation or robber trench.</desc>
+        </opt>
         <opt>Deposit
-        <desc>Any Locus with deposited sediment and soil, such as floor layers, pit and grave fills, hearth fills and natural sediments.</desc></opt>
+          <desc>Any Locus with deposited sediment and soil, such as floor layers, pit and grave fills, hearth fills and natural sediments.</desc>
+        </opt>
         <opt>Structure
-        <desc>Any Locus consisting of deliberately constructed structures, independent of a Negative Element (i.e. cut, such as walls and hearths).</desc></opt>
+          <desc>Any Locus consisting of deliberately constructed structures, independent of a Negative Element (i.e. cut, such as walls and hearths).</desc>
+        </opt>
         <opt>Wall
-        <desc>A structured vertical barrier made from durable materials defining a space.</desc></opt>
+          <desc>A structured vertical barrier made from durable materials defining a space.</desc>
+        </opt>
         <opt>Floor
-        <desc>A  prepared surface, internal or external, including those made from plaster, earth etc.</desc></opt>
+          <desc>A  prepared surface, internal or external, including those made from plaster, earth etc.</desc>
+        </opt>
         <opt>Well
-        <desc>A deep pit excavated to reach the water table.</desc></opt>
+          <desc>A deep pit excavated to reach the water table.</desc>
+        </opt>
         <opt>Pit
-        <desc>A large cut filled with sediment or other materials.</desc></opt>
+          <desc>A large cut filled with sediment or other materials.</desc>
+        </opt>
         <opt>Room
-        <desc>A discrete space within a house or other building.</desc></opt>
+          <desc>A discrete space within a house or other building.</desc>
+        </opt>
         <opt>Burial
-        <desc>The cut, fill plus any associated structures relating to the deposition of human remains, including those remains, such as a skeleton.</desc></opt>
+          <desc>The cut, fill plus any associated structures relating to the deposition of human remains, including those remains, such as a skeleton.</desc>
+        </opt>
         <opt>Building
-        <desc>A building is defined when several walls surround a discrete space</desc></opt>
+          <desc>A building is defined when several walls surround a discrete space</desc>
+        </opt>
         <opt>Surface
-        <desc>A compacted horizontal layer, internal or external, on which activities took place.</desc></opt>
-        <opt>Space <desc>A space is an area bounded by a structure of some kind, either external or internal, and can be for example a courtyard, room, ante-room etc.</desc></opt>
-        <opt>Posthole<desc>A small pit cut to hold an upright post.</desc></opt>
-        <opt>Stakehole<desc>Cuts smaller than postholes, typically c. 1-5 cm diameter.</desc></opt>
-        <opt>Hearth<desc>A prepared structure in which a fire is set.</desc></opt>
-        <opt>Stakehole row <desc>A row of cuts smaller than postholes, typically c. 1-5 cm diameter.</desc></opt>
-        <opt>Other<desc>Function not elsewhere described. Provide details in Annotation field.</desc></opt>
+          <desc>A compacted horizontal layer, internal or external, on which activities took place.</desc>
+        </opt>
+        <opt>Space
+          <desc>A space is an area bounded by a structure of some kind, either external or internal, and can be for example a courtyard, room, ante-room etc.</desc>
+        </opt>
+        <opt>Posthole
+          <desc>A small pit cut to hold an upright post.</desc>
+        </opt>
+        <opt>Stakehole
+          <desc>Cuts smaller than postholes, typically c. 1-5 cm diameter.</desc>
+        </opt>
+        <opt>Hearth
+          <desc>A prepared structure in which a fire is set.</desc>
+        </opt>
+        <opt>Stakehole row
+          <desc>A row of cuts smaller than postholes, typically c. 1-5 cm diameter.</desc>
+        </opt>
+        <opt>Kiln</opt>
+        <opt>Furnace</opt>
+        <opt>House</opt>
+        <opt>Ditch</opt>
+        <opt>Midden</opt>
+        <opt>Other</opt>
+          <desc>Function not elsewhere described. Provide details in Annotation field.</desc>
+        </opt>
       </opts>
     </CG_Context_Type>
     <CG_Your_description f="notnull">
