@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 
-cp files/* module/
+cd data
+tar -cvzf ../module/data.tar.gz *
+cd ..
+p files/* module/
 
 cd module
 

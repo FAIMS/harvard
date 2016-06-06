@@ -209,6 +209,8 @@
         <desc>Any Locus which represents the removal of earlier deposit and thus forms a negative interface (cut) with another locus, such as a cut for a pit, burial, ditch, wall foundation or robber trench.</desc></opt>
         <opt p="gallery/ContextType/Orange/Deposit.png">Deposit
         <desc>Any Locus with deposited sediment and soil, such as floor layers, pit and grave fills, hearth fills and natural sediments.</desc></opt>
+        <opt p="gallery/ContextType/Orange/Natural.png">Natural
+        <desc>Any Locus with deposited sediment and soil, such as floor layers, pit and grave fills, hearth fills and natural sediments.</desc></opt>
         <opt p="gallery/ContextType/Orange/Structure.png">Feature Part
         <desc>Any Locus consisting of deliberately constructed structural element, independent of a Negative Element (i.e. cut, such as a wall or a hearth).</desc></opt>
         <opt p="gallery/ContextType/Orange/Skeleton.png">Skeleton

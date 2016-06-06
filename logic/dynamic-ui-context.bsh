@@ -21,7 +21,7 @@ openContextTabs(Boolean showGeneralInformationTab){
           onFetch(name) {
             if (!isNull(name)){
                 String vocab = name.get(0);
-                if ((vocab.equals("{Deposit}"))){
+                if (vocab.equals("{Deposit}") || vocab.equals("{Natural}")){
                     cancelTab("Context/Cut", false);
                     cancelTab("Context/Structure", false);
                     cancelTab("Context/Skeleton", false);
