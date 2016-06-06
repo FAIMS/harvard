@@ -193,7 +193,7 @@
       </Contamination>
     </cols>
     <Context_Type f="id">
-      Locus Type
+      Feature Part
       <desc>Describe the locus type by selecting an icon as defined below.
   When you have selected a locus type you can proceed to open the "Fill in locus type details" page. Note this page will not open unless you have selected a locus type.</desc>
       <str>
@@ -214,7 +214,7 @@
       </opts>
     </Context_Type>
     <Fill_in_Context_Type_Details t="button">
-      Fill in Locus Type Details
+      Fill in Feature Part Details
     </Fill_in_Context_Type_Details>
     <cols>
       <Plans f="notnull">
