@@ -386,7 +386,7 @@
     <Truncation/>
   </Cut>
   <Structure>
-    Feature
+    Feature Part
     <CG_Context_Type f="notnull">
       Feature Type
       <desc>Enter the type of feature you are describing.</desc>
