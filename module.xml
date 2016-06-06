@@ -68,7 +68,9 @@
   <Contexts>
     Main
     <Create_New_Locus   t="button" l="Context"/>
-    <Create_New_Stratum t="button" l="Context_Group"/>
+    <Create_New_Stratum t="button" l="Context_Group">
+      Create New Stratum/Feature
+    </Create_New_Stratum>
     <Create_New_Diary   t="button" l="Diary"/>
     <Team_Members/>
     <Trench_Dimensions t="dropdown"/>
@@ -193,7 +195,7 @@
       </Contamination>
     </cols>
     <Context_Type f="id">
-      Feature Part
+      Locus Type
       <desc>Describe the locus type by selecting an icon as defined below.
   When you have selected a locus type you can proceed to open the "Fill in locus type details" page. Note this page will not open unless you have selected a locus type.</desc>
       <str>
@@ -207,7 +209,7 @@
         <desc>Any Locus which represents the removal of earlier deposit and thus forms a negative interface (cut) with another locus, such as a cut for a pit, burial, ditch, wall foundation or robber trench.</desc></opt>
         <opt p="gallery/ContextType/Orange/Deposit.png">Deposit
         <desc>Any Locus with deposited sediment and soil, such as floor layers, pit and grave fills, hearth fills and natural sediments.</desc></opt>
-        <opt p="gallery/ContextType/Orange/Structure.png">Feature
+        <opt p="gallery/ContextType/Orange/Structure.png">Feature Part
         <desc>Any Locus consisting of deliberately constructed structural element, independent of a Negative Element (i.e. cut, such as a wall or a hearth).</desc></opt>
         <opt p="gallery/ContextType/Orange/Skeleton.png">Skeleton
         <desc>Human skeletal remains.</desc></opt>

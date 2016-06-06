@@ -31,7 +31,7 @@ openContextTabs(Boolean showGeneralInformationTab){
                     cancelTab("Context/Structure", false);
                     cancelTab("Context/Skeleton", false);
                     showTab("Context/Cut");
-                } else if (vocab.equals("{Feature}")){
+                } else if (vocab.equals("{Feature_Part}")){
                     cancelTab("Context/Deposit", false);
                     cancelTab("Context/Cut", false);
                     cancelTab("Context/Skeleton", false);
