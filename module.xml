@@ -154,13 +154,20 @@
         <desc>Enter details here about the method of archaeological excavation.</desc>
         <opts>
           <opt>Hand-pick
-          <desc>Excavated by hand-pick.</desc></opt>
+            <desc>Excavated by hand-pick.</desc>
+          </opt>
           <opt>Trowel
-          <desc>Excavated by trowel.</desc></opt>
+            <desc>Excavated by trowel.</desc>
+          </opt>
           <opt>Pick
-          <desc>Excavated by pick.</desc></opt>
+            <desc>Excavated by pick.</desc>
+          </opt>
+          <opt>
+            Shovel
+          </opt>
           <opt>Other
-          <desc>Excavated by another method. Add details in Annotation field.</desc></opt>
+            <desc>Excavated by another method. Add details in Annotation field.</desc>
+          </opt>
         </opts>
       </Excavation_Method>
     </cols>
