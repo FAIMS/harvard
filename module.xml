@@ -237,6 +237,10 @@
       </Section_Numbers>
     </cols>
     <cols>
+      <Photo_of_Plan    t="camera"/>
+      <Photo_of_Section t="camera"/>
+    </cols>
+    <cols>
       <Date_Closed>
         <desc>The date excavation of the Locus ended and it was closed. Press the 'Add Date Closed' button to insert today's date.</desc>
       </Date_Closed>
