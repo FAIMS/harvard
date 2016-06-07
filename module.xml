@@ -71,6 +71,7 @@
     <Create_New_Stratum t="button" l="Context_Group">
       Create New Stratum/Feature
     </Create_New_Stratum>
+    <New_FCN            t="button" l="FCN"/>
     <Create_New_Diary   t="button" l="Diary"/>
     <Team_Members/>
     <Trench_Dimensions t="dropdown"/>
