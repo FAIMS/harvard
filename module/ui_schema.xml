@@ -75,6 +75,7 @@
             <Contexts>
               <Create_New_Locus/>
               <Create_New_Stratum/>
+              <New_FCN/>
               <Create_New_Diary/>
               <Team_Members/>
               <Trench_Dimensions/>
@@ -154,20 +155,30 @@
               </Colgroup_4>
               <Colgroup_5>
                 <Col_0>
+                  <Photo_of_Plan/>
+                  <Button_Photo_of_Plan/>
+                </Col_0>
+                <Col_1>
+                  <Photo_of_Section/>
+                  <Button_Photo_of_Section/>
+                </Col_1>
+              </Colgroup_5>
+              <Colgroup_6>
+                <Col_0>
                   <Date_Closed/>
                 </Col_0>
                 <Col_1>
                   <Add_Date_Closed/>
                 </Col_1>
-              </Colgroup_5>
-              <Colgroup_6>
+              </Colgroup_6>
+              <Colgroup_7>
                 <Col_0>
                   <author/>
                 </Col_0>
                 <Col_1>
                   <timestamp/>
                 </Col_1>
-              </Colgroup_6>
+              </Colgroup_7>
             </General>
             <Measure>
               <Colgroup_0>
@@ -401,6 +412,7 @@
           </Context>
           <Context_Group>
             <Gen>
+              <Record_Type/>
               <Colgroup_0>
                 <Col_0>
                   <Context_Group_AreaCode/>
@@ -409,6 +421,7 @@
                   <Context_Group_ID/>
                 </Col_1>
               </Colgroup_0>
+              <Feature_Type_Group/>
               <CG_Your_description/>
               <CG_Your_Interpretation/>
               <Your_Discussion/>
@@ -752,7 +765,10 @@
           <label>{Create_New_Locus}</label>
         </trigger>
         <trigger ref="Create_New_Stratum">
-          <label>{Create_New_Stratum}</label>
+          <label>{Create_New_Stratum_Feature}</label>
+        </trigger>
+        <trigger ref="New_FCN">
+          <label>{New_FCN}</label>
         </trigger>
         <trigger ref="Create_New_Diary">
           <label>{Create_New_Diary}</label>
@@ -950,6 +966,35 @@
           <label/>
           <group ref="Col_0" faims_style="even">
             <label/>
+            <select type="camera" faims_attribute_type="measure" faims_sync="true" ref="Photo_of_Plan" faims_attribute_name="Photo of Plan">
+              <label>{Photo_of_Plan}</label>
+              <item>
+                <label>Options not loaded</label>
+                <value>0</value>
+              </item>
+            </select>
+            <trigger ref="Button_Photo_of_Plan">
+              <label>{Button_Photo_of_Plan}</label>
+            </trigger>
+          </group>
+          <group ref="Col_1" faims_style="even">
+            <label/>
+            <select type="camera" faims_attribute_type="measure" faims_sync="true" ref="Photo_of_Section" faims_attribute_name="Photo of Section">
+              <label>{Photo_of_Section}</label>
+              <item>
+                <label>Options not loaded</label>
+                <value>0</value>
+              </item>
+            </select>
+            <trigger ref="Button_Photo_of_Section">
+              <label>{Button_Photo_of_Section}</label>
+            </trigger>
+          </group>
+        </group>
+        <group ref="Colgroup_6" faims_style="orientation">
+          <label/>
+          <group ref="Col_0" faims_style="even">
+            <label/>
             <input faims_attribute_type="measure" ref="Date_Closed" faims_attribute_name="Date Closed">
               <label>{Date_Closed}</label>
             </input>
@@ -961,7 +1006,7 @@
             </trigger>
           </group>
         </group>
-        <group ref="Colgroup_6" faims_style="orientation">
+        <group ref="Colgroup_7" faims_style="orientation">
           <label/>
           <group ref="Col_0" faims_style="even">
             <label/>
@@ -1122,7 +1167,7 @@
         </input>
       </group>
       <group ref="Structure">
-        <label>{Feature}</label>
+        <label>{Feature_Part}</label>
         <select1 faims_attribute_type="vocab" ref="CG_Context_Type" faims_attribute_name="CG Context Type" faims_style_class="required">
           <label>{Feature_Type}</label>
           <item>
@@ -1562,9 +1607,16 @@
       </group>
     </group>
     <group ref="Context_Group" faims_archent_type="Context Group">
-      <label>{Stratum}</label>
+      <label>{Stratum_Feature}</label>
       <group ref="Gen">
         <label>{General}</label>
+        <select1 appearance="full" faims_attribute_type="vocab" ref="Record_Type" faims_attribute_name="Record Type" faims_style_class="required">
+          <label>{Record_Type}</label>
+          <item>
+            <label>Options not loaded</label>
+            <value>0</value>
+          </item>
+        </select1>
         <group ref="Colgroup_0" faims_style="orientation">
           <label/>
           <group ref="Col_0" faims_style="even">
@@ -1576,9 +1628,12 @@
           <group ref="Col_1" faims_style="even">
             <label/>
             <input faims_attribute_type="measure" ref="Context_Group_ID" faims_attribute_name="Context Group ID" faims_style_class="required">
-              <label>{Stratum_ID}</label>
+              <label>{Stratum_Feature_ID}</label>
             </input>
           </group>
+        </group>
+        <group ref="Feature_Type_Group">
+          <label>{Feature_Type_Group}</label>
         </group>
         <input faims_attribute_type="measure" ref="CG_Your_description" faims_attribute_name="CG Your description" faims_style_class="required">
           <label>{Description}</label>
@@ -1661,14 +1716,14 @@
       <group ref="Context_Group_Contexts" faims_scrollable="false">
         <label>{Relationships}</label>
         <trigger ref="Create_Relationships_to_This_Context_Group">
-          <label>{Create_Relationships_to_this_Stratum}</label>
+          <label>{Create_Relationships_to_this_Stratum_Feature}</label>
         </trigger>
         <group ref="Colgroup_0" faims_style="orientation">
           <label/>
           <group ref="Col_0" faims_style="even">
             <label/>
             <select1 appearance="compact" ref="Existing_Relationships_to_This_Context_Group" faims_certainty="false" faims_annotation="false">
-              <label>{Existing_Relationships_to_this_Stratum}</label>
+              <label>{Existing_Relationships_to_this_Stratum_Feature}</label>
               <item>
                 <label>Options not loaded</label>
                 <value>0</value>
@@ -1815,7 +1870,7 @@
           <group ref="Col_1" faims_style="even">
             <label/>
             <input faims_attribute_type="measure" ref="Photo_Context_Group_ID" faims_attribute_name="Photo Context Group ID" faims_read_only="true">
-              <label>{Stratum_ID}</label>
+              <label>{Stratum_Feature_ID}</label>
             </input>
           </group>
           <group ref="Col_2" faims_style="even">
@@ -1971,7 +2026,7 @@
       </group>
     </group>
     <group ref="Context_Group_Relationship">
-      <label>{Stratum_Relationship}</label>
+      <label>{Stratum_Feature_Relationship}</label>
       <group ref="Relationships" faims_scrollable="false">
         <label>{Relationships}</label>
         <input faims_web="true" ref="Parent_Identifier">

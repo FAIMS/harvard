@@ -89,7 +89,9 @@
 <description>Any Locus which represents the removal of earlier deposit and thus forms a negative interface (cut) with another locus, such as a cut for a pit, burial, ditch, wall foundation or robber trench.</description></term>
         <term pictureURL="files/data/gallery/ContextType/Orange/Deposit.png">{Deposit}
 <description>Any Locus with deposited sediment and soil, such as floor layers, pit and grave fills, hearth fills and natural sediments.</description></term>
-        <term pictureURL="files/data/gallery/ContextType/Orange/Structure.png">{Feature}
+        <term pictureURL="files/data/gallery/ContextType/Orange/Natural.png">{Natural}
+<description>Any Locus with deposited sediment and soil, such as floor layers, pit and grave fills, hearth fills and natural sediments.</description></term>
+        <term pictureURL="files/data/gallery/ContextType/Orange/Structure.png">{Feature_Part}
 <description>Any Locus consisting of deliberately constructed structural element, independent of a Negative Element (i.e. cut, such as a wall or a hearth).</description></term>
         <term pictureURL="files/data/gallery/ContextType/Orange/Skeleton.png">{Skeleton}
 <description>Human skeletal remains.</description></term>
@@ -157,6 +159,8 @@
 <description>Excavated by trowel.</description></term>
         <term>{Pick}
 <description>Excavated by pick.</description></term>
+        <term>{Shovel}
+<description/></term>
         <term>{Other}
 <description>Excavated by another method. Add details in Annotation field.</description></term>
       </lookup>
@@ -207,6 +211,16 @@
     </property>
     <property name="Section Numbers" type="measure">
       <description>Reference numbers to section drawings of this Locus</description>
+      <formatString><![CDATA[{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}]]></formatString>
+      <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
+    </property>
+    <property name="Photo of Plan" type="file" file="true" thumbnail="true">
+      <description/>
+      <formatString><![CDATA[{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}]]></formatString>
+      <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
+    </property>
+    <property name="Photo of Section" type="file" file="true" thumbnail="true">
+      <description/>
       <formatString><![CDATA[{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
     </property>
@@ -477,6 +491,16 @@
 <description>A prepared structure in which a fire is set.</description></term>
         <term>{Stakehole_row}
 <description>A row of cuts smaller than postholes, typically c. 1-5 cm diameter.</description></term>
+        <term>{Kiln}
+<description/></term>
+        <term>{Furnace}
+<description/></term>
+        <term>{House}
+<description/></term>
+        <term>{Ditch}
+<description/></term>
+        <term>{Midden}
+<description/></term>
         <term>{Other}
 <description>Function not elsewhere described. Provide details in Annotation field.</description></term>
       </lookup>
@@ -4090,19 +4114,81 @@
   </ArchaeologicalElement>
   <ArchaeologicalElement name="Context Group">
     <description>A group of loci.</description>
+    <property name="Record Type" isIdentifier="true" type="vocab">
+      <description/>
+      <formatString><![CDATA[$1-]]></formatString>
+      <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
+      <lookup>
+        <term>{Stratum}
+<description/></term>
+        <term>{Feature}
+<description/></term>
+      </lookup>
+    </property>
     <property name="Context Group ID" isIdentifier="true" type="measure">
       <description>Feature number taken from the central register.</description>
-      <formatString><![CDATA[Strat-$2-]]></formatString>
+      <formatString><![CDATA[$2-]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
+    </property>
+    <property name="Feature Type" isIdentifier="true" type="vocab">
+      <description/>
+      <formatString><![CDATA[{{if $1 then "$1-"}}]]></formatString>
+      <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
+      <lookup>
+        <term>{No_Observation}
+<description/></term>
+        <term>{Negative_Element}
+<description/></term>
+        <term>{Deposit_Structure}
+<description/></term>
+        <term>{Wall}
+<description/></term>
+        <term>{Floor}
+<description/></term>
+        <term>{Well}
+<description/></term>
+        <term>{Pit}
+<description/></term>
+        <term>{Room}
+<description/></term>
+        <term>{Burial}
+<description/></term>
+        <term>{Building}
+<description/></term>
+        <term>{Surface}
+<description/></term>
+        <term>{Space}
+<description/></term>
+        <term>{Posthole}
+<description/></term>
+        <term>{Stakehole}
+<description/></term>
+        <term>{Hearth}
+<description/></term>
+        <term>{Stakehole_Row}
+<description/></term>
+        <term>{Kiln}
+<description/></term>
+        <term>{Furnace}
+<description/></term>
+        <term>{House}
+<description/></term>
+        <term>{Midden}
+<description/></term>
+        <term>{Ditch}
+<description/></term>
+        <term>{Other}
+<description/></term>
+      </lookup>
     </property>
     <property name="Context_Group author" isIdentifier="true" type="measure">
       <description/>
-      <formatString><![CDATA[-$2]]></formatString>
+      <formatString><![CDATA[$2-]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
     </property>
-    <property name="Context_Group timestamp" type="measure">
+    <property name="Context_Group timestamp" isIdentifier="true" type="measure">
       <description/>
-      <formatString><![CDATA[-$2]]></formatString>
+      <formatString><![CDATA[$2]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
     </property>
     <property name="Context Group AreaCode" type="measure">
@@ -4307,7 +4393,7 @@
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
     </property>
     <property name="Photo Context Group ID" isIdentifier="true" type="measure">
-      <description>Unique number or code for each Stratum</description>
+      <description>Unique number or code for each Stratum/Feature</description>
       <formatString><![CDATA[Strat-$2-]]></formatString>
       <appendCharacterString><![CDATA[ - ]]></appendCharacterString>
     </property>

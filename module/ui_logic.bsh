@@ -525,6 +525,7 @@ makeVocab("DropDown", "Context/Deposit/Deposit_Bedding", "Deposit Bedding");
 makeVocab("RadioGroup", "Context/Deposit/Sterile", "Sterile");
 makeVocab("HierarchicalDropDown", "Context/Soil_Texture_Helper/Soil_Texture_Helper", "Soil Texture Helper");
 makeVocab("DropDown", "Context/Vars/Device_Code", "Device Code");
+makeVocab("RadioGroup", "Context_Group/Gen/Record_Type", "Record Type");
 makeVocab("DropDown", "Context_Group/Vars/Device_Code", "Device Code");
 makeVocab("DropDown", "Matrix/Matrix/Component", "Component");
 makeVocab("HierarchicalPictureGallery", "Matrix/Matrix/Shape", "Shape");
@@ -654,8 +655,9 @@ validateContext() {
 validateContextGroup() {
   List f = new ArrayList(); // Fields to be validated
 
+  f.add(fieldPair("Context_Group/Gen/Record_Type", "{Record_Type}"));
   f.add(fieldPair("Context_Group/Gen/Context_Group_AreaCode", "{Trench_ID}"));
-  f.add(fieldPair("Context_Group/Gen/Context_Group_ID", "{Stratum_ID}"));
+  f.add(fieldPair("Context_Group/Gen/Context_Group_ID", "{Stratum_Feature_ID}"));
   f.add(fieldPair("Context_Group/Gen/CG_Your_description", "{Description}"));
   f.add(fieldPair("Context_Group/Gen/CG_Your_Interpretation", "{Interpretation}"));
 
@@ -852,6 +854,11 @@ onClickControlCreateNewStratum () {
   parentTabgroup__ = "Control";
   newContextGroup();
 }
+onClickControlNewFCN () {
+  // TODO: Add some things which should happen when this element is clicked
+  parentTabgroup__ = "Control";
+  newFCN();
+}
 onClickControlCreateNewDiary () {
   // TODO: Add some things which should happen when this element is clicked
   parentTabgroup__ = "Control";
@@ -937,6 +944,7 @@ addOnEvent("User/User_List/Login", "click", "onClickUserLogin()");
 addOnEvent("User/User_List/Module_Guide", "click", "onClickUserModuleGuide()");
 addOnEvent("Control/Contexts/Create_New_Locus", "click", "onClickControlCreateNewLocus()");
 addOnEvent("Control/Contexts/Create_New_Stratum", "click", "onClickControlCreateNewStratum()");
+addOnEvent("Control/Contexts/New_FCN", "click", "onClickControlNewFCN()");
 addOnEvent("Control/Contexts/Create_New_Diary", "click", "onClickControlCreateNewDiary()");
 addOnEvent("Context/Measure/Add_Height", "click", "onClickContextAddHeight()");
 addOnEvent("Context/Deposit/Soil_Texture_Helper", "click", "onClickContextSoilTextureHelper()");
@@ -951,6 +959,8 @@ addOnEvent("Context_Group/Add/Add_Photograph_Log", "click", "onClickContextGroup
 /******************************************************************************/
 /*                   AUDIO, CAMERA, FILE AND VIDEO BINDINGS                   */
 /******************************************************************************/
+addOnEvent("Context/General/Button_Photo_of_Plan", "click", "attachPictureTo(\"Context/General/Photo_of_Plan\")");
+addOnEvent("Context/General/Button_Photo_of_Section", "click", "attachPictureTo(\"Context/General/Photo_of_Section\")");
 addOnEvent("Context/Add/Button_Photo", "click", "attachPictureTo(\"Context/Add/Photo\")");
 addOnEvent("Context_Group/Add/Button_Photo", "click", "attachPictureTo(\"Context_Group/Add/Photo\")");
 addOnEvent("Diary/Diary/Button_Photo", "click", "attachPictureTo(\"Diary/Diary/Photo\")");
@@ -1212,6 +1222,8 @@ duplicateContext(){
   autoNumDest = "Context/General/Context_Context_ID";
   incAutoNum(autoNumDest);
 
+  populateCameraPictureGallery("Context/General/Photo_of_Plan", new ArrayList());
+  populateCameraPictureGallery("Context/General/Photo_of_Section", new ArrayList());
   populateCameraPictureGallery("Context/Add/Photo", new ArrayList());
 
 
@@ -1243,6 +1255,8 @@ duplicateContext(){
   fetchAll(getDuplicateAttributeQuery(getUuid(tabgroup), extraDupeAttributes), new FetchCallback(){
     onFetch(result) {
       excludeAttributes = new ArrayList();
+      excludeAttributes.add("Photo of Plan");
+      excludeAttributes.add("Photo of Section");
       excludeAttributes.add("Photo");
 
       duplicateTabGroup(tabgroup, null, getExtraAttributes(result), excludeAttributes, saveCallback);
@@ -1740,7 +1754,7 @@ addOnEvent("Control/Search/Entity_Types"  , "click" , "search()");
 entityTypes = new ArrayList();
 entityTypes.add(new NameValuePair("{All}", ""));
 entityTypes.add(new NameValuePair("{Locus}", "Context"));
-entityTypes.add(new NameValuePair("{Stratum}", "Context Group"));
+entityTypes.add(new NameValuePair("{Stratum_Feature}", "Context Group"));
 entityTypes.add(new NameValuePair("{Sediment_Aggregate}", "Matrix"));
 entityTypes.add(new NameValuePair("{Locus_Height}", "Height"));
 entityTypes.add(new NameValuePair("{Photograph_Log}", "Photograph Log"));
@@ -3199,7 +3213,7 @@ openContextTabs(Boolean showGeneralInformationTab){
           onFetch(name) {
             if (!isNull(name)){
                 String vocab = name.get(0);
-                if ((vocab.equals("{Deposit}"))){
+                if (vocab.equals("{Deposit}") || vocab.equals("{Natural}")){
                     cancelTab("Context/Cut", false);
                     cancelTab("Context/Structure", false);
                     cancelTab("Context/Skeleton", false);
@@ -3209,7 +3223,7 @@ openContextTabs(Boolean showGeneralInformationTab){
                     cancelTab("Context/Structure", false);
                     cancelTab("Context/Skeleton", false);
                     showTab("Context/Cut");
-                } else if (vocab.equals("{Feature}")){
+                } else if (vocab.equals("{Feature_Part}")){
                     cancelTab("Context/Deposit", false);
                     cancelTab("Context/Cut", false);
                     cancelTab("Context/Skeleton", false);
@@ -3249,6 +3263,136 @@ loadContextFrom(String uuid) {
     }
   };
   showTabGroup(tabgroup, uuid, cb);
+}
+/************************* DYNAMIC UI - CONTEXT GROUP *************************/
+addOnEvent("Context_Group/Gen/Record_Type", "click", "updateFeatureType()");
+
+// Fetch the "Record Type" vocab and populate the `RECORD_TYPE_VOCAB` global.
+fetchRecordType() {
+  RECORD_TYPE_VOCAB = new HashMap();
+
+  attributeName = "Record Type";
+
+  q  = " SELECT    vocabid, vocabname";
+  q += " FROM      vocabulary";
+  q += " LEFT JOIN attributekey";
+  q += " USING    (attributeid)";
+  q += " WHERE     attributename = '%s'";
+  q  = replaceFirst(q, "%s", attributeName);
+
+  populateHashMap = new FetchCallback() {
+    onFetch(result) {
+      for (row : result) {
+        vocabId   = row.get(0);
+        vocabName = row.get(1);
+        RECORD_TYPE_VOCAB.put(vocabId, vocabName);
+      }
+    }
+  };
+
+  fetchAll(q, populateHashMap);
+}
+
+// The `fetchRecordType` call is required to set // `RECORD_TYPE_VOCAB` because
+// async code in Beanshell/Java is DUMBBBB.
+// Also, RECORD_TYPE_VOCAB is a HashMap: vocabId -> vocabName.
+RECORD_TYPE_VOCAB = null;
+fetchRecordType();
+
+// Prefetch this vocab seeing as it will be dynamically loaded multiple times
+// throughout the module's runtime.
+FEATURE_TYPE_VOCAB = new ArrayList();
+fetchVocab("Feature Type", FEATURE_TYPE_VOCAB);
+
+updateFeatureType() {
+  ref       = "Context_Group/Gen/Record_Type";
+  vocabId   = getFieldValue(ref);
+  vocabName = RECORD_TYPE_VOCAB.get(vocabId);
+
+  if (vocabName == null            ) return;
+  if (vocabName.equals("{Stratum}")) hideFeatureType();
+  if (vocabName.equals("{Feature}")) showFeatureType();
+}
+
+hideFeatureType() {
+  uuid           = getUuid("Context_Group");
+  refView        = "Context_Group/Gen/Feature_Type";
+  attribName     = refToAttribName(refView);
+
+  if (!hasView(refView)) return;
+
+  // Before removing the view, we get the value of the Feature Type field, which
+  // is used to determine if Feature Type should be flagged as `deleted`.
+  featureTypeVal = getFieldValue(refView);
+  removeView(refView);
+
+  if (isNull(featureTypeVal)) return;
+
+  // Flag Feature Type as `deleted`.
+  q  = " INSERT INTO aentvalue (UUID, UserID, AttributeID, Deleted)";
+  q += " SELECT '{uuid}', {userid}, attributeid, 1";
+  q += " FROM  attributekey";
+  q += " WHERE attributename = '{attributename}'";
+  q  = replaceFirst(q, "{uuid}", uuid);
+  q  = replaceFirst(q, "{userid}", userid);
+  q  = replaceFirst(q, "{attributename}", attribName);
+
+  fetchOne(q);
+}
+
+showFeatureType() {
+  refView  = "Context_Group/Gen/Feature_Type";
+  refGroup = "Context_Group/Gen/Feature_Type_Group";
+
+  if (hasView(refView)) return;
+
+  label      = refToLabel(refView);
+  attribName = refToAttribName(refView);
+
+  // Create view
+  viewDef = createViewDef();
+  viewDef.createDropDown      ();
+  viewDef.setLabel            (label);
+  viewDef.setAttributeName    (attribName);
+  viewDef.setAttributeType    ("vocab");
+  viewDef.setAnnotationEnabled(true);
+  viewDef.setCertaintyEnabled (true);
+  viewDef.setInfoEnabled      (true);
+
+  createView(refView, viewDef, refGroup);
+
+  // Populate view
+  Boolean hasNull = true;
+  populateDropDown(refView, FEATURE_TYPE_VOCAB, hasNull);
+}
+
+refToLabel(ref) {
+  String tabgroup = ref.split("/")[0];
+  String tab      = ref.split("/")[1];
+  String view     = ref.split("/")[2];
+  String label    = view.replaceAll("_", " ");
+
+  return label;
+}
+
+refToAttribName(ref) {
+  return refToLabel(ref);
+}
+
+// Overrides autogenerated definition
+loadContextGroupFrom(String uuid) {
+  String tabgroup = "Context_Group";
+  setUuid(tabgroup, uuid);
+  if (isNull(uuid)) return;
+
+  FetchCallback updateUi = new FetchCallback() {
+    onFetch(result) {
+      updateFeatureType();
+    }
+  };
+
+  showFeatureType();
+  showTabGroup(tabgroup, uuid, updateUi);
 }
 /******************************* CONTEXT DATES ********************************/
 addOnEvent("Context/General/Add_Date_Closed", "click", "setContextDateClosed()");

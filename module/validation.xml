@@ -203,6 +203,11 @@
     </property>
   </ArchaeologicalElement>
   <ArchaeologicalElement name="Context_Group">
+    <property name="Record Type">
+      <validator type="blankchecker">
+        <param value="vocab" type="field"/>
+      </validator>
+    </property>
     <property name="Context Group AreaCode">
       <validator type="blankchecker">
         <param value="measure" type="field"/>
