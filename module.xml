@@ -459,7 +459,7 @@
         <opt>House</opt>
         <opt>Ditch</opt>
         <opt>Midden</opt>
-        <opt>Other</opt>
+        <opt>Other
           <desc>Function not elsewhere described. Provide details in Annotation field.</desc>
         </opt>
       </opts>
@@ -949,23 +949,66 @@
 </Context>
 
 <Context_Group>
-  Stratum
+  Stratum/Feature
   <desc>A group of loci.</desc>
   <Gen>
     General
+    <Record_Type t="radio" f="id notnull">
+      <str>
+        <pos>1</pos>
+        <fmt>$1-</fmt>
+      </str>
+      <opts>
+        <opt>Stratum</opt>
+        <opt>Feature</opt>
+      </opts>
+    </Record_Type>
     <cols>
       <Context_Group_AreaCode f="notnull">
         Trench ID
       </Context_Group_AreaCode>
       <Context_Group_ID f="id notnull autonum">
-        Stratum ID
+        Stratum/Feature ID
         <desc>Feature number taken from the central register.</desc>
         <str>
-          <pos>1</pos>
-          <fmt><![CDATA[Strat-$2-]]></fmt>
+          <pos>2</pos>
+          <fmt>$2-</fmt>
         </str>
       </Context_Group_ID>
     </cols>
+    <Feature_Type_Group t="group">
+      <Feature_Type t="dropdown" f="id noui">
+        <!--This will be added to the UI dynamically-->
+        <str>
+          <pos>3</pos>
+          <fmt>{{if $1 then "$1-"}}</fmt>
+        </str>
+        <opts>
+          <opt>No Observation</opt>
+          <opt>Negative Element</opt>
+          <opt>Deposit Structure</opt>
+          <opt>Wall</opt>
+          <opt>Floor</opt>
+          <opt>Well</opt>
+          <opt>Pit</opt>
+          <opt>Room</opt>
+          <opt>Burial</opt>
+          <opt>Building</opt>
+          <opt>Surface</opt>
+          <opt>Space</opt>
+          <opt>Posthole</opt>
+          <opt>Stakehole</opt>
+          <opt>Hearth</opt>
+          <opt>Stakehole Row</opt>
+          <opt>Kiln</opt>
+          <opt>Furnace</opt>
+          <opt>House</opt>
+          <opt>Midden</opt>
+          <opt>Ditch</opt>
+          <opt>Other</opt>
+        </opts>
+      </Feature_Type>
+    </Feature_Type_Group>
     <CG_Your_description f="notnull">
       Description
       <desc>Describe the feature, any details of dimensions, disturbance, orientation etc.</desc>
@@ -1018,15 +1061,15 @@
       <author f="id readonly">
         Record Created By:
         <str>
-          <pos>2</pos>
-          <fmt>-$2</fmt>
+          <pos>4</pos>
+          <fmt>$2-</fmt>
         </str>
       </author>
-      <timestamp f="readonly">
+      <timestamp f="id readonly">
         Date recorded:
         <str>
-          <pos>3</pos>
-          <fmt>-$2</fmt>
+          <pos>5</pos>
+          <fmt>$2</fmt>
         </str>
       </timestamp>
     </cols>
@@ -1034,11 +1077,11 @@
   <Context_Group_Contexts f="noscroll">
     Relationships
     <Create_Relationships_to_This_Context_Group t="button" l="Context_Group_Relationship">
-      Create Relationships to this Stratum
+      Create Relationships to this Stratum/Feature
     </Create_Relationships_to_This_Context_Group>
     <cols>
       <Existing_Relationships_to_This_Context_Group t="list" f="nodata">
-        Existing Relationships to this Stratum
+        Existing Relationships to this Stratum/Feature
       </Existing_Relationships_to_This_Context_Group>
       <col>
         <Selected_Relationship t="webview"/>
@@ -1206,8 +1249,8 @@
         </str>
       </Photo_Context_ID>
       <Photo_Context_Group_ID f="id readonly">
-        Stratum ID
-        <desc>Unique number or code for each Stratum</desc>
+        Stratum/Feature ID
+        <desc>Unique number or code for each Stratum/Feature</desc>
         <str>
           <pos>2</pos>
           <fmt>Strat-$2-</fmt>
@@ -1321,7 +1364,7 @@
 
 <!--Context Group to Context-->
 <Context_Group_Relationship f="nodata">
-  Stratum Relationship
+  Stratum/Feature Relationship
   <Relationships f="noscroll">
     <Parent_Identifier t="webview"/>
     <cols>
@@ -1447,6 +1490,7 @@
   <!--@SOURCE: logic/relationships-context-group-to-context.bsh-->
   <!--@SOURCE: logic/local-settings-access.bsh-->
   <!--@SOURCE: logic/dynamic-ui-context.bsh-->
+  <!--@SOURCE: logic/dynamic-ui-context-group.bsh-->
   <!--@SOURCE: logic/context-dates.bsh-->
   <!--@SOURCE: logic/soil-texture-helper.bsh-->
   <!--@SOURCE: logic/search-extension.bsh-->
