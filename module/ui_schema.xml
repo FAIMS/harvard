@@ -2119,19 +2119,19 @@
           <label/>
           <group ref="Col_0" faims_style="even">
             <label/>
-            <input ref="Latitude" faims_attribute_name="Latitude" faims_attribute_type="measure" faims_read_only="true">
+              <input ref="Latitude" faims_attribute_name="Latitude" faims_attribute_type="measure" faims_read_only="true" faims_annotation="false" faims_certainty="false">
               <label>{Latitude}</label>
             </input>
-            <input ref="Northing" faims_attribute_name="Northing" faims_attribute_type="measure" faims_read_only="true">
+            <input ref="Northing" faims_attribute_name="Northing" faims_attribute_type="measure" faims_read_only="true" faims_annotation="false" faims_certainty="false">
               <label>{Northing}</label>
             </input>
           </group>
           <group ref="Col_1" faims_style="even">
             <label/>
-            <input ref="Longitude" faims_attribute_name="Longitude" faims_attribute_type="measure" faims_read_only="true">
+            <input ref="Longitude" faims_attribute_name="Longitude" faims_attribute_type="measure" faims_read_only="true" faims_annotation="false" faims_certainty="false">
               <label>{Longitude}</label>
             </input>
-            <input ref="Easting" faims_attribute_name="Easting" faims_attribute_type="measure" faims_read_only="true">
+            <input ref="Easting" faims_attribute_name="Easting" faims_attribute_type="measure" faims_read_only="true" faims_annotation="false" faims_certainty="false">
               <label>{Easting}</label>
             </input>
           </group>
