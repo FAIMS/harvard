@@ -3,7 +3,7 @@
 /* overridden using @POSTPROC.                                                */
 /******************************************************************************/
 
-onClickUserLogin () {
+void onClickUserLogin () {
   String refUsers      = userMenuPath; // Defined by autogen
   String refDeviceCode = "User/User_List/Device_Code";
 
@@ -19,13 +19,13 @@ onClickUserLogin () {
   newTab("Control", true);
 }
 
-noUsersSelected() {
+void noUsersSelected() {
   String msgHead = "No User selected";
   String msgBody = "A User must be selected in order to log in.";
   showWarning(msgHead, msgBody);
 }
 
-noDeviceCodeSelected() {
+void noDeviceCodeSelected() {
   msgHead = "No {Device_Code} Selected";
   msgBody = "A {Device_Code} must be selected in order to log in.";
   showWarning(msgHead, msgBody);

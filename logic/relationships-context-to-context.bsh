@@ -15,7 +15,7 @@ addOnEvent("Context/Relationships/Delete_Relationship",                    "clic
 
 String selectedChildUuid = null;
 
-initParentRelationshipGlobals() {
+void initParentRelationshipGlobals() {
   String refSelectedRelParent = "Context/Relationships/Selected_Relationship";
 
   selectedChildUuid     = null;
@@ -25,7 +25,7 @@ initParentRelationshipGlobals() {
   populateWebViewHtml(refSelectedRelParent, WEB_REL_NONE);
 }
 
-populateExistingRelationships(){
+void populateExistingRelationships(){
   String tabGroup    = "Context";
   String currentUuid = getUuid(tabGroup);
   String refExistingRelationships = "Context/Relationships/Existing_Relationships_to_This_Context";
@@ -36,7 +36,7 @@ populateExistingRelationships(){
   refreshTabgroupCSS(tabGroup);
 }
 
-selectRelationship() {
+void selectRelationship() {
   String refSelectedRelParent = "Context/Relationships/Selected_Relationship";
 
   String val = getListItemValue();
@@ -53,7 +53,7 @@ selectRelationship() {
   populateWebViewHtml(refSelectedRelParent, selectedRelIdentifier);
 }
 
-loadRelatedEntity() {
+void loadRelatedEntity() {
   if (isNull(selectedChildUuid)) {
     showToast("No relationship selected");
     return;
@@ -74,7 +74,7 @@ addOnEvent("Relationship/Relationships/Unrelated_Contexts",     "click", "select
 String proposedChildUuid       = null;
 String proposedChildIdentifier = null;
 
-initRelationshipRelationshipGlobals() {
+void initRelationshipRelationshipGlobals() {
   proposedChildUuid       = null;
   selectedRelId           = null;
   proposedChildIdentifier = null;
@@ -86,7 +86,7 @@ initRelationshipRelationshipGlobals() {
   clearSearch();
 }
 
-populateRelationshipType() {
+void populateRelationshipType() {
   refRelationshipType = "Relationship/Relationships/Relationship_Type";
 
   String q = "";
@@ -110,7 +110,7 @@ populateRelationshipType() {
   fetchAll(q, populate);
 }
 
-populateProposedRelationship() {
+void populateProposedRelationship() {
   String refProposedRel = "Relationship/Relationships/Proposed_Relationship";
   String refRelType     = "Relationship/Relationships/Relationship_Type";
 
@@ -134,7 +134,7 @@ populateProposedRelationship() {
   populateWebViewHtml(refProposedRel, webviewHtml);
 }
 
-searchRelationship() {
+void searchRelationship() {
   String parentTabGroup = "Context";
   String parentUuid     = getUuid(parentTabGroup);
 
@@ -199,7 +199,7 @@ searchRelationship() {
   populateProposedRelationship();
 }
 
-clearSearch() {
+void clearSearch() {
   String refUnrelated = "Relationship/Relationships/Unrelated_Contexts";
   String refRelated   = "Relationship/Relationships/Existing_Relationships";
 
@@ -208,7 +208,7 @@ clearSearch() {
   populateCursorList(refRelated,   q, 25);
 }
 
-selectUnrelatedEntity() {
+void selectUnrelatedEntity() {
   String val = getListItemValue();
   if (isNull(val)) return;
   String[] arguments = val.split(SEP); // `SEP` defined by autogen as \0
@@ -221,7 +221,7 @@ selectUnrelatedEntity() {
   populateProposedRelationship();
 }
 
-addRelationship() {
+void addRelationship() {
   String parentTabGroup = "Context";
   String refRelType     = "Relationship/Relationships/Relationship_Type";
 
@@ -254,7 +254,7 @@ addRelationship() {
   proposedChildIdentifier = null;
 }
 
-addRelationshipSucceeded() {
+void addRelationshipSucceeded() {
   String refProposedRel = "Relationship/Relationships/Proposed_Relationship";
 
   populateWebViewHtml(refProposedRel, WEB_REL_BLANK);
@@ -262,7 +262,7 @@ addRelationshipSucceeded() {
   searchRelationship();
 }
 
-selectExistingRelationship() {
+void selectExistingRelationship() {
   String refSelectedRelRel = "Relationship/Relationships/Selected_Relationship";
 
   String val = getListItemValue();
@@ -278,12 +278,12 @@ selectExistingRelationship() {
   populateWebViewHtml(refSelectedRelRel, selectedRelIdentifier);
 }
 
-populateParentIdentiferRelationships() {
+void populateParentIdentiferRelationships() {
   String lotRef = "Relationship/Relationships/Parent_Identifier";
   populateLotLabel(lotRef); // Defined in logic/shared.bsh
 }
 
-getRelatedChildQuery(String parentUuid) {
+String getRelatedChildQuery(String parentUuid) {
   // `contextIdentifer` is defined in logic/shared.bsh
   String parentIdentifier = contextIdentifer;
 

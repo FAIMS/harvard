@@ -1,249 +1,29 @@
 /***************************** FIELD INHERITANCE ******************************/
-/* Linked using @POSTPROC.                                                    */
-/******************************************************************************/
-String moduleYear     = new java.text.SimpleDateFormat("yy").format(new Date());
-String moduleSiteCode = "BK" + moduleYear;
-
-// Overrides autogenerator's definition
-incField(String ref, Integer defaultVal) {
-  String val = getFieldValue(ref);
-
-  if (isNull(val)) {
-    setFieldValue(ref, defaultVal);
-    return defaultVal;
-  }
-
-  Integer inc = Integer.parseInt(val);
-  if (!ref.equals("Control/Contexts/Next_Context_AreaCode"))
-    inc += 1;
-  setFieldValue(ref, inc);
-  insertIntoLocalSettings(ref, inc.toString());
-
-  return inc;
+String getModuleSiteCode() {
+  return "BK" + getFieldValue("Control/Contexts/Year");
 }
 
-copyFieldValue(src, dst) {
-  Boolean doFindVocabId = true;
-  copyFieldValue(src, dst, doFindVocabId);
-}
-
-copyFieldValue(src, dst, doFindVocabId) {
-  String vocabIdSrc  = getFieldValue(src);
-
-  String attrNameSrc = src.split("\\/")[2];
-  String attrNameDst = dst.split("\\/")[2];
-
-  attrNameSrc = attrNameSrc.replaceAll("_", " ");
-  attrNameDst = attrNameDst.replaceAll("_", " ");
-
-  if (attrNameSrc.equals(attrNameDst) || !doFindVocabId) {
-    setFieldValue(dst, vocabIdSrc);
-    return;
-  }
-
-  String q = "";
-  q += "    SELECT vocabid";
-  q += "      FROM vocabulary";
-  q += " LEFT JOIN attributekey";
-  q += "     USING (attributeid)";
-  q += "     WHERE attributename = '{attrNameDst}'";
-  q += "       AND vocabname";
-  q += "        IN (";
-  q += "                 SELECT vocabname";
-  q += "                   FROM vocabulary";
-  q += "              LEFT JOIN attributekey";
-  q += "                  USING (attributeid)";
-  q += "                  WHERE attributename = '{attrNameSrc}'";
-  q += "                    AND vocabid       = '{vocabIdSrc}'";
-  q += "           )";
-  q  = replaceFirst(q, "{vocabIdSrc}",  vocabIdSrc );
-  q  = replaceFirst(q, "{attrNameSrc}", attrNameSrc);
-  q  = replaceFirst(q, "{attrNameDst}", attrNameDst);
-
-
-  FetchCallback populate = new FetchCallback() {
-    onFetch(result) {
-      String vocabIdDst = result.get(0);
-      showWarning(vocabIdDst, q);
-      showWarning(dst, vocabIdDst);
-      setFieldValue(dst, vocabIdDst);
-    }
-  };
-
-  fetchOne(q, populate);
-}
-
-inheritContextFields() {
-  copyFieldValue(
-    "Control/Contexts/Team_Members",
-    "Context/General/Team_Members"
-  );
-
-  copyFieldValue(
-    "Control/Contexts/Trench_Dimensions",
-    "Context/General/Trench_Dimensions"
-  );
-
-  copyFieldValue(
-    "Control/Contexts/Trench_Dimensions",
-    "Context/General/Trench_Dimensions"
-  );
-
-  copyFieldValue(
-    "User/User_List/Device_Code",
-    "Context/Vars/Device_Code"
-  );
-
+void setContextSiteCode() {
   setFieldValue(
     "Context/Vars/Site_Code",
-    moduleSiteCode
+    getModuleSiteCode()
   );
 }
 
-inheritContextGroupFields() {
-  //BEWARE! Weird formatting!
-  if (parentTabgroup__.equals("Context"))
-  copyFieldValue(
-    "Context/General/Context_AreaCode",
-    "Context_Group/Gen/Context_Group_AreaCode",
-    false
-  );
-
-  copyFieldValue(
-    "User/User_List/Device_Code",
-    "Context_Group/Vars/Device_Code"
-  );
-
+void setContextGroupSiteCode() {
   setFieldValue(
     "Context_Group/Vars/Site_Code",
-    moduleSiteCode
+    getModuleSiteCode()
   );
 }
 
-inheritMatrixFields() {
-  copyFieldValue(
-    "Context/General/Context_AreaCode",
-    "Matrix/Vars/AreaCode",
-    false
-  );
-
-  copyFieldValue(
-    "Context/General/Context_Context_ID",
-    "Matrix/Vars/Context_ID",
-    false
-  );
-}
-
-inheritHeightFields() {
-  copyFieldValue(
-    "Context/General/Context_AreaCode",
-    "Height/Vars/AreaCode",
-    false
-  );
-
-  copyFieldValue(
-    "Context/General/Context_Context_ID",
-    "Height/Height/Height_Context_ID",
-    false
-  );
-}
-
-inheritSampleFields() {
-  copyFieldValue(
-    "Context/General/Context_AreaCode",
-    "Sample/Vars/AreaCode",
-    false
-  );
-
-  copyFieldValue(
-    "Context/General/Context_Context_ID",
-    "Sample/Deposit_Samples/Context_ID",
-    false
-  );
-
-  copyFieldValue(
-    "User/User_List/Device_Code",
-    "Sample/Vars/Device_Code"
-  );
-
-  setFieldValue(
-    "Sample/Vars/Site_Code",
-    moduleSiteCode
-  );
-}
-
-inheritSpecialFindFields() {
-  copyFieldValue(
-    "Context/General/Context_Context_ID",
-    "Special_Find/Special_Find/Context_ID",
-    false
-  );
-
-  copyFieldValue(
-    "Context/General/Context_AreaCode",
-    "Special_Find/Vars/AreaCode",
-    false
-  );
-
-  copyFieldValue(
-    "User/User_List/Device_Code",
-    "Special_Find/Vars/Device_Code"
-  );
-
-  setFieldValue(
-    "Special_Find/Vars/Site_Code",
-    moduleSiteCode
-  );
-}
-
-inheritPhotographLogFields() {
-  //BEWARE! Weird formatting!
-  if (parentTabgroup__.equals("Context"))
-  copyFieldValue(
-    "Context/General/Context_Context_ID",
-    "Photograph_Log/Photograph_Log/Photo_Context_ID",
-    false
-  );
-
-  //BEWARE! Weird formatting!
-  if (parentTabgroup__.equals("Context_Group"))
-  copyFieldValue(
-    "Context_Group/Gen/Context_Group_ID",
-    "Photograph_Log/Photograph_Log/Photo_Context_Group_ID",
-    false
-  );
-
-  copyFieldValue(
-    "Context/General/Context_AreaCode",
-    "Photograph_Log/Vars/AreaCode",
-    false
-  );
-
-  copyFieldValue(
-    "User/User_List/Device_Code",
-    "Photograph_Log/Vars/Device_Code"
-  );
-
+void setPhotographLogSiteCode() {
   setFieldValue(
     "Photograph_Log/Vars/Site_Code",
-    moduleSiteCode
+    getModuleSiteCode()
   );
 }
 
-// Don't delete me. This simplifies the code in @POSTPROC.
-inheritDiaryFields() {
-  return;
-}
-
-inheritFCNFields() {
-  copyFieldValue(
-    "Context/General/Context_Context_ID",
-    "FCN/General/Context_ID",
-    false
-  );
-  copyFieldValue(
-    "Context/General/Context_AreaCode",
-    "FCN/General/AreaCode",
-    false
-  );
-}
+addOnEvent("Context",        "create", "setContextSiteCode()");
+addOnEvent("Context_Group",  "create", "setContextGroupSiteCode()");
+addOnEvent("Photograph_Log", "create", "setPhotographLogSiteCode()");

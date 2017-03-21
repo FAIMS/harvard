@@ -2,11 +2,11 @@
 onEvent("Context/Soil_Texture_Helper/Update_Soil_Texture", "click", "setTextureActual()");
 
 // Overrides the original function definition using @POSTPROC.
-onClickContextSoilTextureHelper () {
+void onClickContextSoilTextureHelper () {
   showTab("Context/Soil_Texture_Helper");
 }
 
-setTextureActual(){
+void setTextureActual(){
     String soilQuery= "SELECT vocabid " +
                       "  FROM vocabulary JOIN attributekey USING (attributeid) "+
                       " WHERE attributeName = 'Soil Texture' "+

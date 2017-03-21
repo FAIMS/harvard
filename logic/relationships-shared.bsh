@@ -20,20 +20,20 @@ String proposedChildIdentifier = null;
 
 String displayedTabGroup     = null;
 
-onDisplayParent()         {displayedTabGroup = "Context";}
-onDisplayRelationship()   {displayedTabGroup = "Relationship";}
-isDisplayedParent()       {return displayedTabGroup.equals("Context");}
-isDisplayedRelationship() {return displayedTabGroup.equals("Relationship");}
+void onDisplayParent()            {displayedTabGroup = "Context";}
+void onDisplayRelationship()      {displayedTabGroup = "Relationship";}
+boolean isDisplayedParent()       {return displayedTabGroup.equals("Context");}
+boolean isDisplayedRelationship() {return displayedTabGroup.equals("Relationship");}
 
-CGonDisplayParent()         {displayedTabGroup = "Context_Group";}
-CGonDisplayRelationship()   {displayedTabGroup = "Context_Group_Relationship";}
-CGisDisplayedParent()       {return displayedTabGroup.equals("Context_Group");}
-CGisDisplayedRelationship() {return displayedTabGroup.equals("Context_Group_Relationship");}
+void CGonDisplayParent()            {displayedTabGroup = "Context_Group";}
+void CGonDisplayRelationship()      {displayedTabGroup = "Context_Group_Relationship";}
+boolean CGisDisplayedParent()       {return displayedTabGroup.equals("Context_Group");}
+boolean CGisDisplayedRelationship() {return displayedTabGroup.equals("Context_Group_Relationship");}
 
 // Depends on the following globals:
 //   - selectedRelId
 //   - userid        (Defined by autogen)
-deleteRelationship() {
+void deleteRelationship() {
   if (isNull(selectedRelId)) {
     showToast("No relationship selected");
     return;
@@ -58,7 +58,7 @@ deleteRelationship() {
   selectedRelIdentifier = null;
 }
 
-deleteRelationshipSuceeded() {
+void deleteRelationshipSuceeded() {
   String refSelectedRelRel    = "Relationship/Relationships/Selected_Relationship";
   String refSelectedRelParent = "Context/Relationships/Selected_Relationship";
   if (isDisplayedParent()) {
@@ -82,7 +82,7 @@ deleteRelationshipSuceeded() {
   }
 }
 
-getSelectedRelationshipComponent(String ref, String component) {
+String getSelectedRelationshipComponent(String ref, String component) {
   String   val       = getFieldValue(ref);
   String[] arguments = null;
   if (val == null)
@@ -101,7 +101,7 @@ getSelectedRelationshipComponent(String ref, String component) {
   else                                 return null;
 }
 
-loadRelatedEntity() {
+void loadRelatedEntity() {
   if (isNull(selectedChildUuid)) {
     showToast("No relationship selected");
     return;

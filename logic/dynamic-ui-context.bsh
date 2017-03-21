@@ -9,66 +9,53 @@
 /* by overwriting the auto-generated record loading function using @POSTPROC. */
 /******************************************************************************/
 addOnEvent("Context",                                      "show",  "openContextTabs()");
+addOnEvent("Context",                                      "fetch", "openContextTabs(true)");
 addOnEvent("Context/General/Fill_in_Context_Type_Details", "click", "openContextTabs()");
 
-openContextTabs() {
+void openContextTabs() {
   openContextTabs(false);
 }
 
-openContextTabs(Boolean showGeneralInformationTab){
-    fetchOne("SELECT vocabName FROM vocabulary WHERE vocabid = '"+getFieldValue("Context/General/Context_Type")+"';",
-        new FetchCallback() {
-          onFetch(name) {
-            if (!isNull(name)){
-                String vocab = name.get(0);
-                if (vocab.equals("{Deposit}") || vocab.equals("{Natural}")){
-                    cancelTab("Context/Cut", false);
-                    cancelTab("Context/Structure", false);
-                    cancelTab("Context/Skeleton", false);
-                    showTab("Context/Deposit");
-                } else if (vocab.equals("{Cut}")){
-                    cancelTab("Context/Deposit", false);
-                    cancelTab("Context/Structure", false);
-                    cancelTab("Context/Skeleton", false);
-                    showTab("Context/Cut");
-                } else if (vocab.equals("{Feature_Part}")){
-                    cancelTab("Context/Deposit", false);
-                    cancelTab("Context/Cut", false);
-                    cancelTab("Context/Skeleton", false);
-                    showTab("Context/Structure");
-                } else if (vocab.equals("{Skeleton}")){
-                    cancelTab("Context/Deposit", false);
-                    cancelTab("Context/Cut", false);
-                    cancelTab("Context/Structure", false);
-                    showTab("Context/Skeleton");
-                } else {
-                    cancelTab("Context/Cut", false);
-                    cancelTab("Context/Deposit", false);
-                    cancelTab("Context/Structure", false);
-                    cancelTab("Context/Skeleton", false);
-                }
-            } else {
-                cancelTab("Context/Cut", false);
-                cancelTab("Context/Deposit", false);
-                cancelTab("Context/Structure", false);
-                cancelTab("Context/Skeleton", false);
-            }
-            if(showGeneralInformationTab) {
-              showTab("Context/General");
-            }
-        }
-    });
-}
+void openContextTabs(Boolean showGeneralInformationTab){
+  String refCut = "Context/Cut";
+  String refDep = "Context/Deposit";
+  String refSke = "Context/Skeleton";
+  String refStr = "Context/Structure";
+  String refGen = "Context/General";
 
-loadContextFrom(String uuid) {
-  String tabgroup = "Context";
-  setUuid(tabgroup, uuid);
-  if (isNull(uuid)) return;
+  String refCtxtType = "Context/General/Context_Type";
+  String vocabName   = getMenuValue(refCtxtType);
 
-  FetchCallback cb = new FetchCallback() {
-    onFetch(result) {
-      openContextTabs(true);
-    }
-  };
-  showTabGroup(tabgroup, uuid, cb);
+  if (vocabName == null)
+    vocabName = "";
+
+  if (vocabName.equals("{Deposit}") || vocabName.equals("{Natural}")){
+    cancelTab(refCut, false);
+    cancelTab(refStr, false);
+    cancelTab(refSke, false);
+    showTab  (refDep);
+  } else if (vocabName.equals("{Cut}")){
+    cancelTab(refDep, false);
+    cancelTab(refStr, false);
+    cancelTab(refSke, false);
+    showTab  (refCut);
+  } else if (vocabName.equals("{Feature_Part}")){
+    cancelTab(refDep, false);
+    cancelTab(refCut, false);
+    cancelTab(refSke, false);
+    showTab  (refStr);
+  } else if (vocabName.equals("{Skeleton}")){
+    cancelTab(refDep, false);
+    cancelTab(refCut, false);
+    cancelTab(refStr, false);
+    showTab  (refSke);
+  } else {
+    cancelTab(refCut, false);
+    cancelTab(refDep, false);
+    cancelTab(refStr, false);
+    cancelTab(refSke, false);
+  }
+
+  if(showGeneralInformationTab)
+    showTab(refGen);
 }

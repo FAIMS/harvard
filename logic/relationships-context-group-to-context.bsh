@@ -14,7 +14,7 @@ addOnEvent("Context_Group/Context_Group_Contexts/Load_Related_Context", "click",
 addOnEvent("Context_Group/Context_Group_Contexts/Existing_Relationships_to_This_Context_Group", "click", "CGSelectRelationship()");
 addOnEvent("Context_Group/Context_Group_Contexts/Delete_Relationship",                    "click", "deleteRelationship()");
 
-CGinitParentRelationshipGlobals() {
+void CGinitParentRelationshipGlobals() {
   String refSelectedRelParent = "Context_Group/Context_Group_Contexts/Selected_Relationship";
 
   selectedChildUuid     = null;
@@ -24,7 +24,7 @@ CGinitParentRelationshipGlobals() {
   populateWebViewHtml(refSelectedRelParent, WEB_REL_NONE);
 }
 
-CGpopulateExistingRelationships(){
+void CGpopulateExistingRelationships(){
   String tabGroup    = "Context_Group";
   String currentUuid = getUuid(tabGroup);
   String refExistingRelationships = "Context_Group/Context_Group_Contexts/Existing_Relationships_to_This_Context_Group";
@@ -35,7 +35,7 @@ CGpopulateExistingRelationships(){
   refreshTabgroupCSS(tabGroup);
 }
 
-CGSelectRelationship() {
+void CGSelectRelationship() {
   String refSelectedRelParent = "Context_Group/Context_Group_Contexts/Selected_Relationship";
 
   String val = getListItemValue();
@@ -61,7 +61,7 @@ addOnEvent("Context_Group_Relationship/Relationships/Search",                 "c
 addOnEvent("Context_Group_Relationship/Relationships/Search",                 "click", "CGsearchRelationship()");
 addOnEvent("Context_Group_Relationship/Relationships/Unrelated_Contexts",     "click", "CGselectUnrelatedEntity()");
 
-CGinitRelationshipRelationshipGlobals() {
+void CGinitRelationshipRelationshipGlobals() {
   proposedChildUuid       = null;
   selectedRelId           = null;
   proposedChildIdentifier = null;
@@ -72,7 +72,7 @@ CGinitRelationshipRelationshipGlobals() {
   CGclearSearch();
 }
 
-CGpopulateProposedRelationship() {
+void CGpopulateProposedRelationship() {
   String refProposedRel = "Context_Group_Relationship/Relationships/Proposed_Relationship";
 
   String identifierFrom;
@@ -95,7 +95,7 @@ CGpopulateProposedRelationship() {
   populateWebViewHtml(refProposedRel, webviewHtml);
 }
 
-CGsearchRelationship() {
+void CGsearchRelationship() {
   String parentTabGroup = "Context_Group";
   String parentUuid     = getUuid(parentTabGroup);
 
@@ -159,7 +159,7 @@ CGsearchRelationship() {
   CGpopulateProposedRelationship();
 }
 
-CGclearSearch() {
+void CGclearSearch() {
   String refUnrelated = "Context_Group_Relationship/Relationships/Unrelated_Contexts";
   String refRelated   = "Context_Group_Relationship/Relationships/Existing_Relationships";
 
@@ -168,7 +168,7 @@ CGclearSearch() {
   populateCursorList(refRelated,   q, 25);
 }
 
-CGselectUnrelatedEntity() {
+void CGselectUnrelatedEntity() {
   String val = getListItemValue();
   if (isNull(val)) return;
   String[] arguments = val.split(SEP); // `SEP` defined by autogen as \0
@@ -181,7 +181,7 @@ CGselectUnrelatedEntity() {
   CGpopulateProposedRelationship();
 }
 
-CGaddRelationship() {
+void CGaddRelationship() {
   String parentTabGroup = "Context_Group";
 
   String relName    = "Context Group - Context";
@@ -213,7 +213,7 @@ CGaddRelationship() {
   proposedChildIdentifier = null;
 }
 
-CGaddRelationshipSucceeded() {
+void CGaddRelationshipSucceeded() {
   String refProposedRel = "Context_Group_Relationship/Relationships/Proposed_Relationship";
 
   populateWebViewHtml(refProposedRel, WEB_REL_BLANK);
@@ -221,7 +221,7 @@ CGaddRelationshipSucceeded() {
   CGsearchRelationship();
 }
 
-CGselectExistingRelationship() {
+void CGselectExistingRelationship() {
   String refSelectedRelRel = "Context_Group_Relationship/Relationships/Selected_Relationship";
 
   String val = getListItemValue();
@@ -237,12 +237,12 @@ CGselectExistingRelationship() {
   populateWebViewHtml(refSelectedRelRel, selectedRelIdentifier);
 }
 
-CGpopulateParentIdentiferRelationships() {
+void CGpopulateParentIdentiferRelationships() {
   String lotRef = "Context_Group_Relationship/Relationships/Parent_Identifier";
   setFieldToIdentifier("Context_Group", lotRef);
 }
 
-getCGChildQuery(String parentUuid) {
+String getCGChildQuery(String parentUuid) {
   // `contextIdentifer` is defined in logic/shared.bsh
   String parentIdentifier = contextIdentifer;
   String relntypename     = "Context Group - Context";

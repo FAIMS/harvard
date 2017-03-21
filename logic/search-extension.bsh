@@ -4,7 +4,7 @@
 /******************************************************************************/
 addOnEvent("Control/Search", "show",  "populateSelectUser()");
 
-populateSelectUser(){
+void populateSelectUser(){
   String refSearchUsers = "Control/Search/Select_User";
   String getNonDeletedUsersQuery = "SELECT userid, fname || ' ' || lname "+
                                    "  FROM user "+
@@ -20,7 +20,7 @@ populateSelectUser(){
 
 
 // Overrides auto-generated definition
-search(){
+void search(){
   String tabgroup = "Control";
   String refEntityList  = tabgroup + "/Search/Entity_List";
   String refSearchTerm  = tabgroup + "/Search/Search_Term";
