@@ -10,10 +10,7 @@ void setTextureActual(){
     String soilQuery= "SELECT vocabid " +
                       "  FROM vocabulary JOIN attributekey USING (attributeid) "+
                       " WHERE attributeName = 'Soil Texture' "+
-                      "   AND vocabname = (SELECT vocabname " +
-                                          "  FROM vocabulary JOIN attributekey USING (attributeid) " +
-                                          " WHERE vocabid = '"+ getFieldValue("Context/Soil_Texture_Helper/Soil_Texture_Helper") +"' "+
-                                          "   AND attributeName = 'Soil Texture Helper'); ";
+                      "   AND vocabname = '" + getMenuValue("Context/Soil_Texture_Helper/Soil_Texture_Helper") + "' ";
     //This function makes the hierarchical soil texture selector write to the texture dropdown. We should discuss.
     Log.d("foo1", soilQuery);
 
