@@ -19,7 +19,7 @@ boolean isValidField(String ref) {
 
 String fieldPair(String ref, String name, String cond) {
   if (ref.equals(refOri))
-      name += " {Must_be_between_0_0_and_90_0}";
+    name += " {Must_be_between_0_0_and_90_0}";
 
   List fp = new ArrayList();
   fp.add(ref);

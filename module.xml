@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
+    TODO: Identifier parentheses
+
     TODO: Change behaviour of autogen so that i="path/to/ref" checks parents
           and i="path/to/ref!" doesn't.
     -->
@@ -1473,11 +1475,11 @@
 <Soil_Munsel_Color>
   <Add_Soil_Munsel_Color>
     <Soil_Munsel_Color f="id">
-      <!--@SOURCE: vocabs/munsel.xml-->
       <str>
         <pos>2</pos>
         <fmt>-Color-$0</fmt>
       </str>
+      <!--@SOURCE: vocabs/munsel.xml-->
     </Soil_Munsel_Color>
   </Add_Soil_Munsel_Color>
   <Vars f="hidden">

@@ -3,7 +3,7 @@
 cd data
 tar -cvzf ../module/data.tar.gz *
 cd ..
-p files/* module/
+#cp files/* module/
 
 cd module
 
@@ -88,4 +88,3 @@ echo "Must_be_between_0_0_and_90_0=(Must be between 0.0 and 90.0)" >> english.0.
 
 rm ui_logic.bsh.original
 rm ui_schema.xml.original
-rm english.0.properties.original
