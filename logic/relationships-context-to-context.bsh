@@ -174,7 +174,7 @@ void searchRelationship() {
   unrelatedQ += "            AND uuid IN (";
   unrelatedQ += "                 SELECT uuid";
   unrelatedQ += "                   FROM latestnondeletedaentvalue JOIN attributekey USING (attributeid) ";
-  unrelatedQ += "                  WHERE attributename = 'Context Context ID'";
+  unrelatedQ += "                  WHERE attributename IN ('Context Context ID', 'Legacy Context ID')";
   unrelatedQ += "                    AND measure = '{Context_Context_ID}')";
   unrelatedQ += "            AND uuid NOT IN (";
   unrelatedQ += "                 SELECT childuuid";
@@ -182,6 +182,7 @@ void searchRelationship() {
   unrelatedQ += "                  WHERE parentuuid = '{parentUuid}'";
   unrelatedQ += "                    AND parentparticipatesverb = '{parentRole}')";
   unrelatedQ += "            AND uuid != '{parentUuid}')";
+  unrelatedQ += "    AND aenttypename IN ('Context', 'Legacy')";
   unrelatedQ += " ORDER BY response";
   unrelatedQ += " LIMIT ? OFFSET ?";
   unrelatedQ  = replaceFirst(unrelatedQ, "{Context_AreaCode}",   areaCode  );

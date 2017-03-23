@@ -1,0 +1,29 @@
+/***************************** CUSTOM VALIDATION ******************************/
+
+boolean isValidField(String ref) {
+  String refOri = "Context/Cut/Orientation_Degree";
+
+  if (ref.equals(refOri)) {
+    String val    = getFieldValue(refOri);
+    float  fltVal = Float.parseFloat(val);
+
+    float fltMin =  0.0;
+    float fltMax = 90.0;
+
+    return fltVal >= fltMin &&
+           fltVal <= fltMax;
+  } else {
+    return !isNull(getFieldValue(ref));
+  }
+}
+
+String fieldPair(String ref, String name, String cond) {
+  if (ref.equals(refOri))
+      name += " {Must_be_between_0_0_and_90_0}";
+
+  List fp = new ArrayList();
+  fp.add(ref);
+  fp.add(name);
+  fp.add(cond);
+  return fp;
+}

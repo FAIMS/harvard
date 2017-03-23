@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-    TODO: Logic makes use of {arch16n_entries} which have changed in the new
-       autogen.
-
-    TODO: Check that t="file" creates entities with different names in the data
-       schema.
-
-    TODO: Control/Search/Entity_List is clearing after 10 secs of navigation. Can it stay as is until the next Search is run? Failing that, can it stay for at least 1 min?
+    TODO: Change behaviour of autogen so that i="path/to/ref" checks parents
+          and i="path/to/ref!" doesn't.
     -->
 
 <!--@PREPROC:  ./proc/pre.sh-->
@@ -77,14 +72,12 @@
 <Control f="nodata">
   <Contexts f="noscroll">
     Site
-    <Create_New_Trench l="Trench"/>
-    <Year f="persist" b="decimal"/>
-    <Sites e="Trench"/>
-  </Contexts>
-  <Control>
+    <Year_of_Campaign f="persist"/>
     <autonum/>
     <GPS_Diagnostics t="gpsdiag"/>
-  </Control>
+    <Create_New_Site t="button" l="Site"/>
+    <Sites           t="list"   e="Site"/>
+  </Contexts>
   <search>
     <!--The semantics of this element has been changed with @POSTPROC. A
          Select_User dropdown has been placed beside the Entity_List.
@@ -95,16 +88,34 @@
   </search>
 </Control>
 
+<Site>
+  <Site f="noscroll">
+    <Site_Site_Name f="id notnull">
+      Site Name
+    </Site_Site_Name>
+    <Site_Year_of_Campaign f="id" b="decimal" i="Control/Contexts/Year_of_Campaign">
+      Year of Campaign
+    </Site_Year_of_Campaign>
+    <Create_New_Trench l="Trench"/>
+  </Site>
+</Site>
+
 <Trench>
-  <!--TODO: ID required-->
   <Trench>
-    <Site_Name>
-      <!--TODO: Is this name correct?-->
-    </Trench>
+    <Trench_Site_Name f="id notnull" i="Site/Site/Site_Site_Name">
+      Site Name
+      <fmt>
+        <pos>1</pos>
+      </fmt>
+    </Trench_Site_Name>
     <author/>
-    <Trench_ID>
-      <!--TODO: Is this name correct?-->
-    </Trench_ID>
+    <Trench_AreaCode f="id autonum">
+      Trench ID
+      <fmt>
+        <pos>3</pos>
+        <str>-T$0</str>
+      </fmt>
+    </Trench_AreaCode>
     <Team_Members/>
     <Trench_Dimensions>
       <!--@SOURCE: vocabs/trench-dimensions.xml-->
@@ -144,17 +155,31 @@
     </Create_New_Stratum>
     <New_FCN            t="button" l="FCN"/>
     <Create_New_Diary   t="button" l="Diary"/>
+    <Create_New_Legacy  t="button" l="Legacy"/>
   </Site>
+  <Vars f="hidden">
+    <Trench_Year_of_Camaign i="Site/Site/Site_Year_of_Campaign"/>
+    <fmt>
+      <pos>2</pos>
+    </fmt>
+  </Vars>
 </Trench>
 
 <Trench_Files>
-  <!--TODO: ID required-->
   <Add_Trench_Files>
-    <Trench_ID>
-      <!--TODO: Is this name correct?-->
-    </Trench_ID>
-    <author/>
-    <File_Type/>
+    <Trench_Files_AreaCode f="id" i="Trench/Trench/Trench_AreaCode">
+      Trench ID
+      <str><fmt>T$0</fmt></str>
+    </Trench_Files_AreaCode>
+    <author f="readonly"/>
+    <File_Type>
+      <opts>
+        <opt>Plan</opt>
+        <opt>Section</opt>
+        <opt>Photo</opt>
+        <opt>Other</opt>
+      </opts>
+    </File_Type>
     <File_Name/>
     <File_Comment/>
   </Add_Trench_Files>
@@ -165,13 +190,19 @@
   <desc>The physical result of any single action whether it leaves a positive or negative record within the stratigraphic sequence. (MoLAS 1994)</desc>
   <General>
     <cols>
-      <Context_AreaCode f="id notnull autonum">
+      <Context_Site_Name f="id notnull" i="Trench/Trench/Trench_Site_Name">
+        Site Name
+        <str>
+          <pos>1</pos>
+        </str>
+      </Context_Site_Name>
+      <Context_AreaCode f="id notnull" i="Trench/Trench/Trench_AreaCode">
         Trench ID
         <!--The semantics of the autonum flag have been changed using
              @POSTPROC-->
         <str>
           <pos>3</pos>
-          <fmt>-Trench-$2</fmt>
+          <fmt>-T$0</fmt>
         </str>
       </Context_AreaCode>
       <Context_Context_ID f="id notnull autonum readonly">
@@ -181,8 +212,8 @@
         Burial locus codes begin with the letter Z, followed by the trench letter. Hence burial ZHA is the first burial locus from trench H.
         Check with the trench supervisor who will assign the locus code from the central register.</desc>
         <str>
-          <pos>1</pos>
-          <fmt>L-$2</fmt>
+          <pos>4</pos>
+          <fmt>-L-$0</fmt>
         </str>
       </Context_Context_ID>
     </cols>
@@ -200,12 +231,8 @@
     </cols>
     <cols>
       <col>
-        <Date_Opened f="id">
+        <Date_Opened>
           <desc>Date on which the Locus was first excavated. This will automatically be set to the date on which the locus is recorded but can be edited using the keyboard.</desc>
-          <str>
-            <pos>4</pos>
-            <fmt>-$2</fmt>
-          </str>
         </Date_Opened>
         <Team_Members i="Trench/Trench/Team_Members">
           <desc>Initials of the excavators that have worked on the locus.</desc>
@@ -942,12 +969,11 @@
     <Device_Code i="User/User_List/Device_Code">
       <!--@SOURCE: vocabs/device-code.xml-->
     </Device_Code>
-    <Site_Code>
-      <desc>Short code to signify the excavation site and often the year of excavation. Assigned automatically by the module.</desc>
-    </Site_Code>
-    <SearchHelp>
-      <desc>This allows you to find any loci that contain your search term or string in any field in a locus record. Type in your term/string and press the "Search" button. Press "My Loci" to return to the full list of loci for this trench.</desc>
-    </SearchHelp>
+    <Context_Year_of_Campaign f="id" i="Trench/Vars/Trench_Year_of_Campaign">
+      <fmt>
+        <pos>2</pos>
+      </fmt>
+    </Context_Year_of_Campaign>
   </Vars>
 </Context>
 
@@ -956,64 +982,53 @@
   <desc>A group of loci.</desc>
   <Gen>
     General
-    <Record_Type t="radio" f="id notnull">
-      <str>
-        <pos>1</pos>
-        <fmt>$1-</fmt>
-      </str>
+    <Record_Type t="radio" f="notnull">
       <opts>
         <opt>Stratum</opt>
         <opt>Feature</opt>
       </opts>
     </Record_Type>
     <cols>
-      <Context_Group_AreaCode f="notnull" i="Context/General/Context_AreaCode">
+      <Context_Group_AreaCode f="id notnull" i="Context/General/Context_AreaCode">
         Trench ID
+        <str><pos>3</pos><fmt>T$0-</fmt></str>
       </Context_Group_AreaCode>
       <Feature_Prefix f="id">
-        <str><pos>2</pos></str>
+        <str><pos>4</pos></str>
       </Feature_Prefix>
       <Context_Group_ID f="id notnull autonum">
         Stratum/Feature ID
         <desc>Feature number taken from the central register.</desc>
-        <str>
-          <pos>3</pos>
-          <fmt>$2-</fmt>
-        </str>
+        <str><pos>5</pos></str>
       </Context_Group_ID>
     </cols>
-    <Feature_Type_Group t="group">
-      <Feature_Type t="dropdown" f="id noui">
-        <!--This will be added to the UI dynamically-->
-        <str>
-          <pos>4</pos>
-          <fmt>{{if $1 then "$1-"}}</fmt>
-        </str>
-        <opts>
-          <opt>No Observation</opt>
-          <opt>Negative Element</opt>
-          <opt>Deposit Structure</opt>
-          <opt>Wall</opt>
-          <opt>Floor</opt>
-          <opt>Well</opt>
-          <opt>Pit</opt>
-          <opt>Room</opt>
-          <opt>Burial</opt>
-          <opt>Building</opt>
-          <opt>Surface</opt>
-          <opt>Space</opt>
-          <opt>Posthole</opt>
-          <opt>Hearth</opt>
-          <opt>Posthole Row</opt>
-          <opt>Kiln</opt>
-          <opt>Furnace</opt>
-          <opt>House</opt>
-          <opt>Midden</opt>
-          <opt>Ditch</opt>
-          <opt>Other</opt>
-        </opts>
-      </Feature_Type>
-    </Feature_Type_Group>
+    <Feature_Type_Group t="group"/>
+    <Feature_Type t="dropdown" f="noui">
+      <!--This will be added to the UI dynamically-->
+      <opts>
+        <opt>No Observation</opt>
+        <opt>Negative Element</opt>
+        <opt>Deposit Structure</opt>
+        <opt>Wall</opt>
+        <opt>Floor</opt>
+        <opt>Well</opt>
+        <opt>Pit</opt>
+        <opt>Room</opt>
+        <opt>Burial</opt>
+        <opt>Building</opt>
+        <opt>Surface</opt>
+        <opt>Space</opt>
+        <opt>Posthole</opt>
+        <opt>Hearth</opt>
+        <opt>Posthole Row</opt>
+        <opt>Kiln</opt>
+        <opt>Furnace</opt>
+        <opt>House</opt>
+        <opt>Midden</opt>
+        <opt>Ditch</opt>
+        <opt>Other</opt>
+      </opts>
+    </Feature_Type>
     <CG_Your_description f="notnull">
       Description
       <desc>Describe the feature, any details of dimensions, disturbance, orientation etc.</desc>
@@ -1075,19 +1090,11 @@
       <desc>Reference numbers to section drawings of this feature</desc>
     </CG_Section_Numbers>
     <cols>
-      <author f="id readonly">
+      <author f="readonly">
         Record Created By:
-        <str>
-          <pos>5</pos>
-          <fmt>$2-</fmt>
-        </str>
       </author>
-      <timestamp f="id readonly">
+      <timestamp f="readonly">
         Date recorded:
-        <str>
-          <pos>6</pos>
-          <fmt>$2</fmt>
-        </str>
       </timestamp>
     </cols>
   </Gen>
@@ -1126,9 +1133,12 @@
     <Device_Code i="User/User_List/Device_Code">
       <!--@SOURCE: vocabs/device-code.xml-->
     </Device_Code>
-    <Site_Code>
-      <desc>Short code to signify the excavation site and often the year of excavation. Assigned automatically by the module.</desc>
-    </Site_Code>
+    <Context_Group_Site_Name f="id" i="Trench/Trench/Trench_Site_Name">
+      <fmt><pos>1</pos></fmt>
+    </Context_Group_Site_Name>
+    <Context_Group_Year_of_Campaign f="id" i="Context/Vars/Trench_Year_of_Campaign">
+      <fmt><pos>2</pos></fmt>
+    </Context_Group_Year_of_Campaign>
   </Vars>
 </Context_Group>
 
@@ -1220,23 +1230,23 @@
         Locus ID
         <desc>Unique number or code for each Locus</desc>
         <str>
-          <pos>1</pos>
-          <fmt>Loc-$2-</fmt>
+          <pos>2</pos>
+          <fmt>-$0</fmt>
         </str>
       </Photo_Context_ID>
       <Photo_Context_Group_ID f="id readonly" i="Context_Group/Gen/Context_Group_ID">
         Stratum/Feature ID
         <desc>Unique number or code for each Stratum/Feature</desc>
         <str>
-          <pos>2</pos>
-          <fmt>Strat-$2-</fmt>
+          <pos>1</pos>
+          <fmt>$0</fmt>
         </str>
       </Photo_Context_Group_ID>
       <Photograph_Reference_ID f="id">
         <desc>Unique number or code allocated by creator of the image. It could be a filename or a reference number</desc>
         <str>
           <pos>3</pos>
-          <fmt>Photo-$2</fmt>
+          <fmt>-Photo-$2</fmt>
         </str>
       </Photograph_Reference_ID>
     </cols>
@@ -1261,13 +1271,10 @@
     </Photograph_Description>
   </Photograph_Log>
   <Vars f="hidden">
-    <AreaCode i="Context/General/Context_AreaCode  Context_Group/Gen/Context_Group_AreaCode"/>
+    <AreaCode i="Context/General/Context_AreaCode"/>
     <Device_Code i="User/User_List/Device_Code">
       <!--@SOURCE: vocabs/device-code.xml-->
     </Device_Code>
-    <Site_Code>
-      <desc>Short code to signify the excavation site and often the year of excavation</desc>
-    </Site_Code>
   </Vars>
 </Photograph_Log>
 
@@ -1275,24 +1282,21 @@
   <Diary>
     <Title f="id">
       <desc>Give your entry a simple, short title, such as Daily Trench Update, Burial 34, Storm Damage. Note that diary entries allow you to add information in addition to the locus, feature and artefact records elsewhere in the module and should not be the primary description point for those entities</desc>
-      <str>
-        <pos>1</pos>
-        <fmt>Diary-$2</fmt>
-      </str>
+      <str><pos>1</pos></str>
     </Title>
     <cols>
       <timestamp f="id readonly">
         <desc>The date this entry is created will automatically appear here</desc>
         <str>
           <pos>2</pos>
-          <fmt>-$2</fmt>
+          <fmt>-$0</fmt>
         </str>
       </timestamp>
       <author f="id readonly">
         <desc>Your name will be added here based on your login</desc>
         <str>
           <pos>3</pos>
-          <fmt>-$2</fmt>
+          <fmt>-$0</fmt>
         </str>
       </author>
     </cols>
@@ -1375,18 +1379,22 @@
   <General>
     <FCN_ID f="id notnull autonum">
       <str>
-        <pos>2</pos>
-        <fmt>-$2</fmt>
+        <pos>1</pos>
+        <fmt>FCN$0</fmt>
       </str>
     </FCN_ID>
-    <Site_Name f="id notnull">
+    <FCN_Site_Name f="id notnull">
+      Site Name
       <str>
-        <pos>1</pos>
-        <fmt>FCN-$2</fmt>
+        <pos>2</pos>
       </str>
-    </Site_Name>
-    <AreaCode f="notnull" i="Context/General/Context_AreaCode">
+    </FCN_Site_Name>
+    <AreaCode f="id notnull" i="Context/General/Context_AreaCode">
       Trench ID
+      <fmt>
+        <pos>3</pos>
+        <fmt>-T$0</fmt>
+      </fmt>
     </AreaCode>
     <Context_ID f="notnull" i="Context/General/Context_Context_ID">
       Locus ID
@@ -1409,8 +1417,8 @@
     </Collection_Method>
     <FCN_Class f="id">
       <str>
-        <pos>3</pos>
-        <fmt>-$1</fmt>
+        <pos>5</pos>
+        <fmt>-$0</fmt>
       </str>
       <opts>
         <opt>Sediment</opt>
@@ -1440,6 +1448,7 @@
     <Volume_Liters_Group t="group"/>
     <Volume_Liters b="decimal" f="noui">
       Volume (Liters)
+      <!--This will be added to the UI dynamically-->
     </Volume_Liters>
     <Washed t="radio">
       <!--@SOURCE: vocabs/boolean.xml-->
@@ -1454,23 +1463,55 @@
     <Attach_File t="file"/>
     <Attach_Photograph t="camera"/>
   </General>
+  <Vars f="hidden">
+    <FCN_Year_of_Campaign f="id" i="Trench/Vars/Trench_Year_of_Campaign">
+      <str><pos>3</pos></str>
+    </FCN_Year_of_Campaign>
+  </Vars>
 </FCN>
 
 <Soil_Munsel_Color>
   <Add_Soil_Munsel_Color>
     <Soil_Munsel_Color f="id">
       <!--@SOURCE: vocabs/munsel.xml-->
+      <str>
+        <pos>2</pos>
+        <fmt>-Color-$0</fmt>
+      </str>
     </Soil_Munsel_Color>
   </Add_Soil_Munsel_Color>
+  <Vars f="hidden">
+    <Soil_Munsel_Color_Locus_ID f="id" i="Context/General/Context_Context_ID">
+      <str>
+        <pos>1</pos>
+        <fmt>LocusID-$0</fmt>
+      </str>
+    </Soil_Munsel_Color_Locus_ID>
+  </Vars>
 </Soil_Munsel_Color>
+
+<Legacy>
+  <Legacy>
+    <cols>
+      <AreaCode f="id notnull">
+        Trench
+        <!--@SOURCE: vocabs/area-code.xml-->
+      </AreaCode>
+      <Legacy_Context_ID f="id notnull">
+        Locus ID
+        <str>
+          <fmt>Legacy-$0</fmt>
+        </str>
+      </Legacy_Context_ID>
+    </cols>
+  </Legacy>
+</Legacy>
 
 <logic><![CDATA[
   <!--@SOURCE: logic/shared.bsh-->
   <!--@SOURCE: logic/relationships-shared.bsh-->
 
-  <!--@SOURCE: logic/vocab-population.bsh-->
   <!--@SOURCE: logic/user-tab-validation.bsh-->
-  <!--@SOURCE: logic/field-inheritance.bsh-->
   <!--@SOURCE: logic/relationships-context-to-context.bsh-->
   <!--@SOURCE: logic/relationships-context-group-to-context.bsh-->
   <!--@SOURCE: logic/dynamic-ui-context.bsh-->
@@ -1478,5 +1519,6 @@
   <!--@SOURCE: logic/context-dates.bsh-->
   <!--@SOURCE: logic/soil-texture-helper.bsh-->
   <!--@SOURCE: logic/search-extension.bsh-->
+  <!--@SOURCE: logic/custom-validation.bsh-->
 ]]></logic>
 </module>

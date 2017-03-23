@@ -134,7 +134,7 @@ void CGsearchRelationship() {
   unrelatedQ += "            AND uuid IN (";
   unrelatedQ += "                 SELECT uuid";
   unrelatedQ += "                   FROM latestnondeletedaentvalue JOIN attributekey USING (attributeid) ";
-  unrelatedQ += "                  WHERE attributename = 'Context Context ID'";
+  unrelatedQ += "                  WHERE attributename IN ('Context Context ID', 'Legacy Context ID')";
   unrelatedQ += "                    AND measure = '{Context_Context_ID}')";
   unrelatedQ += "            AND uuid NOT IN (";
   unrelatedQ += "                 SELECT childuuid";

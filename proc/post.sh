@@ -81,9 +81,10 @@ replacement="
               <Select_User\/>"
 perl -0777 -i.original -pe "s/$string/$replacement/igs" ui_schema.xml
 
-echo "Select_User=Select User"       >> english.0.properties
-echo "Volume_Liters=Volume (Liters)" >> english.0.properties
-echo "All_Users=All Users"           >> english.0.properties
+echo "Select_User=Select User"                                     >> english.0.properties
+echo "Volume_Liters=Volume (Liters)"                               >> english.0.properties
+echo "All_Users=All Users"                                         >> english.0.properties
+echo "Must_be_between_0_0_and_90_0=(Must be between 0.0 and 90.0)" >> english.0.properties
 
 rm ui_logic.bsh.original
 rm ui_schema.xml.original
