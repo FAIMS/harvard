@@ -24,7 +24,8 @@ filenames = [
         filenameDataSchema,
         filenameUiLogic,
         filenameUiSchema,
-        filenameValidation]
+        filenameValidation
+]
 
 username = 'faimsadmin@intersect.org.au'
 password = 'Pass.123'
@@ -33,10 +34,19 @@ server = 'dev'
 url    = 'http://%s.fedarch.org' % server
 
 ################################################################################
-doDelete = len(sys.argv) > 1 and sys.argv[1] == '--rm'
+doDelete  = False
+doReplace = False
+hasFlag   = False
+if len(sys.argv) <= 1: pass
+elif sys.argv[1] == '--rm':      doDelete  = True; hasFlag = True
+elif sys.argv[1] == '--replace': doReplace = True; hasFlag = True
+else:
+    sys.stderr.write('USAGE:')
+    sys.stderr.write('  upload.py [--rm|--replace]\n')
+    exit()
 
 # The module location can be set manually or be determined automatically
-if len(sys.argv) > 1 and sys.argv[1] != '--rm':
+if len(sys.argv) > 1 and not hasFlag:
     # Set module location from manually-given argument
     moduleLocation = sys.argv[1]
     moduleLocation = os.path.abspath(moduleLocation)
@@ -44,9 +54,16 @@ else:
     # Set module location to that of this script
     moduleLocation = os.path.realpath(__file__)
     moduleLocation = os.path.dirname(moduleLocation)
-# Determine module name
+
+# Determine module name using a heuristic. If the module is in a (parent)
+# directory called 'module', it's generally reasonable to assume that
+# directory was created by the autogen. In that case, the name of the
+# grandparent directory is probably a more apt name for the module. (Though this
+# heuristic could fail in a ridiculous way.)
 moduleName = moduleLocation.split(os.sep)
-moduleName = moduleName[-1]
+if moduleName[-1] == 'module': moduleName = moduleName[-2]
+else:                          moduleName = moduleName[-1]
+moduleName = 'Tao River Module'
 
 # Check that all the given paths really exist
 if not os.path.exists(moduleLocation):
@@ -55,33 +72,22 @@ if not os.path.exists(moduleLocation):
 
 isMissing = False
 for f in filenames:
+    if not f: continue
     if not os.path.exists(moduleLocation + os.sep + f):
         print 'ERROR: Cannot find %s' % f
         isMissing = True
 if isMissing:
     exit()
 
-# Initialisation of `magic` module
+# Initialisation of `magic` python module
 mime = MimeTypes()
 mime.add_type('text/plain', '.bsh')
 mime.add_type('text/plain', '.properties')
 
-# Make browser
-br = mechanize.Browser()
-
-# Initialisation of `mechanize` module (Some stuff I copied from Stack Overflow)
-cookiejar = cookielib.LWPCookieJar()
-br.set_cookiejar      (cookiejar)
-br.set_handle_gzip    (True)
-br.set_handle_equiv   (True)
-br.set_handle_gzip    (True)
-br.set_handle_redirect(True)
-br.set_handle_referer (True)
-br.set_handle_robots  (False)
-
 ################################################################################
 
 def addFile(br, filename, inputName):
+    if not filename: return
     fullFilename = moduleLocation + os.sep + filename
     mimetype     = mime.guess_type(filename)
     mimetype     = mimetype[0]
@@ -98,6 +104,10 @@ def addFiles(br, doUploadDataSchema):
     addFile    (br, filenameValidation , 'project_module[validation_schema]')
 
 def login(br):
+    global username
+    global password
+    global url
+
     # Get login form and fill it out
     print 'Working on module with the name "%s"...' % moduleName
     print
@@ -114,11 +124,16 @@ def login(br):
     print
     res = br.submit()
 
+def goHome(br):
+    global url
+
+    br.open(url)
+
 def deleteModule(br):
     print 'Downloading delete form...'
     # Try clicking on link to module config page
     try:
-        linkText = moduleName
+        linkText = '^%s$' % moduleName
         res      = br.follow_link(text_regex=linkText)
     except:
         print 'Cannot delete module; does not exist. Exiting.'
@@ -152,7 +167,7 @@ def uploadModule(br):
     print 'Downloading update/create form...'
     try:
         # The module's already been uploaded
-        linkText = moduleName
+        linkText = '^%s$' % moduleName
         res      = br.follow_link(text_regex=linkText)
 
         linkText = 'Edit Module'
@@ -187,8 +202,25 @@ def uploadModule(br):
 
 
 ################################################################################
+# Make browser
+br = mechanize.Browser()
+
+# Initialisation of `mechanize` module (Some stuff I copied from Stack Overflow)
+cookiejar = cookielib.LWPCookieJar()
+br.set_cookiejar      (cookiejar)
+br.set_handle_equiv   (True)
+br.set_handle_gzip    (True)
+br.set_handle_redirect(True)
+br.set_handle_referer (True)
+br.set_handle_robots  (False)
+
+# Navigate website and upload module
 login(br)
-if doDelete:
+if doReplace:
+    deleteModule(br)
+    goHome      (br)
+    uploadModule(br)
+elif doDelete:
     deleteModule(br)
 else:
     uploadModule(br)

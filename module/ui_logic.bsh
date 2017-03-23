@@ -13,7 +13,78 @@ setSyncEnabled(true);
 setSyncMaxInterval(600.0f);
 setSyncMinInterval(5.0f);
 
-makeLocalID(){
+/******************************** STRING UTILS ********************************/
+String replaceFirst(String haystack, String needle, String replacement) {
+  i = haystack.indexOf(needle);
+  if (i == -1)           return haystack;
+  if (needle.equals("")) return haystack;
+  pre  = haystack.substring(0, i                                   );
+  post = haystack.substring(   i+needle.length(), haystack.length());
+  return pre + replacement + post;
+}
+
+String replaceFirst(String haystack, String replacement) {
+  return replaceFirst(haystack, "%s", replacement);
+}
+
+String translate(String s, Map m) {
+  String out = "";
+
+  for (char c : s) {
+    String translation = m.get(c);
+
+    if (isNull(translation)) out += c;
+    else                     out += translation;
+  }
+
+  return out;
+}
+
+String escape(String s) {
+  Map dict = new HashMap();
+  dict.put('\"', "\\\"");
+  dict.put('\\', "\\\\");
+  dict.put('\b', "\\b" );
+  dict.put('\f', "\\f" );
+  dict.put('\n', "\\n" );
+  dict.put('\r', "\\r" );
+
+  return translate(s, dict);
+}
+
+String args2str(Object[] args) {
+  String str = "";
+  String sep = ", ";
+
+  for (Object o : args) {
+    if (o instanceof String) str += "\"" + escape(o) + "\"" + sep;
+    else                     str +=               o         + sep;
+  }
+
+  // The loop adds a superfluous trailing separator. This removes it.
+  str = str.substring(0, str.length() - sep.length());
+
+  return str;
+}
+
+// "Function to string". Makes it very slightly less painful to write callback
+// functions as strings.
+String fun2str(String funName, Object[] args) {
+  String argsStr = args2str(args);
+
+  String str = "{funName}({argsStr})";
+  str = replaceFirst(str, "{funName}", funName);
+  str = replaceFirst(str, "{argsStr}", argsStr);
+
+  return str;
+}
+
+String fun2str(String funName, Object args) {
+  return fun2str(funName, new Object[]{args});
+}
+
+/******************************* LOCALSETTINGS ********************************/
+void makeLocalID(){
   fetchOne("CREATE TABLE IF NOT EXISTS localSettings (key text primary key, value text);", null);
   fetchOne("DROP VIEW IF EXISTS parentchild;", null);
   fetchOne("CREATE VIEW parentchild AS "+
@@ -32,15 +103,34 @@ makeLocalID(){
 }
 makeLocalID();
 
-insertIntoLocalSettings(String key, String val) {
+void insertIntoLocalSettings(String ref) {
+  String val = getFieldValue(ref);
+  insertIntoLocalSettings(ref, val);
+}
+
+void insertIntoLocalSettings(String key, String val) {
   fetchOne("REPLACE INTO localSettings(key, value) VALUES('" + key + "', '" + val + "');");
 }
 
-insertIntoLocalSettings(String key, Integer val) {
+void insertIntoLocalSettings(String key, Integer val) {
   insertIntoLocalSettings(key, Integer.toString(val));
 }
 
-setFieldValueFromLocalSettings(String key, String ref) {
+void insertIntoLocalSettingsOnChange(String ref) {
+  String val = getFieldValue(ref);
+
+  String insertCallback = fun2str("insertIntoLocalSettings", ref);
+
+  addOnEvent(ref, "blur",  insertCallback);
+  addOnEvent(ref, "click", insertCallback);
+}
+
+void setFieldValueFromLocalSettings(String key, String ref, boolean doOverwrite) {
+  String val = getFieldValue(ref);
+  if (!isNull(val) && !doOverwrite) {
+    return;
+  }
+
   String q = "SELECT value FROM localSettings WHERE key = '" + key + "';";
   fetchOne(q, new FetchCallback() {
     onFetch(result) {
@@ -51,7 +141,477 @@ setFieldValueFromLocalSettings(String key, String ref) {
   });
 }
 
-newTab(String tab, Boolean resolveTabGroups) {
+void setFieldValueFromLocalSettings(String key, String ref) {
+  boolean doOverwrite = false;
+  setFieldValueFromLocalSettings(key, ref);
+}
+
+void setFieldValueFromLocalSettings(String ref, boolean doOverwrite) {
+  setFieldValueFromLocalSettings(ref, ref, doOverwrite);
+}
+
+void setFieldValueFromLocalSettings(String ref) {
+  setFieldValueFromLocalSettings(ref, false);
+}
+
+void setFieldValueFromLocalSettingsOnShow(String ref, boolean doOverwrite) {
+  String cb = fun2str(
+      "setFieldValueFromLocalSettings",
+      new Object[]{ref, doOverwrite}
+  );
+
+  addOnEvent(ref, "show", cb);
+}
+
+void setFieldValueFromLocalSettingsOnShow(String ref) {
+  boolean doOverwrite = false;
+  setFieldValueFromLocalSettingsOnShow(ref, doOverwrite);
+}
+
+/* Causes the value of the field given by `ref` to be saved each time it is
+ * modified (on blur). The value of the field is restored when the tab group
+ * containing the field is displayed.
+ *
+ * This function depends on `addOnEvent`. Therefore this function must be called
+ * after `addOnEvent` is defined, but before `bindOnEvents` is called. This will
+ * be so if the call is made in the autogenerator's `logic` tags.
+ */
+void persistOverSessions(String ref) {
+  setFieldValueFromLocalSettingsOnShow(ref);
+  insertIntoLocalSettingsOnChange     (ref);
+}
+
+persistOverSessions("User/User_List/Device_Code");
+persistOverSessions("Control/Contexts/Year_of_Campaign");
+
+/*************************** FIELD COPYING HELPERS ****************************/
+/* Provides an easy way to copy field values, even between vocabs.            */
+/******************************************************************************/
+void copyFieldValue(String src, String dst) {
+  Boolean doFindVocabId = true;
+  copyFieldValue(src, dst, doFindVocabId);
+}
+
+/* `src`           The ref of the source field.
+ * `dst`           The ref of the destination field.
+ * `doFindVocabId` If this is true, and the properties/attributes of `src` and
+ *                 `dst` are different, `copyFieldValue` treats `src` and `dst`
+ *                 as if they were menus. Therefore, to copy the value seen by
+ *                 the user (i.e. the vocabName of `src`), a database query is
+ *                 performed. The query determines the which vocabId of `dst`
+ *                 will make it display the same vocabName as `src`.
+ *
+ *                 If `doFindVocabId` is false, the value returned by
+ *                 `getFieldValue` is copied, without any database accesses.
+ */
+void copyFieldValue(String src, String dst, Boolean doFindVocabId) {
+  String vocabIdSrc   = getFieldValue(src);
+  String vocabNameSrc = getFieldValue(src, true);
+
+  String attrNameSrc = getAttributeName(src);
+  String attrNameDst = getAttributeName(dst);
+
+  if (attrNameSrc.equals(attrNameDst) || !doFindVocabId) {
+    setFieldValue(dst, vocabIdSrc);
+    return;
+  }
+
+  String q = "";
+  q += "    SELECT vocabid";
+  q += "      FROM vocabulary";
+  q += " LEFT JOIN attributekey";
+  q += "     USING (attributeid)";
+  q += "     WHERE attributename = '{attrNameDst}'";
+  q += "       AND vocabname     = '{vocabNameSrc}'";
+  q  = replaceFirst(q, "{attrNameDst}",  attrNameDst);
+  q  = replaceFirst(q, "{vocabNameSrc}", vocabNameSrc);
+
+
+  FetchCallback populate = new FetchCallback() {
+    onFetch(result) {
+      if (result == null) {
+        // Fall back to dumb field copying
+        copyFieldValue(src, dst, false);
+      }
+
+      String vocabIdDst = result.get(0);
+      setFieldValue(dst, vocabIdDst);
+    }
+  };
+
+  fetchOne(q, populate);
+}
+
+void inheritFieldValue(
+    String src,
+    String dst,
+    boolean doCheckParent,
+    boolean doFindVocabId
+) {
+  String fun = "";
+  fun += "if (!{check} || getDisplayedTabGroup().equals(\"{parent}\"))";
+  fun += "  copyFieldValue(\"{src}\", \"{dst}\", {find})";
+
+  fun = replaceFirst(fun, "{check}",  doCheckParent + "");
+  fun = replaceFirst(fun, "{parent}", getTabGroupRef(src));
+  fun = replaceFirst(fun, "{src}",    src);
+  fun = replaceFirst(fun, "{dst}",    dst);
+  fun = replaceFirst(fun, "{find}",   doFindVocabId + "");
+
+  addOnEvent(getTabGroupRef(dst), "create", fun);
+}
+
+/* If `doCheckParent`, then the value at `src` will only be inherited to `dst`
+ * if `getTabGroupRef(src)` was the previously displayed tab group.
+ */
+void inheritFieldValue(String src, String dst, boolean doCheckParent) {
+  inheritFieldValue(src, dst, doCheckParent, true);
+}
+
+void inheritFieldValue(String src, String dst) {
+  inheritFieldValue(src, dst, true);
+}
+
+inheritFieldValue("Control/Contexts/Year_of_Campaign", "Site/Site/Site_Year_of_Campaign", true);
+inheritFieldValue("Site/Site/Site_Site_Name", "Trench/Trench/Trench_Site_Name", true);
+inheritFieldValue("Site/Site/Site_Year_of_Campaign", "Trench/Vars/Trench_Year_of_Camaign", true);
+inheritFieldValue("Trench/Trench/Trench_AreaCode", "Trench_Files/Add_Trench_Files/Trench_Files_AreaCode", true);
+inheritFieldValue("Trench/Trench/Trench_Site_Name", "Context/General/Context_Site_Name", true);
+inheritFieldValue("Trench/Trench/Trench_AreaCode", "Context/General/Context_AreaCode", true);
+inheritFieldValue("Trench/Trench/Team_Members", "Context/General/Team_Members", true);
+inheritFieldValue("User/User_List/Device_Code", "Context/Vars/Device_Code", true);
+inheritFieldValue("Trench/Vars/Trench_Year_of_Campaign", "Context/Vars/Context_Year_of_Campaign", true);
+inheritFieldValue("Context/General/Context_AreaCode", "Context_Group/Gen/Context_Group_AreaCode", true);
+inheritFieldValue("User/User_List/Device_Code", "Context_Group/Vars/Device_Code", true);
+inheritFieldValue("Trench/Trench/Trench_Site_Name", "Context_Group/Vars/Context_Group_Site_Name", true);
+inheritFieldValue("Context/Vars/Trench_Year_of_Campaign", "Context_Group/Vars/Context_Group_Year_of_Campaign", true);
+inheritFieldValue("Context/General/Context_Context_ID", "Matrix/Vars/Context_ID", true);
+inheritFieldValue("Context/General/Context_AreaCode", "Matrix/Vars/AreaCode", true);
+inheritFieldValue("Context/General/Context_Context_ID", "Photograph_Log/Photograph_Log/Photo_Context_ID", true);
+inheritFieldValue("Context_Group/Gen/Context_Group_ID", "Photograph_Log/Photograph_Log/Photo_Context_Group_ID", true);
+inheritFieldValue("Context/General/Context_AreaCode", "Photograph_Log/Vars/AreaCode", true);
+inheritFieldValue("User/User_List/Device_Code", "Photograph_Log/Vars/Device_Code", true);
+inheritFieldValue("Context/General/Context_AreaCode", "FCN/General/AreaCode", true);
+inheritFieldValue("Context/General/Context_Context_ID", "FCN/General/Context_ID", true);
+inheritFieldValue("Trench/Vars/Trench_Year_of_Campaign", "FCN/Vars/FCN_Year_of_Campaign", true);
+inheritFieldValue("Context/General/Context_Context_ID", "Soil_Munsel_Color/Vars/Soil_Munsel_Color_Locus_ID", true);
+
+/******************************************************************************/
+/*                           DOCUMENT OBJECT MODEL                            */
+/******************************************************************************/
+String PREVIOUSLY_DISPLAYED_TAB_GROUP = "";
+String CURRENTLY_DISPLAYED_TAB_GROUP  = "";
+
+List getTabGroups() {
+  List tabGroups = new ArrayList();
+  tabGroups.add("User");
+  tabGroups.add("Control");
+  tabGroups.add("Site");
+  tabGroups.add("Trench");
+  tabGroups.add("Trench_Files");
+  tabGroups.add("Context");
+  tabGroups.add("Context_Group");
+  tabGroups.add("Matrix");
+  tabGroups.add("Photograph_Log");
+  tabGroups.add("Diary");
+  tabGroups.add("Relationship");
+  tabGroups.add("Context_Group_Relationship");
+  tabGroups.add("FCN");
+  tabGroups.add("Soil_Munsel_Color");
+  tabGroups.add("Legacy");
+  return tabGroups;
+}
+
+void updateDisplayedTabGroup(String tabGroup) {
+  PREVIOUSLY_DISPLAYED_TAB_GROUP = CURRENTLY_DISPLAYED_TAB_GROUP;
+  CURRENTLY_DISPLAYED_TAB_GROUP  = tabGroup;
+}
+
+String getPreviousTabGroup() {
+  return getPreviouslyDisplayedTabGroup();
+}
+
+String getPreviouslyDisplayedTabGroup() {
+  return PREVIOUSLY_DISPLAYED_TAB_GROUP;
+}
+
+String getDisplayedTabGroup() {
+  return CURRENTLY_DISPLAYED_TAB_GROUP;
+}
+
+boolean isDisplayed(String ref) {
+  return getDisplayedTabGroup().equals(ref);
+}
+
+String getTabGroupRef(String fullRef) {
+  Boolean lastPartOnly = false;
+  return getTabGroupRef(fullRef, lastPartOnly);
+}
+
+String getTabGroupRef(String fullRef, Boolean lastPartOnly) {
+  if (isNull(fullRef)) {
+    return null;
+  }
+
+  String[] parts = fullRef.split("/");
+
+  if (parts.length < 1) return null;
+  return parts[0];
+}
+
+String getTabRef(String fullRef) {
+  Boolean lastPartOnly = false;
+  return getTabRef(fullRef, lastPartOnly);
+}
+
+String getTabRef(String fullRef, Boolean lastPartOnly) {
+  if (isNull(fullRef)) {
+    return null;
+  }
+
+  String[] parts = fullRef.split("/");
+
+  if (parts.length < 2) return null;
+  if (lastPartOnly) return                  parts[1];
+  else              return parts[0] + "/" + parts[1];
+}
+
+String getLastRefPart(String fullRef) {
+  if (isNull(fullRef)) {
+    return null;
+  }
+
+  String[] parts = fullRef.split("/");
+  return parts[parts.length-1];
+}
+
+String getGuiElementRef(String fullRef) {
+  Boolean lastPartOnly = true;
+  return getGuiElementRef(fullRef, lastPartOnly);
+}
+
+String getGuiElementRef(String fullRef, Boolean lastPartOnly) {
+  if (isNull(fullRef)) {
+    return null;
+  }
+
+  String[] parts = fullRef.split("/");
+
+  if (parts.length < 3) return null;
+  if (lastPartOnly) return parts[2];
+  else              return fullRef;
+}
+
+String getArch16nKey(String ref) {
+  String lastRefPart = getLastRefPart(ref);
+
+  if (isNull(lastRefPart)) return null;
+  else                     return "{" + lastRefPart + "}";
+}
+
+String guessArch16nVal(String ref) {
+  String arch16nKey = getArch16nKey(ref);
+
+  if (isNull(arch16nKey)) return "";
+  arch16nKey = arch16nKey.replaceAll("_", " ");
+  arch16nKey = arch16nKey.replaceAll("^\\{", "");
+  arch16nKey = arch16nKey.replaceAll("\\}$", "");
+  return arch16nKey;
+}
+
+String getAttributeName(String ref) {
+  String guiElementRef = getGuiElementRef(ref);
+  if (isNull(guiElementRef)) {
+    return null;
+  }
+
+  String attributeName = guiElementRef.replaceAll("_", " ");
+  return attributeName;
+}
+
+String getArchEntType(String ref) {
+  String tabGroupRef = getTabGroupRef(ref);
+  if (isNull(tabGroupRef)) {
+    return null;
+  }
+
+  String archEntType = tabGroupRef.replaceAll("_", " ");
+  return archEntType;
+}
+
+String getArchEntTypePascalCased(String ref) {
+  String archEntType = getArchEntType(ref);
+  if (archEntType == null) {
+    return archEntType;
+  }
+
+  return archEntType.replaceAll(" ", "");
+}
+
+/******************************************************************************/
+/*                            BINDING ACCUMULATOR                             */
+/*                                                                            */
+/* The binding accumulator allows onEvent bindings for the same element to    */
+/* accumulate over multiple onEvent calls instead of having later calls       */
+/* override earlier ones.                                                     */
+/*                                                                            */
+/* It also adds support for a several additional events:                      */
+/*   - "blur" --- This is merely an interface to make code for adding "blur"  */
+/*         events more consistent.                                            */
+/*   - "copy" --- Triggered as a record is duplicated, immediately before it  */
+/*         is first saved.                                                    */
+/*   - "create" --- Triggered after a record is first created.                */
+/*   - "delete" --- Triggered after a record is deleted.                      */
+/*   - "fetch" --- Triggered after a record is fetched and displayed in a     */
+/*         given tab group.                                                   */
+/*   - "focus" --- This is merely an interface to make code for adding        */
+/*         "focus" events more consistent.                                    */
+/*   - "leave" --- Triggered after a given tab group is navigated away        */
+/*         from. Note that this event cannot be triggered when the FAIMS app  */
+/*         is exited.                                                         */
+/*   - "save" --- Triggered each time a tab group is saved. This includes the */
+/*         first time the tab group is saved as well as subsequent            */
+/*         onSave(String, Boolean) calls.                                     */
+/*                                                                            */
+/* A single call to `bindOnEvents` must occur after all the `addOnEvent` and  */
+/* `delOnEvents` calls. Calling `bindOnEvents` is what actually establishes   */
+/* the bindings once they have been added to the accumulator.                 */
+/******************************************************************************/
+String SEP = Character.toString ((char) 0); // Beanshell won't let me write "\0"
+Map    EVENTS        = new HashMap(); // (ref, event type) -> callback statement
+Set    CUSTOM_EVENTS = new HashSet(); // Events not handled by `onEvent`
+CUSTOM_EVENTS.add("blur");
+CUSTOM_EVENTS.add("copy");
+CUSTOM_EVENTS.add("create");
+CUSTOM_EVENTS.add("delete");
+CUSTOM_EVENTS.add("fetch");
+CUSTOM_EVENTS.add("focus");
+CUSTOM_EVENTS.add("leave");
+CUSTOM_EVENTS.add("prefetch");
+CUSTOM_EVENTS.add("save");
+
+String getKey(String ref, String event) {
+  return ref + SEP + event;
+}
+
+/* Returns the set of statements bound to an element at `ref` and occuring on
+ * `event`.
+ */
+ArrayList getStatements(String ref, String event) {
+  String    key = getKey(ref, event);
+  ArrayList val = (ArrayList) EVENTS.get(key);
+
+  if (val == null) return new ArrayList();
+  else             return val;
+}
+
+void addStatement(String ref, String event, String statement) {
+  // In the case that a statement already exists for a given (`ref`, `event`)
+  // pair, writing `val.add(statement);` will be enough to add the extra
+  // statement. This is because `getStatements` returns a reference to a list.
+  // In the case just described, the list is stored in the `EVENTS` map.
+  // However, sometimes `getStatements` returns empty lists which are not stored
+  // in that map. In this case, calling `EVENTS.put` is required.
+
+  String    key = getKey(ref, event);
+  ArrayList val = getStatements(ref, event);
+  val.add(statement);
+  EVENTS.put(key, val);
+}
+
+String getStatementsString(String ref, String event) {
+  ArrayList stmts = getStatements(ref, event);
+  String stmtsStr = "";
+  for (String s : stmts) {
+    stmtsStr += s;
+    stmtsStr += "; ";
+  }
+  return stmtsStr;
+}
+
+boolean hasOnEvent(String ref, String event, String statement) {
+  return getStatements(ref, event).contains(statement);
+}
+
+void delOnEvent(String ref, String event, String statement) {
+  while(getStatements(ref, event).remove(statement));
+}
+
+void addOnEvent(String ref, String event, String statement) {
+  // Calling `delOnEvent()` first ensures statement occurs once in the list, at
+  // the end.
+  delOnEvent  (ref, event, statement);
+  addStatement(ref, event, statement);
+}
+
+void bindOnEvent(String ref, String event) {
+  String stmtsStr     = getStatementsString(ref, event);
+  String focusStmtStr = getStatementsString(ref, "focus");
+  String blurStmtStr  = getStatementsString(ref, "blur" );
+
+  if (!CUSTOM_EVENTS.contains(event)) {
+    onEvent(ref, event, stmtsStr);
+  } else if (event.equals("focus")) {
+    onFocus(ref, focusStmtStr, blurStmtStr);
+  } else if (event.equals("blur" )) {
+    onFocus(ref, focusStmtStr, blurStmtStr);
+  } else {
+    ; // Other events are implemented using auto-generated callback functions
+  }
+}
+
+void bindOnEvents() {
+  for (String key : EVENTS.keySet()) {
+    refevent = key.split(SEP);
+    ref   = refevent[0];
+    event = refevent[1];
+    bindOnEvent(ref, event);
+  }
+}
+
+void onLeaveTabGroup() {
+  onLeaveTabGroup(getPreviouslyDisplayedTabGroup());
+}
+
+/* Execute the "leave" event for the tab group at `ref` if a callback for it
+ * exists.
+ */
+void onLeaveTabGroup(String ref) {
+  String event    = "leave";
+  String stmtsStr = getStatementsString(ref, event);
+  execute(stmtsStr);
+}
+
+/* Establishes `onEvent` bindings necessary to make the "leave" event work. The
+ * "leave" event is really triggered upon "show" of another tab.
+ */
+for (tg : getTabGroups()) {
+  String ref      = tg;
+  String event    = "show";
+  String callback;
+
+  // Update (previously) displayed tab group
+  callback = fun2str("updateDisplayedTabGroup", ref);
+  addOnEvent(ref, event, callback);
+
+  // Trigger on leave tab group event
+  callback = "onLeaveTabGroup()";
+  addOnEvent(ref, event, callback);
+}
+
+/**************************** NEW TAB REDIRECTION *****************************/
+/* Causes a call to `newTab("tab/path")` to take the user to the specified    */
+/* tab.                                                                       */
+/******************************************************************************/
+
+void tryRedirect() {
+  if (isNull(redirectTab)) return;
+
+  newTab(redirectTab);
+  redirectTab = "";
+}
+
+void newTab(String tab, Boolean resolveTabGroups) {
   if (!resolveTabGroups) {
     return newTab(tab);
   }
@@ -71,110 +631,116 @@ newTab(String tab, Boolean resolveTabGroups) {
       String tabString      = path[0] + "/" + path[1];
 
       redirectTab = tabString;
-      String onShowTabgroup = "if (!isNull(redirectTab)) { newTab(redirectTab); redirectTab = \"\"; }";
-      addOnEvent(tabgroupString, "show", onShowTabgroup);
-
       newTabGroup(tabgroupString);
-      newTab(tabString);
       break;
     default:
   }
 }
 
-/******************************************************************************/
-/*                            BINDING ACCUMULATOR                             */
-/*                                                                            */
-/* Allows onEvent bindings for the same element to accumulate over multiple   */
-/* onEvent calls instead of having later calls override earlier ones.         */
-/******************************************************************************/
-Map events = new HashMap();
-String SEP = Character.toString ((char) 0); // Beanshell is stupid and won't let me write "\0"
-
-/* Returns the set of statements bound to an element at `ref` and occuring on
- * `event`.
- */
-getStatements(String ref, String event) {
-  String    key = ref + SEP + event;
-  ArrayList val = (ArrayList) events.get(key);
-  if (val == null) {
-    val = new ArrayList();
-    events.put(key, val);
-  }
-  return val;
-}
-
-addOnEvent(String ref, String event, String statement) {
-  // Calling `remove()` first ensures statement occurs once in the list, at the end.
-  while(getStatements(ref, event).remove(statement));
-  getStatements(ref, event).add(statement);
-}
-
-delOnEvent(String ref, String event, String statement) {
-  while(getStatements(ref, event).remove(statement));
-}
-
-bindOnEvent(String ref, String event) {
-  ArrayList stmts = getStatements(ref, event);
-  String stmtsExpr = "";
-  for (String s : stmts) {
-    stmtsExpr += s;
-    stmtsExpr += "; ";
-  }
-
-  onEvent(ref, event, stmtsExpr);
-}
-
-bindOnEvents() {
-  for (String key : events.keySet()) {
-    refevent = key.split(SEP);
-    ref   = refevent[0];
-    event = refevent[1];
-    bindOnEvent(ref, event);
-  }
-}
+addOnEvent("User", "show", "tryRedirect()");
+addOnEvent("Context", "show", "tryRedirect()");
 
 /******************************************************************************/
 /*                           DROPDOWN VALUE GETTER                            */
 /*                                                                            */
 /* For consistency with `getListItemValue()`.                                 */
 /******************************************************************************/
-String dropdownItemValue = null;
+String DROPDOWN_ITEM_VALUE = null;
 
-getDropdownItemValue() {
-  return dropdownItemValue;
+String getDropdownItemValue() {
+  return DROPDOWN_ITEM_VALUE;
 }
 
-addOnEvent("User/User_List/Users", "click", "dropdownItemValue = getFieldValue(\"User/User_List/Users\")");
-addOnEvent("User/User_List/Device_Code", "click", "dropdownItemValue = getFieldValue(\"User/User_List/Device_Code\")");
-addOnEvent("Control/Contexts/Trench_Dimensions", "click", "dropdownItemValue = getFieldValue(\"Control/Contexts/Trench_Dimensions\")");
-addOnEvent("Context/General/Trench_Dimensions", "click", "dropdownItemValue = getFieldValue(\"Context/General/Trench_Dimensions\")");
-addOnEvent("Context/General/Horizon_Boundary", "click", "dropdownItemValue = getFieldValue(\"Context/General/Horizon_Boundary\")");
-addOnEvent("Context/General/Contamination", "click", "dropdownItemValue = getFieldValue(\"Context/General/Contamination\")");
-addOnEvent("Context/Cut/Cut_Your_Interpretation", "click", "dropdownItemValue = getFieldValue(\"Context/Cut/Cut_Your_Interpretation\")");
-addOnEvent("Context/Cut/Shape_of_Cut", "click", "dropdownItemValue = getFieldValue(\"Context/Cut/Shape_of_Cut\")");
-addOnEvent("Context/Cut/Sides_of_Cut", "click", "dropdownItemValue = getFieldValue(\"Context/Cut/Sides_of_Cut\")");
-addOnEvent("Context/Cut/Shape_of_Base", "click", "dropdownItemValue = getFieldValue(\"Context/Cut/Shape_of_Base\")");
-addOnEvent("Context/Cut/Orientation", "click", "dropdownItemValue = getFieldValue(\"Context/Cut/Orientation\")");
-addOnEvent("Context/Cut/Inclination_of_axis", "click", "dropdownItemValue = getFieldValue(\"Context/Cut/Inclination_of_axis\")");
-addOnEvent("Context/Structure/CG_Context_Type", "click", "dropdownItemValue = getFieldValue(\"Context/Structure/CG_Context_Type\")");
-addOnEvent("Context/Deposit/Deposit_Your_Interpretation", "click", "dropdownItemValue = getFieldValue(\"Context/Deposit/Deposit_Your_Interpretation\")");
-addOnEvent("Context/Deposit/Soil_Compaction_Type", "click", "dropdownItemValue = getFieldValue(\"Context/Deposit/Soil_Compaction_Type\")");
-addOnEvent("Context/Deposit/Soil_Texture", "click", "dropdownItemValue = getFieldValue(\"Context/Deposit/Soil_Texture\")");
-addOnEvent("Context/Deposit/Soil_Munsel_Color", "click", "dropdownItemValue = getFieldValue(\"Context/Deposit/Soil_Munsel_Color\")");
-addOnEvent("Context/Deposit/Composition_Type", "click", "dropdownItemValue = getFieldValue(\"Context/Deposit/Composition_Type\")");
-addOnEvent("Context/Deposit/Deposit_Bedding", "click", "dropdownItemValue = getFieldValue(\"Context/Deposit/Deposit_Bedding\")");
-addOnEvent("Context/Deposit/Associated_Matrices", "click", "dropdownItemValue = getFieldValue(\"Context/Deposit/Associated_Matrices\")");
-addOnEvent("Context/Add/Select_a_Photograph_Log", "click", "dropdownItemValue = getFieldValue(\"Context/Add/Select_a_Photograph_Log\")");
-addOnEvent("Context/Soil_Texture_Helper/Soil_Texture_Helper", "click", "dropdownItemValue = getFieldValue(\"Context/Soil_Texture_Helper/Soil_Texture_Helper\")");
-addOnEvent("Context/Vars/Device_Code", "click", "dropdownItemValue = getFieldValue(\"Context/Vars/Device_Code\")");
-addOnEvent("Context_Group/Add/Select_a_Photograph_Log", "click", "dropdownItemValue = getFieldValue(\"Context_Group/Add/Select_a_Photograph_Log\")");
-addOnEvent("Context_Group/Vars/Device_Code", "click", "dropdownItemValue = getFieldValue(\"Context_Group/Vars/Device_Code\")");
-addOnEvent("Matrix/Matrix/Component", "click", "dropdownItemValue = getFieldValue(\"Matrix/Matrix/Component\")");
-addOnEvent("Photograph_Log/Photograph_Log/Scene_Type", "click", "dropdownItemValue = getFieldValue(\"Photograph_Log/Photograph_Log/Scene_Type\")");
-addOnEvent("Photograph_Log/Vars/Device_Code", "click", "dropdownItemValue = getFieldValue(\"Photograph_Log/Vars/Device_Code\")");
-addOnEvent("Relationship/Relationships/Relationship_Type", "click", "dropdownItemValue = getFieldValue(\"Relationship/Relationships/Relationship_Type\")");
-addOnEvent("FCN/General/Collection_Method", "click", "dropdownItemValue = getFieldValue(\"FCN/General/Collection_Method\")");
-addOnEvent("FCN/General/FCN_Class", "click", "dropdownItemValue = getFieldValue(\"FCN/General/FCN_Class\")");
+addOnEvent("User/User_List/Users", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"User/User_List/Users\")");
+addOnEvent("User/User_List/Device_Code", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"User/User_List/Device_Code\")");
+addOnEvent("Control/Search/Entity_Types", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Control/Search/Entity_Types\")");
+addOnEvent("Trench/Trench/Trench_Dimensions", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Trench/Trench/Trench_Dimensions\")");
+addOnEvent("Trench_Files/Add_Trench_Files/File_Type", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Trench_Files/Add_Trench_Files/File_Type\")");
+addOnEvent("Context/General/Horizon_Boundary", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Context/General/Horizon_Boundary\")");
+addOnEvent("Context/General/Contamination", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Context/General/Contamination\")");
+addOnEvent("Context/Cut/Cut_Your_Interpretation", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Context/Cut/Cut_Your_Interpretation\")");
+addOnEvent("Context/Cut/Shape_of_Cut", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Context/Cut/Shape_of_Cut\")");
+addOnEvent("Context/Cut/Sides_of_Cut", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Context/Cut/Sides_of_Cut\")");
+addOnEvent("Context/Cut/Shape_of_Base", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Context/Cut/Shape_of_Base\")");
+addOnEvent("Context/Cut/Orientation", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Context/Cut/Orientation\")");
+addOnEvent("Context/Cut/Inclination_of_axis", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Context/Cut/Inclination_of_axis\")");
+addOnEvent("Context/Deposit/Deposit_Your_Interpretation", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Context/Deposit/Deposit_Your_Interpretation\")");
+addOnEvent("Context/Deposit/Soil_Compaction_Type", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Context/Deposit/Soil_Compaction_Type\")");
+addOnEvent("Context/Deposit/Soil_Texture", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Context/Deposit/Soil_Texture\")");
+addOnEvent("Context/Deposit/Munsel_Colors", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Context/Deposit/Munsel_Colors\")");
+addOnEvent("Context/Deposit/Composition_Type", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Context/Deposit/Composition_Type\")");
+addOnEvent("Context/Deposit/Deposit_Bedding", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Context/Deposit/Deposit_Bedding\")");
+addOnEvent("Context/Deposit/Associated_Matrices", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Context/Deposit/Associated_Matrices\")");
+addOnEvent("Context/Add/Select_a_Photograph_Log", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Context/Add/Select_a_Photograph_Log\")");
+addOnEvent("Context/Soil_Texture_Helper/Soil_Texture_Helper", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Context/Soil_Texture_Helper/Soil_Texture_Helper\")");
+addOnEvent("Context/Vars/Device_Code", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Context/Vars/Device_Code\")");
+addOnEvent("Context_Group/Gen/Feature_Type", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Context_Group/Gen/Feature_Type\")");
+addOnEvent("Context_Group/Add/Select_a_Photograph_Log", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Context_Group/Add/Select_a_Photograph_Log\")");
+addOnEvent("Context_Group/Vars/Device_Code", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Context_Group/Vars/Device_Code\")");
+addOnEvent("Matrix/Matrix/Component", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Matrix/Matrix/Component\")");
+addOnEvent("Photograph_Log/Photograph_Log/Scene_Type", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Photograph_Log/Photograph_Log/Scene_Type\")");
+addOnEvent("Photograph_Log/Vars/Device_Code", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Photograph_Log/Vars/Device_Code\")");
+addOnEvent("Relationship/Relationships/Relationship_Type", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Relationship/Relationships/Relationship_Type\")");
+addOnEvent("FCN/General/Collection_Method", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"FCN/General/Collection_Method\")");
+addOnEvent("FCN/General/FCN_Class", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"FCN/General/FCN_Class\")");
+addOnEvent("Soil_Munsel_Color/Add_Soil_Munsel_Color/Soil_Munsel_Color", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Soil_Munsel_Color/Add_Soil_Munsel_Color/Soil_Munsel_Color\")");
+
+/******************************************************************************/
+/*                             MENU VALUE GETTER                              */
+/*                                                                            */
+/* Provides simple ways of getting a menu's vocabname as opposed to the       */
+/* default, which is the vocabid.                                             */
+/******************************************************************************/
+// Map from vocabid to vocabname. Populated by `fetchMenuValues()`.
+Map MENU_VALUES = null;
+
+/*
+ * Initialises `MENU_VALUES` with the (vocabid -> vocabname) mapping of every
+ * menu.
+ */
+void fetchMenuValues() {
+  MENU_VALUES = new HashMap();
+
+  String q = "";
+  q += " SELECT vocabid, vocabname";
+  q += " FROM   vocabulary";
+
+  FetchCallback populateHashMap = new FetchCallback() {
+    onFetch(result) {
+      for (row : result) {
+        vocabId   = row.get(0);
+        vocabName = row.get(1);
+        MENU_VALUES.put(vocabId, vocabName);
+      }
+    }
+  };
+
+  fetchAll(q, populateHashMap);
+}
+
+fetchMenuValues();
+
+/* Returns a menu's vocabname, instead of the (counter-intuitive) vocabid.
+ */
+String getFieldValue(String ref, Boolean doConvertVocabIds) {
+  if (!doConvertVocabIds) {
+    return getFieldValue(ref);
+  }
+
+  String val       = getFieldValue(ref);
+  String vocabName = MENU_VALUES.get(val);
+
+  if (val       == null) return "";
+  if (vocabName == null) return "";
+  return vocabName;
+}
+
+/* Shorthand for writing getFieldValue(ref, true). This function's use is
+ * discouraged in favour of writing `getFieldValue(ref, true)`.
+ */
+String getMenuValue(String ref) {
+  return getFieldValue(ref, true);
+}
 
 /******************************************************************************/
 /*                                 ACTION BAR                                 */
@@ -269,13 +835,12 @@ addActionBarItem("external_gps", new ToggleActionButtonCallback() {
   }
 });
 
-
 /******************************************************************************/
 /*                                    GPS                                     */
 /******************************************************************************/
-addOnEvent("Control/Contexts", "show", "updateGPSDiagnostics()");
+addOnEvent("Control/Contexts/GPS_Diagnostics", "show", "updateGPSDiagnostics()");
 
-updateGPSDiagnostics() {
+void updateGPSDiagnostics() {
   String diagnosticsRef = "Control/Contexts/GPS_Diagnostics";
   if (diagnosticsRef.equals("")) {
     return;
@@ -341,10 +906,16 @@ updateGPSDiagnostics() {
 /******************************************************************************/
 /*                                 USER LOGIN                                 */
 /******************************************************************************/
+String userId    = "1";
+String nameFirst = "";
+String nameLast  = "";
+String email     = "";
+User   user      = new User(userId, nameFirst, nameLast, email);
+setUser(user);
 
 String userMenuPath = "User/User_List/Users";
 
-populateListForUsers(){
+void populateListForUsers(){
   String getNonDeletedUsersQuery = "SELECT userid, fname || ' ' || lname "+
                                    "  FROM user "+
                                    " WHERE userdeleted is null;";
@@ -356,8 +927,8 @@ populateListForUsers(){
   });
 }
 
-selectUser () {
-  String userVocabId  = getFieldValue(userMenuPath);
+void selectUser() {
+  String userVocabId = getFieldValue(userMenuPath);
   if (isNull(userVocabId)) {
     username = "";
     userid = "";
@@ -385,15 +956,14 @@ selectUser () {
 addOnEvent(userMenuPath, "show",  "populateListForUsers()");
 addOnEvent(userMenuPath, "click", "selectUser()");
 
-
 /******************************************************************************/
 /*                              MENU POPULATION                               */
 /******************************************************************************/
 /** Fetches the contents of a specifed vocabulary and stores it in the given list. **/
-fetchVocab(String vocabName, List storageList) {
+void fetchVocab(String vocabName, List storageList) {
   fetchVocab(vocabName, storageList, null);
 }
-fetchVocab(String vocabName, List storageList, String callbackFunction) {
+void fetchVocab(String vocabName, List storageList, String callbackFunction) {
   fetchAll("select vocabid, vocabname from vocabulary left join attributekey using (attributeid) where attributename = '" + vocabName + "';", new FetchCallback() {
     onFetch(result) {
       storageList.addAll(result);
@@ -406,20 +976,20 @@ fetchVocab(String vocabName, List storageList, String callbackFunction) {
 }
 
 /** Wrapper for to make a vocab without an exlusion list **/
-makeVocab(String type, String path, String attrib) {
+void makeVocab(String type, String path, String attrib) {
   makeVocab(type, path, attrib, null);
 }
 
 /** Vocab Population **/
 /* Populates the path specified vocabulary from the database based on the given attribute name, where type 
 is the type of the vocab to populate (PictureGallery, HierarchicalPictureGallery, CheckBoxGroup, DropDown, HierarchicalDropDown, RadioGroup or List). */
-makeVocab(String type, String path, String attrib, List vocabExclusions) {
+void makeVocab(String type, String path, String attrib, List vocabExclusions) {
     makeVocab(type, path, attrib, vocabExclusions, null);
 }
 
 /* Populates the path specified vocabulary from the database based on the given attribute name, where type 
 is the type of the vocab to populate (PictureGallery, HierarchicalPictureGallery, CheckBoxGroup, DropDown, HierarchicalDropDown, RadioGroup or List). */
-makeVocab(String type, String path, String attrib, List vocabExclusions, String callbackFunction){
+void makeVocab(String type, String path, String attrib, List vocabExclusions, String callbackFunction){
   if (isNull(type) || isNull(path) || isNull(attrib)) {
     Log.e("makeVocab()", "Can't make populate a vocab when the given type, path or attribute is Null");
     return;
@@ -500,7 +1070,10 @@ makeVocab(String type, String path, String attrib, List vocabExclusions, String 
       }
     });
 }
-makeVocab("DropDown", "Context/General/Trench_Dimensions", "Trench Dimensions");
+
+makeVocab("DropDown", "Trench/Trench/Trench_Dimensions", "Trench Dimensions");
+makeVocab("CheckBoxGroup", "Trench/Trench/Excavation_Method", "Excavation Method");
+makeVocab("DropDown", "Trench_Files/Add_Trench_Files/File_Type", "File Type");
 makeVocab("CheckBoxGroup", "Context/General/Excavation_Method", "Excavation Method");
 makeVocab("DropDown", "Context/General/Horizon_Boundary", "Horizon Boundary");
 makeVocab("DropDown", "Context/General/Contamination", "Contamination");
@@ -514,18 +1087,17 @@ makeVocab("DropDown", "Context/Cut/Sides_of_Cut", "Sides of Cut");
 makeVocab("HierarchicalDropDown", "Context/Cut/Shape_of_Base", "Shape of Base");
 makeVocab("DropDown", "Context/Cut/Orientation", "Orientation");
 makeVocab("DropDown", "Context/Cut/Inclination_of_axis", "Inclination of axis");
-makeVocab("DropDown", "Context/Structure/CG_Context_Type", "CG Context Type");
 makeVocab("DropDown", "Context/Deposit/Deposit_Your_Interpretation", "Deposit Your Interpretation");
 makeVocab("DropDown", "Context/Deposit/Soil_Compaction_Type", "Soil Compaction Type");
 makeVocab("PictureGallery", "Context/Deposit/Soil_Particle_Sorting", "Soil Particle Sorting");
 makeVocab("DropDown", "Context/Deposit/Soil_Texture", "Soil Texture");
-makeVocab("HierarchicalDropDown", "Context/Deposit/Soil_Munsel_Color", "Soil Munsel Color");
 makeVocab("DropDown", "Context/Deposit/Composition_Type", "Composition Type");
 makeVocab("DropDown", "Context/Deposit/Deposit_Bedding", "Deposit Bedding");
 makeVocab("RadioGroup", "Context/Deposit/Sterile", "Sterile");
 makeVocab("HierarchicalDropDown", "Context/Soil_Texture_Helper/Soil_Texture_Helper", "Soil Texture Helper");
 makeVocab("DropDown", "Context/Vars/Device_Code", "Device Code");
 makeVocab("RadioGroup", "Context_Group/Gen/Record_Type", "Record Type");
+makeVocab("DropDown", "Context_Group/Gen/Feature_Type", "Feature Type");
 makeVocab("DropDown", "Context_Group/Vars/Device_Code", "Device Code");
 makeVocab("DropDown", "Matrix/Matrix/Component", "Component");
 makeVocab("HierarchicalPictureGallery", "Matrix/Matrix/Shape", "Shape");
@@ -536,7 +1108,8 @@ makeVocab("HierarchicalDropDown", "FCN/General/FCN_Class", "FCN Class");
 makeVocab("RadioGroup", "FCN/General/Washed", "Washed");
 makeVocab("RadioGroup", "FCN/General/Weighted", "Weighted");
 makeVocab("RadioGroup", "FCN/General/Analyzed", "Analyzed");
-
+makeVocab("HierarchicalDropDown", "Soil_Munsel_Color/Add_Soil_Munsel_Color/Soil_Munsel_Color", "Soil Munsel Color");
+makeVocab("DropDown", "User/User_List/Device_Code", "Device Code");
 
 /******************************************************************************/
 /*                                 VALIDATION                                 */
@@ -549,7 +1122,7 @@ makeVocab("RadioGroup", "FCN/General/Analyzed", "Analyzed");
  *
  *  Returns a field pair (really just an ArrayList).
  */
-fieldPair(String ref, String name, String cond) {
+List fieldPair(String ref, String name, String cond) {
   List fp = new ArrayList();
   fp.add(ref);
   fp.add(name);
@@ -557,19 +1130,19 @@ fieldPair(String ref, String name, String cond) {
   return fp;
 }
 
-fieldPair(String ref, String name) {
+List fieldPair(String ref, String name) {
   String t = "true";
   return fieldPair(ref, name, t);
 }
 
 /* Returns true if field specified by `ref` is valid. False otherwise.
  */
-isValidField(String ref) {
+boolean isValidField(String ref) {
   return !isNull(getFieldValue(ref));
 }
 /* `format` can either be HTML or PLAINTEXT
  */
-validateFields(List fields, String format) {
+String validateFields(List fields, String format) {
   Integer numInvalid = 0;
 
   /* Build validation message string (and count how many invalid fields exist) */
@@ -604,157 +1177,177 @@ validateFields(List fields, String format) {
   return out;
 }
 
-validateContext() {
+void validateControl() {
   List f = new ArrayList(); // Fields to be validated
+  f.add(fieldPair("Control/Contexts/Next_Trench_AreaCode", "{Next_Trench_AreaCode}"));
+  f.add(fieldPair("Control/Contexts/Next_Context_Context_ID", "{Next_Context_Context_ID}"));
+  f.add(fieldPair("Control/Contexts/Next_Context_Group_ID", "{Next_Context_Group_ID}"));
+  f.add(fieldPair("Control/Contexts/Next_FCN_ID", "{Next_FCN_ID}"));
 
-  f.add(fieldPair("Context/General/Context_AreaCode", "{Trench_ID}"));
-  f.add(fieldPair("Context/General/Context_Context_ID", "{Locus_ID}"));
+  String validationMessage = validateFields(f, "PLAINTEXT");
+  showWarning("Validation Results", validationMessage);
+}
+void validateSite() {
+  List f = new ArrayList(); // Fields to be validated
+  f.add(fieldPair("Site/Site/Site_Site_Name", "{Site_Site_Name}"));
+
+  String validationMessage = validateFields(f, "PLAINTEXT");
+  showWarning("Validation Results", validationMessage);
+}
+void validateTrench() {
+  List f = new ArrayList(); // Fields to be validated
+  f.add(fieldPair("Trench/Trench/Trench_Site_Name", "{Trench_Site_Name}"));
+  f.add(fieldPair("Trench/Trench/Excavation_Method", "{Excavation_Method}"));
+
+  String validationMessage = validateFields(f, "PLAINTEXT");
+  showWarning("Validation Results", validationMessage);
+}
+void validateContext() {
+  List f = new ArrayList(); // Fields to be validated
+  f.add(fieldPair("Context/General/Context_Site_Name", "{Context_Site_Name}"));
+  f.add(fieldPair("Context/General/Context_AreaCode", "{Context_AreaCode}"));
+  f.add(fieldPair("Context/General/Context_Context_ID", "{Context_Context_ID}"));
   f.add(fieldPair("Context/General/Excavation_Method", "{Excavation_Method}"));
   f.add(fieldPair("Context/General/Plans", "{Plans}"));
   f.add(fieldPair("Context/General/Section_Numbers", "{Section_Numbers}"));
-  f.add(fieldPair("Context/Measure/Highest_Level", "{Absolute_Height_Top__m_}"));
-  f.add(fieldPair("Context/Measure/Lowest_Level", "{Absolute_Height_Bottom__m_}"));
-  f.add(fieldPair("Context/Measure/Measure_Length", "{Length__m_}"));
-  f.add(fieldPair("Context/Measure/Measure_Width", "{Width__m_}"));
-  f.add(fieldPair("Context/Measure/Measure_Depth", "{Depth__m_}"));
-  f.add(fieldPair("Context/Measure/Volume", "{Volume__litres_}"));
-  f.add(fieldPair("Context/Cut/Cut_Your_Interpretation", "{Your_Interpretation}"));
-  f.add(fieldPair("Context/Cut/Shape_of_Cut", "{Shape_in_Plan}"));
+  f.add(fieldPair("Context/Measure/Highest_Level", "{Highest_Level}"));
+  f.add(fieldPair("Context/Measure/Lowest_Level", "{Lowest_Level}"));
+  f.add(fieldPair("Context/Measure/Measure_Length", "{Measure_Length}"));
+  f.add(fieldPair("Context/Measure/Measure_Width", "{Measure_Width}"));
+  f.add(fieldPair("Context/Measure/Measure_Depth", "{Measure_Depth}"));
+  f.add(fieldPair("Context/Measure/Volume", "{Volume}"));
+  f.add(fieldPair("Context/Cut/Cut_Your_Interpretation", "{Cut_Your_Interpretation}"));
+  f.add(fieldPair("Context/Cut/Shape_of_Cut", "{Shape_of_Cut}"));
   f.add(fieldPair("Context/Cut/Shape_of_Corners", "{Shape_of_Corners}"));
-  f.add(fieldPair("Context/Cut/Break_of_Slope_-_Top", "{Break_of_Slope___Top}"));
-  f.add(fieldPair("Context/Cut/Break_of_Slope_-_Base", "{Break_of_Slope___Base}"));
+  f.add(fieldPair("Context/Cut/Break_of_Slope_-_Top", "{Break_of_Slope_-_Top}"));
+  f.add(fieldPair("Context/Cut/Break_of_Slope_-_Base", "{Break_of_Slope_-_Base}"));
   f.add(fieldPair("Context/Cut/Sides_of_Cut", "{Sides_of_Cut}"));
   f.add(fieldPair("Context/Cut/Shape_of_Base", "{Shape_of_Base}"));
   f.add(fieldPair("Context/Cut/Orientation", "{Orientation}"));
+  f.add(fieldPair("Context/Cut/Orientation_Degree", "{Orientation_Degree}"));
   f.add(fieldPair("Context/Cut/Inclination_of_axis", "{Inclination_of_axis}"));
-  f.add(fieldPair("Context/Structure/CG_Context_Type", "{Feature_Type}"));
-  f.add(fieldPair("Context/Structure/CG_Your_description", "{Your_Description}"));
-  f.add(fieldPair("Context/Deposit/Deposit_Your_Interpretation", "{Your_Interpretation}"));
-  f.add(fieldPair("Context/Deposit/Soil_Compaction_Type", "{Texture}"));
-  f.add(fieldPair("Context/Deposit/Soil_Texture", "{Material}"));
-  f.add(fieldPair("Context/Deposit/Composition_Type", "{Deposit_Structure}"));
-  f.add(fieldPair("Context/Deposit/Deposit_Bedding", "{Bedding}"));
+  f.add(fieldPair("Context/Deposit/Deposit_Your_Interpretation", "{Deposit_Your_Interpretation}"));
+  f.add(fieldPair("Context/Deposit/Soil_Compaction_Type", "{Soil_Compaction_Type}"));
+  f.add(fieldPair("Context/Deposit/Soil_Texture", "{Soil_Texture}"));
+  f.add(fieldPair("Context/Deposit/Composition_Type", "{Composition_Type}"));
+  f.add(fieldPair("Context/Deposit/Deposit_Bedding", "{Deposit_Bedding}"));
   f.add(fieldPair("Context/Deposit/Deposit_Inclusions", "{Deposit_Inclusions}"));
-  f.add(fieldPair("Context/Skeleton/Skeleton_Head", "{Head}"));
-  f.add(fieldPair("Context/Skeleton/Skeleton_Body", "{Body}"));
-  f.add(fieldPair("Context/Skeleton/Skeleton_Left_Arm", "{Left_Arm_and_Hand_Location}"));
-  f.add(fieldPair("Context/Skeleton/Skeleton_Right_Arm", "{Right_Arm_and_Hand_Location}"));
-  f.add(fieldPair("Context/Skeleton/Skeleton_Left_Leg", "{Left_Leg_and_Foot_Location}"));
-  f.add(fieldPair("Context/Skeleton/Skeleton_Right_Leg", "{Right_Leg_and_Foot_Location}"));
-  f.add(fieldPair("Context/Skeleton/Skeleton_Condition", "{Condition}"));
+  f.add(fieldPair("Context/Skeleton/Skeleton_Head", "{Skeleton_Head}"));
+  f.add(fieldPair("Context/Skeleton/Skeleton_Body", "{Skeleton_Body}"));
+  f.add(fieldPair("Context/Skeleton/Skeleton_Left_Arm", "{Skeleton_Left_Arm}"));
+  f.add(fieldPair("Context/Skeleton/Skeleton_Right_Arm", "{Skeleton_Right_Arm}"));
+  f.add(fieldPair("Context/Skeleton/Skeleton_Left_Leg", "{Skeleton_Left_Leg}"));
+  f.add(fieldPair("Context/Skeleton/Skeleton_Right_Leg", "{Skeleton_Right_Leg}"));
+  f.add(fieldPair("Context/Skeleton/Skeleton_Condition", "{Skeleton_Condition}"));
   f.add(fieldPair("Context/Skeleton/Target_A_X", "{Target_A_X}"));
   f.add(fieldPair("Context/Skeleton/Target_A_Y", "{Target_A_Y}"));
   f.add(fieldPair("Context/Skeleton/Target_A_Z", "{Target_A_Z}"));
-  f.add(fieldPair("Context/Int/Your_description", "{Your_Description}"));
+  f.add(fieldPair("Context/Int/Your_description", "{Your_description}"));
   f.add(fieldPair("Context/Int/Your_Discussion", "{Your_Discussion}"));
 
   String validationMessage = validateFields(f, "PLAINTEXT");
   showWarning("Validation Results", validationMessage);
 }
-
-validateContextGroup() {
+void validateContextGroup() {
   List f = new ArrayList(); // Fields to be validated
-
   f.add(fieldPair("Context_Group/Gen/Record_Type", "{Record_Type}"));
-  f.add(fieldPair("Context_Group/Gen/Context_Group_AreaCode", "{Trench_ID}"));
-  f.add(fieldPair("Context_Group/Gen/Context_Group_ID", "{Stratum_Feature_ID}"));
-  f.add(fieldPair("Context_Group/Gen/CG_Your_description", "{Description}"));
-  f.add(fieldPair("Context_Group/Gen/CG_Your_Interpretation", "{Interpretation}"));
+  f.add(fieldPair("Context_Group/Gen/Context_Group_AreaCode", "{Context_Group_AreaCode}"));
+  f.add(fieldPair("Context_Group/Gen/Context_Group_ID", "{Context_Group_ID}"));
+  f.add(fieldPair("Context_Group/Gen/CG_Your_description", "{CG_Your_description}"));
+  f.add(fieldPair("Context_Group/Gen/CG_Your_Interpretation", "{CG_Your_Interpretation}"));
 
   String validationMessage = validateFields(f, "PLAINTEXT");
   showWarning("Validation Results", validationMessage);
 }
-
-validateHeight() {
+void validateRelationship() {
   List f = new ArrayList(); // Fields to be validated
-
-  f.add(fieldPair("Height/Height/Number", "{Number}"));
-  f.add(fieldPair("Height/Height/X", "{X}"));
-  f.add(fieldPair("Height/Height/Y", "{Y}"));
-  f.add(fieldPair("Height/Height/Z", "{Z}"));
-  f.add(fieldPair("Height/Height/Notes", "{Notes}"));
+  f.add(fieldPair("Relationship/Relationships/AreaCode", "{AreaCode}"));
+  f.add(fieldPair("Relationship/Relationships/Context_ID", "{Context_ID}"));
 
   String validationMessage = validateFields(f, "PLAINTEXT");
   showWarning("Validation Results", validationMessage);
 }
-
-validateRelationship() {
+void validateContextGroupRelationship() {
   List f = new ArrayList(); // Fields to be validated
-
-  f.add(fieldPair("Relationship/Relationships/AreaCode", "{Trench_ID}"));
-  f.add(fieldPair("Relationship/Relationships/Context_ID", "{Locus_ID}"));
+  f.add(fieldPair("Context_Group_Relationship/Relationships/AreaCode", "{AreaCode}"));
+  f.add(fieldPair("Context_Group_Relationship/Relationships/Context_ID", "{Context_ID}"));
 
   String validationMessage = validateFields(f, "PLAINTEXT");
   showWarning("Validation Results", validationMessage);
 }
-
-validateContextGroupRelationship() {
+void validateFCN() {
   List f = new ArrayList(); // Fields to be validated
-
-  f.add(fieldPair("Context_Group_Relationship/Relationships/AreaCode", "{Trench_ID}"));
-  f.add(fieldPair("Context_Group_Relationship/Relationships/Context_ID", "{Locus_ID}"));
-
-  String validationMessage = validateFields(f, "PLAINTEXT");
-  showWarning("Validation Results", validationMessage);
-}
-
-validateFCN() {
-  List f = new ArrayList(); // Fields to be validated
-
   f.add(fieldPair("FCN/General/FCN_ID", "{FCN_ID}"));
-  f.add(fieldPair("FCN/General/Site_Name", "{Site_Name}"));
-  f.add(fieldPair("FCN/General/AreaCode", "{Trench_ID}"));
-  f.add(fieldPair("FCN/General/Context_ID", "{Locus_ID}"));
+  f.add(fieldPair("FCN/General/FCN_Site_Name", "{FCN_Site_Name}"));
+  f.add(fieldPair("FCN/General/AreaCode", "{AreaCode}"));
+  f.add(fieldPair("FCN/General/Context_ID", "{Context_ID}"));
 
   String validationMessage = validateFields(f, "PLAINTEXT");
   showWarning("Validation Results", validationMessage);
 }
+void validateLegacy() {
+  List f = new ArrayList(); // Fields to be validated
+  f.add(fieldPair("Legacy/Legacy/AreaCode", "{AreaCode}"));
+  f.add(fieldPair("Legacy/Legacy/Legacy_Context_ID", "{Legacy_Context_ID}"));
 
+  String validationMessage = validateFields(f, "PLAINTEXT");
+  showWarning("Validation Results", validationMessage);
+}
 
 
 /******************************************************************************/
 /*                                 AUTOSAVING                                 */
 /******************************************************************************/
-Map tabgroupToUuid = new HashMap();
+Map tabgroupToUuid = Collections.synchronizedMap(new HashMap());
 
-getUuid(String tabgroup) {
-  tabgroupToUuid.get(tabgroup);
+String getUuid(String tabgroup) {
+  return tabgroupToUuid.get(tabgroup);
 }
 
-setUuid(String tabgroup, String uuid) {
+void setUuid(String tabgroup, String uuid) {
   tabgroupToUuid.put(tabgroup, uuid);
 }
 
-saveTabGroup(String tabgroup) {
+void saveTabGroup(String tabgroup) {
   saveTabGroup(tabgroup, "");
 }
 
-saveTabGroup(String tabgroup, String callback) {
-  Boolean enableAutosave  = true;
-  String  id              = getUuid(tabgroup);
-  List    geometry        = null;
-  List    attributes      = null;
-  String  parentTabgroup_ = parentTabgroup;
-  Boolean userWasSet      = !username.equals("");
+void saveTabGroup(String tabgroup, String callback) {
+  Boolean enableAutosave      = true;
+  String  id                  = getUuid(tabgroup);
+  List    geometry            = null;
+  List    attributes          = null;
+  String  parentTabgroup_     = parentTabgroup;
+  String  parentTabgroupUuid_ = getUuid(parentTabgroup_);
+  Boolean userWasSet          = !username.equals("");
+
+  callback += "; onSave" + getArchEntTypePascalCased(tabgroup) + "__()";
 
   parentTabgroup = null;
+
   SaveCallback saveCallback  = new SaveCallback() {
     onSave(uuid, newRecord) {
       setUuid(tabgroup, uuid);
       // Make a child-parent relationship if need be.
-      if (newRecord && !isNull(parentTabgroup_)) {
+      if (
+          newRecord &&
+          !isNull(parentTabgroup_) &&
+          !isNull(parentTabgroupUuid_)
+      ) {
         String rel = "";
         rel += parentTabgroup_.replaceAll("_", " ");
         rel += " - ";
         rel += tabgroup.replaceAll("_", " ");
         saveEntitiesToHierRel(
           rel,
-          getUuid(parentTabgroup_),
+          parentTabgroupUuid_,
           uuid,
           "Parent Of",
           "Child Of",
-          null
+          callback
         );
+      } else {
+        execute(callback);
       }
 
       // This fixes an interesting bug. Without this, if a user was not set
@@ -765,10 +1358,9 @@ saveTabGroup(String tabgroup, String callback) {
       // Adding this allows subsequent saves to succeed. Presumably it plays
       // some role in helping FAIMS associate the correct user with a record.
       if (!userWasSet) {
-        saveTabGroup(tabgroup);
+        saveTabGroup(tabgroup, callback);
       }
 
-      execute(callback);
     }
     onError(message) {
       showToast(message);
@@ -778,94 +1370,122 @@ saveTabGroup(String tabgroup, String callback) {
   saveTabGroup(tabgroup, id, geometry, attributes, saveCallback, enableAutosave);
 }
 
-populateAuthorAndTimestamp(String tabgroup) {
-  Map tabgroupToAuthor    = new HashMap();
-  Map tabgroupToTimestamp = new HashMap();
-  tabgroupToAuthor.put("Context", "Context/General/author");
-  tabgroupToAuthor.put("Context_Group", "Context_Group/Gen/author");
-  tabgroupToAuthor.put("Diary", "Diary/Diary/author");
-  tabgroupToTimestamp.put("Context", "Context/General/timestamp");
-  tabgroupToTimestamp.put("Context_Group", "Context_Group/Gen/timestamp");
-  tabgroupToTimestamp.put("Diary", "Diary/Diary/timestamp");
+void setToTimestampNow(String ref) {
+  String now = getTimestampNow();
+  setFieldValue(ref, now);
+}
 
-  String authorPath    = tabgroupToAuthor.get(tabgroup);
-  String timestampPath = tabgroupToTimestamp.get(tabgroup);
+String getTimestampNow() {
+  String fmt = "yyyy-MM-dd HH:mm:ssZ";
+  return getTimestampNow(fmt);
+}
 
-  fmt     = "yyyy-MM-dd HH:mm:ss z";
+String getTimestampNow(String fmt) {
   date    = new Date();
   dateFmt = new java.text.SimpleDateFormat(fmt);
   dateStr = dateFmt.format(date);
 
+  // Insert colon into timezone (e.g. +1000 -> +10:00)
+  String left; String right;
+
+  left    = dateStr.substring(0, dateStr.length() - 2);
+  right   = dateStr.substring(   dateStr.length() - 2);
+  dateStr = left + ":" + right;
+
+  return dateStr;
+}
+
+void populateAuthorAndTimestamp(String tabgroup) {
+  Map tabgroupToAuthor    = new HashMap();
+  Map tabgroupToTimestamp = new HashMap();
+  tabgroupToAuthor.put("Trench", "Trench/Trench/Trench_author");
+  tabgroupToAuthor.put("Trench_Files", "Trench_Files/Add_Trench_Files/Trench_Files_author");
+  tabgroupToAuthor.put("Context", "Context/General/Context_author");
+  tabgroupToAuthor.put("Context_Group", "Context_Group/Gen/Context_Group_author");
+  tabgroupToAuthor.put("Diary", "Diary/Diary/Diary_author");
+  tabgroupToTimestamp.put("Trench", "Trench/Trench/Trench_timestamp");
+  tabgroupToTimestamp.put("Context", "Context/General/Context_timestamp");
+  tabgroupToTimestamp.put("Context_Group", "Context_Group/Gen/Context_Group_timestamp");
+  tabgroupToTimestamp.put("Diary", "Diary/Diary/Diary_timestamp");
+  String authorPath    = tabgroupToAuthor.get(tabgroup);
+  String timestampPath = tabgroupToTimestamp.get(tabgroup);
+
   String authorVal    = username;
-  String timestampVal = dateStr;
+  String timestampVal = getTimestampNow();
 
   if (!isNull(authorPath))    setFieldValue(authorPath,    authorVal);
   if (!isNull(timestampPath)) setFieldValue(timestampPath, timestampVal);
 }
 
-onShowContext () {
-  // TODO: Add some things which should happen when this tabgroup is shown
+void onShowSite () {
+  saveTabGroup("Site");
+}
+
+void onShowTrench () {
+  saveTabGroup("Trench");
+}
+
+void onShowTrenchFiles () {
+  saveTabGroup("Trench_Files");
+}
+
+void onShowContext () {
   saveTabGroup("Context");
 }
-onShowContextGroup () {
-  // TODO: Add some things which should happen when this tabgroup is shown
+
+void onShowContextGroup () {
   saveTabGroup("Context_Group");
 }
-onShowMatrix () {
-  // TODO: Add some things which should happen when this tabgroup is shown
+
+void onShowMatrix () {
   saveTabGroup("Matrix");
 }
-onShowHeight () {
-  // TODO: Add some things which should happen when this tabgroup is shown
-  saveTabGroup("Height");
-}
-onShowPhotographLog () {
-  // TODO: Add some things which should happen when this tabgroup is shown
+
+void onShowPhotographLog () {
   saveTabGroup("Photograph_Log");
 }
-onShowDiary () {
-  // TODO: Add some things which should happen when this tabgroup is shown
+
+void onShowDiary () {
   saveTabGroup("Diary");
 }
-onShowFCN () {
-  // TODO: Add some things which should happen when this tabgroup is shown
+
+void onShowFCN () {
   saveTabGroup("FCN");
 }
 
+void onShowSoilMunselColor () {
+  saveTabGroup("Soil_Munsel_Color");
+}
+
+void onShowLegacy () {
+  saveTabGroup("Legacy");
+}
+
+addOnEvent("Site", "show", "onShowSite()");
+addOnEvent("Trench", "show", "onShowTrench()");
+addOnEvent("Trench_Files", "show", "onShowTrenchFiles()");
 addOnEvent("Context", "show", "onShowContext()");
 addOnEvent("Context_Group", "show", "onShowContextGroup()");
 addOnEvent("Matrix", "show", "onShowMatrix()");
-addOnEvent("Height", "show", "onShowHeight()");
 addOnEvent("Photograph_Log", "show", "onShowPhotographLog()");
 addOnEvent("Diary", "show", "onShowDiary()");
 addOnEvent("FCN", "show", "onShowFCN()");
+addOnEvent("Soil_Munsel_Color", "show", "onShowSoilMunselColor()");
+addOnEvent("Legacy", "show", "onShowLegacy()");
 
-onClickUserModuleGuide () {
-  // TODO: Add some things which should happen when this element is clicked
+void onClickUserUserListLogin () {
+  newTab("Control", true);
+}
+
+void onClickUserUserListModuleGuide () {
   newTab("User/Help", true);
 }
-onClickControlCreateNewLocus () {
-  // TODO: Add some things which should happen when this element is clicked
-  parentTabgroup__ = "Control";
-  newContext();
+
+void onClickContextDepositSoilTextureHelper () {
+  newTab("Context/Soil_Texture_Helper", true);
 }
-onClickControlCreateNewStratum () {
-  // TODO: Add some things which should happen when this element is clicked
-  parentTabgroup__ = "Control";
-  newContextGroup();
-}
-onClickControlNewFCN () {
-  // TODO: Add some things which should happen when this element is clicked
-  parentTabgroup__ = "Control";
-  newFCN();
-}
-onClickControlCreateNewDiary () {
-  // TODO: Add some things which should happen when this element is clicked
-  parentTabgroup__ = "Control";
-  newDiary();
-}
-onClickContextCreateRelationshipstoThisContext () {
-  // TODO: Add some things which should happen when this element is clicked
+
+void onClickContextRelationshipsCreateRelationshipstoThisContext () {
   String tabgroup = "Context";
   if (isNull(getUuid(tabgroup))){
     showToast("{You_must_save_this_tabgroup_first}");
@@ -874,8 +1494,8 @@ onClickContextCreateRelationshipstoThisContext () {
   
   newTab("Relationship", true);
 }
-onClickContextGroupCreateRelationshipstoThisContextGroup () {
-  // TODO: Add some things which should happen when this element is clicked
+
+void onClickContextGroupContextGroupContextsCreateRelationshipstoThisContextGroup () {
   String tabgroup = "Context_Group";
   if (isNull(getUuid(tabgroup))){
     showToast("{You_must_save_this_tabgroup_first}");
@@ -884,8 +1504,54 @@ onClickContextGroupCreateRelationshipstoThisContextGroup () {
   
   newTab("Context_Group_Relationship", true);
 }
-onClickContextAddHeight () {
-  // TODO: Add some things which should happen when this element is clicked
+
+void onClickControlContextsCreateNewSite () {
+  parentTabgroup__ = "Control";
+  newSite();
+}
+
+void onClickSiteSiteCreateNewTrench () {
+  parentTabgroup__ = "Site";
+  newTrench();
+}
+
+void onClickTrenchSiteCreateNewLocus () {
+  parentTabgroup__ = "Trench";
+  newContext();
+}
+
+void onClickTrenchSiteCreateNewStratum () {
+  parentTabgroup__ = "Trench";
+  newContextGroup();
+}
+
+void onClickTrenchSiteNewFCN () {
+  parentTabgroup__ = "Trench";
+  newFCN();
+}
+
+void onClickTrenchSiteCreateNewDiary () {
+  parentTabgroup__ = "Trench";
+  newDiary();
+}
+
+void onClickTrenchSiteCreateNewLegacy () {
+  parentTabgroup__ = "Trench";
+  newLegacy();
+}
+
+void onClickTrenchTrenchAddTrenchFiles () {
+  String tabgroup = "Trench";
+  if (isNull(getUuid(tabgroup))){
+    showToast("{You_must_save_this_tabgroup_first}");
+    return;
+  }
+  parentTabgroup   = tabgroup;
+  parentTabgroup__ = tabgroup;
+  newTrenchFiles();
+}
+
+void onClickContextDepositAddMunselColor () {
   String tabgroup = "Context";
   if (isNull(getUuid(tabgroup))){
     showToast("{You_must_save_this_tabgroup_first}");
@@ -893,10 +1559,10 @@ onClickContextAddHeight () {
   }
   parentTabgroup   = tabgroup;
   parentTabgroup__ = tabgroup;
-  newHeight();
+  newSoilMunselColor();
 }
-onClickContextAddNewMatrix () {
-  // TODO: Add some things which should happen when this element is clicked
+
+void onClickContextDepositAddNewMatrix () {
   String tabgroup = "Context";
   if (isNull(getUuid(tabgroup))){
     showToast("{You_must_save_this_tabgroup_first}");
@@ -906,8 +1572,8 @@ onClickContextAddNewMatrix () {
   parentTabgroup__ = tabgroup;
   newMatrix();
 }
-onClickContextAddFCN () {
-  // TODO: Add some things which should happen when this element is clicked
+
+void onClickContextFCNAddFCN () {
   String tabgroup = "Context";
   if (isNull(getUuid(tabgroup))){
     showToast("{You_must_save_this_tabgroup_first}");
@@ -917,8 +1583,8 @@ onClickContextAddFCN () {
   parentTabgroup__ = tabgroup;
   newFCN();
 }
-onClickContextAddPhotographLog () {
-  // TODO: Add some things which should happen when this element is clicked
+
+void onClickContextAddAddPhotographLog () {
   String tabgroup = "Context";
   if (isNull(getUuid(tabgroup))){
     showToast("{You_must_save_this_tabgroup_first}");
@@ -928,8 +1594,8 @@ onClickContextAddPhotographLog () {
   parentTabgroup__ = tabgroup;
   newPhotographLog();
 }
-onClickContextGroupAddPhotographLog () {
-  // TODO: Add some things which should happen when this element is clicked
+
+void onClickContextGroupAddAddPhotographLog () {
   String tabgroup = "Context_Group";
   if (isNull(getUuid(tabgroup))){
     showToast("{You_must_save_this_tabgroup_first}");
@@ -939,69 +1605,83 @@ onClickContextGroupAddPhotographLog () {
   parentTabgroup__ = tabgroup;
   newPhotographLog();
 }
-
-addOnEvent("User/User_List/Login", "click", "onClickUserLogin()");
-addOnEvent("User/User_List/Module_Guide", "click", "onClickUserModuleGuide()");
-addOnEvent("Control/Contexts/Create_New_Locus", "click", "onClickControlCreateNewLocus()");
-addOnEvent("Control/Contexts/Create_New_Stratum", "click", "onClickControlCreateNewStratum()");
-addOnEvent("Control/Contexts/New_FCN", "click", "onClickControlNewFCN()");
-addOnEvent("Control/Contexts/Create_New_Diary", "click", "onClickControlCreateNewDiary()");
-addOnEvent("Context/Measure/Add_Height", "click", "onClickContextAddHeight()");
-addOnEvent("Context/Deposit/Soil_Texture_Helper", "click", "onClickContextSoilTextureHelper()");
-addOnEvent("Context/Deposit/Add_New_Matrix", "click", "onClickContextAddNewMatrix()");
-addOnEvent("Context/Relationships/Create_Relationships_to_This_Context", "click", "onClickContextCreateRelationshipstoThisContext()");
-addOnEvent("Context/FCN/Add_FCN", "click", "onClickContextAddFCN()");
-addOnEvent("Context/Add/Add_Photograph_Log", "click", "onClickContextAddPhotographLog()");
-addOnEvent("Context_Group/Context_Group_Contexts/Create_Relationships_to_This_Context_Group", "click", "onClickContextGroupCreateRelationshipstoThisContextGroup()");
-addOnEvent("Context_Group/Add/Add_Photograph_Log", "click", "onClickContextGroupAddPhotographLog()");
-
+addOnEvent("User/User_List/Login", "click", "onClickUserUserListLogin()");
+addOnEvent("User/User_List/Module_Guide", "click", "onClickUserUserListModuleGuide()");
+addOnEvent("Context/Deposit/Soil_Texture_Helper", "click", "onClickContextDepositSoilTextureHelper()");
+addOnEvent("Context/Relationships/Create_Relationships_to_This_Context", "click", "onClickContextRelationshipsCreateRelationshipstoThisContext()");
+addOnEvent("Context_Group/Context_Group_Contexts/Create_Relationships_to_This_Context_Group", "click", "onClickContextGroupContextGroupContextsCreateRelationshipstoThisContextGroup()");
+addOnEvent("Control/Contexts/Create_New_Site", "click", "onClickControlContextsCreateNewSite()");
+addOnEvent("Site/Site/Create_New_Trench", "click", "onClickSiteSiteCreateNewTrench()");
+addOnEvent("Trench/Site/Create_New_Locus", "click", "onClickTrenchSiteCreateNewLocus()");
+addOnEvent("Trench/Site/Create_New_Stratum", "click", "onClickTrenchSiteCreateNewStratum()");
+addOnEvent("Trench/Site/New_FCN", "click", "onClickTrenchSiteNewFCN()");
+addOnEvent("Trench/Site/Create_New_Diary", "click", "onClickTrenchSiteCreateNewDiary()");
+addOnEvent("Trench/Site/Create_New_Legacy", "click", "onClickTrenchSiteCreateNewLegacy()");
+addOnEvent("Trench/Trench/Add_Trench_Files", "click", "onClickTrenchTrenchAddTrenchFiles()");
+addOnEvent("Context/Deposit/Add_Munsel_Color", "click", "onClickContextDepositAddMunselColor()");
+addOnEvent("Context/Deposit/Add_New_Matrix", "click", "onClickContextDepositAddNewMatrix()");
+addOnEvent("Context/FCN/Add_FCN", "click", "onClickContextFCNAddFCN()");
+addOnEvent("Context/Add/Add_Photograph_Log", "click", "onClickContextAddAddPhotographLog()");
+addOnEvent("Context_Group/Add/Add_Photograph_Log", "click", "onClickContextGroupAddAddPhotographLog()");
 
 /******************************************************************************/
 /*                   AUDIO, CAMERA, FILE AND VIDEO BINDINGS                   */
 /******************************************************************************/
-addOnEvent("Context/General/Button_Photo_of_Plan", "click", "attachPictureTo(\"Context/General/Photo_of_Plan\")");
-addOnEvent("Context/General/Button_Photo_of_Section", "click", "attachPictureTo(\"Context/General/Photo_of_Section\")");
-addOnEvent("Context/Add/Button_Photo", "click", "attachPictureTo(\"Context/Add/Photo\")");
-addOnEvent("Context_Group/Add/Button_Photo", "click", "attachPictureTo(\"Context_Group/Add/Photo\")");
-addOnEvent("Diary/Diary/Button_Photo", "click", "attachPictureTo(\"Diary/Diary/Photo\")");
-addOnEvent("FCN/General/Button_Attach_Photograph", "click", "attachPictureTo(\"FCN/General/Attach_Photograph\")");
-addOnEvent("FCN/General/Button_Attach_File", "click", "attachFileTo(\"FCN/General/Attach_File\")");
+
+addOnEvent("Context/General/Photo_of_Plan_Button_1", "click", "attachPictureTo(\"Context/General/Photo_of_Plan\")");
+addOnEvent("Context/General/Photo_of_Section_Button_1", "click", "attachPictureTo(\"Context/General/Photo_of_Section\")");
+addOnEvent("Context/Add/Photo_Button_1", "click", "attachPictureTo(\"Context/Add/Photo\")");
+addOnEvent("Context_Group/Add/Photo_Button_1", "click", "attachPictureTo(\"Context_Group/Add/Photo\")");
+addOnEvent("Diary/Diary/Photo_Button_1", "click", "attachPictureTo(\"Diary/Diary/Photo\")");
+addOnEvent("FCN/General/Attach_Photograph_Button_1", "click", "attachPictureTo(\"FCN/General/Attach_Photograph\")");
+addOnEvent("Context/Add/Attach_File_Button_1", "click", "attachFileTo(\"Context/Add/Attach_File\")");
+addOnEvent("Context_Group/Add/Attach_File_Button_1", "click", "attachFileTo(\"Context_Group/Add/Attach_File\")");
+addOnEvent("FCN/General/Attach_File_Button_1", "click", "attachFileTo(\"FCN/General/Attach_File\")");
+
 
 /******************************************************************************/
 /*                 BINDINGS FOR 'VIEW ATTACHED FILES' BUTTONS                 */
 /******************************************************************************/
 addOnEvent("Context/Add/View_Attached_Files", "click", "viewArchEntAttachedFiles(getUuid(\"Context\"))");
+addOnEvent("Context_Group/Add/View_Attached_Files", "click", "viewArchEntAttachedFiles(getUuid(\"Context_Group\"))");
 
 /******************************************************************************/
 /*                             NAVIGATION DRAWER                              */
 /******************************************************************************/
-removeNavigationButtons() {
+void removeNavigationButtons() {
   removeNavigationButton("new");
   removeNavigationButton("duplicate");
   removeNavigationButton("delete");
   removeNavigationButton("validate");
 }
 
-addNavigationButtons(String tabgroup) {
+void addNavigationButtons(String tabgroup) {
   removeNavigationButtons();
   List tabgroupsToValidate = new ArrayList();
-  tabgroupsToValidate.add("Context");
+  tabgroupsToValidate.add("Control");
   tabgroupsToValidate.add("Context_Group");
-  tabgroupsToValidate.add("Height");
   tabgroupsToValidate.add("Relationship");
   tabgroupsToValidate.add("Context_Group_Relationship");
+  tabgroupsToValidate.add("Site");
+  tabgroupsToValidate.add("Trench");
+  tabgroupsToValidate.add("Legacy");
+  tabgroupsToValidate.add("Context");
   tabgroupsToValidate.add("FCN");
-
   addNavigationButton("new", new ActionButtonCallback() {
     actionOnLabel() {
       "{New}";
     }
     actionOn() {
-      if(!isNull(getUuid(tabgroup))) {
-          newRecord(tabgroup);
-          showToast("{New_record_created}");
+      if(isNull(getUuid(tabgroup))) {
+        showAlert(
+            "{Warning}",
+            "{The_current_record_has_not_been_saved_yet}",
+            fun2str("newRecord", new Object[]{tabgroup, true}),
+            ""
+        );
       } else {
-          showAlert("{Warning}", "{Any_unsaved_changes_will_be_lost}", "newRecord(\""+tabgroup+"\")", "");
+        newRecord(tabgroup, true);
+        showToast("{New_record_created}");
       }
     }
   }, "success");
@@ -1011,9 +1691,9 @@ addNavigationButtons(String tabgroup) {
     }
     actionOn() {
       if(!isNull(getUuid(tabgroup))) {
-          duplicateRecord(tabgroup);
+        duplicateRecord(tabgroup);
       } else {
-          showWarning("{Warning}", "{This_record_is_unsaved_and_cannot_be_duplicated}");
+        showWarning("{Warning}", "{This_record_is_unsaved_and_cannot_be_duplicated}");
       }
     }
   }, "primary");
@@ -1042,20 +1722,20 @@ addNavigationButtons(String tabgroup) {
 /*        ENTITY AND RELATIONSHIP SAVING AND LOADING HELPER FUNCTIONS         */
 /******************************************************************************/
 /** Saves two entity id's as a relation. **/
-saveEntitiesToRel(String type, String entity1, String entity2) {
+void saveEntitiesToRel(String type, String entity1, String entity2) {
   String callback = null;
   saveEntitiesToRel(type, entity1, entity2, callback);
 }
 
 /** Saves two entity id's as a relation with some callback executed. **/
-saveEntitiesToRel(String type, String entity1, String entity2, String callback) {
+void saveEntitiesToRel(String type, String entity1, String entity2, String callback) {
   String e1verb = null;
   String e2verb = null;
   saveEntitiesToHierRel(type, entity1, entity2, e1verb, e2verb, callback);
 }
 
 /** Saves two entity id's as a hierachical relation with some callback executed. **/
-saveEntitiesToHierRel(String type, String entity1, String entity2, String e1verb, String e2verb, String callback) {
+void saveEntitiesToHierRel(String type, String entity1, String entity2, String e1verb, String e2verb, String callback) {
   if (isNull(entity1) || isNull(entity2)) return;
   saveRel(null, type, null, null, new SaveCallback() {
     onSave(rel_id, newRecord) {
@@ -1073,8 +1753,34 @@ saveEntitiesToHierRel(String type, String entity1, String entity2, String e1verb
 }
 
 // Makes a new record of the given tabgroup
-newRecord(String tabgroup) {
-  cancelTabGroup(tabgroup, false);
+void newRecord(String tabgroup) {
+  boolean doUpdateRelVars = false;
+  newRecord(tabgroup, doUpdateRelVars);
+}
+
+void newRecord(String tabgroup, boolean doUpdateRelVars) {
+  if (doUpdateRelVars) {
+    String uuidOld = getUuid(getDisplayedTabGroup());
+    String q       = getDuplicateRelnQuery(uuidOld); // We're not duplicating
+                                                     // anything, just getting
+                                                     // the parent's UUID.
+
+    cancelTabGroup(tabgroup, false);
+
+    FetchCallback updateRelVars = new FetchCallback() {
+      onFetch(result) {
+        if (result != null && result.size() >= 1) {
+          parentTabgroup   = result.get(0).get(4);
+          parentTabgroup   = parentTabgroup.replaceAll(" ", "_");
+          parentTabgroup__ = parentTabgroup;
+        }
+
+        newRecord(tabgroup, false);
+      }
+    };
+    fetchAll(q, updateRelVars);
+    return;
+  }
 
   String newTabGroupFunction = "new" + tabgroup.replaceAll("_", "") + "()"; // Typical value: "newTabgroup()"
   eval(newTabGroupFunction);
@@ -1083,7 +1789,7 @@ newRecord(String tabgroup) {
 }
 
 // Deletes the current record of the given tabgroup
-deleteRecord(String tabgroup) {
+void deleteRecord(String tabgroup) {
   String deleteTabGroupFunction = "delete" + tabgroup.replaceAll("_", "") + "()"; // Typical value: "deleteTabgroup()"
   eval(deleteTabGroupFunction);
 
@@ -1091,7 +1797,7 @@ deleteRecord(String tabgroup) {
 }
 
 // Duplicates the current record of the given tabgroup
-duplicateRecord(String tabgroup) {
+void duplicateRecord(String tabgroup) {
   dialog = showBusy("Duplicating", "Please wait...");
 
   String duplicateTabGroupFunction = "duplicate" + tabgroup.replaceAll("_", "") + "()"; // Typical value: "duplicateTabgroup()"
@@ -1101,7 +1807,7 @@ duplicateRecord(String tabgroup) {
 }
 
 // generic fetch saved attributes query
-getDuplicateAttributeQuery(String originalRecordID, String attributesToDupe) {
+String getDuplicateAttributeQuery(String originalRecordID, String attributesToDupe) {
   if (attributesToDupe.equals("")) {
     attributesToDupe = "''";
   }
@@ -1112,8 +1818,8 @@ getDuplicateAttributeQuery(String originalRecordID, String attributesToDupe) {
   return duplicateQuery;
 }
 
-getDuplicateRelnQuery(String originalRecordID) {
-  String dupeRelnQuery = "SELECT relntypename, parentparticipatesverb, childparticipatesverb, parentuuid "+
+String getDuplicateRelnQuery(String originalRecordID) {
+  String dupeRelnQuery = "SELECT relntypename, parentparticipatesverb, childparticipatesverb, parentuuid, parentaenttypename, childaenttypename"+
                          "  FROM parentchild join relationship using (relationshipid) "+
                          "  JOIN relntype using (relntypeid) "+
                          " WHERE childuuid = '"+originalRecordID+"' " +
@@ -1121,21 +1827,30 @@ getDuplicateRelnQuery(String originalRecordID) {
   return dupeRelnQuery;
 }
 
-makeDuplicateRelationships(fetchedAttributes, String newuuid){
+void makeDuplicateRelationships(fetchedAttributes, String newUuid){
   Log.e("Module", "makeDuplicateRelationships");
   for (savedAttribute : fetchedAttributes){
-    //  saveEntitiesToHierRel(relnname, parent, child, parentverb, childverb, relSaveCallback);
-    //relntypename, parentparticipatesverb, childparticipatesverb, childuuid
     String relntypename           = savedAttribute.get(0);
     String parentparticipatesverb = savedAttribute.get(1);
     String childparticipatesverb  = savedAttribute.get(2);
-    String childuuid              = savedAttribute.get(3);
-    saveEntitiesToHierRel(relntypename, newuuid, childuuid, parentparticipatesverb, childparticipatesverb, null);
+    String parentUuid             = savedAttribute.get(3);
+    String childArchEntType       = savedAttribute.get(5);
+
+    String onSaveRel              = "onSave" + childArchEntType.replaceAll(" ", "") + "__()";
+
+    saveEntitiesToHierRel(
+        relntypename,
+        parentUuid,
+        newUuid,
+        parentparticipatesverb,
+        childparticipatesverb,
+        onSaveRel
+    );
   }
 }
 
 // generic get extra attributes
-getExtraAttributes(fetchedAttributes) {
+List getExtraAttributes(fetchedAttributes) {
   List extraAttributes = createAttributeList();
   Log.d("Module", "Duplicating fetched attributes: " + fetchedAttributes.toString());
   for (savedAttribute : fetchedAttributes) {
@@ -1152,10 +1867,10 @@ getExtraAttributes(fetchedAttributes) {
   return extraAttributes;
 }
 
-loadEntity() {
+void loadEntity() {
   loadEntity(false);
 }
-loadEntity(Boolean isDropdown) {
+void loadEntity(Boolean isDropdown) {
   if (isDropdown) {
     loadEntityFrom(getDropdownItemValue());
   } else {
@@ -1163,7 +1878,7 @@ loadEntity(Boolean isDropdown) {
   }
 }
 
-loadEntityFrom(String entityID) {
+void loadEntityFrom(String entityID) {
   if (isNull(entityID)) {
     Log.e("Module", "Cannot load an entity with a null ID.");
     return;
@@ -1183,525 +1898,972 @@ loadEntityFrom(String entityID) {
   });
 }
 
-newContext(){
-  String tabgroup = "Context";
+void newSite (){
+  String tabgroup = "Site";
+  
 
-  String autoNumSource = "";
-  autoNumSource = getFieldValue("Control/Contexts/Next_Context_AreaCode");
-  if (isNull(autoNumSource)) {
-    showWarning("{Alert}","{A_next_ID_has_not_been_entered_please_provide_one}");
-    return;
-  }
-  autoNumSource = getFieldValue("Control/Contexts/Next_Context_Context_ID");
-  if (isNull(autoNumSource)) {
-    showWarning("{Alert}","{A_next_ID_has_not_been_entered_please_provide_one}");
+  setUuid(tabgroup, null);
+  newTabGroup(tabgroup);
+  populateAuthorAndTimestamp(tabgroup);
+  populateEntityListsInTabGroup(tabgroup);
+  
+
+  onCreateSite__();
+}
+void newTrench (){
+  String tabgroup = "Trench";
+  if (isNull("Control/Contexts/Next_Trench_AreaCode")) {
+    showWarning("{Alert}", "{A_next_ID_has_not_been_entered_please_provide_one}");
     return;
   }
 
   setUuid(tabgroup, null);
   newTabGroup(tabgroup);
   populateAuthorAndTimestamp(tabgroup);
-  String autoNumDest = "";
-  autoNumDest = "Context/General/Context_AreaCode";
-  incAutoNum(autoNumDest);
-  autoNumDest = "Context/General/Context_Context_ID";
-  incAutoNum(autoNumDest);
-  inheritContextFields();
-  setContextDateOpened();
-}
+  populateEntityListsInTabGroup(tabgroup);
+  incAutoNum("Trench/Trench/Trench_AreaCode");
 
-duplicateContext(){
+  onCreateTrench__();
+}
+void newTrenchFiles (){
+  String tabgroup = "Trench_Files";
+  
+
+  setUuid(tabgroup, null);
+  newTabGroup(tabgroup);
+  populateAuthorAndTimestamp(tabgroup);
+  populateEntityListsInTabGroup(tabgroup);
+  
+
+  onCreateTrenchFiles__();
+}
+void newContext (){
+  String tabgroup = "Context";
+  if (isNull("Control/Contexts/Next_Context_Context_ID")) {
+    showWarning("{Alert}", "{A_next_ID_has_not_been_entered_please_provide_one}");
+    return;
+  }
+
+  setUuid(tabgroup, null);
+  newTabGroup(tabgroup);
+  populateAuthorAndTimestamp(tabgroup);
+  populateEntityListsInTabGroup(tabgroup);
+  incAutoNum("Context/General/Context_Context_ID");
+
+  onCreateContext__();
+}
+void newContextGroup (){
+  String tabgroup = "Context_Group";
+  if (isNull("Control/Contexts/Next_Context_Group_ID")) {
+    showWarning("{Alert}", "{A_next_ID_has_not_been_entered_please_provide_one}");
+    return;
+  }
+
+  setUuid(tabgroup, null);
+  newTabGroup(tabgroup);
+  populateAuthorAndTimestamp(tabgroup);
+  populateEntityListsInTabGroup(tabgroup);
+  incAutoNum("Context_Group/Gen/Context_Group_ID");
+
+  onCreateContextGroup__();
+}
+void newMatrix (){
+  String tabgroup = "Matrix";
+  
+
+  setUuid(tabgroup, null);
+  newTabGroup(tabgroup);
+  populateAuthorAndTimestamp(tabgroup);
+  populateEntityListsInTabGroup(tabgroup);
+  
+
+  onCreateMatrix__();
+}
+void newPhotographLog (){
+  String tabgroup = "Photograph_Log";
+  
+
+  setUuid(tabgroup, null);
+  newTabGroup(tabgroup);
+  populateAuthorAndTimestamp(tabgroup);
+  populateEntityListsInTabGroup(tabgroup);
+  
+
+  onCreatePhotographLog__();
+}
+void newDiary (){
+  String tabgroup = "Diary";
+  
+
+  setUuid(tabgroup, null);
+  newTabGroup(tabgroup);
+  populateAuthorAndTimestamp(tabgroup);
+  populateEntityListsInTabGroup(tabgroup);
+  
+
+  onCreateDiary__();
+}
+void newFCN (){
+  String tabgroup = "FCN";
+  if (isNull("Control/Contexts/Next_FCN_ID")) {
+    showWarning("{Alert}", "{A_next_ID_has_not_been_entered_please_provide_one}");
+    return;
+  }
+
+  setUuid(tabgroup, null);
+  newTabGroup(tabgroup);
+  populateAuthorAndTimestamp(tabgroup);
+  populateEntityListsInTabGroup(tabgroup);
+  incAutoNum("FCN/General/FCN_ID");
+
+  onCreateFCN__();
+}
+void newSoilMunselColor (){
+  String tabgroup = "Soil_Munsel_Color";
+  
+
+  setUuid(tabgroup, null);
+  newTabGroup(tabgroup);
+  populateAuthorAndTimestamp(tabgroup);
+  populateEntityListsInTabGroup(tabgroup);
+  
+
+  onCreateSoilMunselColor__();
+}
+void newLegacy (){
+  String tabgroup = "Legacy";
+  
+
+  setUuid(tabgroup, null);
+  newTabGroup(tabgroup);
+  populateAuthorAndTimestamp(tabgroup);
+  populateEntityListsInTabGroup(tabgroup);
+  
+
+  onCreateLegacy__();
+}
+void onCreateSite__(){
+  String ref      = "Site";
+  String event    = "create";
+  String stmtsStr = getStatementsString(ref, event);
+  execute(stmtsStr);
+}
+void onCreateTrench__(){
+  String ref      = "Trench";
+  String event    = "create";
+  String stmtsStr = getStatementsString(ref, event);
+  execute(stmtsStr);
+}
+void onCreateTrenchFiles__(){
+  String ref      = "Trench_Files";
+  String event    = "create";
+  String stmtsStr = getStatementsString(ref, event);
+  execute(stmtsStr);
+}
+void onCreateContext__(){
+  String ref      = "Context";
+  String event    = "create";
+  String stmtsStr = getStatementsString(ref, event);
+  execute(stmtsStr);
+}
+void onCreateContextGroup__(){
+  String ref      = "Context_Group";
+  String event    = "create";
+  String stmtsStr = getStatementsString(ref, event);
+  execute(stmtsStr);
+}
+void onCreateMatrix__(){
+  String ref      = "Matrix";
+  String event    = "create";
+  String stmtsStr = getStatementsString(ref, event);
+  execute(stmtsStr);
+}
+void onCreatePhotographLog__(){
+  String ref      = "Photograph_Log";
+  String event    = "create";
+  String stmtsStr = getStatementsString(ref, event);
+  execute(stmtsStr);
+}
+void onCreateDiary__(){
+  String ref      = "Diary";
+  String event    = "create";
+  String stmtsStr = getStatementsString(ref, event);
+  execute(stmtsStr);
+}
+void onCreateFCN__(){
+  String ref      = "FCN";
+  String event    = "create";
+  String stmtsStr = getStatementsString(ref, event);
+  execute(stmtsStr);
+}
+void onCreateSoilMunselColor__(){
+  String ref      = "Soil_Munsel_Color";
+  String event    = "create";
+  String stmtsStr = getStatementsString(ref, event);
+  execute(stmtsStr);
+}
+void onCreateLegacy__(){
+  String ref      = "Legacy";
+  String event    = "create";
+  String stmtsStr = getStatementsString(ref, event);
+  execute(stmtsStr);
+}
+void onPrefetchSite__(){
+  String ref      = "Site";
+  String event    = "prefetch";
+  String stmtsStr = getStatementsString(ref, event);
+  execute(stmtsStr);
+}
+void onPrefetchTrench__(){
+  String ref      = "Trench";
+  String event    = "prefetch";
+  String stmtsStr = getStatementsString(ref, event);
+  execute(stmtsStr);
+}
+void onPrefetchTrenchFiles__(){
+  String ref      = "Trench_Files";
+  String event    = "prefetch";
+  String stmtsStr = getStatementsString(ref, event);
+  execute(stmtsStr);
+}
+void onPrefetchContext__(){
+  String ref      = "Context";
+  String event    = "prefetch";
+  String stmtsStr = getStatementsString(ref, event);
+  execute(stmtsStr);
+}
+void onPrefetchContextGroup__(){
+  String ref      = "Context_Group";
+  String event    = "prefetch";
+  String stmtsStr = getStatementsString(ref, event);
+  execute(stmtsStr);
+}
+void onPrefetchMatrix__(){
+  String ref      = "Matrix";
+  String event    = "prefetch";
+  String stmtsStr = getStatementsString(ref, event);
+  execute(stmtsStr);
+}
+void onPrefetchPhotographLog__(){
+  String ref      = "Photograph_Log";
+  String event    = "prefetch";
+  String stmtsStr = getStatementsString(ref, event);
+  execute(stmtsStr);
+}
+void onPrefetchDiary__(){
+  String ref      = "Diary";
+  String event    = "prefetch";
+  String stmtsStr = getStatementsString(ref, event);
+  execute(stmtsStr);
+}
+void onPrefetchFCN__(){
+  String ref      = "FCN";
+  String event    = "prefetch";
+  String stmtsStr = getStatementsString(ref, event);
+  execute(stmtsStr);
+}
+void onPrefetchSoilMunselColor__(){
+  String ref      = "Soil_Munsel_Color";
+  String event    = "prefetch";
+  String stmtsStr = getStatementsString(ref, event);
+  execute(stmtsStr);
+}
+void onPrefetchLegacy__(){
+  String ref      = "Legacy";
+  String event    = "prefetch";
+  String stmtsStr = getStatementsString(ref, event);
+  execute(stmtsStr);
+}
+void onFetchSite__(){
+  String ref      = "Site";
+  String event    = "fetch";
+  String stmtsStr = getStatementsString(ref, event);
+  execute(stmtsStr);
+}
+void onFetchTrench__(){
+  String ref      = "Trench";
+  String event    = "fetch";
+  String stmtsStr = getStatementsString(ref, event);
+  execute(stmtsStr);
+}
+void onFetchTrenchFiles__(){
+  String ref      = "Trench_Files";
+  String event    = "fetch";
+  String stmtsStr = getStatementsString(ref, event);
+  execute(stmtsStr);
+}
+void onFetchContext__(){
+  String ref      = "Context";
+  String event    = "fetch";
+  String stmtsStr = getStatementsString(ref, event);
+  execute(stmtsStr);
+}
+void onFetchContextGroup__(){
+  String ref      = "Context_Group";
+  String event    = "fetch";
+  String stmtsStr = getStatementsString(ref, event);
+  execute(stmtsStr);
+}
+void onFetchMatrix__(){
+  String ref      = "Matrix";
+  String event    = "fetch";
+  String stmtsStr = getStatementsString(ref, event);
+  execute(stmtsStr);
+}
+void onFetchPhotographLog__(){
+  String ref      = "Photograph_Log";
+  String event    = "fetch";
+  String stmtsStr = getStatementsString(ref, event);
+  execute(stmtsStr);
+}
+void onFetchDiary__(){
+  String ref      = "Diary";
+  String event    = "fetch";
+  String stmtsStr = getStatementsString(ref, event);
+  execute(stmtsStr);
+}
+void onFetchFCN__(){
+  String ref      = "FCN";
+  String event    = "fetch";
+  String stmtsStr = getStatementsString(ref, event);
+  execute(stmtsStr);
+}
+void onFetchSoilMunselColor__(){
+  String ref      = "Soil_Munsel_Color";
+  String event    = "fetch";
+  String stmtsStr = getStatementsString(ref, event);
+  execute(stmtsStr);
+}
+void onFetchLegacy__(){
+  String ref      = "Legacy";
+  String event    = "fetch";
+  String stmtsStr = getStatementsString(ref, event);
+  execute(stmtsStr);
+}
+void onSaveSite__(){
+  String ref      = "Site";
+  String event    = "save";
+  String stmtsStr = getStatementsString(ref, event);
+  execute(stmtsStr);
+}
+void onSaveTrench__(){
+  String ref      = "Trench";
+  String event    = "save";
+  String stmtsStr = getStatementsString(ref, event);
+  execute(stmtsStr);
+}
+void onSaveTrenchFiles__(){
+  String ref      = "Trench_Files";
+  String event    = "save";
+  String stmtsStr = getStatementsString(ref, event);
+  execute(stmtsStr);
+}
+void onSaveContext__(){
+  String ref      = "Context";
+  String event    = "save";
+  String stmtsStr = getStatementsString(ref, event);
+  execute(stmtsStr);
+}
+void onSaveContextGroup__(){
+  String ref      = "Context_Group";
+  String event    = "save";
+  String stmtsStr = getStatementsString(ref, event);
+  execute(stmtsStr);
+}
+void onSaveMatrix__(){
+  String ref      = "Matrix";
+  String event    = "save";
+  String stmtsStr = getStatementsString(ref, event);
+  execute(stmtsStr);
+}
+void onSavePhotographLog__(){
+  String ref      = "Photograph_Log";
+  String event    = "save";
+  String stmtsStr = getStatementsString(ref, event);
+  execute(stmtsStr);
+}
+void onSaveDiary__(){
+  String ref      = "Diary";
+  String event    = "save";
+  String stmtsStr = getStatementsString(ref, event);
+  execute(stmtsStr);
+}
+void onSaveFCN__(){
+  String ref      = "FCN";
+  String event    = "save";
+  String stmtsStr = getStatementsString(ref, event);
+  execute(stmtsStr);
+}
+void onSaveSoilMunselColor__(){
+  String ref      = "Soil_Munsel_Color";
+  String event    = "save";
+  String stmtsStr = getStatementsString(ref, event);
+  execute(stmtsStr);
+}
+void onSaveLegacy__(){
+  String ref      = "Legacy";
+  String event    = "save";
+  String stmtsStr = getStatementsString(ref, event);
+  execute(stmtsStr);
+}
+void onCopySite__(){
+  String ref      = "Site";
+  String event    = "copy";
+  String stmtsStr = getStatementsString(ref, event);
+  execute(stmtsStr);
+}
+void onCopyTrench__(){
+  String ref      = "Trench";
+  String event    = "copy";
+  String stmtsStr = getStatementsString(ref, event);
+  execute(stmtsStr);
+}
+void onCopyTrenchFiles__(){
+  String ref      = "Trench_Files";
+  String event    = "copy";
+  String stmtsStr = getStatementsString(ref, event);
+  execute(stmtsStr);
+}
+void onCopyContext__(){
+  String ref      = "Context";
+  String event    = "copy";
+  String stmtsStr = getStatementsString(ref, event);
+  execute(stmtsStr);
+}
+void onCopyContextGroup__(){
+  String ref      = "Context_Group";
+  String event    = "copy";
+  String stmtsStr = getStatementsString(ref, event);
+  execute(stmtsStr);
+}
+void onCopyMatrix__(){
+  String ref      = "Matrix";
+  String event    = "copy";
+  String stmtsStr = getStatementsString(ref, event);
+  execute(stmtsStr);
+}
+void onCopyPhotographLog__(){
+  String ref      = "Photograph_Log";
+  String event    = "copy";
+  String stmtsStr = getStatementsString(ref, event);
+  execute(stmtsStr);
+}
+void onCopyDiary__(){
+  String ref      = "Diary";
+  String event    = "copy";
+  String stmtsStr = getStatementsString(ref, event);
+  execute(stmtsStr);
+}
+void onCopyFCN__(){
+  String ref      = "FCN";
+  String event    = "copy";
+  String stmtsStr = getStatementsString(ref, event);
+  execute(stmtsStr);
+}
+void onCopySoilMunselColor__(){
+  String ref      = "Soil_Munsel_Color";
+  String event    = "copy";
+  String stmtsStr = getStatementsString(ref, event);
+  execute(stmtsStr);
+}
+void onCopyLegacy__(){
+  String ref      = "Legacy";
+  String event    = "copy";
+  String stmtsStr = getStatementsString(ref, event);
+  execute(stmtsStr);
+}
+void onDeleteSite__(){
+  String ref      = "Site";
+  String event    = "delete";
+  String stmtsStr = getStatementsString(ref, event);
+  execute(stmtsStr);
+}
+void onDeleteTrench__(){
+  String ref      = "Trench";
+  String event    = "delete";
+  String stmtsStr = getStatementsString(ref, event);
+  execute(stmtsStr);
+}
+void onDeleteTrenchFiles__(){
+  String ref      = "Trench_Files";
+  String event    = "delete";
+  String stmtsStr = getStatementsString(ref, event);
+  execute(stmtsStr);
+}
+void onDeleteContext__(){
+  String ref      = "Context";
+  String event    = "delete";
+  String stmtsStr = getStatementsString(ref, event);
+  execute(stmtsStr);
+}
+void onDeleteContextGroup__(){
+  String ref      = "Context_Group";
+  String event    = "delete";
+  String stmtsStr = getStatementsString(ref, event);
+  execute(stmtsStr);
+}
+void onDeleteMatrix__(){
+  String ref      = "Matrix";
+  String event    = "delete";
+  String stmtsStr = getStatementsString(ref, event);
+  execute(stmtsStr);
+}
+void onDeletePhotographLog__(){
+  String ref      = "Photograph_Log";
+  String event    = "delete";
+  String stmtsStr = getStatementsString(ref, event);
+  execute(stmtsStr);
+}
+void onDeleteDiary__(){
+  String ref      = "Diary";
+  String event    = "delete";
+  String stmtsStr = getStatementsString(ref, event);
+  execute(stmtsStr);
+}
+void onDeleteFCN__(){
+  String ref      = "FCN";
+  String event    = "delete";
+  String stmtsStr = getStatementsString(ref, event);
+  execute(stmtsStr);
+}
+void onDeleteSoilMunselColor__(){
+  String ref      = "Soil_Munsel_Color";
+  String event    = "delete";
+  String stmtsStr = getStatementsString(ref, event);
+  execute(stmtsStr);
+}
+void onDeleteLegacy__(){
+  String ref      = "Legacy";
+  String event    = "delete";
+  String stmtsStr = getStatementsString(ref, event);
+  execute(stmtsStr);
+}
+void duplicateSite(){
+  String tabgroup = "Site";
+  String uuidOld = getUuid(tabgroup);
+  setUuid(tabgroup, "");
+  disableAutoSave(tabgroup);
+  
+  clearGpsInTabGroup(tabgroup);
+  populateAuthorAndTimestamp(tabgroup);
+  populateEntityListsInTabGroup(tabgroup);
+  
+  onCopySite__();
+
+  saveCallback = new SaveCallback() {
+    onSave(uuid, newRecord) {
+      setUuid(tabgroup, uuid);
+
+      fetchAll(getDuplicateRelnQuery(uuidOld), new FetchCallback(){
+        onFetch(result) {
+          Log.e("Module", result.toString());
+
+          if (result != null && result.size() >= 1) {
+            parentTabgroup__ = result.get(0).get(4);
+            parentTabgroup__ = parentTabgroup__.replaceAll(" ", "_");
+          }
+
+          makeDuplicateRelationships(result, getUuid(tabgroup));
+
+          showToast("{Duplicated_record}");
+          dialog.dismiss();
+        }
+      });
+
+      saveTabGroup(tabgroup);
+    }
+  };
+
+  String extraDupeAttributes = "";
+  fetchAll(getDuplicateAttributeQuery(uuidOld, extraDupeAttributes), new FetchCallback(){
+    onFetch(result) {
+      excludeAttributes = new ArrayList();
+
+      
+
+      duplicateTabGroup(tabgroup, null, getExtraAttributes(result), excludeAttributes, saveCallback);
+    }
+  });
+}
+void duplicateTrench(){
+  String tabgroup = "Trench";
+  String uuidOld = getUuid(tabgroup);
+  setUuid(tabgroup, "");
+  disableAutoSave(tabgroup);
+  incAutoNum("Trench/Trench/Trench_AreaCode");
+  clearGpsInTabGroup(tabgroup);
+  populateAuthorAndTimestamp(tabgroup);
+  populateEntityListsInTabGroup(tabgroup);
+  
+  onCopyTrench__();
+
+  saveCallback = new SaveCallback() {
+    onSave(uuid, newRecord) {
+      setUuid(tabgroup, uuid);
+
+      fetchAll(getDuplicateRelnQuery(uuidOld), new FetchCallback(){
+        onFetch(result) {
+          Log.e("Module", result.toString());
+
+          if (result != null && result.size() >= 1) {
+            parentTabgroup__ = result.get(0).get(4);
+            parentTabgroup__ = parentTabgroup__.replaceAll(" ", "_");
+          }
+
+          makeDuplicateRelationships(result, getUuid(tabgroup));
+
+          showToast("{Duplicated_record}");
+          dialog.dismiss();
+        }
+      });
+
+      saveTabGroup(tabgroup);
+    }
+  };
+
+  String extraDupeAttributes = "";
+  fetchAll(getDuplicateAttributeQuery(uuidOld, extraDupeAttributes), new FetchCallback(){
+    onFetch(result) {
+      excludeAttributes = new ArrayList();
+
+      
+
+      duplicateTabGroup(tabgroup, null, getExtraAttributes(result), excludeAttributes, saveCallback);
+    }
+  });
+}
+void duplicateTrenchFiles(){
+  String tabgroup = "Trench_Files";
+  String uuidOld = getUuid(tabgroup);
+  setUuid(tabgroup, "");
+  disableAutoSave(tabgroup);
+  
+  clearGpsInTabGroup(tabgroup);
+  populateAuthorAndTimestamp(tabgroup);
+  populateEntityListsInTabGroup(tabgroup);
+  
+  onCopyTrenchFiles__();
+
+  saveCallback = new SaveCallback() {
+    onSave(uuid, newRecord) {
+      setUuid(tabgroup, uuid);
+
+      fetchAll(getDuplicateRelnQuery(uuidOld), new FetchCallback(){
+        onFetch(result) {
+          Log.e("Module", result.toString());
+
+          if (result != null && result.size() >= 1) {
+            parentTabgroup__ = result.get(0).get(4);
+            parentTabgroup__ = parentTabgroup__.replaceAll(" ", "_");
+          }
+
+          makeDuplicateRelationships(result, getUuid(tabgroup));
+
+          showToast("{Duplicated_record}");
+          dialog.dismiss();
+        }
+      });
+
+      saveTabGroup(tabgroup);
+    }
+  };
+
+  String extraDupeAttributes = "";
+  fetchAll(getDuplicateAttributeQuery(uuidOld, extraDupeAttributes), new FetchCallback(){
+    onFetch(result) {
+      excludeAttributes = new ArrayList();
+
+      
+
+      duplicateTabGroup(tabgroup, null, getExtraAttributes(result), excludeAttributes, saveCallback);
+    }
+  });
+}
+void duplicateContext(){
   String tabgroup = "Context";
   String uuidOld = getUuid(tabgroup);
-
+  setUuid(tabgroup, "");
   disableAutoSave(tabgroup);
-
-  String autoNumDest = "";
-  autoNumDest = "Context/General/Context_AreaCode";
-  incAutoNum(autoNumDest);
-  autoNumDest = "Context/General/Context_Context_ID";
-  incAutoNum(autoNumDest);
-
+  incAutoNum("Context/General/Context_Context_ID");
+  clearGpsInTabGroup(tabgroup);
+  populateAuthorAndTimestamp(tabgroup);
+  populateEntityListsInTabGroup(tabgroup);
   populateCameraPictureGallery("Context/General/Photo_of_Plan", new ArrayList());
   populateCameraPictureGallery("Context/General/Photo_of_Section", new ArrayList());
   populateCameraPictureGallery("Context/Add/Photo", new ArrayList());
-
+  populateFileList("Context/Add/Attach_File", new ArrayList());
+  onCopyContext__();
 
   saveCallback = new SaveCallback() {
     onSave(uuid, newRecord) {
       setUuid(tabgroup, uuid);
-      populateAuthorAndTimestamp(tabgroup);
-
-      Boolean enable_autosave = true;
 
       fetchAll(getDuplicateRelnQuery(uuidOld), new FetchCallback(){
         onFetch(result) {
           Log.e("Module", result.toString());
+
+          if (result != null && result.size() >= 1) {
+            parentTabgroup__ = result.get(0).get(4);
+            parentTabgroup__ = parentTabgroup__.replaceAll(" ", "_");
+          }
+
           makeDuplicateRelationships(result, getUuid(tabgroup));
+
           showToast("{Duplicated_record}");
           dialog.dismiss();
         }
       });
 
-      saveTabGroup(tabgroup, getUuid(tabgroup), null, null, new SaveCallback(){
-        onSave(autosaveUuid, autosaveNewRecord) {
-          setUuid(tabgroup, autosaveUuid);
-        }
-      }, enable_autosave);
+      saveTabGroup(tabgroup);
     }
   };
 
   String extraDupeAttributes = "";
-  fetchAll(getDuplicateAttributeQuery(getUuid(tabgroup), extraDupeAttributes), new FetchCallback(){
+  fetchAll(getDuplicateAttributeQuery(uuidOld, extraDupeAttributes), new FetchCallback(){
     onFetch(result) {
       excludeAttributes = new ArrayList();
+
       excludeAttributes.add("Photo of Plan");
       excludeAttributes.add("Photo of Section");
       excludeAttributes.add("Photo");
+      excludeAttributes.add("Attach File");
 
       duplicateTabGroup(tabgroup, null, getExtraAttributes(result), excludeAttributes, saveCallback);
     }
   });
 }
-
-deleteContext(){
-  String tabgroup = "Context";
-
-  if (isNull(getUuid(tabgroup))) {
-    cancelTabGroup(tabgroup, true);
-  } else {
-    showAlert("{Confirm_Deletion}", "{Press_OK_to_Delete_this_Record}", "reallyDeleteContext()", "doNotDelete()");
-  }
-}
-
-reallyDeleteContext(){
-  String tabgroup = "Context";
-  deleteArchEnt(getUuid(tabgroup));
-  cancelTabGroup(tabgroup, false);
-}
-
-newContextGroup(){
-  String tabgroup = "Context_Group";
-
-  String autoNumSource = "";
-  autoNumSource = getFieldValue("Control/Contexts/Next_Context_Group_ID");
-  if (isNull(autoNumSource)) {
-    showWarning("{Alert}","{A_next_ID_has_not_been_entered_please_provide_one}");
-    return;
-  }
-
-  setUuid(tabgroup, null);
-  newTabGroup(tabgroup);
-  populateAuthorAndTimestamp(tabgroup);
-  String autoNumDest = "";
-  autoNumDest = "Context_Group/Gen/Context_Group_ID";
-  incAutoNum(autoNumDest);
-  inheritContextGroupFields();
-}
-
-duplicateContextGroup(){
+void duplicateContextGroup(){
   String tabgroup = "Context_Group";
   String uuidOld = getUuid(tabgroup);
-
+  setUuid(tabgroup, "");
   disableAutoSave(tabgroup);
-
-  String autoNumDest = "";
-  autoNumDest = "Context_Group/Gen/Context_Group_ID";
-  incAutoNum(autoNumDest);
-
+  incAutoNum("Context_Group/Gen/Context_Group_ID");
+  clearGpsInTabGroup(tabgroup);
+  populateAuthorAndTimestamp(tabgroup);
+  populateEntityListsInTabGroup(tabgroup);
   populateCameraPictureGallery("Context_Group/Add/Photo", new ArrayList());
-
+  populateFileList("Context_Group/Add/Attach_File", new ArrayList());
+  onCopyContextGroup__();
 
   saveCallback = new SaveCallback() {
     onSave(uuid, newRecord) {
       setUuid(tabgroup, uuid);
-      populateAuthorAndTimestamp(tabgroup);
-
-      Boolean enable_autosave = true;
 
       fetchAll(getDuplicateRelnQuery(uuidOld), new FetchCallback(){
         onFetch(result) {
           Log.e("Module", result.toString());
+
+          if (result != null && result.size() >= 1) {
+            parentTabgroup__ = result.get(0).get(4);
+            parentTabgroup__ = parentTabgroup__.replaceAll(" ", "_");
+          }
+
           makeDuplicateRelationships(result, getUuid(tabgroup));
+
           showToast("{Duplicated_record}");
           dialog.dismiss();
         }
       });
 
-      saveTabGroup(tabgroup, getUuid(tabgroup), null, null, new SaveCallback(){
-        onSave(autosaveUuid, autosaveNewRecord) {
-          setUuid(tabgroup, autosaveUuid);
-        }
-      }, enable_autosave);
+      saveTabGroup(tabgroup);
     }
   };
 
   String extraDupeAttributes = "";
-  fetchAll(getDuplicateAttributeQuery(getUuid(tabgroup), extraDupeAttributes), new FetchCallback(){
+  fetchAll(getDuplicateAttributeQuery(uuidOld, extraDupeAttributes), new FetchCallback(){
     onFetch(result) {
       excludeAttributes = new ArrayList();
+
       excludeAttributes.add("Photo");
+      excludeAttributes.add("Attach File");
 
       duplicateTabGroup(tabgroup, null, getExtraAttributes(result), excludeAttributes, saveCallback);
     }
   });
 }
-
-deleteContextGroup(){
-  String tabgroup = "Context_Group";
-
-  if (isNull(getUuid(tabgroup))) {
-    cancelTabGroup(tabgroup, true);
-  } else {
-    showAlert("{Confirm_Deletion}", "{Press_OK_to_Delete_this_Record}", "reallyDeleteContextGroup()", "doNotDelete()");
-  }
-}
-
-reallyDeleteContextGroup(){
-  String tabgroup = "Context_Group";
-  deleteArchEnt(getUuid(tabgroup));
-  cancelTabGroup(tabgroup, false);
-}
-
-newMatrix(){
-  String tabgroup = "Matrix";
-
-
-  setUuid(tabgroup, null);
-  newTabGroup(tabgroup);
-  populateAuthorAndTimestamp(tabgroup);
-  inheritMatrixFields();
-}
-
-duplicateMatrix(){
+void duplicateMatrix(){
   String tabgroup = "Matrix";
   String uuidOld = getUuid(tabgroup);
-
+  setUuid(tabgroup, "");
   disableAutoSave(tabgroup);
-
-
-
+  
+  clearGpsInTabGroup(tabgroup);
+  populateAuthorAndTimestamp(tabgroup);
+  populateEntityListsInTabGroup(tabgroup);
+  
+  onCopyMatrix__();
 
   saveCallback = new SaveCallback() {
     onSave(uuid, newRecord) {
       setUuid(tabgroup, uuid);
-      populateAuthorAndTimestamp(tabgroup);
-
-      Boolean enable_autosave = true;
 
       fetchAll(getDuplicateRelnQuery(uuidOld), new FetchCallback(){
         onFetch(result) {
           Log.e("Module", result.toString());
+
+          if (result != null && result.size() >= 1) {
+            parentTabgroup__ = result.get(0).get(4);
+            parentTabgroup__ = parentTabgroup__.replaceAll(" ", "_");
+          }
+
           makeDuplicateRelationships(result, getUuid(tabgroup));
+
           showToast("{Duplicated_record}");
           dialog.dismiss();
         }
       });
 
-      saveTabGroup(tabgroup, getUuid(tabgroup), null, null, new SaveCallback(){
-        onSave(autosaveUuid, autosaveNewRecord) {
-          setUuid(tabgroup, autosaveUuid);
-        }
-      }, enable_autosave);
+      saveTabGroup(tabgroup);
     }
   };
 
   String extraDupeAttributes = "";
-  fetchAll(getDuplicateAttributeQuery(getUuid(tabgroup), extraDupeAttributes), new FetchCallback(){
+  fetchAll(getDuplicateAttributeQuery(uuidOld, extraDupeAttributes), new FetchCallback(){
     onFetch(result) {
       excludeAttributes = new ArrayList();
+
+      
 
       duplicateTabGroup(tabgroup, null, getExtraAttributes(result), excludeAttributes, saveCallback);
     }
   });
 }
-
-deleteMatrix(){
-  String tabgroup = "Matrix";
-
-  if (isNull(getUuid(tabgroup))) {
-    cancelTabGroup(tabgroup, true);
-  } else {
-    showAlert("{Confirm_Deletion}", "{Press_OK_to_Delete_this_Record}", "reallyDeleteMatrix()", "doNotDelete()");
-  }
-}
-
-reallyDeleteMatrix(){
-  String tabgroup = "Matrix";
-  deleteArchEnt(getUuid(tabgroup));
-  cancelTabGroup(tabgroup, false);
-}
-
-newHeight(){
-  String tabgroup = "Height";
-
-
-  setUuid(tabgroup, null);
-  newTabGroup(tabgroup);
-  populateAuthorAndTimestamp(tabgroup);
-  inheritHeightFields();
-}
-
-duplicateHeight(){
-  String tabgroup = "Height";
+void duplicatePhotographLog(){
+  String tabgroup = "Photograph_Log";
   String uuidOld = getUuid(tabgroup);
-
+  setUuid(tabgroup, "");
   disableAutoSave(tabgroup);
-
-
-
+  
+  clearGpsInTabGroup(tabgroup);
+  populateAuthorAndTimestamp(tabgroup);
+  populateEntityListsInTabGroup(tabgroup);
+  
+  onCopyPhotographLog__();
 
   saveCallback = new SaveCallback() {
     onSave(uuid, newRecord) {
       setUuid(tabgroup, uuid);
-      populateAuthorAndTimestamp(tabgroup);
-
-      Boolean enable_autosave = true;
 
       fetchAll(getDuplicateRelnQuery(uuidOld), new FetchCallback(){
         onFetch(result) {
           Log.e("Module", result.toString());
+
+          if (result != null && result.size() >= 1) {
+            parentTabgroup__ = result.get(0).get(4);
+            parentTabgroup__ = parentTabgroup__.replaceAll(" ", "_");
+          }
+
           makeDuplicateRelationships(result, getUuid(tabgroup));
+
           showToast("{Duplicated_record}");
           dialog.dismiss();
         }
       });
 
-      saveTabGroup(tabgroup, getUuid(tabgroup), null, null, new SaveCallback(){
-        onSave(autosaveUuid, autosaveNewRecord) {
-          setUuid(tabgroup, autosaveUuid);
-        }
-      }, enable_autosave);
+      saveTabGroup(tabgroup);
     }
   };
 
   String extraDupeAttributes = "";
-  fetchAll(getDuplicateAttributeQuery(getUuid(tabgroup), extraDupeAttributes), new FetchCallback(){
+  fetchAll(getDuplicateAttributeQuery(uuidOld, extraDupeAttributes), new FetchCallback(){
     onFetch(result) {
       excludeAttributes = new ArrayList();
+
+      
 
       duplicateTabGroup(tabgroup, null, getExtraAttributes(result), excludeAttributes, saveCallback);
     }
   });
 }
-
-deleteHeight(){
-  String tabgroup = "Height";
-
-  if (isNull(getUuid(tabgroup))) {
-    cancelTabGroup(tabgroup, true);
-  } else {
-    showAlert("{Confirm_Deletion}", "{Press_OK_to_Delete_this_Record}", "reallyDeleteHeight()", "doNotDelete()");
-  }
-}
-
-reallyDeleteHeight(){
-  String tabgroup = "Height";
-  deleteArchEnt(getUuid(tabgroup));
-  cancelTabGroup(tabgroup, false);
-}
-
-newPhotographLog(){
-  String tabgroup = "Photograph_Log";
-
-
-  setUuid(tabgroup, null);
-  newTabGroup(tabgroup);
-  populateAuthorAndTimestamp(tabgroup);
-  inheritPhotographLogFields();
-}
-
-duplicatePhotographLog(){
-  String tabgroup = "Photograph_Log";
-  String uuidOld = getUuid(tabgroup);
-
-  disableAutoSave(tabgroup);
-
-
-
-
-  saveCallback = new SaveCallback() {
-    onSave(uuid, newRecord) {
-      setUuid(tabgroup, uuid);
-      populateAuthorAndTimestamp(tabgroup);
-
-      Boolean enable_autosave = true;
-
-      fetchAll(getDuplicateRelnQuery(uuidOld), new FetchCallback(){
-        onFetch(result) {
-          Log.e("Module", result.toString());
-          makeDuplicateRelationships(result, getUuid(tabgroup));
-          showToast("{Duplicated_record}");
-          dialog.dismiss();
-        }
-      });
-
-      saveTabGroup(tabgroup, getUuid(tabgroup), null, null, new SaveCallback(){
-        onSave(autosaveUuid, autosaveNewRecord) {
-          setUuid(tabgroup, autosaveUuid);
-        }
-      }, enable_autosave);
-    }
-  };
-
-  String extraDupeAttributes = "";
-  fetchAll(getDuplicateAttributeQuery(getUuid(tabgroup), extraDupeAttributes), new FetchCallback(){
-    onFetch(result) {
-      excludeAttributes = new ArrayList();
-
-      duplicateTabGroup(tabgroup, null, getExtraAttributes(result), excludeAttributes, saveCallback);
-    }
-  });
-}
-
-deletePhotographLog(){
-  String tabgroup = "Photograph_Log";
-
-  if (isNull(getUuid(tabgroup))) {
-    cancelTabGroup(tabgroup, true);
-  } else {
-    showAlert("{Confirm_Deletion}", "{Press_OK_to_Delete_this_Record}", "reallyDeletePhotographLog()", "doNotDelete()");
-  }
-}
-
-reallyDeletePhotographLog(){
-  String tabgroup = "Photograph_Log";
-  deleteArchEnt(getUuid(tabgroup));
-  cancelTabGroup(tabgroup, false);
-}
-
-newDiary(){
-  String tabgroup = "Diary";
-
-
-  setUuid(tabgroup, null);
-  newTabGroup(tabgroup);
-  populateAuthorAndTimestamp(tabgroup);
-  inheritDiaryFields();
-}
-
-duplicateDiary(){
+void duplicateDiary(){
   String tabgroup = "Diary";
   String uuidOld = getUuid(tabgroup);
-
+  setUuid(tabgroup, "");
   disableAutoSave(tabgroup);
-
-
+  
+  clearGpsInTabGroup(tabgroup);
+  populateAuthorAndTimestamp(tabgroup);
+  populateEntityListsInTabGroup(tabgroup);
   populateCameraPictureGallery("Diary/Diary/Photo", new ArrayList());
-
+  onCopyDiary__();
 
   saveCallback = new SaveCallback() {
     onSave(uuid, newRecord) {
       setUuid(tabgroup, uuid);
-      populateAuthorAndTimestamp(tabgroup);
-
-      Boolean enable_autosave = true;
 
       fetchAll(getDuplicateRelnQuery(uuidOld), new FetchCallback(){
         onFetch(result) {
           Log.e("Module", result.toString());
+
+          if (result != null && result.size() >= 1) {
+            parentTabgroup__ = result.get(0).get(4);
+            parentTabgroup__ = parentTabgroup__.replaceAll(" ", "_");
+          }
+
           makeDuplicateRelationships(result, getUuid(tabgroup));
+
           showToast("{Duplicated_record}");
           dialog.dismiss();
         }
       });
 
-      saveTabGroup(tabgroup, getUuid(tabgroup), null, null, new SaveCallback(){
-        onSave(autosaveUuid, autosaveNewRecord) {
-          setUuid(tabgroup, autosaveUuid);
-        }
-      }, enable_autosave);
+      saveTabGroup(tabgroup);
     }
   };
 
   String extraDupeAttributes = "";
-  fetchAll(getDuplicateAttributeQuery(getUuid(tabgroup), extraDupeAttributes), new FetchCallback(){
+  fetchAll(getDuplicateAttributeQuery(uuidOld, extraDupeAttributes), new FetchCallback(){
     onFetch(result) {
       excludeAttributes = new ArrayList();
+
       excludeAttributes.add("Photo");
 
       duplicateTabGroup(tabgroup, null, getExtraAttributes(result), excludeAttributes, saveCallback);
     }
   });
 }
-
-deleteDiary(){
-  String tabgroup = "Diary";
-
-  if (isNull(getUuid(tabgroup))) {
-    cancelTabGroup(tabgroup, true);
-  } else {
-    showAlert("{Confirm_Deletion}", "{Press_OK_to_Delete_this_Record}", "reallyDeleteDiary()", "doNotDelete()");
-  }
-}
-
-reallyDeleteDiary(){
-  String tabgroup = "Diary";
-  deleteArchEnt(getUuid(tabgroup));
-  cancelTabGroup(tabgroup, false);
-}
-
-newFCN(){
-  String tabgroup = "FCN";
-
-  String autoNumSource = "";
-  autoNumSource = getFieldValue("Control/Contexts/Next_FCN_ID");
-  if (isNull(autoNumSource)) {
-    showWarning("{Alert}","{A_next_ID_has_not_been_entered_please_provide_one}");
-    return;
-  }
-
-  setUuid(tabgroup, null);
-  newTabGroup(tabgroup);
-  populateAuthorAndTimestamp(tabgroup);
-  String autoNumDest = "";
-  autoNumDest = "FCN/General/FCN_ID";
-  incAutoNum(autoNumDest);
-  inheritFCNFields();
-}
-
-duplicateFCN(){
+void duplicateFCN(){
   String tabgroup = "FCN";
   String uuidOld = getUuid(tabgroup);
-
+  setUuid(tabgroup, "");
   disableAutoSave(tabgroup);
-
-  String autoNumDest = "";
-  autoNumDest = "FCN/General/FCN_ID";
-  incAutoNum(autoNumDest);
-
+  incAutoNum("FCN/General/FCN_ID");
+  clearGpsInTabGroup(tabgroup);
+  populateAuthorAndTimestamp(tabgroup);
+  populateEntityListsInTabGroup(tabgroup);
   populateFileList("FCN/General/Attach_File", new ArrayList());
   populateCameraPictureGallery("FCN/General/Attach_Photograph", new ArrayList());
-
+  onCopyFCN__();
 
   saveCallback = new SaveCallback() {
     onSave(uuid, newRecord) {
       setUuid(tabgroup, uuid);
-      populateAuthorAndTimestamp(tabgroup);
-
-      Boolean enable_autosave = true;
 
       fetchAll(getDuplicateRelnQuery(uuidOld), new FetchCallback(){
         onFetch(result) {
           Log.e("Module", result.toString());
+
+          if (result != null && result.size() >= 1) {
+            parentTabgroup__ = result.get(0).get(4);
+            parentTabgroup__ = parentTabgroup__.replaceAll(" ", "_");
+          }
+
           makeDuplicateRelationships(result, getUuid(tabgroup));
+
           showToast("{Duplicated_record}");
           dialog.dismiss();
         }
       });
 
-      saveTabGroup(tabgroup, getUuid(tabgroup), null, null, new SaveCallback(){
-        onSave(autosaveUuid, autosaveNewRecord) {
-          setUuid(tabgroup, autosaveUuid);
-        }
-      }, enable_autosave);
+      saveTabGroup(tabgroup);
     }
   };
 
   String extraDupeAttributes = "";
-  fetchAll(getDuplicateAttributeQuery(getUuid(tabgroup), extraDupeAttributes), new FetchCallback(){
+  fetchAll(getDuplicateAttributeQuery(uuidOld, extraDupeAttributes), new FetchCallback(){
     onFetch(result) {
       excludeAttributes = new ArrayList();
+
       excludeAttributes.add("Attach File");
       excludeAttributes.add("Attach Photograph");
 
@@ -1709,68 +2871,347 @@ duplicateFCN(){
     }
   });
 }
+void duplicateSoilMunselColor(){
+  String tabgroup = "Soil_Munsel_Color";
+  String uuidOld = getUuid(tabgroup);
+  setUuid(tabgroup, "");
+  disableAutoSave(tabgroup);
+  
+  clearGpsInTabGroup(tabgroup);
+  populateAuthorAndTimestamp(tabgroup);
+  populateEntityListsInTabGroup(tabgroup);
+  
+  onCopySoilMunselColor__();
 
-deleteFCN(){
+  saveCallback = new SaveCallback() {
+    onSave(uuid, newRecord) {
+      setUuid(tabgroup, uuid);
+
+      fetchAll(getDuplicateRelnQuery(uuidOld), new FetchCallback(){
+        onFetch(result) {
+          Log.e("Module", result.toString());
+
+          if (result != null && result.size() >= 1) {
+            parentTabgroup__ = result.get(0).get(4);
+            parentTabgroup__ = parentTabgroup__.replaceAll(" ", "_");
+          }
+
+          makeDuplicateRelationships(result, getUuid(tabgroup));
+
+          showToast("{Duplicated_record}");
+          dialog.dismiss();
+        }
+      });
+
+      saveTabGroup(tabgroup);
+    }
+  };
+
+  String extraDupeAttributes = "";
+  fetchAll(getDuplicateAttributeQuery(uuidOld, extraDupeAttributes), new FetchCallback(){
+    onFetch(result) {
+      excludeAttributes = new ArrayList();
+
+      
+
+      duplicateTabGroup(tabgroup, null, getExtraAttributes(result), excludeAttributes, saveCallback);
+    }
+  });
+}
+void duplicateLegacy(){
+  String tabgroup = "Legacy";
+  String uuidOld = getUuid(tabgroup);
+  setUuid(tabgroup, "");
+  disableAutoSave(tabgroup);
+  
+  clearGpsInTabGroup(tabgroup);
+  populateAuthorAndTimestamp(tabgroup);
+  populateEntityListsInTabGroup(tabgroup);
+  
+  onCopyLegacy__();
+
+  saveCallback = new SaveCallback() {
+    onSave(uuid, newRecord) {
+      setUuid(tabgroup, uuid);
+
+      fetchAll(getDuplicateRelnQuery(uuidOld), new FetchCallback(){
+        onFetch(result) {
+          Log.e("Module", result.toString());
+
+          if (result != null && result.size() >= 1) {
+            parentTabgroup__ = result.get(0).get(4);
+            parentTabgroup__ = parentTabgroup__.replaceAll(" ", "_");
+          }
+
+          makeDuplicateRelationships(result, getUuid(tabgroup));
+
+          showToast("{Duplicated_record}");
+          dialog.dismiss();
+        }
+      });
+
+      saveTabGroup(tabgroup);
+    }
+  };
+
+  String extraDupeAttributes = "";
+  fetchAll(getDuplicateAttributeQuery(uuidOld, extraDupeAttributes), new FetchCallback(){
+    onFetch(result) {
+      excludeAttributes = new ArrayList();
+
+      
+
+      duplicateTabGroup(tabgroup, null, getExtraAttributes(result), excludeAttributes, saveCallback);
+    }
+  });
+}
+void deleteSite(){
+  String tabgroup = "Site";
+  if (isNull(getUuid(tabgroup))) {
+    cancelTabGroup(tabgroup, true);
+  } else {
+    showAlert("{Confirm_Deletion}", "{Press_OK_to_Delete_this_Record}", "reallyDeleteSite()", "doNotDelete()");
+  }
+}
+void deleteTrench(){
+  String tabgroup = "Trench";
+  if (isNull(getUuid(tabgroup))) {
+    cancelTabGroup(tabgroup, true);
+  } else {
+    showAlert("{Confirm_Deletion}", "{Press_OK_to_Delete_this_Record}", "reallyDeleteTrench()", "doNotDelete()");
+  }
+}
+void deleteTrenchFiles(){
+  String tabgroup = "Trench_Files";
+  if (isNull(getUuid(tabgroup))) {
+    cancelTabGroup(tabgroup, true);
+  } else {
+    showAlert("{Confirm_Deletion}", "{Press_OK_to_Delete_this_Record}", "reallyDeleteTrenchFiles()", "doNotDelete()");
+  }
+}
+void deleteContext(){
+  String tabgroup = "Context";
+  if (isNull(getUuid(tabgroup))) {
+    cancelTabGroup(tabgroup, true);
+  } else {
+    showAlert("{Confirm_Deletion}", "{Press_OK_to_Delete_this_Record}", "reallyDeleteContext()", "doNotDelete()");
+  }
+}
+void deleteContextGroup(){
+  String tabgroup = "Context_Group";
+  if (isNull(getUuid(tabgroup))) {
+    cancelTabGroup(tabgroup, true);
+  } else {
+    showAlert("{Confirm_Deletion}", "{Press_OK_to_Delete_this_Record}", "reallyDeleteContextGroup()", "doNotDelete()");
+  }
+}
+void deleteMatrix(){
+  String tabgroup = "Matrix";
+  if (isNull(getUuid(tabgroup))) {
+    cancelTabGroup(tabgroup, true);
+  } else {
+    showAlert("{Confirm_Deletion}", "{Press_OK_to_Delete_this_Record}", "reallyDeleteMatrix()", "doNotDelete()");
+  }
+}
+void deletePhotographLog(){
+  String tabgroup = "Photograph_Log";
+  if (isNull(getUuid(tabgroup))) {
+    cancelTabGroup(tabgroup, true);
+  } else {
+    showAlert("{Confirm_Deletion}", "{Press_OK_to_Delete_this_Record}", "reallyDeletePhotographLog()", "doNotDelete()");
+  }
+}
+void deleteDiary(){
+  String tabgroup = "Diary";
+  if (isNull(getUuid(tabgroup))) {
+    cancelTabGroup(tabgroup, true);
+  } else {
+    showAlert("{Confirm_Deletion}", "{Press_OK_to_Delete_this_Record}", "reallyDeleteDiary()", "doNotDelete()");
+  }
+}
+void deleteFCN(){
   String tabgroup = "FCN";
-
   if (isNull(getUuid(tabgroup))) {
     cancelTabGroup(tabgroup, true);
   } else {
     showAlert("{Confirm_Deletion}", "{Press_OK_to_Delete_this_Record}", "reallyDeleteFCN()", "doNotDelete()");
   }
 }
+void deleteSoilMunselColor(){
+  String tabgroup = "Soil_Munsel_Color";
+  if (isNull(getUuid(tabgroup))) {
+    cancelTabGroup(tabgroup, true);
+  } else {
+    showAlert("{Confirm_Deletion}", "{Press_OK_to_Delete_this_Record}", "reallyDeleteSoilMunselColor()", "doNotDelete()");
+  }
+}
+void deleteLegacy(){
+  String tabgroup = "Legacy";
+  if (isNull(getUuid(tabgroup))) {
+    cancelTabGroup(tabgroup, true);
+  } else {
+    showAlert("{Confirm_Deletion}", "{Press_OK_to_Delete_this_Record}", "reallyDeleteLegacy()", "doNotDelete()");
+  }
+}
+void reallyDeleteSite (){
+  String tabgroup = "Site";
 
-reallyDeleteFCN(){
-  String tabgroup = "FCN";
   deleteArchEnt(getUuid(tabgroup));
   cancelTabGroup(tabgroup, false);
+  populateEntityListsOfArchEnt(tabgroup);
+  onDeleteSite__();
 }
+void reallyDeleteTrench (){
+  String tabgroup = "Trench";
 
+  deleteArchEnt(getUuid(tabgroup));
+  cancelTabGroup(tabgroup, false);
+  populateEntityListsOfArchEnt(tabgroup);
+  onDeleteTrench__();
+}
+void reallyDeleteTrenchFiles (){
+  String tabgroup = "Trench_Files";
 
-doNotDelete(){
+  deleteArchEnt(getUuid(tabgroup));
+  cancelTabGroup(tabgroup, false);
+  populateEntityListsOfArchEnt(tabgroup);
+  onDeleteTrenchFiles__();
+}
+void reallyDeleteContext (){
+  String tabgroup = "Context";
+
+  deleteArchEnt(getUuid(tabgroup));
+  cancelTabGroup(tabgroup, false);
+  populateEntityListsOfArchEnt(tabgroup);
+  onDeleteContext__();
+}
+void reallyDeleteContextGroup (){
+  String tabgroup = "Context_Group";
+
+  deleteArchEnt(getUuid(tabgroup));
+  cancelTabGroup(tabgroup, false);
+  populateEntityListsOfArchEnt(tabgroup);
+  onDeleteContextGroup__();
+}
+void reallyDeleteMatrix (){
+  String tabgroup = "Matrix";
+
+  deleteArchEnt(getUuid(tabgroup));
+  cancelTabGroup(tabgroup, false);
+  populateEntityListsOfArchEnt(tabgroup);
+  onDeleteMatrix__();
+}
+void reallyDeletePhotographLog (){
+  String tabgroup = "Photograph_Log";
+
+  deleteArchEnt(getUuid(tabgroup));
+  cancelTabGroup(tabgroup, false);
+  populateEntityListsOfArchEnt(tabgroup);
+  onDeletePhotographLog__();
+}
+void reallyDeleteDiary (){
+  String tabgroup = "Diary";
+
+  deleteArchEnt(getUuid(tabgroup));
+  cancelTabGroup(tabgroup, false);
+  populateEntityListsOfArchEnt(tabgroup);
+  onDeleteDiary__();
+}
+void reallyDeleteFCN (){
+  String tabgroup = "FCN";
+
+  deleteArchEnt(getUuid(tabgroup));
+  cancelTabGroup(tabgroup, false);
+  populateEntityListsOfArchEnt(tabgroup);
+  onDeleteFCN__();
+}
+void reallyDeleteSoilMunselColor (){
+  String tabgroup = "Soil_Munsel_Color";
+
+  deleteArchEnt(getUuid(tabgroup));
+  cancelTabGroup(tabgroup, false);
+  populateEntityListsOfArchEnt(tabgroup);
+  onDeleteSoilMunselColor__();
+}
+void reallyDeleteLegacy (){
+  String tabgroup = "Legacy";
+
+  deleteArchEnt(getUuid(tabgroup));
+  cancelTabGroup(tabgroup, false);
+  populateEntityListsOfArchEnt(tabgroup);
+  onDeleteLegacy__();
+}
+addOnEvent("Site", "save", "populateEntityListsOfArchEnt(\"Site\")");
+addOnEvent("Trench", "save", "populateEntityListsOfArchEnt(\"Trench\")");
+addOnEvent("Trench_Files", "save", "populateEntityListsOfArchEnt(\"Trench_Files\")");
+addOnEvent("Context", "save", "populateEntityListsOfArchEnt(\"Context\")");
+addOnEvent("Context_Group", "save", "populateEntityListsOfArchEnt(\"Context_Group\")");
+addOnEvent("Matrix", "save", "populateEntityListsOfArchEnt(\"Matrix\")");
+addOnEvent("Photograph_Log", "save", "populateEntityListsOfArchEnt(\"Photograph_Log\")");
+addOnEvent("Diary", "save", "populateEntityListsOfArchEnt(\"Diary\")");
+addOnEvent("FCN", "save", "populateEntityListsOfArchEnt(\"FCN\")");
+addOnEvent("Soil_Munsel_Color", "save", "populateEntityListsOfArchEnt(\"Soil_Munsel_Color\")");
+addOnEvent("Legacy", "save", "populateEntityListsOfArchEnt(\"Legacy\")");
+
+void doNotDelete(){
   showToast("{Delete_Cancelled}");
 }
-addOnEvent("User", "show", "removeNavigationButtons()");
-addOnEvent("Control", "show", "removeNavigationButtons()");
-addOnEvent("Relationship", "show", "removeNavigationButtons()");
-addOnEvent("Context_Group_Relationship", "show", "removeNavigationButtons()");
+
+addOnEvent("Site", "show", "removeNavigationButtons()");
+addOnEvent("Site", "show", "addNavigationButtons(\"Site\")");
+addOnEvent("Trench", "show", "removeNavigationButtons()");
+addOnEvent("Trench", "show", "addNavigationButtons(\"Trench\")");
+addOnEvent("Trench_Files", "show", "removeNavigationButtons()");
+addOnEvent("Trench_Files", "show", "addNavigationButtons(\"Trench_Files\")");
+addOnEvent("Context", "show", "removeNavigationButtons()");
 addOnEvent("Context", "show", "addNavigationButtons(\"Context\")");
+addOnEvent("Context_Group", "show", "removeNavigationButtons()");
 addOnEvent("Context_Group", "show", "addNavigationButtons(\"Context_Group\")");
+addOnEvent("Matrix", "show", "removeNavigationButtons()");
 addOnEvent("Matrix", "show", "addNavigationButtons(\"Matrix\")");
-addOnEvent("Height", "show", "addNavigationButtons(\"Height\")");
+addOnEvent("Photograph_Log", "show", "removeNavigationButtons()");
 addOnEvent("Photograph_Log", "show", "addNavigationButtons(\"Photograph_Log\")");
+addOnEvent("Diary", "show", "removeNavigationButtons()");
 addOnEvent("Diary", "show", "addNavigationButtons(\"Diary\")");
+addOnEvent("FCN", "show", "removeNavigationButtons()");
 addOnEvent("FCN", "show", "addNavigationButtons(\"FCN\")");
+addOnEvent("Soil_Munsel_Color", "show", "removeNavigationButtons()");
+addOnEvent("Soil_Munsel_Color", "show", "addNavigationButtons(\"Soil_Munsel_Color\")");
+addOnEvent("Legacy", "show", "removeNavigationButtons()");
+addOnEvent("Legacy", "show", "addNavigationButtons(\"Legacy\")");
 
 /******************************************************************************/
 /*                                   SEARCH                                   */
 /******************************************************************************/
-addOnEvent("Control/Search"               , "show"  , "search();");
+addOnEvent("Control/Search"               , "show"  , "search()");
 addOnEvent("Control/Search/Entity_List"   , "click" , "loadEntity();");
 addOnEvent("Control/Search/Search_Button" , "click" , "search()");
 addOnEvent("Control/Search/Search_Term"   , "click" , "clearSearch()");
-addOnEvent("Control/Search/Entity_Types"  , "click" , "search()");
 
+addOnEvent("Control/Search/Entity_Types"  , "click" , "search()");
 entityTypes = new ArrayList();
 entityTypes.add(new NameValuePair("{All}", ""));
-entityTypes.add(new NameValuePair("{Locus}", "Context"));
-entityTypes.add(new NameValuePair("{Stratum_Feature}", "Context Group"));
-entityTypes.add(new NameValuePair("{Sediment_Aggregate}", "Matrix"));
-entityTypes.add(new NameValuePair("{Locus_Height}", "Height"));
+entityTypes.add(new NameValuePair("{Site}", "Site"));
+entityTypes.add(new NameValuePair("{Trench}", "Trench"));
+entityTypes.add(new NameValuePair("{Trench_Files}", "Trench Files"));
+entityTypes.add(new NameValuePair("{Context}", "Context"));
+entityTypes.add(new NameValuePair("{Context_Group}", "Context Group"));
+entityTypes.add(new NameValuePair("{Matrix}", "Matrix"));
 entityTypes.add(new NameValuePair("{Photograph_Log}", "Photograph Log"));
 entityTypes.add(new NameValuePair("{Diary}", "Diary"));
 entityTypes.add(new NameValuePair("{FCN}", "FCN"));
+entityTypes.add(new NameValuePair("{Soil_Munsel_Color}", "Soil Munsel Color"));
+entityTypes.add(new NameValuePair("{Legacy}", "Legacy"));
 populateDropDown("Control/Search/Entity_Types", entityTypes);
 
-clearSearch(){
+void clearSearch(){
   setFieldValue("Control/Search/Search_Term","");
 }
 
-search(){
-  String tabgroup = "Control";
-  String refEntityList  = tabgroup + "/Search/Entity_List";
-  String refSearchTerm  = tabgroup + "/Search/Search_Term";
-  String refEntityTypes = tabgroup + "/Search/Entity_Types";
+void search(){
+  String refEntityList  = "Control/Search/Entity_List";
+  String refSearchTerm  = "Control/Search/Search_Term";
+  String refEntityTypes = "Control/Search/Entity_Types";
 
   String type = getFieldValue(refEntityTypes);
   String term = getFieldValue(refSearchTerm);
@@ -1786,70 +3227,193 @@ search(){
                        "OFFSET ? ";
 
   populateCursorList(refEntityList, searchQuery, 25);
-  refreshTabgroupCSS(tabgroup);
+  refreshTabgroupCSS("Control");
 
   Log.d("Module", "Search query: " + searchQuery);
 }
 
+void loadSiteFrom(String uuid) {
+  String tabgroup = "Site";
+  setUuid(tabgroup, uuid);
+  if (isNull(uuid)) return;
 
-loadContextGroupFrom(String uuid) {
+  FetchCallback cb = new FetchCallback() {
+    onFetch(result) {
+      populateEntityListsInTabGroup(tabgroup);
+      onFetchSite__();
+    }
+  };
+
+  onPrefetchSite__();
+  showTabGroup(tabgroup, uuid, cb);
+}
+void loadTrenchFrom(String uuid) {
+  String tabgroup = "Trench";
+  setUuid(tabgroup, uuid);
+  if (isNull(uuid)) return;
+
+  FetchCallback cb = new FetchCallback() {
+    onFetch(result) {
+      populateEntityListsInTabGroup(tabgroup);
+      onFetchTrench__();
+    }
+  };
+
+  onPrefetchTrench__();
+  showTabGroup(tabgroup, uuid, cb);
+}
+void loadTrenchFilesFrom(String uuid) {
+  String tabgroup = "Trench_Files";
+  setUuid(tabgroup, uuid);
+  if (isNull(uuid)) return;
+
+  FetchCallback cb = new FetchCallback() {
+    onFetch(result) {
+      populateEntityListsInTabGroup(tabgroup);
+      onFetchTrenchFiles__();
+    }
+  };
+
+  onPrefetchTrenchFiles__();
+  showTabGroup(tabgroup, uuid, cb);
+}
+void loadContextFrom(String uuid) {
+  String tabgroup = "Context";
+  setUuid(tabgroup, uuid);
+  if (isNull(uuid)) return;
+
+  FetchCallback cb = new FetchCallback() {
+    onFetch(result) {
+      populateEntityListsInTabGroup(tabgroup);
+      onFetchContext__();
+    }
+  };
+
+  onPrefetchContext__();
+  showTabGroup(tabgroup, uuid, cb);
+}
+void loadContextGroupFrom(String uuid) {
   String tabgroup = "Context_Group";
   setUuid(tabgroup, uuid);
   if (isNull(uuid)) return;
 
-  showTabGroup(tabgroup, uuid);
-}
+  FetchCallback cb = new FetchCallback() {
+    onFetch(result) {
+      populateEntityListsInTabGroup(tabgroup);
+      onFetchContextGroup__();
+    }
+  };
 
-loadMatrixFrom(String uuid) {
+  onPrefetchContextGroup__();
+  showTabGroup(tabgroup, uuid, cb);
+}
+void loadMatrixFrom(String uuid) {
   String tabgroup = "Matrix";
   setUuid(tabgroup, uuid);
   if (isNull(uuid)) return;
 
-  showTabGroup(tabgroup, uuid);
+  FetchCallback cb = new FetchCallback() {
+    onFetch(result) {
+      populateEntityListsInTabGroup(tabgroup);
+      onFetchMatrix__();
+    }
+  };
+
+  onPrefetchMatrix__();
+  showTabGroup(tabgroup, uuid, cb);
 }
-
-loadHeightFrom(String uuid) {
-  String tabgroup = "Height";
-  setUuid(tabgroup, uuid);
-  if (isNull(uuid)) return;
-
-  showTabGroup(tabgroup, uuid);
-}
-
-loadPhotographLogFrom(String uuid) {
+void loadPhotographLogFrom(String uuid) {
   String tabgroup = "Photograph_Log";
   setUuid(tabgroup, uuid);
   if (isNull(uuid)) return;
 
-  showTabGroup(tabgroup, uuid);
-}
+  FetchCallback cb = new FetchCallback() {
+    onFetch(result) {
+      populateEntityListsInTabGroup(tabgroup);
+      onFetchPhotographLog__();
+    }
+  };
 
-loadDiaryFrom(String uuid) {
+  onPrefetchPhotographLog__();
+  showTabGroup(tabgroup, uuid, cb);
+}
+void loadDiaryFrom(String uuid) {
   String tabgroup = "Diary";
   setUuid(tabgroup, uuid);
   if (isNull(uuid)) return;
 
-  showTabGroup(tabgroup, uuid);
-}
+  FetchCallback cb = new FetchCallback() {
+    onFetch(result) {
+      populateEntityListsInTabGroup(tabgroup);
+      onFetchDiary__();
+    }
+  };
 
-loadFCNFrom(String uuid) {
+  onPrefetchDiary__();
+  showTabGroup(tabgroup, uuid, cb);
+}
+void loadFCNFrom(String uuid) {
   String tabgroup = "FCN";
   setUuid(tabgroup, uuid);
   if (isNull(uuid)) return;
 
-  showTabGroup(tabgroup, uuid);
-}
+  FetchCallback cb = new FetchCallback() {
+    onFetch(result) {
+      populateEntityListsInTabGroup(tabgroup);
+      onFetchFCN__();
+    }
+  };
 
+  onPrefetchFCN__();
+  showTabGroup(tabgroup, uuid, cb);
+}
+void loadSoilMunselColorFrom(String uuid) {
+  String tabgroup = "Soil_Munsel_Color";
+  setUuid(tabgroup, uuid);
+  if (isNull(uuid)) return;
+
+  FetchCallback cb = new FetchCallback() {
+    onFetch(result) {
+      populateEntityListsInTabGroup(tabgroup);
+      onFetchSoilMunselColor__();
+    }
+  };
+
+  onPrefetchSoilMunselColor__();
+  showTabGroup(tabgroup, uuid, cb);
+}
+void loadLegacyFrom(String uuid) {
+  String tabgroup = "Legacy";
+  setUuid(tabgroup, uuid);
+  if (isNull(uuid)) return;
+
+  FetchCallback cb = new FetchCallback() {
+    onFetch(result) {
+      populateEntityListsInTabGroup(tabgroup);
+      onFetchLegacy__();
+    }
+  };
+
+  onPrefetchLegacy__();
+  showTabGroup(tabgroup, uuid, cb);
+}
 
 /******************************************************************************/
 /*                          TAKE FROM GPS BUTTON(S)                           */
 /******************************************************************************/
-addOnEvent("FCN/General/Take_From_GPS", "click", "takePoint(\"FCN\")");
+addOnEvent("Trench/Trench/Take_From_GPS_1", "click", "takePoint(\"Trench\")");
+addOnEvent("FCN/General/Take_From_GPS_1", "click", "takePoint(\"FCN\")");
+
+Map getTakeFromGpsMappings() {
+  Map tabgroupToTabRef = new HashMap();
+  tabgroupToTabRef.put("Trench", "Trench/Trench");
+tabgroupToTabRef.put("FCN", "FCN/General");
+  return tabgroupToTabRef;
+}
 
 /* Takes the current point using gps. */
-takePoint(String tabgroup) {
-  Map tabgroupToTabRef = new HashMap();
-  tabgroupToTabRef.put("FCN", "FCN/General/");
+void takePoint(String tabgroup) {
+  Map tabgroupToTabRef = getTakeFromGpsMappings();
 
   String archEntType = tabgroup.replaceAll("_", " ");
   String currentUuid = getUuid(tabgroup);
@@ -1858,8 +3422,10 @@ takePoint(String tabgroup) {
     return;
   }
 
-  Object position = getGPSPosition();
-  if (position == null) {
+  boolean isInternalGPSOff = !isInternalGPSOn();
+  boolean isExternalGPSOff = !isExternalGPSOn();
+  Object  position = getGPSPosition();
+  if (position == null || isInternalGPSOff && isExternalGPSOff) {
     showToast("{GPS_Not_Initialised}");
     return;
   }
@@ -1874,8 +3440,8 @@ takePoint(String tabgroup) {
   ArrayList geolist = new ArrayList();
   geolist.add(samplePoint);
 
-  String accuracy = "Accuracy: " + getGPSEstimatedAccuracy();
-  setFieldAnnotation(tabgroupToTabRef.get(tabgroup) + "Latitude", accuracy);
+  String accuracy = "" + getGPSEstimatedAccuracy();
+  setFieldValue(tabgroupToTabRef.get(tabgroup) + "/Accuracy", accuracy);
 
   saveArchEnt(currentUuid, archEntType, geolist, null, new SaveCallback() {
     onSave(uuid, newRecord) {
@@ -1886,10 +3452,8 @@ takePoint(String tabgroup) {
 }
 
 /* Sets the value of GPS views for the given tab path. */
-fillInGPS(String tabgroup) {
-  Map tabgroupToTabRef = new HashMap();
-  tabgroupToTabRef.put("FCN", "FCN/General/");
-
+void fillInGPS(String tabgroup) {
+  Map tabgroupToTabRef = getTakeFromGpsMappings();
   String currentUuid = getUuid(tabgroup);
   if (isNull(currentUuid)) {
     return;
@@ -1905,13 +3469,89 @@ fillInGPS(String tabgroup) {
   fetchOne(query, new FetchCallback() {
     onFetch(result) {
       print("[fillInGPS()] Fetched DB transformed geometry: " + result);
-      setFieldValue(tabgroupToTabRef.get(tabgroup) + "Longitude" , result.get(0));
-      setFieldValue(tabgroupToTabRef.get(tabgroup) + "Latitude"  , result.get(1));
-      setFieldValue(tabgroupToTabRef.get(tabgroup) + "Easting"   , result.get(2));
-      setFieldValue(tabgroupToTabRef.get(tabgroup) + "Northing"  , result.get(3));
+      setFieldValue(tabgroupToTabRef.get(tabgroup) + "/Longitude" , result.get(0));
+      setFieldValue(tabgroupToTabRef.get(tabgroup) + "/Latitude"  , result.get(1));
+      setFieldValue(tabgroupToTabRef.get(tabgroup) + "/Easting"   , result.get(2));
+      setFieldValue(tabgroupToTabRef.get(tabgroup) + "/Northing"  , result.get(3));
     }
   });
 }
+
+void clearGpsInTabGroup(String tabgroup) {
+  Map tabgroupToTabRef = getTakeFromGpsMappings();
+
+  String tabRef = tabgroupToTabRef.get(tabgroup);
+  if (isNull(tabRef)) return;
+
+  clearGpsInTab(tabRef);
+}
+
+void clearGpsInTab(String tabRef) {
+  setFieldValue(tabRef + "/Accuracy"  , "");
+  setFieldValue(tabRef + "/Latitude"  , "");
+  setFieldValue(tabRef + "/Longitude" , "");
+  setFieldValue(tabRef + "/Easting"   , "");
+  setFieldValue(tabRef + "/Northing"  , "");
+}
+
+/*************** LOADING AND CREATION OF RECORDS FROM QR CODES ****************/
+void bindQrScanning(String refButton, String refField) {
+  String event = "click";
+
+  String stmt = fun2str("scanRecordFromQrCode", refField);
+
+  addOnEvent(refButton, event, stmt);
+}
+
+void scanRecordFromQrCode(String ref) {
+  String callback = fun2str("loadOrCreateEntityFromScannedAttrib", ref);
+  scanCode(callback);
+}
+
+void loadOrCreateEntityFromScannedAttrib(String ref) {
+  String attribName = getAttributeName(ref);
+  String attribVal  = getLastScanContents();
+
+  String q = "";
+  q += "SELECT uuid ";
+  q += "  FROM latestnondeletedaentvalue ";
+  q += "  JOIN latestnondeletedarchent USING (uuid) ";
+  q += "  JOIN attributekey            USING (attributeid) ";
+  q += " WHERE attributename = '{attribName}' ";
+  q += "   AND measure       = '{attribVal}' ";
+  q  = replaceFirst(q, "{attribName}", attribName);
+  q  = replaceFirst(q, "{attribVal}",  attribVal );
+
+  FetchCallback loadOrCreateEntity = new FetchCallback() {
+    onFetch(result) {
+      if (isNull(result) || result.size() == 0) {
+        createRecordFromScannedAttrib(ref);
+      } else {
+        String uuid = result.get(0).get(0);
+        loadEntityFrom(uuid);
+      }
+    }
+  };
+
+  fetchAll(q, loadOrCreateEntity);
+}
+
+void initScannedAttrib(String ref) {
+  String oldCode = getFieldValue(ref);
+  String newCode = getLastScanContents();
+
+  if (isNull(oldCode))
+    setFieldValue(ref, newCode);
+}
+
+void createRecordFromScannedAttrib(String ref) {
+  String tabGroup = getTabGroupRef(ref);
+  newRecord(tabGroup);
+
+  initScannedAttrib(ref);
+}
+
+
 
 /******************************************************************************/
 /*                       AUTONUMBERING HELPER FUNCTIONS                       */
@@ -1922,7 +3562,7 @@ fillInGPS(String tabgroup) {
  *
  * Returns the value the field was updated to.
  */
-incField(String ref, Integer defaultVal) {
+Integer incField(String ref, Integer defaultVal) {
   String val = getFieldValue(ref);
 
   if (isNull(val)) {
@@ -1940,47 +3580,57 @@ incField(String ref, Integer defaultVal) {
 /* Increments the field at `ref` or returns null if it does not contain a
  * number.
  */
-incField(String ref) {
+Integer incField(String ref) {
   return incField(ref, 1);
 }
 
-addOnEvent("Control", "show", "onShowAutonum()");
-
-/* This function should only be called once since it creates event handlers,
- * otherwise multiple copies of the same handler will trigger with the event.
- */
-onShowAutonum() {
+List getStartingIdPaths() {
   List l = new ArrayList();
-  l.add("Control/Contexts/Next_Context_AreaCode");
-  l.add("Control/Contexts/Next_Context_Context_ID");
-  l.add("Control/Contexts/Next_Context_Group_ID");
-  l.add("Control/Contexts/Next_FCN_ID");
-
-
-  for (ref : l) {
-    loadStartingId(ref);
-  }
-  for (ref : l) {
-    onFocus(ref, null,  "insertIntoLocalSettings(\"" + ref + "\", getFieldValue(\"" + ref + "\"));");
-  }
+  l.add("Control/Contexts/Next_Trench_AreaCode");
+l.add("Control/Contexts/Next_Context_Context_ID");
+l.add("Control/Contexts/Next_Context_Group_ID");
+l.add("Control/Contexts/Next_FCN_ID");
+  return l;
 }
 
-loadStartingId(String ref) {
+void loadStartingId(String ref) {
+  // If there's already a value in the field, we don't need to load one.
+  String val = getFieldValue(ref);
+  if (!isNull(val)) {
+    return;
+  }
+
+  // Load a value into the field. Set it to 1 if no value has been previously
+  // saved.
   String idQ = "SELECT value FROM localSettings WHERE key = '" + ref + "';";
   fetchOne(idQ, new FetchCallback() {
     onFetch(result) {
-      if (!isNull(result)) {
-        setFieldValue(ref, result.get(0));
-      } else {
-        setFieldValue(ref, "1");
-      }
+      if (isNull(result)) setFieldValue(ref, "1"          );
+      else                setFieldValue(ref, result.get(0));
     }
   });
 }
 
-incAutoNum(String destPath) {
+loadStartingIds() {
+  List l = getStartingIdPaths();
+
+  for (ref : l) {
+    loadStartingId(ref);
+  }
+}
+
+addOnEvent("Control/Contexts", "show", "loadStartingIds()");
+
+/*
+ * Sets bindings to save autonum'd fields whenever they're blurred.
+ */
+for (ref : getStartingIdPaths()) {
+  onFocus(ref, null, "insertIntoLocalSettings(\"" + ref + "\", getFieldValue(\"" + ref + "\"));");
+}
+
+void incAutoNum(String destPath) {
   Map destToSource = new HashMap();
-  destToSource.put("Context/General/Context_AreaCode", "Control/Contexts/Next_Context_AreaCode");
+  destToSource.put("Trench/Trench/Trench_AreaCode", "Control/Contexts/Next_Trench_AreaCode");
   destToSource.put("Context/General/Context_Context_ID", "Control/Contexts/Next_Context_Context_ID");
   destToSource.put("Context_Group/Gen/Context_Group_ID", "Control/Contexts/Next_Context_Group_ID");
   destToSource.put("FCN/General/FCN_ID", "Control/Contexts/Next_FCN_ID");
@@ -2003,7 +3653,7 @@ incAutoNum(String destPath) {
  * `relType`    the name of the relationship the children are to be in with the
  *              entity denoted by `parentUuid`.
  */
-populateMenuWithEntities (
+void populateMenuWithEntities (
   String viewType,
   String path,
   String parentUuid,
@@ -2017,7 +3667,7 @@ populateMenuWithEntities (
     " WHERE relationshipid IN (SELECT relationshipid  " +
     "                            FROM latestnondeletedrelationship JOIN relntype USING (relntypeid) " +
     "                           WHERE relntypename = '"+relType+"') " +
-    "   AND parentuuid = " + parentUuid + " " +
+    "   AND parentuuid = '" + parentUuid + "' " +
     "   AND (childaenttypename = '"+entType+"' OR '"+entType+"' = '') " +
     " ORDER BY createdat DESC ";
 
@@ -2056,48 +3706,46 @@ populateMenuWithEntities (
   }
 }
 
-menus = new ArrayList();
-menus.add(new String[] {
-  "List",
-  "Context/FCN/List_of_Related_FCNs",
-  "getUuid(\"Context\")",
-  "FCN",
-  ""
-});
-menus.add(new String[] {
-  "List",
-  "Context/Measure/Height_List",
-  "getUuid(\"Context\")",
-  "Height",
-  "Context - Height",
-});
-menus.add(new String[] {
-  "DropDown",
-  "Context/Deposit/Associated_Matrices",
-  "getUuid(\"Context\")",
-  "Matrix",
-  "Context - Matrix",
-});
-menus.add(new String[] {
-  "DropDown",
-  "Context/Add/Select_a_Photograph_Log",
-  "getUuid(\"Context\")",
-  "Photograph Log",
-  "Context - Photograph Log",
-});
-menus.add(new String[] {
-  "DropDown",
-  "Context_Group/Add/Select_a_Photograph_Log",
-  "getUuid(\"Context_Group\")",
-  "Photograph Log",
-  "Context Group - Photograph Log",
-});
-for (m : menus) {
-  String viewType       = m[0];
-  String path           = m[1];
-  String parentUuidCall = m[2];
-  String entType        = m[3];
-  String relType        = m[4];
+void populateEntityListsInTabGroup(String tabGroup) {
+  if (isNull(tabGroup)) {
+    return;
+  }
+
+  for (m : ENTITY_MENUS) {
+    String path         = m[1];
+    String menuTabGroup = getTabGroupRef(path);
+    String functionCall = getEntityMenuPopulationFunction(m);
+
+    if (menuTabGroup.equals(tabGroup))
+      execute(functionCall);
+  }
+}
+
+/* Populates each list containing records whose archent type is the same as that
+ * of `tabGroup`.
+ */
+void populateEntityListsOfArchEnt(String tabGroup) {
+  if (isNull(tabGroup)) {
+    return;
+  }
+
+  String archEntTypeToPopulate = getArchEntType(tabGroup);
+
+  for (m : ENTITY_MENUS) {
+    String archEntType  = m[3];
+    String functionCall = getEntityMenuPopulationFunction(m);
+
+    if (archEntType.equals(archEntTypeToPopulate))
+      execute(functionCall);
+  }
+}
+
+String getEntityMenuPopulationFunction(String[] menuDescriptor) {
+  String viewType       = menuDescriptor[0];
+  String path           = menuDescriptor[1];
+  String parentUuidCall = menuDescriptor[2];
+  String entType        = menuDescriptor[3];
+  String relType        = menuDescriptor[4];
 
   String functionCall = "";
   functionCall += "populateMenuWithEntities(";
@@ -2112,37 +3760,75 @@ for (m : menus) {
   functionCall += "\"" + relType        + "\"";
   functionCall += ")";
 
-  addOnEvent(path, "show", functionCall);
+  return functionCall;
 }
-addOnEvent("Context/Measure/Height_List", "click", "loadEntity()");
+
+ENTITY_MENUS = new ArrayList();
+ENTITY_MENUS.add(new String[] {
+    "List",
+    "Control/Contexts/Sites",
+    "getUuid(\"Control\")",
+    "Site",
+    ""
+});
+ENTITY_MENUS.add(new String[] {
+    "DropDown",
+    "Context/Deposit/Munsel_Colors",
+    "getUuid(\"Context\")",
+    "Soil Munsel Color",
+    "Context - Soil Munsel Color"
+});
+ENTITY_MENUS.add(new String[] {
+    "DropDown",
+    "Context/Deposit/Associated_Matrices",
+    "getUuid(\"Context\")",
+    "Matrix",
+    "Context - Matrix"
+});
+ENTITY_MENUS.add(new String[] {
+    "List",
+    "Context/FCN/List_of_Related_FCNs",
+    "getUuid(\"Context\")",
+    "FCN",
+    "Context - FCN"
+});
+ENTITY_MENUS.add(new String[] {
+    "DropDown",
+    "Context/Add/Select_a_Photograph_Log",
+    "getUuid(\"Context\")",
+    "Photograph Log",
+    "Context - Photograph Log"
+});
+ENTITY_MENUS.add(new String[] {
+    "DropDown",
+    "Context_Group/Add/Select_a_Photograph_Log",
+    "getUuid(\"Context_Group\")",
+    "Photograph Log",
+    "Context Group - Photograph Log"
+});
+for (m : ENTITY_MENUS) {
+  String path         = m[1];
+  String functionCall = getEntityMenuPopulationFunction(m);
+
+  execute(functionCall);
+}
+
+addOnEvent("Control/Contexts/Sites", "click", "loadEntity()");
+addOnEvent("Context/Deposit/Munsel_Colors", "click", "loadEntity(true)");
 addOnEvent("Context/Deposit/Associated_Matrices", "click", "loadEntity(true)");
 addOnEvent("Context/FCN/List_of_Related_FCNs", "click", "loadEntity()");
 addOnEvent("Context/Add/Select_a_Photograph_Log", "click", "loadEntity(true)");
 addOnEvent("Context_Group/Add/Select_a_Photograph_Log", "click", "loadEntity(true)");
-
 /******************************************************************************/
 /*                             HANDWRITTEN LOGIC                              */
 /******************************************************************************/
 
-/***************************** UTILITY FUNCTIONS ******************************/
-
-// Regex-free string replacement function
-replaceFirst(haystack, needle, replacement) {
-  i = haystack.indexOf(needle);
-  if (i == -1)           return haystack;
-  if (needle.equals("")) return haystack;
-  pre  = haystack.substring(0, i                                   );
-  post = haystack.substring(   i+needle.length(), haystack.length());
-  return pre + replacement + post;
-}
 /*********************************** SHARED ***********************************/
-/* Shared functions which are not general enough to be placed in utils.bsh.   */
-/******************************************************************************/
 String WEB_REL_NONE = "<i>None</i>";
 
 contextIdentifer = "";
 
-populateSquare(ref) {
+void populateSquare(String ref) {
   String q = "";
   q += " SELECT DISTINCT measure, measure";
   q += " FROM            latestnondeletedaentvalue";
@@ -2160,7 +3846,7 @@ populateSquare(ref) {
   fetchAll(q, populate);
 }
 
-setFieldToIdentifier(String identiferType, String lotRef) {
+void setFieldToIdentifier(String identiferType, String lotRef) {
   String uuid = getUuid(identiferType);
 
   if (isNull(uuid)) {
@@ -2185,7 +3871,7 @@ setFieldToIdentifier(String identiferType, String lotRef) {
   fetchOne(q, cb);
 }
 
-populateLotLabel(lotRef) {
+void populateLotLabel(String lotRef) {
   identiferType = "Context";
   setFieldToIdentifier(identiferType, lotRef);
 }
@@ -2211,20 +3897,20 @@ String proposedChildIdentifier = null;
 
 String displayedTabGroup     = null;
 
-onDisplayParent()         {displayedTabGroup = "Context";}
-onDisplayRelationship()   {displayedTabGroup = "Relationship";}
-isDisplayedParent()       {return displayedTabGroup.equals("Context");}
-isDisplayedRelationship() {return displayedTabGroup.equals("Relationship");}
+void onDisplayParent()            {displayedTabGroup = "Context";}
+void onDisplayRelationship()      {displayedTabGroup = "Relationship";}
+boolean isDisplayedParent()       {return displayedTabGroup.equals("Context");}
+boolean isDisplayedRelationship() {return displayedTabGroup.equals("Relationship");}
 
-CGonDisplayParent()         {displayedTabGroup = "Context_Group";}
-CGonDisplayRelationship()   {displayedTabGroup = "Context_Group_Relationship";}
-CGisDisplayedParent()       {return displayedTabGroup.equals("Context_Group");}
-CGisDisplayedRelationship() {return displayedTabGroup.equals("Context_Group_Relationship");}
+void CGonDisplayParent()            {displayedTabGroup = "Context_Group";}
+void CGonDisplayRelationship()      {displayedTabGroup = "Context_Group_Relationship";}
+boolean CGisDisplayedParent()       {return displayedTabGroup.equals("Context_Group");}
+boolean CGisDisplayedRelationship() {return displayedTabGroup.equals("Context_Group_Relationship");}
 
 // Depends on the following globals:
 //   - selectedRelId
 //   - userid        (Defined by autogen)
-deleteRelationship() {
+void deleteRelationship() {
   if (isNull(selectedRelId)) {
     showToast("No relationship selected");
     return;
@@ -2249,7 +3935,7 @@ deleteRelationship() {
   selectedRelIdentifier = null;
 }
 
-deleteRelationshipSuceeded() {
+void deleteRelationshipSuceeded() {
   String refSelectedRelRel    = "Relationship/Relationships/Selected_Relationship";
   String refSelectedRelParent = "Context/Relationships/Selected_Relationship";
   if (isDisplayedParent()) {
@@ -2273,7 +3959,7 @@ deleteRelationshipSuceeded() {
   }
 }
 
-getSelectedRelationshipComponent(String ref, String component) {
+String getSelectedRelationshipComponent(String ref, String component) {
   String   val       = getFieldValue(ref);
   String[] arguments = null;
   if (val == null)
@@ -2292,7 +3978,7 @@ getSelectedRelationshipComponent(String ref, String component) {
   else                                 return null;
 }
 
-loadRelatedEntity() {
+void loadRelatedEntity() {
   if (isNull(selectedChildUuid)) {
     showToast("No relationship selected");
     return;
@@ -2300,15 +3986,12 @@ loadRelatedEntity() {
   loadEntityFrom(selectedChildUuid);
 }
 
-/****************************** VOCAB POPULATION ******************************/
-makeVocab("DropDown", "User/User_List/Device_Code", "Device Code");
-makeVocab("DropDown", "Control/Contexts/Trench_Dimensions", "Trench Dimensions");
 /**************************** USER TAB VALIDATION *****************************/
 /* The autogen defines its own `onClickUserLogin` function. This is           */
 /* overridden using @POSTPROC.                                                */
 /******************************************************************************/
 
-onClickUserLogin () {
+void onClickUserLogin () {
   String refUsers      = userMenuPath; // Defined by autogen
   String refDeviceCode = "User/User_List/Device_Code";
 
@@ -2324,265 +4007,16 @@ onClickUserLogin () {
   newTab("Control", true);
 }
 
-noUsersSelected() {
+void noUsersSelected() {
   String msgHead = "No User selected";
   String msgBody = "A User must be selected in order to log in.";
   showWarning(msgHead, msgBody);
 }
 
-noDeviceCodeSelected() {
+void noDeviceCodeSelected() {
   msgHead = "No {Device_Code} Selected";
   msgBody = "A {Device_Code} must be selected in order to log in.";
   showWarning(msgHead, msgBody);
-}
-/***************************** FIELD INHERITANCE ******************************/
-/* Linked using @POSTPROC.                                                    */
-/******************************************************************************/
-String moduleYear     = new java.text.SimpleDateFormat("yy").format(new Date());
-String moduleSiteCode = "BK" + moduleYear;
-
-// Overrides autogenerator's definition
-incField(String ref, Integer defaultVal) {
-  String val = getFieldValue(ref);
-
-  if (isNull(val)) {
-    setFieldValue(ref, defaultVal);
-    return defaultVal;
-  }
-
-  Integer inc = Integer.parseInt(val);
-  if (!ref.equals("Control/Contexts/Next_Context_AreaCode"))
-    inc += 1;
-  setFieldValue(ref, inc);
-  insertIntoLocalSettings(ref, inc.toString());
-
-  return inc;
-}
-
-copyFieldValue(src, dst) {
-  Boolean doFindVocabId = true;
-  copyFieldValue(src, dst, doFindVocabId);
-}
-
-copyFieldValue(src, dst, doFindVocabId) {
-  String vocabIdSrc  = getFieldValue(src);
-
-  String attrNameSrc = src.split("\\/")[2];
-  String attrNameDst = dst.split("\\/")[2];
-
-  attrNameSrc = attrNameSrc.replaceAll("_", " ");
-  attrNameDst = attrNameDst.replaceAll("_", " ");
-
-  if (attrNameSrc.equals(attrNameDst) || !doFindVocabId) {
-    setFieldValue(dst, vocabIdSrc);
-    return;
-  }
-
-  String q = "";
-  q += "    SELECT vocabid";
-  q += "      FROM vocabulary";
-  q += " LEFT JOIN attributekey";
-  q += "     USING (attributeid)";
-  q += "     WHERE attributename = '{attrNameDst}'";
-  q += "       AND vocabname";
-  q += "        IN (";
-  q += "                 SELECT vocabname";
-  q += "                   FROM vocabulary";
-  q += "              LEFT JOIN attributekey";
-  q += "                  USING (attributeid)";
-  q += "                  WHERE attributename = '{attrNameSrc}'";
-  q += "                    AND vocabid       = '{vocabIdSrc}'";
-  q += "           )";
-  q  = replaceFirst(q, "{vocabIdSrc}",  vocabIdSrc );
-  q  = replaceFirst(q, "{attrNameSrc}", attrNameSrc);
-  q  = replaceFirst(q, "{attrNameDst}", attrNameDst);
-
-
-  FetchCallback populate = new FetchCallback() {
-    onFetch(result) {
-      String vocabIdDst = result.get(0);
-      showWarning(vocabIdDst, q);
-      showWarning(dst, vocabIdDst);
-      setFieldValue(dst, vocabIdDst);
-    }
-  };
-
-  fetchOne(q, populate);
-}
-
-inheritContextFields() {
-  copyFieldValue(
-    "Control/Contexts/Team_Members",
-    "Context/General/Team_Members"
-  );
-
-  copyFieldValue(
-    "Control/Contexts/Trench_Dimensions",
-    "Context/General/Trench_Dimensions"
-  );
-
-  copyFieldValue(
-    "Control/Contexts/Trench_Dimensions",
-    "Context/General/Trench_Dimensions"
-  );
-
-  copyFieldValue(
-    "User/User_List/Device_Code",
-    "Context/Vars/Device_Code"
-  );
-
-  setFieldValue(
-    "Context/Vars/Site_Code",
-    moduleSiteCode
-  );
-}
-
-inheritContextGroupFields() {
-  //BEWARE! Weird formatting!
-  if (parentTabgroup__.equals("Context"))
-  copyFieldValue(
-    "Context/General/Context_AreaCode",
-    "Context_Group/Gen/Context_Group_AreaCode",
-    false
-  );
-
-  copyFieldValue(
-    "User/User_List/Device_Code",
-    "Context_Group/Vars/Device_Code"
-  );
-
-  setFieldValue(
-    "Context_Group/Vars/Site_Code",
-    moduleSiteCode
-  );
-}
-
-inheritMatrixFields() {
-  copyFieldValue(
-    "Context/General/Context_AreaCode",
-    "Matrix/Vars/AreaCode",
-    false
-  );
-
-  copyFieldValue(
-    "Context/General/Context_Context_ID",
-    "Matrix/Vars/Context_ID",
-    false
-  );
-}
-
-inheritHeightFields() {
-  copyFieldValue(
-    "Context/General/Context_AreaCode",
-    "Height/Vars/AreaCode",
-    false
-  );
-
-  copyFieldValue(
-    "Context/General/Context_Context_ID",
-    "Height/Height/Height_Context_ID",
-    false
-  );
-}
-
-inheritSampleFields() {
-  copyFieldValue(
-    "Context/General/Context_AreaCode",
-    "Sample/Vars/AreaCode",
-    false
-  );
-
-  copyFieldValue(
-    "Context/General/Context_Context_ID",
-    "Sample/Deposit_Samples/Context_ID",
-    false
-  );
-
-  copyFieldValue(
-    "User/User_List/Device_Code",
-    "Sample/Vars/Device_Code"
-  );
-
-  setFieldValue(
-    "Sample/Vars/Site_Code",
-    moduleSiteCode
-  );
-}
-
-inheritSpecialFindFields() {
-  copyFieldValue(
-    "Context/General/Context_Context_ID",
-    "Special_Find/Special_Find/Context_ID",
-    false
-  );
-
-  copyFieldValue(
-    "Context/General/Context_AreaCode",
-    "Special_Find/Vars/AreaCode",
-    false
-  );
-
-  copyFieldValue(
-    "User/User_List/Device_Code",
-    "Special_Find/Vars/Device_Code"
-  );
-
-  setFieldValue(
-    "Special_Find/Vars/Site_Code",
-    moduleSiteCode
-  );
-}
-
-inheritPhotographLogFields() {
-  //BEWARE! Weird formatting!
-  if (parentTabgroup__.equals("Context"))
-  copyFieldValue(
-    "Context/General/Context_Context_ID",
-    "Photograph_Log/Photograph_Log/Photo_Context_ID",
-    false
-  );
-
-  //BEWARE! Weird formatting!
-  if (parentTabgroup__.equals("Context_Group"))
-  copyFieldValue(
-    "Context_Group/Gen/Context_Group_ID",
-    "Photograph_Log/Photograph_Log/Photo_Context_Group_ID",
-    false
-  );
-
-  copyFieldValue(
-    "Context/General/Context_AreaCode",
-    "Photograph_Log/Vars/AreaCode",
-    false
-  );
-
-  copyFieldValue(
-    "User/User_List/Device_Code",
-    "Photograph_Log/Vars/Device_Code"
-  );
-
-  setFieldValue(
-    "Photograph_Log/Vars/Site_Code",
-    moduleSiteCode
-  );
-}
-
-// Don't delete me. This simplifies the code in @POSTPROC.
-inheritDiaryFields() {
-  return;
-}
-
-inheritFCNFields() {
-  copyFieldValue(
-    "Context/General/Context_Context_ID",
-    "FCN/General/Context_ID",
-    false
-  );
-  copyFieldValue(
-    "Context/General/Context_AreaCode",
-    "FCN/General/AreaCode",
-    false
-  );
 }
 /******************************* RELATIONSHIPS ********************************/
 /* Context-to-Context relationships.                                          */
@@ -2601,7 +4035,7 @@ addOnEvent("Context/Relationships/Delete_Relationship",                    "clic
 
 String selectedChildUuid = null;
 
-initParentRelationshipGlobals() {
+void initParentRelationshipGlobals() {
   String refSelectedRelParent = "Context/Relationships/Selected_Relationship";
 
   selectedChildUuid     = null;
@@ -2611,7 +4045,7 @@ initParentRelationshipGlobals() {
   populateWebViewHtml(refSelectedRelParent, WEB_REL_NONE);
 }
 
-populateExistingRelationships(){
+void populateExistingRelationships(){
   String tabGroup    = "Context";
   String currentUuid = getUuid(tabGroup);
   String refExistingRelationships = "Context/Relationships/Existing_Relationships_to_This_Context";
@@ -2622,7 +4056,7 @@ populateExistingRelationships(){
   refreshTabgroupCSS(tabGroup);
 }
 
-selectRelationship() {
+void selectRelationship() {
   String refSelectedRelParent = "Context/Relationships/Selected_Relationship";
 
   String val = getListItemValue();
@@ -2639,7 +4073,7 @@ selectRelationship() {
   populateWebViewHtml(refSelectedRelParent, selectedRelIdentifier);
 }
 
-loadRelatedEntity() {
+void loadRelatedEntity() {
   if (isNull(selectedChildUuid)) {
     showToast("No relationship selected");
     return;
@@ -2660,7 +4094,7 @@ addOnEvent("Relationship/Relationships/Unrelated_Contexts",     "click", "select
 String proposedChildUuid       = null;
 String proposedChildIdentifier = null;
 
-initRelationshipRelationshipGlobals() {
+void initRelationshipRelationshipGlobals() {
   proposedChildUuid       = null;
   selectedRelId           = null;
   proposedChildIdentifier = null;
@@ -2672,7 +4106,7 @@ initRelationshipRelationshipGlobals() {
   clearSearch();
 }
 
-populateRelationshipType() {
+void populateRelationshipType() {
   refRelationshipType = "Relationship/Relationships/Relationship_Type";
 
   String q = "";
@@ -2696,7 +4130,7 @@ populateRelationshipType() {
   fetchAll(q, populate);
 }
 
-populateProposedRelationship() {
+void populateProposedRelationship() {
   String refProposedRel = "Relationship/Relationships/Proposed_Relationship";
   String refRelType     = "Relationship/Relationships/Relationship_Type";
 
@@ -2720,7 +4154,7 @@ populateProposedRelationship() {
   populateWebViewHtml(refProposedRel, webviewHtml);
 }
 
-searchRelationship() {
+void searchRelationship() {
   String parentTabGroup = "Context";
   String parentUuid     = getUuid(parentTabGroup);
 
@@ -2760,7 +4194,7 @@ searchRelationship() {
   unrelatedQ += "            AND uuid IN (";
   unrelatedQ += "                 SELECT uuid";
   unrelatedQ += "                   FROM latestnondeletedaentvalue JOIN attributekey USING (attributeid) ";
-  unrelatedQ += "                  WHERE attributename = 'Context Context ID'";
+  unrelatedQ += "                  WHERE attributename IN ('Context Context ID', 'Legacy Context ID')";
   unrelatedQ += "                    AND measure = '{Context_Context_ID}')";
   unrelatedQ += "            AND uuid NOT IN (";
   unrelatedQ += "                 SELECT childuuid";
@@ -2768,6 +4202,7 @@ searchRelationship() {
   unrelatedQ += "                  WHERE parentuuid = '{parentUuid}'";
   unrelatedQ += "                    AND parentparticipatesverb = '{parentRole}')";
   unrelatedQ += "            AND uuid != '{parentUuid}')";
+  unrelatedQ += "    AND aenttypename IN ('Context', 'Legacy')";
   unrelatedQ += " ORDER BY response";
   unrelatedQ += " LIMIT ? OFFSET ?";
   unrelatedQ  = replaceFirst(unrelatedQ, "{Context_AreaCode}",   areaCode  );
@@ -2785,7 +4220,7 @@ searchRelationship() {
   populateProposedRelationship();
 }
 
-clearSearch() {
+void clearSearch() {
   String refUnrelated = "Relationship/Relationships/Unrelated_Contexts";
   String refRelated   = "Relationship/Relationships/Existing_Relationships";
 
@@ -2794,7 +4229,7 @@ clearSearch() {
   populateCursorList(refRelated,   q, 25);
 }
 
-selectUnrelatedEntity() {
+void selectUnrelatedEntity() {
   String val = getListItemValue();
   if (isNull(val)) return;
   String[] arguments = val.split(SEP); // `SEP` defined by autogen as \0
@@ -2807,7 +4242,7 @@ selectUnrelatedEntity() {
   populateProposedRelationship();
 }
 
-addRelationship() {
+void addRelationship() {
   String parentTabGroup = "Context";
   String refRelType     = "Relationship/Relationships/Relationship_Type";
 
@@ -2840,7 +4275,7 @@ addRelationship() {
   proposedChildIdentifier = null;
 }
 
-addRelationshipSucceeded() {
+void addRelationshipSucceeded() {
   String refProposedRel = "Relationship/Relationships/Proposed_Relationship";
 
   populateWebViewHtml(refProposedRel, WEB_REL_BLANK);
@@ -2848,7 +4283,7 @@ addRelationshipSucceeded() {
   searchRelationship();
 }
 
-selectExistingRelationship() {
+void selectExistingRelationship() {
   String refSelectedRelRel = "Relationship/Relationships/Selected_Relationship";
 
   String val = getListItemValue();
@@ -2864,12 +4299,12 @@ selectExistingRelationship() {
   populateWebViewHtml(refSelectedRelRel, selectedRelIdentifier);
 }
 
-populateParentIdentiferRelationships() {
+void populateParentIdentiferRelationships() {
   String lotRef = "Relationship/Relationships/Parent_Identifier";
   populateLotLabel(lotRef); // Defined in logic/shared.bsh
 }
 
-getRelatedChildQuery(String parentUuid) {
+String getRelatedChildQuery(String parentUuid) {
   // `contextIdentifer` is defined in logic/shared.bsh
   String parentIdentifier = contextIdentifer;
 
@@ -2901,7 +4336,7 @@ addOnEvent("Context_Group/Context_Group_Contexts/Load_Related_Context", "click",
 addOnEvent("Context_Group/Context_Group_Contexts/Existing_Relationships_to_This_Context_Group", "click", "CGSelectRelationship()");
 addOnEvent("Context_Group/Context_Group_Contexts/Delete_Relationship",                    "click", "deleteRelationship()");
 
-CGinitParentRelationshipGlobals() {
+void CGinitParentRelationshipGlobals() {
   String refSelectedRelParent = "Context_Group/Context_Group_Contexts/Selected_Relationship";
 
   selectedChildUuid     = null;
@@ -2911,7 +4346,7 @@ CGinitParentRelationshipGlobals() {
   populateWebViewHtml(refSelectedRelParent, WEB_REL_NONE);
 }
 
-CGpopulateExistingRelationships(){
+void CGpopulateExistingRelationships(){
   String tabGroup    = "Context_Group";
   String currentUuid = getUuid(tabGroup);
   String refExistingRelationships = "Context_Group/Context_Group_Contexts/Existing_Relationships_to_This_Context_Group";
@@ -2922,7 +4357,7 @@ CGpopulateExistingRelationships(){
   refreshTabgroupCSS(tabGroup);
 }
 
-CGSelectRelationship() {
+void CGSelectRelationship() {
   String refSelectedRelParent = "Context_Group/Context_Group_Contexts/Selected_Relationship";
 
   String val = getListItemValue();
@@ -2948,7 +4383,7 @@ addOnEvent("Context_Group_Relationship/Relationships/Search",                 "c
 addOnEvent("Context_Group_Relationship/Relationships/Search",                 "click", "CGsearchRelationship()");
 addOnEvent("Context_Group_Relationship/Relationships/Unrelated_Contexts",     "click", "CGselectUnrelatedEntity()");
 
-CGinitRelationshipRelationshipGlobals() {
+void CGinitRelationshipRelationshipGlobals() {
   proposedChildUuid       = null;
   selectedRelId           = null;
   proposedChildIdentifier = null;
@@ -2959,7 +4394,7 @@ CGinitRelationshipRelationshipGlobals() {
   CGclearSearch();
 }
 
-CGpopulateProposedRelationship() {
+void CGpopulateProposedRelationship() {
   String refProposedRel = "Context_Group_Relationship/Relationships/Proposed_Relationship";
 
   String identifierFrom;
@@ -2982,7 +4417,7 @@ CGpopulateProposedRelationship() {
   populateWebViewHtml(refProposedRel, webviewHtml);
 }
 
-CGsearchRelationship() {
+void CGsearchRelationship() {
   String parentTabGroup = "Context_Group";
   String parentUuid     = getUuid(parentTabGroup);
 
@@ -3021,7 +4456,7 @@ CGsearchRelationship() {
   unrelatedQ += "            AND uuid IN (";
   unrelatedQ += "                 SELECT uuid";
   unrelatedQ += "                   FROM latestnondeletedaentvalue JOIN attributekey USING (attributeid) ";
-  unrelatedQ += "                  WHERE attributename = 'Context Context ID'";
+  unrelatedQ += "                  WHERE attributename IN ('Context Context ID', 'Legacy Context ID')";
   unrelatedQ += "                    AND measure = '{Context_Context_ID}')";
   unrelatedQ += "            AND uuid NOT IN (";
   unrelatedQ += "                 SELECT childuuid";
@@ -3046,7 +4481,7 @@ CGsearchRelationship() {
   CGpopulateProposedRelationship();
 }
 
-CGclearSearch() {
+void CGclearSearch() {
   String refUnrelated = "Context_Group_Relationship/Relationships/Unrelated_Contexts";
   String refRelated   = "Context_Group_Relationship/Relationships/Existing_Relationships";
 
@@ -3055,7 +4490,7 @@ CGclearSearch() {
   populateCursorList(refRelated,   q, 25);
 }
 
-CGselectUnrelatedEntity() {
+void CGselectUnrelatedEntity() {
   String val = getListItemValue();
   if (isNull(val)) return;
   String[] arguments = val.split(SEP); // `SEP` defined by autogen as \0
@@ -3068,7 +4503,7 @@ CGselectUnrelatedEntity() {
   CGpopulateProposedRelationship();
 }
 
-CGaddRelationship() {
+void CGaddRelationship() {
   String parentTabGroup = "Context_Group";
 
   String relName    = "Context Group - Context";
@@ -3100,7 +4535,7 @@ CGaddRelationship() {
   proposedChildIdentifier = null;
 }
 
-CGaddRelationshipSucceeded() {
+void CGaddRelationshipSucceeded() {
   String refProposedRel = "Context_Group_Relationship/Relationships/Proposed_Relationship";
 
   populateWebViewHtml(refProposedRel, WEB_REL_BLANK);
@@ -3108,7 +4543,7 @@ CGaddRelationshipSucceeded() {
   CGsearchRelationship();
 }
 
-CGselectExistingRelationship() {
+void CGselectExistingRelationship() {
   String refSelectedRelRel = "Context_Group_Relationship/Relationships/Selected_Relationship";
 
   String val = getListItemValue();
@@ -3124,12 +4559,12 @@ CGselectExistingRelationship() {
   populateWebViewHtml(refSelectedRelRel, selectedRelIdentifier);
 }
 
-CGpopulateParentIdentiferRelationships() {
+void CGpopulateParentIdentiferRelationships() {
   String lotRef = "Context_Group_Relationship/Relationships/Parent_Identifier";
   setFieldToIdentifier("Context_Group", lotRef);
 }
 
-getCGChildQuery(String parentUuid) {
+String getCGChildQuery(String parentUuid) {
   // `contextIdentifer` is defined in logic/shared.bsh
   String parentIdentifier = contextIdentifer;
   String relntypename     = "Context Group - Context";
@@ -3146,50 +4581,6 @@ getCGChildQuery(String parentUuid) {
   relatedQ += " LIMIT ? OFFSET ? ";
   return relatedQ;
 }
-/*************************** LOCAL SETTINGS ACCESS ****************************/
-/* Loading and saving things in localSettings.                                */
-/******************************************************************************/
-addOnEvent("User/User_List/Device_Code",         "click", "saveDeviceCode()");
-addOnEvent("User/User_List/Device_Code",         "show",  "loadDeviceCode()");
-onFocus   ("Control/Contexts/Team_Members",      "",      "saveTeamMembers()");
-addOnEvent("Control/Contexts/Team_Members",      "show",  "loadTeamMembers()");
-addOnEvent("Control/Contexts/Trench_Dimensions", "click", "saveTrenchDimensions()");
-addOnEvent("Control/Contexts/Trench_Dimensions", "show",  "loadTrenchDimensions()");
-
-insertFieldValueIntoLocalSettings(String ref) {
-  String val = getFieldValue(ref);
-  insertIntoLocalSettings(ref, val);
-}
-
-saveDeviceCode() {
-  String ref = "User/User_List/Device_Code";
-  insertFieldValueIntoLocalSettings(ref);
-}
-
-loadDeviceCode() {
-  String ref = "User/User_List/Device_Code";
-  setFieldValueFromLocalSettings(ref, ref);
-}
-
-saveTeamMembers() {
-  String ref = "Control/Contexts/Team_Members";
-  insertFieldValueIntoLocalSettings(ref);
-}
-
-loadTeamMembers() {
-  String ref = "Control/Contexts/Team_Members";
-  setFieldValueFromLocalSettings(ref, ref);
-}
-
-saveTrenchDimensions() {
-  String ref = "Control/Contexts/Trench_Dimensions";
-  insertFieldValueIntoLocalSettings(ref);
-}
-
-loadTrenchDimensions() {
-  String ref = "Control/Contexts/Trench_Dimensions";
-  setFieldValueFromLocalSettings(ref, ref);
-}
 /************************ DYNAMIC UI - OPEN/CLOSE SITE ************************/
 /* There are two cases to handle:                                             */
 /*   (a) When a record is newly created.                                      */
@@ -3201,129 +4592,81 @@ loadTrenchDimensions() {
 /* by overwriting the auto-generated record loading function using @POSTPROC. */
 /******************************************************************************/
 addOnEvent("Context",                                      "show",  "openContextTabs()");
+addOnEvent("Context",                                      "fetch", "openContextTabs(true)");
 addOnEvent("Context/General/Fill_in_Context_Type_Details", "click", "openContextTabs()");
 
-openContextTabs() {
+void openContextTabs() {
   openContextTabs(false);
 }
 
-openContextTabs(Boolean showGeneralInformationTab){
-    fetchOne("SELECT vocabName FROM vocabulary WHERE vocabid = '"+getFieldValue("Context/General/Context_Type")+"';",
-        new FetchCallback() {
-          onFetch(name) {
-            if (!isNull(name)){
-                String vocab = name.get(0);
-                if (vocab.equals("{Deposit}") || vocab.equals("{Natural}")){
-                    cancelTab("Context/Cut", false);
-                    cancelTab("Context/Structure", false);
-                    cancelTab("Context/Skeleton", false);
-                    showTab("Context/Deposit");
-                } else if (vocab.equals("{Cut}")){
-                    cancelTab("Context/Deposit", false);
-                    cancelTab("Context/Structure", false);
-                    cancelTab("Context/Skeleton", false);
-                    showTab("Context/Cut");
-                } else if (vocab.equals("{Feature_Part}")){
-                    cancelTab("Context/Deposit", false);
-                    cancelTab("Context/Cut", false);
-                    cancelTab("Context/Skeleton", false);
-                    showTab("Context/Structure");
-                } else if (vocab.equals("{Skeleton}")){
-                    cancelTab("Context/Deposit", false);
-                    cancelTab("Context/Cut", false);
-                    cancelTab("Context/Structure", false);
-                    showTab("Context/Skeleton");
-                } else {
-                    cancelTab("Context/Cut", false);
-                    cancelTab("Context/Deposit", false);
-                    cancelTab("Context/Structure", false);
-                    cancelTab("Context/Skeleton", false);
-                }
-            } else {
-                cancelTab("Context/Cut", false);
-                cancelTab("Context/Deposit", false);
-                cancelTab("Context/Structure", false);
-                cancelTab("Context/Skeleton", false);
-            }
-            if(showGeneralInformationTab) {
-              showTab("Context/General");
-            }
-        }
-    });
-}
+void openContextTabs(Boolean showGeneralInformationTab){
+  String refCut = "Context/Cut";
+  String refDep = "Context/Deposit";
+  String refSke = "Context/Skeleton";
+  String refStr = "Context/Structure";
+  String refGen = "Context/General";
 
-loadContextFrom(String uuid) {
-  String tabgroup = "Context";
-  setUuid(tabgroup, uuid);
-  if (isNull(uuid)) return;
+  String refCtxtType = "Context/General/Context_Type";
+  String vocabName   = getMenuValue(refCtxtType);
 
-  FetchCallback cb = new FetchCallback() {
-    onFetch(result) {
-      openContextTabs(true);
-    }
-  };
-  showTabGroup(tabgroup, uuid, cb);
+  if (vocabName == null)
+    vocabName = "";
+
+  if (vocabName.equals("{Deposit}") || vocabName.equals("{Natural}")){
+    cancelTab(refCut, false);
+    cancelTab(refStr, false);
+    cancelTab(refSke, false);
+    showTab  (refDep);
+  } else if (vocabName.equals("{Cut}")){
+    cancelTab(refDep, false);
+    cancelTab(refStr, false);
+    cancelTab(refSke, false);
+    showTab  (refCut);
+  } else if (vocabName.equals("{Feature_Part}")){
+    cancelTab(refDep, false);
+    cancelTab(refCut, false);
+    cancelTab(refSke, false);
+    showTab  (refStr);
+  } else if (vocabName.equals("{Skeleton}")){
+    cancelTab(refDep, false);
+    cancelTab(refCut, false);
+    cancelTab(refStr, false);
+    showTab  (refSke);
+  } else {
+    cancelTab(refCut, false);
+    cancelTab(refDep, false);
+    cancelTab(refStr, false);
+    cancelTab(refSke, false);
+  }
+
+  if(showGeneralInformationTab)
+    showTab(refGen);
 }
 /************************* DYNAMIC UI - CONTEXT GROUP *************************/
-addOnEvent("Context_Group/Gen/Record_Type", "click", "updateFeatureType()");
-
-// Fetch the "Record Type" vocab and populate the `RECORD_TYPE_VOCAB` global.
-fetchRecordType() {
-  RECORD_TYPE_VOCAB = new HashMap();
-
-  attributeName = "Record Type";
-
-  q  = " SELECT    vocabid, vocabname";
-  q += " FROM      vocabulary";
-  q += " LEFT JOIN attributekey";
-  q += " USING    (attributeid)";
-  q += " WHERE     attributename = '%s'";
-  q  = replaceFirst(q, "%s", attributeName);
-
-  populateHashMap = new FetchCallback() {
-    onFetch(result) {
-      for (row : result) {
-        vocabId   = row.get(0);
-        vocabName = row.get(1);
-        RECORD_TYPE_VOCAB.put(vocabId, vocabName);
-      }
-    }
-  };
-
-  fetchAll(q, populateHashMap);
-}
-
-// The `fetchRecordType` call is required to set // `RECORD_TYPE_VOCAB` because
-// async code in Beanshell/Java is DUMBBBB.
-// Also, RECORD_TYPE_VOCAB is a HashMap: vocabId -> vocabName.
-RECORD_TYPE_VOCAB = null;
-fetchRecordType();
-
 // Prefetch this vocab seeing as it will be dynamically loaded multiple times
 // throughout the module's runtime.
 FEATURE_TYPE_VOCAB = new ArrayList();
 fetchVocab("Feature Type", FEATURE_TYPE_VOCAB);
 
-updateFeatureType() {
-  ref       = "Context_Group/Gen/Record_Type";
-  vocabId   = getFieldValue(ref);
-  vocabName = RECORD_TYPE_VOCAB.get(vocabId);
+void updateFeatureType() {
+  String ref       = "Context_Group/Gen/Record_Type";
+  String vocabName = getMenuValue(ref);
 
   if (vocabName == null            ) return;
   if (vocabName.equals("{Stratum}")) hideFeatureType();
   if (vocabName.equals("{Feature}")) showFeatureType();
 }
 
-hideFeatureType() {
-  uuid           = getUuid("Context_Group");
-  refView        = "Context_Group/Gen/Feature_Type";
-  attribName     = refToAttribName(refView);
+void hideFeatureType() {
+  String uuid           = getUuid("Context_Group");
+  String refView        = "Context_Group/Gen/Feature_Type";
+  String attribName     = getAttributeName(refView);
 
   if (!hasView(refView)) return;
 
   // Before removing the view, we get the value of the Feature Type field, which
   // is used to determine if Feature Type should be flagged as `deleted`.
-  featureTypeVal = getFieldValue(refView);
+  String featureTypeVal = getFieldValue(refView);
   removeView(refView);
 
   if (isNull(featureTypeVal)) return;
@@ -3340,17 +4683,17 @@ hideFeatureType() {
   fetchOne(q);
 }
 
-showFeatureType() {
-  refView  = "Context_Group/Gen/Feature_Type";
-  refGroup = "Context_Group/Gen/Feature_Type_Group";
+void showFeatureType() {
+  String refView  = "Context_Group/Gen/Feature_Type";
+  String refGroup = "Context_Group/Gen/Feature_Type_Group";
 
   if (hasView(refView)) return;
 
-  label      = refToLabel(refView);
-  attribName = refToAttribName(refView);
+  String label      = getArch16nVal(refView);
+  String attribName = getAttributeName(refView);
 
   // Create view
-  viewDef = createViewDef();
+  FormInputDef viewDef = createViewDef();
   viewDef.createDropDown      ();
   viewDef.setLabel            (label);
   viewDef.setAttributeName    (attribName);
@@ -3366,48 +4709,26 @@ showFeatureType() {
   populateDropDown(refView, FEATURE_TYPE_VOCAB, hasNull);
 }
 
-refToLabel(ref) {
-  String tabgroup = ref.split("/")[0];
-  String tab      = ref.split("/")[1];
-  String view     = ref.split("/")[2];
-  String label    = view.replaceAll("_", " ");
-
-  return label;
-}
-
-refToAttribName(ref) {
-  return refToLabel(ref);
-}
-
-// Overrides autogenerated definition
-loadContextGroupFrom(String uuid) {
-  String tabgroup = "Context_Group";
-  setUuid(tabgroup, uuid);
-  if (isNull(uuid)) return;
-
-  FetchCallback updateUi = new FetchCallback() {
-    onFetch(result) {
-      updateFeatureType();
-    }
-  };
-
-  showFeatureType();
-  showTabGroup(tabgroup, uuid, updateUi);
-}
+addOnEvent("Context_Group/Gen/Record_Type", "click", "updateFeatureType()");
+addOnEvent("Context_Group", "prefetch", "showFeatureType()");
+addOnEvent("Context_Group",    "fetch", "updateFeatureType()");
 /******************************* CONTEXT DATES ********************************/
 addOnEvent("Context/General/Add_Date_Closed", "click", "setContextDateClosed()");
+addOnEvent("Context", "create", "setContextDateOpened()");
 
-setTimestamp(String path) {
-  setFieldValue(path, new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss z").format(new Date()));
+void setTimestamp(String path) {
+  setFieldValue(
+      path,
+      new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss z").format(new Date())
+  );
 }
 
-// Linked using @POSTPROC
-setContextDateOpened() {
+void setContextDateOpened() {
   String ref = "Context/General/Date_Opened";
   setTimestamp(ref);
 }
 
-setContextDateClosed() {
+void setContextDateClosed() {
   String ref = "Context/General/Date_Closed";
   setTimestamp(ref);
 }
@@ -3415,18 +4736,15 @@ setContextDateClosed() {
 onEvent("Context/Soil_Texture_Helper/Update_Soil_Texture", "click", "setTextureActual()");
 
 // Overrides the original function definition using @POSTPROC.
-onClickContextSoilTextureHelper () {
+void onClickContextSoilTextureHelper () {
   showTab("Context/Soil_Texture_Helper");
 }
 
-setTextureActual(){
+void setTextureActual(){
     String soilQuery= "SELECT vocabid " +
                       "  FROM vocabulary JOIN attributekey USING (attributeid) "+
                       " WHERE attributeName = 'Soil Texture' "+
-                      "   AND vocabname = (SELECT vocabname " +
-                                          "  FROM vocabulary JOIN attributekey USING (attributeid) " +
-                                          " WHERE vocabid = '"+ getFieldValue("Context/Soil_Texture_Helper/Soil_Texture_Helper") +"' "+
-                                          "   AND attributeName = 'Soil Texture Helper'); ";
+                      "   AND vocabname = '" + getMenuValue("Context/Soil_Texture_Helper/Soil_Texture_Helper") + "' ";
     //This function makes the hierarchical soil texture selector write to the texture dropdown. We should discuss.
     Log.d("foo1", soilQuery);
 
@@ -3447,13 +4765,16 @@ setTextureActual(){
 /* Implements an extension to the search page which allows users to           */
 /* constrain their searches by user.                                          */
 /******************************************************************************/
-addOnEvent("Control/Search", "show",  "populateSelectUser()");
+delOnEvent("Control/Search", "show", "search()");
+addOnEvent("Control/Search", "show", "populateSelectUser()");
 
-populateSelectUser(){
+void populateSelectUser(){
   String refSearchUsers = "Control/Search/Select_User";
   String getNonDeletedUsersQuery = "SELECT userid, fname || ' ' || lname "+
                                    "  FROM user "+
-                                   " WHERE userdeleted is null;";
+                                   " WHERE userdeleted is null "+
+                                   " UNION " +
+                                   "SELECT -1, '{All_Users}'";
 
   fetchAll(getNonDeletedUsersQuery, new FetchCallback() {
     onFetch(result) {
@@ -3465,7 +4786,7 @@ populateSelectUser(){
 
 
 // Overrides auto-generated definition
-search(){
+void search(){
   String tabgroup = "Control";
   String refEntityList  = tabgroup + "/Search/Entity_List";
   String refSearchTerm  = tabgroup + "/Search/Search_Term";
@@ -3480,9 +4801,9 @@ search(){
                        "  FROM latestNonDeletedArchEntFormattedIdentifiers  "+
                        " WHERE uuid in (SELECT uuid "+
                        "                  FROM latestNonDeletedArchEntIdentifiers "+
-                       "                 WHERE measure LIKE '"+term+"'||'%'  "+
-                       "                   AND ( aenttypename LIKE '"+type+"' OR '' = '"+type+"' ) "+
-                       "                   AND userid = "+id+
+                       "                 WHERE measure LIKE '" + term + "'||'%'  "+
+                       "                   AND ( aenttypename LIKE '" + type + "' OR '' = '" + type + "' ) "+
+                       "                   AND userid = " + id + " OR -1 = " + id +
                        "                )  "+
                        " ORDER BY response "+
                        " LIMIT ? "+
@@ -3493,6 +4814,36 @@ search(){
 
   Log.d("Module", "Search query: " + searchQuery);
 }
+/***************************** CUSTOM VALIDATION ******************************/
+
+boolean isValidField(String ref) {
+  String refOri = "Context/Cut/Orientation_Degree";
+
+  if (ref.equals(refOri)) {
+    String val    = getFieldValue(refOri);
+    float  fltVal = Float.parseFloat(val);
+
+    float fltMin =  0.0;
+    float fltMax = 90.0;
+
+    return fltVal >= fltMin &&
+           fltVal <= fltMax;
+  } else {
+    return !isNull(getFieldValue(ref));
+  }
+}
+
+String fieldPair(String ref, String name, String cond) {
+  if (ref.equals(refOri))
+    name += " {Must_be_between_0_0_and_90_0}";
+
+  List fp = new ArrayList();
+  fp.add(ref);
+  fp.add(name);
+  fp.add(cond);
+  return fp;
+}
+
 
 /******************************************************************************/
 /*                                    INIT                                    */
