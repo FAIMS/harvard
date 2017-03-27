@@ -587,7 +587,7 @@ inheritFieldValue("Trench/Vars/Trench_Year_of_Campaign", "Context/Vars/Context_Y
 inheritFieldValue("Trench/Trench/Trench_AreaCode", "Context_Group/Gen/Context_Group_AreaCode", true);
 inheritFieldValue("User/User_List/Device_Code", "Context_Group/Vars/Device_Code", true);
 inheritFieldValue("Trench/Trench/Trench_Site_Name", "Context_Group/Vars/Context_Group_Site_Name", true);
-inheritFieldValue("Trench/Trench/Trench_Year_of_Campaign", "Context_Group/Vars/Context_Group_Year_of_Campaign", true);
+inheritFieldValue("Trench/Vars/Trench_Year_of_Campaign", "Context_Group/Vars/Context_Group_Year_of_Campaign", true);
 inheritFieldValue("Context/General/Context_Context_ID", "Matrix/Vars/Context_ID", true);
 inheritFieldValue("Context/General/Context_AreaCode", "Matrix/Vars/AreaCode", true);
 inheritFieldValue("Context/General/Context_Context_ID", "Photograph_Log/Photograph_Log/Photo_Context_ID", true);
@@ -597,9 +597,10 @@ inheritFieldValue("Context_Group/Gen/Context_Group_AreaCode", "Photograph_Log/Va
 inheritFieldValue("User/User_List/Device_Code", "Photograph_Log/Vars/Device_Code", true);
 inheritFieldValue("Context/General/Context_Site_Name", "FCN/General/FCN_Site_Name", true);
 inheritFieldValue("Trench/Trench/Trench_Site_Name", "FCN/General/FCN_Site_Name", true);
-inheritFieldValue("Context/General/Context_AreaCode", "FCN/General/AreaCode", true);
-inheritFieldValue("Trench/Trench/Trench_AreaCode", "FCN/General/AreaCode", true);
+inheritFieldValue("Context/General/Context_AreaCode", "FCN/General/FCN_AreaCode", true);
+inheritFieldValue("Trench/Trench/Trench_AreaCode", "FCN/General/FCN_AreaCode", true);
 inheritFieldValue("Context/General/Context_Context_ID", "FCN/General/Context_ID", true);
+inheritFieldValue("Context/Vars/Context_Year_of_Campaign", "FCN/Vars/FCN_Year_of_Campaign", true);
 inheritFieldValue("Trench/Vars/Trench_Year_of_Campaign", "FCN/Vars/FCN_Year_of_Campaign", true);
 inheritFieldValue("Context/General/Context_Context_ID", "Soil_Munsel_Color/Vars/Soil_Munsel_Color_Locus_ID", true);
 
@@ -1255,7 +1256,7 @@ void validateFCN() {
   List f = new ArrayList(); // Fields to be validated
   f.add(fieldPair("FCN/General/FCN_ID", "{FCN_ID}"));
   f.add(fieldPair("FCN/General/FCN_Site_Name", "{FCN_Site_Name}"));
-  f.add(fieldPair("FCN/General/AreaCode", "{AreaCode}"));
+  f.add(fieldPair("FCN/General/FCN_AreaCode", "{FCN_AreaCode}"));
   f.add(fieldPair("FCN/General/Context_ID", "{Context_ID}"));
 
   String validationMessage = validateFields(f, "PLAINTEXT");
@@ -4888,19 +4889,23 @@ void search(){
 
 boolean isValidField(String ref) {
   String refOri = "Context/Cut/Orientation_Degree";
+  if (!ref.equals(refOri))
+    return !isNull(getFieldValue(ref)); // Do blank check
 
-  if (ref.equals(refOri)) {
-    String val    = getFieldValue(refOri);
-    float  fltVal = Float.parseFloat(val);
-
-    float fltMin =  0.0;
-    float fltMax = 90.0;
-
-    return fltVal >= fltMin &&
-           fltVal <= fltMax;
-  } else {
-    return !isNull(getFieldValue(ref));
+  // Do range check
+  String val = getFieldValue(refOri);
+  double dblVal;
+  try {
+    dblVal = Double.parseDouble(val);
+  } catch(NumberFormatException e) {
+    dblVal = -1.0;
   }
+
+  double fltMin =  0.0;
+  double fltMax = 90.0;
+
+  return dblVal >= fltMin &&
+         dblVal <= fltMax;
 }
 
 List fieldPair(String ref, String name, String cond) {

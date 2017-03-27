@@ -250,7 +250,7 @@
         <param type="field" value="measure"/>
       </validator>
     </property>
-    <property name="AreaCode">
+    <property name="FCN AreaCode">
       <validator type="blankchecker">
         <param type="field" value="measure"/>
       </validator>

@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+     TODO: Context/Cut/Orientation_Degree should only be displayed when its tab
+           is not hidden.
+     -->
 <!--@PREPROC:  ./proc/pre.sh-->
 <!--@POSTPROC: ./proc/post.sh-->
 <module suppressWarnings="true">
@@ -483,9 +487,7 @@
         <opt>NW-SE <desc>Oriented North-west to South-east.</desc></opt>
       </opts>
     </Orientation>
-    <Orientation_Degree f="notnull" b="decimal">
-      <!--TODO: valid range 0-90-->
-    </Orientation_Degree>
+    <Orientation_Degree f="notnull" b="decimal"/>
     <Inclination_of_axis f="notnull">
       <desc>Inclination of the axis of post- and stakeholes.</desc>
       <opts>
@@ -1126,7 +1128,7 @@
     <Context_Group_Site_Name f="id" i="Trench/Trench/Trench_Site_Name">
       <str><pos>1</pos></str>
     </Context_Group_Site_Name>
-    <Context_Group_Year_of_Campaign f="id" i="Trench/Trench/Trench_Year_of_Campaign">
+    <Context_Group_Year_of_Campaign f="id" i="Trench/Vars/Trench_Year_of_Campaign">
       <str><pos>2</pos></str>
     </Context_Group_Year_of_Campaign>
     <L_Paren f="id">
@@ -1383,13 +1385,13 @@
         <fmt>-$0</fmt>
       </str>
     </FCN_Site_Name>
-    <AreaCode f="id notnull" i="Trench/Trench/Trench_AreaCode Context/General/Context_AreaCode">
+    <FCN_AreaCode f="id notnull" i="Trench/Trench/Trench_AreaCode Context/General/Context_AreaCode">
       Trench ID
       <str>
         <pos>4</pos>
         <fmt>-$0</fmt>
       </str>
-    </AreaCode>
+    </FCN_AreaCode>
     <Context_ID f="notnull" i="Context/General/Context_Context_ID">
       Locus ID
       <desc>Every archaeological locus (negative element (cut), deposit, structure, skeleton, artefact cluster) is given a unique 3 or 4 letter locus code. Each trench is designated with a separate letter which starts the code, so it is immediately obvious to which trench a locus belongs. For example locus HAA belongs to Trench H, locus MQP to Trench M etc.
@@ -1458,7 +1460,7 @@
     <Attach_Photograph t="camera"/>
   </General>
   <Vars f="hidden">
-    <FCN_Year_of_Campaign f="id" i="Trench/Vars/Trench_Year_of_Campaign">
+    <FCN_Year_of_Campaign f="id" i="Context/Vars/Context_Year_of_Campaign Trench/Vars/Trench_Year_of_Campaign">
       <str><pos>3</pos></str>
     </FCN_Year_of_Campaign>
   </Vars>

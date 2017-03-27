@@ -2319,15 +2319,6 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: input
-        Ref:  FCN/General/AreaCode
-     */
-    public static EditText get_FCN_General_AreaCode(Solo solo) {
-        String ref = "FCN/General/AreaCode";
-        return (android.widget.EditText) solo.getView((Object) ref);
-    }
-
-    /*
-        Type: input
         Ref:  FCN/General/Context_ID
      */
     public static EditText get_FCN_General_ContextID(Solo solo) {
@@ -2342,6 +2333,15 @@ public class ModuleUtil extends ModuleHelper {
     public static View get_FCN_General_Easting(Solo solo) {
         String ref = "FCN/General/Easting";
         return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: input
+        Ref:  FCN/General/FCN_AreaCode
+     */
+    public static EditText get_FCN_General_FCNAreaCode(Solo solo) {
+        String ref = "FCN/General/FCN_AreaCode";
+        return (android.widget.EditText) solo.getView((Object) ref);
     }
 
     /*

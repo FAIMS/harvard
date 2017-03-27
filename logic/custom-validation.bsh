@@ -2,19 +2,23 @@
 
 boolean isValidField(String ref) {
   String refOri = "Context/Cut/Orientation_Degree";
+  if (!ref.equals(refOri))
+    return !isNull(getFieldValue(ref)); // Do blank check
 
-  if (ref.equals(refOri)) {
-    String val    = getFieldValue(refOri);
-    float  fltVal = Float.parseFloat(val);
-
-    float fltMin =  0.0;
-    float fltMax = 90.0;
-
-    return fltVal >= fltMin &&
-           fltVal <= fltMax;
-  } else {
-    return !isNull(getFieldValue(ref));
+  // Do range check
+  String val = getFieldValue(refOri);
+  double dblVal;
+  try {
+    dblVal = Double.parseDouble(val);
+  } catch(NumberFormatException e) {
+    dblVal = -1.0;
   }
+
+  double fltMin =  0.0;
+  double fltMax = 90.0;
+
+  return dblVal >= fltMin &&
+         dblVal <= fltMax;
 }
 
 List fieldPair(String ref, String name, String cond) {

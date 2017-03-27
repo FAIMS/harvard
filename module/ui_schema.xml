@@ -666,7 +666,7 @@
             <General>
               <FCN_ID/>
               <FCN_Site_Name/>
-              <AreaCode/>
+              <FCN_AreaCode/>
               <Context_ID/>
               <Colgroup_1>
                 <Col_1>
@@ -2422,8 +2422,8 @@
         <input faims_attribute_name="FCN Site Name" faims_attribute_type="measure" ref="FCN_Site_Name" faims_style_class="required">
           <label>{FCN_Site_Name}</label>
         </input>
-        <input faims_attribute_name="AreaCode" faims_attribute_type="measure" ref="AreaCode" faims_style_class="required">
-          <label>{AreaCode}</label>
+        <input faims_attribute_name="FCN AreaCode" faims_attribute_type="measure" ref="FCN_AreaCode" faims_style_class="required">
+          <label>{FCN_AreaCode}</label>
         </input>
         <input faims_attribute_name="Context ID" faims_attribute_type="measure" ref="Context_ID" faims_style_class="required">
           <label>{Context_ID}</label>
