@@ -17,7 +17,8 @@ boolean isValidField(String ref) {
   }
 }
 
-String fieldPair(String ref, String name, String cond) {
+List fieldPair(String ref, String name, String cond) {
+  String refOri = "Context/Cut/Orientation_Degree";
   if (ref.equals(refOri))
     name += " {Must_be_between_0_0_and_90_0}";
 

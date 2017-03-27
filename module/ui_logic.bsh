@@ -83,219 +83,6 @@ String fun2str(String funName, Object args) {
   return fun2str(funName, new Object[]{args});
 }
 
-/******************************* LOCALSETTINGS ********************************/
-void makeLocalID(){
-  fetchOne("CREATE TABLE IF NOT EXISTS localSettings (key text primary key, value text);", null);
-  fetchOne("DROP VIEW IF EXISTS parentchild;", null);
-  fetchOne("CREATE VIEW parentchild AS "+
-           "SELECT parent.uuid as parentuuid, child.uuid as childuuid, parent.participatesverb as parentparticipatesverb, parent.relationshipid, parent.aenttypename as parentaenttypename, child.participatesverb as childparticipatesverb, child.aenttypename as childaenttypename "+
-           "  FROM (SELECT uuid, participatesverb, aenttypename, relationshipid"+
-           "          FROM latestnondeletedaentreln "+
-           "          JOIN relationship USING (relationshipid) "+
-           "          JOIN latestnondeletedarchent USING (uuid) "+
-           "          JOIN aenttype USING (aenttypeid)) parent "+
-           "  JOIN (SELECT uuid, relationshipid, participatesverb, aenttypename "+
-           "          FROM latestnondeletedaentreln "+
-           "          JOIN relationship USING (relationshipid) "+
-           "          JOIN latestnondeletedarchent USING (uuid) "+
-           "          JOIN aenttype USING (aenttypeid)) child "+
-           "    ON (parent.relationshipid = child.relationshipid AND parent.uuid != child.uuid);", null);
-}
-makeLocalID();
-
-void insertIntoLocalSettings(String ref) {
-  String val = getFieldValue(ref);
-  insertIntoLocalSettings(ref, val);
-}
-
-void insertIntoLocalSettings(String key, String val) {
-  fetchOne("REPLACE INTO localSettings(key, value) VALUES('" + key + "', '" + val + "');");
-}
-
-void insertIntoLocalSettings(String key, Integer val) {
-  insertIntoLocalSettings(key, Integer.toString(val));
-}
-
-void insertIntoLocalSettingsOnChange(String ref) {
-  String val = getFieldValue(ref);
-
-  String insertCallback = fun2str("insertIntoLocalSettings", ref);
-
-  addOnEvent(ref, "blur",  insertCallback);
-  addOnEvent(ref, "click", insertCallback);
-}
-
-void setFieldValueFromLocalSettings(String key, String ref, boolean doOverwrite) {
-  String val = getFieldValue(ref);
-  if (!isNull(val) && !doOverwrite) {
-    return;
-  }
-
-  String q = "SELECT value FROM localSettings WHERE key = '" + key + "';";
-  fetchOne(q, new FetchCallback() {
-    onFetch(result) {
-      if (!isNull(result)) {
-        setFieldValue(ref, result.get(0));
-      }
-    }
-  });
-}
-
-void setFieldValueFromLocalSettings(String key, String ref) {
-  boolean doOverwrite = false;
-  setFieldValueFromLocalSettings(key, ref);
-}
-
-void setFieldValueFromLocalSettings(String ref, boolean doOverwrite) {
-  setFieldValueFromLocalSettings(ref, ref, doOverwrite);
-}
-
-void setFieldValueFromLocalSettings(String ref) {
-  setFieldValueFromLocalSettings(ref, false);
-}
-
-void setFieldValueFromLocalSettingsOnShow(String ref, boolean doOverwrite) {
-  String cb = fun2str(
-      "setFieldValueFromLocalSettings",
-      new Object[]{ref, doOverwrite}
-  );
-
-  addOnEvent(ref, "show", cb);
-}
-
-void setFieldValueFromLocalSettingsOnShow(String ref) {
-  boolean doOverwrite = false;
-  setFieldValueFromLocalSettingsOnShow(ref, doOverwrite);
-}
-
-/* Causes the value of the field given by `ref` to be saved each time it is
- * modified (on blur). The value of the field is restored when the tab group
- * containing the field is displayed.
- *
- * This function depends on `addOnEvent`. Therefore this function must be called
- * after `addOnEvent` is defined, but before `bindOnEvents` is called. This will
- * be so if the call is made in the autogenerator's `logic` tags.
- */
-void persistOverSessions(String ref) {
-  setFieldValueFromLocalSettingsOnShow(ref);
-  insertIntoLocalSettingsOnChange     (ref);
-}
-
-persistOverSessions("User/User_List/Device_Code");
-persistOverSessions("Control/Contexts/Year_of_Campaign");
-
-/*************************** FIELD COPYING HELPERS ****************************/
-/* Provides an easy way to copy field values, even between vocabs.            */
-/******************************************************************************/
-void copyFieldValue(String src, String dst) {
-  Boolean doFindVocabId = true;
-  copyFieldValue(src, dst, doFindVocabId);
-}
-
-/* `src`           The ref of the source field.
- * `dst`           The ref of the destination field.
- * `doFindVocabId` If this is true, and the properties/attributes of `src` and
- *                 `dst` are different, `copyFieldValue` treats `src` and `dst`
- *                 as if they were menus. Therefore, to copy the value seen by
- *                 the user (i.e. the vocabName of `src`), a database query is
- *                 performed. The query determines the which vocabId of `dst`
- *                 will make it display the same vocabName as `src`.
- *
- *                 If `doFindVocabId` is false, the value returned by
- *                 `getFieldValue` is copied, without any database accesses.
- */
-void copyFieldValue(String src, String dst, Boolean doFindVocabId) {
-  String vocabIdSrc   = getFieldValue(src);
-  String vocabNameSrc = getFieldValue(src, true);
-
-  String attrNameSrc = getAttributeName(src);
-  String attrNameDst = getAttributeName(dst);
-
-  if (attrNameSrc.equals(attrNameDst) || !doFindVocabId) {
-    setFieldValue(dst, vocabIdSrc);
-    return;
-  }
-
-  String q = "";
-  q += "    SELECT vocabid";
-  q += "      FROM vocabulary";
-  q += " LEFT JOIN attributekey";
-  q += "     USING (attributeid)";
-  q += "     WHERE attributename = '{attrNameDst}'";
-  q += "       AND vocabname     = '{vocabNameSrc}'";
-  q  = replaceFirst(q, "{attrNameDst}",  attrNameDst);
-  q  = replaceFirst(q, "{vocabNameSrc}", vocabNameSrc);
-
-
-  FetchCallback populate = new FetchCallback() {
-    onFetch(result) {
-      if (result == null) {
-        // Fall back to dumb field copying
-        copyFieldValue(src, dst, false);
-      }
-
-      String vocabIdDst = result.get(0);
-      setFieldValue(dst, vocabIdDst);
-    }
-  };
-
-  fetchOne(q, populate);
-}
-
-void inheritFieldValue(
-    String src,
-    String dst,
-    boolean doCheckParent,
-    boolean doFindVocabId
-) {
-  String fun = "";
-  fun += "if (!{check} || getDisplayedTabGroup().equals(\"{parent}\"))";
-  fun += "  copyFieldValue(\"{src}\", \"{dst}\", {find})";
-
-  fun = replaceFirst(fun, "{check}",  doCheckParent + "");
-  fun = replaceFirst(fun, "{parent}", getTabGroupRef(src));
-  fun = replaceFirst(fun, "{src}",    src);
-  fun = replaceFirst(fun, "{dst}",    dst);
-  fun = replaceFirst(fun, "{find}",   doFindVocabId + "");
-
-  addOnEvent(getTabGroupRef(dst), "create", fun);
-}
-
-/* If `doCheckParent`, then the value at `src` will only be inherited to `dst`
- * if `getTabGroupRef(src)` was the previously displayed tab group.
- */
-void inheritFieldValue(String src, String dst, boolean doCheckParent) {
-  inheritFieldValue(src, dst, doCheckParent, true);
-}
-
-void inheritFieldValue(String src, String dst) {
-  inheritFieldValue(src, dst, true);
-}
-
-inheritFieldValue("Control/Contexts/Year_of_Campaign", "Site/Site/Site_Year_of_Campaign", true);
-inheritFieldValue("Site/Site/Site_Site_Name", "Trench/Trench/Trench_Site_Name", true);
-inheritFieldValue("Site/Site/Site_Year_of_Campaign", "Trench/Vars/Trench_Year_of_Camaign", true);
-inheritFieldValue("Trench/Trench/Trench_AreaCode", "Trench_Files/Add_Trench_Files/Trench_Files_AreaCode", true);
-inheritFieldValue("Trench/Trench/Trench_Site_Name", "Context/General/Context_Site_Name", true);
-inheritFieldValue("Trench/Trench/Trench_AreaCode", "Context/General/Context_AreaCode", true);
-inheritFieldValue("Trench/Trench/Team_Members", "Context/General/Team_Members", true);
-inheritFieldValue("User/User_List/Device_Code", "Context/Vars/Device_Code", true);
-inheritFieldValue("Trench/Vars/Trench_Year_of_Campaign", "Context/Vars/Context_Year_of_Campaign", true);
-inheritFieldValue("Context/General/Context_AreaCode", "Context_Group/Gen/Context_Group_AreaCode", true);
-inheritFieldValue("User/User_List/Device_Code", "Context_Group/Vars/Device_Code", true);
-inheritFieldValue("Trench/Trench/Trench_Site_Name", "Context_Group/Vars/Context_Group_Site_Name", true);
-inheritFieldValue("Context/Vars/Trench_Year_of_Campaign", "Context_Group/Vars/Context_Group_Year_of_Campaign", true);
-inheritFieldValue("Context/General/Context_Context_ID", "Matrix/Vars/Context_ID", true);
-inheritFieldValue("Context/General/Context_AreaCode", "Matrix/Vars/AreaCode", true);
-inheritFieldValue("Context/General/Context_Context_ID", "Photograph_Log/Photograph_Log/Photo_Context_ID", true);
-inheritFieldValue("Context_Group/Gen/Context_Group_ID", "Photograph_Log/Photograph_Log/Photo_Context_Group_ID", true);
-inheritFieldValue("Context/General/Context_AreaCode", "Photograph_Log/Vars/AreaCode", true);
-inheritFieldValue("User/User_List/Device_Code", "Photograph_Log/Vars/Device_Code", true);
-inheritFieldValue("Context/General/Context_AreaCode", "FCN/General/AreaCode", true);
-inheritFieldValue("Context/General/Context_Context_ID", "FCN/General/Context_ID", true);
-inheritFieldValue("Trench/Vars/Trench_Year_of_Campaign", "FCN/Vars/FCN_Year_of_Campaign", true);
-inheritFieldValue("Context/General/Context_Context_ID", "Soil_Munsel_Color/Vars/Soil_Munsel_Color_Locus_ID", true);
-
 /******************************************************************************/
 /*                           DOCUMENT OBJECT MODEL                            */
 /******************************************************************************/
@@ -599,46 +386,239 @@ for (tg : getTabGroups()) {
   addOnEvent(ref, event, callback);
 }
 
+/******************************* LOCALSETTINGS ********************************/
+void makeLocalID(){
+  fetchOne("CREATE TABLE IF NOT EXISTS localSettings (key text primary key, value text);", null);
+  fetchOne("DROP VIEW IF EXISTS parentchild;", null);
+  fetchOne("CREATE VIEW parentchild AS "+
+           "SELECT parent.uuid as parentuuid, child.uuid as childuuid, parent.participatesverb as parentparticipatesverb, parent.relationshipid, parent.aenttypename as parentaenttypename, child.participatesverb as childparticipatesverb, child.aenttypename as childaenttypename "+
+           "  FROM (SELECT uuid, participatesverb, aenttypename, relationshipid"+
+           "          FROM latestnondeletedaentreln "+
+           "          JOIN relationship USING (relationshipid) "+
+           "          JOIN latestnondeletedarchent USING (uuid) "+
+           "          JOIN aenttype USING (aenttypeid)) parent "+
+           "  JOIN (SELECT uuid, relationshipid, participatesverb, aenttypename "+
+           "          FROM latestnondeletedaentreln "+
+           "          JOIN relationship USING (relationshipid) "+
+           "          JOIN latestnondeletedarchent USING (uuid) "+
+           "          JOIN aenttype USING (aenttypeid)) child "+
+           "    ON (parent.relationshipid = child.relationshipid AND parent.uuid != child.uuid);", null);
+}
+makeLocalID();
+
+void insertIntoLocalSettings(String ref) {
+  String val = getFieldValue(ref);
+  insertIntoLocalSettings(ref, val);
+}
+
+void insertIntoLocalSettings(String key, String val) {
+  fetchOne("REPLACE INTO localSettings(key, value) VALUES('" + key + "', '" + val + "');");
+}
+
+void insertIntoLocalSettings(String key, Integer val) {
+  insertIntoLocalSettings(key, Integer.toString(val));
+}
+
+void insertIntoLocalSettingsOnChange(String ref) {
+  String val = getFieldValue(ref);
+
+  String insertCallback = fun2str("insertIntoLocalSettings", ref);
+
+  addOnEvent(ref, "blur",  insertCallback);
+  addOnEvent(ref, "click", insertCallback);
+}
+
+void setFieldValueFromLocalSettings(String key, String ref, boolean doOverwrite) {
+  String val = getFieldValue(ref);
+  if (!isNull(val) && !doOverwrite) {
+    return;
+  }
+
+  String q = "SELECT value FROM localSettings WHERE key = '" + key + "';";
+  fetchOne(q, new FetchCallback() {
+    onFetch(result) {
+      if (!isNull(result)) {
+        setFieldValue(ref, result.get(0));
+      }
+    }
+  });
+}
+
+void setFieldValueFromLocalSettings(String key, String ref) {
+  boolean doOverwrite = false;
+  setFieldValueFromLocalSettings(key, ref);
+}
+
+void setFieldValueFromLocalSettings(String ref, boolean doOverwrite) {
+  setFieldValueFromLocalSettings(ref, ref, doOverwrite);
+}
+
+void setFieldValueFromLocalSettings(String ref) {
+  setFieldValueFromLocalSettings(ref, false);
+}
+
+void setFieldValueFromLocalSettingsOnShow(String ref, boolean doOverwrite) {
+  String cb = fun2str(
+      "setFieldValueFromLocalSettings",
+      new Object[]{ref, doOverwrite}
+  );
+
+  addOnEvent(ref, "show", cb);
+}
+
+void setFieldValueFromLocalSettingsOnShow(String ref) {
+  boolean doOverwrite = false;
+  setFieldValueFromLocalSettingsOnShow(ref, doOverwrite);
+}
+
+/* Causes the value of the field given by `ref` to be saved each time it is
+ * modified (on blur). The value of the field is restored when the tab group
+ * containing the field is displayed.
+ *
+ * This function depends on `addOnEvent`. Therefore this function must be called
+ * after `addOnEvent` is defined, but before `bindOnEvents` is called. This will
+ * be so if the call is made in the autogenerator's `logic` tags.
+ */
+void persistOverSessions(String ref) {
+  setFieldValueFromLocalSettingsOnShow(ref);
+  insertIntoLocalSettingsOnChange     (ref);
+}
+
+persistOverSessions("User/User_List/Device_Code");
+persistOverSessions("Control/Contexts/Year_of_Campaign");
+
+/*************************** FIELD COPYING HELPERS ****************************/
+/* Provides an easy way to copy field values, even between vocabs.            */
+/******************************************************************************/
+void copyFieldValue(String src, String dst) {
+  Boolean doFindVocabId = true;
+  copyFieldValue(src, dst, doFindVocabId);
+}
+
+/* `src`           The ref of the source field.
+ * `dst`           The ref of the destination field.
+ * `doFindVocabId` If this is true, and the properties/attributes of `src` and
+ *                 `dst` are different, `copyFieldValue` treats `src` and `dst`
+ *                 as if they were menus. Therefore, to copy the value seen by
+ *                 the user (i.e. the vocabName of `src`), a database query is
+ *                 performed. The query determines the which vocabId of `dst`
+ *                 will make it display the same vocabName as `src`.
+ *
+ *                 If `doFindVocabId` is false, the value returned by
+ *                 `getFieldValue` is copied, without any database accesses.
+ */
+void copyFieldValue(String src, String dst, Boolean doFindVocabId) {
+  String vocabIdSrc   = getFieldValue(src);
+  String vocabNameSrc = getFieldValue(src, true);
+
+  String attrNameSrc = getAttributeName(src);
+  String attrNameDst = getAttributeName(dst);
+
+  if (attrNameSrc.equals(attrNameDst) || !doFindVocabId) {
+    setFieldValue(dst, vocabIdSrc);
+    return;
+  }
+
+  String q = "";
+  q += "    SELECT vocabid";
+  q += "      FROM vocabulary";
+  q += " LEFT JOIN attributekey";
+  q += "     USING (attributeid)";
+  q += "     WHERE attributename = '{attrNameDst}'";
+  q += "       AND vocabname     = '{vocabNameSrc}'";
+  q  = replaceFirst(q, "{attrNameDst}",  attrNameDst);
+  q  = replaceFirst(q, "{vocabNameSrc}", vocabNameSrc);
+
+
+  FetchCallback populate = new FetchCallback() {
+    onFetch(result) {
+      if (result == null) {
+        // Fall back to dumb field copying
+        copyFieldValue(src, dst, false);
+      }
+
+      String vocabIdDst = result.get(0);
+      setFieldValue(dst, vocabIdDst);
+    }
+  };
+
+  fetchOne(q, populate);
+}
+
+void inheritFieldValue(
+    String src,
+    String dst,
+    boolean doCheckParent,
+    boolean doFindVocabId
+) {
+  String fun = "";
+  fun += "if (!{check} || getDisplayedTabGroup().equals(\"{parent}\"))";
+  fun += "  copyFieldValue(\"{src}\", \"{dst}\", {find})";
+
+  fun = replaceFirst(fun, "{check}",  doCheckParent + "");
+  fun = replaceFirst(fun, "{parent}", getTabGroupRef(src));
+  fun = replaceFirst(fun, "{src}",    src);
+  fun = replaceFirst(fun, "{dst}",    dst);
+  fun = replaceFirst(fun, "{find}",   doFindVocabId + "");
+
+  addOnEvent(getTabGroupRef(dst), "create", fun);
+}
+
+/* If `doCheckParent`, then the value at `src` will only be inherited to `dst`
+ * if `getTabGroupRef(src)` was the previously displayed tab group.
+ */
+void inheritFieldValue(String src, String dst, boolean doCheckParent) {
+  inheritFieldValue(src, dst, doCheckParent, false);
+}
+
+void inheritFieldValue(String src, String dst) {
+  inheritFieldValue(src, dst, true);
+}
+
+inheritFieldValue("Control/Contexts/Year_of_Campaign", "Site/Site/Site_Year_of_Campaign", true);
+inheritFieldValue("Site/Site/Site_Site_Name", "Trench/Trench/Trench_Site_Name", true);
+inheritFieldValue("Site/Site/Site_Year_of_Campaign", "Trench/Vars/Trench_Year_of_Campaign", true);
+inheritFieldValue("Trench/Trench/Trench_AreaCode", "Trench_Files/Add_Trench_Files/Trench_Files_AreaCode", true);
+inheritFieldValue("Trench/Trench/Trench_Site_Name", "Context/General/Context_Site_Name", true);
+inheritFieldValue("Trench/Trench/Trench_AreaCode", "Context/General/Context_AreaCode", true);
+inheritFieldValue("Trench/Trench/Team_Members", "Context/General/Team_Members", true);
+inheritFieldValue("User/User_List/Device_Code", "Context/Vars/Device_Code", true);
+inheritFieldValue("Trench/Vars/Trench_Year_of_Campaign", "Context/Vars/Context_Year_of_Campaign", true);
+inheritFieldValue("Trench/Trench/Trench_AreaCode", "Context_Group/Gen/Context_Group_AreaCode", true);
+inheritFieldValue("User/User_List/Device_Code", "Context_Group/Vars/Device_Code", true);
+inheritFieldValue("Trench/Trench/Trench_Site_Name", "Context_Group/Vars/Context_Group_Site_Name", true);
+inheritFieldValue("Trench/Trench/Trench_Year_of_Campaign", "Context_Group/Vars/Context_Group_Year_of_Campaign", true);
+inheritFieldValue("Context/General/Context_Context_ID", "Matrix/Vars/Context_ID", true);
+inheritFieldValue("Context/General/Context_AreaCode", "Matrix/Vars/AreaCode", true);
+inheritFieldValue("Context/General/Context_Context_ID", "Photograph_Log/Photograph_Log/Photo_Context_ID", true);
+inheritFieldValue("Context_Group/Gen/Context_Group_ID", "Photograph_Log/Photograph_Log/Photo_Context_Group_ID", true);
+inheritFieldValue("Context/General/Context_AreaCode", "Photograph_Log/Vars/AreaCode", true);
+inheritFieldValue("Context_Group/Gen/Context_Group_AreaCode", "Photograph_Log/Vars/AreaCode", true);
+inheritFieldValue("User/User_List/Device_Code", "Photograph_Log/Vars/Device_Code", true);
+inheritFieldValue("Context/General/Context_Site_Name", "FCN/General/FCN_Site_Name", true);
+inheritFieldValue("Trench/Trench/Trench_Site_Name", "FCN/General/FCN_Site_Name", true);
+inheritFieldValue("Context/General/Context_AreaCode", "FCN/General/AreaCode", true);
+inheritFieldValue("Trench/Trench/Trench_AreaCode", "FCN/General/AreaCode", true);
+inheritFieldValue("Context/General/Context_Context_ID", "FCN/General/Context_ID", true);
+inheritFieldValue("Trench/Vars/Trench_Year_of_Campaign", "FCN/Vars/FCN_Year_of_Campaign", true);
+inheritFieldValue("Context/General/Context_Context_ID", "Soil_Munsel_Color/Vars/Soil_Munsel_Color_Locus_ID", true);
+
 /**************************** NEW TAB REDIRECTION *****************************/
 /* Causes a call to `newTab("tab/path")` to take the user to the specified    */
 /* tab.                                                                       */
 /******************************************************************************/
-
-void tryRedirect() {
-  if (isNull(redirectTab)) return;
-
-  newTab(redirectTab);
-  redirectTab = "";
-}
 
 void newTab(String tab, Boolean resolveTabGroups) {
   if (!resolveTabGroups) {
     return newTab(tab);
   }
 
-  tab = tab.replaceAll("/$", "");
-  tab = tab.replaceAll("^/", "");
+  String tabGroupRef = getTabGroupRef(tab);
+  String tabRef      = getTabRef     (tab);
 
-  path = tab.split("/");
-  switch (path.length) {
-    case 0:
-      break;
-    case 1:
-      newTabGroup(path[0]);
-      break;
-    case 2:
-      String tabgroupString = path[0];
-      String tabString      = path[0] + "/" + path[1];
-
-      redirectTab = tabString;
-      newTabGroup(tabgroupString);
-      break;
-    default:
-  }
+  if (!isDisplayed(tabGroupRef)) newTabGroup(tabGroupRef);
+  if (!isNull     (tabRef     )) newTab     (tabRef);
 }
-
-addOnEvent("User", "show", "tryRedirect()");
-addOnEvent("Context", "show", "tryRedirect()");
 
 /******************************************************************************/
 /*                           DROPDOWN VALUE GETTER                            */
@@ -674,7 +654,6 @@ addOnEvent("Context/Deposit/Associated_Matrices", "click", "DROPDOWN_ITEM_VALUE 
 addOnEvent("Context/Add/Select_a_Photograph_Log", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Context/Add/Select_a_Photograph_Log\")");
 addOnEvent("Context/Soil_Texture_Helper/Soil_Texture_Helper", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Context/Soil_Texture_Helper/Soil_Texture_Helper\")");
 addOnEvent("Context/Vars/Device_Code", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Context/Vars/Device_Code\")");
-addOnEvent("Context_Group/Gen/Feature_Type", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Context_Group/Gen/Feature_Type\")");
 addOnEvent("Context_Group/Add/Select_a_Photograph_Log", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Context_Group/Add/Select_a_Photograph_Log\")");
 addOnEvent("Context_Group/Vars/Device_Code", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Context_Group/Vars/Device_Code\")");
 addOnEvent("Matrix/Matrix/Component", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Matrix/Matrix/Component\")");
@@ -1097,7 +1076,6 @@ makeVocab("RadioGroup", "Context/Deposit/Sterile", "Sterile");
 makeVocab("HierarchicalDropDown", "Context/Soil_Texture_Helper/Soil_Texture_Helper", "Soil Texture Helper");
 makeVocab("DropDown", "Context/Vars/Device_Code", "Device Code");
 makeVocab("RadioGroup", "Context_Group/Gen/Record_Type", "Record Type");
-makeVocab("DropDown", "Context_Group/Gen/Feature_Type", "Feature Type");
 makeVocab("DropDown", "Context_Group/Vars/Device_Code", "Device Code");
 makeVocab("DropDown", "Matrix/Matrix/Component", "Component");
 makeVocab("HierarchicalPictureGallery", "Matrix/Matrix/Shape", "Shape");
@@ -1208,8 +1186,6 @@ void validateContext() {
   f.add(fieldPair("Context/General/Context_AreaCode", "{Context_AreaCode}"));
   f.add(fieldPair("Context/General/Context_Context_ID", "{Context_Context_ID}"));
   f.add(fieldPair("Context/General/Excavation_Method", "{Excavation_Method}"));
-  f.add(fieldPair("Context/General/Plans", "{Plans}"));
-  f.add(fieldPair("Context/General/Section_Numbers", "{Section_Numbers}"));
   f.add(fieldPair("Context/Measure/Highest_Level", "{Highest_Level}"));
   f.add(fieldPair("Context/Measure/Lowest_Level", "{Lowest_Level}"));
   f.add(fieldPair("Context/Measure/Measure_Length", "{Measure_Length}"));
@@ -1511,33 +1487,14 @@ void onClickControlContextsCreateNewSite () {
 }
 
 void onClickSiteSiteCreateNewTrench () {
-  parentTabgroup__ = "Site";
+  String tabgroup = "Site";
+  if (isNull(getUuid(tabgroup))){
+    showToast("{You_must_save_this_tabgroup_first}");
+    return;
+  }
+  parentTabgroup   = tabgroup;
+  parentTabgroup__ = tabgroup;
   newTrench();
-}
-
-void onClickTrenchSiteCreateNewLocus () {
-  parentTabgroup__ = "Trench";
-  newContext();
-}
-
-void onClickTrenchSiteCreateNewStratum () {
-  parentTabgroup__ = "Trench";
-  newContextGroup();
-}
-
-void onClickTrenchSiteNewFCN () {
-  parentTabgroup__ = "Trench";
-  newFCN();
-}
-
-void onClickTrenchSiteCreateNewDiary () {
-  parentTabgroup__ = "Trench";
-  newDiary();
-}
-
-void onClickTrenchSiteCreateNewLegacy () {
-  parentTabgroup__ = "Trench";
-  newLegacy();
 }
 
 void onClickTrenchTrenchAddTrenchFiles () {
@@ -1549,6 +1506,61 @@ void onClickTrenchTrenchAddTrenchFiles () {
   parentTabgroup   = tabgroup;
   parentTabgroup__ = tabgroup;
   newTrenchFiles();
+}
+
+void onClickTrenchSiteCreateNewLocus () {
+  String tabgroup = "Trench";
+  if (isNull(getUuid(tabgroup))){
+    showToast("{You_must_save_this_tabgroup_first}");
+    return;
+  }
+  parentTabgroup   = tabgroup;
+  parentTabgroup__ = tabgroup;
+  newContext();
+}
+
+void onClickTrenchSiteCreateNewStratum () {
+  String tabgroup = "Trench";
+  if (isNull(getUuid(tabgroup))){
+    showToast("{You_must_save_this_tabgroup_first}");
+    return;
+  }
+  parentTabgroup   = tabgroup;
+  parentTabgroup__ = tabgroup;
+  newContextGroup();
+}
+
+void onClickTrenchSiteNewFCN () {
+  String tabgroup = "Trench";
+  if (isNull(getUuid(tabgroup))){
+    showToast("{You_must_save_this_tabgroup_first}");
+    return;
+  }
+  parentTabgroup   = tabgroup;
+  parentTabgroup__ = tabgroup;
+  newFCN();
+}
+
+void onClickTrenchSiteCreateNewDiary () {
+  String tabgroup = "Trench";
+  if (isNull(getUuid(tabgroup))){
+    showToast("{You_must_save_this_tabgroup_first}");
+    return;
+  }
+  parentTabgroup   = tabgroup;
+  parentTabgroup__ = tabgroup;
+  newDiary();
+}
+
+void onClickTrenchSiteCreateNewLegacy () {
+  String tabgroup = "Trench";
+  if (isNull(getUuid(tabgroup))){
+    showToast("{You_must_save_this_tabgroup_first}");
+    return;
+  }
+  parentTabgroup   = tabgroup;
+  parentTabgroup__ = tabgroup;
+  newLegacy();
 }
 
 void onClickContextDepositAddMunselColor () {
@@ -1612,12 +1624,12 @@ addOnEvent("Context/Relationships/Create_Relationships_to_This_Context", "click"
 addOnEvent("Context_Group/Context_Group_Contexts/Create_Relationships_to_This_Context_Group", "click", "onClickContextGroupContextGroupContextsCreateRelationshipstoThisContextGroup()");
 addOnEvent("Control/Contexts/Create_New_Site", "click", "onClickControlContextsCreateNewSite()");
 addOnEvent("Site/Site/Create_New_Trench", "click", "onClickSiteSiteCreateNewTrench()");
+addOnEvent("Trench/Trench/Add_Trench_Files", "click", "onClickTrenchTrenchAddTrenchFiles()");
 addOnEvent("Trench/Site/Create_New_Locus", "click", "onClickTrenchSiteCreateNewLocus()");
 addOnEvent("Trench/Site/Create_New_Stratum", "click", "onClickTrenchSiteCreateNewStratum()");
 addOnEvent("Trench/Site/New_FCN", "click", "onClickTrenchSiteNewFCN()");
 addOnEvent("Trench/Site/Create_New_Diary", "click", "onClickTrenchSiteCreateNewDiary()");
 addOnEvent("Trench/Site/Create_New_Legacy", "click", "onClickTrenchSiteCreateNewLegacy()");
-addOnEvent("Trench/Trench/Add_Trench_Files", "click", "onClickTrenchTrenchAddTrenchFiles()");
 addOnEvent("Context/Deposit/Add_Munsel_Color", "click", "onClickContextDepositAddMunselColor()");
 addOnEvent("Context/Deposit/Add_New_Matrix", "click", "onClickContextDepositAddNewMatrix()");
 addOnEvent("Context/FCN/Add_FCN", "click", "onClickContextFCNAddFCN()");
@@ -3772,6 +3784,13 @@ ENTITY_MENUS.add(new String[] {
     ""
 });
 ENTITY_MENUS.add(new String[] {
+    "List",
+    "Site/Site/List_of_Existing_Sites",
+    "getUuid(\"Site\")",
+    "Trench",
+    "Site - Trench"
+});
+ENTITY_MENUS.add(new String[] {
     "DropDown",
     "Context/Deposit/Munsel_Colors",
     "getUuid(\"Context\")",
@@ -3814,6 +3833,7 @@ for (m : ENTITY_MENUS) {
 }
 
 addOnEvent("Control/Contexts/Sites", "click", "loadEntity()");
+addOnEvent("Site/Site/List_of_Existing_Sites", "click", "loadEntity()");
 addOnEvent("Context/Deposit/Munsel_Colors", "click", "loadEntity(true)");
 addOnEvent("Context/Deposit/Associated_Matrices", "click", "loadEntity(true)");
 addOnEvent("Context/FCN/List_of_Related_FCNs", "click", "loadEntity()");
@@ -4581,6 +4601,30 @@ String getCGChildQuery(String parentUuid) {
   relatedQ += " LIMIT ? OFFSET ? ";
   return relatedQ;
 }
+/***************************** DYNAMIC UI HELPERS *****************************/
+void hideView(String refView) {
+  String uuid       = getUuid(getTabGroupRef(refView));
+  String attribName = getAttributeName(refView);
+  String valView;
+
+  if (hasView(refView)) {
+    valView = getFieldValue(refView);
+    removeView(refView);
+  }
+
+  if (!isNull(valView)) {
+    // Flag Feature Type as `deleted`.
+    q  = " INSERT INTO aentvalue (UUID, UserID, AttributeID, Deleted)";
+    q += " SELECT '{uuid}', {userid}, attributeid, 1";
+    q += " FROM  attributekey";
+    q += " WHERE attributename = '{attributename}'";
+    q  = replaceFirst(q, "{uuid}", uuid);
+    q  = replaceFirst(q, "{userid}", userid);
+    q  = replaceFirst(q, "{attributename}", attribName);
+
+    fetchOne(q);
+  }
+}
 /************************ DYNAMIC UI - OPEN/CLOSE SITE ************************/
 /* There are two cases to handle:                                             */
 /*   (a) When a record is newly created.                                      */
@@ -4648,48 +4692,47 @@ void openContextTabs(Boolean showGeneralInformationTab){
 FEATURE_TYPE_VOCAB = new ArrayList();
 fetchVocab("Feature Type", FEATURE_TYPE_VOCAB);
 
-void updateFeatureType() {
+void updateContextGroupFields() {
   String ref       = "Context_Group/Gen/Record_Type";
   String vocabName = getMenuValue(ref);
 
   if (vocabName == null            ) return;
-  if (vocabName.equals("{Stratum}")) hideFeatureType();
-  if (vocabName.equals("{Feature}")) showFeatureType();
+  if (vocabName.equals("{Stratum}")) hideContextGroupFields();
+  if (vocabName.equals("{Feature}")) showContextGroupFields();
 }
 
-void hideFeatureType() {
-  String uuid           = getUuid("Context_Group");
-  String refView        = "Context_Group/Gen/Feature_Type";
-  String attribName     = getAttributeName(refView);
-
-  if (!hasView(refView)) return;
-
-  // Before removing the view, we get the value of the Feature Type field, which
-  // is used to determine if Feature Type should be flagged as `deleted`.
-  String featureTypeVal = getFieldValue(refView);
-  removeView(refView);
-
-  if (isNull(featureTypeVal)) return;
-
-  // Flag Feature Type as `deleted`.
-  q  = " INSERT INTO aentvalue (UUID, UserID, AttributeID, Deleted)";
-  q += " SELECT '{uuid}', {userid}, attributeid, 1";
-  q += " FROM  attributekey";
-  q += " WHERE attributename = '{attributename}'";
-  q  = replaceFirst(q, "{uuid}", uuid);
-  q  = replaceFirst(q, "{userid}", userid);
-  q  = replaceFirst(q, "{attributename}", attribName);
-
-  fetchOne(q);
+void hideContextGroupFields() {
+  hideContextGroupPrefix();
+  hideContextGroupType();
+  showContextGroupParens();
 }
 
-void showFeatureType() {
+void showContextGroupFields() {
+  showContextGroupPrefix();
+  showContextGroupType();
+  hideContextGroupParens();
+}
+
+void hideContextGroupType() {
+  hideView("Context_Group/Gen/Feature_Type");
+}
+
+void hideContextGroupPrefix() {
+  hideView("Context_Group/Gen/Feature_Prefix");
+}
+
+void hideContextGroupParens() {
+  setFieldValue("Context_Group/Vars/L_Paren", "");
+  setFieldValue("Context_Group/Vars/R_Paren", "");
+}
+
+void showContextGroupType() {
   String refView  = "Context_Group/Gen/Feature_Type";
   String refGroup = "Context_Group/Gen/Feature_Type_Group";
 
   if (hasView(refView)) return;
 
-  String label      = getArch16nVal(refView);
+  String label      = guessArch16nVal (refView);
   String attribName = getAttributeName(refView);
 
   // Create view
@@ -4709,9 +4752,36 @@ void showFeatureType() {
   populateDropDown(refView, FEATURE_TYPE_VOCAB, hasNull);
 }
 
-addOnEvent("Context_Group/Gen/Record_Type", "click", "updateFeatureType()");
-addOnEvent("Context_Group", "prefetch", "showFeatureType()");
-addOnEvent("Context_Group",    "fetch", "updateFeatureType()");
+void showContextGroupPrefix() {
+  String refView  = "Context_Group/Gen/Feature_Prefix";
+  String refGroup = "Context_Group/Gen/Feature_Prefix_Group";
+
+  if (hasView(refView)) return;
+
+  String label      = guessArch16nVal (refView);
+  String attribName = getAttributeName(refView);
+
+  // Create view
+  FormInputDef viewDef = createViewDef();
+  viewDef.createTextField     ();
+  viewDef.setLabel            (label);
+  viewDef.setAttributeName    (attribName);
+  viewDef.setAttributeType    ("measure");
+  viewDef.setAnnotationEnabled(true);
+  viewDef.setCertaintyEnabled (true);
+  viewDef.setInfoEnabled      (true);
+
+  createView(refView, viewDef, refGroup);
+}
+
+void showContextGroupParens() {
+  setFieldValue("Context_Group/Vars/L_Paren", "(");
+  setFieldValue("Context_Group/Vars/R_Paren", ")");
+}
+
+addOnEvent("Context_Group/Gen/Record_Type", "click", "updateContextGroupFields()");
+addOnEvent("Context_Group", "prefetch", "showContextGroupFields()");
+addOnEvent("Context_Group",    "fetch", "updateContextGroupFields()");
 /******************************* CONTEXT DATES ********************************/
 addOnEvent("Context/General/Add_Date_Closed", "click", "setContextDateClosed()");
 addOnEvent("Context", "create", "setContextDateOpened()");
@@ -4803,7 +4873,7 @@ void search(){
                        "                  FROM latestNonDeletedArchEntIdentifiers "+
                        "                 WHERE measure LIKE '" + term + "'||'%'  "+
                        "                   AND ( aenttypename LIKE '" + type + "' OR '' = '" + type + "' ) "+
-                       "                   AND userid = " + id + " OR -1 = " + id +
+                       "                   AND ( userid = " + id + " OR -1 = " + id + ") "+
                        "                )  "+
                        " ORDER BY response "+
                        " LIMIT ? "+
@@ -4833,7 +4903,8 @@ boolean isValidField(String ref) {
   }
 }
 
-String fieldPair(String ref, String name, String cond) {
+List fieldPair(String ref, String name, String cond) {
+  String refOri = "Context/Cut/Orientation_Degree";
   if (ref.equals(refOri))
     name += " {Must_be_between_0_0_and_90_0}";
 

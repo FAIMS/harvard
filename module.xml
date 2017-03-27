@@ -1,11 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-    TODO: Identifier parentheses
-
-    TODO: Change behaviour of autogen so that i="path/to/ref" checks parents
-          and i="path/to/ref!" doesn't.
-    -->
-
 <!--@PREPROC:  ./proc/pre.sh-->
 <!--@POSTPROC: ./proc/post.sh-->
 <module suppressWarnings="true">
@@ -74,7 +67,7 @@
 <Control f="nodata">
   <Contexts f="noscroll">
     Site
-    <Year_of_Campaign f="persist"/>
+    <Year_of_Campaign f="persist" b="decimal"/>
     <autonum/>
     <GPS_Diagnostics t="gpsdiag"/>
     <Create_New_Site t="button" l="Site"/>
@@ -98,7 +91,8 @@
     <Site_Year_of_Campaign f="id" b="decimal" i="Control/Contexts/Year_of_Campaign">
       Year of Campaign
     </Site_Year_of_Campaign>
-    <Create_New_Trench l="Trench"/>
+    <Create_New_Trench      lc="Trench"/>
+    <List_of_Existing_Sites ec="Trench"/>
   </Site>
 </Site>
 
@@ -106,17 +100,17 @@
   <Trench>
     <Trench_Site_Name f="id notnull" i="Site/Site/Site_Site_Name">
       Site Name
-      <fmt>
+      <str>
         <pos>1</pos>
-      </fmt>
+      </str>
     </Trench_Site_Name>
     <author/>
     <Trench_AreaCode f="id autonum">
       Trench ID
-      <fmt>
+      <str>
         <pos>3</pos>
-        <str>-T$0</str>
-      </fmt>
+        <fmt>-$0</fmt>
+      </str>
     </Trench_AreaCode>
     <Team_Members/>
     <Trench_Dimensions>
@@ -151,19 +145,20 @@
     <Add_Trench_Files t="button" lc="Trench_Files"/>
   </Trench>
   <Site>
-    <Create_New_Locus   t="button" l="Context"/>
-    <Create_New_Stratum t="button" l="Context_Group">
+    <Create_New_Locus   t="button" lc="Context"/>
+    <Create_New_Stratum t="button" lc="Context_Group">
       Create New Stratum/Feature
     </Create_New_Stratum>
-    <New_FCN            t="button" l="FCN"/>
-    <Create_New_Diary   t="button" l="Diary"/>
-    <Create_New_Legacy  t="button" l="Legacy"/>
+    <New_FCN            t="button" lc="FCN"/>
+    <Create_New_Diary   t="button" lc="Diary"/>
+    <Create_New_Legacy  t="button" lc="Legacy"/>
   </Site>
   <Vars f="hidden">
-    <Trench_Year_of_Camaign i="Site/Site/Site_Year_of_Campaign"/>
-    <fmt>
-      <pos>2</pos>
-    </fmt>
+    <Trench_Year_of_Campaign f="id" i="Site/Site/Site_Year_of_Campaign">
+      <str>
+        <pos>2</pos>
+      </str>
+    </Trench_Year_of_Campaign>
   </Vars>
 </Trench>
 
@@ -171,7 +166,7 @@
   <Add_Trench_Files>
     <Trench_Files_AreaCode f="id" i="Trench/Trench/Trench_AreaCode">
       Trench ID
-      <str><fmt>T$0</fmt></str>
+      <str><fmt>$0</fmt></str>
     </Trench_Files_AreaCode>
     <author f="readonly"/>
     <File_Type>
@@ -204,7 +199,7 @@
              @POSTPROC-->
         <str>
           <pos>3</pos>
-          <fmt>-T$0</fmt>
+          <fmt>-$0</fmt>
         </str>
       </Context_AreaCode>
       <Context_Context_ID f="id notnull autonum readonly">
@@ -313,14 +308,6 @@
     <Fill_in_Context_Type_Details t="button">
       Fill in Locus Type Details
     </Fill_in_Context_Type_Details>
-    <cols>
-      <Plans f="notnull">
-        <desc>Reference numbers to plans or drawings of this Locus.</desc>
-      </Plans>
-      <Section_Numbers f="notnull">
-        <desc>Reference numbers to section drawings of this Locus</desc>
-      </Section_Numbers>
-    </cols>
     <cols>
       <Photo_of_Plan    t="camera"/>
       <Photo_of_Section t="camera"/>
@@ -972,9 +959,9 @@
       <!--@SOURCE: vocabs/device-code.xml-->
     </Device_Code>
     <Context_Year_of_Campaign f="id" i="Trench/Vars/Trench_Year_of_Campaign">
-      <fmt>
+      <str>
         <pos>2</pos>
-      </fmt>
+      </str>
     </Context_Year_of_Campaign>
   </Vars>
 </Context>
@@ -990,18 +977,19 @@
         <opt>Feature</opt>
       </opts>
     </Record_Type>
+    <Feature_Prefix_Group t="group"/>
+    <Feature_Prefix t="input" f="id noui">
+      <str><pos>4</pos></str>
+    </Feature_Prefix>
     <cols>
-      <Context_Group_AreaCode f="id notnull" i="Context/General/Context_AreaCode">
+      <Context_Group_AreaCode f="id notnull" i="Trench/Trench/Trench_AreaCode">
         Trench ID
-        <str><pos>3</pos><fmt>T$0-</fmt></str>
+        <str><pos>3</pos><fmt>-$0-</fmt></str>
       </Context_Group_AreaCode>
-      <Feature_Prefix f="id">
-        <str><pos>4</pos></str>
-      </Feature_Prefix>
       <Context_Group_ID f="id notnull autonum">
         Stratum/Feature ID
         <desc>Feature number taken from the central register.</desc>
-        <str><pos>5</pos></str>
+        <str><pos>6</pos></str>
       </Context_Group_ID>
     </cols>
     <Feature_Type_Group t="group"/>
@@ -1136,11 +1124,21 @@
       <!--@SOURCE: vocabs/device-code.xml-->
     </Device_Code>
     <Context_Group_Site_Name f="id" i="Trench/Trench/Trench_Site_Name">
-      <fmt><pos>1</pos></fmt>
+      <str><pos>1</pos></str>
     </Context_Group_Site_Name>
-    <Context_Group_Year_of_Campaign f="id" i="Context/Vars/Trench_Year_of_Campaign">
-      <fmt><pos>2</pos></fmt>
+    <Context_Group_Year_of_Campaign f="id" i="Trench/Trench/Trench_Year_of_Campaign">
+      <str><pos>2</pos></str>
     </Context_Group_Year_of_Campaign>
+    <L_Paren f="id">
+      <str>
+        <pos>5</pos>
+      </str>
+    </L_Paren>
+    <R_Paren f="id">
+      <str>
+        <pos>7</pos>
+      </str>
+    </R_Paren>
   </Vars>
 </Context_Group>
 
@@ -1231,18 +1229,12 @@
       <Photo_Context_ID f="id readonly" i="Context/General/Context_Context_ID">
         Locus ID
         <desc>Unique number or code for each Locus</desc>
-        <str>
-          <pos>2</pos>
-          <fmt>-$0</fmt>
-        </str>
+        <str><pos>2</pos></str>
       </Photo_Context_ID>
       <Photo_Context_Group_ID f="id readonly" i="Context_Group/Gen/Context_Group_ID">
         Stratum/Feature ID
         <desc>Unique number or code for each Stratum/Feature</desc>
-        <str>
-          <pos>1</pos>
-          <fmt>$0</fmt>
-        </str>
+        <str><pos>1</pos></str>
       </Photo_Context_Group_ID>
       <Photograph_Reference_ID f="id">
         <desc>Unique number or code allocated by creator of the image. It could be a filename or a reference number</desc>
@@ -1273,7 +1265,7 @@
     </Photograph_Description>
   </Photograph_Log>
   <Vars f="hidden">
-    <AreaCode i="Context/General/Context_AreaCode"/>
+    <AreaCode i="Context/General/Context_AreaCode Context_Group/Gen/Context_Group_AreaCode"/>
     <Device_Code i="User/User_List/Device_Code">
       <!--@SOURCE: vocabs/device-code.xml-->
     </Device_Code>
@@ -1282,22 +1274,21 @@
 
 <Diary>
   <Diary>
-    <Title f="id">
+    <Title>
       <desc>Give your entry a simple, short title, such as Daily Trench Update, Burial 34, Storm Damage. Note that diary entries allow you to add information in addition to the locus, feature and artefact records elsewhere in the module and should not be the primary description point for those entities</desc>
-      <str><pos>1</pos></str>
     </Title>
     <cols>
       <timestamp f="id readonly">
         <desc>The date this entry is created will automatically appear here</desc>
         <str>
-          <pos>2</pos>
-          <fmt>-$0</fmt>
+          <pos>1</pos>
+          <fmt>Diary-$0</fmt>
         </str>
       </timestamp>
       <author f="id readonly">
         <desc>Your name will be added here based on your login</desc>
         <str>
-          <pos>3</pos>
+          <pos>2</pos>
           <fmt>-$0</fmt>
         </str>
       </author>
@@ -1385,18 +1376,19 @@
         <fmt>FCN$0</fmt>
       </str>
     </FCN_ID>
-    <FCN_Site_Name f="id notnull">
+    <FCN_Site_Name f="id notnull" i="Context/General/Context_Site_Name Trench/Trench/Trench_Site_Name">
       Site Name
       <str>
         <pos>2</pos>
+        <fmt>-$0</fmt>
       </str>
     </FCN_Site_Name>
-    <AreaCode f="id notnull" i="Context/General/Context_AreaCode">
+    <AreaCode f="id notnull" i="Trench/Trench/Trench_AreaCode Context/General/Context_AreaCode">
       Trench ID
-      <fmt>
-        <pos>3</pos>
-        <fmt>-T$0</fmt>
-      </fmt>
+      <str>
+        <pos>4</pos>
+        <fmt>-$0</fmt>
+      </str>
     </AreaCode>
     <Context_ID f="notnull" i="Context/General/Context_Context_ID">
       Locus ID
@@ -1448,7 +1440,7 @@
       FCN Weight (g)
     </FCN_Weight_g>
     <Volume_Liters_Group t="group"/>
-    <Volume_Liters b="decimal" f="noui">
+    <Volume_Liters f="noui">
       Volume (Liters)
       <!--This will be added to the UI dynamically-->
     </Volume_Liters>
@@ -1486,7 +1478,7 @@
     <Soil_Munsel_Color_Locus_ID f="id" i="Context/General/Context_Context_ID">
       <str>
         <pos>1</pos>
-        <fmt>LocusID-$0</fmt>
+        <fmt>$0</fmt>
       </str>
     </Soil_Munsel_Color_Locus_ID>
   </Vars>
@@ -1516,6 +1508,7 @@
   <!--@SOURCE: logic/user-tab-validation.bsh-->
   <!--@SOURCE: logic/relationships-context-to-context.bsh-->
   <!--@SOURCE: logic/relationships-context-group-to-context.bsh-->
+  <!--@SOURCE: logic/dynamic-ui-helpers.bsh-->
   <!--@SOURCE: logic/dynamic-ui-context.bsh-->
   <!--@SOURCE: logic/dynamic-ui-context-group.bsh-->
   <!--@SOURCE: logic/context-dates.bsh-->

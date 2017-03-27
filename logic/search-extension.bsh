@@ -40,7 +40,7 @@ void search(){
                        "                  FROM latestNonDeletedArchEntIdentifiers "+
                        "                 WHERE measure LIKE '" + term + "'||'%'  "+
                        "                   AND ( aenttypename LIKE '" + type + "' OR '' = '" + type + "' ) "+
-                       "                   AND userid = " + id + " OR -1 = " + id +
+                       "                   AND ( userid = " + id + " OR -1 = " + id + ") "+
                        "                )  "+
                        " ORDER BY response "+
                        " LIMIT ? "+

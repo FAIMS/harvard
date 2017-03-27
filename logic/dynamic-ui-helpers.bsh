@@ -1,0 +1,24 @@
+/***************************** DYNAMIC UI HELPERS *****************************/
+void hideView(String refView) {
+  String uuid       = getUuid(getTabGroupRef(refView));
+  String attribName = getAttributeName(refView);
+  String valView;
+
+  if (hasView(refView)) {
+    valView = getFieldValue(refView);
+    removeView(refView);
+  }
+
+  if (!isNull(valView)) {
+    // Flag Feature Type as `deleted`.
+    q  = " INSERT INTO aentvalue (UUID, UserID, AttributeID, Deleted)";
+    q += " SELECT '{uuid}', {userid}, attributeid, 1";
+    q += " FROM  attributekey";
+    q += " WHERE attributename = '{attributename}'";
+    q  = replaceFirst(q, "{uuid}", uuid);
+    q  = replaceFirst(q, "{userid}", userid);
+    q  = replaceFirst(q, "{attributename}", attribName);
+
+    fetchOne(q);
+  }
+}

@@ -81,6 +81,21 @@ replacement="
               <Select_User\/>"
 perl -0777 -i.original -pe "s/$string/$replacement/igs" ui_schema.xml
 
+string="
+    <property name=\"Orientation Degree\">
+      <validator type=\"blankchecker\">
+        <param type=\"field\" value=\"measure\"\/>
+      <\/validator>
+    <\/property>"
+replacement="
+    <property name=\"Orientation Degree\">
+      <validator type=\"querychecker\">
+        <query><![CDATA[select coalesce(?,'') between 0 and 90, 'Orientation Degree must be between 0.0 and 90.0']]><\/query>
+        <param type=\"field\" value=\"measure\" \/>
+      <\/validator>
+    <\/property>"
+perl -0777 -i.original -pe "s/$string/$replacement/igs" validation.xml
+
 echo "Select_User=Select User"                                     >> english.0.properties
 echo "Volume_Liters=Volume (Liters)"                               >> english.0.properties
 echo "All_Users=All Users"                                         >> english.0.properties
@@ -88,3 +103,4 @@ echo "Must_be_between_0_0_and_90_0=(Must be between 0.0 and 90.0)" >> english.0.
 
 rm ui_logic.bsh.original
 rm ui_schema.xml.original
+rm validation.xml.original

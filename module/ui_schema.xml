@@ -66,6 +66,7 @@
               <Site_Site_Name/>
               <Site_Year_of_Campaign/>
               <Create_New_Trench/>
+              <List_of_Existing_Sites/>
             </Site>
           </Site>
           <Trench>
@@ -111,7 +112,7 @@
               <Create_New_Legacy/>
             </Site>
             <Vars>
-              <Trench_Year_of_Camaign/>
+              <Trench_Year_of_Campaign/>
             </Vars>
           </Trench>
           <Trench_Files>
@@ -166,14 +167,6 @@
               <Fill_in_Context_Type_Details/>
               <Colgroup_5>
                 <Col_1>
-                  <Plans/>
-                </Col_1>
-                <Col_2>
-                  <Section_Numbers/>
-                </Col_2>
-              </Colgroup_5>
-              <Colgroup_6>
-                <Col_1>
                   <Photo_of_Plan/>
                   <Photo_of_Plan_Button_1/>
                 </Col_1>
@@ -181,23 +174,23 @@
                   <Photo_of_Section/>
                   <Photo_of_Section_Button_1/>
                 </Col_2>
-              </Colgroup_6>
-              <Colgroup_7>
+              </Colgroup_5>
+              <Colgroup_6>
                 <Col_1>
                   <Date_Closed/>
                 </Col_1>
                 <Col_2>
                   <Add_Date_Closed/>
                 </Col_2>
-              </Colgroup_7>
-              <Colgroup_8>
+              </Colgroup_6>
+              <Colgroup_7>
                 <Col_1>
                   <Context_author/>
                 </Col_1>
                 <Col_2>
                   <Context_timestamp/>
                 </Col_2>
-              </Colgroup_8>
+              </Colgroup_7>
             </General>
             <Measure>
               <Colgroup_1>
@@ -457,19 +450,16 @@
           <Context_Group>
             <Gen>
               <Record_Type/>
+              <Feature_Prefix_Group/>
               <Colgroup_1>
                 <Col_1>
                   <Context_Group_AreaCode/>
                 </Col_1>
                 <Col_2>
-                  <Feature_Prefix/>
-                </Col_2>
-                <Col_3>
                   <Context_Group_ID/>
-                </Col_3>
+                </Col_2>
               </Colgroup_1>
               <Feature_Type_Group/>
-              <Feature_Type/>
               <CG_Your_description/>
               <CG_Your_Interpretation/>
               <Your_Discussion/>
@@ -549,6 +539,8 @@
               <Device_Code/>
               <Context_Group_Site_Name/>
               <Context_Group_Year_of_Campaign/>
+              <L_Paren/>
+              <R_Paren/>
             </Vars>
           </Context_Group>
           <Matrix>
@@ -736,6 +728,7 @@
           </Legacy>
         </faims>
       </instance>
+      <bind nodeset="/faims/Control/Contexts/Year_of_Campaign" type="decimal"/>
       <bind nodeset="/faims/Control/Contexts/Next_Trench_AreaCode" type="decimal"/>
       <bind nodeset="/faims/Control/Contexts/Next_Context_Context_ID" type="decimal"/>
       <bind nodeset="/faims/Control/Contexts/Next_Context_Group_ID" type="decimal"/>
@@ -806,7 +799,6 @@
       <bind nodeset="/faims/Matrix/Matrix/Colgroup_1/Col_2/Percentage" type="decimal"/>
       <bind nodeset="/faims/FCN/General/FCN_Quantity" type="decimal"/>
       <bind nodeset="/faims/FCN/General/FCN_Weight_g" type="decimal"/>
-      <bind nodeset="/faims/FCN/General/Volume_Liters" type="decimal"/>
     </model>
   </h:head>
   <h:body>
@@ -841,14 +833,14 @@
           <label>{Users}</label>
           <item>
             <label>Options not loaded</label>
-            <value>0</value>
+            <value>Options not loaded</value>
           </item>
         </select1>
         <select1 ref="Device_Code">
           <label>{Device_Code}</label>
           <item>
             <label>Options not loaded</label>
-            <value>0</value>
+            <value>Options not loaded</value>
           </item>
         </select1>
         <trigger ref="Login">
@@ -894,7 +886,7 @@
           <label>{Sites}</label>
           <item>
             <label>Options not loaded</label>
-            <value>0</value>
+            <value>Options not loaded</value>
           </item>
         </select1>
       </group>
@@ -915,18 +907,34 @@
             </trigger>
           </group>
         </group>
-        <select1 ref="Entity_Types">
-          <label>{Entity_Types}</label>
-          <item>
-            <label>Options not loaded</label>
-            <value>0</value>
-          </item>
-        </select1>
+        <group ref="Colgroup_1" faims_style="orientation">
+          <label/>
+          <group ref="Col_0" faims_style="even">
+            <label/>
+            <select1 ref="Entity_Types">
+              <label>{Entity_Types}</label>
+              <item>
+                <label>Options not loaded</label>
+                <value>Options not loaded</value>
+              </item>
+            </select1>
+          </group>
+          <group ref="Col_1" faims_style="even">
+            <label/>
+            <select1 ref="Select_User">
+              <label>{Select_User}</label>
+              <item>
+                <label>Options not loaded</label>
+                <value>Options not loaded</value>
+              </item>
+            </select1>
+          </group>
+        </group>
         <select1 appearance="compact" ref="Entity_List">
           <label>{Entity_List}</label>
           <item>
             <label>Options not loaded</label>
-            <value>0</value>
+            <value>Options not loaded</value>
           </item>
         </select1>
       </group>
@@ -941,9 +949,16 @@
         <input faims_attribute_name="Site Year of Campaign" faims_attribute_type="measure" ref="Site_Year_of_Campaign">
           <label>{Site_Year_of_Campaign}</label>
         </input>
-        <input faims_attribute_name="Create New Trench" faims_attribute_type="measure" ref="Create_New_Trench">
+        <trigger ref="Create_New_Trench">
           <label>{Create_New_Trench}</label>
-        </input>
+        </trigger>
+        <select1 appearance="compact" ref="List_of_Existing_Sites">
+          <label>{List_of_Existing_Sites}</label>
+          <item>
+            <label>Options not loaded</label>
+            <value>Options not loaded</value>
+          </item>
+        </select1>
       </group>
     </group>
     <group ref="Trench" faims_archent_type="Trench">
@@ -966,7 +981,7 @@
           <label>{Trench_Dimensions}</label>
           <item>
             <label>Options not loaded</label>
-            <value>0</value>
+            <value>Options not loaded</value>
           </item>
         </select1>
         <input faims_web="true" ref="Grid_SW_Corner_Coordinates">
@@ -1015,7 +1030,7 @@
           <label>{Excavation_Method}</label>
           <item>
             <label>Options not loaded</label>
-            <value>0</value>
+            <value>Options not loaded</value>
           </item>
         </select>
         <input faims_attribute_name="Trench timestamp" faims_attribute_type="measure" ref="Trench_timestamp" faims_read_only="true">
@@ -1054,8 +1069,8 @@
       </group>
       <group ref="Vars" faims_hidden="true">
         <label>{Vars}</label>
-        <input faims_attribute_name="Trench Year of Camaign" faims_attribute_type="measure" ref="Trench_Year_of_Camaign">
-          <label>{Trench_Year_of_Camaign}</label>
+        <input faims_attribute_name="Trench Year of Campaign" faims_attribute_type="measure" ref="Trench_Year_of_Campaign">
+          <label>{Trench_Year_of_Campaign}</label>
         </input>
       </group>
     </group>
@@ -1073,7 +1088,7 @@
           <label>{File_Type}</label>
           <item>
             <label>Options not loaded</label>
-            <value>0</value>
+            <value>Options not loaded</value>
           </item>
         </select1>
         <input faims_attribute_name="File Name" faims_attribute_type="measure" ref="File_Name">
@@ -1144,7 +1159,7 @@
               <label>{Excavation_Method}</label>
               <item>
                 <label>Options not loaded</label>
-                <value>0</value>
+                <value>Options not loaded</value>
               </item>
             </select>
           </group>
@@ -1157,7 +1172,7 @@
               <label>{Horizon_Boundary}</label>
               <item>
                 <label>Options not loaded</label>
-                <value>0</value>
+                <value>Options not loaded</value>
               </item>
             </select1>
           </group>
@@ -1167,18 +1182,18 @@
               <label>{Contamination}</label>
               <item>
                 <label>Options not loaded</label>
-                <value>0</value>
+                <value>Options not loaded</value>
               </item>
             </select1>
           </group>
         </group>
-        <select type="image" faims_attribute_name="Context Type" faims_attribute_type="vocab" ref="Context_Type">
+        <select1 type="image" faims_attribute_name="Context Type" faims_attribute_type="vocab" ref="Context_Type">
           <label>{Context_Type}</label>
           <item>
             <label>Options not loaded</label>
-            <value>0</value>
+            <value>Options not loaded</value>
           </item>
-        </select>
+        </select1>
         <trigger ref="Fill_in_Context_Type_Details">
           <label>{Fill_in_Context_Type_Details}</label>
         </trigger>
@@ -1186,26 +1201,11 @@
           <label/>
           <group ref="Col_1" faims_style="even">
             <label/>
-            <input faims_attribute_name="Plans" faims_attribute_type="measure" ref="Plans" faims_style_class="required">
-              <label>{Plans}</label>
-            </input>
-          </group>
-          <group ref="Col_2" faims_style="even">
-            <label/>
-            <input faims_attribute_name="Section Numbers" faims_attribute_type="measure" ref="Section_Numbers" faims_style_class="required">
-              <label>{Section_Numbers}</label>
-            </input>
-          </group>
-        </group>
-        <group ref="Colgroup_6" faims_style="orientation">
-          <label/>
-          <group ref="Col_1" faims_style="even">
-            <label/>
             <select faims_sync="true" type="camera" faims_attribute_name="Photo of Plan" faims_attribute_type="measure" ref="Photo_of_Plan">
               <label>{Photo_of_Plan}</label>
               <item>
                 <label>Options not loaded</label>
-                <value>0</value>
+                <value>Options not loaded</value>
               </item>
             </select>
             <trigger ref="Photo_of_Plan_Button_1">
@@ -1218,7 +1218,7 @@
               <label>{Photo_of_Section}</label>
               <item>
                 <label>Options not loaded</label>
-                <value>0</value>
+                <value>Options not loaded</value>
               </item>
             </select>
             <trigger ref="Photo_of_Section_Button_1">
@@ -1226,7 +1226,7 @@
             </trigger>
           </group>
         </group>
-        <group ref="Colgroup_7" faims_style="orientation">
+        <group ref="Colgroup_6" faims_style="orientation">
           <label/>
           <group ref="Col_1" faims_style="even">
             <label/>
@@ -1241,7 +1241,7 @@
             </trigger>
           </group>
         </group>
-        <group ref="Colgroup_8" faims_style="orientation">
+        <group ref="Colgroup_7" faims_style="orientation">
           <label/>
           <group ref="Col_1" faims_style="even">
             <label/>
@@ -1353,7 +1353,7 @@
           <label>{Cut_Your_Interpretation}</label>
           <item>
             <label>Options not loaded</label>
-            <value>0</value>
+            <value>Options not loaded</value>
           </item>
         </select1>
         <group ref="Colgroup_1" faims_style="orientation">
@@ -1364,7 +1364,7 @@
               <label>{Shape_of_Cut}</label>
               <item>
                 <label>Options not loaded</label>
-                <value>0</value>
+                <value>Options not loaded</value>
               </item>
             </select1>
           </group>
@@ -1379,21 +1379,21 @@
           <label>{Shape_of_Corners}</label>
           <item>
             <label>Options not loaded</label>
-            <value>0</value>
+            <value>Options not loaded</value>
           </item>
         </select1>
         <select1 appearance="full" faims_attribute_name="Break of Slope - Top" faims_attribute_type="vocab" ref="Break_of_Slope_-_Top" faims_style_class="required">
           <label>{Break_of_Slope_-_Top}</label>
           <item>
             <label>Options not loaded</label>
-            <value>0</value>
+            <value>Options not loaded</value>
           </item>
         </select1>
         <select1 appearance="full" faims_attribute_name="Break of Slope - Base" faims_attribute_type="vocab" ref="Break_of_Slope_-_Base" faims_style_class="required">
           <label>{Break_of_Slope_-_Base}</label>
           <item>
             <label>Options not loaded</label>
-            <value>0</value>
+            <value>Options not loaded</value>
           </item>
         </select1>
         <group ref="Colgroup_2" faims_style="orientation">
@@ -1404,7 +1404,7 @@
               <label>{Sides_of_Cut}</label>
               <item>
                 <label>Options not loaded</label>
-                <value>0</value>
+                <value>Options not loaded</value>
               </item>
             </select1>
           </group>
@@ -1414,7 +1414,7 @@
               <label>{Shape_of_Base}</label>
               <item>
                 <label>Options not loaded</label>
-                <value>0</value>
+                <value>Options not loaded</value>
               </item>
             </select1>
           </group>
@@ -1423,7 +1423,7 @@
           <label>{Orientation}</label>
           <item>
             <label>Options not loaded</label>
-            <value>0</value>
+            <value>Options not loaded</value>
           </item>
         </select1>
         <input faims_attribute_name="Orientation Degree" faims_attribute_type="measure" ref="Orientation_Degree" faims_style_class="required">
@@ -1433,7 +1433,7 @@
           <label>{Inclination_of_axis}</label>
           <item>
             <label>Options not loaded</label>
-            <value>0</value>
+            <value>Options not loaded</value>
           </item>
         </select1>
         <input faims_attribute_name="Truncation" faims_attribute_type="measure" ref="Truncation">
@@ -1527,26 +1527,26 @@
           <label>{Deposit_Your_Interpretation}</label>
           <item>
             <label>Options not loaded</label>
-            <value>0</value>
+            <value>Options not loaded</value>
           </item>
         </select1>
         <select1 faims_attribute_name="Soil Compaction Type" faims_attribute_type="vocab" ref="Soil_Compaction_Type" faims_style_class="required">
           <label>{Soil_Compaction_Type}</label>
           <item>
             <label>Options not loaded</label>
-            <value>0</value>
+            <value>Options not loaded</value>
           </item>
         </select1>
         <input faims_attribute_name="Soil Compaction Description" faims_attribute_type="measure" ref="Soil_Compaction_Description">
           <label>{Soil_Compaction_Description}</label>
         </input>
-        <select type="image" faims_attribute_name="Soil Particle Sorting" faims_attribute_type="vocab" ref="Soil_Particle_Sorting">
+        <select1 type="image" faims_attribute_name="Soil Particle Sorting" faims_attribute_type="vocab" ref="Soil_Particle_Sorting">
           <label>{Soil_Particle_Sorting}</label>
           <item>
             <label>Options not loaded</label>
-            <value>0</value>
+            <value>Options not loaded</value>
           </item>
-        </select>
+        </select1>
         <group ref="Colgroup_1" faims_style="orientation">
           <label/>
           <group ref="Col_1" faims_style="even">
@@ -1555,7 +1555,7 @@
               <label>{Soil_Texture}</label>
               <item>
                 <label>Options not loaded</label>
-                <value>0</value>
+                <value>Options not loaded</value>
               </item>
             </select1>
           </group>
@@ -1576,7 +1576,7 @@
           <label>{Munsel_Colors}</label>
           <item>
             <label>Options not loaded</label>
-            <value>0</value>
+            <value>Options not loaded</value>
           </item>
         </select1>
         <group ref="Colgroup_2" faims_style="orientation">
@@ -1587,7 +1587,7 @@
               <label>{Composition_Type}</label>
               <item>
                 <label>Options not loaded</label>
-                <value>0</value>
+                <value>Options not loaded</value>
               </item>
             </select1>
           </group>
@@ -1597,7 +1597,7 @@
               <label>{Deposit_Bedding}</label>
               <item>
                 <label>Options not loaded</label>
-                <value>0</value>
+                <value>Options not loaded</value>
               </item>
             </select1>
           </group>
@@ -1610,7 +1610,7 @@
               <label>{Sterile}</label>
               <item>
                 <label>Options not loaded</label>
-                <value>0</value>
+                <value>Options not loaded</value>
               </item>
             </select1>
           </group>
@@ -1628,7 +1628,7 @@
           <label>{Associated_Matrices}</label>
           <item>
             <label>Options not loaded</label>
-            <value>0</value>
+            <value>Options not loaded</value>
           </item>
         </select1>
       </group>
@@ -1807,7 +1807,7 @@
               <label>{Existing_Relationships_to_This_Context}</label>
               <item>
                 <label>Options not loaded</label>
-                <value>0</value>
+                <value>Options not loaded</value>
               </item>
             </select1>
           </group>
@@ -1834,7 +1834,7 @@
           <label>{List_of_Related_FCNs}</label>
           <item>
             <label>Options not loaded</label>
-            <value>0</value>
+            <value>Options not loaded</value>
           </item>
         </select1>
       </group>
@@ -1844,7 +1844,7 @@
           <label>{Photo}</label>
           <item>
             <label>Options not loaded</label>
-            <value>0</value>
+            <value>Options not loaded</value>
           </item>
         </select>
         <trigger ref="Photo_Button_1">
@@ -1854,7 +1854,7 @@
           <label>{Attach_File}</label>
           <item>
             <label>Options not loaded</label>
-            <value>0</value>
+            <value>Options not loaded</value>
           </item>
         </select>
         <trigger ref="Attach_File_Button_1">
@@ -1870,7 +1870,7 @@
           <label>{Select_a_Photograph_Log}</label>
           <item>
             <label>Options not loaded</label>
-            <value>0</value>
+            <value>Options not loaded</value>
           </item>
         </select1>
       </group>
@@ -1880,7 +1880,7 @@
           <label>{Soil_Texture_Helper}</label>
           <item>
             <label>Options not loaded</label>
-            <value>0</value>
+            <value>Options not loaded</value>
           </item>
         </select1>
         <trigger ref="Update_Soil_Texture">
@@ -1893,7 +1893,7 @@
           <label>{Device_Code}</label>
           <item>
             <label>Options not loaded</label>
-            <value>0</value>
+            <value>Options not loaded</value>
           </item>
         </select1>
         <input faims_attribute_name="Context Year of Campaign" faims_attribute_type="measure" ref="Context_Year_of_Campaign">
@@ -1909,9 +1909,12 @@
           <label>{Record_Type}</label>
           <item>
             <label>Options not loaded</label>
-            <value>0</value>
+            <value>Options not loaded</value>
           </item>
         </select1>
+        <group ref="Feature_Prefix_Group">
+          <label/>
+        </group>
         <group ref="Colgroup_1" faims_style="orientation">
           <label/>
           <group ref="Col_1" faims_style="even">
@@ -1922,12 +1925,6 @@
           </group>
           <group ref="Col_2" faims_style="even">
             <label/>
-            <input faims_attribute_name="Feature Prefix" faims_attribute_type="measure" ref="Feature_Prefix">
-              <label>{Feature_Prefix}</label>
-            </input>
-          </group>
-          <group ref="Col_3" faims_style="even">
-            <label/>
             <input faims_attribute_name="Context Group ID" faims_attribute_type="measure" ref="Context_Group_ID" faims_style_class="required">
               <label>{Context_Group_ID}</label>
             </input>
@@ -1936,13 +1933,6 @@
         <group ref="Feature_Type_Group">
           <label/>
         </group>
-        <select1 faims_attribute_name="Feature Type" faims_attribute_type="vocab" ref="Feature_Type">
-          <label>{Feature_Type}</label>
-          <item>
-            <label>Options not loaded</label>
-            <value>0</value>
-          </item>
-        </select1>
         <input faims_attribute_name="CG Your description" faims_attribute_type="measure" ref="CG_Your_description" faims_style_class="required">
           <label>{CG_Your_description}</label>
         </input>
@@ -2065,7 +2055,7 @@
               <label>{Existing_Relationships_to_This_Context_Group}</label>
               <item>
                 <label>Options not loaded</label>
-                <value>0</value>
+                <value>Options not loaded</value>
               </item>
             </select1>
           </group>
@@ -2089,7 +2079,7 @@
           <label>{Photo}</label>
           <item>
             <label>Options not loaded</label>
-            <value>0</value>
+            <value>Options not loaded</value>
           </item>
         </select>
         <trigger ref="Photo_Button_1">
@@ -2099,7 +2089,7 @@
           <label>{Attach_File}</label>
           <item>
             <label>Options not loaded</label>
-            <value>0</value>
+            <value>Options not loaded</value>
           </item>
         </select>
         <trigger ref="Attach_File_Button_1">
@@ -2118,7 +2108,7 @@
           <label>{Select_a_Photograph_Log}</label>
           <item>
             <label>Options not loaded</label>
-            <value>0</value>
+            <value>Options not loaded</value>
           </item>
         </select1>
       </group>
@@ -2128,7 +2118,7 @@
           <label>{Device_Code}</label>
           <item>
             <label>Options not loaded</label>
-            <value>0</value>
+            <value>Options not loaded</value>
           </item>
         </select1>
         <input faims_attribute_name="Context Group Site Name" faims_attribute_type="measure" ref="Context_Group_Site_Name">
@@ -2136,6 +2126,12 @@
         </input>
         <input faims_attribute_name="Context Group Year of Campaign" faims_attribute_type="measure" ref="Context_Group_Year_of_Campaign">
           <label>{Context_Group_Year_of_Campaign}</label>
+        </input>
+        <input faims_attribute_name="L Paren" faims_attribute_type="measure" ref="L_Paren">
+          <label>{L_Paren}</label>
+        </input>
+        <input faims_attribute_name="R Paren" faims_attribute_type="measure" ref="R_Paren">
+          <label>{R_Paren}</label>
         </input>
       </group>
     </group>
@@ -2151,7 +2147,7 @@
               <label>{Component}</label>
               <item>
                 <label>Options not loaded</label>
-                <value>0</value>
+                <value>Options not loaded</value>
               </item>
             </select1>
           </group>
@@ -2162,13 +2158,13 @@
             </input>
           </group>
         </group>
-        <select type="image" faims_attribute_name="Shape" faims_attribute_type="vocab" ref="Shape">
+        <select1 type="image" faims_attribute_name="Shape" faims_attribute_type="vocab" ref="Shape">
           <label>{Shape}</label>
           <item>
             <label>Options not loaded</label>
-            <value>0</value>
+            <value>Options not loaded</value>
           </item>
-        </select>
+        </select1>
       </group>
       <group ref="Vars" faims_hidden="true">
         <label>{Vars}</label>
@@ -2209,7 +2205,7 @@
           <label>{Scene_Type}</label>
           <item>
             <label>Options not loaded</label>
-            <value>0</value>
+            <value>Options not loaded</value>
           </item>
         </select1>
         <input faims_attribute_name="Photograph Description" faims_attribute_type="measure" ref="Photograph_Description">
@@ -2225,7 +2221,7 @@
           <label>{Device_Code}</label>
           <item>
             <label>Options not loaded</label>
-            <value>0</value>
+            <value>Options not loaded</value>
           </item>
         </select1>
       </group>
@@ -2259,7 +2255,7 @@
           <label>{Photo}</label>
           <item>
             <label>Options not loaded</label>
-            <value>0</value>
+            <value>Options not loaded</value>
           </item>
         </select>
         <trigger ref="Photo_Button_1">
@@ -2293,7 +2289,7 @@
           <label>{Relationship_Type}</label>
           <item>
             <label>Options not loaded</label>
-            <value>0</value>
+            <value>Options not loaded</value>
           </item>
         </select1>
         <trigger ref="Search">
@@ -2328,7 +2324,7 @@
               <label>{Unrelated_Contexts}</label>
               <item>
                 <label>Options not loaded</label>
-                <value>0</value>
+                <value>Options not loaded</value>
               </item>
             </select1>
           </group>
@@ -2338,7 +2334,7 @@
               <label>{Existing_Relationships}</label>
               <item>
                 <label>Options not loaded</label>
-                <value>0</value>
+                <value>Options not loaded</value>
               </item>
             </select1>
           </group>
@@ -2399,7 +2395,7 @@
               <label>{Unrelated_Contexts}</label>
               <item>
                 <label>Options not loaded</label>
-                <value>0</value>
+                <value>Options not loaded</value>
               </item>
             </select1>
           </group>
@@ -2409,7 +2405,7 @@
               <label>{Existing_Relationships}</label>
               <item>
                 <label>Options not loaded</label>
-                <value>0</value>
+                <value>Options not loaded</value>
               </item>
             </select1>
           </group>
@@ -2475,14 +2471,14 @@
           <label>{Collection_Method}</label>
           <item>
             <label>Options not loaded</label>
-            <value>0</value>
+            <value>Options not loaded</value>
           </item>
         </select1>
         <select1 faims_attribute_name="FCN Class" faims_attribute_type="vocab" ref="FCN_Class">
           <label>{FCN_Class}</label>
           <item>
             <label>Options not loaded</label>
-            <value>0</value>
+            <value>Options not loaded</value>
           </item>
         </select1>
         <input faims_attribute_name="FCN Quantity" faims_attribute_type="measure" ref="FCN_Quantity">
@@ -2498,21 +2494,21 @@
           <label>{Washed}</label>
           <item>
             <label>Options not loaded</label>
-            <value>0</value>
+            <value>Options not loaded</value>
           </item>
         </select1>
         <select1 appearance="full" faims_attribute_name="Weighted" faims_attribute_type="vocab" ref="Weighted">
           <label>{Weighted}</label>
           <item>
             <label>Options not loaded</label>
-            <value>0</value>
+            <value>Options not loaded</value>
           </item>
         </select1>
         <select1 appearance="full" faims_attribute_name="Analyzed" faims_attribute_type="vocab" ref="Analyzed">
           <label>{Analyzed}</label>
           <item>
             <label>Options not loaded</label>
-            <value>0</value>
+            <value>Options not loaded</value>
           </item>
         </select1>
         <input faims_attribute_name="FCN Group Comment" faims_attribute_type="measure" ref="FCN_Group_Comment">
@@ -2522,7 +2518,7 @@
           <label>{Attach_File}</label>
           <item>
             <label>Options not loaded</label>
-            <value>0</value>
+            <value>Options not loaded</value>
           </item>
         </select>
         <trigger ref="Attach_File_Button_1">
@@ -2532,7 +2528,7 @@
           <label>{Attach_Photograph}</label>
           <item>
             <label>Options not loaded</label>
-            <value>0</value>
+            <value>Options not loaded</value>
           </item>
         </select>
         <trigger ref="Attach_Photograph_Button_1">
@@ -2554,7 +2550,7 @@
           <label>{Soil_Munsel_Color}</label>
           <item>
             <label>Options not loaded</label>
-            <value>0</value>
+            <value>Options not loaded</value>
           </item>
         </select1>
       </group>

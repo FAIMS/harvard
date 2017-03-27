@@ -762,6 +762,15 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: button
+        Ref:  Site/Site/Create_New_Trench
+     */
+    public static View get_Site_Site_CreateNewTrench(Solo solo) {
+        String ref = "Site/Site/Create_New_Trench";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: button
         Ref:  Trench/Site/Create_New_Diary
      */
     public static View get_Trench_Site_CreateNewDiary(Solo solo) {
@@ -1351,24 +1360,6 @@ public class ModuleUtil extends ModuleHelper {
      */
     public static EditText get_Context_General_GridY(Solo solo) {
         String ref = "Context/General/Grid_Y";
-        return (android.widget.EditText) solo.getView((Object) ref);
-    }
-
-    /*
-        Type: input
-        Ref:  Context/General/Plans
-     */
-    public static EditText get_Context_General_Plans(Solo solo) {
-        String ref = "Context/General/Plans";
-        return (android.widget.EditText) solo.getView((Object) ref);
-    }
-
-    /*
-        Type: input
-        Ref:  Context/General/Section_Numbers
-     */
-    public static EditText get_Context_General_SectionNumbers(Solo solo) {
-        String ref = "Context/General/Section_Numbers";
         return (android.widget.EditText) solo.getView((Object) ref);
     }
 
@@ -2049,15 +2040,6 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: input
-        Ref:  Context_Group/Gen/Feature_Prefix
-     */
-    public static EditText get_ContextGroup_Gen_FeaturePrefix(Solo solo) {
-        String ref = "Context_Group/Gen/Feature_Prefix";
-        return (android.widget.EditText) solo.getView((Object) ref);
-    }
-
-    /*
-        Type: input
         Ref:  Context_Group/Gen/Length
      */
     public static EditText get_ContextGroup_Gen_Length(Solo solo) {
@@ -2197,6 +2179,24 @@ public class ModuleUtil extends ModuleHelper {
      */
     public static EditText get_ContextGroup_Vars_ContextGroupYearofCampaign(Solo solo) {
         String ref = "Context_Group/Vars/Context_Group_Year_of_Campaign";
+        return (android.widget.EditText) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: input
+        Ref:  Context_Group/Vars/L_Paren
+     */
+    public static EditText get_ContextGroup_Vars_LParen(Solo solo) {
+        String ref = "Context_Group/Vars/L_Paren";
+        return (android.widget.EditText) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: input
+        Ref:  Context_Group/Vars/R_Paren
+     */
+    public static EditText get_ContextGroup_Vars_RParen(Solo solo) {
+        String ref = "Context_Group/Vars/R_Paren";
         return (android.widget.EditText) solo.getView((Object) ref);
     }
 
@@ -2535,15 +2535,6 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: input
-        Ref:  Site/Site/Create_New_Trench
-     */
-    public static EditText get_Site_Site_CreateNewTrench(Solo solo) {
-        String ref = "Site/Site/Create_New_Trench";
-        return (android.widget.EditText) solo.getView((Object) ref);
-    }
-
-    /*
-        Type: input
         Ref:  Site/Site/Site_Site_Name
      */
     public static EditText get_Site_Site_SiteSiteName(Solo solo) {
@@ -2679,10 +2670,10 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: input
-        Ref:  Trench/Vars/Trench_Year_of_Camaign
+        Ref:  Trench/Vars/Trench_Year_of_Campaign
      */
-    public static EditText get_Trench_Vars_TrenchYearofCamaign(Solo solo) {
-        String ref = "Trench/Vars/Trench_Year_of_Camaign";
+    public static EditText get_Trench_Vars_TrenchYearofCampaign(Solo solo) {
+        String ref = "Trench/Vars/Trench_Year_of_Campaign";
         return (android.widget.EditText) solo.getView((Object) ref);
     }
 
@@ -2800,6 +2791,15 @@ public class ModuleUtil extends ModuleHelper {
      */
     public static View get_Relationship_Relationships_UnrelatedContexts(Solo solo) {
         String ref = "Relationship/Relationships/Unrelated_Contexts";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: list
+        Ref:  Site/Site/List_of_Existing_Sites
+     */
+    public static View get_Site_Site_ListofExistingSites(Solo solo) {
+        String ref = "Site/Site/List_of_Existing_Sites";
         return (android.view.View) solo.getView((Object) ref);
     }
 

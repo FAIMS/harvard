@@ -9,26 +9,7 @@ void updateFcnVolume() {
 }
 
 void hideFcnVolume() {
-  String uuid       = getUuid("FCN");
-  String refView    = "FCN/General/Volume_Liters";
-  String valView    = getFieldValue(refView);
-  String attribName = getAttributeName(refView);
-
-  if (hasView(refView))
-    removeView(refView);
-
-  if (!isNull(valView)) {
-    // Flag Feature Type as `deleted`.
-    q  = " INSERT INTO aentvalue (UUID, UserID, AttributeID, Deleted)";
-    q += " SELECT '{uuid}', {userid}, attributeid, 1";
-    q += " FROM  attributekey";
-    q += " WHERE attributename = '{attributename}'";
-    q  = replaceFirst(q, "{uuid}", uuid);
-    q  = replaceFirst(q, "{userid}", userid);
-    q  = replaceFirst(q, "{attributename}", attribName);
-
-    fetchOne(q);
-  }
+  hideView("FCN/General/Volume_Liters");
 }
 
 void showFcnVolume() {
@@ -37,12 +18,12 @@ void showFcnVolume() {
 
   if (hasView(refView)) return;
 
-  String label      = getArch16nVal   (refView);
+  String label      = guessArch16nVal (refView);
   String attribName = getAttributeName(refView);
 
   // Create view
   FormInputDef viewDef = createViewDef();
-  viewDef.createTextField     ();
+  viewDef.createTextField     ("decimal");
   viewDef.setLabel            (label);
   viewDef.setAttributeName    (attribName);
   viewDef.setAttributeType    ("measure");

@@ -4,48 +4,47 @@
 FEATURE_TYPE_VOCAB = new ArrayList();
 fetchVocab("Feature Type", FEATURE_TYPE_VOCAB);
 
-void updateFeatureType() {
+void updateContextGroupFields() {
   String ref       = "Context_Group/Gen/Record_Type";
   String vocabName = getMenuValue(ref);
 
   if (vocabName == null            ) return;
-  if (vocabName.equals("{Stratum}")) hideFeatureType();
-  if (vocabName.equals("{Feature}")) showFeatureType();
+  if (vocabName.equals("{Stratum}")) hideContextGroupFields();
+  if (vocabName.equals("{Feature}")) showContextGroupFields();
 }
 
-void hideFeatureType() {
-  String uuid           = getUuid("Context_Group");
-  String refView        = "Context_Group/Gen/Feature_Type";
-  String attribName     = getAttributeName(refView);
-
-  if (!hasView(refView)) return;
-
-  // Before removing the view, we get the value of the Feature Type field, which
-  // is used to determine if Feature Type should be flagged as `deleted`.
-  String featureTypeVal = getFieldValue(refView);
-  removeView(refView);
-
-  if (isNull(featureTypeVal)) return;
-
-  // Flag Feature Type as `deleted`.
-  q  = " INSERT INTO aentvalue (UUID, UserID, AttributeID, Deleted)";
-  q += " SELECT '{uuid}', {userid}, attributeid, 1";
-  q += " FROM  attributekey";
-  q += " WHERE attributename = '{attributename}'";
-  q  = replaceFirst(q, "{uuid}", uuid);
-  q  = replaceFirst(q, "{userid}", userid);
-  q  = replaceFirst(q, "{attributename}", attribName);
-
-  fetchOne(q);
+void hideContextGroupFields() {
+  hideContextGroupPrefix();
+  hideContextGroupType();
+  showContextGroupParens();
 }
 
-void showFeatureType() {
+void showContextGroupFields() {
+  showContextGroupPrefix();
+  showContextGroupType();
+  hideContextGroupParens();
+}
+
+void hideContextGroupType() {
+  hideView("Context_Group/Gen/Feature_Type");
+}
+
+void hideContextGroupPrefix() {
+  hideView("Context_Group/Gen/Feature_Prefix");
+}
+
+void hideContextGroupParens() {
+  setFieldValue("Context_Group/Vars/L_Paren", "");
+  setFieldValue("Context_Group/Vars/R_Paren", "");
+}
+
+void showContextGroupType() {
   String refView  = "Context_Group/Gen/Feature_Type";
   String refGroup = "Context_Group/Gen/Feature_Type_Group";
 
   if (hasView(refView)) return;
 
-  String label      = getArch16nVal(refView);
+  String label      = guessArch16nVal (refView);
   String attribName = getAttributeName(refView);
 
   // Create view
@@ -65,6 +64,33 @@ void showFeatureType() {
   populateDropDown(refView, FEATURE_TYPE_VOCAB, hasNull);
 }
 
-addOnEvent("Context_Group/Gen/Record_Type", "click", "updateFeatureType()");
-addOnEvent("Context_Group", "prefetch", "showFeatureType()");
-addOnEvent("Context_Group",    "fetch", "updateFeatureType()");
+void showContextGroupPrefix() {
+  String refView  = "Context_Group/Gen/Feature_Prefix";
+  String refGroup = "Context_Group/Gen/Feature_Prefix_Group";
+
+  if (hasView(refView)) return;
+
+  String label      = guessArch16nVal (refView);
+  String attribName = getAttributeName(refView);
+
+  // Create view
+  FormInputDef viewDef = createViewDef();
+  viewDef.createTextField     ();
+  viewDef.setLabel            (label);
+  viewDef.setAttributeName    (attribName);
+  viewDef.setAttributeType    ("measure");
+  viewDef.setAnnotationEnabled(true);
+  viewDef.setCertaintyEnabled (true);
+  viewDef.setInfoEnabled      (true);
+
+  createView(refView, viewDef, refGroup);
+}
+
+void showContextGroupParens() {
+  setFieldValue("Context_Group/Vars/L_Paren", "(");
+  setFieldValue("Context_Group/Vars/R_Paren", ")");
+}
+
+addOnEvent("Context_Group/Gen/Record_Type", "click", "updateContextGroupFields()");
+addOnEvent("Context_Group", "prefetch", "showContextGroupFields()");
+addOnEvent("Context_Group",    "fetch", "updateContextGroupFields()");

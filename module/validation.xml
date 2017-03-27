@@ -40,16 +40,6 @@
         <param type="field" value="vocab"/>
       </validator>
     </property>
-    <property name="Plans">
-      <validator type="blankchecker">
-        <param type="field" value="measure"/>
-      </validator>
-    </property>
-    <property name="Section Numbers">
-      <validator type="blankchecker">
-        <param type="field" value="measure"/>
-      </validator>
-    </property>
     <property name="Highest Level">
       <validator type="blankchecker">
         <param type="field" value="measure"/>
@@ -121,8 +111,9 @@
       </validator>
     </property>
     <property name="Orientation Degree">
-      <validator type="blankchecker">
-        <param type="field" value="measure"/>
+      <validator type="querychecker">
+        <query><![CDATA[select coalesce(?,'') between 0 and 90, 'Orientation Degree must be between 0.0 and 90.0']]></query>
+        <param type="field" value="measure" />
       </validator>
     </property>
     <property name="Inclination of axis">
