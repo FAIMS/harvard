@@ -1,13 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-     TODO: Context/Cut/Orientation_Degree should only be displayed when its tab
-           is not hidden.
-     TODO: When pushing back on the Stratum/Feature Tabgroup, I get transported into the Site Tabgroup instead of Trench Tabgroup, that is jump two levels of hierarchy instead of one as one would expect. Can this be fixed?
-     TODO: I wanted you to have something immediately. I found missing attributes compared to the 2017 change requests, but I did not find any profound bugs so far.
-
-     TODO: Trench list - show Trenches belonging to the current/selected site
-     Is it still showing Trenches even belonging to all sites?
-     -->
 <!--@PREPROC:  ./proc/pre.sh-->
 <!--@POSTPROC: ./proc/post.sh-->
 <module suppressWarnings="true">
@@ -83,7 +74,6 @@
     <Sites           t="list"   e="Site"/>
   </Contexts>
   <Next_IDs>
-    Next ID's
     <autonum/>
   </Next_IDs>
   <search>
@@ -98,10 +88,10 @@
 
 <Site>
   <Site f="noscroll">
-    <Site_Site_Name f="id readonly" i="User/User_List/Site_Name">
+    <Site_Site_Name f="id readonly" i="User/User_List/Site_Name!">
       Site Name
     </Site_Site_Name>
-    <Site_Year_of_Campaign f="id readonly" b="decimal" i="User/User_List/Year_of_Campaign">
+    <Site_Year_of_Campaign f="id readonly" b="decimal" i="User/User_List/Year_of_Campaign!">
       Year of Campaign
     </Site_Year_of_Campaign>
     <Trench_ID f="notnull"/>
@@ -112,7 +102,7 @@
 
 <Trench>
   <Trench>
-    <Trench_Site_Name f="id notnull readonly" i="Site/Site/Site_Site_Name">
+    <Trench_Site_Name f="id readonly" i="Site/Site/Site_Site_Name">
       Site Name
       <str>
         <pos>1</pos>
@@ -170,7 +160,7 @@
     <Create_New_Stratum t="button" lc="Context_Group">
       Create New Stratum/Feature
     </Create_New_Stratum>
-    <List_of_Existing_Strata_Features t="button" ec="Context_Group">
+    <List_of_Existing_Strata_Features t="list" ec="Context_Group">
       List of Existing Strata/Features
     </List_of_Existing_Strata_Features>
   </Strata_Features>
@@ -1417,21 +1407,21 @@
         <fmt>FCN$0</fmt>
       </str>
     </FCN_ID>
-    <FCN_Site_Name f="id notnull" i="Context/General/Context_Site_Name Trench/Trench/Trench_Site_Name">
+    <FCN_Site_Name f="id readonly" i="Context/General/Context_Site_Name Trench/Trench/Trench_Site_Name">
       Site Name
       <str>
         <pos>2</pos>
         <fmt>-$0</fmt>
       </str>
     </FCN_Site_Name>
-    <FCN_AreaCode f="id readonly" i="Trench/Trench/Trench_AreaCode Context/General/Context_AreaCode">
+    <FCN_AreaCode f="id readonly" i="Context/General/Context_AreaCode Trench/Trench/Trench_AreaCode">
       Trench ID
       <str>
         <pos>4</pos>
         <fmt>-$0</fmt>
       </str>
     </FCN_AreaCode>
-    <Context_ID f="notnull" i="Context/General/Context_Context_ID">
+    <Context_ID f="readonly" i="Context/General/Context_Context_ID">
       Locus ID
       <desc>Every archaeological locus (negative element (cut), deposit, structure, skeleton, artefact cluster) is given a unique 3 or 4 letter locus code. Each trench is designated with a separate letter which starts the code, so it is immediately obvious to which trench a locus belongs. For example locus HAA belongs to Trench H, locus MQP to Trench M etc.
       The loci are labelled consecutively in alphabetical order using the letters following the trench letter. For Trench H the first locus would be HAA, the second HAB, the third HAB and so on. In addition sets of letters can denote parts of trenches, buildings etc. E.g. HFs might denote loci from a specific building.
@@ -1481,7 +1471,7 @@
       FCN Weight (g)
     </FCN_Weight_g>
     <Volume_Liters_Group t="group"/>
-    <Volume_Liters f="noui">
+    <Volume_Liters t="input" f="noui">
       Volume (Liters)
       <!--This will be added to the UI dynamically-->
     </Volume_Liters>
@@ -1553,6 +1543,7 @@
   <!--@SOURCE: logic/dynamic-ui-helpers.bsh-->
   <!--@SOURCE: logic/dynamic-ui-context.bsh-->
   <!--@SOURCE: logic/dynamic-ui-context-group.bsh-->
+  <!--@SOURCE: logic/dynamic-ui-fcn.bsh-->
   <!--@SOURCE: logic/context-dates.bsh-->
   <!--@SOURCE: logic/soil-texture-helper.bsh-->
   <!--@SOURCE: logic/search-extension.bsh-->

@@ -44,6 +44,15 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: tab group
+        Ref:  Date_Closed
+     */
+    public static View get_DateClosed(Solo solo) {
+        String ref = "Date_Closed";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: tab group
         Ref:  Diary
      */
     public static View get_Diary(Solo solo) {
@@ -304,10 +313,28 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: tab
+        Ref:  Control/Next_IDs
+     */
+    public static View get_Control_NextIDs(Solo solo) {
+        String ref = "Control/Next_IDs";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: tab
         Ref:  Control/Search
      */
     public static View get_Control_Search(Solo solo) {
         String ref = "Control/Search";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: tab
+        Ref:  Date_Closed/Date_Closed
+     */
+    public static View get_DateClosed_DateClosed(Solo solo) {
+        String ref = "Date_Closed/Date_Closed";
         return (android.view.View) solo.getView((Object) ref);
     }
 
@@ -421,10 +448,46 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: tab
-        Ref:  Trench/Site
+        Ref:  Trench/Diaries
      */
-    public static View get_Trench_Site(Solo solo) {
-        String ref = "Trench/Site";
+    public static View get_Trench_Diaries(Solo solo) {
+        String ref = "Trench/Diaries";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: tab
+        Ref:  Trench/FCNs
+     */
+    public static View get_Trench_FCNs(Solo solo) {
+        String ref = "Trench/FCNs";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: tab
+        Ref:  Trench/Legacies
+     */
+    public static View get_Trench_Legacies(Solo solo) {
+        String ref = "Trench/Legacies";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: tab
+        Ref:  Trench/Loci
+     */
+    public static View get_Trench_Loci(Solo solo) {
+        String ref = "Trench/Loci";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: tab
+        Ref:  Trench/Strata_Features
+     */
+    public static View get_Trench_StrataFeatures(Solo solo) {
+        String ref = "Trench/Strata_Features";
         return (android.view.View) solo.getView((Object) ref);
     }
 
@@ -708,6 +771,24 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: button
+        Ref:  Date_Closed/Date_Closed/Cancel
+     */
+    public static View get_DateClosed_DateClosed_Cancel(Solo solo) {
+        String ref = "Date_Closed/Date_Closed/Cancel";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: button
+        Ref:  Date_Closed/Date_Closed/Set_Date_Closed
+     */
+    public static View get_DateClosed_DateClosed_SetDateClosed(Solo solo) {
+        String ref = "Date_Closed/Date_Closed/Set_Date_Closed";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: button
         Ref:  Diary/Diary/Button_Photo
      */
     public static View get_Diary_Diary_ButtonPhoto(Solo solo) {
@@ -762,55 +843,55 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: button
-        Ref:  Site/Site/Create_New_Trench
+        Ref:  Site/Site/Trenches
      */
-    public static View get_Site_Site_CreateNewTrench(Solo solo) {
-        String ref = "Site/Site/Create_New_Trench";
+    public static View get_Site_Site_Trenches(Solo solo) {
+        String ref = "Site/Site/Trenches";
         return (android.view.View) solo.getView((Object) ref);
     }
 
     /*
         Type: button
-        Ref:  Trench/Site/Create_New_Diary
+        Ref:  Trench/Diaries/Create_New_Diary
      */
-    public static View get_Trench_Site_CreateNewDiary(Solo solo) {
-        String ref = "Trench/Site/Create_New_Diary";
+    public static View get_Trench_Diaries_CreateNewDiary(Solo solo) {
+        String ref = "Trench/Diaries/Create_New_Diary";
         return (android.view.View) solo.getView((Object) ref);
     }
 
     /*
         Type: button
-        Ref:  Trench/Site/Create_New_Legacy
+        Ref:  Trench/FCNs/Create_New_FCN
      */
-    public static View get_Trench_Site_CreateNewLegacy(Solo solo) {
-        String ref = "Trench/Site/Create_New_Legacy";
+    public static View get_Trench_FCNs_CreateNewFCN(Solo solo) {
+        String ref = "Trench/FCNs/Create_New_FCN";
         return (android.view.View) solo.getView((Object) ref);
     }
 
     /*
         Type: button
-        Ref:  Trench/Site/Create_New_Locus
+        Ref:  Trench/Legacies/Create_New_Legacy
      */
-    public static View get_Trench_Site_CreateNewLocus(Solo solo) {
-        String ref = "Trench/Site/Create_New_Locus";
+    public static View get_Trench_Legacies_CreateNewLegacy(Solo solo) {
+        String ref = "Trench/Legacies/Create_New_Legacy";
         return (android.view.View) solo.getView((Object) ref);
     }
 
     /*
         Type: button
-        Ref:  Trench/Site/Create_New_Stratum
+        Ref:  Trench/Loci/Create_New_Locus
      */
-    public static View get_Trench_Site_CreateNewStratum(Solo solo) {
-        String ref = "Trench/Site/Create_New_Stratum";
+    public static View get_Trench_Loci_CreateNewLocus(Solo solo) {
+        String ref = "Trench/Loci/Create_New_Locus";
         return (android.view.View) solo.getView((Object) ref);
     }
 
     /*
         Type: button
-        Ref:  Trench/Site/New_FCN
+        Ref:  Trench/Strata_Features/Create_New_Stratum
      */
-    public static View get_Trench_Site_NewFCN(Solo solo) {
-        String ref = "Trench/Site/New_FCN";
+    public static View get_Trench_StrataFeatures_CreateNewStratum(Solo solo) {
+        String ref = "Trench/Strata_Features/Create_New_Stratum";
         return (android.view.View) solo.getView((Object) ref);
     }
 
@@ -820,6 +901,24 @@ public class ModuleUtil extends ModuleHelper {
      */
     public static View get_Trench_Trench_AddTrenchFiles(Solo solo) {
         String ref = "Trench/Trench/Add_Trench_Files";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: button
+        Ref:  Trench/Trench/Set_Date_Closed
+     */
+    public static View get_Trench_Trench_SetDateClosed(Solo solo) {
+        String ref = "Trench/Trench/Set_Date_Closed";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: button
+        Ref:  Trench_Files/Add_Trench_Files/Button_Attach_File
+     */
+    public static View get_TrenchFiles_AddTrenchFiles_ButtonAttachFile(Solo solo) {
+        String ref = "Trench_Files/Add_Trench_Files/Button_Attach_File";
         return (android.view.View) solo.getView((Object) ref);
     }
 
@@ -1194,6 +1293,15 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: dropdown
+        Ref:  Trench_Files/Add_Trench_Files/Attach_File
+     */
+    public static View get_TrenchFiles_AddTrenchFiles_AttachFile(Solo solo) {
+        String ref = "Trench_Files/Add_Trench_Files/Attach_File";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: dropdown
         Ref:  Trench_Files/Add_Trench_Files/File_Type
      */
     public static View get_TrenchFiles_AddTrenchFiles_FileType(Solo solo) {
@@ -1295,9 +1403,9 @@ public class ModuleUtil extends ModuleHelper {
         Type: input
         Ref:  Context/General/Context_AreaCode
      */
-    public static EditText get_Context_General_ContextAreaCode(Solo solo) {
+    public static View get_Context_General_ContextAreaCode(Solo solo) {
         String ref = "Context/General/Context_AreaCode";
-        return (android.widget.EditText) solo.getView((Object) ref);
+        return (android.view.View) solo.getView((Object) ref);
     }
 
     /*
@@ -2024,9 +2132,9 @@ public class ModuleUtil extends ModuleHelper {
         Type: input
         Ref:  Context_Group/Gen/Context_Group_AreaCode
      */
-    public static EditText get_ContextGroup_Gen_ContextGroupAreaCode(Solo solo) {
+    public static View get_ContextGroup_Gen_ContextGroupAreaCode(Solo solo) {
         String ref = "Context_Group/Gen/Context_Group_AreaCode";
-        return (android.widget.EditText) solo.getView((Object) ref);
+        return (android.view.View) solo.getView((Object) ref);
     }
 
     /*
@@ -2220,47 +2328,29 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: input
-        Ref:  Control/Contexts/Next_Context_Context_ID
+        Ref:  Control/Next_IDs/Next_Context_Context_ID
      */
-    public static View get_Control_Contexts_NextContextContextID(Solo solo) {
-        String ref = "Control/Contexts/Next_Context_Context_ID";
+    public static View get_Control_NextIDs_NextContextContextID(Solo solo) {
+        String ref = "Control/Next_IDs/Next_Context_Context_ID";
         return (android.view.View) solo.getView((Object) ref);
     }
 
     /*
         Type: input
-        Ref:  Control/Contexts/Next_Context_Group_ID
+        Ref:  Control/Next_IDs/Next_Context_Group_ID
      */
-    public static View get_Control_Contexts_NextContextGroupID(Solo solo) {
-        String ref = "Control/Contexts/Next_Context_Group_ID";
+    public static View get_Control_NextIDs_NextContextGroupID(Solo solo) {
+        String ref = "Control/Next_IDs/Next_Context_Group_ID";
         return (android.view.View) solo.getView((Object) ref);
     }
 
     /*
         Type: input
-        Ref:  Control/Contexts/Next_FCN_ID
+        Ref:  Control/Next_IDs/Next_FCN_ID
      */
-    public static View get_Control_Contexts_NextFCNID(Solo solo) {
-        String ref = "Control/Contexts/Next_FCN_ID";
+    public static View get_Control_NextIDs_NextFCNID(Solo solo) {
+        String ref = "Control/Next_IDs/Next_FCN_ID";
         return (android.view.View) solo.getView((Object) ref);
-    }
-
-    /*
-        Type: input
-        Ref:  Control/Contexts/Next_Trench_AreaCode
-     */
-    public static View get_Control_Contexts_NextTrenchAreaCode(Solo solo) {
-        String ref = "Control/Contexts/Next_Trench_AreaCode";
-        return (android.view.View) solo.getView((Object) ref);
-    }
-
-    /*
-        Type: input
-        Ref:  Control/Contexts/Year_of_Campaign
-     */
-    public static EditText get_Control_Contexts_YearofCampaign(Solo solo) {
-        String ref = "Control/Contexts/Year_of_Campaign";
-        return (android.widget.EditText) solo.getView((Object) ref);
     }
 
     /*
@@ -2278,6 +2368,15 @@ public class ModuleUtil extends ModuleHelper {
      */
     public static EditText get_Control_Search_SearchTerm(Solo solo) {
         String ref = "Control/Search/Search_Term";
+        return (android.widget.EditText) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: input
+        Ref:  Date_Closed/Date_Closed/Date_Closed
+     */
+    public static EditText get_DateClosed_DateClosed_DateClosed(Solo solo) {
+        String ref = "Date_Closed/Date_Closed/Date_Closed";
         return (android.widget.EditText) solo.getView((Object) ref);
     }
 
@@ -2321,9 +2420,9 @@ public class ModuleUtil extends ModuleHelper {
         Type: input
         Ref:  FCN/General/Context_ID
      */
-    public static EditText get_FCN_General_ContextID(Solo solo) {
+    public static View get_FCN_General_ContextID(Solo solo) {
         String ref = "FCN/General/Context_ID";
-        return (android.widget.EditText) solo.getView((Object) ref);
+        return (android.view.View) solo.getView((Object) ref);
     }
 
     /*
@@ -2339,9 +2438,9 @@ public class ModuleUtil extends ModuleHelper {
         Type: input
         Ref:  FCN/General/FCN_AreaCode
      */
-    public static EditText get_FCN_General_FCNAreaCode(Solo solo) {
+    public static View get_FCN_General_FCNAreaCode(Solo solo) {
         String ref = "FCN/General/FCN_AreaCode";
-        return (android.widget.EditText) solo.getView((Object) ref);
+        return (android.view.View) solo.getView((Object) ref);
     }
 
     /*
@@ -2375,9 +2474,9 @@ public class ModuleUtil extends ModuleHelper {
         Type: input
         Ref:  FCN/General/FCN_Site_Name
      */
-    public static EditText get_FCN_General_FCNSiteName(Solo solo) {
+    public static View get_FCN_General_FCNSiteName(Solo solo) {
         String ref = "FCN/General/FCN_Site_Name";
-        return (android.widget.EditText) solo.getView((Object) ref);
+        return (android.view.View) solo.getView((Object) ref);
     }
 
     /*
@@ -2537,17 +2636,26 @@ public class ModuleUtil extends ModuleHelper {
         Type: input
         Ref:  Site/Site/Site_Site_Name
      */
-    public static EditText get_Site_Site_SiteSiteName(Solo solo) {
+    public static View get_Site_Site_SiteSiteName(Solo solo) {
         String ref = "Site/Site/Site_Site_Name";
-        return (android.widget.EditText) solo.getView((Object) ref);
+        return (android.view.View) solo.getView((Object) ref);
     }
 
     /*
         Type: input
         Ref:  Site/Site/Site_Year_of_Campaign
      */
-    public static EditText get_Site_Site_SiteYearofCampaign(Solo solo) {
+    public static View get_Site_Site_SiteYearofCampaign(Solo solo) {
         String ref = "Site/Site/Site_Year_of_Campaign";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: input
+        Ref:  Site/Site/Trench_ID
+     */
+    public static EditText get_Site_Site_TrenchID(Solo solo) {
+        String ref = "Site/Site/Trench_ID";
         return (android.widget.EditText) solo.getView((Object) ref);
     }
 
@@ -2582,9 +2690,9 @@ public class ModuleUtil extends ModuleHelper {
         Type: input
         Ref:  Trench/Trench/Date_Closed
      */
-    public static EditText get_Trench_Trench_DateClosed(Solo solo) {
+    public static View get_Trench_Trench_DateClosed(Solo solo) {
         String ref = "Trench/Trench/Date_Closed";
-        return (android.widget.EditText) solo.getView((Object) ref);
+        return (android.view.View) solo.getView((Object) ref);
     }
 
     /*
@@ -2645,18 +2753,18 @@ public class ModuleUtil extends ModuleHelper {
         Type: input
         Ref:  Trench/Trench/Trench_AreaCode
      */
-    public static EditText get_Trench_Trench_TrenchAreaCode(Solo solo) {
+    public static View get_Trench_Trench_TrenchAreaCode(Solo solo) {
         String ref = "Trench/Trench/Trench_AreaCode";
-        return (android.widget.EditText) solo.getView((Object) ref);
+        return (android.view.View) solo.getView((Object) ref);
     }
 
     /*
         Type: input
         Ref:  Trench/Trench/Trench_Site_Name
      */
-    public static EditText get_Trench_Trench_TrenchSiteName(Solo solo) {
+    public static View get_Trench_Trench_TrenchSiteName(Solo solo) {
         String ref = "Trench/Trench/Trench_Site_Name";
-        return (android.widget.EditText) solo.getView((Object) ref);
+        return (android.view.View) solo.getView((Object) ref);
     }
 
     /*
@@ -2708,8 +2816,26 @@ public class ModuleUtil extends ModuleHelper {
         Type: input
         Ref:  Trench_Files/Add_Trench_Files/Trench_Files_AreaCode
      */
-    public static EditText get_TrenchFiles_AddTrenchFiles_TrenchFilesAreaCode(Solo solo) {
+    public static View get_TrenchFiles_AddTrenchFiles_TrenchFilesAreaCode(Solo solo) {
         String ref = "Trench_Files/Add_Trench_Files/Trench_Files_AreaCode";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: input
+        Ref:  User/User_List/Site_Name
+     */
+    public static EditText get_User_UserList_SiteName(Solo solo) {
+        String ref = "User/User_List/Site_Name";
+        return (android.widget.EditText) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: input
+        Ref:  User/User_List/Year_of_Campaign
+     */
+    public static EditText get_User_UserList_YearofCampaign(Solo solo) {
+        String ref = "User/User_List/Year_of_Campaign";
         return (android.widget.EditText) solo.getView((Object) ref);
     }
 
@@ -2796,10 +2922,55 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: list
-        Ref:  Site/Site/List_of_Existing_Sites
+        Ref:  Site/Site/List_of_Existing_Trenches
      */
-    public static View get_Site_Site_ListofExistingSites(Solo solo) {
-        String ref = "Site/Site/List_of_Existing_Sites";
+    public static View get_Site_Site_ListofExistingTrenches(Solo solo) {
+        String ref = "Site/Site/List_of_Existing_Trenches";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: list
+        Ref:  Trench/Diaries/List_of_Existing_Diaries
+     */
+    public static View get_Trench_Diaries_ListofExistingDiaries(Solo solo) {
+        String ref = "Trench/Diaries/List_of_Existing_Diaries";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: list
+        Ref:  Trench/FCNs/List_of_Existing_FCNs
+     */
+    public static View get_Trench_FCNs_ListofExistingFCNs(Solo solo) {
+        String ref = "Trench/FCNs/List_of_Existing_FCNs";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: list
+        Ref:  Trench/Legacies/List_of_Existing_Legacies
+     */
+    public static View get_Trench_Legacies_ListofExistingLegacies(Solo solo) {
+        String ref = "Trench/Legacies/List_of_Existing_Legacies";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: list
+        Ref:  Trench/Loci/List_of_Existing_Loci
+     */
+    public static View get_Trench_Loci_ListofExistingLoci(Solo solo) {
+        String ref = "Trench/Loci/List_of_Existing_Loci";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: list
+        Ref:  Trench/Strata_Features/List_of_Existing_Strata_Features
+     */
+    public static View get_Trench_StrataFeatures_ListofExistingStrataFeatures(Solo solo) {
+        String ref = "Trench/Strata_Features/List_of_Existing_Strata_Features";
         return (android.view.View) solo.getView((Object) ref);
     }
 
@@ -2917,6 +3088,24 @@ public class ModuleUtil extends ModuleHelper {
      */
     public static View get_ContextGroup_Add_ViewAttachedFiles(Solo solo) {
         String ref = "Context_Group/Add/View_Attached_Files";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: viewfiles
+        Ref:  FCN/General/View_Attached_Files
+     */
+    public static View get_FCN_General_ViewAttachedFiles(Solo solo) {
+        String ref = "FCN/General/View_Attached_Files";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: viewfiles
+        Ref:  Trench_Files/Add_Trench_Files/View_Attached_Files
+     */
+    public static View get_TrenchFiles_AddTrenchFiles_ViewAttachedFiles(Solo solo) {
+        String ref = "Trench_Files/Add_Trench_Files/View_Attached_Files";
         return (android.view.View) solo.getView((Object) ref);
     }
 

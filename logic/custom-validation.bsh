@@ -12,14 +12,14 @@ String getName(String ref, String defaultName) {
 String getCond(String ref, String defaultCond) {
   String refTab  = getTabRef(ref);
 
-  if (!refTab.equals("Context/Cut"      ))
+  if (refTab.equals("Context/Cut"      ))
     return "isSelected(\"Context/General/Context_Type\", \"{Cut}\")";
-  if (!refTab.equals("Context/Deposit"  ))
+  if (refTab.equals("Context/Deposit"  ))
     return "isSelected(\"Context/General/Context_Type\", \"{Deposit}\")" +
       " ||  isSelected(\"Context/General/Context_Type\", \"{Natural}\")";
-  if (!refTab.equals("Context/Skeleton" ))
+  if (refTab.equals("Context/Skeleton" ))
     return "isSelected(\"Context/General/Context_Type\", \"{Skeleton}\")";
-  if (!refTab.equals("Context/Structure"))
+  if (refTab.equals("Context/Structure"))
     return "isSelected(\"Context/General/Context_Type\", \"{Construction}\")";
 
   return defaultCond;
@@ -58,5 +58,6 @@ List fieldPair(String ref, String name, String cond) {
   fp.add(ref);
   fp.add(name);
   fp.add(cond);
+
   return fp;
 }

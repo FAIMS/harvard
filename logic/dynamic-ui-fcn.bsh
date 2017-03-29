@@ -3,9 +3,10 @@ void updateFcnVolume() {
   String ref       = "FCN/General/FCN_Class";
   String vocabName = getMenuValue(ref);
 
-  if (vocabName == null             ) return;
-  if (vocabName.equals("{Sediment}")) hideFcnVolume();
-  if (vocabName.equals("{Other}"   )) showFcnVolume();
+  if (vocabName.equals("{Sediment}")) { showFcnVolume(); return; }
+  if (vocabName.equals("{Other}"   )) { showFcnVolume(); return; }
+
+  hideFcnVolume();
 }
 
 void hideFcnVolume() {
@@ -13,8 +14,8 @@ void hideFcnVolume() {
 }
 
 void showFcnVolume() {
-  String refView  = "Context_Group/Gen/Volume_Liters";
-  String refGroup = "Context_Group/Gen/Volume_Liters_Group";
+  String refView  = "FCN/General/Volume_Liters";
+  String refGroup = "FCN/General/Volume_Liters_Group";
 
   if (hasView(refView)) return;
 

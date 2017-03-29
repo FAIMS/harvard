@@ -26,7 +26,7 @@ void goToDateClosedTabGroup() {
 
 void setDateClosed() {
   String src = "Date_Closed/Date_Closed/Date_Closed";
-  String dst = "Trench/Trench/Set_Date_Closed";
+  String dst = "Trench/Trench/Date_Closed";
 
   // Change the date picker's DD/MM/YYYY format to YYYY/MM/DD
   String val;

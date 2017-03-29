@@ -10,7 +10,12 @@ void updateContextGroupFields() {
   String STRATUM   = "{Stratum}";
   String FEATURE   = "{Feature}";
 
-  if (vocabName == null        ) setMenuValue(ref, FEATURE)
+  if (isNull(vocabName)) {
+    setMenuValue(ref, FEATURE);
+    updateContextGroupToFeature();
+    return;
+  }
+
   if (vocabName.equals(STRATUM)) updateContextGroupToStratum();
   if (vocabName.equals(FEATURE)) updateContextGroupToFeature();
 }
@@ -94,5 +99,6 @@ void showContextGroupParens() {
 }
 
 addOnEvent("Context_Group/Gen/Record_Type", "click", "updateContextGroupFields()");
+addOnEvent("Context_Group", "create",   "updateContextGroupFields()");
 addOnEvent("Context_Group", "prefetch", "updateContextGroupToFeature()");
 addOnEvent("Context_Group",    "fetch", "updateContextGroupFields()");

@@ -1,18 +1,13 @@
 <?xml version='1.0' encoding='utf-8'?>
 <ValidationSchema>
   <ArchaeologicalElement name="Site">
-    <property name="Site Site Name">
+    <property name="Trench ID">
       <validator type="blankchecker">
         <param type="field" value="measure"/>
       </validator>
     </property>
   </ArchaeologicalElement>
   <ArchaeologicalElement name="Trench">
-    <property name="Trench Site Name">
-      <validator type="blankchecker">
-        <param type="field" value="measure"/>
-      </validator>
-    </property>
     <property name="Excavation Method">
       <validator type="blankchecker">
         <param type="field" value="vocab"/>
@@ -21,11 +16,6 @@
   </ArchaeologicalElement>
   <ArchaeologicalElement name="Context">
     <property name="Context Site Name">
-      <validator type="blankchecker">
-        <param type="field" value="measure"/>
-      </validator>
-    </property>
-    <property name="Context AreaCode">
       <validator type="blankchecker">
         <param type="field" value="measure"/>
       </validator>
@@ -218,11 +208,6 @@
         <param type="field" value="vocab"/>
       </validator>
     </property>
-    <property name="Context Group AreaCode">
-      <validator type="blankchecker">
-        <param type="field" value="measure"/>
-      </validator>
-    </property>
     <property name="Context Group ID">
       <validator type="blankchecker">
         <param type="field" value="measure"/>
@@ -241,21 +226,6 @@
   </ArchaeologicalElement>
   <ArchaeologicalElement name="FCN">
     <property name="FCN ID">
-      <validator type="blankchecker">
-        <param type="field" value="measure"/>
-      </validator>
-    </property>
-    <property name="FCN Site Name">
-      <validator type="blankchecker">
-        <param type="field" value="measure"/>
-      </validator>
-    </property>
-    <property name="FCN AreaCode">
-      <validator type="blankchecker">
-        <param type="field" value="measure"/>
-      </validator>
-    </property>
-    <property name="Context ID">
       <validator type="blankchecker">
         <param type="field" value="measure"/>
       </validator>
