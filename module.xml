@@ -2,6 +2,11 @@
 <!--
      TODO: Context/Cut/Orientation_Degree should only be displayed when its tab
            is not hidden.
+     TODO: When pushing back on the Stratum/Feature Tabgroup, I get transported into the Site Tabgroup instead of Trench Tabgroup, that is jump two levels of hierarchy instead of one as one would expect. Can this be fixed?
+     TODO: I wanted you to have something immediately. I found missing attributes compared to the 2017 change requests, but I did not find any profound bugs so far.
+
+     TODO: Trench list - show Trenches belonging to the current/selected site
+     Is it still showing Trenches even belonging to all sites?
      -->
 <!--@PREPROC:  ./proc/pre.sh-->
 <!--@POSTPROC: ./proc/post.sh-->
@@ -60,6 +65,8 @@
   <User_List>
     <Users t="dropdown" f="user"/>
     <Device_Code t="dropdown" f="persist" vp="Context/Vars/Device_Code"/>
+    <Site_Name        f="persist"/>
+    <Year_of_Campaign f="persist" b="decimal"/>
     <Login t="button" l="Control"/>
     <Module_Guide t="button" l="User/Help"/>
   </User_List>
@@ -71,12 +78,14 @@
 <Control f="nodata">
   <Contexts f="noscroll">
     Site
-    <Year_of_Campaign f="persist" b="decimal"/>
-    <autonum/>
     <GPS_Diagnostics t="gpsdiag"/>
     <Create_New_Site t="button" l="Site"/>
     <Sites           t="list"   e="Site"/>
   </Contexts>
+  <Next_IDs>
+    Next ID's
+    <autonum/>
+  </Next_IDs>
   <search>
     <!--The semantics of this element has been changed with @POSTPROC. A
          Select_User dropdown has been placed beside the Entity_List.
@@ -89,27 +98,28 @@
 
 <Site>
   <Site f="noscroll">
-    <Site_Site_Name f="id notnull">
+    <Site_Site_Name f="id readonly" i="User/User_List/Site_Name">
       Site Name
     </Site_Site_Name>
-    <Site_Year_of_Campaign f="id" b="decimal" i="Control/Contexts/Year_of_Campaign">
+    <Site_Year_of_Campaign f="id readonly" b="decimal" i="User/User_List/Year_of_Campaign">
       Year of Campaign
     </Site_Year_of_Campaign>
-    <Create_New_Trench      lc="Trench"/>
-    <List_of_Existing_Sites ec="Trench"/>
+    <Trench_ID f="notnull"/>
+    <Trenches                  lc="Trench"/>
+    <List_of_Existing_Trenches ec="Trench"/>
   </Site>
 </Site>
 
 <Trench>
   <Trench>
-    <Trench_Site_Name f="id notnull" i="Site/Site/Site_Site_Name">
+    <Trench_Site_Name f="id notnull readonly" i="Site/Site/Site_Site_Name">
       Site Name
       <str>
         <pos>1</pos>
       </str>
     </Trench_Site_Name>
     <author/>
-    <Trench_AreaCode f="id autonum">
+    <Trench_AreaCode f="id readonly" i="Site/Site/Trench_ID">
       Trench ID
       <str>
         <pos>3</pos>
@@ -143,20 +153,39 @@
     <timestamp>
       Date Opened
     </timestamp>
-    <Date_Closed b="date"/>
+    <Set_Date_Closed t="button" l="Date_Closed">
+      Set Date Closed...
+    </Set_Date_Closed>
+    <Date_Closed f="readonly"/>
     <Brief_Description/>
     <Your_Discussion/>
     <Add_Trench_Files t="button" lc="Trench_Files"/>
   </Trench>
-  <Site>
-    <Create_New_Locus   t="button" lc="Context"/>
+  <Loci f="noscroll">
+    <Create_New_Locus      t="button" lc="Context"/>
+    <List_of_Existing_Loci t="list"   ec="Context"/>
+  </Loci>
+  <Strata_Features f="noscroll">
+    Strata/Features
     <Create_New_Stratum t="button" lc="Context_Group">
       Create New Stratum/Feature
     </Create_New_Stratum>
-    <New_FCN            t="button" lc="FCN"/>
-    <Create_New_Diary   t="button" lc="Diary"/>
-    <Create_New_Legacy  t="button" lc="Legacy"/>
-  </Site>
+    <List_of_Existing_Strata_Features t="button" ec="Context_Group">
+      List of Existing Strata/Features
+    </List_of_Existing_Strata_Features>
+  </Strata_Features>
+  <FCNs f="noscroll">
+    <Create_New_FCN        t="button" lc="FCN"/>
+    <List_of_Existing_FCNs t="list"   ec="FCN"/>
+  </FCNs>
+  <Diaries f="noscroll">
+    <Create_New_Diary         t="button" lc="Diary"/>
+    <List_of_Existing_Diaries t="list"   ec="Diary"/>
+  </Diaries>
+  <Legacies f="noscroll">
+    <Create_New_Legacy         t="button" lc="Legacy"/>
+    <List_of_Existing_Legacies t="list"   ec="Legacy"/>
+  </Legacies>
   <Vars f="hidden">
     <Trench_Year_of_Campaign f="id" i="Site/Site/Site_Year_of_Campaign">
       <str>
@@ -166,9 +195,17 @@
   </Vars>
 </Trench>
 
+<Date_Closed f="nodata">
+  <Date_Closed>
+    <Date_Closed b="date"/>
+    <Set_Date_Closed t="button"/>
+    <Cancel t="button"/>
+  </Date_Closed>
+</Date_Closed>
+
 <Trench_Files>
   <Add_Trench_Files>
-    <Trench_Files_AreaCode f="id" i="Trench/Trench/Trench_AreaCode">
+    <Trench_Files_AreaCode f="id readonly" i="Trench/Trench/Trench_AreaCode">
       Trench ID
       <str><fmt>$0</fmt></str>
     </Trench_Files_AreaCode>
@@ -183,6 +220,8 @@
     </File_Type>
     <File_Name/>
     <File_Comment/>
+    <Attach_File t="file"/>
+    <View_Attached_Files t="viewfiles"/>
   </Add_Trench_Files>
 </Trench_Files>
 
@@ -197,7 +236,7 @@
           <pos>1</pos>
         </str>
       </Context_Site_Name>
-      <Context_AreaCode f="id notnull" i="Trench/Trench/Trench_AreaCode">
+      <Context_AreaCode f="id readonly" i="Trench/Trench/Trench_AreaCode">
         Trench ID
         <!--The semantics of the autonum flag have been changed using
              @POSTPROC-->
@@ -303,7 +342,7 @@
         <desc>Any Locus with deposited sediment and soil, such as floor layers, pit and grave fills, hearth fills and natural sediments.</desc></opt>
         <opt p="gallery/ContextType/Orange/Natural.png">Natural
         <desc>Any Locus with deposited sediment and soil, such as floor layers, pit and grave fills, hearth fills and natural sediments.</desc></opt>
-        <opt p="gallery/ContextType/Orange/Structure.png">Feature Part
+        <opt p="gallery/ContextType/Orange/Structure.png">Construction
         <desc>Any Locus consisting of deliberately constructed structural element, independent of a Negative Element (i.e. cut, such as a wall or a hearth).</desc></opt>
         <opt p="gallery/ContextType/Orange/Skeleton.png">Skeleton
         <desc>Human skeletal remains.</desc></opt>
@@ -984,7 +1023,7 @@
       <str><pos>4</pos></str>
     </Feature_Prefix>
     <cols>
-      <Context_Group_AreaCode f="id notnull" i="Trench/Trench/Trench_AreaCode">
+      <Context_Group_AreaCode f="id readonly" i="Trench/Trench/Trench_AreaCode">
         Trench ID
         <str><pos>3</pos><fmt>-$0-</fmt></str>
       </Context_Group_AreaCode>
@@ -1011,8 +1050,8 @@
         <opt>Surface</opt>
         <opt>Space</opt>
         <opt>Posthole</opt>
-        <opt>Hearth</opt>
         <opt>Posthole Row</opt>
+        <opt>Hearth</opt>
         <opt>Kiln</opt>
         <opt>Furnace</opt>
         <opt>House</opt>
@@ -1385,7 +1424,7 @@
         <fmt>-$0</fmt>
       </str>
     </FCN_Site_Name>
-    <FCN_AreaCode f="id notnull" i="Trench/Trench/Trench_AreaCode Context/General/Context_AreaCode">
+    <FCN_AreaCode f="id readonly" i="Trench/Trench/Trench_AreaCode Context/General/Context_AreaCode">
       Trench ID
       <str>
         <pos>4</pos>
@@ -1457,6 +1496,7 @@
     </Analyzed>
     <FCN_Group_Comment/>
     <Attach_File t="file"/>
+    <View_Attached_Files t="viewfiles"/>
     <Attach_Photograph t="camera"/>
   </General>
   <Vars f="hidden">
@@ -1517,5 +1557,6 @@
   <!--@SOURCE: logic/soil-texture-helper.bsh-->
   <!--@SOURCE: logic/search-extension.bsh-->
   <!--@SOURCE: logic/custom-validation.bsh-->
+  <!--@SOURCE: logic/date-closed.bsh-->
 ]]></logic>
 </module>

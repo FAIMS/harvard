@@ -39,7 +39,7 @@ void openContextTabs(Boolean showGeneralInformationTab){
     cancelTab(refStr, false);
     cancelTab(refSke, false);
     showTab  (refCut);
-  } else if (vocabName.equals("{Feature_Part}")){
+  } else if (vocabName.equals("{Construction}")){
     cancelTab(refDep, false);
     cancelTab(refCut, false);
     cancelTab(refSke, false);

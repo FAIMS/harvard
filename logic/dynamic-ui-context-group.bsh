@@ -7,19 +7,21 @@ fetchVocab("Feature Type", FEATURE_TYPE_VOCAB);
 void updateContextGroupFields() {
   String ref       = "Context_Group/Gen/Record_Type";
   String vocabName = getMenuValue(ref);
+  String STRATUM   = "{Stratum}";
+  String FEATURE   = "{Feature}";
 
-  if (vocabName == null            ) return;
-  if (vocabName.equals("{Stratum}")) hideContextGroupFields();
-  if (vocabName.equals("{Feature}")) showContextGroupFields();
+  if (vocabName == null        ) setMenuValue(ref, FEATURE)
+  if (vocabName.equals(STRATUM)) updateContextGroupToStratum();
+  if (vocabName.equals(FEATURE)) updateContextGroupToFeature();
 }
 
-void hideContextGroupFields() {
+void updateContextGroupToStratum() {
   hideContextGroupPrefix();
   hideContextGroupType();
   showContextGroupParens();
 }
 
-void showContextGroupFields() {
+void updateContextGroupToFeature() {
   showContextGroupPrefix();
   showContextGroupType();
   hideContextGroupParens();
@@ -92,5 +94,5 @@ void showContextGroupParens() {
 }
 
 addOnEvent("Context_Group/Gen/Record_Type", "click", "updateContextGroupFields()");
-addOnEvent("Context_Group", "prefetch", "showContextGroupFields()");
+addOnEvent("Context_Group", "prefetch", "updateContextGroupToFeature()");
 addOnEvent("Context_Group",    "fetch", "updateContextGroupFields()");
