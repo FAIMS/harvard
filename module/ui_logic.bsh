@@ -1294,7 +1294,7 @@ void validateFCN() {
 }
 void validateLegacy() {
   List f = new ArrayList(); // Fields to be validated
-  f.add(fieldPair("Legacy/Legacy/AreaCode", "{Trench}"));
+  f.add(fieldPair("Legacy/Legacy/AreaCode", "{Trench_ID}"));
   f.add(fieldPair("Legacy/Legacy/Legacy_Context_ID", "{Locus_ID}"));
 
   String validationMessage = validateFields(f, "PLAINTEXT");

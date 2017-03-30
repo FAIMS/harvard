@@ -231,7 +231,7 @@
         <!--The semantics of the autonum flag have been changed using
              @POSTPROC-->
         <str>
-          <pos>3</pos>
+          <pos>4</pos>
           <fmt>-$0</fmt>
         </str>
       </Context_AreaCode>
@@ -242,7 +242,7 @@
         Burial locus codes begin with the letter Z, followed by the trench letter. Hence burial ZHA is the first burial locus from trench H.
         Check with the trench supervisor who will assign the locus code from the central register.</desc>
         <str>
-          <pos>4</pos>
+          <pos>5</pos>
           <fmt>-L-$0</fmt>
         </str>
       </Context_Context_ID>
@@ -320,7 +320,7 @@
       <desc>Describe the locus type by selecting an icon as defined below.
   When you have selected a locus type you can proceed to open the "Fill in locus type details" page. Note this page will not open unless you have selected a locus type.</desc>
       <str>
-        <pos>2</pos>
+        <pos>3</pos>
         <fmt>-$1</fmt>
       </str>
       <opts>
@@ -1520,13 +1520,13 @@
   <Legacy>
     <cols>
       <AreaCode f="id notnull">
-        Trench
+        Trench ID
         <!--@SOURCE: vocabs/area-code.xml-->
       </AreaCode>
       <Legacy_Context_ID f="id notnull">
         Locus ID
         <str>
-          <fmt>Legacy-$0</fmt>
+          <fmt>L-$0</fmt>
         </str>
       </Legacy_Context_ID>
     </cols>
