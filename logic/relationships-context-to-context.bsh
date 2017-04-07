@@ -169,7 +169,7 @@ void searchRelationship() {
   unrelatedQ += "  WHERE uuid IN (";
   unrelatedQ += "         SELECT uuid";
   unrelatedQ += "           FROM latestnondeletedaentvalue JOIN attributekey USING (attributeid)";
-  unrelatedQ += "          WHERE attributename = 'Context AreaCode'";
+  unrelatedQ += "          WHERE attributename IN ('Context AreaCode', 'Legacy AreaCode')";
   unrelatedQ += "            AND measure = '{Context_AreaCode}'";
   unrelatedQ += "            AND uuid IN (";
   unrelatedQ += "                 SELECT uuid";

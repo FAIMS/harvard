@@ -56,8 +56,6 @@
   <User_List>
     <Users t="dropdown" f="user"/>
     <Device_Code t="dropdown" f="persist" vp="Context/Vars/Device_Code"/>
-    <Site_Name        f="persist"/>
-    <Year_of_Campaign f="persist" b="decimal"/>
     <Login t="button" l="Control"/>
     <Module_Guide t="button" l="User/Help"/>
   </User_List>
@@ -69,9 +67,11 @@
 <Control f="nodata">
   <Contexts f="noscroll">
     Site
+    <New_Site_Name    f="persist notnull"/>
+    <Year_of_Campaign f="persist notnull" b="decimal"/>
     <GPS_Diagnostics t="gpsdiag"/>
-    <Create_New_Site t="button" l="Site"/>
-    <Sites           t="list"   e="Site"/>
+    <Create_New_Site         t="button" l="Site"/>
+    <Choose_an_Existing_Site t="list"   e="Site"/>
   </Contexts>
   <Next_IDs>
     <autonum/>
@@ -88,12 +88,16 @@
 
 <Site>
   <Site f="noscroll">
-    <Site_Site_Name f="id readonly" i="User/User_List/Site_Name!">
+    <Site_Site_Name f="id readonly" i="Control/Contexts/New_Site_Name">
       Site Name
     </Site_Site_Name>
-    <Site_Year_of_Campaign f="id readonly" b="decimal" i="User/User_List/Year_of_Campaign!">
+    <Site_Year_of_Campaign f="id readonly" b="decimal" i="Control/Contexts/Year_of_Campaign">
       Year of Campaign
+      <str><fmt> $0</fmt></str>
     </Site_Year_of_Campaign>
+    <Guide t="webview">
+      'Trench ID' must be in the format 'T + number', e.g. T1, T2, T3.
+    </Guide>
     <Trench_ID f="notnull"/>
     <Trenches                  lc="Trench"/>
     <List_of_Existing_Trenches ec="Trench"/>
@@ -149,7 +153,8 @@
     <Date_Closed f="readonly"/>
     <Brief_Description/>
     <Your_Discussion/>
-    <Add_Trench_Files t="button" lc="Trench_Files"/>
+    <Add_Trench_Files      t="button"   lc="Trench_Files"/>
+    <Attached_Trench_Files t="dropdown" ec="Trench_Files"/>
   </Trench>
   <Loci f="noscroll">
     <Create_New_Locus      t="button" lc="Context"/>
@@ -180,6 +185,7 @@
     <Trench_Year_of_Campaign f="id" i="Site/Site/Site_Year_of_Campaign">
       <str>
         <pos>2</pos>
+        <fmt> $0</fmt>
       </str>
     </Trench_Year_of_Campaign>
   </Vars>
@@ -992,6 +998,7 @@
     <Context_Year_of_Campaign f="id" i="Trench/Vars/Trench_Year_of_Campaign">
       <str>
         <pos>2</pos>
+        <fmt> $0</fmt>
       </str>
     </Context_Year_of_Campaign>
   </Vars>
@@ -1158,7 +1165,10 @@
       <str><pos>1</pos></str>
     </Context_Group_Site_Name>
     <Context_Group_Year_of_Campaign f="id" i="Trench/Vars/Trench_Year_of_Campaign">
-      <str><pos>2</pos></str>
+      <str>
+        <pos>2</pos>
+        <fmt> $0</fmt>
+      </str>
     </Context_Group_Year_of_Campaign>
     <L_Paren f="id">
       <str>
@@ -1491,7 +1501,10 @@
   </General>
   <Vars f="hidden">
     <FCN_Year_of_Campaign f="id" i="Context/Vars/Context_Year_of_Campaign Trench/Vars/Trench_Year_of_Campaign">
-      <str><pos>3</pos></str>
+      <str>
+        <pos>3</pos>
+        <fmt> $0</fmt>
+      </str>
     </FCN_Year_of_Campaign>
   </Vars>
 </FCN>
@@ -1519,14 +1532,14 @@
 <Legacy>
   <Legacy>
     <cols>
-      <AreaCode f="id notnull">
+      <Legacy_AreaCode f="id readonly" i="Trench/Trench/Trench_AreaCode">
         Trench ID
         <!--@SOURCE: vocabs/area-code.xml-->
-      </AreaCode>
+      </Legacy_AreaCode>
       <Legacy_Context_ID f="id notnull">
         Locus ID
         <str>
-          <fmt>L-$0</fmt>
+          <fmt> L$0</fmt>
         </str>
       </Legacy_Context_ID>
     </cols>
@@ -1549,5 +1562,6 @@
   <!--@SOURCE: logic/search-extension.bsh-->
   <!--@SOURCE: logic/custom-validation.bsh-->
   <!--@SOURCE: logic/date-closed.bsh-->
+  <!--@SOURCE: logic/create-new-site-button.bsh-->
 ]]></logic>
 </module>

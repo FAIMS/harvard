@@ -22,8 +22,6 @@
             <User_List>
               <Users/>
               <Device_Code/>
-              <Site_Name/>
-              <Year_of_Campaign/>
               <Login/>
               <Module_Guide/>
             </User_List>
@@ -33,9 +31,11 @@
           </User>
           <Control>
             <Contexts>
+              <New_Site_Name/>
+              <Year_of_Campaign/>
               <GPS_Diagnostics/>
               <Create_New_Site/>
-              <Sites/>
+              <Choose_an_Existing_Site/>
             </Contexts>
             <Next_IDs>
               <Next_Context_Context_ID/>
@@ -67,6 +67,7 @@
             <Site>
               <Site_Site_Name/>
               <Site_Year_of_Campaign/>
+              <Guide/>
               <Trench_ID/>
               <Trenches/>
               <List_of_Existing_Trenches/>
@@ -107,6 +108,7 @@
               <Brief_Description/>
               <Your_Discussion/>
               <Add_Trench_Files/>
+              <Attached_Trench_Files/>
             </Trench>
             <Loci>
               <Create_New_Locus/>
@@ -746,7 +748,7 @@
             <Legacy>
               <Colgroup_1>
                 <Col_1>
-                  <AreaCode/>
+                  <Legacy_AreaCode/>
                 </Col_1>
                 <Col_2>
                   <Legacy_Context_ID/>
@@ -756,7 +758,7 @@
           </Legacy>
         </faims>
       </instance>
-      <bind nodeset="/faims/User/User_List/Year_of_Campaign" type="decimal"/>
+      <bind nodeset="/faims/Control/Contexts/Year_of_Campaign" type="decimal"/>
       <bind nodeset="/faims/Control/Next_IDs/Next_Context_Context_ID" type="decimal"/>
       <bind nodeset="/faims/Control/Next_IDs/Next_Context_Group_ID" type="decimal"/>
       <bind nodeset="/faims/Control/Next_IDs/Next_FCN_ID" type="decimal"/>
@@ -870,12 +872,6 @@
             <value>Options not loaded</value>
           </item>
         </select1>
-        <input ref="Site_Name">
-          <label>{Site_Name}</label>
-        </input>
-        <input ref="Year_of_Campaign">
-          <label>{Year_of_Campaign}</label>
-        </input>
         <trigger ref="Login">
           <label>{Login}</label>
         </trigger>
@@ -894,14 +890,20 @@
       <label>{Control}</label>
       <group ref="Contexts" faims_scrollable="false">
         <label>{Site}</label>
+        <input ref="New_Site_Name" faims_style_class="required">
+          <label>{New_Site_Name}</label>
+        </input>
+        <input ref="Year_of_Campaign" faims_style_class="required">
+          <label>{Year_of_Campaign}</label>
+        </input>
         <input faims_read_only="true" ref="GPS_Diagnostics">
           <label>{GPS_Diagnostics}</label>
         </input>
         <trigger ref="Create_New_Site">
           <label>{Create_New_Site}</label>
         </trigger>
-        <select1 appearance="compact" ref="Sites">
-          <label>{Sites}</label>
+        <select1 appearance="compact" ref="Choose_an_Existing_Site">
+          <label>{Choose_an_Existing_Site}</label>
           <item>
             <label>Options not loaded</label>
             <value>Options not loaded</value>
@@ -978,6 +980,9 @@
         </input>
         <input faims_attribute_name="Site Year of Campaign" faims_attribute_type="measure" ref="Site_Year_of_Campaign" faims_read_only="true">
           <label>{Year_of_Campaign}</label>
+        </input>
+        <input faims_web="true" ref="Guide">
+          <label>{_Trench_ID__must_be_in_the_format__T___number___e_g__T1__T2__T3_}</label>
         </input>
         <input faims_attribute_name="Trench ID" faims_attribute_type="measure" ref="Trench_ID" faims_style_class="required">
           <label>{Trench_ID}</label>
@@ -1084,6 +1089,13 @@
         <trigger ref="Add_Trench_Files">
           <label>{Add_Trench_Files}</label>
         </trigger>
+        <select1 ref="Attached_Trench_Files">
+          <label>{Attached_Trench_Files}</label>
+          <item>
+            <label>Options not loaded</label>
+            <value>Options not loaded</value>
+          </item>
+        </select1>
       </group>
       <group ref="Loci" faims_scrollable="false">
         <label>{Loci}</label>
@@ -2683,7 +2695,7 @@
           <label/>
           <group ref="Col_1" faims_style="even">
             <label/>
-            <input faims_attribute_name="AreaCode" faims_attribute_type="measure" ref="AreaCode" faims_style_class="required">
+            <input faims_attribute_name="Legacy AreaCode" faims_attribute_type="measure" ref="Legacy_AreaCode" faims_read_only="true">
               <label>{Trench_ID}</label>
             </input>
           </group>

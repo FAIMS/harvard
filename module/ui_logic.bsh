@@ -491,8 +491,8 @@ void persistOverSessions(String ref) {
 }
 
 persistOverSessions("User/User_List/Device_Code");
-persistOverSessions("User/User_List/Site_Name");
-persistOverSessions("User/User_List/Year_of_Campaign");
+persistOverSessions("Control/Contexts/New_Site_Name");
+persistOverSessions("Control/Contexts/Year_of_Campaign");
 
 /*************************** FIELD COPYING HELPERS ****************************/
 /* Provides an easy way to copy field values, even between vocabs.            */
@@ -583,8 +583,8 @@ void inheritFieldValue(String src, String dst) {
   inheritFieldValue(src, dst, true);
 }
 
-inheritFieldValue("User/User_List/Site_Name", "Site/Site/Site_Site_Name", false);
-inheritFieldValue("User/User_List/Year_of_Campaign", "Site/Site/Site_Year_of_Campaign", false);
+inheritFieldValue("Control/Contexts/New_Site_Name", "Site/Site/Site_Site_Name", true);
+inheritFieldValue("Control/Contexts/Year_of_Campaign", "Site/Site/Site_Year_of_Campaign", true);
 inheritFieldValue("Site/Site/Site_Site_Name", "Trench/Trench/Trench_Site_Name", true);
 inheritFieldValue("Site/Site/Trench_ID", "Trench/Trench/Trench_AreaCode", true);
 inheritFieldValue("Site/Site/Site_Year_of_Campaign", "Trench/Vars/Trench_Year_of_Campaign", true);
@@ -613,6 +613,7 @@ inheritFieldValue("Context/General/Context_Context_ID", "FCN/General/Context_ID"
 inheritFieldValue("Context/Vars/Context_Year_of_Campaign", "FCN/Vars/FCN_Year_of_Campaign", true);
 inheritFieldValue("Trench/Vars/Trench_Year_of_Campaign", "FCN/Vars/FCN_Year_of_Campaign", true);
 inheritFieldValue("Context/General/Context_Context_ID", "Soil_Munsel_Color/Vars/Soil_Munsel_Color_Locus_ID", true);
+inheritFieldValue("Trench/Trench/Trench_AreaCode", "Legacy/Legacy/Legacy_AreaCode", true);
 
 /**************************** NEW TAB REDIRECTION *****************************/
 /* Causes a call to `newTab("tab/path")` to take the user to the specified    */
@@ -646,6 +647,7 @@ addOnEvent("User/User_List/Users", "click", "DROPDOWN_ITEM_VALUE = getFieldValue
 addOnEvent("User/User_List/Device_Code", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"User/User_List/Device_Code\")");
 addOnEvent("Control/Search/Entity_Types", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Control/Search/Entity_Types\")");
 addOnEvent("Trench/Trench/Trench_Dimensions", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Trench/Trench/Trench_Dimensions\")");
+addOnEvent("Trench/Trench/Attached_Trench_Files", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Trench/Trench/Attached_Trench_Files\")");
 addOnEvent("Trench_Files/Add_Trench_Files/File_Type", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Trench_Files/Add_Trench_Files/File_Type\")");
 addOnEvent("Context/General/Horizon_Boundary", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Context/General/Horizon_Boundary\")");
 addOnEvent("Context/General/Contamination", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Context/General/Contamination\")");
@@ -1195,6 +1197,8 @@ String validateFields(List fields, String format) {
 
 void validateControl() {
   List f = new ArrayList(); // Fields to be validated
+  f.add(fieldPair("Control/Contexts/New_Site_Name", "{New_Site_Name}"));
+  f.add(fieldPair("Control/Contexts/Year_of_Campaign", "{Year_of_Campaign}"));
   f.add(fieldPair("Control/Next_IDs/Next_Context_Context_ID", "{Locus_ID}"));
   f.add(fieldPair("Control/Next_IDs/Next_Context_Group_ID", "{Stratum_Feature_ID}"));
   f.add(fieldPair("Control/Next_IDs/Next_FCN_ID", "{Next_FCN_ID}"));
@@ -1294,7 +1298,6 @@ void validateFCN() {
 }
 void validateLegacy() {
   List f = new ArrayList(); // Fields to be validated
-  f.add(fieldPair("Legacy/Legacy/AreaCode", "{Trench_ID}"));
   f.add(fieldPair("Legacy/Legacy/Legacy_Context_ID", "{Locus_ID}"));
 
   String validationMessage = validateFields(f, "PLAINTEXT");
@@ -3812,7 +3815,7 @@ String getEntityMenuPopulationFunction(String[] menuDescriptor) {
 ENTITY_MENUS = new ArrayList();
 ENTITY_MENUS.add(new String[] {
     "List",
-    "Control/Contexts/Sites",
+    "Control/Contexts/Choose_an_Existing_Site",
     "getUuid(\"Control\")",
     "Site",
     ""
@@ -3823,6 +3826,13 @@ ENTITY_MENUS.add(new String[] {
     "getUuid(\"Site\")",
     "Trench",
     "Site - Trench"
+});
+ENTITY_MENUS.add(new String[] {
+    "DropDown",
+    "Trench/Trench/Attached_Trench_Files",
+    "getUuid(\"Trench\")",
+    "Trench Files",
+    "Trench - Trench Files"
 });
 ENTITY_MENUS.add(new String[] {
     "List",
@@ -3901,8 +3911,9 @@ for (m : ENTITY_MENUS) {
   execute(functionCall);
 }
 
-addOnEvent("Control/Contexts/Sites", "click", "loadEntity()");
+addOnEvent("Control/Contexts/Choose_an_Existing_Site", "click", "loadEntity()");
 addOnEvent("Site/Site/List_of_Existing_Trenches", "click", "loadEntity()");
+addOnEvent("Trench/Trench/Attached_Trench_Files", "click", "loadEntity(true)");
 addOnEvent("Trench/Loci/List_of_Existing_Loci", "click", "loadEntity()");
 addOnEvent("Trench/Strata_Features/List_of_Existing_Strata_Features", "click", "loadEntity()");
 addOnEvent("Trench/FCNs/List_of_Existing_FCNs", "click", "loadEntity()");
@@ -4283,7 +4294,7 @@ void searchRelationship() {
   unrelatedQ += "  WHERE uuid IN (";
   unrelatedQ += "         SELECT uuid";
   unrelatedQ += "           FROM latestnondeletedaentvalue JOIN attributekey USING (attributeid)";
-  unrelatedQ += "          WHERE attributename = 'Context AreaCode'";
+  unrelatedQ += "          WHERE attributename IN ('Context AreaCode', 'Legacy AreaCode')";
   unrelatedQ += "            AND measure = '{Context_AreaCode}'";
   unrelatedQ += "            AND uuid IN (";
   unrelatedQ += "                 SELECT uuid";
@@ -5108,6 +5119,64 @@ void setDateClosed() {
 
   setFieldValue(dst, val);
   goBack();
+}
+/*************************** CREATE NEW SITE BUTTON ***************************/
+
+// Overrrides autogenerated definition
+void onClickControlContextsCreateNewSite () {
+  parentTabgroup__ = "Control";
+
+  tryCreateNewSite();
+}
+
+void tryCreateNewSite() {
+  String siteName = getFieldValue("Control/Contexts/New_Site_Name");
+  String siteYear = getFieldValue("Control/Contexts/Year_of_Campaign");
+
+  String q = "";
+  q += " SELECT response";
+  q += "   FROM latestNonDeletedArchEntFormattedIdentifiers";
+  q += "  WHERE uuid IN (";
+  q += "         SELECT uuid";
+  q += "           FROM latestnondeletedaentvalue";
+  q += "           JOIN attributekey USING (attributeid)";
+  q += "          WHERE attributename = 'Site Site Name'";
+  q += "            AND measure = '{Site_Site_Name}'";
+  q += "            AND uuid IN (";
+  q += "                 SELECT uuid";
+  q += "                   FROM latestnondeletedaentvalue";
+  q += "                   JOIN attributekey USING (attributeid)";
+  q += "                  WHERE attributename = 'Site Year of Campaign'";
+  q += "                    AND measure = '{Site_Year_of_Campaign}'))";
+  q += "    AND aenttypename = 'Site'";
+  q  = replaceFirst(q, "{Site_Site_Name}",        siteName);
+  q  = replaceFirst(q, "{Site_Year_of_Campaign}", siteYear);
+
+  FetchCallback callback = new FetchCallback() {
+    onFetch(result) {
+      if      (result        == null) newSite();
+      else if (result.size() == 0   ) newSite();
+      else                            confirmNewSite();
+    }
+  };
+
+  fetchAll(q, callback);
+}
+
+void confirmNewSite() {
+  String head;
+  String body;
+  String cbOk;
+  String cbBad;
+
+  head  = "Site Already Exists";
+  body  = "A site having this name and campaign year already exists. Do you ";
+  body += "wish to create one anyway?";
+
+  cbOk  = "newSite()";
+  cbBad = "";
+
+  showAlert(head, body, cbOk, cbBad);
 }
 
 

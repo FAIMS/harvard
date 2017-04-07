@@ -232,11 +232,6 @@
     </property>
   </ArchaeologicalElement>
   <ArchaeologicalElement name="Legacy">
-    <property name="AreaCode">
-      <validator type="blankchecker">
-        <param type="field" value="measure"/>
-      </validator>
-    </property>
     <property name="Legacy Context ID">
       <validator type="blankchecker">
         <param type="field" value="measure"/>

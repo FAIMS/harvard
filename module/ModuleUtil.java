@@ -1284,6 +1284,15 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: dropdown
+        Ref:  Trench/Trench/Attached_Trench_Files
+     */
+    public static View get_Trench_Trench_AttachedTrenchFiles(Solo solo) {
+        String ref = "Trench/Trench/Attached_Trench_Files";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: dropdown
         Ref:  Trench/Trench/Trench_Dimensions
      */
     public static View get_Trench_Trench_TrenchDimensions(Solo solo) {
@@ -2328,6 +2337,24 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: input
+        Ref:  Control/Contexts/New_Site_Name
+     */
+    public static EditText get_Control_Contexts_NewSiteName(Solo solo) {
+        String ref = "Control/Contexts/New_Site_Name";
+        return (android.widget.EditText) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: input
+        Ref:  Control/Contexts/Year_of_Campaign
+     */
+    public static EditText get_Control_Contexts_YearofCampaign(Solo solo) {
+        String ref = "Control/Contexts/Year_of_Campaign";
+        return (android.widget.EditText) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: input
         Ref:  Control/Next_IDs/Next_Context_Context_ID
      */
     public static View get_Control_NextIDs_NextContextContextID(Solo solo) {
@@ -2526,11 +2553,11 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: input
-        Ref:  Legacy/Legacy/AreaCode
+        Ref:  Legacy/Legacy/Legacy_AreaCode
      */
-    public static EditText get_Legacy_Legacy_AreaCode(Solo solo) {
-        String ref = "Legacy/Legacy/AreaCode";
-        return (android.widget.EditText) solo.getView((Object) ref);
+    public static View get_Legacy_Legacy_LegacyAreaCode(Solo solo) {
+        String ref = "Legacy/Legacy/Legacy_AreaCode";
+        return (android.view.View) solo.getView((Object) ref);
     }
 
     /*
@@ -2822,24 +2849,6 @@ public class ModuleUtil extends ModuleHelper {
     }
 
     /*
-        Type: input
-        Ref:  User/User_List/Site_Name
-     */
-    public static EditText get_User_UserList_SiteName(Solo solo) {
-        String ref = "User/User_List/Site_Name";
-        return (android.widget.EditText) solo.getView((Object) ref);
-    }
-
-    /*
-        Type: input
-        Ref:  User/User_List/Year_of_Campaign
-     */
-    public static EditText get_User_UserList_YearofCampaign(Solo solo) {
-        String ref = "User/User_List/Year_of_Campaign";
-        return (android.widget.EditText) solo.getView((Object) ref);
-    }
-
-    /*
         Type: list
         Ref:  Context/FCN/List_of_Related_FCNs
      */
@@ -2886,10 +2895,10 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: list
-        Ref:  Control/Contexts/Sites
+        Ref:  Control/Contexts/Choose_an_Existing_Site
      */
-    public static View get_Control_Contexts_Sites(Solo solo) {
-        String ref = "Control/Contexts/Sites";
+    public static View get_Control_Contexts_ChooseanExistingSite(Solo solo) {
+        String ref = "Control/Contexts/Choose_an_Existing_Site";
         return (android.view.View) solo.getView((Object) ref);
     }
 
@@ -3187,6 +3196,15 @@ public class ModuleUtil extends ModuleHelper {
      */
     public static View get_Relationship_Relationships_SelectedRelationship(Solo solo) {
         String ref = "Relationship/Relationships/Selected_Relationship";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: webview
+        Ref:  Site/Site/Guide
+     */
+    public static View get_Site_Site_Guide(Solo solo) {
+        String ref = "Site/Site/Guide";
         return (android.view.View) solo.getView((Object) ref);
     }
 
