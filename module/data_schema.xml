@@ -5,8 +5,13 @@
     <parent>includes</parent>
     <child>is included in</child>
   </RelationshipElement>
+  <RelationshipElement name="ParentChild" type="hierarchical">
+    <description/>
+    <parent>Parent of</parent>
+    <child>Child of</child>
+  </RelationshipElement>
   <RelationshipElement name="Butts" type="hierarchical">
-    <description>Implements a Butts-ButtedBy for loci.</description>
+    <description>Implements a Butts-Butted By for loci.</description>
     <parent>Butts</parent>
     <child>Butted By</child>
   </RelationshipElement>
@@ -245,9 +250,9 @@
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
     </property>
-    <property name="File Type" type="vocab">
+    <property name="File Type" type="vocab" isIdentifier="true">
       <description></description>
-      <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
+      <formatString> $1</formatString>
       <appendCharacterString> - </appendCharacterString>
       <lookup>
         <term>{Plan}
@@ -260,9 +265,9 @@
 <description></description></term>
       </lookup>
     </property>
-    <property name="File Name" type="measure">
+    <property name="File Name" type="measure" isIdentifier="true">
       <description></description>
-      <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
+      <formatString> $2</formatString>
       <appendCharacterString> - </appendCharacterString>
     </property>
     <property name="File Comment" type="measure">
@@ -318,7 +323,7 @@
         The loci are labelled consecutively in alphabetical order using the letters following the trench letter. For Trench H the first locus would be HAA, the second HAB, the third HAB and so on. In addition sets of letters can denote parts of trenches, buildings etc. E.g. HFs might denote loci from a specific building.
         Burial locus codes begin with the letter Z, followed by the trench letter. Hence burial ZHA is the first burial locus from trench H.
         Check with the trench supervisor who will assign the locus code from the central register.</description>
-      <formatString>-L-$2</formatString>
+      <formatString>-L$2</formatString>
       <appendCharacterString> - </appendCharacterString>
     </property>
     <property name="Context Name" type="measure">

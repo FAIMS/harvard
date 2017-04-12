@@ -58,6 +58,9 @@
                 <Col_1>
                   <Select_User/>
                 </Col_1>
+                <Col_2>
+                  <Select_Site/>
+                </Col_2>
               </Colgroup_1>
               <Select_User/>
               <Entity_List/>
@@ -955,6 +958,16 @@
             <label/>
             <select1 ref="Select_User">
               <label>{Select_User}</label>
+              <item>
+                <label>Options not loaded</label>
+                <value>Options not loaded</value>
+              </item>
+            </select1>
+          </group>
+          <group ref="Col_2" faims_style="even">
+            <label/>
+            <select1 ref="Select_Site">
+              <label>{Select_Site}</label>
               <item>
                 <label>Options not loaded</label>
                 <value>Options not loaded</value>

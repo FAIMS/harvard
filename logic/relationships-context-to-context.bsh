@@ -92,13 +92,11 @@ void populateRelationshipType() {
   String q = "";
   q += "SELECT relntypename||'~!~'||coalesce(nullif(parent||'~!~'||child,'~!~'),relntypename||'~!~'||relntypename) as relntypeid, coalesce(nullif(parent,''), relntypename) as name, relntypeid ";
   q += "  FROM relntype ";
-  q += " WHERE relntypename not like '%Context%' ";
-  q += "   AND relntypename not like '%Special Find%' ";
+  q += " WHERE relntypename not like '%-%' ";
   q += " UNION ";
   q += " SELECT relntypename||'~!~'||coalesce(nullif(child||'~!~'||parent,'~!~'),relntypename||'~!~'||relntypename), coalesce(nullif(child,''), relntypename) as name, relntypeid ";
   q += "  FROM relntype ";
-  q += " WHERE relntypename not like '%Context%' ";
-  q += "   AND relntypename not like '%Special Find%' ";
+  q += " WHERE relntypename not like '%-%' ";
   q += " ORDER BY relntypeid, name";
 
   FetchCallback populate = new FetchCallback() {

@@ -1,0 +1,173 @@
+/****************************** SEARCH EXTENSION ******************************/
+/* Implements an extension to the search page which allows users to           */
+/* constrain their searches by user.                                          */
+/******************************************************************************/
+delOnEvent("Control/Search", "show", "search()");
+addOnEvent("Control/Search", "show", "populateSelectUser()");
+addOnEvent("Control/Search", "show", "populateSite()");
+
+void populateSelectUser(){
+  String refSearchUsers = "Control/Search/Select_User";
+  String getNonDeletedUsersQuery = "SELECT userid, fname || ' ' || lname "+
+                                   "  FROM user "+
+                                   " WHERE userdeleted is null "+
+                                   " UNION " +
+                                   "SELECT -1, '{All_Users}'";
+
+  fetchAll(getNonDeletedUsersQuery, new FetchCallback() {
+    onFetch(result) {
+      populateDropDown(refSearchUsers, result, false);
+      search();
+    }
+  });
+}
+
+void populateSite() {
+  String refSite = "Control/Search/Select_Site";
+
+  String q = "";
+  q += " SELECT uuid, response, attributename, measure";
+  q += "   FROM latestNonDeletedAentvalue";
+  q += "   JOIN latestNonDeletedArchEntFormattedIdentifiers USING (uuid)";
+  q += "   JOIN attributekey USING (attributeid)";
+  q += "  WHERE attributename LIKE '% Site Name'";
+  q += "     OR attributename LIKE '% Year of Campaign'";
+
+  FetchCallback popSite = new FetchCallback() {
+    onFetch(result) {
+      List normalised = normaliseSiteResult(result);
+      populateDropDown(refSite, normalised, true);
+    }
+  };
+
+  fetchAll(q, popSite);
+}
+
+List normaliseSiteResult(List result) {
+  Map  normalisedResultMap  = new HashMap();
+  List normalisedResultList = new ArrayList();
+
+  for (List row : result) {
+    String uuid     = row.get(0);
+    String response = row.get(1);
+    String attrName = row.get(2);
+    String attrVal  = row.get(3);
+
+    List mapRow = normalisedResultMap.get(uuid);
+    mapRow = updateMapRow(mapRow, "Response", response);
+    mapRow = updateMapRow(mapRow, attrName,   attrVal);
+
+    normalisedResultMap.put(uuid, mapRow);
+  }
+
+  for (List val : normalisedResultMap.values()) {
+    String response = val.get(0);
+    String siteName = val.get(1);
+    String siteYear = val.get(2);
+
+    List normalisedRow = new ArrayList();
+    normalisedRow.add(siteName + SEP + siteYear);
+    normalisedRow.add(response);
+
+    normalisedResultList.add(normalisedRow);
+  }
+
+  return normalisedResultList;
+}
+
+List updateMapRow(List row, String key, String val) {
+  String RESPONSE         = "Response";
+  String SITE_NAME        = "Site Name";
+  String YEAR_OF_CAMPAIGN = "Year of Campaign";
+
+  if (row == null) {
+    row = new ArrayList();
+    row.add("");
+    row.add("");
+    row.add("");
+  }
+
+  if (key == null)
+    return row;
+  else if (key.contains(RESPONSE        )) row.set(0, val);
+  else if (key.contains(SITE_NAME       )) row.set(1, val);
+  else if (key.contains(YEAR_OF_CAMPAIGN)) row.set(2, val);
+
+  return row;
+}
+
+// Overrides auto-generated definition
+void search(){
+  String tabgroup = "Control";
+  String refEntityList  = tabgroup + "/Search/Entity_List";
+  String refSearchTerm  = tabgroup + "/Search/Search_Term";
+  String refEntityTypes = tabgroup + "/Search/Entity_Types";
+  String refSelectUser  = tabgroup + "/Search/Select_User";
+  String refSelectSite  = tabgroup + "/Search/Select_Site";
+
+  String type = getFieldValue(refEntityTypes);
+  String term = getFieldValue(refSearchTerm);
+  String user = getFieldValue(refSelectUser);
+  String name = getSearchSiteName(refSelectSite);
+  String year = getSearchSiteYear(refSelectSite);
+  if (isNull(user)) return;
+  String searchQuery = "SELECT uuid, response " +
+                       "  FROM latestNonDeletedArchEntFormattedIdentifiers  " +
+                       " WHERE uuid in (SELECT uuid " +
+                       "                  FROM latestNonDeletedArchEntIdentifiers " +
+                       "                 WHERE measure LIKE '{term}%'  " +
+                       "                   AND ( aenttypename LIKE '{type}' OR '' = '{type}' ) " +
+                       "                   AND ( userid = {user} OR -1 = {user}) " +
+                       "                ) " +
+                       "  AND  ( " +
+                       "           ('{name}' = '\\0' AND '{year}' = '\\0') OR" +
+                       "           uuid IN (" +
+                       "            SELECT uuid" +
+                       "              FROM latestnondeletedaentvalue" +
+                       "              JOIN attributekey USING (attributeid)" +
+                       "             WHERE attributename LIKE '% Site Name'" +
+                       "               AND measure = '{name}'" +
+                       "               AND uuid IN (" +
+                       "                    SELECT uuid" +
+                       "                      FROM latestnondeletedaentvalue" +
+                       "                      JOIN attributekey USING (attributeid)" +
+                       "                     WHERE attributename LIKE '% Year of Campaign'" +
+                       "                       AND measure = '{year}'" +
+                       "               )" +
+                       "           )" +
+                       "       )" +
+                       " ORDER BY response " +
+                       " LIMIT ? " +
+                       "OFFSET ? ";
+  searchQuery = replaceFirst(searchQuery, "{term}", term);
+  searchQuery = replaceFirst(searchQuery, "{type}", type);
+  searchQuery = replaceFirst(searchQuery, "{type}", type);
+  searchQuery = replaceFirst(searchQuery, "{user}", user);
+  searchQuery = replaceFirst(searchQuery, "{user}", user);
+  searchQuery = replaceFirst(searchQuery, "{name}", name);
+  searchQuery = replaceFirst(searchQuery, "{year}", year);
+  searchQuery = replaceFirst(searchQuery, "{name}", name);
+  searchQuery = replaceFirst(searchQuery, "{year}", year);
+
+  populateCursorList(refEntityList, searchQuery, 25);
+  refreshTabgroupCSS(tabgroup);
+
+  Log.d("Module", "Search query: " + searchQuery);
+}
+
+String getSearchSiteName(String ref) {
+  return getSearchSiteField(ref, 0);
+}
+
+String getSearchSiteYear(String ref) {
+  return getSearchSiteField(ref, 1);
+}
+
+String getSearchSiteField(String ref, int index) {
+  String nameYear = getFieldValue(ref);
+
+  if (isNull(nameYear))
+    return "\\0";
+  else
+    return nameYear.split(SEP)[index];
+}

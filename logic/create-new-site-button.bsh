@@ -48,11 +48,12 @@ void confirmNewSite() {
   String cbBad;
 
   head  = "Site Already Exists";
-  body  = "A site having this name and campaign year already exists. Do you ";
-  body += "wish to create one anyway?";
+  body  = "A site having this name and campaign year already exists. Tap 'OK' ";
+  body += " to change the 'New Site Name' and 'Year of Campaign' fields, or ";
+  body += " 'Cancel' to dismiss this message and create a new Site anyway.";
 
-  cbOk  = "newSite()";
-  cbBad = "";
+  cbOk  = "";
+  cbBad = "newSite()";
 
   showAlert(head, body, cbOk, cbBad);
 }

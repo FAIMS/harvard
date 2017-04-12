@@ -64,6 +64,16 @@ replacement="
               <\/item>
             <\/select1>
           <\/group>
+          <group ref=\"Col_2\" faims_style=\"even\">
+            <label\/>
+            <select1 ref=\"Select_Site\">
+              <label>{Select_Site}<\/label>
+              <item>
+                <label>Options not loaded<\/label>
+                <value>Options not loaded<\/value>
+              <\/item>
+            <\/select1>
+          <\/group>
         <\/group>"
 perl -0777 -i.original -pe "s/$string/$replacement/igs" ui_schema.xml
 
@@ -77,6 +87,9 @@ replacement="
                 <Col_1>
                   <Select_User\/>
                 <\/Col_1>
+                <Col_2>
+                  <Select_Site\/>
+                <\/Col_2>
               <\/Colgroup_1>
               <Select_User\/>"
 perl -0777 -i.original -pe "s/$string/$replacement/igs" ui_schema.xml
@@ -97,6 +110,7 @@ replacement="
 perl -0777 -i.original -pe "s/$string/$replacement/igs" validation.xml
 
 echo "Select_User=Select User"                                     >> english.0.properties
+echo "Select_Site=Select Site"                                     >> english.0.properties
 echo "Volume_Liters=Volume (Liters)"                               >> english.0.properties
 echo "All_Users=All Users"                                         >> english.0.properties
 echo "Must_be_between_0_0_and_90_0=(Must be between 0.0 and 90.0)" >> english.0.properties

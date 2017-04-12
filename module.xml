@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--@PREPROC:  ./proc/pre.sh-->
 <!--@POSTPROC: ./proc/post.sh-->
+
+<!--TODO: Test Site filter-->
+
+<!--TODO: Can you actually rename the name of the CSV file in the generalised exporter or do I have to go to Brian?-->
+<!--TODO: Harvard has still Context instead of Locus and ContextGroup instead of StratumFeature CSVs-->
 <module suppressWarnings="true">
 
 <rels>
@@ -13,8 +18,13 @@
 
   <!--Context-to-Context relationship(s)-->
   <!--IMPORTANT: These must not contain dashes!-->
+  <RelationshipElement name="ParentChild" type="hierarchical">
+    <description></description>
+    <parent>Parent of</parent>
+    <child>Child of</child>
+  </RelationshipElement>
   <RelationshipElement name="Butts" type="hierarchical">
-    <description>Implements a Butts-ButtedBy for loci.</description>
+    <description>Implements a Butts-Butted By for loci.</description>
     <parent>Butts</parent>
     <child>Butted By</child>
   </RelationshipElement>
@@ -50,6 +60,7 @@
     <parent>Immediately Earlier Than</parent>
     <child>Immediately Later Than</child>
   </RelationshipElement>
+
 </rels>
 
 <User f="nodata nolabel">
@@ -206,7 +217,8 @@
       <str><fmt>$0</fmt></str>
     </Trench_Files_AreaCode>
     <author f="readonly"/>
-    <File_Type>
+    <File_Type f="id">
+      <str><fmt> $0</fmt></str>
       <opts>
         <opt>Plan</opt>
         <opt>Section</opt>
@@ -214,7 +226,9 @@
         <opt>Other</opt>
       </opts>
     </File_Type>
-    <File_Name/>
+    <File_Name f="id">
+      <str><fmt> $0</fmt></str>
+    </File_Name>
     <File_Comment/>
     <Attach_File t="file"/>
     <View_Attached_Files t="viewfiles"/>
@@ -249,7 +263,7 @@
         Check with the trench supervisor who will assign the locus code from the central register.</desc>
         <str>
           <pos>5</pos>
-          <fmt>-L-$0</fmt>
+          <fmt>-L$0</fmt>
         </str>
       </Context_Context_ID>
     </cols>
@@ -1559,7 +1573,7 @@
   <!--@SOURCE: logic/dynamic-ui-fcn.bsh-->
   <!--@SOURCE: logic/context-dates.bsh-->
   <!--@SOURCE: logic/soil-texture-helper.bsh-->
-  <!--@SOURCE: logic/search-extension.bsh-->
+  <!--@SOURCE: logic/custom-search.bsh-->
   <!--@SOURCE: logic/custom-validation.bsh-->
   <!--@SOURCE: logic/date-closed.bsh-->
   <!--@SOURCE: logic/create-new-site-button.bsh-->
