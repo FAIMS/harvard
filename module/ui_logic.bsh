@@ -588,6 +588,8 @@ inheritFieldValue("Control/Contexts/Year_of_Campaign", "Site/Site/Site_Year_of_C
 inheritFieldValue("Site/Site/Site_Site_Name", "Trench/Trench/Trench_Site_Name", true);
 inheritFieldValue("Site/Site/Trench_ID", "Trench/Trench/Trench_AreaCode", true);
 inheritFieldValue("Site/Site/Site_Year_of_Campaign", "Trench/Vars/Trench_Year_of_Campaign", true);
+inheritFieldValue("Trench/Trench/Trench_Site_Name", "Trench_Files/Add_Trench_Files/Trench_Files_Site_Name", true);
+inheritFieldValue("Trench/Vars/Trench_Year_of_Campaign", "Trench_Files/Add_Trench_Files/Trench_Files_Year_of_Campaign", true);
 inheritFieldValue("Trench/Trench/Trench_AreaCode", "Trench_Files/Add_Trench_Files/Trench_Files_AreaCode", true);
 inheritFieldValue("Trench/Trench/Trench_Site_Name", "Context/General/Context_Site_Name", true);
 inheritFieldValue("Trench/Trench/Trench_AreaCode", "Context/General/Context_AreaCode", true);
@@ -613,7 +615,7 @@ inheritFieldValue("Context/General/Context_Context_ID", "FCN/General/Context_ID"
 inheritFieldValue("Context/Vars/Context_Year_of_Campaign", "FCN/Vars/FCN_Year_of_Campaign", true);
 inheritFieldValue("Trench/Vars/Trench_Year_of_Campaign", "FCN/Vars/FCN_Year_of_Campaign", true);
 inheritFieldValue("Context/General/Context_Context_ID", "Soil_Munsel_Color/Vars/Soil_Munsel_Color_Locus_ID", true);
-inheritFieldValue("Trench/Trench/Trench_AreaCode", "Legacy/Legacy/Legacy_AreaCode", true);
+inheritFieldValue("Trench/Trench/Trench_Site_Name", "Legacy/Legacy/Legacy_Site_Name", true);
 
 /**************************** NEW TAB REDIRECTION *****************************/
 /* Causes a call to `newTab("tab/path")` to take the user to the specified    */
@@ -1266,6 +1268,7 @@ void validateContext() {
 void validateContextGroup() {
   List f = new ArrayList(); // Fields to be validated
   f.add(fieldPair("Context_Group/Gen/Record_Type", "{Record_Type}"));
+  f.add(fieldPair("Context_Group/Gen/Feature_Prefix", "{Feature_Prefix}"));
   f.add(fieldPair("Context_Group/Gen/Context_Group_ID", "{Stratum_Feature_ID}"));
   f.add(fieldPair("Context_Group/Gen/CG_Your_description", "{Description}"));
   f.add(fieldPair("Context_Group/Gen/CG_Your_Interpretation", "{Interpretation}"));
@@ -1298,6 +1301,8 @@ void validateFCN() {
 }
 void validateLegacy() {
   List f = new ArrayList(); // Fields to be validated
+  f.add(fieldPair("Legacy/Legacy/Legacy_Year_of_Campaign", "{Legacy_Year_of_Campaign}"));
+  f.add(fieldPair("Legacy/Legacy/Legacy_AreaCode", "{Trench_ID}"));
   f.add(fieldPair("Legacy/Legacy/Legacy_Context_ID", "{Locus_ID}"));
 
   String validationMessage = validateFields(f, "PLAINTEXT");
@@ -1679,6 +1684,7 @@ addOnEvent("Context_Group/Add/Add_Photograph_Log", "click", "onClickContextGroup
 /*                   AUDIO, CAMERA, FILE AND VIDEO BINDINGS                   */
 /******************************************************************************/
 
+addOnEvent("Trench_Files/Add_Trench_Files/Add_Photo_Button_1", "click", "attachPictureTo(\"Trench_Files/Add_Trench_Files/Add_Photo\")");
 addOnEvent("Context/General/Photo_of_Plan_Button_1", "click", "attachPictureTo(\"Context/General/Photo_of_Plan\")");
 addOnEvent("Context/General/Photo_of_Section_Button_1", "click", "attachPictureTo(\"Context/General/Photo_of_Section\")");
 addOnEvent("Context/Add/Photo_Button_1", "click", "attachPictureTo(\"Context/Add/Photo\")");
@@ -1933,8 +1939,12 @@ void loadEntity(Boolean isDropdown) {
 }
 
 void loadEntityFrom(String entityID) {
+  String head = "Record Could Not Be Loaded";
+  String body;
+
   if (isNull(entityID)) {
-    Log.e("Module", "Cannot load an entity with a null ID.");
+    body = "A record cannot be loaded from a null uuid.";
+    showWarning(head, body);
     return;
   }
 
@@ -1945,8 +1955,20 @@ void loadEntityFrom(String entityID) {
                            " WHERE uuid = '" + entityID + "'";
   fetchAll(getEntTypeNameQ, new FetchCallback() {
     onFetch(result) {
-      String archEntName = result.get(0).get(0);
-      String loadFunction = "load" + archEntName.replaceAll(" ", "") + "From(entityID)"; // Typical value: loadContextFrom(entityID)
+      if (
+          result               == null ||
+          result       .size() == 0    ||
+          result.get(0).size() == 0
+      ) {
+        body  = "The record could not be loaded. It may have been deleted by";
+        body += " another user.";
+
+        showWarning(head, body);
+        return;
+      }
+
+      String archEntName = result.get(0).get(0).replaceAll(" ", "");
+      String loadFunction = "load" + archEntName + "From(entityID)"; // Typical value: loadContextFrom(entityID)
       eval(loadFunction);
     }
   });
@@ -2592,6 +2614,7 @@ void duplicateTrenchFiles(){
   clearGpsInTabGroup(tabgroup);
   populateAuthorAndTimestamp(tabgroup);
   populateEntityListsInTabGroup(tabgroup);
+  populateCameraPictureGallery("Trench_Files/Add_Trench_Files/Add_Photo", new ArrayList());
   populateFileList("Trench_Files/Add_Trench_Files/Attach_File", new ArrayList());
   onCopyTrenchFiles__();
 
@@ -2624,6 +2647,7 @@ void duplicateTrenchFiles(){
     onFetch(result) {
       excludeAttributes = new ArrayList();
 
+      excludeAttributes.add("Add Photo");
       excludeAttributes.add("Attach File");
 
       duplicateTabGroup(tabgroup, null, getExtraAttributes(result), excludeAttributes, saveCallback);
@@ -4138,8 +4162,6 @@ addOnEvent("Context/Relationships/Load_Related_Context", "click", "loadRelatedEn
 addOnEvent("Context/Relationships/Existing_Relationships_to_This_Context", "click", "selectRelationship()");
 addOnEvent("Context/Relationships/Delete_Relationship",                    "click", "deleteRelationship()");
 
-String selectedChildUuid = null;
-
 void initParentRelationshipGlobals() {
   String refSelectedRelParent = "Context/Relationships/Selected_Relationship";
 
@@ -4178,14 +4200,6 @@ void selectRelationship() {
   populateWebViewHtml(refSelectedRelParent, selectedRelIdentifier);
 }
 
-void loadRelatedEntity() {
-  if (isNull(selectedChildUuid)) {
-    showToast("No relationship selected");
-    return;
-  }
-  loadEntityFrom(selectedChildUuid);
-}
-
 ////////////////// FUNCTIONS AFFECTING RELATIONSHIP TAB GROUP //////////////////
 addOnEvent("Relationship",                                      "show",  "initRelationshipRelationshipGlobals()");
 addOnEvent("Relationship/Relationships/Add_Relationship",       "click", "addRelationship()");
@@ -4195,9 +4209,6 @@ addOnEvent("Relationship/Relationships/Relationship_Type",      "click", "popula
 addOnEvent("Relationship/Relationships/Search",                 "click", "populateProposedRelationship()");
 addOnEvent("Relationship/Relationships/Search",                 "click", "searchRelationship()");
 addOnEvent("Relationship/Relationships/Unrelated_Contexts",     "click", "selectUnrelatedEntity()");
-
-String proposedChildUuid       = null;
-String proposedChildIdentifier = null;
 
 void initRelationshipRelationshipGlobals() {
   proposedChildUuid       = null;
@@ -4860,6 +4871,7 @@ void showContextGroupPrefix() {
   viewDef.setAnnotationEnabled(true);
   viewDef.setCertaintyEnabled (true);
   viewDef.setInfoEnabled      (true);
+  viewDef.setStyleCss         ("required");
 
   createView(refView, viewDef, refGroup);
 }
@@ -5241,7 +5253,7 @@ void setDateClosed() {
 /*************************** CREATE NEW SITE BUTTON ***************************/
 
 // Overrrides autogenerated definition
-void onClickControlContextsCreateNewSite () {
+void onClickControlContextsCreateNewSite() {
   parentTabgroup__ = "Control";
 
   tryCreateNewSite();
@@ -5294,6 +5306,68 @@ void confirmNewSite() {
 
   cbOk  = "";
   cbBad = "newSite()";
+
+  showAlert(head, body, cbOk, cbBad);
+}
+/************************** CREATE NEW TRENCH BUTTON **************************/
+
+// Overrrides autogenerated definition
+void onClickSiteSiteTrenches() {
+  String tabgroup = "Site";
+  if (isNull(getUuid(tabgroup))){
+    showToast("{You_must_save_this_tabgroup_first}");
+    return;
+  }
+  parentTabgroup   = tabgroup;
+  parentTabgroup__ = tabgroup;
+  tryCreateNewTrench();
+}
+
+void tryCreateNewTrench () {
+  String parentUuid = getUuid(getDisplayedTabGroup());
+  String trenchId   = getFieldValue("Site/Site/Trench_ID");
+
+  String q = "" +
+    "SELECT childuuid, response "+
+    "  FROM parentchild "+
+    "  JOIN latestNonDeletedArchEntFormattedIdentifiers ON (childuuid = uuid) " +
+    "  JOIN createdmodifiedatby USING (uuid) " +
+    " WHERE relationshipid IN (SELECT relationshipid  " +
+    "                            FROM latestnondeletedrelationship JOIN relntype USING (relntypeid) " +
+    "                           WHERE relntypename = 'Site - Trench') " +
+    "   AND parentuuid = '" + parentUuid + "' " +
+    "   AND (childaenttypename = 'Trench') " +
+    "   AND childuuid IN (" +
+    "           SELECT uuid" +
+    "             FROM latestnondeletedaentvalue"+
+    "             JOIN attributekey USING (attributeid)"+
+    "            WHERE attributename = 'Trench AreaCode'"+
+    "              AND measure = '" + trenchId + "')";
+
+  FetchCallback callback = new FetchCallback() {
+    onFetch(result) {
+      if      (result        == null) newTrench();
+      else if (result.size() == 0   ) newTrench();
+      else                            confirmNewTrench();
+    }
+  };
+
+  fetchAll(q, callback);
+}
+
+void confirmNewTrench() {
+  String head;
+  String body;
+  String cbOk;
+  String cbBad;
+
+  head  = "Trench Already Exists";
+  body  = "A trench having this trench ID already exists. Tap 'OK' to change ";
+  body += " the 'Trench ID' field, or 'Cancel' to dismiss this  message and ";
+  boyd += " create a new Trench anyway.";
+
+  cbOk  = "";
+  cbBad = "newTrench()";
 
   showAlert(head, body, cbOk, cbBad);
 }

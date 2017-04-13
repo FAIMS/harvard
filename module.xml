@@ -212,13 +212,19 @@
 
 <Trench_Files>
   <Add_Trench_Files>
+    <cols>
+      <Trench_Files_Site_Name        f="id readonly" i="Trench/Trench/Trench_Site_Name"/>
+      <Trench_Files_Year_of_Campaign f="id readonly" i="Trench/Vars/Trench_Year_of_Campaign">
+        <str><fmt> $0</fmt></str>
+      </Trench_Files_Year_of_Campaign>
+    </cols>
     <Trench_Files_AreaCode f="id readonly" i="Trench/Trench/Trench_AreaCode">
       Trench ID
-      <str><fmt>$0</fmt></str>
+      <str><fmt>-$0</fmt></str>
     </Trench_Files_AreaCode>
     <author f="readonly"/>
     <File_Type f="id">
-      <str><fmt> $0</fmt></str>
+      <str><fmt>-$0</fmt></str>
       <opts>
         <opt>Plan</opt>
         <opt>Section</opt>
@@ -226,10 +232,9 @@
         <opt>Other</opt>
       </opts>
     </File_Type>
-    <File_Name f="id">
-      <str><fmt> $0</fmt></str>
-    </File_Name>
+    <File_Name/>
     <File_Comment/>
+    <Add_Photo t="camera"/>
     <Attach_File t="file"/>
     <View_Attached_Files t="viewfiles"/>
   </Add_Trench_Files>
@@ -758,12 +763,12 @@
         <desc>Enter a brief description of inclusions (eg stone flecks artefacts).</desc>
       </Deposit_Inclusions>
     </cols>
-    <Add_New_Matrix t="button" lc="Matrix">
+    <Add_New_Sediment_Aggregate t="button" lc="Sediment_Aggregate">
       Add New Sediment/Aggregate
-    </Add_New_Matrix>
-    <Associated_Matrices t="dropdown" ec="Matrix">
+    </Add_New_Sediment_Aggregate>
+    <Associated_Sediment_Aggregates t="dropdown" ec="Sediment_Aggregate">
       Associated Sediment/Aggregates
-    </Associated_Matrices>
+    </Associated_Sediment_Aggregates>
   </Deposit>
   <Skeleton>
     <Location/>
@@ -1029,21 +1034,6 @@
         <opt>Feature</opt>
       </opts>
     </Record_Type>
-    <Feature_Prefix_Group t="group"/>
-    <Feature_Prefix t="input" f="id noui">
-      <str><pos>4</pos></str>
-    </Feature_Prefix>
-    <cols>
-      <Context_Group_AreaCode f="id readonly" i="Trench/Trench/Trench_AreaCode">
-        Trench ID
-        <str><pos>3</pos><fmt>-$0-</fmt></str>
-      </Context_Group_AreaCode>
-      <Context_Group_ID f="id notnull autonum">
-        Stratum/Feature ID
-        <desc>Feature number taken from the central register.</desc>
-        <str><pos>6</pos></str>
-      </Context_Group_ID>
-    </cols>
     <Feature_Type_Group t="group"/>
     <Feature_Type t="dropdown" f="noui">
       <!--This will be added to the UI dynamically-->
@@ -1071,6 +1061,21 @@
         <opt>Other</opt>
       </opts>
     </Feature_Type>
+    <Feature_Prefix_Group t="group"/>
+    <Feature_Prefix t="input" f="id notnull noui">
+      <str><pos>4</pos></str>
+    </Feature_Prefix>
+    <cols>
+      <Context_Group_AreaCode f="id readonly" i="Trench/Trench/Trench_AreaCode">
+        Trench ID
+        <str><pos>3</pos><fmt>-$0-</fmt></str>
+      </Context_Group_AreaCode>
+      <Context_Group_ID f="id notnull autonum">
+        Stratum/Feature ID
+        <desc>Feature number taken from the central register.</desc>
+        <str><pos>6</pos></str>
+      </Context_Group_ID>
+    </cols>
     <CG_Your_description f="notnull">
       Description
       <desc>Describe the feature, any details of dimensions, disturbance, orientation etc.</desc>
@@ -1197,9 +1202,9 @@
   </Vars>
 </Context_Group>
 
-<Matrix>
+<Sediment_Aggregate>
   Sediment/Aggregate
-  <Matrix>
+  <Sediment_Aggregate>
     Sediment/Aggregate
     <cols>
       <Component f="id">
@@ -1270,12 +1275,12 @@
         <desc>Stones that have been deliberately shaped smooth by grinding.</desc></opt>
       </opts>
     </Shape>
-  </Matrix>
+  </Sediment_Aggregate>
   <Vars f="hidden">
     <Context_ID i="Context/General/Context_Context_ID"/>
     <AreaCode   i="Context/General/Context_AreaCode"/>
   </Vars>
-</Matrix>
+</Sediment_Aggregate>
 
 <Photograph_Log>
   <desc>A record of images created and stored on another device, eg by a professional site photographer.</desc>
@@ -1545,9 +1550,16 @@
 
 <Legacy>
   <Legacy>
+    <Legacy_Site_Name        f="id readonly" i="Trench/Trench/Trench_Site_Name"/>
+    <Legacy_Year_of_Campaign f="id notnull">
+      <str><fmt> $0</fmt></str>
+    </Legacy_Year_of_Campaign>
     <cols>
-      <Legacy_AreaCode f="id readonly" i="Trench/Trench/Trench_AreaCode">
+      <Legacy_AreaCode f="id notnull">
         Trench ID
+        <str>
+          <fmt> $0</fmt>
+        </str>
         <!--@SOURCE: vocabs/area-code.xml-->
       </Legacy_AreaCode>
       <Legacy_Context_ID f="id notnull">
@@ -1577,5 +1589,6 @@
   <!--@SOURCE: logic/custom-validation.bsh-->
   <!--@SOURCE: logic/date-closed.bsh-->
   <!--@SOURCE: logic/create-new-site-button.bsh-->
+  <!--@SOURCE: logic/create-new-trench-button.bsh-->
 ]]></logic>
 </module>

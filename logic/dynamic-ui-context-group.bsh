@@ -89,6 +89,7 @@ void showContextGroupPrefix() {
   viewDef.setAnnotationEnabled(true);
   viewDef.setCertaintyEnabled (true);
   viewDef.setInfoEnabled      (true);
+  viewDef.setStyleCss         ("required");
 
   createView(refView, viewDef, refGroup);
 }

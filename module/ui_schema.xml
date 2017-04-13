@@ -146,11 +146,21 @@
           </Date_Closed>
           <Trench_Files>
             <Add_Trench_Files>
+              <Colgroup_1>
+                <Col_1>
+                  <Trench_Files_Site_Name/>
+                </Col_1>
+                <Col_2>
+                  <Trench_Files_Year_of_Campaign/>
+                </Col_2>
+              </Colgroup_1>
               <Trench_Files_AreaCode/>
               <Trench_Files_author/>
               <File_Type/>
               <File_Name/>
               <File_Comment/>
+              <Add_Photo/>
+              <Add_Photo_Button_1/>
               <Attach_File/>
               <Attach_File_Button_1/>
               <View_Attached_Files/>
@@ -482,6 +492,7 @@
           <Context_Group>
             <Gen>
               <Record_Type/>
+              <Feature_Type_Group/>
               <Feature_Prefix_Group/>
               <Colgroup_1>
                 <Col_1>
@@ -491,7 +502,6 @@
                   <Context_Group_ID/>
                 </Col_2>
               </Colgroup_1>
-              <Feature_Type_Group/>
               <CG_Your_description/>
               <CG_Your_Interpretation/>
               <Your_Discussion/>
@@ -749,6 +759,8 @@
           </Soil_Munsel_Color>
           <Legacy>
             <Legacy>
+              <Legacy_Site_Name/>
+              <Legacy_Year_of_Campaign/>
               <Colgroup_1>
                 <Col_1>
                   <Legacy_AreaCode/>
@@ -1201,6 +1213,21 @@
       <label>{Trench_Files}</label>
       <group ref="Add_Trench_Files">
         <label>{Add_Trench_Files}</label>
+        <group ref="Colgroup_1" faims_style="orientation">
+          <label/>
+          <group ref="Col_1" faims_style="even">
+            <label/>
+            <input faims_attribute_name="Trench Files Site Name" faims_attribute_type="measure" ref="Trench_Files_Site_Name" faims_read_only="true">
+              <label>{Trench_Files_Site_Name}</label>
+            </input>
+          </group>
+          <group ref="Col_2" faims_style="even">
+            <label/>
+            <input faims_attribute_name="Trench Files Year of Campaign" faims_attribute_type="measure" ref="Trench_Files_Year_of_Campaign" faims_read_only="true">
+              <label>{Trench_Files_Year_of_Campaign}</label>
+            </input>
+          </group>
+        </group>
         <input faims_attribute_name="Trench Files AreaCode" faims_attribute_type="measure" ref="Trench_Files_AreaCode" faims_read_only="true">
           <label>{Trench_ID}</label>
         </input>
@@ -1220,6 +1247,16 @@
         <input faims_attribute_name="File Comment" faims_attribute_type="measure" ref="File_Comment">
           <label>{File_Comment}</label>
         </input>
+        <select faims_sync="true" type="camera" faims_attribute_name="Add Photo" faims_attribute_type="measure" ref="Add_Photo">
+          <label>{Add_Photo}</label>
+          <item>
+            <label>Options not loaded</label>
+            <value>Options not loaded</value>
+          </item>
+        </select>
+        <trigger ref="Add_Photo_Button_1">
+          <label>{Add_Photo}</label>
+        </trigger>
         <select faims_sync="true" type="file" faims_attribute_name="Attach File" faims_attribute_type="measure" ref="Attach_File">
           <label>{Attach_File}</label>
           <item>
@@ -2048,6 +2085,9 @@
             <value>Options not loaded</value>
           </item>
         </select1>
+        <group ref="Feature_Type_Group">
+          <label/>
+        </group>
         <group ref="Feature_Prefix_Group">
           <label/>
         </group>
@@ -2065,9 +2105,6 @@
               <label>{Stratum_Feature_ID}</label>
             </input>
           </group>
-        </group>
-        <group ref="Feature_Type_Group">
-          <label/>
         </group>
         <input faims_attribute_name="CG Your description" faims_attribute_type="measure" ref="CG_Your_description" faims_style_class="required">
           <label>{Description}</label>
@@ -2704,11 +2741,17 @@
       <label>{Legacy}</label>
       <group ref="Legacy">
         <label>{Legacy}</label>
+        <input faims_attribute_name="Legacy Site Name" faims_attribute_type="measure" ref="Legacy_Site_Name" faims_read_only="true">
+          <label>{Legacy_Site_Name}</label>
+        </input>
+        <input faims_attribute_name="Legacy Year of Campaign" faims_attribute_type="measure" ref="Legacy_Year_of_Campaign" faims_style_class="required">
+          <label>{Legacy_Year_of_Campaign}</label>
+        </input>
         <group ref="Colgroup_1" faims_style="orientation">
           <label/>
           <group ref="Col_1" faims_style="even">
             <label/>
-            <input faims_attribute_name="Legacy AreaCode" faims_attribute_type="measure" ref="Legacy_AreaCode" faims_read_only="true">
+            <input faims_attribute_name="Legacy AreaCode" faims_attribute_type="measure" ref="Legacy_AreaCode" faims_style_class="required">
               <label>{Trench_ID}</label>
             </input>
           </group>

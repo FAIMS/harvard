@@ -240,9 +240,19 @@
   </ArchaeologicalElement>
   <ArchaeologicalElement name="Trench Files">
     <description></description>
+    <property name="Trench Files Site Name" type="measure" isIdentifier="true">
+      <description></description>
+      <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
+      <appendCharacterString> - </appendCharacterString>
+    </property>
+    <property name="Trench Files Year of Campaign" type="measure" isIdentifier="true">
+      <description></description>
+      <formatString> $2</formatString>
+      <appendCharacterString> - </appendCharacterString>
+    </property>
     <property name="Trench Files AreaCode" type="measure" isIdentifier="true">
       <description></description>
-      <formatString>$2</formatString>
+      <formatString>-$2</formatString>
       <appendCharacterString> - </appendCharacterString>
     </property>
     <property name="Trench Files author" type="measure">
@@ -252,7 +262,7 @@
     </property>
     <property name="File Type" type="vocab" isIdentifier="true">
       <description></description>
-      <formatString> $1</formatString>
+      <formatString>-$1</formatString>
       <appendCharacterString> - </appendCharacterString>
       <lookup>
         <term>{Plan}
@@ -265,12 +275,17 @@
 <description></description></term>
       </lookup>
     </property>
-    <property name="File Name" type="measure" isIdentifier="true">
+    <property name="File Name" type="measure">
       <description></description>
-      <formatString> $2</formatString>
+      <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
     </property>
     <property name="File Comment" type="measure">
+      <description></description>
+      <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
+      <appendCharacterString> - </appendCharacterString>
+    </property>
+    <property name="Add Photo" type="file" file="true" thumbnail="true">
       <description></description>
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
@@ -4921,9 +4936,19 @@
   </ArchaeologicalElement>
   <ArchaeologicalElement name="Legacy">
     <description></description>
-    <property name="Legacy AreaCode" type="measure" isIdentifier="true">
+    <property name="Legacy Site Name" type="measure" isIdentifier="true">
       <description></description>
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
+      <appendCharacterString> - </appendCharacterString>
+    </property>
+    <property name="Legacy Year of Campaign" type="measure" isIdentifier="true">
+      <description></description>
+      <formatString> $2</formatString>
+      <appendCharacterString> - </appendCharacterString>
+    </property>
+    <property name="Legacy AreaCode" type="measure" isIdentifier="true">
+      <description></description>
+      <formatString> $2</formatString>
       <appendCharacterString> - </appendCharacterString>
     </property>
     <property name="Legacy Context ID" type="measure" isIdentifier="true">

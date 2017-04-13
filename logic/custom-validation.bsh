@@ -22,6 +22,9 @@ String getCond(String ref, String defaultCond) {
   if (refTab.equals("Context/Structure"))
     return "isSelected(\"Context/General/Context_Type\", \"{Construction}\")";
 
+  if (ref.equals("Context_Group/Gen/Feature_Prefix"))
+    return "isSelected(\"Context_Group/Gen/Record_Type\", \"{Feature}\")";
+
   return defaultCond;
 }
 

@@ -13,8 +13,6 @@ addOnEvent("Context/Relationships/Load_Related_Context", "click", "loadRelatedEn
 addOnEvent("Context/Relationships/Existing_Relationships_to_This_Context", "click", "selectRelationship()");
 addOnEvent("Context/Relationships/Delete_Relationship",                    "click", "deleteRelationship()");
 
-String selectedChildUuid = null;
-
 void initParentRelationshipGlobals() {
   String refSelectedRelParent = "Context/Relationships/Selected_Relationship";
 
@@ -53,14 +51,6 @@ void selectRelationship() {
   populateWebViewHtml(refSelectedRelParent, selectedRelIdentifier);
 }
 
-void loadRelatedEntity() {
-  if (isNull(selectedChildUuid)) {
-    showToast("No relationship selected");
-    return;
-  }
-  loadEntityFrom(selectedChildUuid);
-}
-
 ////////////////// FUNCTIONS AFFECTING RELATIONSHIP TAB GROUP //////////////////
 addOnEvent("Relationship",                                      "show",  "initRelationshipRelationshipGlobals()");
 addOnEvent("Relationship/Relationships/Add_Relationship",       "click", "addRelationship()");
@@ -70,9 +60,6 @@ addOnEvent("Relationship/Relationships/Relationship_Type",      "click", "popula
 addOnEvent("Relationship/Relationships/Search",                 "click", "populateProposedRelationship()");
 addOnEvent("Relationship/Relationships/Search",                 "click", "searchRelationship()");
 addOnEvent("Relationship/Relationships/Unrelated_Contexts",     "click", "selectUnrelatedEntity()");
-
-String proposedChildUuid       = null;
-String proposedChildIdentifier = null;
 
 void initRelationshipRelationshipGlobals() {
   proposedChildUuid       = null;

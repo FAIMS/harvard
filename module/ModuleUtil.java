@@ -915,6 +915,15 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: button
+        Ref:  Trench_Files/Add_Trench_Files/Button_Add_Photo
+     */
+    public static View get_TrenchFiles_AddTrenchFiles_ButtonAddPhoto(Solo solo) {
+        String ref = "Trench_Files/Add_Trench_Files/Button_Add_Photo";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: button
         Ref:  Trench_Files/Add_Trench_Files/Button_Attach_File
      */
     public static View get_TrenchFiles_AddTrenchFiles_ButtonAttachFile(Solo solo) {
@@ -1297,6 +1306,15 @@ public class ModuleUtil extends ModuleHelper {
      */
     public static View get_Trench_Trench_TrenchDimensions(Solo solo) {
         String ref = "Trench/Trench/Trench_Dimensions";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: dropdown
+        Ref:  Trench_Files/Add_Trench_Files/Add_Photo
+     */
+    public static View get_TrenchFiles_AddTrenchFiles_AddPhoto(Solo solo) {
+        String ref = "Trench_Files/Add_Trench_Files/Add_Photo";
         return (android.view.View) solo.getView((Object) ref);
     }
 
@@ -2555,9 +2573,9 @@ public class ModuleUtil extends ModuleHelper {
         Type: input
         Ref:  Legacy/Legacy/Legacy_AreaCode
      */
-    public static View get_Legacy_Legacy_LegacyAreaCode(Solo solo) {
+    public static EditText get_Legacy_Legacy_LegacyAreaCode(Solo solo) {
         String ref = "Legacy/Legacy/Legacy_AreaCode";
-        return (android.view.View) solo.getView((Object) ref);
+        return (android.widget.EditText) solo.getView((Object) ref);
     }
 
     /*
@@ -2566,6 +2584,24 @@ public class ModuleUtil extends ModuleHelper {
      */
     public static EditText get_Legacy_Legacy_LegacyContextID(Solo solo) {
         String ref = "Legacy/Legacy/Legacy_Context_ID";
+        return (android.widget.EditText) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: input
+        Ref:  Legacy/Legacy/Legacy_Site_Name
+     */
+    public static View get_Legacy_Legacy_LegacySiteName(Solo solo) {
+        String ref = "Legacy/Legacy/Legacy_Site_Name";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: input
+        Ref:  Legacy/Legacy/Legacy_Year_of_Campaign
+     */
+    public static EditText get_Legacy_Legacy_LegacyYearofCampaign(Solo solo) {
+        String ref = "Legacy/Legacy/Legacy_Year_of_Campaign";
         return (android.widget.EditText) solo.getView((Object) ref);
     }
 
@@ -2845,6 +2881,24 @@ public class ModuleUtil extends ModuleHelper {
      */
     public static View get_TrenchFiles_AddTrenchFiles_TrenchFilesAreaCode(Solo solo) {
         String ref = "Trench_Files/Add_Trench_Files/Trench_Files_AreaCode";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: input
+        Ref:  Trench_Files/Add_Trench_Files/Trench_Files_Site_Name
+     */
+    public static View get_TrenchFiles_AddTrenchFiles_TrenchFilesSiteName(Solo solo) {
+        String ref = "Trench_Files/Add_Trench_Files/Trench_Files_Site_Name";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: input
+        Ref:  Trench_Files/Add_Trench_Files/Trench_Files_Year_of_Campaign
+     */
+    public static View get_TrenchFiles_AddTrenchFiles_TrenchFilesYearofCampaign(Solo solo) {
+        String ref = "Trench_Files/Add_Trench_Files/Trench_Files_Year_of_Campaign";
         return (android.view.View) solo.getView((Object) ref);
     }
 
