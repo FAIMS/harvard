@@ -1,0 +1,31 @@
+/************************* FCN ENTITY LIST POPULATION *************************/
+addOnEvent("Trench", "create", "populateTrenchFcns()");
+addOnEvent("Trench", "fetch",  "populateTrenchFcns()");
+addOnEvent("FCN",    "save",   "populateTrenchFcns()");
+
+void populateTrenchFcns() {
+  String parentUuid    = getUuid("Trench");
+  String refEntityList = "Trench/FCNs/List_of_Existing_FCNs";
+
+  String q = "";
+  q += "SELECT childuuid, response";
+  q += "  FROM parentchild JOIN latestNonDeletedArchEntFormattedIdentifiers ON (childuuid = uuid)";
+  q += "  JOIN createdmodifiedatby USING (uuid)";
+  q += " WHERE (relationshipid IN (SELECT relationshipid";
+  q += "                            FROM latestnondeletedrelationship JOIN relntype USING (relntypeid)";
+  q += "                           WHERE relntypename IN ('Trench - FCN'))";
+  q += "   AND parentuuid = '{parentUuid}')";
+  q += "    OR (parentuuid IN (SELECT childuuid";
+  q += "                       FROM parentchild";
+  q += "                      WHERE relationshipid in (SELECT relationshipid";
+  q += "                                                 FROM latestnondeletedrelationship JOIN relntype USING (relntypeid)";
+  q += "                                                WHERE relntypename IN ('Trench - Locus'))";
+  q += "                        AND parentuuid = '{parentUuid}'))";
+  q += "   AND childaenttypename IN ('FCN')";
+  q += " ORDER BY createdat DESC";
+  q += " LIMIT ? OFFSET ?";
+  q  = replaceFirst(q, "{parentUuid}", parentUuid);
+  q  = replaceFirst(q, "{parentUuid}", parentUuid);
+
+  populateCursorList(refEntityList, q, 25);
+}

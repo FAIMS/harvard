@@ -177,7 +177,7 @@
   </Strata_Features>
   <FCNs f="noscroll">
     <Create_New_FCN        t="button" lc="FCN"/>
-    <List_of_Existing_FCNs t="list"   ec="FCN"/>
+    <List_of_Existing_FCNs t="list"/>
   </FCNs>
   <Diaries f="noscroll">
     <Create_New_Diary         t="button" lc="Diary"/>
@@ -1566,5 +1566,6 @@
   <!--@SOURCE: logic/date-closed.bsh-->
   <!--@SOURCE: logic/create-new-site-button.bsh-->
   <!--@SOURCE: logic/create-new-trench-button.bsh-->
+  <!--@SOURCE: logic/fcn-entity-list-population.bsh-->
 ]]></logic>
 </module>
