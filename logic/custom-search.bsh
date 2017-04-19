@@ -12,7 +12,7 @@ void populateSelectUser(){
                                    "  FROM user "+
                                    " WHERE userdeleted is null "+
                                    " UNION " +
-                                   "SELECT -1, '{All_Users}'";
+                                   "SELECT -1, '{All}'";
 
   fetchAll(getNonDeletedUsersQuery, new FetchCallback() {
     onFetch(result) {
@@ -36,7 +36,7 @@ void populateSite() {
   FetchCallback popSite = new FetchCallback() {
     onFetch(result) {
       List normalised = normaliseSiteResult(result);
-      populateDropDown(refSite, normalised, true);
+      populateDropDown(refSite, normalised);
     }
   };
 
@@ -60,16 +60,13 @@ List normaliseSiteResult(List result) {
     normalisedResultMap.put(uuid, mapRow);
   }
 
+  insertListRow(normalisedResultList, "", "", "{All}");
   for (List val : normalisedResultMap.values()) {
     String response = val.get(0);
     String siteName = val.get(1);
     String siteYear = val.get(2);
 
-    List normalisedRow = new ArrayList();
-    normalisedRow.add(siteName + SEP + siteYear);
-    normalisedRow.add(response);
-
-    normalisedResultList.add(normalisedRow);
+    insertListRow(normalisedResultList, siteName, siteYear, response);
   }
 
   return normalisedResultList;
@@ -85,6 +82,8 @@ List updateMapRow(List row, String key, String val) {
     row.add("");
     row.add("");
     row.add("");
+  } else {
+    row = new ArrayList(row);
   }
 
   if (key == null)
@@ -94,6 +93,19 @@ List updateMapRow(List row, String key, String val) {
   else if (key.contains(YEAR_OF_CAMPAIGN)) row.set(2, val);
 
   return row;
+}
+
+void insertListRow(
+    List   normalisedList,
+    String siteName,
+    String siteYear,
+    String response
+) {
+    List normalisedRow = new ArrayList();
+    normalisedRow.add(siteName + SEP + siteYear);
+    normalisedRow.add(response);
+
+    normalisedList.add(normalisedRow);
 }
 
 // Overrides auto-generated definition
@@ -164,10 +176,13 @@ String getSearchSiteYear(String ref) {
 }
 
 String getSearchSiteField(String ref, int index) {
-  String nameYear = getFieldValue(ref);
-
+  String   nameYear = getFieldValue(ref);
   if (isNull(nameYear))
-    return "\\0";
+    nameYear = "";
+
+  String[] splitted = nameYear.split(SEP);
+  if (index < splitted.length)
+    return splitted[index];
   else
-    return nameYear.split(SEP)[index];
+    return "\\0";
 }

@@ -1,7 +1,7 @@
 /*********************************** SHARED ***********************************/
 String WEB_REL_NONE = "<i>None</i>";
 
-contextIdentifer = "";
+locusIdentifer = "";
 
 void populateSquare(String ref) {
   String q = "";
@@ -37,9 +37,9 @@ void setFieldToIdentifier(String identiferType, String lotRef) {
 
   cb = new FetchCallback() {
     onFetch(result) {
-      contextIdentifer  = result.get(1);
+      locusIdentifer  = result.get(1);
 
-      populateWebViewHtml(lotRef, contextIdentifer);
+      populateWebViewHtml(lotRef, locusIdentifer);
     }
   };
 
@@ -47,6 +47,6 @@ void setFieldToIdentifier(String identiferType, String lotRef) {
 }
 
 void populateLotLabel(String lotRef) {
-  identiferType = "Context";
+  identiferType = "Locus";
   setFieldToIdentifier(identiferType, lotRef);
 }

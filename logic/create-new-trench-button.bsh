@@ -16,22 +16,22 @@ void tryCreateNewTrench () {
   String parentUuid = getUuid(getDisplayedTabGroup());
   String trenchId   = getFieldValue("Site/Site/Trench_ID");
 
-  String q = "" +
-    "SELECT childuuid, response "+
-    "  FROM parentchild "+
-    "  JOIN latestNonDeletedArchEntFormattedIdentifiers ON (childuuid = uuid) " +
-    "  JOIN createdmodifiedatby USING (uuid) " +
-    " WHERE relationshipid IN (SELECT relationshipid  " +
-    "                            FROM latestnondeletedrelationship JOIN relntype USING (relntypeid) " +
-    "                           WHERE relntypename = 'Site - Trench') " +
-    "   AND parentuuid = '" + parentUuid + "' " +
-    "   AND (childaenttypename = 'Trench') " +
-    "   AND childuuid IN (" +
-    "           SELECT uuid" +
-    "             FROM latestnondeletedaentvalue"+
-    "             JOIN attributekey USING (attributeid)"+
-    "            WHERE attributename = 'Trench AreaCode'"+
-    "              AND measure = '" + trenchId + "')";
+  String q = "";
+  q += "SELECT childuuid, response ";
+  q += "  FROM parentchild ";
+  q += "  JOIN latestNonDeletedArchEntFormattedIdentifiers ON (childuuid = uuid) ";
+  q += "  JOIN createdmodifiedatby USING (uuid) ";
+  q += " WHERE relationshipid IN (SELECT relationshipid  ";
+  q += "                            FROM latestnondeletedrelationship JOIN relntype USING (relntypeid) ";
+  q += "                           WHERE relntypename = 'Site - Trench') ";
+  q += "   AND parentuuid = '" + parentUuid + "' ";
+  q += "   AND (childaenttypename = 'Trench') ";
+  q += "   AND childuuid IN (";
+  q += "           SELECT uuid";
+  q += "             FROM latestnondeletedaentvalue";
+  q += "             JOIN attributekey USING (attributeid)";
+  q += "            WHERE attributename = 'Trench Trench ID'";
+  q += "              AND measure = '" + trenchId + "')";
 
   FetchCallback callback = new FetchCallback() {
     onFetch(result) {
@@ -53,7 +53,7 @@ void confirmNewTrench() {
   head  = "Trench Already Exists";
   body  = "A trench having this trench ID already exists. Tap 'OK' to change ";
   body += " the 'Trench ID' field, or 'Cancel' to dismiss this  message and ";
-  boyd += " create a new Trench anyway.";
+  body += " create a new Trench anyway.";
 
   cbOk  = "";
   cbBad = "newTrench()";

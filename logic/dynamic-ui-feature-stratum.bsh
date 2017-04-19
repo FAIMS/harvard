@@ -4,50 +4,50 @@
 FEATURE_TYPE_VOCAB = new ArrayList();
 fetchVocab("Feature Type", FEATURE_TYPE_VOCAB);
 
-void updateContextGroupFields() {
-  String ref       = "Context_Group/Gen/Record_Type";
+void updateStratumFeatureFields() {
+  String ref       = "Stratum_Feature/General/Record_Type";
   String vocabName = getMenuValue(ref);
   String STRATUM   = "{Stratum}";
   String FEATURE   = "{Feature}";
 
   if (isNull(vocabName)) {
     setMenuValue(ref, FEATURE);
-    updateContextGroupToFeature();
+    updateStratumFeatureToFeature();
     return;
   }
 
-  if (vocabName.equals(STRATUM)) updateContextGroupToStratum();
-  if (vocabName.equals(FEATURE)) updateContextGroupToFeature();
+  if (vocabName.equals(STRATUM)) updateStratumFeatureToStratum();
+  if (vocabName.equals(FEATURE)) updateStratumFeatureToFeature();
 }
 
-void updateContextGroupToStratum() {
-  hideContextGroupPrefix();
-  hideContextGroupType();
-  showContextGroupParens();
+void updateStratumFeatureToStratum() {
+  hideStratumFeaturePrefix();
+  hideStratumFeatureType();
+  showStratumFeatureParens();
 }
 
-void updateContextGroupToFeature() {
-  showContextGroupPrefix();
-  showContextGroupType();
-  hideContextGroupParens();
+void updateStratumFeatureToFeature() {
+  showStratumFeaturePrefix();
+  showStratumFeatureType();
+  hideStratumFeatureParens();
 }
 
-void hideContextGroupType() {
-  hideView("Context_Group/Gen/Feature_Type");
+void hideStratumFeatureType() {
+  hideView("Stratum_Feature/General/Feature_Type");
 }
 
-void hideContextGroupPrefix() {
-  hideView("Context_Group/Gen/Feature_Prefix");
+void hideStratumFeaturePrefix() {
+  hideView("Stratum_Feature/General/Feature_Prefix");
 }
 
-void hideContextGroupParens() {
-  setFieldValue("Context_Group/Vars/L_Paren", "");
-  setFieldValue("Context_Group/Vars/R_Paren", "");
+void hideStratumFeatureParens() {
+  setFieldValue("Stratum_Feature/Vars/L_Paren", "");
+  setFieldValue("Stratum_Feature/Vars/R_Paren", "");
 }
 
-void showContextGroupType() {
-  String refView  = "Context_Group/Gen/Feature_Type";
-  String refGroup = "Context_Group/Gen/Feature_Type_Group";
+void showStratumFeatureType() {
+  String refView  = "Stratum_Feature/General/Feature_Type";
+  String refGroup = "Stratum_Feature/General/Feature_Type_Group";
 
   if (hasView(refView)) return;
 
@@ -71,9 +71,9 @@ void showContextGroupType() {
   populateDropDown(refView, FEATURE_TYPE_VOCAB, hasNull);
 }
 
-void showContextGroupPrefix() {
-  String refView  = "Context_Group/Gen/Feature_Prefix";
-  String refGroup = "Context_Group/Gen/Feature_Prefix_Group";
+void showStratumFeaturePrefix() {
+  String refView  = "Stratum_Feature/General/Feature_Prefix";
+  String refGroup = "Stratum_Feature/General/Feature_Prefix_Group";
 
   if (hasView(refView)) return;
 
@@ -94,12 +94,12 @@ void showContextGroupPrefix() {
   createView(refView, viewDef, refGroup);
 }
 
-void showContextGroupParens() {
-  setFieldValue("Context_Group/Vars/L_Paren", "(");
-  setFieldValue("Context_Group/Vars/R_Paren", ")");
+void showStratumFeatureParens() {
+  setFieldValue("Stratum_Feature/Vars/L_Paren", "(");
+  setFieldValue("Stratum_Feature/Vars/R_Paren", ")");
 }
 
-addOnEvent("Context_Group/Gen/Record_Type", "click", "updateContextGroupFields()");
-addOnEvent("Context_Group", "create",   "updateContextGroupFields()");
-addOnEvent("Context_Group", "prefetch", "updateContextGroupToFeature()");
-addOnEvent("Context_Group",    "fetch", "updateContextGroupFields()");
+addOnEvent("Stratum_Feature/General/Record_Type", "click", "updateStratumFeatureFields()");
+addOnEvent("Stratum_Feature", "create",   "updateStratumFeatureFields()");
+addOnEvent("Stratum_Feature", "prefetch", "updateStratumFeatureToFeature()");
+addOnEvent("Stratum_Feature",    "fetch", "updateStratumFeatureFields()");

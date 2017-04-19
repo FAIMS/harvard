@@ -1,16 +1,16 @@
 /******************************* TEXTURE HELPER *******************************/
-onEvent("Context/Soil_Texture_Helper/Update_Soil_Texture", "click", "setTextureActual()");
+onEvent("Locus/Material_Helper/Update_Material", "click", "setTextureActual()");
 
 // Overrides the original function definition using @POSTPROC.
-void onClickContextSoilTextureHelper () {
-  showTab("Context/Soil_Texture_Helper");
+void onClickLocusSoilTextureHelper () {
+  showTab("Locus/Material_Helper");
 }
 
 void setTextureActual(){
     String soilQuery= "SELECT vocabid " +
                       "  FROM vocabulary JOIN attributekey USING (attributeid) "+
-                      " WHERE attributeName = 'Soil Texture' "+
-                      "   AND vocabname = '" + getMenuValue("Context/Soil_Texture_Helper/Soil_Texture_Helper") + "' ";
+                      " WHERE attributeName = 'Material' "+
+                      "   AND vocabname = '" + getMenuValue("Locus/Material_Helper/Material_Helper") + "' ";
     //This function makes the hierarchical soil texture selector write to the texture dropdown. We should discuss.
     Log.d("foo1", soilQuery);
 
@@ -18,12 +18,12 @@ void setTextureActual(){
         onFetch(textureToSet) {
             if(!isNull(textureToSet)){
                 Log.d("foo1", textureToSet.get(0));
-                setFieldValue("Context/Deposit/Soil_Texture", textureToSet.get(0));
+                setFieldValue("Locus/Deposit/Material", textureToSet.get(0));
             } else {
                 showToast("Match not found. You shouldn't see this, but select the result manually.");
             }
-            cancelTab("Context/Soil_Texture_Helper", false);
-            showTab("Context/Deposit");
+            cancelTab("Locus/Material_Helper", false);
+            showTab("Locus/Deposit");
         }
     });
 }

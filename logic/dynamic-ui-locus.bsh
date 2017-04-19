@@ -8,22 +8,22 @@
 /* Case (b) is handled by a callback to `showTabGroup`. This is implemented   */
 /* by overwriting the auto-generated record loading function using @POSTPROC. */
 /******************************************************************************/
-addOnEvent("Context",                                      "show",  "openContextTabs()");
-addOnEvent("Context",                                      "fetch", "openContextTabs(true)");
-addOnEvent("Context/General/Fill_in_Context_Type_Details", "click", "openContextTabs()");
+addOnEvent("Locus",                                      "show",  "openLocusTabs()");
+addOnEvent("Locus",                                      "fetch", "openLocusTabs(true)");
+addOnEvent("Locus/General/Fill_in_Locus_Type_Details", "click", "openLocusTabs()");
 
-void openContextTabs() {
-  openContextTabs(false);
+void openLocusTabs() {
+  openLocusTabs(false);
 }
 
-void openContextTabs(Boolean showGeneralInformationTab){
-  String refCut = "Context/Cut";
-  String refDep = "Context/Deposit";
-  String refSke = "Context/Skeleton";
-  String refStr = "Context/Structure";
-  String refGen = "Context/General";
+void openLocusTabs(Boolean showGeneralInformationTab){
+  String refCut = "Locus/Cut";
+  String refDep = "Locus/Deposit";
+  String refSke = "Locus/Skeleton";
+  String refCon = "Locus/Construction";
+  String refGen = "Locus/General";
 
-  String refCtxtType = "Context/General/Context_Type";
+  String refCtxtType = "Locus/General/Locus_Type";
   String vocabName   = getMenuValue(refCtxtType);
 
   if (vocabName == null)
@@ -31,28 +31,28 @@ void openContextTabs(Boolean showGeneralInformationTab){
 
   if (vocabName.equals("{Deposit}") || vocabName.equals("{Natural}")){
     cancelTab(refCut, false);
-    cancelTab(refStr, false);
+    cancelTab(refCon, false);
     cancelTab(refSke, false);
     showTab  (refDep);
   } else if (vocabName.equals("{Cut}")){
     cancelTab(refDep, false);
-    cancelTab(refStr, false);
+    cancelTab(refCon, false);
     cancelTab(refSke, false);
     showTab  (refCut);
   } else if (vocabName.equals("{Construction}")){
     cancelTab(refDep, false);
     cancelTab(refCut, false);
     cancelTab(refSke, false);
-    showTab  (refStr);
+    showTab  (refCon);
   } else if (vocabName.equals("{Skeleton}")){
     cancelTab(refDep, false);
     cancelTab(refCut, false);
-    cancelTab(refStr, false);
+    cancelTab(refCon, false);
     showTab  (refSke);
   } else {
     cancelTab(refCut, false);
     cancelTab(refDep, false);
-    cancelTab(refStr, false);
+    cancelTab(refCon, false);
     cancelTab(refSke, false);
   }
 

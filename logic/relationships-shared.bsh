@@ -2,10 +2,10 @@
 /* Variables and functions shared by entity-specfic code fo relating          */
 /* entities.                                                                  */
 /******************************************************************************/
-addOnEvent("Context",                    "show", "onDisplayParent()");
+addOnEvent("Locus",                    "show", "onDisplayParent()");
 addOnEvent("Relationship",               "show", "onDisplayRelationship()");
-addOnEvent("Context_Group",              "show", "CGonDisplayParent()");
-addOnEvent("Context_Group_Relationship", "show", "CGonDisplayRelationship()");
+addOnEvent("Stratum_Feature",              "show", "CGonDisplayParent()");
+addOnEvent("Stratum_Feature_Relationship", "show", "CGonDisplayRelationship()");
 
 String WEB_REL_DESC_FMT      = "%s <u>&nbsp;%s&nbsp;</u> <u>&nbsp;%s&nbsp;</u>";
 String WEB_REL_DESC_FILL     = "?";
@@ -20,15 +20,15 @@ String proposedChildIdentifier = null;
 
 String displayedTabGroup     = null;
 
-void onDisplayParent()            {displayedTabGroup = "Context";}
+void onDisplayParent()            {displayedTabGroup = "Locus";}
 void onDisplayRelationship()      {displayedTabGroup = "Relationship";}
-boolean isDisplayedParent()       {return displayedTabGroup.equals("Context");}
+boolean isDisplayedParent()       {return displayedTabGroup.equals("Locus");}
 boolean isDisplayedRelationship() {return displayedTabGroup.equals("Relationship");}
 
-void CGonDisplayParent()            {displayedTabGroup = "Context_Group";}
-void CGonDisplayRelationship()      {displayedTabGroup = "Context_Group_Relationship";}
-boolean CGisDisplayedParent()       {return displayedTabGroup.equals("Context_Group");}
-boolean CGisDisplayedRelationship() {return displayedTabGroup.equals("Context_Group_Relationship");}
+void CGonDisplayParent()            {displayedTabGroup = "Stratum_Feature";}
+void CGonDisplayRelationship()      {displayedTabGroup = "Stratum_Feature_Relationship";}
+boolean CGisDisplayedParent()       {return displayedTabGroup.equals("Stratum_Feature");}
+boolean CGisDisplayedRelationship() {return displayedTabGroup.equals("Stratum_Feature_Relationship");}
 
 // Depends on the following globals:
 //   - selectedRelId
@@ -60,7 +60,7 @@ void deleteRelationship() {
 
 void deleteRelationshipSuceeded() {
   String refSelectedRelRel    = "Relationship/Relationships/Selected_Relationship";
-  String refSelectedRelParent = "Context/Relationships/Selected_Relationship";
+  String refSelectedRelParent = "Locus/Relationships/Selected_Relationship";
   if (isDisplayedParent()) {
     populateWebViewHtml(refSelectedRelParent, WEB_REL_NONE);
     populateExistingRelationships();
@@ -70,8 +70,8 @@ void deleteRelationshipSuceeded() {
     searchRelationship();
   }
 
-  String CGrefSelectedRelRel    = "Context_Group_Relationship/Relationships/Selected_Relationship";
-  String CGrefSelectedRelParent = "Context_Group/Context_Group_Contexts/Selected_Relationship";
+  String CGrefSelectedRelRel    = "Stratum_Feature_Relationship/Relationships/Selected_Relationship";
+  String CGrefSelectedRelParent = "Stratum_Feature/Stratum_Feature_Loci/Selected_Relationship";
   if (CGisDisplayedParent()) {
     populateWebViewHtml(CGrefSelectedRelParent, WEB_REL_NONE);
     CGpopulateExistingRelationships();
