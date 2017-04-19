@@ -2,6 +2,7 @@
 addOnEvent("Trench", "create", "populateTrenchFcns()");
 addOnEvent("Trench", "fetch",  "populateTrenchFcns()");
 addOnEvent("FCN",    "save",   "populateTrenchFcns()");
+addOnEvent("Trench/FCNs/List_of_Existing_FCNs", "click", "loadEntity()");
 
 void populateTrenchFcns() {
   String parentUuid    = getUuid("Trench");
@@ -29,3 +30,5 @@ void populateTrenchFcns() {
 
   populateCursorList(refEntityList, q, 25);
 }
+
+

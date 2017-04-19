@@ -2,7 +2,8 @@
 <!--@PREPROC:  ./proc/pre.sh-->
 <!--@POSTPROC: ./proc/post.sh-->
 
-<!--TODO: Test Site filter-->
+<!--TODO: Make list of Existing FCNs clickable-->
+
 <module suppressWarnings="true">
 
 <rels>
@@ -1365,8 +1366,8 @@
     <List_of_Existing_Legacies t="list"   e="Legacy"/>
   </Legacies>
   <Vars f="hidden">
-    <Relationships_Site_Name        i="Locus/General/Locus_Site_Name"/>
-    <Relationships_Year_of_Campaign i="Locus/Vars/Locus_Year_of_Campaign"/>
+    <Relationship_Site_Name        i="Locus/General/Locus_Site_Name!"/>
+    <Relationship_Year_of_Campaign i="Locus/Vars/Locus_Year_of_Campaign!"/>
   </Vars>
 </Relationship>
 
@@ -1520,10 +1521,10 @@
 <Legacy>
   <Legacy>
     <cols>
-      <Legacy_Site_Name        f="id readonly" i="Trench/Trench/Trench_Site_Name Relationship/Vars/Relationships_Site_Name">
+      <Legacy_Site_Name        f="id readonly" i="Trench/Trench/Trench_Site_Name Relationship/Vars/Relationship_Site_Name">
         Site Name
       </Legacy_Site_Name>
-      <Legacy_Year_of_Campaign f="id notnull"  i="Trench/Vars/Trench_Year_of_Campaign Relationship/Vars/Relationships_Year_of_Campaign">
+      <Legacy_Year_of_Campaign f="id notnull"  i="Trench/Vars/Trench_Year_of_Campaign Relationship/Vars/Relationship_Year_of_Campaign">
         Year of Campaign
         <str><fmt> $0</fmt></str>
       </Legacy_Year_of_Campaign>

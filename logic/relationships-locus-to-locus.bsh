@@ -132,9 +132,13 @@ void searchRelationship() {
   String refRelType   = "Relationship/Relationships/Relationship_Type";
   String refTrenchId  = "Relationship/Relationships/Trench_ID";
   String refLocusId   = "Relationship/Relationships/Locus_ID";
+  String refSiteName  = "Relationship/Vars/Relationship_Site_Name";
+  String refSiteYear  = "Relationship/Vars/Relationship_Year_of_Campaign";
 
   String trenchId   = getFieldValue(refTrenchId);
   String locusId    = getFieldValue(refLocusId);
+  String siteName   = getFieldValue(refSiteName);
+  String siteYear   = getFieldValue(refSiteYear);
   String parentRole = getSelectedRelationshipComponent(refRelType, "parent");
   String unrelatedQ = "";
   String relatedQ   = "";
@@ -145,25 +149,29 @@ void searchRelationship() {
     showWarning(msgHead, msgBody);
     return;
   }
-  if (isNull(locusId)) {
-    msgHead  = "Locus ID required";
-    msgBody  = "Searching requires that the Locus ID field is filled in.";
-    showWarning(msgHead, msgBody);
-    return;
-  }
 
   unrelatedQ += " SELECT 'unrelated' || char(0) || uuid || char(0) || response, response";
   unrelatedQ += "   FROM latestNonDeletedArchEntFormattedIdentifiers";
   unrelatedQ += "  WHERE uuid IN (";
   unrelatedQ += "         SELECT uuid";
   unrelatedQ += "           FROM latestnondeletedaentvalue JOIN attributekey USING (attributeid)";
-  unrelatedQ += "          WHERE attributename IN ('Locus Trench ID', 'Legacy Trench ID')";
+  unrelatedQ += "          WHERE attributename LIKE '% Trench ID'";
   unrelatedQ += "            AND measure = '{Locus_Trench_ID}'";
   unrelatedQ += "            AND uuid IN (";
   unrelatedQ += "                 SELECT uuid";
   unrelatedQ += "                   FROM latestnondeletedaentvalue JOIN attributekey USING (attributeid) ";
-  unrelatedQ += "                  WHERE attributename IN ('Locus Locus ID', 'Legacy Locus ID')";
-  unrelatedQ += "                    AND measure = '{Locus_Locus_ID}')";
+  unrelatedQ += "                  WHERE attributename LIKE '% Locus ID'";
+  unrelatedQ += "                    AND (measure = '{Locus_Locus_ID}' OR '{Locus_Locus_ID}' = ''))";
+  unrelatedQ += "            AND uuid IN (";
+  unrelatedQ += "                 SELECT uuid";
+  unrelatedQ += "                   FROM latestnondeletedaentvalue JOIN attributekey USING (attributeid) ";
+  unrelatedQ += "                  WHERE attributename LIKE '% Site Name'";
+  unrelatedQ += "                    AND measure = '{Relationship_Site_Name}')";
+  unrelatedQ += "            AND uuid IN (";
+  unrelatedQ += "                 SELECT uuid";
+  unrelatedQ += "                   FROM latestnondeletedaentvalue JOIN attributekey USING (attributeid) ";
+  unrelatedQ += "                  WHERE attributename LIKE '% Year of Campaign'";
+  unrelatedQ += "                    AND measure = '{Relationship_Year_of_Campaign}')";
   unrelatedQ += "            AND uuid NOT IN (";
   unrelatedQ += "                 SELECT childuuid";
   unrelatedQ += "                   FROM parentchild";
@@ -173,11 +181,14 @@ void searchRelationship() {
   unrelatedQ += "    AND aenttypename IN ('Locus', 'Legacy')";
   unrelatedQ += " ORDER BY response";
   unrelatedQ += " LIMIT ? OFFSET ?";
-  unrelatedQ  = replaceFirst(unrelatedQ, "{Locus_Trench_ID}",   trenchId  );
-  unrelatedQ  = replaceFirst(unrelatedQ, "{Locus_Locus_ID}", locusId );
-  unrelatedQ  = replaceFirst(unrelatedQ, "{parentUuid}",         parentUuid);
-  unrelatedQ  = replaceFirst(unrelatedQ, "{parentUuid}",         parentUuid);
-  unrelatedQ  = replaceFirst(unrelatedQ, "{parentRole}",         parentRole);
+  unrelatedQ  = replaceFirst(unrelatedQ, "{Locus_Trench_ID}",               trenchId);
+  unrelatedQ  = replaceFirst(unrelatedQ, "{Locus_Locus_ID}",                locusId);
+  unrelatedQ  = replaceFirst(unrelatedQ, "{Locus_Locus_ID}",                locusId);
+  unrelatedQ  = replaceFirst(unrelatedQ, "{Relationship_Site_Name}",        siteName);
+  unrelatedQ  = replaceFirst(unrelatedQ, "{Relationship_Year_of_Campaign}", siteYear);
+  unrelatedQ  = replaceFirst(unrelatedQ, "{parentUuid}",                    parentUuid);
+  unrelatedQ  = replaceFirst(unrelatedQ, "{parentUuid}",                    parentUuid);
+  unrelatedQ  = replaceFirst(unrelatedQ, "{parentRole}",                    parentRole);
 
   relatedQ += getRelatedChildQuery(parentUuid);
 
