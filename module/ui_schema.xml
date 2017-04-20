@@ -30,16 +30,16 @@
             </Help>
           </User>
           <Control>
-            <Contexts>
+            <Site>
               <New_Site_Name/>
               <Year_of_Campaign/>
               <GPS_Diagnostics/>
               <Create_New_Site/>
               <Choose_an_Existing_Site/>
-            </Contexts>
+            </Site>
             <Next_IDs>
-              <Next_Context_Context_ID/>
-              <Next_Context_Group_ID/>
+              <Next_Locus_Locus_ID/>
+              <Next_Stratum_Feature_ID/>
               <Next_FCN_ID/>
             </Next_IDs>
             <Search>
@@ -80,7 +80,7 @@
             <Trench>
               <Trench_Site_Name/>
               <Trench_author/>
-              <Trench_AreaCode/>
+              <Trench_Trench_ID/>
               <Team_Members/>
               <Trench_Dimensions/>
               <Grid_SW_Corner_Coordinates/>
@@ -118,7 +118,7 @@
               <List_of_Existing_Loci/>
             </Loci>
             <Strata_Features>
-              <Create_New_Stratum/>
+              <Create_New_Stratum_Feature/>
               <List_of_Existing_Strata_Features/>
             </Strata_Features>
             <FCNs>
@@ -154,7 +154,7 @@
                   <Trench_Files_Year_of_Campaign/>
                 </Col_2>
               </Colgroup_1>
-              <Trench_Files_AreaCode/>
+              <Trench_Files_Trench_ID/>
               <Trench_Files_author/>
               <File_Type/>
               <File_Name/>
@@ -166,20 +166,20 @@
               <View_Attached_Files/>
             </Add_Trench_Files>
           </Trench_Files>
-          <Context>
+          <Locus>
             <General>
               <Colgroup_1>
                 <Col_1>
-                  <Context_Site_Name/>
+                  <Locus_Site_Name/>
                 </Col_1>
                 <Col_2>
-                  <Context_AreaCode/>
+                  <Locus_Trench_ID/>
                 </Col_2>
                 <Col_3>
-                  <Context_Context_ID/>
+                  <Locus_Locus_ID/>
                 </Col_3>
               </Colgroup_1>
-              <Context_Name/>
+              <Brief_Description/>
               <Colgroup_2>
                 <Col_1>
                   <Grid_X/>
@@ -199,14 +199,14 @@
               </Colgroup_3>
               <Colgroup_4>
                 <Col_1>
-                  <Horizon_Boundary/>
+                  <Basal_Edge_Definition/>
                 </Col_1>
                 <Col_2>
                   <Contamination/>
                 </Col_2>
               </Colgroup_4>
-              <Context_Type/>
-              <Fill_in_Context_Type_Details/>
+              <Locus_Type/>
+              <Fill_in_Locus_Type_Details/>
               <Colgroup_5>
                 <Col_1>
                   <Photo_of_Plan/>
@@ -227,20 +227,20 @@
               </Colgroup_6>
               <Colgroup_7>
                 <Col_1>
-                  <Context_author/>
+                  <Locus_author/>
                 </Col_1>
                 <Col_2>
-                  <Context_timestamp/>
+                  <Locus_timestamp/>
                 </Col_2>
               </Colgroup_7>
             </General>
             <Measure>
               <Colgroup_1>
                 <Col_1>
-                  <Highest_Level/>
+                  <Absolute_Height_Top_m/>
                 </Col_1>
                 <Col_2>
-                  <Lowest_Level/>
+                  <Absolute_Height_Bottom_m/>
                 </Col_2>
               </Colgroup_1>
               <Colgroup_2>
@@ -276,13 +276,13 @@
                   <SE_Bottom_Height/>
                 </Col_2>
               </Colgroup_4>
-              <Volume/>
+              <Volume_Liters/>
             </Measure>
             <Cut>
               <Cut_Your_Interpretation/>
               <Colgroup_1>
                 <Col_1>
-                  <Shape_of_Cut/>
+                  <Shape_in_Plan/>
                 </Col_1>
                 <Col_2>
                   <Shape_of_Cut_-_Note/>
@@ -304,7 +304,7 @@
               <Inclination_of_axis/>
               <Truncation/>
             </Cut>
-            <Structure>
+            <Construction>
               <Description/>
               <Discussion/>
               <Length/>
@@ -337,18 +337,18 @@
               <Notes/>
               <Plans/>
               <Section_Numbers/>
-            </Structure>
+            </Construction>
             <Deposit>
               <Deposit_Your_Interpretation/>
-              <Soil_Compaction_Type/>
-              <Soil_Compaction_Description/>
+              <Texture/>
+              <Texture_Description/>
               <Soil_Particle_Sorting/>
               <Colgroup_1>
                 <Col_1>
-                  <Soil_Texture/>
+                  <Material/>
                 </Col_1>
                 <Col_2>
-                  <Soil_Texture_Helper/>
+                  <Material_Helper/>
                 </Col_2>
               </Colgroup_1>
               <Soil_Colour/>
@@ -370,8 +370,8 @@
                   <Deposit_Inclusions/>
                 </Col_2>
               </Colgroup_3>
-              <Add_New_Matrix/>
-              <Associated_Matrices/>
+              <Add_New_Sediment_Aggregate/>
+              <Associated_Sediment_Aggregates/>
             </Deposit>
             <Skeleton>
               <Location/>
@@ -455,22 +455,22 @@
               <Your_Discussion/>
             </Int>
             <Relationships>
-              <Create_Relationships_to_This_Context/>
+              <Create_Relationships_to_This_Locus/>
               <Colgroup_1>
                 <Col_1>
-                  <Existing_Relationships_to_This_Context/>
+                  <Existing_Relationships_to_This_Locus/>
                 </Col_1>
                 <Col_2>
                   <Selected_Relationship/>
-                  <Load_Related_Context/>
+                  <Load_Related_Locus/>
                   <Delete_Relationship/>
                 </Col_2>
               </Colgroup_1>
             </Relationships>
-            <FCN>
+            <FCNs>
               <Add_FCN/>
               <List_of_Related_FCNs/>
-            </FCN>
+            </FCNs>
             <Add>
               <Photo/>
               <Photo_Button_1/>
@@ -480,31 +480,31 @@
               <Add_Photograph_Log/>
               <Select_a_Photograph_Log/>
             </Add>
-            <Soil_Texture_Helper>
-              <Soil_Texture_Helper/>
-              <Update_Soil_Texture/>
-            </Soil_Texture_Helper>
+            <Material_Helper>
+              <Material_Helper/>
+              <Update_Material/>
+            </Material_Helper>
             <Vars>
               <Device_Code/>
-              <Context_Year_of_Campaign/>
+              <Locus_Year_of_Campaign/>
             </Vars>
-          </Context>
-          <Context_Group>
-            <Gen>
+          </Locus>
+          <Stratum_Feature>
+            <General>
               <Record_Type/>
               <Feature_Type_Group/>
               <Feature_Prefix_Group/>
               <Colgroup_1>
                 <Col_1>
-                  <Context_Group_AreaCode/>
+                  <Stratum_Feature_Trench_ID/>
                 </Col_1>
                 <Col_2>
-                  <Context_Group_ID/>
+                  <Stratum_Feature_ID/>
                 </Col_2>
               </Colgroup_1>
-              <CG_Your_description/>
-              <CG_Your_Interpretation/>
-              <Your_Discussion/>
+              <Description/>
+              <Interpretation/>
+              <Discussion/>
               <Colgroup_2>
                 <Col_1>
                   <Length/>
@@ -543,30 +543,30 @@
                   <Mid_Y/>
                 </Col_2>
               </Colgroup_5>
-              <CG_Plans/>
-              <CG_Section_Numbers/>
+              <Plans/>
+              <Section_Numbers/>
               <Colgroup_6>
                 <Col_1>
-                  <Context_Group_author/>
+                  <Stratum_Feature_author/>
                 </Col_1>
                 <Col_2>
-                  <Context_Group_timestamp/>
+                  <Stratum_Feature_timestamp/>
                 </Col_2>
               </Colgroup_6>
-            </Gen>
-            <Context_Group_Contexts>
-              <Create_Relationships_to_This_Context_Group/>
+            </General>
+            <Stratum_Feature_Loci>
+              <Create_Relationships_to_This_Stratum_Feature/>
               <Colgroup_1>
                 <Col_1>
-                  <Existing_Relationships_to_This_Context_Group/>
+                  <Existing_Relationships_to_This_Stratum_Feature/>
                 </Col_1>
                 <Col_2>
                   <Selected_Relationship/>
-                  <Load_Related_Context/>
+                  <Load_Related_Locus/>
                   <Delete_Relationship/>
                 </Col_2>
               </Colgroup_1>
-            </Context_Group_Contexts>
+            </Stratum_Feature_Loci>
             <Add>
               <Photo/>
               <Photo_Button_1/>
@@ -579,47 +579,47 @@
             </Add>
             <Vars>
               <Device_Code/>
-              <Context_Group_Site_Name/>
-              <Context_Group_Year_of_Campaign/>
+              <Stratum_Feature_Site_Name/>
+              <Stratum_Feature_Year_of_Campaign/>
               <L_Paren/>
               <R_Paren/>
             </Vars>
-          </Context_Group>
-          <Matrix>
-            <Matrix>
+          </Stratum_Feature>
+          <Sediment_Aggregate>
+            <Sediment_Aggregate>
               <Colgroup_1>
                 <Col_1>
-                  <Component/>
+                  <Component_Type/>
                 </Col_1>
                 <Col_2>
                   <Percentage/>
                 </Col_2>
               </Colgroup_1>
-              <Shape/>
-            </Matrix>
+              <Soil_Stone_Shape/>
+            </Sediment_Aggregate>
             <Vars>
-              <Context_ID/>
-              <AreaCode/>
+              <Locus_ID/>
+              <Trench_ID/>
             </Vars>
-          </Matrix>
+          </Sediment_Aggregate>
           <Photograph_Log>
             <Photograph_Log>
               <Colgroup_1>
                 <Col_1>
-                  <Photo_Context_ID/>
+                  <Photo_Locus_ID/>
                 </Col_1>
                 <Col_2>
-                  <Photo_Context_Group_ID/>
+                  <Photo_Stratum_Feature_ID/>
                 </Col_2>
                 <Col_3>
                   <Photograph_Reference_ID/>
                 </Col_3>
               </Colgroup_1>
               <Scene_Type/>
-              <Photograph_Description/>
+              <Brief_Description/>
             </Photograph_Log>
             <Vars>
-              <AreaCode/>
+              <Trench_ID/>
               <Device_Code/>
             </Vars>
           </Photograph_Log>
@@ -644,10 +644,10 @@
               <Parent_Identifier/>
               <Colgroup_1>
                 <Col_1>
-                  <AreaCode/>
+                  <Trench_ID/>
                 </Col_1>
                 <Col_2>
-                  <Context_ID/>
+                  <Locus_ID/>
                 </Col_2>
               </Colgroup_1>
               <Relationship_Type/>
@@ -664,23 +664,31 @@
               </Colgroup_2>
               <Colgroup_3>
                 <Col_1>
-                  <Unrelated_Contexts/>
+                  <Unrelated_Loci/>
                 </Col_1>
                 <Col_2>
                   <Existing_Relationships/>
                 </Col_2>
               </Colgroup_3>
             </Relationships>
+            <Legacies>
+              <Create_New_Legacy/>
+              <List_of_Existing_Legacies/>
+            </Legacies>
+            <Vars>
+              <Relationship_Site_Name/>
+              <Relationship_Year_of_Campaign/>
+            </Vars>
           </Relationship>
-          <Context_Group_Relationship>
+          <Stratum_Feature_Relationship>
             <Relationships>
               <Parent_Identifier/>
               <Colgroup_1>
                 <Col_1>
-                  <AreaCode/>
+                  <Trench_ID/>
                 </Col_1>
                 <Col_2>
-                  <Context_ID/>
+                  <Locus_ID/>
                 </Col_2>
               </Colgroup_1>
               <Search/>
@@ -696,20 +704,20 @@
               </Colgroup_2>
               <Colgroup_3>
                 <Col_1>
-                  <Unrelated_Contexts/>
+                  <Unrelated_Loci/>
                 </Col_1>
                 <Col_2>
                   <Existing_Relationships/>
                 </Col_2>
               </Colgroup_3>
             </Relationships>
-          </Context_Group_Relationship>
+          </Stratum_Feature_Relationship>
           <FCN>
             <General>
               <FCN_ID/>
               <FCN_Site_Name/>
-              <FCN_AreaCode/>
-              <Context_ID/>
+              <FCN_Trench_ID/>
+              <Locus_ID/>
               <Colgroup_1>
                 <Col_1>
                   <Latitude/>
@@ -759,88 +767,94 @@
           </Soil_Munsel_Color>
           <Legacy>
             <Legacy>
-              <Legacy_Site_Name/>
-              <Legacy_Year_of_Campaign/>
               <Colgroup_1>
                 <Col_1>
-                  <Legacy_AreaCode/>
+                  <Legacy_Site_Name/>
                 </Col_1>
                 <Col_2>
-                  <Legacy_Context_ID/>
+                  <Legacy_Year_of_Campaign/>
                 </Col_2>
               </Colgroup_1>
+              <Colgroup_2>
+                <Col_1>
+                  <Legacy_Trench_ID/>
+                </Col_1>
+                <Col_2>
+                  <Legacy_Locus_ID/>
+                </Col_2>
+              </Colgroup_2>
             </Legacy>
           </Legacy>
         </faims>
       </instance>
-      <bind nodeset="/faims/Control/Contexts/Year_of_Campaign" type="decimal"/>
-      <bind nodeset="/faims/Control/Next_IDs/Next_Context_Context_ID" type="decimal"/>
-      <bind nodeset="/faims/Control/Next_IDs/Next_Context_Group_ID" type="decimal"/>
+      <bind nodeset="/faims/Control/Site/Year_of_Campaign" type="decimal"/>
+      <bind nodeset="/faims/Control/Next_IDs/Next_Locus_Locus_ID" type="decimal"/>
+      <bind nodeset="/faims/Control/Next_IDs/Next_Stratum_Feature_ID" type="decimal"/>
       <bind nodeset="/faims/Control/Next_IDs/Next_FCN_ID" type="decimal"/>
       <bind nodeset="/faims/Site/Site/Site_Year_of_Campaign" type="decimal"/>
       <bind nodeset="/faims/Date_Closed/Date_Closed/Date_Closed" type="date"/>
-      <bind nodeset="/faims/Context/General/Colgroup_2/Col_1/Grid_X" type="decimal"/>
-      <bind nodeset="/faims/Context/General/Colgroup_2/Col_2/Grid_Y" type="decimal"/>
-      <bind nodeset="/faims/Context/Measure/Colgroup_1/Col_1/Highest_Level" type="decimal"/>
-      <bind nodeset="/faims/Context/Measure/Colgroup_1/Col_2/Lowest_Level" type="decimal"/>
-      <bind nodeset="/faims/Context/Measure/Colgroup_2/Col_1/Measure_Length" type="decimal"/>
-      <bind nodeset="/faims/Context/Measure/Colgroup_2/Col_2/Measure_Width" type="decimal"/>
-      <bind nodeset="/faims/Context/Measure/Colgroup_2/Col_3/Measure_Depth" type="decimal"/>
-      <bind nodeset="/faims/Context/Measure/Colgroup_3/Col_1/NW_Top_Height" type="decimal"/>
-      <bind nodeset="/faims/Context/Measure/Colgroup_3/Col_1/SW_Top_Height" type="decimal"/>
-      <bind nodeset="/faims/Context/Measure/Colgroup_3/Col_1/Center_Top_Height" type="decimal"/>
-      <bind nodeset="/faims/Context/Measure/Colgroup_3/Col_2/NE_Top_Height" type="decimal"/>
-      <bind nodeset="/faims/Context/Measure/Colgroup_3/Col_2/SE_Top_Height" type="decimal"/>
-      <bind nodeset="/faims/Context/Measure/Colgroup_4/Col_1/NW_Bottom_Height" type="decimal"/>
-      <bind nodeset="/faims/Context/Measure/Colgroup_4/Col_1/SW_Bottom_Height" type="decimal"/>
-      <bind nodeset="/faims/Context/Measure/Colgroup_4/Col_1/Center_Bottom_Height" type="decimal"/>
-      <bind nodeset="/faims/Context/Measure/Colgroup_4/Col_2/NE_Bottom_Height" type="decimal"/>
-      <bind nodeset="/faims/Context/Measure/Colgroup_4/Col_2/SE_Bottom_Height" type="decimal"/>
-      <bind nodeset="/faims/Context/Measure/Volume" type="decimal"/>
-      <bind nodeset="/faims/Context/Cut/Orientation_Degree" type="decimal"/>
-      <bind nodeset="/faims/Context/Structure/Length" type="decimal"/>
-      <bind nodeset="/faims/Context/Structure/Width" type="decimal"/>
-      <bind nodeset="/faims/Context/Structure/Colgroup_1/Col_1/NW_Top_Depth" type="decimal"/>
-      <bind nodeset="/faims/Context/Structure/Colgroup_1/Col_1/SW_Top_Depth" type="decimal"/>
-      <bind nodeset="/faims/Context/Structure/Colgroup_1/Col_1/Center_Top_Depth" type="decimal"/>
-      <bind nodeset="/faims/Context/Structure/Colgroup_1/Col_2/NE_Top_Depth" type="decimal"/>
-      <bind nodeset="/faims/Context/Structure/Colgroup_1/Col_2/SE_Top_Depth" type="decimal"/>
-      <bind nodeset="/faims/Context/Structure/Colgroup_2/Col_1/NW_Bottom_Depth" type="decimal"/>
-      <bind nodeset="/faims/Context/Structure/Colgroup_2/Col_1/SW_Bottom_Depth" type="decimal"/>
-      <bind nodeset="/faims/Context/Structure/Colgroup_2/Col_1/Center_Bottom_Depth" type="decimal"/>
-      <bind nodeset="/faims/Context/Structure/Colgroup_2/Col_2/NE_Bottom_Depth" type="decimal"/>
-      <bind nodeset="/faims/Context/Structure/Colgroup_2/Col_2/SE_Bottom_Depth" type="decimal"/>
-      <bind nodeset="/faims/Context/Structure/Mid_X" type="decimal"/>
-      <bind nodeset="/faims/Context/Structure/Mid_Y" type="decimal"/>
-      <bind nodeset="/faims/Context/Structure/Sorting" type="decimal"/>
-      <bind nodeset="/faims/Context/Skeleton/Skeleton_Days_Exposed" type="decimal"/>
-      <bind nodeset="/faims/Context/Skeleton/Colgroup_4/Col_1/Target_A_X" type="decimal"/>
-      <bind nodeset="/faims/Context/Skeleton/Colgroup_4/Col_2/Target_A_Y" type="decimal"/>
-      <bind nodeset="/faims/Context/Skeleton/Colgroup_4/Col_3/Target_A_Z" type="decimal"/>
-      <bind nodeset="/faims/Context/Skeleton/Colgroup_5/Col_1/Target_B_X" type="decimal"/>
-      <bind nodeset="/faims/Context/Skeleton/Colgroup_5/Col_2/Target_B_Y" type="decimal"/>
-      <bind nodeset="/faims/Context/Skeleton/Colgroup_5/Col_3/Target_B_Z" type="decimal"/>
-      <bind nodeset="/faims/Context/Skeleton/Colgroup_6/Col_1/Target_C_X" type="decimal"/>
-      <bind nodeset="/faims/Context/Skeleton/Colgroup_6/Col_2/Target_C_Y" type="decimal"/>
-      <bind nodeset="/faims/Context/Skeleton/Colgroup_6/Col_3/Target_C_Z" type="decimal"/>
-      <bind nodeset="/faims/Context/Skeleton/Colgroup_7/Col_1/Target_D_X" type="decimal"/>
-      <bind nodeset="/faims/Context/Skeleton/Colgroup_7/Col_2/Target_D_Y" type="decimal"/>
-      <bind nodeset="/faims/Context/Skeleton/Colgroup_7/Col_3/Target_D_Z" type="decimal"/>
-      <bind nodeset="/faims/Context_Group/Gen/Colgroup_2/Col_1/Length" type="decimal"/>
-      <bind nodeset="/faims/Context_Group/Gen/Colgroup_2/Col_2/Width" type="decimal"/>
-      <bind nodeset="/faims/Context_Group/Gen/Colgroup_3/Col_1/NW_Top_Depth" type="decimal"/>
-      <bind nodeset="/faims/Context_Group/Gen/Colgroup_3/Col_1/SW_Top_Depth" type="decimal"/>
-      <bind nodeset="/faims/Context_Group/Gen/Colgroup_3/Col_1/Center_Top_Depth" type="decimal"/>
-      <bind nodeset="/faims/Context_Group/Gen/Colgroup_3/Col_2/NE_Top_Depth" type="decimal"/>
-      <bind nodeset="/faims/Context_Group/Gen/Colgroup_3/Col_2/SE_Top_Depth" type="decimal"/>
-      <bind nodeset="/faims/Context_Group/Gen/Colgroup_4/Col_1/NW_Bottom_Depth" type="decimal"/>
-      <bind nodeset="/faims/Context_Group/Gen/Colgroup_4/Col_1/SW_Bottom_Depth" type="decimal"/>
-      <bind nodeset="/faims/Context_Group/Gen/Colgroup_4/Col_1/Center_Bottom_Depth" type="decimal"/>
-      <bind nodeset="/faims/Context_Group/Gen/Colgroup_4/Col_2/NE_Bottom_Depth" type="decimal"/>
-      <bind nodeset="/faims/Context_Group/Gen/Colgroup_4/Col_2/SE_Bottom_Depth" type="decimal"/>
-      <bind nodeset="/faims/Context_Group/Gen/Colgroup_5/Col_1/Mid_X" type="decimal"/>
-      <bind nodeset="/faims/Context_Group/Gen/Colgroup_5/Col_2/Mid_Y" type="decimal"/>
-      <bind nodeset="/faims/Matrix/Matrix/Colgroup_1/Col_2/Percentage" type="decimal"/>
+      <bind nodeset="/faims/Locus/General/Colgroup_2/Col_1/Grid_X" type="decimal"/>
+      <bind nodeset="/faims/Locus/General/Colgroup_2/Col_2/Grid_Y" type="decimal"/>
+      <bind nodeset="/faims/Locus/Measure/Colgroup_1/Col_1/Absolute_Height_Top_m" type="decimal"/>
+      <bind nodeset="/faims/Locus/Measure/Colgroup_1/Col_2/Absolute_Height_Bottom_m" type="decimal"/>
+      <bind nodeset="/faims/Locus/Measure/Colgroup_2/Col_1/Measure_Length" type="decimal"/>
+      <bind nodeset="/faims/Locus/Measure/Colgroup_2/Col_2/Measure_Width" type="decimal"/>
+      <bind nodeset="/faims/Locus/Measure/Colgroup_2/Col_3/Measure_Depth" type="decimal"/>
+      <bind nodeset="/faims/Locus/Measure/Colgroup_3/Col_1/NW_Top_Height" type="decimal"/>
+      <bind nodeset="/faims/Locus/Measure/Colgroup_3/Col_1/SW_Top_Height" type="decimal"/>
+      <bind nodeset="/faims/Locus/Measure/Colgroup_3/Col_1/Center_Top_Height" type="decimal"/>
+      <bind nodeset="/faims/Locus/Measure/Colgroup_3/Col_2/NE_Top_Height" type="decimal"/>
+      <bind nodeset="/faims/Locus/Measure/Colgroup_3/Col_2/SE_Top_Height" type="decimal"/>
+      <bind nodeset="/faims/Locus/Measure/Colgroup_4/Col_1/NW_Bottom_Height" type="decimal"/>
+      <bind nodeset="/faims/Locus/Measure/Colgroup_4/Col_1/SW_Bottom_Height" type="decimal"/>
+      <bind nodeset="/faims/Locus/Measure/Colgroup_4/Col_1/Center_Bottom_Height" type="decimal"/>
+      <bind nodeset="/faims/Locus/Measure/Colgroup_4/Col_2/NE_Bottom_Height" type="decimal"/>
+      <bind nodeset="/faims/Locus/Measure/Colgroup_4/Col_2/SE_Bottom_Height" type="decimal"/>
+      <bind nodeset="/faims/Locus/Measure/Volume_Liters" type="decimal"/>
+      <bind nodeset="/faims/Locus/Cut/Orientation_Degree" type="decimal"/>
+      <bind nodeset="/faims/Locus/Construction/Length" type="decimal"/>
+      <bind nodeset="/faims/Locus/Construction/Width" type="decimal"/>
+      <bind nodeset="/faims/Locus/Construction/Colgroup_1/Col_1/NW_Top_Depth" type="decimal"/>
+      <bind nodeset="/faims/Locus/Construction/Colgroup_1/Col_1/SW_Top_Depth" type="decimal"/>
+      <bind nodeset="/faims/Locus/Construction/Colgroup_1/Col_1/Center_Top_Depth" type="decimal"/>
+      <bind nodeset="/faims/Locus/Construction/Colgroup_1/Col_2/NE_Top_Depth" type="decimal"/>
+      <bind nodeset="/faims/Locus/Construction/Colgroup_1/Col_2/SE_Top_Depth" type="decimal"/>
+      <bind nodeset="/faims/Locus/Construction/Colgroup_2/Col_1/NW_Bottom_Depth" type="decimal"/>
+      <bind nodeset="/faims/Locus/Construction/Colgroup_2/Col_1/SW_Bottom_Depth" type="decimal"/>
+      <bind nodeset="/faims/Locus/Construction/Colgroup_2/Col_1/Center_Bottom_Depth" type="decimal"/>
+      <bind nodeset="/faims/Locus/Construction/Colgroup_2/Col_2/NE_Bottom_Depth" type="decimal"/>
+      <bind nodeset="/faims/Locus/Construction/Colgroup_2/Col_2/SE_Bottom_Depth" type="decimal"/>
+      <bind nodeset="/faims/Locus/Construction/Mid_X" type="decimal"/>
+      <bind nodeset="/faims/Locus/Construction/Mid_Y" type="decimal"/>
+      <bind nodeset="/faims/Locus/Construction/Sorting" type="decimal"/>
+      <bind nodeset="/faims/Locus/Skeleton/Skeleton_Days_Exposed" type="decimal"/>
+      <bind nodeset="/faims/Locus/Skeleton/Colgroup_4/Col_1/Target_A_X" type="decimal"/>
+      <bind nodeset="/faims/Locus/Skeleton/Colgroup_4/Col_2/Target_A_Y" type="decimal"/>
+      <bind nodeset="/faims/Locus/Skeleton/Colgroup_4/Col_3/Target_A_Z" type="decimal"/>
+      <bind nodeset="/faims/Locus/Skeleton/Colgroup_5/Col_1/Target_B_X" type="decimal"/>
+      <bind nodeset="/faims/Locus/Skeleton/Colgroup_5/Col_2/Target_B_Y" type="decimal"/>
+      <bind nodeset="/faims/Locus/Skeleton/Colgroup_5/Col_3/Target_B_Z" type="decimal"/>
+      <bind nodeset="/faims/Locus/Skeleton/Colgroup_6/Col_1/Target_C_X" type="decimal"/>
+      <bind nodeset="/faims/Locus/Skeleton/Colgroup_6/Col_2/Target_C_Y" type="decimal"/>
+      <bind nodeset="/faims/Locus/Skeleton/Colgroup_6/Col_3/Target_C_Z" type="decimal"/>
+      <bind nodeset="/faims/Locus/Skeleton/Colgroup_7/Col_1/Target_D_X" type="decimal"/>
+      <bind nodeset="/faims/Locus/Skeleton/Colgroup_7/Col_2/Target_D_Y" type="decimal"/>
+      <bind nodeset="/faims/Locus/Skeleton/Colgroup_7/Col_3/Target_D_Z" type="decimal"/>
+      <bind nodeset="/faims/Stratum_Feature/General/Colgroup_2/Col_1/Length" type="decimal"/>
+      <bind nodeset="/faims/Stratum_Feature/General/Colgroup_2/Col_2/Width" type="decimal"/>
+      <bind nodeset="/faims/Stratum_Feature/General/Colgroup_3/Col_1/NW_Top_Depth" type="decimal"/>
+      <bind nodeset="/faims/Stratum_Feature/General/Colgroup_3/Col_1/SW_Top_Depth" type="decimal"/>
+      <bind nodeset="/faims/Stratum_Feature/General/Colgroup_3/Col_1/Center_Top_Depth" type="decimal"/>
+      <bind nodeset="/faims/Stratum_Feature/General/Colgroup_3/Col_2/NE_Top_Depth" type="decimal"/>
+      <bind nodeset="/faims/Stratum_Feature/General/Colgroup_3/Col_2/SE_Top_Depth" type="decimal"/>
+      <bind nodeset="/faims/Stratum_Feature/General/Colgroup_4/Col_1/NW_Bottom_Depth" type="decimal"/>
+      <bind nodeset="/faims/Stratum_Feature/General/Colgroup_4/Col_1/SW_Bottom_Depth" type="decimal"/>
+      <bind nodeset="/faims/Stratum_Feature/General/Colgroup_4/Col_1/Center_Bottom_Depth" type="decimal"/>
+      <bind nodeset="/faims/Stratum_Feature/General/Colgroup_4/Col_2/NE_Bottom_Depth" type="decimal"/>
+      <bind nodeset="/faims/Stratum_Feature/General/Colgroup_4/Col_2/SE_Bottom_Depth" type="decimal"/>
+      <bind nodeset="/faims/Stratum_Feature/General/Colgroup_5/Col_1/Mid_X" type="decimal"/>
+      <bind nodeset="/faims/Stratum_Feature/General/Colgroup_5/Col_2/Mid_Y" type="decimal"/>
+      <bind nodeset="/faims/Sediment_Aggregate/Sediment_Aggregate/Colgroup_1/Col_2/Percentage" type="decimal"/>
       <bind nodeset="/faims/FCN/General/FCN_Quantity" type="decimal"/>
       <bind nodeset="/faims/FCN/General/FCN_Weight_g" type="decimal"/>
     </model>
@@ -903,7 +917,7 @@
     </group>
     <group ref="Control">
       <label>{Control}</label>
-      <group ref="Contexts" faims_scrollable="false">
+      <group ref="Site" faims_scrollable="false">
         <label>{Site}</label>
         <input ref="New_Site_Name" faims_style_class="required">
           <label>{New_Site_Name}</label>
@@ -927,10 +941,10 @@
       </group>
       <group ref="Next_IDs">
         <label>{Next_IDs}</label>
-        <input ref="Next_Context_Context_ID" faims_style_class="required">
+        <input ref="Next_Locus_Locus_ID" faims_style_class="required">
           <label>{Locus_ID}</label>
         </input>
-        <input ref="Next_Context_Group_ID" faims_style_class="required">
+        <input ref="Next_Stratum_Feature_ID" faims_style_class="required">
           <label>{Stratum_Feature_ID}</label>
         </input>
         <input ref="Next_FCN_ID" faims_style_class="required">
@@ -1034,7 +1048,7 @@
         <input faims_attribute_name="Trench author" faims_attribute_type="measure" ref="Trench_author" faims_read_only="true">
           <label>{Author}</label>
         </input>
-        <input faims_attribute_name="Trench AreaCode" faims_attribute_type="measure" ref="Trench_AreaCode" faims_read_only="true">
+        <input faims_attribute_name="Trench Trench ID" faims_attribute_type="measure" ref="Trench_Trench_ID" faims_read_only="true">
           <label>{Trench_ID}</label>
         </input>
         <input faims_attribute_name="Team Members" faims_attribute_type="measure" ref="Team_Members">
@@ -1137,7 +1151,7 @@
       </group>
       <group ref="Strata_Features" faims_scrollable="false">
         <label>{Strata_Features}</label>
-        <trigger ref="Create_New_Stratum">
+        <trigger ref="Create_New_Stratum_Feature">
           <label>{Create_New_Stratum_Feature}</label>
         </trigger>
         <select1 appearance="compact" ref="List_of_Existing_Strata_Features">
@@ -1153,7 +1167,7 @@
         <trigger ref="Create_New_FCN">
           <label>{Create_New_FCN}</label>
         </trigger>
-        <select1 appearance="compact" ref="List_of_Existing_FCNs">
+        <select1 appearance="compact" faims_attribute_name="List of Existing FCNs" faims_attribute_type="vocab" ref="List_of_Existing_FCNs">
           <label>{List_of_Existing_FCNs}</label>
           <item>
             <label>Options not loaded</label>
@@ -1218,17 +1232,17 @@
           <group ref="Col_1" faims_style="even">
             <label/>
             <input faims_attribute_name="Trench Files Site Name" faims_attribute_type="measure" ref="Trench_Files_Site_Name" faims_read_only="true">
-              <label>{Trench_Files_Site_Name}</label>
+              <label>{Site_Name}</label>
             </input>
           </group>
           <group ref="Col_2" faims_style="even">
             <label/>
             <input faims_attribute_name="Trench Files Year of Campaign" faims_attribute_type="measure" ref="Trench_Files_Year_of_Campaign" faims_read_only="true">
-              <label>{Trench_Files_Year_of_Campaign}</label>
+              <label>{Year_of_Campaign}</label>
             </input>
           </group>
         </group>
-        <input faims_attribute_name="Trench Files AreaCode" faims_attribute_type="measure" ref="Trench_Files_AreaCode" faims_read_only="true">
+        <input faims_attribute_name="Trench Files Trench ID" faims_attribute_type="measure" ref="Trench_Files_Trench_ID" faims_read_only="true">
           <label>{Trench_ID}</label>
         </input>
         <input faims_attribute_name="Trench Files author" faims_attribute_type="measure" ref="Trench_Files_author" faims_read_only="true">
@@ -1272,7 +1286,7 @@
         </trigger>
       </group>
     </group>
-    <group ref="Context" faims_archent_type="Context">
+    <group ref="Locus" faims_archent_type="Locus">
       <label>{Locus}</label>
       <group ref="General">
         <label>{General}</label>
@@ -1280,24 +1294,24 @@
           <label/>
           <group ref="Col_1" faims_style="even">
             <label/>
-            <input faims_attribute_name="Context Site Name" faims_attribute_type="measure" ref="Context_Site_Name" faims_style_class="required">
+            <input faims_attribute_name="Locus Site Name" faims_attribute_type="measure" ref="Locus_Site_Name" faims_style_class="required">
               <label>{Site_Name}</label>
             </input>
           </group>
           <group ref="Col_2" faims_style="even">
             <label/>
-            <input faims_attribute_name="Context AreaCode" faims_attribute_type="measure" ref="Context_AreaCode" faims_read_only="true">
+            <input faims_attribute_name="Locus Trench ID" faims_attribute_type="measure" ref="Locus_Trench_ID" faims_read_only="true">
               <label>{Trench_ID}</label>
             </input>
           </group>
           <group ref="Col_3" faims_style="even">
             <label/>
-            <input faims_attribute_name="Context Context ID" faims_attribute_type="measure" ref="Context_Context_ID" faims_style_class="required" faims_read_only="true">
+            <input faims_attribute_name="Locus Locus ID" faims_attribute_type="measure" ref="Locus_Locus_ID" faims_style_class="required" faims_read_only="true">
               <label>{Locus_ID}</label>
             </input>
           </group>
         </group>
-        <input faims_attribute_name="Context Name" faims_attribute_type="measure" ref="Context_Name">
+        <input faims_attribute_name="Brief Description" faims_attribute_type="measure" ref="Brief_Description">
           <label>{Brief_Description}</label>
         </input>
         <group ref="Colgroup_2" faims_style="orientation">
@@ -1341,7 +1355,7 @@
           <label/>
           <group ref="Col_1" faims_style="even">
             <label/>
-            <select1 faims_attribute_name="Horizon Boundary" faims_attribute_type="vocab" ref="Horizon_Boundary">
+            <select1 faims_attribute_name="Basal Edge Definition" faims_attribute_type="vocab" ref="Basal_Edge_Definition">
               <label>{Basal_Edge_Definition}</label>
               <item>
                 <label>Options not loaded</label>
@@ -1360,14 +1374,14 @@
             </select1>
           </group>
         </group>
-        <select1 type="image" faims_attribute_name="Context Type" faims_attribute_type="vocab" ref="Context_Type">
+        <select1 type="image" faims_attribute_name="Locus Type" faims_attribute_type="vocab" ref="Locus_Type">
           <label>{Locus_Type}</label>
           <item>
             <label>Options not loaded</label>
             <value>Options not loaded</value>
           </item>
         </select1>
-        <trigger ref="Fill_in_Context_Type_Details">
+        <trigger ref="Fill_in_Locus_Type_Details">
           <label>{Fill_in_Locus_Type_Details}</label>
         </trigger>
         <group ref="Colgroup_5" faims_style="orientation">
@@ -1418,13 +1432,13 @@
           <label/>
           <group ref="Col_1" faims_style="even">
             <label/>
-            <input faims_attribute_name="Context author" faims_attribute_type="measure" ref="Context_author" faims_read_only="true">
+            <input faims_attribute_name="Locus author" faims_attribute_type="measure" ref="Locus_author" faims_read_only="true">
               <label>{Record_Created_By_}</label>
             </input>
           </group>
           <group ref="Col_2" faims_style="even">
             <label/>
-            <input faims_attribute_name="Context timestamp" faims_attribute_type="measure" ref="Context_timestamp" faims_read_only="true">
+            <input faims_attribute_name="Locus timestamp" faims_attribute_type="measure" ref="Locus_timestamp" faims_read_only="true">
               <label>{Record_Created_Date_}</label>
             </input>
           </group>
@@ -1436,13 +1450,13 @@
           <label/>
           <group ref="Col_1" faims_style="even">
             <label/>
-            <input faims_attribute_name="Highest Level" faims_attribute_type="measure" ref="Highest_Level" faims_style_class="required">
+            <input faims_attribute_name="Absolute Height Top m" faims_attribute_type="measure" ref="Absolute_Height_Top_m" faims_style_class="required">
               <label>{Absolute_Height_Top__m_}</label>
             </input>
           </group>
           <group ref="Col_2" faims_style="even">
             <label/>
-            <input faims_attribute_name="Lowest Level" faims_attribute_type="measure" ref="Lowest_Level" faims_style_class="required">
+            <input faims_attribute_name="Absolute Height Bottom m" faims_attribute_type="measure" ref="Absolute_Height_Bottom_m" faims_style_class="required">
               <label>{Absolute_Height_Bottom__m_}</label>
             </input>
           </group>
@@ -1516,7 +1530,7 @@
             </input>
           </group>
         </group>
-        <input faims_attribute_name="Volume" faims_attribute_type="measure" ref="Volume" faims_style_class="required">
+        <input faims_attribute_name="Volume Liters" faims_attribute_type="measure" ref="Volume_Liters" faims_style_class="required">
           <label>{Volume__liters_}</label>
         </input>
       </group>
@@ -1533,7 +1547,7 @@
           <label/>
           <group ref="Col_1" faims_style="even">
             <label/>
-            <select1 faims_attribute_name="Shape of Cut" faims_attribute_type="vocab" ref="Shape_of_Cut" faims_style_class="required">
+            <select1 faims_attribute_name="Shape in Plan" faims_attribute_type="vocab" ref="Shape_in_Plan" faims_style_class="required">
               <label>{Shape_in_Plan}</label>
               <item>
                 <label>Options not loaded</label>
@@ -1613,7 +1627,7 @@
           <label>{Truncation}</label>
         </input>
       </group>
-      <group ref="Structure">
+      <group ref="Construction">
         <label>{Construction}</label>
         <input faims_attribute_name="Description" faims_attribute_type="measure" ref="Description">
           <label>{Description}</label>
@@ -1703,14 +1717,14 @@
             <value>Options not loaded</value>
           </item>
         </select1>
-        <select1 faims_attribute_name="Soil Compaction Type" faims_attribute_type="vocab" ref="Soil_Compaction_Type" faims_style_class="required">
+        <select1 faims_attribute_name="Texture" faims_attribute_type="vocab" ref="Texture" faims_style_class="required">
           <label>{Texture}</label>
           <item>
             <label>Options not loaded</label>
             <value>Options not loaded</value>
           </item>
         </select1>
-        <input faims_attribute_name="Soil Compaction Description" faims_attribute_type="measure" ref="Soil_Compaction_Description">
+        <input faims_attribute_name="Texture Description" faims_attribute_type="measure" ref="Texture_Description">
           <label>{Texture_Description}</label>
         </input>
         <select1 type="image" faims_attribute_name="Soil Particle Sorting" faims_attribute_type="vocab" ref="Soil_Particle_Sorting">
@@ -1724,7 +1738,7 @@
           <label/>
           <group ref="Col_1" faims_style="even">
             <label/>
-            <select1 faims_attribute_name="Soil Texture" faims_attribute_type="vocab" ref="Soil_Texture" faims_style_class="required">
+            <select1 faims_attribute_name="Material" faims_attribute_type="vocab" ref="Material" faims_style_class="required">
               <label>{Material}</label>
               <item>
                 <label>Options not loaded</label>
@@ -1734,7 +1748,7 @@
           </group>
           <group ref="Col_2" faims_style="even">
             <label/>
-            <trigger ref="Soil_Texture_Helper">
+            <trigger ref="Material_Helper">
               <label>{Material_Helper}</label>
             </trigger>
           </group>
@@ -1794,10 +1808,10 @@
             </input>
           </group>
         </group>
-        <trigger ref="Add_New_Matrix">
+        <trigger ref="Add_New_Sediment_Aggregate">
           <label>{Add_New_Sediment_Aggregate}</label>
         </trigger>
-        <select1 ref="Associated_Matrices">
+        <select1 ref="Associated_Sediment_Aggregates">
           <label>{Associated_Sediment_Aggregates}</label>
           <item>
             <label>Options not loaded</label>
@@ -1969,14 +1983,14 @@
       </group>
       <group ref="Relationships" faims_scrollable="false">
         <label>{Relationships}</label>
-        <trigger ref="Create_Relationships_to_This_Context">
+        <trigger ref="Create_Relationships_to_This_Locus">
           <label>{Create_Relationships_to_This_Locus}</label>
         </trigger>
         <group ref="Colgroup_1" faims_style="orientation">
           <label/>
           <group ref="Col_1" faims_style="even">
             <label/>
-            <select1 appearance="compact" ref="Existing_Relationships_to_This_Context">
+            <select1 appearance="compact" ref="Existing_Relationships_to_This_Locus">
               <label>{Existing_Relationships_to_This_Locus}</label>
               <item>
                 <label>Options not loaded</label>
@@ -1989,7 +2003,7 @@
             <input faims_web="true" ref="Selected_Relationship">
               <label>{Selected_Relationship}</label>
             </input>
-            <trigger ref="Load_Related_Context">
+            <trigger ref="Load_Related_Locus">
               <label>{Load_Related_Locus}</label>
             </trigger>
             <trigger ref="Delete_Relationship">
@@ -1998,8 +2012,8 @@
           </group>
         </group>
       </group>
-      <group ref="FCN" faims_scrollable="false">
-        <label>{FCN}</label>
+      <group ref="FCNs" faims_scrollable="false">
+        <label>{FCNs}</label>
         <trigger ref="Add_FCN">
           <label>{Add_FCN}</label>
         </trigger>
@@ -2047,16 +2061,16 @@
           </item>
         </select1>
       </group>
-      <group ref="Soil_Texture_Helper" faims_hidden="true">
+      <group ref="Material_Helper" faims_hidden="true">
         <label>{Material_Helper}</label>
-        <select1 faims_attribute_name="Soil Texture Helper" faims_attribute_type="vocab" ref="Soil_Texture_Helper">
+        <select1 faims_attribute_name="Material Helper" faims_attribute_type="vocab" ref="Material_Helper">
           <label>{Material_Helper}</label>
           <item>
             <label>Options not loaded</label>
             <value>Options not loaded</value>
           </item>
         </select1>
-        <trigger ref="Update_Soil_Texture">
+        <trigger ref="Update_Material">
           <label>{Update_Material}</label>
         </trigger>
       </group>
@@ -2069,14 +2083,14 @@
             <value>Options not loaded</value>
           </item>
         </select1>
-        <input faims_attribute_name="Context Year of Campaign" faims_attribute_type="measure" ref="Context_Year_of_Campaign">
-          <label>{Context_Year_of_Campaign}</label>
+        <input faims_attribute_name="Locus Year of Campaign" faims_attribute_type="measure" ref="Locus_Year_of_Campaign">
+          <label>{Locus_Year_of_Campaign}</label>
         </input>
       </group>
     </group>
-    <group ref="Context_Group" faims_archent_type="Context Group">
+    <group ref="Stratum_Feature" faims_archent_type="Stratum Feature">
       <label>{Stratum_Feature}</label>
-      <group ref="Gen">
+      <group ref="General">
         <label>{General}</label>
         <select1 appearance="full" faims_attribute_name="Record Type" faims_attribute_type="vocab" ref="Record_Type" faims_style_class="required">
           <label>{Record_Type}</label>
@@ -2095,24 +2109,24 @@
           <label/>
           <group ref="Col_1" faims_style="even">
             <label/>
-            <input faims_attribute_name="Context Group AreaCode" faims_attribute_type="measure" ref="Context_Group_AreaCode" faims_read_only="true">
+            <input faims_attribute_name="Stratum Feature Trench ID" faims_attribute_type="measure" ref="Stratum_Feature_Trench_ID" faims_read_only="true">
               <label>{Trench_ID}</label>
             </input>
           </group>
           <group ref="Col_2" faims_style="even">
             <label/>
-            <input faims_attribute_name="Context Group ID" faims_attribute_type="measure" ref="Context_Group_ID" faims_style_class="required">
+            <input faims_attribute_name="Stratum Feature ID" faims_attribute_type="measure" ref="Stratum_Feature_ID" faims_style_class="required">
               <label>{Stratum_Feature_ID}</label>
             </input>
           </group>
         </group>
-        <input faims_attribute_name="CG Your description" faims_attribute_type="measure" ref="CG_Your_description" faims_style_class="required">
+        <input faims_attribute_name="Description" faims_attribute_type="measure" ref="Description" faims_style_class="required">
           <label>{Description}</label>
         </input>
-        <input faims_attribute_name="CG Your Interpretation" faims_attribute_type="measure" ref="CG_Your_Interpretation" faims_style_class="required">
+        <input faims_attribute_name="Interpretation" faims_attribute_type="measure" ref="Interpretation" faims_style_class="required">
           <label>{Interpretation}</label>
         </input>
-        <input faims_attribute_name="Your Discussion" faims_attribute_type="measure" ref="Your_Discussion">
+        <input faims_attribute_name="Discussion" faims_attribute_type="measure" ref="Discussion">
           <label>{Discussion}</label>
         </input>
         <group ref="Colgroup_2" faims_style="orientation">
@@ -2193,38 +2207,38 @@
             </input>
           </group>
         </group>
-        <input faims_attribute_name="CG Plans" faims_attribute_type="measure" ref="CG_Plans">
+        <input faims_attribute_name="Plans" faims_attribute_type="measure" ref="Plans">
           <label>{Plans}</label>
         </input>
-        <input faims_attribute_name="CG Section Numbers" faims_attribute_type="measure" ref="CG_Section_Numbers">
+        <input faims_attribute_name="Section Numbers" faims_attribute_type="measure" ref="Section_Numbers">
           <label>{Section_Numbers}</label>
         </input>
         <group ref="Colgroup_6" faims_style="orientation">
           <label/>
           <group ref="Col_1" faims_style="even">
             <label/>
-            <input faims_attribute_name="Context Group author" faims_attribute_type="measure" ref="Context_Group_author" faims_read_only="true">
+            <input faims_attribute_name="Stratum Feature author" faims_attribute_type="measure" ref="Stratum_Feature_author" faims_read_only="true">
               <label>{Record_Created_By_}</label>
             </input>
           </group>
           <group ref="Col_2" faims_style="even">
             <label/>
-            <input faims_attribute_name="Context Group timestamp" faims_attribute_type="measure" ref="Context_Group_timestamp" faims_read_only="true">
+            <input faims_attribute_name="Stratum Feature timestamp" faims_attribute_type="measure" ref="Stratum_Feature_timestamp" faims_read_only="true">
               <label>{Date_recorded_}</label>
             </input>
           </group>
         </group>
       </group>
-      <group ref="Context_Group_Contexts" faims_scrollable="false">
+      <group ref="Stratum_Feature_Loci" faims_scrollable="false">
         <label>{Relationships}</label>
-        <trigger ref="Create_Relationships_to_This_Context_Group">
+        <trigger ref="Create_Relationships_to_This_Stratum_Feature">
           <label>{Create_Relationships_to_this_Stratum_Feature}</label>
         </trigger>
         <group ref="Colgroup_1" faims_style="orientation">
           <label/>
           <group ref="Col_1" faims_style="even">
             <label/>
-            <select1 appearance="compact" ref="Existing_Relationships_to_This_Context_Group">
+            <select1 appearance="compact" ref="Existing_Relationships_to_This_Stratum_Feature">
               <label>{Existing_Relationships_to_this_Stratum_Feature}</label>
               <item>
                 <label>Options not loaded</label>
@@ -2237,7 +2251,7 @@
             <input faims_web="true" ref="Selected_Relationship">
               <label>{Selected_Relationship}</label>
             </input>
-            <trigger ref="Load_Related_Context">
+            <trigger ref="Load_Related_Locus">
               <label>{Load_Related_Locus}</label>
             </trigger>
             <trigger ref="Delete_Relationship">
@@ -2294,11 +2308,11 @@
             <value>Options not loaded</value>
           </item>
         </select1>
-        <input faims_attribute_name="Context Group Site Name" faims_attribute_type="measure" ref="Context_Group_Site_Name">
-          <label>{Context_Group_Site_Name}</label>
+        <input faims_attribute_name="Stratum Feature Site Name" faims_attribute_type="measure" ref="Stratum_Feature_Site_Name">
+          <label>{Stratum_Feature_Site_Name}</label>
         </input>
-        <input faims_attribute_name="Context Group Year of Campaign" faims_attribute_type="measure" ref="Context_Group_Year_of_Campaign">
-          <label>{Context_Group_Year_of_Campaign}</label>
+        <input faims_attribute_name="Stratum Feature Year of Campaign" faims_attribute_type="measure" ref="Stratum_Feature_Year_of_Campaign">
+          <label>{Stratum_Feature_Year_of_Campaign}</label>
         </input>
         <input faims_attribute_name="L Paren" faims_attribute_type="measure" ref="L_Paren">
           <label>{L_Paren}</label>
@@ -2308,15 +2322,15 @@
         </input>
       </group>
     </group>
-    <group ref="Matrix" faims_archent_type="Matrix">
+    <group ref="Sediment_Aggregate" faims_archent_type="Sediment Aggregate">
       <label>{Sediment_Aggregate}</label>
-      <group ref="Matrix">
+      <group ref="Sediment_Aggregate">
         <label>{Sediment_Aggregate}</label>
         <group ref="Colgroup_1" faims_style="orientation">
           <label/>
           <group ref="Col_1" faims_style="even">
             <label/>
-            <select1 faims_attribute_name="Component" faims_attribute_type="vocab" ref="Component">
+            <select1 faims_attribute_name="Component Type" faims_attribute_type="vocab" ref="Component_Type">
               <label>{Component_Type}</label>
               <item>
                 <label>Options not loaded</label>
@@ -2331,7 +2345,7 @@
             </input>
           </group>
         </group>
-        <select1 type="image" faims_attribute_name="Shape" faims_attribute_type="vocab" ref="Shape">
+        <select1 type="image" faims_attribute_name="Soil Stone Shape" faims_attribute_type="vocab" ref="Soil_Stone_Shape">
           <label>{Soil_Stone_Shape}</label>
           <item>
             <label>Options not loaded</label>
@@ -2341,11 +2355,11 @@
       </group>
       <group ref="Vars" faims_hidden="true">
         <label>{Vars}</label>
-        <input faims_attribute_name="Context ID" faims_attribute_type="measure" ref="Context_ID">
-          <label>{Context_ID}</label>
+        <input faims_attribute_name="Locus ID" faims_attribute_type="measure" ref="Locus_ID">
+          <label>{Locus_ID}</label>
         </input>
-        <input faims_attribute_name="AreaCode" faims_attribute_type="measure" ref="AreaCode">
-          <label>{AreaCode}</label>
+        <input faims_attribute_name="Trench ID" faims_attribute_type="measure" ref="Trench_ID">
+          <label>{Trench_ID}</label>
         </input>
       </group>
     </group>
@@ -2357,13 +2371,13 @@
           <label/>
           <group ref="Col_1" faims_style="even">
             <label/>
-            <input faims_attribute_name="Photo Context ID" faims_attribute_type="measure" ref="Photo_Context_ID" faims_read_only="true">
+            <input faims_attribute_name="Photo Locus ID" faims_attribute_type="measure" ref="Photo_Locus_ID" faims_read_only="true">
               <label>{Locus_ID}</label>
             </input>
           </group>
           <group ref="Col_2" faims_style="even">
             <label/>
-            <input faims_attribute_name="Photo Context Group ID" faims_attribute_type="measure" ref="Photo_Context_Group_ID" faims_read_only="true">
+            <input faims_attribute_name="Photo Stratum Feature ID" faims_attribute_type="measure" ref="Photo_Stratum_Feature_ID" faims_read_only="true">
               <label>{Stratum_Feature_ID}</label>
             </input>
           </group>
@@ -2381,14 +2395,14 @@
             <value>Options not loaded</value>
           </item>
         </select1>
-        <input faims_attribute_name="Photograph Description" faims_attribute_type="measure" ref="Photograph_Description">
+        <input faims_attribute_name="Brief Description" faims_attribute_type="measure" ref="Brief_Description">
           <label>{Brief_Description}</label>
         </input>
       </group>
       <group ref="Vars" faims_hidden="true">
         <label>{Vars}</label>
-        <input faims_attribute_name="AreaCode" faims_attribute_type="measure" ref="AreaCode">
-          <label>{AreaCode}</label>
+        <input faims_attribute_name="Trench ID" faims_attribute_type="measure" ref="Trench_ID">
+          <label>{Trench_ID}</label>
         </input>
         <select1 faims_attribute_name="Device Code" faims_attribute_type="vocab" ref="Device_Code">
           <label>{Device_Code}</label>
@@ -2447,13 +2461,13 @@
           <label/>
           <group ref="Col_1" faims_style="even">
             <label/>
-            <input ref="AreaCode" faims_style_class="required">
+            <input ref="Trench_ID" faims_style_class="required">
               <label>{Trench_ID}</label>
             </input>
           </group>
           <group ref="Col_2" faims_style="even">
             <label/>
-            <input ref="Context_ID" faims_style_class="required">
+            <input ref="Locus_ID" faims_style_class="required">
               <label>{Locus_ID}</label>
             </input>
           </group>
@@ -2493,7 +2507,7 @@
           <label/>
           <group ref="Col_1" faims_style="even">
             <label/>
-            <select1 appearance="compact" ref="Unrelated_Contexts">
+            <select1 appearance="compact" ref="Unrelated_Loci">
               <label>{Unrelated_Loci}</label>
               <item>
                 <label>Options not loaded</label>
@@ -2513,8 +2527,30 @@
           </group>
         </group>
       </group>
+      <group ref="Legacies" faims_scrollable="false">
+        <label>{Legacies}</label>
+        <trigger ref="Create_New_Legacy">
+          <label>{Create_New_Legacy}</label>
+        </trigger>
+        <select1 appearance="compact" ref="List_of_Existing_Legacies">
+          <label>{List_of_Existing_Legacies}</label>
+          <item>
+            <label>Options not loaded</label>
+            <value>Options not loaded</value>
+          </item>
+        </select1>
+      </group>
+      <group ref="Vars" faims_hidden="true">
+        <label>{Vars}</label>
+        <input ref="Relationship_Site_Name">
+          <label>{Relationship_Site_Name}</label>
+        </input>
+        <input ref="Relationship_Year_of_Campaign">
+          <label>{Relationship_Year_of_Campaign}</label>
+        </input>
+      </group>
     </group>
-    <group ref="Context_Group_Relationship">
+    <group ref="Stratum_Feature_Relationship">
       <label>{Stratum_Feature_Relationship}</label>
       <group ref="Relationships" faims_scrollable="false">
         <label>{Relationships}</label>
@@ -2525,13 +2561,13 @@
           <label/>
           <group ref="Col_1" faims_style="even">
             <label/>
-            <input ref="AreaCode" faims_style_class="required">
+            <input ref="Trench_ID" faims_style_class="required">
               <label>{Trench_ID}</label>
             </input>
           </group>
           <group ref="Col_2" faims_style="even">
             <label/>
-            <input ref="Context_ID" faims_style_class="required">
+            <input ref="Locus_ID" faims_style_class="required">
               <label>{Locus_ID}</label>
             </input>
           </group>
@@ -2564,7 +2600,7 @@
           <label/>
           <group ref="Col_1" faims_style="even">
             <label/>
-            <select1 appearance="compact" ref="Unrelated_Contexts">
+            <select1 appearance="compact" ref="Unrelated_Loci">
               <label>{Unrelated_Loci}</label>
               <item>
                 <label>Options not loaded</label>
@@ -2595,10 +2631,10 @@
         <input faims_attribute_name="FCN Site Name" faims_attribute_type="measure" ref="FCN_Site_Name" faims_read_only="true">
           <label>{Site_Name}</label>
         </input>
-        <input faims_attribute_name="FCN AreaCode" faims_attribute_type="measure" ref="FCN_AreaCode" faims_read_only="true">
+        <input faims_attribute_name="FCN Trench ID" faims_attribute_type="measure" ref="FCN_Trench_ID" faims_read_only="true">
           <label>{Trench_ID}</label>
         </input>
-        <input faims_attribute_name="Context ID" faims_attribute_type="measure" ref="Context_ID" faims_read_only="true">
+        <input faims_attribute_name="Locus ID" faims_attribute_type="measure" ref="Locus_ID" faims_read_only="true">
           <label>{Locus_ID}</label>
         </input>
         <group ref="Colgroup_1" faims_style="orientation">
@@ -2741,23 +2777,32 @@
       <label>{Legacy}</label>
       <group ref="Legacy">
         <label>{Legacy}</label>
-        <input faims_attribute_name="Legacy Site Name" faims_attribute_type="measure" ref="Legacy_Site_Name" faims_read_only="true">
-          <label>{Legacy_Site_Name}</label>
-        </input>
-        <input faims_attribute_name="Legacy Year of Campaign" faims_attribute_type="measure" ref="Legacy_Year_of_Campaign" faims_style_class="required">
-          <label>{Legacy_Year_of_Campaign}</label>
-        </input>
         <group ref="Colgroup_1" faims_style="orientation">
           <label/>
           <group ref="Col_1" faims_style="even">
             <label/>
-            <input faims_attribute_name="Legacy AreaCode" faims_attribute_type="measure" ref="Legacy_AreaCode" faims_style_class="required">
+            <input faims_attribute_name="Legacy Site Name" faims_attribute_type="measure" ref="Legacy_Site_Name" faims_read_only="true">
+              <label>{Site_Name}</label>
+            </input>
+          </group>
+          <group ref="Col_2" faims_style="even">
+            <label/>
+            <input faims_attribute_name="Legacy Year of Campaign" faims_attribute_type="measure" ref="Legacy_Year_of_Campaign" faims_style_class="required">
+              <label>{Year_of_Campaign}</label>
+            </input>
+          </group>
+        </group>
+        <group ref="Colgroup_2" faims_style="orientation">
+          <label/>
+          <group ref="Col_1" faims_style="even">
+            <label/>
+            <input faims_attribute_name="Legacy Trench ID" faims_attribute_type="measure" ref="Legacy_Trench_ID" faims_style_class="required">
               <label>{Trench_ID}</label>
             </input>
           </group>
           <group ref="Col_2" faims_style="even">
             <label/>
-            <input faims_attribute_name="Legacy Context ID" faims_attribute_type="measure" ref="Legacy_Context_ID" faims_style_class="required">
+            <input faims_attribute_name="Legacy Locus ID" faims_attribute_type="measure" ref="Legacy_Locus_ID" faims_style_class="required">
               <label>{Locus_ID}</label>
             </input>
           </group>

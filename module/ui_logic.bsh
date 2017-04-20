@@ -5,7 +5,7 @@ final String SEP = Character.toString ((char) 0);
 
 Object dialog;          // Used to help coordinate the display of a "busy..." dialog
 String parentTabgroup;  // Used to allow entities to be saved as children
-String parentTabgroup__;// Used to allow entities to be saved as children
+String parentTabgroup__;// The tab group which was previously displayed
 String redirectTab;     // makes newTab work as expected
 String username = "";
 String userid   = "";
@@ -100,17 +100,27 @@ List getTabGroups() {
   tabGroups.add("Trench");
   tabGroups.add("Date_Closed");
   tabGroups.add("Trench_Files");
-  tabGroups.add("Context");
-  tabGroups.add("Context_Group");
-  tabGroups.add("Matrix");
+  tabGroups.add("Locus");
+  tabGroups.add("Stratum_Feature");
+  tabGroups.add("Sediment_Aggregate");
   tabGroups.add("Photograph_Log");
   tabGroups.add("Diary");
   tabGroups.add("Relationship");
-  tabGroups.add("Context_Group_Relationship");
+  tabGroups.add("Stratum_Feature_Relationship");
   tabGroups.add("FCN");
   tabGroups.add("Soil_Munsel_Color");
   tabGroups.add("Legacy");
   return tabGroups;
+}
+
+boolean isFlaggedNodata(String tabGroup) {
+  List flaggedTabGroups = new ArrayList();
+  flaggedTabGroups.add("User");
+  flaggedTabGroups.add("Control");
+  flaggedTabGroups.add("Date_Closed");
+  flaggedTabGroups.add("Relationship");
+  flaggedTabGroups.add("Stratum_Feature_Relationship");
+  return flaggedTabGroups.contains(tabGroup);
 }
 
 void updateDisplayedTabGroup(String tabGroup) {
@@ -469,7 +479,7 @@ void setFieldValueFromLocalSettingsOnShow(String ref, boolean doOverwrite) {
       new Object[]{ref, doOverwrite}
   );
 
-  addOnEvent(ref, "show", cb);
+  addOnEvent(getTabGroupRef(ref), "show", cb);
 }
 
 void setFieldValueFromLocalSettingsOnShow(String ref) {
@@ -490,9 +500,15 @@ void persistOverSessions(String ref) {
   insertIntoLocalSettingsOnChange     (ref);
 }
 
-persistOverSessions("User/User_List/Device_Code");
-persistOverSessions("Control/Contexts/New_Site_Name");
-persistOverSessions("Control/Contexts/Year_of_Campaign");
+void persistOverSessions(String ref, boolean doOverwrite) {
+  setFieldValueFromLocalSettingsOnShow(ref, doOverwrite);
+  insertIntoLocalSettingsOnChange     (ref);
+}
+
+persistOverSessions("User/User_List/Device_Code", false);
+persistOverSessions("Control/Site/New_Site_Name", false);
+persistOverSessions("Control/Site/Year_of_Campaign", false);
+persistOverSessions("Relationship/Relationships/Relationship_Type", true);
 
 /*************************** FIELD COPYING HELPERS ****************************/
 /* Provides an easy way to copy field values, even between vocabs.            */
@@ -569,7 +585,10 @@ void inheritFieldValue(
   fun = replaceFirst(fun, "{dst}",    dst);
   fun = replaceFirst(fun, "{find}",   doFindVocabId + "");
 
-  addOnEvent(getTabGroupRef(dst), "create", fun);
+
+  String dstParent = getTabGroupRef(dst);
+  if (isFlaggedNodata(dstParent)) addOnEvent(dstParent, "show",   fun);
+  else                            addOnEvent(dstParent, "create", fun);
 }
 
 /* If `doCheckParent`, then the value at `src` will only be inherited to `dst`
@@ -583,39 +602,44 @@ void inheritFieldValue(String src, String dst) {
   inheritFieldValue(src, dst, true);
 }
 
-inheritFieldValue("Control/Contexts/New_Site_Name", "Site/Site/Site_Site_Name", true);
-inheritFieldValue("Control/Contexts/Year_of_Campaign", "Site/Site/Site_Year_of_Campaign", true);
+inheritFieldValue("Control/Site/New_Site_Name", "Site/Site/Site_Site_Name", true);
+inheritFieldValue("Control/Site/Year_of_Campaign", "Site/Site/Site_Year_of_Campaign", true);
 inheritFieldValue("Site/Site/Site_Site_Name", "Trench/Trench/Trench_Site_Name", true);
-inheritFieldValue("Site/Site/Trench_ID", "Trench/Trench/Trench_AreaCode", true);
+inheritFieldValue("Site/Site/Trench_ID", "Trench/Trench/Trench_Trench_ID", true);
 inheritFieldValue("Site/Site/Site_Year_of_Campaign", "Trench/Vars/Trench_Year_of_Campaign", true);
 inheritFieldValue("Trench/Trench/Trench_Site_Name", "Trench_Files/Add_Trench_Files/Trench_Files_Site_Name", true);
 inheritFieldValue("Trench/Vars/Trench_Year_of_Campaign", "Trench_Files/Add_Trench_Files/Trench_Files_Year_of_Campaign", true);
-inheritFieldValue("Trench/Trench/Trench_AreaCode", "Trench_Files/Add_Trench_Files/Trench_Files_AreaCode", true);
-inheritFieldValue("Trench/Trench/Trench_Site_Name", "Context/General/Context_Site_Name", true);
-inheritFieldValue("Trench/Trench/Trench_AreaCode", "Context/General/Context_AreaCode", true);
-inheritFieldValue("Trench/Trench/Team_Members", "Context/General/Team_Members", true);
-inheritFieldValue("User/User_List/Device_Code", "Context/Vars/Device_Code", true);
-inheritFieldValue("Trench/Vars/Trench_Year_of_Campaign", "Context/Vars/Context_Year_of_Campaign", true);
-inheritFieldValue("Trench/Trench/Trench_AreaCode", "Context_Group/Gen/Context_Group_AreaCode", true);
-inheritFieldValue("User/User_List/Device_Code", "Context_Group/Vars/Device_Code", true);
-inheritFieldValue("Trench/Trench/Trench_Site_Name", "Context_Group/Vars/Context_Group_Site_Name", true);
-inheritFieldValue("Trench/Vars/Trench_Year_of_Campaign", "Context_Group/Vars/Context_Group_Year_of_Campaign", true);
-inheritFieldValue("Context/General/Context_Context_ID", "Matrix/Vars/Context_ID", true);
-inheritFieldValue("Context/General/Context_AreaCode", "Matrix/Vars/AreaCode", true);
-inheritFieldValue("Context/General/Context_Context_ID", "Photograph_Log/Photograph_Log/Photo_Context_ID", true);
-inheritFieldValue("Context_Group/Gen/Context_Group_ID", "Photograph_Log/Photograph_Log/Photo_Context_Group_ID", true);
-inheritFieldValue("Context/General/Context_AreaCode", "Photograph_Log/Vars/AreaCode", true);
-inheritFieldValue("Context_Group/Gen/Context_Group_AreaCode", "Photograph_Log/Vars/AreaCode", true);
+inheritFieldValue("Trench/Trench/Trench_Trench_ID", "Trench_Files/Add_Trench_Files/Trench_Files_Trench_ID", true);
+inheritFieldValue("Trench/Trench/Trench_Site_Name", "Locus/General/Locus_Site_Name", true);
+inheritFieldValue("Trench/Trench/Trench_Trench_ID", "Locus/General/Locus_Trench_ID", true);
+inheritFieldValue("Trench/Trench/Team_Members", "Locus/General/Team_Members", true);
+inheritFieldValue("User/User_List/Device_Code", "Locus/Vars/Device_Code", true);
+inheritFieldValue("Trench/Vars/Trench_Year_of_Campaign", "Locus/Vars/Locus_Year_of_Campaign", true);
+inheritFieldValue("Trench/Trench/Trench_Trench_ID", "Stratum_Feature/General/Stratum_Feature_Trench_ID", true);
+inheritFieldValue("User/User_List/Device_Code", "Stratum_Feature/Vars/Device_Code", true);
+inheritFieldValue("Trench/Trench/Trench_Site_Name", "Stratum_Feature/Vars/Stratum_Feature_Site_Name", true);
+inheritFieldValue("Trench/Vars/Trench_Year_of_Campaign", "Stratum_Feature/Vars/Stratum_Feature_Year_of_Campaign", true);
+inheritFieldValue("Locus/General/Locus_Locus_ID", "Sediment_Aggregate/Vars/Locus_ID", true);
+inheritFieldValue("Locus/General/Locus_Trench_ID", "Sediment_Aggregate/Vars/Trench_ID", true);
+inheritFieldValue("Locus/General/Locus_Locus_ID", "Photograph_Log/Photograph_Log/Photo_Locus_ID", true);
+inheritFieldValue("Stratum_Feature/General/Stratum_Feature_ID", "Photograph_Log/Photograph_Log/Photo_Stratum_Feature_ID", true);
+inheritFieldValue("Locus/General/Locus_Trench_ID", "Photograph_Log/Vars/Trench_ID", true);
+inheritFieldValue("Stratum_Feature/General/Stratum_Feature_Trench_ID", "Photograph_Log/Vars/Trench_ID", true);
 inheritFieldValue("User/User_List/Device_Code", "Photograph_Log/Vars/Device_Code", true);
-inheritFieldValue("Context/General/Context_Site_Name", "FCN/General/FCN_Site_Name", true);
+inheritFieldValue("Locus/General/Locus_Site_Name", "Relationship/Vars/Relationship_Site_Name", false);
+inheritFieldValue("Locus/Vars/Locus_Year_of_Campaign", "Relationship/Vars/Relationship_Year_of_Campaign", false);
+inheritFieldValue("Locus/General/Locus_Site_Name", "FCN/General/FCN_Site_Name", true);
 inheritFieldValue("Trench/Trench/Trench_Site_Name", "FCN/General/FCN_Site_Name", true);
-inheritFieldValue("Context/General/Context_AreaCode", "FCN/General/FCN_AreaCode", true);
-inheritFieldValue("Trench/Trench/Trench_AreaCode", "FCN/General/FCN_AreaCode", true);
-inheritFieldValue("Context/General/Context_Context_ID", "FCN/General/Context_ID", true);
-inheritFieldValue("Context/Vars/Context_Year_of_Campaign", "FCN/Vars/FCN_Year_of_Campaign", true);
+inheritFieldValue("Locus/General/Locus_Trench_ID", "FCN/General/FCN_Trench_ID", true);
+inheritFieldValue("Trench/Trench/Trench_Trench_ID", "FCN/General/FCN_Trench_ID", true);
+inheritFieldValue("Locus/General/Locus_Locus_ID", "FCN/General/Locus_ID", true);
+inheritFieldValue("Locus/Vars/Locus_Year_of_Campaign", "FCN/Vars/FCN_Year_of_Campaign", true);
 inheritFieldValue("Trench/Vars/Trench_Year_of_Campaign", "FCN/Vars/FCN_Year_of_Campaign", true);
-inheritFieldValue("Context/General/Context_Context_ID", "Soil_Munsel_Color/Vars/Soil_Munsel_Color_Locus_ID", true);
+inheritFieldValue("Locus/General/Locus_Locus_ID", "Soil_Munsel_Color/Vars/Soil_Munsel_Color_Locus_ID", true);
+inheritFieldValue("Relationship/Vars/Relationship_Site_Name", "Legacy/Legacy/Legacy_Site_Name", true);
 inheritFieldValue("Trench/Trench/Trench_Site_Name", "Legacy/Legacy/Legacy_Site_Name", true);
+inheritFieldValue("Relationship/Vars/Relationship_Year_of_Campaign", "Legacy/Legacy/Legacy_Year_of_Campaign", true);
+inheritFieldValue("Trench/Vars/Trench_Year_of_Campaign", "Legacy/Legacy/Legacy_Year_of_Campaign", true);
 
 /**************************** NEW TAB REDIRECTION *****************************/
 /* Causes a call to `newTab("tab/path")` to take the user to the specified    */
@@ -651,27 +675,27 @@ addOnEvent("Control/Search/Entity_Types", "click", "DROPDOWN_ITEM_VALUE = getFie
 addOnEvent("Trench/Trench/Trench_Dimensions", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Trench/Trench/Trench_Dimensions\")");
 addOnEvent("Trench/Trench/Attached_Trench_Files", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Trench/Trench/Attached_Trench_Files\")");
 addOnEvent("Trench_Files/Add_Trench_Files/File_Type", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Trench_Files/Add_Trench_Files/File_Type\")");
-addOnEvent("Context/General/Horizon_Boundary", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Context/General/Horizon_Boundary\")");
-addOnEvent("Context/General/Contamination", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Context/General/Contamination\")");
-addOnEvent("Context/Cut/Cut_Your_Interpretation", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Context/Cut/Cut_Your_Interpretation\")");
-addOnEvent("Context/Cut/Shape_of_Cut", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Context/Cut/Shape_of_Cut\")");
-addOnEvent("Context/Cut/Sides_of_Cut", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Context/Cut/Sides_of_Cut\")");
-addOnEvent("Context/Cut/Shape_of_Base", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Context/Cut/Shape_of_Base\")");
-addOnEvent("Context/Cut/Orientation", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Context/Cut/Orientation\")");
-addOnEvent("Context/Cut/Inclination_of_axis", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Context/Cut/Inclination_of_axis\")");
-addOnEvent("Context/Deposit/Deposit_Your_Interpretation", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Context/Deposit/Deposit_Your_Interpretation\")");
-addOnEvent("Context/Deposit/Soil_Compaction_Type", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Context/Deposit/Soil_Compaction_Type\")");
-addOnEvent("Context/Deposit/Soil_Texture", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Context/Deposit/Soil_Texture\")");
-addOnEvent("Context/Deposit/Munsel_Colors", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Context/Deposit/Munsel_Colors\")");
-addOnEvent("Context/Deposit/Composition_Type", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Context/Deposit/Composition_Type\")");
-addOnEvent("Context/Deposit/Deposit_Bedding", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Context/Deposit/Deposit_Bedding\")");
-addOnEvent("Context/Deposit/Associated_Matrices", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Context/Deposit/Associated_Matrices\")");
-addOnEvent("Context/Add/Select_a_Photograph_Log", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Context/Add/Select_a_Photograph_Log\")");
-addOnEvent("Context/Soil_Texture_Helper/Soil_Texture_Helper", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Context/Soil_Texture_Helper/Soil_Texture_Helper\")");
-addOnEvent("Context/Vars/Device_Code", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Context/Vars/Device_Code\")");
-addOnEvent("Context_Group/Add/Select_a_Photograph_Log", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Context_Group/Add/Select_a_Photograph_Log\")");
-addOnEvent("Context_Group/Vars/Device_Code", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Context_Group/Vars/Device_Code\")");
-addOnEvent("Matrix/Matrix/Component", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Matrix/Matrix/Component\")");
+addOnEvent("Locus/General/Basal_Edge_Definition", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Locus/General/Basal_Edge_Definition\")");
+addOnEvent("Locus/General/Contamination", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Locus/General/Contamination\")");
+addOnEvent("Locus/Cut/Cut_Your_Interpretation", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Locus/Cut/Cut_Your_Interpretation\")");
+addOnEvent("Locus/Cut/Shape_in_Plan", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Locus/Cut/Shape_in_Plan\")");
+addOnEvent("Locus/Cut/Sides_of_Cut", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Locus/Cut/Sides_of_Cut\")");
+addOnEvent("Locus/Cut/Shape_of_Base", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Locus/Cut/Shape_of_Base\")");
+addOnEvent("Locus/Cut/Orientation", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Locus/Cut/Orientation\")");
+addOnEvent("Locus/Cut/Inclination_of_axis", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Locus/Cut/Inclination_of_axis\")");
+addOnEvent("Locus/Deposit/Deposit_Your_Interpretation", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Locus/Deposit/Deposit_Your_Interpretation\")");
+addOnEvent("Locus/Deposit/Texture", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Locus/Deposit/Texture\")");
+addOnEvent("Locus/Deposit/Material", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Locus/Deposit/Material\")");
+addOnEvent("Locus/Deposit/Munsel_Colors", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Locus/Deposit/Munsel_Colors\")");
+addOnEvent("Locus/Deposit/Composition_Type", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Locus/Deposit/Composition_Type\")");
+addOnEvent("Locus/Deposit/Deposit_Bedding", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Locus/Deposit/Deposit_Bedding\")");
+addOnEvent("Locus/Deposit/Associated_Sediment_Aggregates", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Locus/Deposit/Associated_Sediment_Aggregates\")");
+addOnEvent("Locus/Add/Select_a_Photograph_Log", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Locus/Add/Select_a_Photograph_Log\")");
+addOnEvent("Locus/Material_Helper/Material_Helper", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Locus/Material_Helper/Material_Helper\")");
+addOnEvent("Locus/Vars/Device_Code", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Locus/Vars/Device_Code\")");
+addOnEvent("Stratum_Feature/Add/Select_a_Photograph_Log", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Stratum_Feature/Add/Select_a_Photograph_Log\")");
+addOnEvent("Stratum_Feature/Vars/Device_Code", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Stratum_Feature/Vars/Device_Code\")");
+addOnEvent("Sediment_Aggregate/Sediment_Aggregate/Component_Type", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Sediment_Aggregate/Sediment_Aggregate/Component_Type\")");
 addOnEvent("Photograph_Log/Photograph_Log/Scene_Type", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Photograph_Log/Photograph_Log/Scene_Type\")");
 addOnEvent("Photograph_Log/Vars/Device_Code", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Photograph_Log/Vars/Device_Code\")");
 addOnEvent("Relationship/Relationships/Relationship_Type", "click", "DROPDOWN_ITEM_VALUE = getFieldValue(\"Relationship/Relationships/Relationship_Type\")");
@@ -859,10 +883,10 @@ addActionBarItem("external_gps", new ToggleActionButtonCallback() {
 /******************************************************************************/
 /*                                    GPS                                     */
 /******************************************************************************/
-addOnEvent("Control/Contexts/GPS_Diagnostics", "show", "updateGPSDiagnostics()");
+addOnEvent("Control/Site/GPS_Diagnostics", "show", "updateGPSDiagnostics()");
 
 void updateGPSDiagnostics() {
-  String diagnosticsRef = "Control/Contexts/GPS_Diagnostics";
+  String diagnosticsRef = "Control/Site/GPS_Diagnostics";
   if (diagnosticsRef.equals("")) {
     return;
   }
@@ -1094,33 +1118,34 @@ void makeVocab(String type, String path, String attrib, List vocabExclusions, St
 
 makeVocab("DropDown", "Trench/Trench/Trench_Dimensions", "Trench Dimensions");
 makeVocab("CheckBoxGroup", "Trench/Trench/Excavation_Method", "Excavation Method");
+makeVocab("List", "Trench/FCNs/List_of_Existing_FCNs", "List of Existing FCNs");
 makeVocab("DropDown", "Trench_Files/Add_Trench_Files/File_Type", "File Type");
-makeVocab("CheckBoxGroup", "Context/General/Excavation_Method", "Excavation Method");
-makeVocab("DropDown", "Context/General/Horizon_Boundary", "Horizon Boundary");
-makeVocab("DropDown", "Context/General/Contamination", "Contamination");
-makeVocab("PictureGallery", "Context/General/Context_Type", "Context Type");
-makeVocab("DropDown", "Context/Cut/Cut_Your_Interpretation", "Cut Your Interpretation");
-makeVocab("DropDown", "Context/Cut/Shape_of_Cut", "Shape of Cut");
-makeVocab("RadioGroup", "Context/Cut/Shape_of_Corners", "Shape of Corners");
-makeVocab("RadioGroup", "Context/Cut/Break_of_Slope_-_Top", "Break of Slope - Top");
-makeVocab("RadioGroup", "Context/Cut/Break_of_Slope_-_Base", "Break of Slope - Base");
-makeVocab("DropDown", "Context/Cut/Sides_of_Cut", "Sides of Cut");
-makeVocab("HierarchicalDropDown", "Context/Cut/Shape_of_Base", "Shape of Base");
-makeVocab("DropDown", "Context/Cut/Orientation", "Orientation");
-makeVocab("DropDown", "Context/Cut/Inclination_of_axis", "Inclination of axis");
-makeVocab("DropDown", "Context/Deposit/Deposit_Your_Interpretation", "Deposit Your Interpretation");
-makeVocab("DropDown", "Context/Deposit/Soil_Compaction_Type", "Soil Compaction Type");
-makeVocab("PictureGallery", "Context/Deposit/Soil_Particle_Sorting", "Soil Particle Sorting");
-makeVocab("DropDown", "Context/Deposit/Soil_Texture", "Soil Texture");
-makeVocab("DropDown", "Context/Deposit/Composition_Type", "Composition Type");
-makeVocab("DropDown", "Context/Deposit/Deposit_Bedding", "Deposit Bedding");
-makeVocab("RadioGroup", "Context/Deposit/Sterile", "Sterile");
-makeVocab("HierarchicalDropDown", "Context/Soil_Texture_Helper/Soil_Texture_Helper", "Soil Texture Helper");
-makeVocab("DropDown", "Context/Vars/Device_Code", "Device Code");
-makeVocab("RadioGroup", "Context_Group/Gen/Record_Type", "Record Type");
-makeVocab("DropDown", "Context_Group/Vars/Device_Code", "Device Code");
-makeVocab("DropDown", "Matrix/Matrix/Component", "Component");
-makeVocab("HierarchicalPictureGallery", "Matrix/Matrix/Shape", "Shape");
+makeVocab("CheckBoxGroup", "Locus/General/Excavation_Method", "Excavation Method");
+makeVocab("DropDown", "Locus/General/Basal_Edge_Definition", "Basal Edge Definition");
+makeVocab("DropDown", "Locus/General/Contamination", "Contamination");
+makeVocab("PictureGallery", "Locus/General/Locus_Type", "Locus Type");
+makeVocab("DropDown", "Locus/Cut/Cut_Your_Interpretation", "Cut Your Interpretation");
+makeVocab("DropDown", "Locus/Cut/Shape_in_Plan", "Shape in Plan");
+makeVocab("RadioGroup", "Locus/Cut/Shape_of_Corners", "Shape of Corners");
+makeVocab("RadioGroup", "Locus/Cut/Break_of_Slope_-_Top", "Break of Slope - Top");
+makeVocab("RadioGroup", "Locus/Cut/Break_of_Slope_-_Base", "Break of Slope - Base");
+makeVocab("DropDown", "Locus/Cut/Sides_of_Cut", "Sides of Cut");
+makeVocab("HierarchicalDropDown", "Locus/Cut/Shape_of_Base", "Shape of Base");
+makeVocab("DropDown", "Locus/Cut/Orientation", "Orientation");
+makeVocab("DropDown", "Locus/Cut/Inclination_of_axis", "Inclination of axis");
+makeVocab("DropDown", "Locus/Deposit/Deposit_Your_Interpretation", "Deposit Your Interpretation");
+makeVocab("DropDown", "Locus/Deposit/Texture", "Texture");
+makeVocab("PictureGallery", "Locus/Deposit/Soil_Particle_Sorting", "Soil Particle Sorting");
+makeVocab("DropDown", "Locus/Deposit/Material", "Material");
+makeVocab("DropDown", "Locus/Deposit/Composition_Type", "Composition Type");
+makeVocab("DropDown", "Locus/Deposit/Deposit_Bedding", "Deposit Bedding");
+makeVocab("RadioGroup", "Locus/Deposit/Sterile", "Sterile");
+makeVocab("HierarchicalDropDown", "Locus/Material_Helper/Material_Helper", "Material Helper");
+makeVocab("DropDown", "Locus/Vars/Device_Code", "Device Code");
+makeVocab("RadioGroup", "Stratum_Feature/General/Record_Type", "Record Type");
+makeVocab("DropDown", "Stratum_Feature/Vars/Device_Code", "Device Code");
+makeVocab("DropDown", "Sediment_Aggregate/Sediment_Aggregate/Component_Type", "Component Type");
+makeVocab("HierarchicalPictureGallery", "Sediment_Aggregate/Sediment_Aggregate/Soil_Stone_Shape", "Soil Stone Shape");
 makeVocab("DropDown", "Photograph_Log/Photograph_Log/Scene_Type", "Scene Type");
 makeVocab("DropDown", "Photograph_Log/Vars/Device_Code", "Device Code");
 makeVocab("DropDown", "FCN/General/Collection_Method", "Collection Method");
@@ -1199,10 +1224,10 @@ String validateFields(List fields, String format) {
 
 void validateControl() {
   List f = new ArrayList(); // Fields to be validated
-  f.add(fieldPair("Control/Contexts/New_Site_Name", "{New_Site_Name}"));
-  f.add(fieldPair("Control/Contexts/Year_of_Campaign", "{Year_of_Campaign}"));
-  f.add(fieldPair("Control/Next_IDs/Next_Context_Context_ID", "{Locus_ID}"));
-  f.add(fieldPair("Control/Next_IDs/Next_Context_Group_ID", "{Stratum_Feature_ID}"));
+  f.add(fieldPair("Control/Site/New_Site_Name", "{New_Site_Name}"));
+  f.add(fieldPair("Control/Site/Year_of_Campaign", "{Year_of_Campaign}"));
+  f.add(fieldPair("Control/Next_IDs/Next_Locus_Locus_ID", "{Locus_ID}"));
+  f.add(fieldPair("Control/Next_IDs/Next_Stratum_Feature_ID", "{Stratum_Feature_ID}"));
   f.add(fieldPair("Control/Next_IDs/Next_FCN_ID", "{Next_FCN_ID}"));
 
   String validationMessage = validateFields(f, "PLAINTEXT");
@@ -1222,72 +1247,72 @@ void validateTrench() {
   String validationMessage = validateFields(f, "PLAINTEXT");
   showWarning("Validation Results", validationMessage);
 }
-void validateContext() {
+void validateLocus() {
   List f = new ArrayList(); // Fields to be validated
-  f.add(fieldPair("Context/General/Context_Site_Name", "{Site_Name}"));
-  f.add(fieldPair("Context/General/Context_Context_ID", "{Locus_ID}"));
-  f.add(fieldPair("Context/General/Excavation_Method", "{Excavation_Method}"));
-  f.add(fieldPair("Context/Measure/Highest_Level", "{Absolute_Height_Top__m_}"));
-  f.add(fieldPair("Context/Measure/Lowest_Level", "{Absolute_Height_Bottom__m_}"));
-  f.add(fieldPair("Context/Measure/Measure_Length", "{Length__m_}"));
-  f.add(fieldPair("Context/Measure/Measure_Width", "{Width__m_}"));
-  f.add(fieldPair("Context/Measure/Measure_Depth", "{Depth__m_}"));
-  f.add(fieldPair("Context/Measure/Volume", "{Volume__liters_}"));
-  f.add(fieldPair("Context/Cut/Cut_Your_Interpretation", "{Your_Interpretation}"));
-  f.add(fieldPair("Context/Cut/Shape_of_Cut", "{Shape_in_Plan}"));
-  f.add(fieldPair("Context/Cut/Shape_of_Corners", "{Shape_of_Corners}"));
-  f.add(fieldPair("Context/Cut/Break_of_Slope_-_Top", "{Break_of_Slope___Top}"));
-  f.add(fieldPair("Context/Cut/Break_of_Slope_-_Base", "{Break_of_Slope___Base}"));
-  f.add(fieldPair("Context/Cut/Sides_of_Cut", "{Sides_of_Cut}"));
-  f.add(fieldPair("Context/Cut/Shape_of_Base", "{Shape_of_Base}"));
-  f.add(fieldPair("Context/Cut/Orientation", "{Orientation}"));
-  f.add(fieldPair("Context/Cut/Orientation_Degree", "{Orientation_Degree}"));
-  f.add(fieldPair("Context/Cut/Inclination_of_axis", "{Inclination_of_axis}"));
-  f.add(fieldPair("Context/Deposit/Deposit_Your_Interpretation", "{Your_Interpretation}"));
-  f.add(fieldPair("Context/Deposit/Soil_Compaction_Type", "{Texture}"));
-  f.add(fieldPair("Context/Deposit/Soil_Texture", "{Material}"));
-  f.add(fieldPair("Context/Deposit/Composition_Type", "{Deposit_Structure}"));
-  f.add(fieldPair("Context/Deposit/Deposit_Bedding", "{Bedding}"));
-  f.add(fieldPair("Context/Deposit/Deposit_Inclusions", "{Deposit_Inclusions}"));
-  f.add(fieldPair("Context/Skeleton/Skeleton_Head", "{Head}"));
-  f.add(fieldPair("Context/Skeleton/Skeleton_Body", "{Body}"));
-  f.add(fieldPair("Context/Skeleton/Skeleton_Left_Arm", "{Left_Arm_and_Hand_Location}"));
-  f.add(fieldPair("Context/Skeleton/Skeleton_Right_Arm", "{Right_Arm_and_Hand_Location}"));
-  f.add(fieldPair("Context/Skeleton/Skeleton_Left_Leg", "{Left_Leg_and_Foot_Location}"));
-  f.add(fieldPair("Context/Skeleton/Skeleton_Right_Leg", "{Right_Leg_and_Foot_Location}"));
-  f.add(fieldPair("Context/Skeleton/Skeleton_Condition", "{Condition}"));
-  f.add(fieldPair("Context/Skeleton/Target_A_X", "{Target_A_X}"));
-  f.add(fieldPair("Context/Skeleton/Target_A_Y", "{Target_A_Y}"));
-  f.add(fieldPair("Context/Skeleton/Target_A_Z", "{Target_A_Z}"));
-  f.add(fieldPair("Context/Int/Your_description", "{Your_Description}"));
-  f.add(fieldPair("Context/Int/Your_Discussion", "{Your_Discussion}"));
+  f.add(fieldPair("Locus/General/Locus_Site_Name", "{Site_Name}"));
+  f.add(fieldPair("Locus/General/Locus_Locus_ID", "{Locus_ID}"));
+  f.add(fieldPair("Locus/General/Excavation_Method", "{Excavation_Method}"));
+  f.add(fieldPair("Locus/Measure/Absolute_Height_Top_m", "{Absolute_Height_Top__m_}"));
+  f.add(fieldPair("Locus/Measure/Absolute_Height_Bottom_m", "{Absolute_Height_Bottom__m_}"));
+  f.add(fieldPair("Locus/Measure/Measure_Length", "{Length__m_}"));
+  f.add(fieldPair("Locus/Measure/Measure_Width", "{Width__m_}"));
+  f.add(fieldPair("Locus/Measure/Measure_Depth", "{Depth__m_}"));
+  f.add(fieldPair("Locus/Measure/Volume_Liters", "{Volume__liters_}"));
+  f.add(fieldPair("Locus/Cut/Cut_Your_Interpretation", "{Your_Interpretation}"));
+  f.add(fieldPair("Locus/Cut/Shape_in_Plan", "{Shape_in_Plan}"));
+  f.add(fieldPair("Locus/Cut/Shape_of_Corners", "{Shape_of_Corners}"));
+  f.add(fieldPair("Locus/Cut/Break_of_Slope_-_Top", "{Break_of_Slope___Top}"));
+  f.add(fieldPair("Locus/Cut/Break_of_Slope_-_Base", "{Break_of_Slope___Base}"));
+  f.add(fieldPair("Locus/Cut/Sides_of_Cut", "{Sides_of_Cut}"));
+  f.add(fieldPair("Locus/Cut/Shape_of_Base", "{Shape_of_Base}"));
+  f.add(fieldPair("Locus/Cut/Orientation", "{Orientation}"));
+  f.add(fieldPair("Locus/Cut/Orientation_Degree", "{Orientation_Degree}"));
+  f.add(fieldPair("Locus/Cut/Inclination_of_axis", "{Inclination_of_axis}"));
+  f.add(fieldPair("Locus/Deposit/Deposit_Your_Interpretation", "{Your_Interpretation}"));
+  f.add(fieldPair("Locus/Deposit/Texture", "{Texture}"));
+  f.add(fieldPair("Locus/Deposit/Material", "{Material}"));
+  f.add(fieldPair("Locus/Deposit/Composition_Type", "{Deposit_Structure}"));
+  f.add(fieldPair("Locus/Deposit/Deposit_Bedding", "{Bedding}"));
+  f.add(fieldPair("Locus/Deposit/Deposit_Inclusions", "{Deposit_Inclusions}"));
+  f.add(fieldPair("Locus/Skeleton/Skeleton_Head", "{Head}"));
+  f.add(fieldPair("Locus/Skeleton/Skeleton_Body", "{Body}"));
+  f.add(fieldPair("Locus/Skeleton/Skeleton_Left_Arm", "{Left_Arm_and_Hand_Location}"));
+  f.add(fieldPair("Locus/Skeleton/Skeleton_Right_Arm", "{Right_Arm_and_Hand_Location}"));
+  f.add(fieldPair("Locus/Skeleton/Skeleton_Left_Leg", "{Left_Leg_and_Foot_Location}"));
+  f.add(fieldPair("Locus/Skeleton/Skeleton_Right_Leg", "{Right_Leg_and_Foot_Location}"));
+  f.add(fieldPair("Locus/Skeleton/Skeleton_Condition", "{Condition}"));
+  f.add(fieldPair("Locus/Skeleton/Target_A_X", "{Target_A_X}"));
+  f.add(fieldPair("Locus/Skeleton/Target_A_Y", "{Target_A_Y}"));
+  f.add(fieldPair("Locus/Skeleton/Target_A_Z", "{Target_A_Z}"));
+  f.add(fieldPair("Locus/Int/Your_description", "{Your_Description}"));
+  f.add(fieldPair("Locus/Int/Your_Discussion", "{Your_Discussion}"));
 
   String validationMessage = validateFields(f, "PLAINTEXT");
   showWarning("Validation Results", validationMessage);
 }
-void validateContextGroup() {
+void validateStratumFeature() {
   List f = new ArrayList(); // Fields to be validated
-  f.add(fieldPair("Context_Group/Gen/Record_Type", "{Record_Type}"));
-  f.add(fieldPair("Context_Group/Gen/Feature_Prefix", "{Feature_Prefix}"));
-  f.add(fieldPair("Context_Group/Gen/Context_Group_ID", "{Stratum_Feature_ID}"));
-  f.add(fieldPair("Context_Group/Gen/CG_Your_description", "{Description}"));
-  f.add(fieldPair("Context_Group/Gen/CG_Your_Interpretation", "{Interpretation}"));
+  f.add(fieldPair("Stratum_Feature/General/Record_Type", "{Record_Type}"));
+  f.add(fieldPair("Stratum_Feature/General/Feature_Prefix", "{Feature_Prefix}"));
+  f.add(fieldPair("Stratum_Feature/General/Stratum_Feature_ID", "{Stratum_Feature_ID}"));
+  f.add(fieldPair("Stratum_Feature/General/Description", "{Description}"));
+  f.add(fieldPair("Stratum_Feature/General/Interpretation", "{Interpretation}"));
 
   String validationMessage = validateFields(f, "PLAINTEXT");
   showWarning("Validation Results", validationMessage);
 }
 void validateRelationship() {
   List f = new ArrayList(); // Fields to be validated
-  f.add(fieldPair("Relationship/Relationships/AreaCode", "{Trench_ID}"));
-  f.add(fieldPair("Relationship/Relationships/Context_ID", "{Locus_ID}"));
+  f.add(fieldPair("Relationship/Relationships/Trench_ID", "{Trench_ID}"));
+  f.add(fieldPair("Relationship/Relationships/Locus_ID", "{Locus_ID}"));
 
   String validationMessage = validateFields(f, "PLAINTEXT");
   showWarning("Validation Results", validationMessage);
 }
-void validateContextGroupRelationship() {
+void validateStratumFeatureRelationship() {
   List f = new ArrayList(); // Fields to be validated
-  f.add(fieldPair("Context_Group_Relationship/Relationships/AreaCode", "{Trench_ID}"));
-  f.add(fieldPair("Context_Group_Relationship/Relationships/Context_ID", "{Locus_ID}"));
+  f.add(fieldPair("Stratum_Feature_Relationship/Relationships/Trench_ID", "{Trench_ID}"));
+  f.add(fieldPair("Stratum_Feature_Relationship/Relationships/Locus_ID", "{Locus_ID}"));
 
   String validationMessage = validateFields(f, "PLAINTEXT");
   showWarning("Validation Results", validationMessage);
@@ -1301,9 +1326,9 @@ void validateFCN() {
 }
 void validateLegacy() {
   List f = new ArrayList(); // Fields to be validated
-  f.add(fieldPair("Legacy/Legacy/Legacy_Year_of_Campaign", "{Legacy_Year_of_Campaign}"));
-  f.add(fieldPair("Legacy/Legacy/Legacy_AreaCode", "{Trench_ID}"));
-  f.add(fieldPair("Legacy/Legacy/Legacy_Context_ID", "{Locus_ID}"));
+  f.add(fieldPair("Legacy/Legacy/Legacy_Year_of_Campaign", "{Year_of_Campaign}"));
+  f.add(fieldPair("Legacy/Legacy/Legacy_Trench_ID", "{Trench_ID}"));
+  f.add(fieldPair("Legacy/Legacy/Legacy_Locus_ID", "{Locus_ID}"));
 
   String validationMessage = validateFields(f, "PLAINTEXT");
   showWarning("Validation Results", validationMessage);
@@ -1415,12 +1440,12 @@ void populateAuthorAndTimestamp(String tabgroup) {
   Map tabgroupToTimestamp = new HashMap();
   tabgroupToAuthor.put("Trench", "Trench/Trench/Trench_author");
   tabgroupToAuthor.put("Trench_Files", "Trench_Files/Add_Trench_Files/Trench_Files_author");
-  tabgroupToAuthor.put("Context", "Context/General/Context_author");
-  tabgroupToAuthor.put("Context_Group", "Context_Group/Gen/Context_Group_author");
+  tabgroupToAuthor.put("Locus", "Locus/General/Locus_author");
+  tabgroupToAuthor.put("Stratum_Feature", "Stratum_Feature/General/Stratum_Feature_author");
   tabgroupToAuthor.put("Diary", "Diary/Diary/Diary_author");
   tabgroupToTimestamp.put("Trench", "Trench/Trench/Trench_timestamp");
-  tabgroupToTimestamp.put("Context", "Context/General/Context_timestamp");
-  tabgroupToTimestamp.put("Context_Group", "Context_Group/Gen/Context_Group_timestamp");
+  tabgroupToTimestamp.put("Locus", "Locus/General/Locus_timestamp");
+  tabgroupToTimestamp.put("Stratum_Feature", "Stratum_Feature/General/Stratum_Feature_timestamp");
   tabgroupToTimestamp.put("Diary", "Diary/Diary/Diary_timestamp");
   String authorPath    = tabgroupToAuthor.get(tabgroup);
   String timestampPath = tabgroupToTimestamp.get(tabgroup);
@@ -1444,16 +1469,16 @@ void onShowTrenchFiles () {
   saveTabGroup("Trench_Files");
 }
 
-void onShowContext () {
-  saveTabGroup("Context");
+void onShowLocus () {
+  saveTabGroup("Locus");
 }
 
-void onShowContextGroup () {
-  saveTabGroup("Context_Group");
+void onShowStratumFeature () {
+  saveTabGroup("Stratum_Feature");
 }
 
-void onShowMatrix () {
-  saveTabGroup("Matrix");
+void onShowSedimentAggregate () {
+  saveTabGroup("Sediment_Aggregate");
 }
 
 void onShowPhotographLog () {
@@ -1479,9 +1504,9 @@ void onShowLegacy () {
 addOnEvent("Site", "show", "onShowSite()");
 addOnEvent("Trench", "show", "onShowTrench()");
 addOnEvent("Trench_Files", "show", "onShowTrenchFiles()");
-addOnEvent("Context", "show", "onShowContext()");
-addOnEvent("Context_Group", "show", "onShowContextGroup()");
-addOnEvent("Matrix", "show", "onShowMatrix()");
+addOnEvent("Locus", "show", "onShowLocus()");
+addOnEvent("Stratum_Feature", "show", "onShowStratumFeature()");
+addOnEvent("Sediment_Aggregate", "show", "onShowSedimentAggregate()");
 addOnEvent("Photograph_Log", "show", "onShowPhotographLog()");
 addOnEvent("Diary", "show", "onShowDiary()");
 addOnEvent("FCN", "show", "onShowFCN()");
@@ -1500,33 +1525,26 @@ void onClickTrenchTrenchSetDateClosed () {
   newTab("Date_Closed", true);
 }
 
-void onClickContextDepositSoilTextureHelper () {
-  newTab("Context/Soil_Texture_Helper", true);
+void onClickLocusDepositMaterialHelper () {
+  newTab("Locus/Material_Helper", true);
 }
 
-void onClickContextRelationshipsCreateRelationshipstoThisContext () {
-  String tabgroup = "Context";
-  if (isNull(getUuid(tabgroup))){
-    showToast("{You_must_save_this_tabgroup_first}");
-    return;
-  }
-  
+void onClickLocusRelationshipsCreateRelationshipstoThisLocus () {
   newTab("Relationship", true);
 }
 
-void onClickContextGroupContextGroupContextsCreateRelationshipstoThisContextGroup () {
-  String tabgroup = "Context_Group";
-  if (isNull(getUuid(tabgroup))){
-    showToast("{You_must_save_this_tabgroup_first}");
-    return;
-  }
-  
-  newTab("Context_Group_Relationship", true);
+void onClickStratumFeatureStratumFeatureLociCreateRelationshipstoThisStratumFeature () {
+  newTab("Stratum_Feature_Relationship", true);
 }
 
-void onClickControlContextsCreateNewSite () {
+void onClickControlSiteCreateNewSite () {
   parentTabgroup__ = "Control";
   newSite();
+}
+
+void onClickRelationshipLegaciesCreateNewLegacy () {
+  parentTabgroup__ = "Relationship";
+  newLegacy();
 }
 
 void onClickSiteSiteTrenches () {
@@ -1559,10 +1577,10 @@ void onClickTrenchLociCreateNewLocus () {
   }
   parentTabgroup   = tabgroup;
   parentTabgroup__ = tabgroup;
-  newContext();
+  newLocus();
 }
 
-void onClickTrenchStrataFeaturesCreateNewStratum () {
+void onClickTrenchStrataFeaturesCreateNewStratumFeature () {
   String tabgroup = "Trench";
   if (isNull(getUuid(tabgroup))){
     showToast("{You_must_save_this_tabgroup_first}");
@@ -1570,7 +1588,7 @@ void onClickTrenchStrataFeaturesCreateNewStratum () {
   }
   parentTabgroup   = tabgroup;
   parentTabgroup__ = tabgroup;
-  newContextGroup();
+  newStratumFeature();
 }
 
 void onClickTrenchFCNsCreateNewFCN () {
@@ -1606,8 +1624,8 @@ void onClickTrenchLegaciesCreateNewLegacy () {
   newLegacy();
 }
 
-void onClickContextDepositAddMunselColor () {
-  String tabgroup = "Context";
+void onClickLocusDepositAddMunselColor () {
+  String tabgroup = "Locus";
   if (isNull(getUuid(tabgroup))){
     showToast("{You_must_save_this_tabgroup_first}");
     return;
@@ -1617,19 +1635,19 @@ void onClickContextDepositAddMunselColor () {
   newSoilMunselColor();
 }
 
-void onClickContextDepositAddNewMatrix () {
-  String tabgroup = "Context";
+void onClickLocusDepositAddNewSedimentAggregate () {
+  String tabgroup = "Locus";
   if (isNull(getUuid(tabgroup))){
     showToast("{You_must_save_this_tabgroup_first}");
     return;
   }
   parentTabgroup   = tabgroup;
   parentTabgroup__ = tabgroup;
-  newMatrix();
+  newSedimentAggregate();
 }
 
-void onClickContextFCNAddFCN () {
-  String tabgroup = "Context";
+void onClickLocusFCNsAddFCN () {
+  String tabgroup = "Locus";
   if (isNull(getUuid(tabgroup))){
     showToast("{You_must_save_this_tabgroup_first}");
     return;
@@ -1639,8 +1657,8 @@ void onClickContextFCNAddFCN () {
   newFCN();
 }
 
-void onClickContextAddAddPhotographLog () {
-  String tabgroup = "Context";
+void onClickLocusAddAddPhotographLog () {
+  String tabgroup = "Locus";
   if (isNull(getUuid(tabgroup))){
     showToast("{You_must_save_this_tabgroup_first}");
     return;
@@ -1650,8 +1668,8 @@ void onClickContextAddAddPhotographLog () {
   newPhotographLog();
 }
 
-void onClickContextGroupAddAddPhotographLog () {
-  String tabgroup = "Context_Group";
+void onClickStratumFeatureAddAddPhotographLog () {
+  String tabgroup = "Stratum_Feature";
   if (isNull(getUuid(tabgroup))){
     showToast("{You_must_save_this_tabgroup_first}");
     return;
@@ -1663,37 +1681,38 @@ void onClickContextGroupAddAddPhotographLog () {
 addOnEvent("User/User_List/Login", "click", "onClickUserUserListLogin()");
 addOnEvent("User/User_List/Module_Guide", "click", "onClickUserUserListModuleGuide()");
 addOnEvent("Trench/Trench/Set_Date_Closed", "click", "onClickTrenchTrenchSetDateClosed()");
-addOnEvent("Context/Deposit/Soil_Texture_Helper", "click", "onClickContextDepositSoilTextureHelper()");
-addOnEvent("Context/Relationships/Create_Relationships_to_This_Context", "click", "onClickContextRelationshipsCreateRelationshipstoThisContext()");
-addOnEvent("Context_Group/Context_Group_Contexts/Create_Relationships_to_This_Context_Group", "click", "onClickContextGroupContextGroupContextsCreateRelationshipstoThisContextGroup()");
-addOnEvent("Control/Contexts/Create_New_Site", "click", "onClickControlContextsCreateNewSite()");
+addOnEvent("Locus/Deposit/Material_Helper", "click", "onClickLocusDepositMaterialHelper()");
+addOnEvent("Locus/Relationships/Create_Relationships_to_This_Locus", "click", "onClickLocusRelationshipsCreateRelationshipstoThisLocus()");
+addOnEvent("Stratum_Feature/Stratum_Feature_Loci/Create_Relationships_to_This_Stratum_Feature", "click", "onClickStratumFeatureStratumFeatureLociCreateRelationshipstoThisStratumFeature()");
+addOnEvent("Control/Site/Create_New_Site", "click", "onClickControlSiteCreateNewSite()");
+addOnEvent("Relationship/Legacies/Create_New_Legacy", "click", "onClickRelationshipLegaciesCreateNewLegacy()");
 addOnEvent("Site/Site/Trenches", "click", "onClickSiteSiteTrenches()");
 addOnEvent("Trench/Trench/Add_Trench_Files", "click", "onClickTrenchTrenchAddTrenchFiles()");
 addOnEvent("Trench/Loci/Create_New_Locus", "click", "onClickTrenchLociCreateNewLocus()");
-addOnEvent("Trench/Strata_Features/Create_New_Stratum", "click", "onClickTrenchStrataFeaturesCreateNewStratum()");
+addOnEvent("Trench/Strata_Features/Create_New_Stratum_Feature", "click", "onClickTrenchStrataFeaturesCreateNewStratumFeature()");
 addOnEvent("Trench/FCNs/Create_New_FCN", "click", "onClickTrenchFCNsCreateNewFCN()");
 addOnEvent("Trench/Diaries/Create_New_Diary", "click", "onClickTrenchDiariesCreateNewDiary()");
 addOnEvent("Trench/Legacies/Create_New_Legacy", "click", "onClickTrenchLegaciesCreateNewLegacy()");
-addOnEvent("Context/Deposit/Add_Munsel_Color", "click", "onClickContextDepositAddMunselColor()");
-addOnEvent("Context/Deposit/Add_New_Matrix", "click", "onClickContextDepositAddNewMatrix()");
-addOnEvent("Context/FCN/Add_FCN", "click", "onClickContextFCNAddFCN()");
-addOnEvent("Context/Add/Add_Photograph_Log", "click", "onClickContextAddAddPhotographLog()");
-addOnEvent("Context_Group/Add/Add_Photograph_Log", "click", "onClickContextGroupAddAddPhotographLog()");
+addOnEvent("Locus/Deposit/Add_Munsel_Color", "click", "onClickLocusDepositAddMunselColor()");
+addOnEvent("Locus/Deposit/Add_New_Sediment_Aggregate", "click", "onClickLocusDepositAddNewSedimentAggregate()");
+addOnEvent("Locus/FCNs/Add_FCN", "click", "onClickLocusFCNsAddFCN()");
+addOnEvent("Locus/Add/Add_Photograph_Log", "click", "onClickLocusAddAddPhotographLog()");
+addOnEvent("Stratum_Feature/Add/Add_Photograph_Log", "click", "onClickStratumFeatureAddAddPhotographLog()");
 
 /******************************************************************************/
 /*                   AUDIO, CAMERA, FILE AND VIDEO BINDINGS                   */
 /******************************************************************************/
 
 addOnEvent("Trench_Files/Add_Trench_Files/Add_Photo_Button_1", "click", "attachPictureTo(\"Trench_Files/Add_Trench_Files/Add_Photo\")");
-addOnEvent("Context/General/Photo_of_Plan_Button_1", "click", "attachPictureTo(\"Context/General/Photo_of_Plan\")");
-addOnEvent("Context/General/Photo_of_Section_Button_1", "click", "attachPictureTo(\"Context/General/Photo_of_Section\")");
-addOnEvent("Context/Add/Photo_Button_1", "click", "attachPictureTo(\"Context/Add/Photo\")");
-addOnEvent("Context_Group/Add/Photo_Button_1", "click", "attachPictureTo(\"Context_Group/Add/Photo\")");
+addOnEvent("Locus/General/Photo_of_Plan_Button_1", "click", "attachPictureTo(\"Locus/General/Photo_of_Plan\")");
+addOnEvent("Locus/General/Photo_of_Section_Button_1", "click", "attachPictureTo(\"Locus/General/Photo_of_Section\")");
+addOnEvent("Locus/Add/Photo_Button_1", "click", "attachPictureTo(\"Locus/Add/Photo\")");
+addOnEvent("Stratum_Feature/Add/Photo_Button_1", "click", "attachPictureTo(\"Stratum_Feature/Add/Photo\")");
 addOnEvent("Diary/Diary/Photo_Button_1", "click", "attachPictureTo(\"Diary/Diary/Photo\")");
 addOnEvent("FCN/General/Attach_Photograph_Button_1", "click", "attachPictureTo(\"FCN/General/Attach_Photograph\")");
 addOnEvent("Trench_Files/Add_Trench_Files/Attach_File_Button_1", "click", "attachFileTo(\"Trench_Files/Add_Trench_Files/Attach_File\")");
-addOnEvent("Context/Add/Attach_File_Button_1", "click", "attachFileTo(\"Context/Add/Attach_File\")");
-addOnEvent("Context_Group/Add/Attach_File_Button_1", "click", "attachFileTo(\"Context_Group/Add/Attach_File\")");
+addOnEvent("Locus/Add/Attach_File_Button_1", "click", "attachFileTo(\"Locus/Add/Attach_File\")");
+addOnEvent("Stratum_Feature/Add/Attach_File_Button_1", "click", "attachFileTo(\"Stratum_Feature/Add/Attach_File\")");
 addOnEvent("FCN/General/Attach_File_Button_1", "click", "attachFileTo(\"FCN/General/Attach_File\")");
 
 
@@ -1701,8 +1720,8 @@ addOnEvent("FCN/General/Attach_File_Button_1", "click", "attachFileTo(\"FCN/Gene
 /*                 BINDINGS FOR 'VIEW ATTACHED FILES' BUTTONS                 */
 /******************************************************************************/
 addOnEvent("Trench_Files/Add_Trench_Files/View_Attached_Files", "click", "viewArchEntAttachedFiles(getUuid(\"Trench_Files\"))");
-addOnEvent("Context/Add/View_Attached_Files", "click", "viewArchEntAttachedFiles(getUuid(\"Context\"))");
-addOnEvent("Context_Group/Add/View_Attached_Files", "click", "viewArchEntAttachedFiles(getUuid(\"Context_Group\"))");
+addOnEvent("Locus/Add/View_Attached_Files", "click", "viewArchEntAttachedFiles(getUuid(\"Locus\"))");
+addOnEvent("Stratum_Feature/Add/View_Attached_Files", "click", "viewArchEntAttachedFiles(getUuid(\"Stratum_Feature\"))");
 addOnEvent("FCN/General/View_Attached_Files", "click", "viewArchEntAttachedFiles(getUuid(\"FCN\"))");
 
 /******************************************************************************/
@@ -1719,13 +1738,13 @@ void addNavigationButtons(String tabgroup) {
   removeNavigationButtons();
   List tabgroupsToValidate = new ArrayList();
   tabgroupsToValidate.add("Control");
-  tabgroupsToValidate.add("Context_Group");
   tabgroupsToValidate.add("Relationship");
-  tabgroupsToValidate.add("Context_Group_Relationship");
+  tabgroupsToValidate.add("Stratum_Feature");
   tabgroupsToValidate.add("Site");
+  tabgroupsToValidate.add("Locus");
   tabgroupsToValidate.add("Trench");
+  tabgroupsToValidate.add("Stratum_Feature_Relationship");
   tabgroupsToValidate.add("Legacy");
-  tabgroupsToValidate.add("Context");
   tabgroupsToValidate.add("FCN");
   addNavigationButton("new", new ActionButtonCallback() {
     actionOnLabel() {
@@ -1939,12 +1958,7 @@ void loadEntity(Boolean isDropdown) {
 }
 
 void loadEntityFrom(String entityID) {
-  String head = "Record Could Not Be Loaded";
-  String body;
-
   if (isNull(entityID)) {
-    body = "A record cannot be loaded from a null uuid.";
-    showWarning(head, body);
     return;
   }
 
@@ -1960,6 +1974,10 @@ void loadEntityFrom(String entityID) {
           result       .size() == 0    ||
           result.get(0).size() == 0
       ) {
+        String head;
+        String body;
+
+        head  = "Record Could Not Be Loaded";
         body  = "The record could not be loaded. It may have been deleted by";
         body += " another user.";
 
@@ -2010,9 +2028,9 @@ void newTrenchFiles (){
 
   onCreateTrenchFiles__();
 }
-void newContext (){
-  String tabgroup = "Context";
-  if (isNull("Control/Next_IDs/Next_Context_Context_ID")) {
+void newLocus (){
+  String tabgroup = "Locus";
+  if (isNull("Control/Next_IDs/Next_Locus_Locus_ID")) {
     showWarning("{Alert}", "{A_next_ID_has_not_been_entered_please_provide_one}");
     return;
   }
@@ -2021,13 +2039,13 @@ void newContext (){
   newTabGroup(tabgroup);
   populateAuthorAndTimestamp(tabgroup);
   populateEntityListsInTabGroup(tabgroup);
-  incAutoNum("Context/General/Context_Context_ID");
+  incAutoNum("Locus/General/Locus_Locus_ID");
 
-  onCreateContext__();
+  onCreateLocus__();
 }
-void newContextGroup (){
-  String tabgroup = "Context_Group";
-  if (isNull("Control/Next_IDs/Next_Context_Group_ID")) {
+void newStratumFeature (){
+  String tabgroup = "Stratum_Feature";
+  if (isNull("Control/Next_IDs/Next_Stratum_Feature_ID")) {
     showWarning("{Alert}", "{A_next_ID_has_not_been_entered_please_provide_one}");
     return;
   }
@@ -2036,12 +2054,12 @@ void newContextGroup (){
   newTabGroup(tabgroup);
   populateAuthorAndTimestamp(tabgroup);
   populateEntityListsInTabGroup(tabgroup);
-  incAutoNum("Context_Group/Gen/Context_Group_ID");
+  incAutoNum("Stratum_Feature/General/Stratum_Feature_ID");
 
-  onCreateContextGroup__();
+  onCreateStratumFeature__();
 }
-void newMatrix (){
-  String tabgroup = "Matrix";
+void newSedimentAggregate (){
+  String tabgroup = "Sediment_Aggregate";
   
 
   setUuid(tabgroup, null);
@@ -2050,7 +2068,7 @@ void newMatrix (){
   populateEntityListsInTabGroup(tabgroup);
   
 
-  onCreateMatrix__();
+  onCreateSedimentAggregate__();
 }
 void newPhotographLog (){
   String tabgroup = "Photograph_Log";
@@ -2133,20 +2151,20 @@ void onCreateTrenchFiles__(){
   String stmtsStr = getStatementsString(ref, event);
   execute(stmtsStr);
 }
-void onCreateContext__(){
-  String ref      = "Context";
+void onCreateLocus__(){
+  String ref      = "Locus";
   String event    = "create";
   String stmtsStr = getStatementsString(ref, event);
   execute(stmtsStr);
 }
-void onCreateContextGroup__(){
-  String ref      = "Context_Group";
+void onCreateStratumFeature__(){
+  String ref      = "Stratum_Feature";
   String event    = "create";
   String stmtsStr = getStatementsString(ref, event);
   execute(stmtsStr);
 }
-void onCreateMatrix__(){
-  String ref      = "Matrix";
+void onCreateSedimentAggregate__(){
+  String ref      = "Sediment_Aggregate";
   String event    = "create";
   String stmtsStr = getStatementsString(ref, event);
   execute(stmtsStr);
@@ -2199,20 +2217,20 @@ void onPrefetchTrenchFiles__(){
   String stmtsStr = getStatementsString(ref, event);
   execute(stmtsStr);
 }
-void onPrefetchContext__(){
-  String ref      = "Context";
+void onPrefetchLocus__(){
+  String ref      = "Locus";
   String event    = "prefetch";
   String stmtsStr = getStatementsString(ref, event);
   execute(stmtsStr);
 }
-void onPrefetchContextGroup__(){
-  String ref      = "Context_Group";
+void onPrefetchStratumFeature__(){
+  String ref      = "Stratum_Feature";
   String event    = "prefetch";
   String stmtsStr = getStatementsString(ref, event);
   execute(stmtsStr);
 }
-void onPrefetchMatrix__(){
-  String ref      = "Matrix";
+void onPrefetchSedimentAggregate__(){
+  String ref      = "Sediment_Aggregate";
   String event    = "prefetch";
   String stmtsStr = getStatementsString(ref, event);
   execute(stmtsStr);
@@ -2265,20 +2283,20 @@ void onFetchTrenchFiles__(){
   String stmtsStr = getStatementsString(ref, event);
   execute(stmtsStr);
 }
-void onFetchContext__(){
-  String ref      = "Context";
+void onFetchLocus__(){
+  String ref      = "Locus";
   String event    = "fetch";
   String stmtsStr = getStatementsString(ref, event);
   execute(stmtsStr);
 }
-void onFetchContextGroup__(){
-  String ref      = "Context_Group";
+void onFetchStratumFeature__(){
+  String ref      = "Stratum_Feature";
   String event    = "fetch";
   String stmtsStr = getStatementsString(ref, event);
   execute(stmtsStr);
 }
-void onFetchMatrix__(){
-  String ref      = "Matrix";
+void onFetchSedimentAggregate__(){
+  String ref      = "Sediment_Aggregate";
   String event    = "fetch";
   String stmtsStr = getStatementsString(ref, event);
   execute(stmtsStr);
@@ -2331,20 +2349,20 @@ void onSaveTrenchFiles__(){
   String stmtsStr = getStatementsString(ref, event);
   execute(stmtsStr);
 }
-void onSaveContext__(){
-  String ref      = "Context";
+void onSaveLocus__(){
+  String ref      = "Locus";
   String event    = "save";
   String stmtsStr = getStatementsString(ref, event);
   execute(stmtsStr);
 }
-void onSaveContextGroup__(){
-  String ref      = "Context_Group";
+void onSaveStratumFeature__(){
+  String ref      = "Stratum_Feature";
   String event    = "save";
   String stmtsStr = getStatementsString(ref, event);
   execute(stmtsStr);
 }
-void onSaveMatrix__(){
-  String ref      = "Matrix";
+void onSaveSedimentAggregate__(){
+  String ref      = "Sediment_Aggregate";
   String event    = "save";
   String stmtsStr = getStatementsString(ref, event);
   execute(stmtsStr);
@@ -2397,20 +2415,20 @@ void onCopyTrenchFiles__(){
   String stmtsStr = getStatementsString(ref, event);
   execute(stmtsStr);
 }
-void onCopyContext__(){
-  String ref      = "Context";
+void onCopyLocus__(){
+  String ref      = "Locus";
   String event    = "copy";
   String stmtsStr = getStatementsString(ref, event);
   execute(stmtsStr);
 }
-void onCopyContextGroup__(){
-  String ref      = "Context_Group";
+void onCopyStratumFeature__(){
+  String ref      = "Stratum_Feature";
   String event    = "copy";
   String stmtsStr = getStatementsString(ref, event);
   execute(stmtsStr);
 }
-void onCopyMatrix__(){
-  String ref      = "Matrix";
+void onCopySedimentAggregate__(){
+  String ref      = "Sediment_Aggregate";
   String event    = "copy";
   String stmtsStr = getStatementsString(ref, event);
   execute(stmtsStr);
@@ -2463,20 +2481,20 @@ void onDeleteTrenchFiles__(){
   String stmtsStr = getStatementsString(ref, event);
   execute(stmtsStr);
 }
-void onDeleteContext__(){
-  String ref      = "Context";
+void onDeleteLocus__(){
+  String ref      = "Locus";
   String event    = "delete";
   String stmtsStr = getStatementsString(ref, event);
   execute(stmtsStr);
 }
-void onDeleteContextGroup__(){
-  String ref      = "Context_Group";
+void onDeleteStratumFeature__(){
+  String ref      = "Stratum_Feature";
   String event    = "delete";
   String stmtsStr = getStatementsString(ref, event);
   execute(stmtsStr);
 }
-void onDeleteMatrix__(){
-  String ref      = "Matrix";
+void onDeleteSedimentAggregate__(){
+  String ref      = "Sediment_Aggregate";
   String event    = "delete";
   String stmtsStr = getStatementsString(ref, event);
   execute(stmtsStr);
@@ -2654,20 +2672,20 @@ void duplicateTrenchFiles(){
     }
   });
 }
-void duplicateContext(){
-  String tabgroup = "Context";
+void duplicateLocus(){
+  String tabgroup = "Locus";
   String uuidOld = getUuid(tabgroup);
   setUuid(tabgroup, "");
   disableAutoSave(tabgroup);
-  incAutoNum("Context/General/Context_Context_ID");
+  incAutoNum("Locus/General/Locus_Locus_ID");
   clearGpsInTabGroup(tabgroup);
   populateAuthorAndTimestamp(tabgroup);
   populateEntityListsInTabGroup(tabgroup);
-  populateCameraPictureGallery("Context/General/Photo_of_Plan", new ArrayList());
-  populateCameraPictureGallery("Context/General/Photo_of_Section", new ArrayList());
-  populateCameraPictureGallery("Context/Add/Photo", new ArrayList());
-  populateFileList("Context/Add/Attach_File", new ArrayList());
-  onCopyContext__();
+  populateCameraPictureGallery("Locus/General/Photo_of_Plan", new ArrayList());
+  populateCameraPictureGallery("Locus/General/Photo_of_Section", new ArrayList());
+  populateCameraPictureGallery("Locus/Add/Photo", new ArrayList());
+  populateFileList("Locus/Add/Attach_File", new ArrayList());
+  onCopyLocus__();
 
   saveCallback = new SaveCallback() {
     onSave(uuid, newRecord) {
@@ -2707,18 +2725,18 @@ void duplicateContext(){
     }
   });
 }
-void duplicateContextGroup(){
-  String tabgroup = "Context_Group";
+void duplicateStratumFeature(){
+  String tabgroup = "Stratum_Feature";
   String uuidOld = getUuid(tabgroup);
   setUuid(tabgroup, "");
   disableAutoSave(tabgroup);
-  incAutoNum("Context_Group/Gen/Context_Group_ID");
+  incAutoNum("Stratum_Feature/General/Stratum_Feature_ID");
   clearGpsInTabGroup(tabgroup);
   populateAuthorAndTimestamp(tabgroup);
   populateEntityListsInTabGroup(tabgroup);
-  populateCameraPictureGallery("Context_Group/Add/Photo", new ArrayList());
-  populateFileList("Context_Group/Add/Attach_File", new ArrayList());
-  onCopyContextGroup__();
+  populateCameraPictureGallery("Stratum_Feature/Add/Photo", new ArrayList());
+  populateFileList("Stratum_Feature/Add/Attach_File", new ArrayList());
+  onCopyStratumFeature__();
 
   saveCallback = new SaveCallback() {
     onSave(uuid, newRecord) {
@@ -2756,8 +2774,8 @@ void duplicateContextGroup(){
     }
   });
 }
-void duplicateMatrix(){
-  String tabgroup = "Matrix";
+void duplicateSedimentAggregate(){
+  String tabgroup = "Sediment_Aggregate";
   String uuidOld = getUuid(tabgroup);
   setUuid(tabgroup, "");
   disableAutoSave(tabgroup);
@@ -2766,7 +2784,7 @@ void duplicateMatrix(){
   populateAuthorAndTimestamp(tabgroup);
   populateEntityListsInTabGroup(tabgroup);
   
-  onCopyMatrix__();
+  onCopySedimentAggregate__();
 
   saveCallback = new SaveCallback() {
     onSave(uuid, newRecord) {
@@ -3064,28 +3082,28 @@ void deleteTrenchFiles(){
     showAlert("{Confirm_Deletion}", "{Press_OK_to_Delete_this_Record}", "reallyDeleteTrenchFiles()", "doNotDelete()");
   }
 }
-void deleteContext(){
-  String tabgroup = "Context";
+void deleteLocus(){
+  String tabgroup = "Locus";
   if (isNull(getUuid(tabgroup))) {
     cancelTabGroup(tabgroup, true);
   } else {
-    showAlert("{Confirm_Deletion}", "{Press_OK_to_Delete_this_Record}", "reallyDeleteContext()", "doNotDelete()");
+    showAlert("{Confirm_Deletion}", "{Press_OK_to_Delete_this_Record}", "reallyDeleteLocus()", "doNotDelete()");
   }
 }
-void deleteContextGroup(){
-  String tabgroup = "Context_Group";
+void deleteStratumFeature(){
+  String tabgroup = "Stratum_Feature";
   if (isNull(getUuid(tabgroup))) {
     cancelTabGroup(tabgroup, true);
   } else {
-    showAlert("{Confirm_Deletion}", "{Press_OK_to_Delete_this_Record}", "reallyDeleteContextGroup()", "doNotDelete()");
+    showAlert("{Confirm_Deletion}", "{Press_OK_to_Delete_this_Record}", "reallyDeleteStratumFeature()", "doNotDelete()");
   }
 }
-void deleteMatrix(){
-  String tabgroup = "Matrix";
+void deleteSedimentAggregate(){
+  String tabgroup = "Sediment_Aggregate";
   if (isNull(getUuid(tabgroup))) {
     cancelTabGroup(tabgroup, true);
   } else {
-    showAlert("{Confirm_Deletion}", "{Press_OK_to_Delete_this_Record}", "reallyDeleteMatrix()", "doNotDelete()");
+    showAlert("{Confirm_Deletion}", "{Press_OK_to_Delete_this_Record}", "reallyDeleteSedimentAggregate()", "doNotDelete()");
   }
 }
 void deletePhotographLog(){
@@ -3152,29 +3170,29 @@ void reallyDeleteTrenchFiles (){
   populateEntityListsOfArchEnt(tabgroup);
   onDeleteTrenchFiles__();
 }
-void reallyDeleteContext (){
-  String tabgroup = "Context";
+void reallyDeleteLocus (){
+  String tabgroup = "Locus";
 
   deleteArchEnt(getUuid(tabgroup));
   cancelTabGroup(tabgroup, false);
   populateEntityListsOfArchEnt(tabgroup);
-  onDeleteContext__();
+  onDeleteLocus__();
 }
-void reallyDeleteContextGroup (){
-  String tabgroup = "Context_Group";
+void reallyDeleteStratumFeature (){
+  String tabgroup = "Stratum_Feature";
 
   deleteArchEnt(getUuid(tabgroup));
   cancelTabGroup(tabgroup, false);
   populateEntityListsOfArchEnt(tabgroup);
-  onDeleteContextGroup__();
+  onDeleteStratumFeature__();
 }
-void reallyDeleteMatrix (){
-  String tabgroup = "Matrix";
+void reallyDeleteSedimentAggregate (){
+  String tabgroup = "Sediment_Aggregate";
 
   deleteArchEnt(getUuid(tabgroup));
   cancelTabGroup(tabgroup, false);
   populateEntityListsOfArchEnt(tabgroup);
-  onDeleteMatrix__();
+  onDeleteSedimentAggregate__();
 }
 void reallyDeletePhotographLog (){
   String tabgroup = "Photograph_Log";
@@ -3219,9 +3237,9 @@ void reallyDeleteLegacy (){
 addOnEvent("Site", "save", "populateEntityListsOfArchEnt(\"Site\")");
 addOnEvent("Trench", "save", "populateEntityListsOfArchEnt(\"Trench\")");
 addOnEvent("Trench_Files", "save", "populateEntityListsOfArchEnt(\"Trench_Files\")");
-addOnEvent("Context", "save", "populateEntityListsOfArchEnt(\"Context\")");
-addOnEvent("Context_Group", "save", "populateEntityListsOfArchEnt(\"Context_Group\")");
-addOnEvent("Matrix", "save", "populateEntityListsOfArchEnt(\"Matrix\")");
+addOnEvent("Locus", "save", "populateEntityListsOfArchEnt(\"Locus\")");
+addOnEvent("Stratum_Feature", "save", "populateEntityListsOfArchEnt(\"Stratum_Feature\")");
+addOnEvent("Sediment_Aggregate", "save", "populateEntityListsOfArchEnt(\"Sediment_Aggregate\")");
 addOnEvent("Photograph_Log", "save", "populateEntityListsOfArchEnt(\"Photograph_Log\")");
 addOnEvent("Diary", "save", "populateEntityListsOfArchEnt(\"Diary\")");
 addOnEvent("FCN", "save", "populateEntityListsOfArchEnt(\"FCN\")");
@@ -3238,12 +3256,12 @@ addOnEvent("Trench", "show", "removeNavigationButtons()");
 addOnEvent("Trench", "show", "addNavigationButtons(\"Trench\")");
 addOnEvent("Trench_Files", "show", "removeNavigationButtons()");
 addOnEvent("Trench_Files", "show", "addNavigationButtons(\"Trench_Files\")");
-addOnEvent("Context", "show", "removeNavigationButtons()");
-addOnEvent("Context", "show", "addNavigationButtons(\"Context\")");
-addOnEvent("Context_Group", "show", "removeNavigationButtons()");
-addOnEvent("Context_Group", "show", "addNavigationButtons(\"Context_Group\")");
-addOnEvent("Matrix", "show", "removeNavigationButtons()");
-addOnEvent("Matrix", "show", "addNavigationButtons(\"Matrix\")");
+addOnEvent("Locus", "show", "removeNavigationButtons()");
+addOnEvent("Locus", "show", "addNavigationButtons(\"Locus\")");
+addOnEvent("Stratum_Feature", "show", "removeNavigationButtons()");
+addOnEvent("Stratum_Feature", "show", "addNavigationButtons(\"Stratum_Feature\")");
+addOnEvent("Sediment_Aggregate", "show", "removeNavigationButtons()");
+addOnEvent("Sediment_Aggregate", "show", "addNavigationButtons(\"Sediment_Aggregate\")");
 addOnEvent("Photograph_Log", "show", "removeNavigationButtons()");
 addOnEvent("Photograph_Log", "show", "addNavigationButtons(\"Photograph_Log\")");
 addOnEvent("Diary", "show", "removeNavigationButtons()");
@@ -3269,9 +3287,9 @@ entityTypes.add(new NameValuePair("{All}", ""));
 entityTypes.add(new NameValuePair("{Site}", "Site"));
 entityTypes.add(new NameValuePair("{Trench}", "Trench"));
 entityTypes.add(new NameValuePair("{Trench_Files}", "Trench Files"));
-entityTypes.add(new NameValuePair("{Locus}", "Context"));
-entityTypes.add(new NameValuePair("{Stratum_Feature}", "Context Group"));
-entityTypes.add(new NameValuePair("{Sediment_Aggregate}", "Matrix"));
+entityTypes.add(new NameValuePair("{Locus}", "Locus"));
+entityTypes.add(new NameValuePair("{Stratum_Feature}", "Stratum Feature"));
+entityTypes.add(new NameValuePair("{Sediment_Aggregate}", "Sediment Aggregate"));
 entityTypes.add(new NameValuePair("{Photograph_Log}", "Photograph Log"));
 entityTypes.add(new NameValuePair("{Diary}", "Diary"));
 entityTypes.add(new NameValuePair("{FCN}", "FCN"));
@@ -3352,49 +3370,49 @@ void loadTrenchFilesFrom(String uuid) {
   onPrefetchTrenchFiles__();
   showTabGroup(tabgroup, uuid, cb);
 }
-void loadContextFrom(String uuid) {
-  String tabgroup = "Context";
+void loadLocusFrom(String uuid) {
+  String tabgroup = "Locus";
   setUuid(tabgroup, uuid);
   if (isNull(uuid)) return;
 
   FetchCallback cb = new FetchCallback() {
     onFetch(result) {
       populateEntityListsInTabGroup(tabgroup);
-      onFetchContext__();
+      onFetchLocus__();
     }
   };
 
-  onPrefetchContext__();
+  onPrefetchLocus__();
   showTabGroup(tabgroup, uuid, cb);
 }
-void loadContextGroupFrom(String uuid) {
-  String tabgroup = "Context_Group";
+void loadStratumFeatureFrom(String uuid) {
+  String tabgroup = "Stratum_Feature";
   setUuid(tabgroup, uuid);
   if (isNull(uuid)) return;
 
   FetchCallback cb = new FetchCallback() {
     onFetch(result) {
       populateEntityListsInTabGroup(tabgroup);
-      onFetchContextGroup__();
+      onFetchStratumFeature__();
     }
   };
 
-  onPrefetchContextGroup__();
+  onPrefetchStratumFeature__();
   showTabGroup(tabgroup, uuid, cb);
 }
-void loadMatrixFrom(String uuid) {
-  String tabgroup = "Matrix";
+void loadSedimentAggregateFrom(String uuid) {
+  String tabgroup = "Sediment_Aggregate";
   setUuid(tabgroup, uuid);
   if (isNull(uuid)) return;
 
   FetchCallback cb = new FetchCallback() {
     onFetch(result) {
       populateEntityListsInTabGroup(tabgroup);
-      onFetchMatrix__();
+      onFetchSedimentAggregate__();
     }
   };
 
-  onPrefetchMatrix__();
+  onPrefetchSedimentAggregate__();
   showTabGroup(tabgroup, uuid, cb);
 }
 void loadPhotographLogFrom(String uuid) {
@@ -3661,8 +3679,8 @@ Integer incField(String ref) {
 
 List getStartingIdPaths() {
   List l = new ArrayList();
-  l.add("Control/Next_IDs/Next_Context_Context_ID");
-  l.add("Control/Next_IDs/Next_Context_Group_ID");
+  l.add("Control/Next_IDs/Next_Locus_Locus_ID");
+  l.add("Control/Next_IDs/Next_Stratum_Feature_ID");
   l.add("Control/Next_IDs/Next_FCN_ID");
   return l;
 }
@@ -3704,8 +3722,8 @@ for (ref : getStartingIdPaths()) {
 
 void incAutoNum(String destPath) {
   Map destToSource = new HashMap();
-  destToSource.put("Context/General/Context_Context_ID", "Control/Next_IDs/Next_Context_Context_ID");
-  destToSource.put("Context_Group/Gen/Context_Group_ID", "Control/Next_IDs/Next_Context_Group_ID");
+  destToSource.put("Locus/General/Locus_Locus_ID", "Control/Next_IDs/Next_Locus_Locus_ID");
+  destToSource.put("Stratum_Feature/General/Stratum_Feature_ID", "Control/Next_IDs/Next_Stratum_Feature_ID");
   destToSource.put("FCN/General/FCN_ID", "Control/Next_IDs/Next_FCN_ID");
 
   String sourcePath = destToSource.get(destPath);
@@ -3839,7 +3857,7 @@ String getEntityMenuPopulationFunction(String[] menuDescriptor) {
 ENTITY_MENUS = new ArrayList();
 ENTITY_MENUS.add(new String[] {
     "List",
-    "Control/Contexts/Choose_an_Existing_Site",
+    "Control/Site/Choose_an_Existing_Site",
     "getUuid(\"Control\")",
     "Site",
     ""
@@ -3862,22 +3880,15 @@ ENTITY_MENUS.add(new String[] {
     "List",
     "Trench/Loci/List_of_Existing_Loci",
     "getUuid(\"Trench\")",
-    "Context",
-    "Trench - Context"
+    "Locus",
+    "Trench - Locus"
 });
 ENTITY_MENUS.add(new String[] {
     "List",
     "Trench/Strata_Features/List_of_Existing_Strata_Features",
     "getUuid(\"Trench\")",
-    "Context Group",
-    "Trench - Context Group"
-});
-ENTITY_MENUS.add(new String[] {
-    "List",
-    "Trench/FCNs/List_of_Existing_FCNs",
-    "getUuid(\"Trench\")",
-    "FCN",
-    "Trench - FCN"
+    "Stratum Feature",
+    "Trench - Stratum Feature"
 });
 ENTITY_MENUS.add(new String[] {
     "List",
@@ -3895,38 +3906,45 @@ ENTITY_MENUS.add(new String[] {
 });
 ENTITY_MENUS.add(new String[] {
     "DropDown",
-    "Context/Deposit/Munsel_Colors",
-    "getUuid(\"Context\")",
+    "Locus/Deposit/Munsel_Colors",
+    "getUuid(\"Locus\")",
     "Soil Munsel Color",
-    "Context - Soil Munsel Color"
+    "Locus - Soil Munsel Color"
 });
 ENTITY_MENUS.add(new String[] {
     "DropDown",
-    "Context/Deposit/Associated_Matrices",
-    "getUuid(\"Context\")",
-    "Matrix",
-    "Context - Matrix"
+    "Locus/Deposit/Associated_Sediment_Aggregates",
+    "getUuid(\"Locus\")",
+    "Sediment Aggregate",
+    "Locus - Sediment Aggregate"
 });
 ENTITY_MENUS.add(new String[] {
     "List",
-    "Context/FCN/List_of_Related_FCNs",
-    "getUuid(\"Context\")",
+    "Locus/FCNs/List_of_Related_FCNs",
+    "getUuid(\"Locus\")",
     "FCN",
-    "Context - FCN"
+    "Locus - FCN"
 });
 ENTITY_MENUS.add(new String[] {
     "DropDown",
-    "Context/Add/Select_a_Photograph_Log",
-    "getUuid(\"Context\")",
+    "Locus/Add/Select_a_Photograph_Log",
+    "getUuid(\"Locus\")",
     "Photograph Log",
-    "Context - Photograph Log"
+    "Locus - Photograph Log"
 });
 ENTITY_MENUS.add(new String[] {
     "DropDown",
-    "Context_Group/Add/Select_a_Photograph_Log",
-    "getUuid(\"Context_Group\")",
+    "Stratum_Feature/Add/Select_a_Photograph_Log",
+    "getUuid(\"Stratum_Feature\")",
     "Photograph Log",
-    "Context Group - Photograph Log"
+    "Stratum Feature - Photograph Log"
+});
+ENTITY_MENUS.add(new String[] {
+    "List",
+    "Relationship/Legacies/List_of_Existing_Legacies",
+    "getUuid(\"Relationship\")",
+    "Legacy",
+    ""
 });
 for (m : ENTITY_MENUS) {
   String path         = m[1];
@@ -3935,27 +3953,32 @@ for (m : ENTITY_MENUS) {
   execute(functionCall);
 }
 
-addOnEvent("Control/Contexts/Choose_an_Existing_Site", "click", "loadEntity()");
+addOnEvent("Control/Site/Choose_an_Existing_Site", "click", "loadEntity()");
 addOnEvent("Site/Site/List_of_Existing_Trenches", "click", "loadEntity()");
 addOnEvent("Trench/Trench/Attached_Trench_Files", "click", "loadEntity(true)");
 addOnEvent("Trench/Loci/List_of_Existing_Loci", "click", "loadEntity()");
 addOnEvent("Trench/Strata_Features/List_of_Existing_Strata_Features", "click", "loadEntity()");
-addOnEvent("Trench/FCNs/List_of_Existing_FCNs", "click", "loadEntity()");
 addOnEvent("Trench/Diaries/List_of_Existing_Diaries", "click", "loadEntity()");
 addOnEvent("Trench/Legacies/List_of_Existing_Legacies", "click", "loadEntity()");
-addOnEvent("Context/Deposit/Munsel_Colors", "click", "loadEntity(true)");
-addOnEvent("Context/Deposit/Associated_Matrices", "click", "loadEntity(true)");
-addOnEvent("Context/FCN/List_of_Related_FCNs", "click", "loadEntity()");
-addOnEvent("Context/Add/Select_a_Photograph_Log", "click", "loadEntity(true)");
-addOnEvent("Context_Group/Add/Select_a_Photograph_Log", "click", "loadEntity(true)");
+addOnEvent("Locus/Deposit/Munsel_Colors", "click", "loadEntity(true)");
+addOnEvent("Locus/Deposit/Associated_Sediment_Aggregates", "click", "loadEntity(true)");
+addOnEvent("Locus/FCNs/List_of_Related_FCNs", "click", "loadEntity()");
+addOnEvent("Locus/Add/Select_a_Photograph_Log", "click", "loadEntity(true)");
+addOnEvent("Stratum_Feature/Add/Select_a_Photograph_Log", "click", "loadEntity(true)");
+addOnEvent("Relationship/Legacies/List_of_Existing_Legacies", "click", "loadEntity()");
 /******************************************************************************/
 /*                             HANDWRITTEN LOGIC                              */
 /******************************************************************************/
 
+/********************************* TOP MATTER *********************************/
+
+setFileSyncEnabled(false);
+setSyncEnabled    (false);
+
 /*********************************** SHARED ***********************************/
 String WEB_REL_NONE = "<i>None</i>";
 
-contextIdentifer = "";
+locusIdentifer = "";
 
 void populateSquare(String ref) {
   String q = "";
@@ -3991,9 +4014,9 @@ void setFieldToIdentifier(String identiferType, String lotRef) {
 
   cb = new FetchCallback() {
     onFetch(result) {
-      contextIdentifer  = result.get(1);
+      locusIdentifer  = result.get(1);
 
-      populateWebViewHtml(lotRef, contextIdentifer);
+      populateWebViewHtml(lotRef, locusIdentifer);
     }
   };
 
@@ -4001,17 +4024,17 @@ void setFieldToIdentifier(String identiferType, String lotRef) {
 }
 
 void populateLotLabel(String lotRef) {
-  identiferType = "Context";
+  identiferType = "Locus";
   setFieldToIdentifier(identiferType, lotRef);
 }
 /******************************* RELATIONSHIPS ********************************/
 /* Variables and functions shared by entity-specfic code fo relating          */
 /* entities.                                                                  */
 /******************************************************************************/
-addOnEvent("Context",                    "show", "onDisplayParent()");
+addOnEvent("Locus",                    "show", "onDisplayParent()");
 addOnEvent("Relationship",               "show", "onDisplayRelationship()");
-addOnEvent("Context_Group",              "show", "CGonDisplayParent()");
-addOnEvent("Context_Group_Relationship", "show", "CGonDisplayRelationship()");
+addOnEvent("Stratum_Feature",              "show", "CGonDisplayParent()");
+addOnEvent("Stratum_Feature_Relationship", "show", "CGonDisplayRelationship()");
 
 String WEB_REL_DESC_FMT      = "%s <u>&nbsp;%s&nbsp;</u> <u>&nbsp;%s&nbsp;</u>";
 String WEB_REL_DESC_FILL     = "?";
@@ -4026,15 +4049,15 @@ String proposedChildIdentifier = null;
 
 String displayedTabGroup     = null;
 
-void onDisplayParent()            {displayedTabGroup = "Context";}
+void onDisplayParent()            {displayedTabGroup = "Locus";}
 void onDisplayRelationship()      {displayedTabGroup = "Relationship";}
-boolean isDisplayedParent()       {return displayedTabGroup.equals("Context");}
+boolean isDisplayedParent()       {return displayedTabGroup.equals("Locus");}
 boolean isDisplayedRelationship() {return displayedTabGroup.equals("Relationship");}
 
-void CGonDisplayParent()            {displayedTabGroup = "Context_Group";}
-void CGonDisplayRelationship()      {displayedTabGroup = "Context_Group_Relationship";}
-boolean CGisDisplayedParent()       {return displayedTabGroup.equals("Context_Group");}
-boolean CGisDisplayedRelationship() {return displayedTabGroup.equals("Context_Group_Relationship");}
+void CGonDisplayParent()            {displayedTabGroup = "Stratum_Feature";}
+void CGonDisplayRelationship()      {displayedTabGroup = "Stratum_Feature_Relationship";}
+boolean CGisDisplayedParent()       {return displayedTabGroup.equals("Stratum_Feature");}
+boolean CGisDisplayedRelationship() {return displayedTabGroup.equals("Stratum_Feature_Relationship");}
 
 // Depends on the following globals:
 //   - selectedRelId
@@ -4066,7 +4089,7 @@ void deleteRelationship() {
 
 void deleteRelationshipSuceeded() {
   String refSelectedRelRel    = "Relationship/Relationships/Selected_Relationship";
-  String refSelectedRelParent = "Context/Relationships/Selected_Relationship";
+  String refSelectedRelParent = "Locus/Relationships/Selected_Relationship";
   if (isDisplayedParent()) {
     populateWebViewHtml(refSelectedRelParent, WEB_REL_NONE);
     populateExistingRelationships();
@@ -4076,8 +4099,8 @@ void deleteRelationshipSuceeded() {
     searchRelationship();
   }
 
-  String CGrefSelectedRelRel    = "Context_Group_Relationship/Relationships/Selected_Relationship";
-  String CGrefSelectedRelParent = "Context_Group/Context_Group_Contexts/Selected_Relationship";
+  String CGrefSelectedRelRel    = "Stratum_Feature_Relationship/Relationships/Selected_Relationship";
+  String CGrefSelectedRelParent = "Stratum_Feature/Stratum_Feature_Loci/Selected_Relationship";
   if (CGisDisplayedParent()) {
     populateWebViewHtml(CGrefSelectedRelParent, WEB_REL_NONE);
     CGpopulateExistingRelationships();
@@ -4148,22 +4171,22 @@ void noDeviceCodeSelected() {
   showWarning(msgHead, msgBody);
 }
 /******************************* RELATIONSHIPS ********************************/
-/* Context-to-Context relationships.                                          */
+/* Locus-to-Locus relationships.                                              */
 /*                                                                            */
 /* Uses functions from logic/relationships-shared.bsh                         */
 /*                                                                            */
-/* Modifies onClickContextCreateRelationshipstoThisContext using @POSTPROC.   */
+/* Modifies onClickLocusCreateRelationshipstoThisLocus using @POSTPROC.       */
 /******************************************************************************/
 //////////////////// FUNCTIONS AFFECTING CONTEXT TAB GROUP /////////////////////
-addOnEvent("Context",                                    "show",  "initParentRelationshipGlobals()");
-addOnEvent("Context",                                    "show",  "populateExistingRelationships()");
-addOnEvent("Context/Relationships/Load_Related_Context", "click", "loadRelatedEntity()");
+addOnEvent("Locus",                                    "show",  "initParentRelationshipGlobals()");
+addOnEvent("Locus",                                    "show",  "populateExistingRelationships()");
+addOnEvent("Locus/Relationships/Load_Related_Locus", "click", "loadRelatedEntity()");
 
-addOnEvent("Context/Relationships/Existing_Relationships_to_This_Context", "click", "selectRelationship()");
-addOnEvent("Context/Relationships/Delete_Relationship",                    "click", "deleteRelationship()");
+addOnEvent("Locus/Relationships/Existing_Relationships_to_This_Locus", "click", "selectRelationship()");
+addOnEvent("Locus/Relationships/Delete_Relationship",                    "click", "deleteRelationship()");
 
 void initParentRelationshipGlobals() {
-  String refSelectedRelParent = "Context/Relationships/Selected_Relationship";
+  String refSelectedRelParent = "Locus/Relationships/Selected_Relationship";
 
   selectedChildUuid     = null;
   selectedRelId         = null;
@@ -4173,9 +4196,9 @@ void initParentRelationshipGlobals() {
 }
 
 void populateExistingRelationships(){
-  String tabGroup    = "Context";
+  String tabGroup    = "Locus";
   String currentUuid = getUuid(tabGroup);
-  String refExistingRelationships = "Context/Relationships/Existing_Relationships_to_This_Context";
+  String refExistingRelationships = "Locus/Relationships/Existing_Relationships_to_This_Locus";
 
   String q = getRelatedChildQuery(currentUuid);
 
@@ -4184,7 +4207,7 @@ void populateExistingRelationships(){
 }
 
 void selectRelationship() {
-  String refSelectedRelParent = "Context/Relationships/Selected_Relationship";
+  String refSelectedRelParent = "Locus/Relationships/Selected_Relationship";
 
   String val = getListItemValue();
   if (isNull(val)) return;
@@ -4208,16 +4231,19 @@ addOnEvent("Relationship/Relationships/Existing_Relationships", "click", "select
 addOnEvent("Relationship/Relationships/Relationship_Type",      "click", "populateProposedRelationship()");
 addOnEvent("Relationship/Relationships/Search",                 "click", "populateProposedRelationship()");
 addOnEvent("Relationship/Relationships/Search",                 "click", "searchRelationship()");
-addOnEvent("Relationship/Relationships/Unrelated_Contexts",     "click", "selectUnrelatedEntity()");
+addOnEvent("Relationship/Relationships/Unrelated_Loci",     "click", "selectUnrelatedEntity()");
 
 void initRelationshipRelationshipGlobals() {
+  String refSelectedRelRel = "Relationship/Relationships/Selected_Relationship";
+
   proposedChildUuid       = null;
   selectedRelId           = null;
   proposedChildIdentifier = null;
-  selectedRelIdentifier   = null;
+  selectedRelIdentifier   = WEB_REL_BLANK;
+
+  populateWebViewHtml(refSelectedRelRel, selectedRelIdentifier);
 
   populateParentIdentiferRelationships();
-  populateRelationshipType();
   populateProposedRelationship();
   clearSearch();
 }
@@ -4252,7 +4278,7 @@ void populateProposedRelationship() {
   String relationship;
   String identifierTo;
 
-  identifierFrom = contextIdentifer; // Defined in logic/shared.bsh
+  identifierFrom = locusIdentifer; // Defined in logic/shared.bsh
   relationship   = getSelectedRelationshipComponent(refRelType, "parent");
   identifierTo   = proposedChildIdentifier;
 
@@ -4269,31 +4295,29 @@ void populateProposedRelationship() {
 }
 
 void searchRelationship() {
-  String parentTabGroup = "Context";
+  String parentTabGroup = "Locus";
   String parentUuid     = getUuid(parentTabGroup);
 
   String tabGroup     = "Relationship";
-  String refUnrelated = "Relationship/Relationships/Unrelated_Contexts";
+  String refUnrelated = "Relationship/Relationships/Unrelated_Loci";
   String refRelated   = "Relationship/Relationships/Existing_Relationships";
   String refRelType   = "Relationship/Relationships/Relationship_Type";
-  String refAreaCode  = "Relationship/Relationships/AreaCode";
-  String refContextId = "Relationship/Relationships/Context_ID";
+  String refTrenchId  = "Relationship/Relationships/Trench_ID";
+  String refLocusId   = "Relationship/Relationships/Locus_ID";
+  String refSiteName  = "Relationship/Vars/Relationship_Site_Name";
+  String refSiteYear  = "Relationship/Vars/Relationship_Year_of_Campaign";
 
-  String areaCode   = getFieldValue(refAreaCode);
-  String contextId  = getFieldValue(refContextId);
+  String trenchId   = getFieldValue(refTrenchId);
+  String locusId    = getFieldValue(refLocusId);
+  String siteName   = getFieldValue(refSiteName);
+  String siteYear   = getFieldValue(refSiteYear);
   String parentRole = getSelectedRelationshipComponent(refRelType, "parent");
   String unrelatedQ = "";
   String relatedQ   = "";
 
-  if (isNull(areaCode)) {
+  if (isNull(trenchId)) {
     msgHead  = "Trench ID required";
     msgBody  = "Searching requires that the Trench ID field is filled in.";
-    showWarning(msgHead, msgBody);
-    return;
-  }
-  if (isNull(contextId)) {
-    msgHead  = "Locus ID required";
-    msgBody  = "Searching requires that the Locus ID field is filled in.";
     showWarning(msgHead, msgBody);
     return;
   }
@@ -4303,27 +4327,40 @@ void searchRelationship() {
   unrelatedQ += "  WHERE uuid IN (";
   unrelatedQ += "         SELECT uuid";
   unrelatedQ += "           FROM latestnondeletedaentvalue JOIN attributekey USING (attributeid)";
-  unrelatedQ += "          WHERE attributename IN ('Context AreaCode', 'Legacy AreaCode')";
-  unrelatedQ += "            AND measure = '{Context_AreaCode}'";
+  unrelatedQ += "          WHERE attributename LIKE '% Trench ID'";
+  unrelatedQ += "            AND measure = '{Locus_Trench_ID}'";
   unrelatedQ += "            AND uuid IN (";
   unrelatedQ += "                 SELECT uuid";
   unrelatedQ += "                   FROM latestnondeletedaentvalue JOIN attributekey USING (attributeid) ";
-  unrelatedQ += "                  WHERE attributename IN ('Context Context ID', 'Legacy Context ID')";
-  unrelatedQ += "                    AND measure = '{Context_Context_ID}')";
+  unrelatedQ += "                  WHERE attributename LIKE '% Locus ID'";
+  unrelatedQ += "                    AND (measure = '{Locus_Locus_ID}' OR '{Locus_Locus_ID}' = ''))";
+  unrelatedQ += "            AND uuid IN (";
+  unrelatedQ += "                 SELECT uuid";
+  unrelatedQ += "                   FROM latestnondeletedaentvalue JOIN attributekey USING (attributeid) ";
+  unrelatedQ += "                  WHERE attributename LIKE '% Site Name'";
+  unrelatedQ += "                    AND measure = '{Relationship_Site_Name}')";
+  unrelatedQ += "            AND uuid IN (";
+  unrelatedQ += "                 SELECT uuid";
+  unrelatedQ += "                   FROM latestnondeletedaentvalue JOIN attributekey USING (attributeid) ";
+  unrelatedQ += "                  WHERE attributename LIKE '% Year of Campaign'";
+  unrelatedQ += "                    AND measure = '{Relationship_Year_of_Campaign}')";
   unrelatedQ += "            AND uuid NOT IN (";
   unrelatedQ += "                 SELECT childuuid";
   unrelatedQ += "                   FROM parentchild";
   unrelatedQ += "                  WHERE parentuuid = '{parentUuid}'";
   unrelatedQ += "                    AND parentparticipatesverb = '{parentRole}')";
   unrelatedQ += "            AND uuid != '{parentUuid}')";
-  unrelatedQ += "    AND aenttypename IN ('Context', 'Legacy')";
+  unrelatedQ += "    AND aenttypename IN ('Locus', 'Legacy')";
   unrelatedQ += " ORDER BY response";
   unrelatedQ += " LIMIT ? OFFSET ?";
-  unrelatedQ  = replaceFirst(unrelatedQ, "{Context_AreaCode}",   areaCode  );
-  unrelatedQ  = replaceFirst(unrelatedQ, "{Context_Context_ID}", contextId );
-  unrelatedQ  = replaceFirst(unrelatedQ, "{parentUuid}",         parentUuid);
-  unrelatedQ  = replaceFirst(unrelatedQ, "{parentUuid}",         parentUuid);
-  unrelatedQ  = replaceFirst(unrelatedQ, "{parentRole}",         parentRole);
+  unrelatedQ  = replaceFirst(unrelatedQ, "{Locus_Trench_ID}",               trenchId);
+  unrelatedQ  = replaceFirst(unrelatedQ, "{Locus_Locus_ID}",                locusId);
+  unrelatedQ  = replaceFirst(unrelatedQ, "{Locus_Locus_ID}",                locusId);
+  unrelatedQ  = replaceFirst(unrelatedQ, "{Relationship_Site_Name}",        siteName);
+  unrelatedQ  = replaceFirst(unrelatedQ, "{Relationship_Year_of_Campaign}", siteYear);
+  unrelatedQ  = replaceFirst(unrelatedQ, "{parentUuid}",                    parentUuid);
+  unrelatedQ  = replaceFirst(unrelatedQ, "{parentUuid}",                    parentUuid);
+  unrelatedQ  = replaceFirst(unrelatedQ, "{parentRole}",                    parentRole);
 
   relatedQ += getRelatedChildQuery(parentUuid);
 
@@ -4335,7 +4372,7 @@ void searchRelationship() {
 }
 
 void clearSearch() {
-  String refUnrelated = "Relationship/Relationships/Unrelated_Contexts";
+  String refUnrelated = "Relationship/Relationships/Unrelated_Loci";
   String refRelated   = "Relationship/Relationships/Existing_Relationships";
 
   String q = "SELECT '' WHERE 0 LIMIT ? OFFSET ?";
@@ -4357,7 +4394,7 @@ void selectUnrelatedEntity() {
 }
 
 void addRelationship() {
-  String parentTabGroup = "Context";
+  String parentTabGroup = "Locus";
   String refRelType     = "Relationship/Relationships/Relationship_Type";
 
   String relName    = getSelectedRelationshipComponent(refRelType, "name");
@@ -4419,8 +4456,8 @@ void populateParentIdentiferRelationships() {
 }
 
 String getRelatedChildQuery(String parentUuid) {
-  // `contextIdentifer` is defined in logic/shared.bsh
-  String parentIdentifier = contextIdentifer;
+  // `locusIdentifer` is defined in logic/shared.bsh
+  String parentIdentifier = locusIdentifer;
 
   String relatedQ = "";
   relatedQ += "SELECT 'related' || char(0) || relationshipid || char(0) || '"+parentIdentifier+" ' || parentparticipatesverb ||' '|| response || char(0) || childuuid, '"+parentIdentifier+"'||' '||parentparticipatesverb||' '||response";
@@ -4434,24 +4471,37 @@ String getRelatedChildQuery(String parentUuid) {
   relatedQ += " LIMIT ? OFFSET ? ";
   return relatedQ;
 }
+
+// Overrides autogenerated definition
+void onClickLocusRelationshipsCreateRelationshipstoThisLocus () {
+  String tabgroup = "Locus";
+  if (isNull(getUuid(tabgroup))){
+    showToast("{You_must_save_this_tabgroup_first}");
+    return;
+  }
+
+  newTab("Relationship", true);
+}
+
+populateRelationshipType();
 /******************************* RELATIONSHIPS ********************************/
-/* Context Group to Context relationships.                                    */
+/* Stratum Feature to Locus relationships.                                  */
 /*                                                                            */
 /* Uses functions and globals from logic/relationships-shared.bsh             */
 /*                                                                            */
-/* Modifies onClickContextGroupCreateRelationshipstoThisContextGroup using    */
-/* @POSTPROC.                                                                 */
+/* Modifies onClickStratumFeatureCreateRelationshipstoThisStratumFeature      */
+/* using  @POSTPROC.                                                          */
 /******************************************************************************/
 //////////////// FUNCTIONS AFFECTING "CONTEXT GROUP" TAB GROUP /////////////////
-addOnEvent("Context_Group",                                    "show",  "CGinitParentRelationshipGlobals()");
-addOnEvent("Context_Group",                                    "show",  "CGpopulateExistingRelationships()");
-addOnEvent("Context_Group/Context_Group_Contexts/Load_Related_Context", "click", "loadRelatedEntity()");
+addOnEvent("Stratum_Feature",                                    "show",  "CGinitParentRelationshipGlobals()");
+addOnEvent("Stratum_Feature",                                    "show",  "CGpopulateExistingRelationships()");
+addOnEvent("Stratum_Feature/Stratum_Feature_Loci/Load_Related_Locus", "click", "loadRelatedEntity()");
 
-addOnEvent("Context_Group/Context_Group_Contexts/Existing_Relationships_to_This_Context_Group", "click", "CGSelectRelationship()");
-addOnEvent("Context_Group/Context_Group_Contexts/Delete_Relationship",                    "click", "deleteRelationship()");
+addOnEvent("Stratum_Feature/Stratum_Feature_Loci/Existing_Relationships_to_This_Stratum_Feature", "click", "CGSelectRelationship()");
+addOnEvent("Stratum_Feature/Stratum_Feature_Loci/Delete_Relationship",                    "click", "deleteRelationship()");
 
 void CGinitParentRelationshipGlobals() {
-  String refSelectedRelParent = "Context_Group/Context_Group_Contexts/Selected_Relationship";
+  String refSelectedRelParent = "Stratum_Feature/Stratum_Feature_Loci/Selected_Relationship";
 
   selectedChildUuid     = null;
   selectedRelId         = null;
@@ -4461,9 +4511,9 @@ void CGinitParentRelationshipGlobals() {
 }
 
 void CGpopulateExistingRelationships(){
-  String tabGroup    = "Context_Group";
+  String tabGroup    = "Stratum_Feature";
   String currentUuid = getUuid(tabGroup);
-  String refExistingRelationships = "Context_Group/Context_Group_Contexts/Existing_Relationships_to_This_Context_Group";
+  String refExistingRelationships = "Stratum_Feature/Stratum_Feature_Loci/Existing_Relationships_to_This_Stratum_Feature";
 
   String q = getCGChildQuery(currentUuid);
 
@@ -4472,7 +4522,7 @@ void CGpopulateExistingRelationships(){
 }
 
 void CGSelectRelationship() {
-  String refSelectedRelParent = "Context_Group/Context_Group_Contexts/Selected_Relationship";
+  String refSelectedRelParent = "Stratum_Feature/Stratum_Feature_Loci/Selected_Relationship";
 
   String val = getListItemValue();
   if (isNull(val)) return;
@@ -4489,19 +4539,23 @@ void CGSelectRelationship() {
 }
 
 ////////////////// FUNCTIONS AFFECTING RELATIONSHIP TAB GROUP //////////////////
-addOnEvent("Context_Group_Relationship",                                      "show",  "CGinitRelationshipRelationshipGlobals()");
-addOnEvent("Context_Group_Relationship/Relationships/Add_Relationship",       "click", "CGaddRelationship()");
-addOnEvent("Context_Group_Relationship/Relationships/Delete_Relationship",    "click", "deleteRelationship()");
-addOnEvent("Context_Group_Relationship/Relationships/Existing_Relationships", "click", "CGselectExistingRelationship()");
-addOnEvent("Context_Group_Relationship/Relationships/Search",                 "click", "CGpopulateProposedRelationship()");
-addOnEvent("Context_Group_Relationship/Relationships/Search",                 "click", "CGsearchRelationship()");
-addOnEvent("Context_Group_Relationship/Relationships/Unrelated_Contexts",     "click", "CGselectUnrelatedEntity()");
+addOnEvent("Stratum_Feature_Relationship",                                      "show",  "CGinitRelationshipRelationshipGlobals()");
+addOnEvent("Stratum_Feature_Relationship/Relationships/Add_Relationship",       "click", "CGaddRelationship()");
+addOnEvent("Stratum_Feature_Relationship/Relationships/Delete_Relationship",    "click", "deleteRelationship()");
+addOnEvent("Stratum_Feature_Relationship/Relationships/Existing_Relationships", "click", "CGselectExistingRelationship()");
+addOnEvent("Stratum_Feature_Relationship/Relationships/Search",                 "click", "CGpopulateProposedRelationship()");
+addOnEvent("Stratum_Feature_Relationship/Relationships/Search",                 "click", "CGsearchRelationship()");
+addOnEvent("Stratum_Feature_Relationship/Relationships/Unrelated_Loci",     "click", "CGselectUnrelatedEntity()");
 
 void CGinitRelationshipRelationshipGlobals() {
+  String refSelectedRelRel = "Stratum_Feature_Relationship/Relationships/Selected_Relationship";
+
   proposedChildUuid       = null;
   selectedRelId           = null;
   proposedChildIdentifier = null;
-  selectedRelIdentifier   = null;
+  selectedRelIdentifier   = WEB_REL_BLANK;
+
+  populateWebViewHtml(refSelectedRelRel, selectedRelIdentifier);
 
   CGpopulateParentIdentiferRelationships();
   CGpopulateProposedRelationship();
@@ -4509,13 +4563,13 @@ void CGinitRelationshipRelationshipGlobals() {
 }
 
 void CGpopulateProposedRelationship() {
-  String refProposedRel = "Context_Group_Relationship/Relationships/Proposed_Relationship";
+  String refProposedRel = "Stratum_Feature_Relationship/Relationships/Proposed_Relationship";
 
   String identifierFrom;
   String relationship;
   String identifierTo;
 
-  identifierFrom = contextIdentifer; // Defined in logic/shared.bsh
+  identifierFrom = locusIdentifer; // Defined in logic/shared.bsh
   relationship   = "includes";
   identifierTo   = proposedChildIdentifier;
 
@@ -4529,31 +4583,34 @@ void CGpopulateProposedRelationship() {
   webviewHtml = replaceFirst(webviewHtml, "%s", identifierTo  );
 
   populateWebViewHtml(refProposedRel, webviewHtml);
+
+  String refSelectedRelParent = "Stratum_Feature/Stratum_Feature_Loci/Selected_Relationship";
+  populateWebViewHtml(refSelectedRelParent, WEB_REL_BLANK);
 }
 
 void CGsearchRelationship() {
-  String parentTabGroup = "Context_Group";
+  String parentTabGroup = "Stratum_Feature";
   String parentUuid     = getUuid(parentTabGroup);
 
-  String tabGroup     = "Context_Group_Relationship";
-  String refUnrelated = "Context_Group_Relationship/Relationships/Unrelated_Contexts";
-  String refRelated   = "Context_Group_Relationship/Relationships/Existing_Relationships";
-  String refAreaCode  = "Context_Group_Relationship/Relationships/AreaCode";
-  String refContextId = "Context_Group_Relationship/Relationships/Context_ID";
+  String tabGroup     = "Stratum_Feature_Relationship";
+  String refUnrelated = "Stratum_Feature_Relationship/Relationships/Unrelated_Loci";
+  String refRelated   = "Stratum_Feature_Relationship/Relationships/Existing_Relationships";
+  String refTrenchId  = "Stratum_Feature_Relationship/Relationships/Trench_ID";
+  String refLocusId = "Stratum_Feature_Relationship/Relationships/Locus_ID";
 
-  String areaCode   = getFieldValue(refAreaCode);
-  String contextId  = getFieldValue(refContextId);
-  String parentRole = "includes";
-  String unrelatedQ = "";
-  String relatedQ   = "";
+  String trenchId         = getFieldValue(refTrenchId);
+  String locusId = getFieldValue(refLocusId);
+  String parentRole       = "includes";
+  String unrelatedQ       = "";
+  String relatedQ         = "";
 
-  if (isNull(areaCode)) {
+  if (isNull(trenchId)) {
     msgHead  = "Trench ID required";
     msgBody  = "Searching requires that the Trench ID field is filled in.";
     showWarning(msgHead, msgBody);
     return;
   }
-  if (isNull(contextId)) {
+  if (isNull(locusId)) {
     msgHead  = "Locus ID required";
     msgBody  = "Searching requires that the Locus ID field is filled in.";
     showWarning(msgHead, msgBody);
@@ -4565,13 +4622,13 @@ void CGsearchRelationship() {
   unrelatedQ += "  WHERE uuid IN (";
   unrelatedQ += "         SELECT uuid";
   unrelatedQ += "           FROM latestnondeletedaentvalue JOIN attributekey USING (attributeid)";
-  unrelatedQ += "          WHERE attributename = 'Context AreaCode'";
-  unrelatedQ += "            AND measure = '{Context_AreaCode}'";
+  unrelatedQ += "          WHERE attributename = 'Locus Trench ID'";
+  unrelatedQ += "            AND measure = '{Locus_Trench_ID}'";
   unrelatedQ += "            AND uuid IN (";
   unrelatedQ += "                 SELECT uuid";
   unrelatedQ += "                   FROM latestnondeletedaentvalue JOIN attributekey USING (attributeid) ";
-  unrelatedQ += "                  WHERE attributename IN ('Context Context ID', 'Legacy Context ID')";
-  unrelatedQ += "                    AND measure = '{Context_Context_ID}')";
+  unrelatedQ += "                  WHERE attributename IN ('Locus Locus ID', 'Legacy Locus ID')";
+  unrelatedQ += "                    AND measure = '{Locus_Locus_ID}')";
   unrelatedQ += "            AND uuid NOT IN (";
   unrelatedQ += "                 SELECT childuuid";
   unrelatedQ += "                   FROM parentchild";
@@ -4580,11 +4637,11 @@ void CGsearchRelationship() {
   unrelatedQ += "            AND uuid != '{parentUuid}')";
   unrelatedQ += " ORDER BY response";
   unrelatedQ += " LIMIT ? OFFSET ?";
-  unrelatedQ  = replaceFirst(unrelatedQ, "{Context_AreaCode}",   areaCode  );
-  unrelatedQ  = replaceFirst(unrelatedQ, "{Context_Context_ID}", contextId );
-  unrelatedQ  = replaceFirst(unrelatedQ, "{parentUuid}",         parentUuid);
-  unrelatedQ  = replaceFirst(unrelatedQ, "{parentUuid}",         parentUuid);
-  unrelatedQ  = replaceFirst(unrelatedQ, "{parentRole}",         parentRole);
+  unrelatedQ  = replaceFirst(unrelatedQ, "{Locus_Trench_ID}",  trenchId);
+  unrelatedQ  = replaceFirst(unrelatedQ, "{Locus_Locus_ID}",  locusId);
+  unrelatedQ  = replaceFirst(unrelatedQ, "{parentUuid}",      parentUuid);
+  unrelatedQ  = replaceFirst(unrelatedQ, "{parentUuid}",      parentUuid);
+  unrelatedQ  = replaceFirst(unrelatedQ, "{parentRole}",      parentRole);
 
   relatedQ += getCGChildQuery(parentUuid);
 
@@ -4596,8 +4653,8 @@ void CGsearchRelationship() {
 }
 
 void CGclearSearch() {
-  String refUnrelated = "Context_Group_Relationship/Relationships/Unrelated_Contexts";
-  String refRelated   = "Context_Group_Relationship/Relationships/Existing_Relationships";
+  String refUnrelated = "Stratum_Feature_Relationship/Relationships/Unrelated_Loci";
+  String refRelated   = "Stratum_Feature_Relationship/Relationships/Existing_Relationships";
 
   String q = "SELECT '' WHERE 0 LIMIT ? OFFSET ?";
   populateCursorList(refUnrelated, q, 25);
@@ -4618,9 +4675,9 @@ void CGselectUnrelatedEntity() {
 }
 
 void CGaddRelationship() {
-  String parentTabGroup = "Context_Group";
+  String parentTabGroup = "Stratum_Feature";
 
-  String relName    = "Context Group - Context";
+  String relName    = "Stratum Feature - Locus";
   String parentUuid = getUuid(parentTabGroup);
   String childUuid  = proposedChildUuid;
   String parentRole = "includes";
@@ -4634,7 +4691,7 @@ void CGaddRelationship() {
     return;
   }
   if (isNull(childUuid)) {
-    showToast("No Context selected");
+    showToast("No Locus selected");
     return;
   }
 
@@ -4650,7 +4707,7 @@ void CGaddRelationship() {
 }
 
 void CGaddRelationshipSucceeded() {
-  String refProposedRel = "Context_Group_Relationship/Relationships/Proposed_Relationship";
+  String refProposedRel = "Stratum_Feature_Relationship/Relationships/Proposed_Relationship";
 
   populateWebViewHtml(refProposedRel, WEB_REL_BLANK);
 
@@ -4658,7 +4715,7 @@ void CGaddRelationshipSucceeded() {
 }
 
 void CGselectExistingRelationship() {
-  String refSelectedRelRel = "Context_Group_Relationship/Relationships/Selected_Relationship";
+  String refSelectedRelRel = "Stratum_Feature_Relationship/Relationships/Selected_Relationship";
 
   String val = getListItemValue();
   if (isNull(val)) return;
@@ -4674,14 +4731,14 @@ void CGselectExistingRelationship() {
 }
 
 void CGpopulateParentIdentiferRelationships() {
-  String lotRef = "Context_Group_Relationship/Relationships/Parent_Identifier";
-  setFieldToIdentifier("Context_Group", lotRef);
+  String lotRef = "Stratum_Feature_Relationship/Relationships/Parent_Identifier";
+  setFieldToIdentifier("Stratum_Feature", lotRef);
 }
 
 String getCGChildQuery(String parentUuid) {
-  // `contextIdentifer` is defined in logic/shared.bsh
-  String parentIdentifier = contextIdentifer;
-  String relntypename     = "Context Group - Context";
+  // `locusIdentifer` is defined in logic/shared.bsh
+  String parentIdentifier = locusIdentifer;
+  String relntypename     = "Stratum Feature - Locus";
 
   String relatedQ = "";
   relatedQ += "SELECT 'related' || char(0) || relationshipid || char(0) || '"+parentIdentifier+" ' || parentparticipatesverb ||' '|| response || char(0) || childuuid, '"+parentIdentifier+"'||' '||parentparticipatesverb||' '||response";
@@ -4694,6 +4751,17 @@ String getCGChildQuery(String parentUuid) {
   relatedQ += " ORDER BY createdat desc ";
   relatedQ += " LIMIT ? OFFSET ? ";
   return relatedQ;
+}
+
+//Overrides autogenerated definition
+void onClickStratumFeatureStratumFeatureLociCreateRelationshipstoThisStratumFeature () {
+  String tabgroup = "Stratum_Feature";
+  if (isNull(getUuid(tabgroup))){
+    showToast("{You_must_save_this_tabgroup_first}");
+    return;
+  }
+
+  newTab("Stratum_Feature_Relationship", true);
 }
 /***************************** DYNAMIC UI HELPERS *****************************/
 void hideView(String refView) {
@@ -4729,22 +4797,22 @@ void hideView(String refView) {
 /* Case (b) is handled by a callback to `showTabGroup`. This is implemented   */
 /* by overwriting the auto-generated record loading function using @POSTPROC. */
 /******************************************************************************/
-addOnEvent("Context",                                      "show",  "openContextTabs()");
-addOnEvent("Context",                                      "fetch", "openContextTabs(true)");
-addOnEvent("Context/General/Fill_in_Context_Type_Details", "click", "openContextTabs()");
+addOnEvent("Locus",                                      "show",  "openLocusTabs()");
+addOnEvent("Locus",                                      "fetch", "openLocusTabs(true)");
+addOnEvent("Locus/General/Fill_in_Locus_Type_Details", "click", "openLocusTabs()");
 
-void openContextTabs() {
-  openContextTabs(false);
+void openLocusTabs() {
+  openLocusTabs(false);
 }
 
-void openContextTabs(Boolean showGeneralInformationTab){
-  String refCut = "Context/Cut";
-  String refDep = "Context/Deposit";
-  String refSke = "Context/Skeleton";
-  String refStr = "Context/Structure";
-  String refGen = "Context/General";
+void openLocusTabs(Boolean showGeneralInformationTab){
+  String refCut = "Locus/Cut";
+  String refDep = "Locus/Deposit";
+  String refSke = "Locus/Skeleton";
+  String refCon = "Locus/Construction";
+  String refGen = "Locus/General";
 
-  String refCtxtType = "Context/General/Context_Type";
+  String refCtxtType = "Locus/General/Locus_Type";
   String vocabName   = getMenuValue(refCtxtType);
 
   if (vocabName == null)
@@ -4752,28 +4820,28 @@ void openContextTabs(Boolean showGeneralInformationTab){
 
   if (vocabName.equals("{Deposit}") || vocabName.equals("{Natural}")){
     cancelTab(refCut, false);
-    cancelTab(refStr, false);
+    cancelTab(refCon, false);
     cancelTab(refSke, false);
     showTab  (refDep);
   } else if (vocabName.equals("{Cut}")){
     cancelTab(refDep, false);
-    cancelTab(refStr, false);
+    cancelTab(refCon, false);
     cancelTab(refSke, false);
     showTab  (refCut);
   } else if (vocabName.equals("{Construction}")){
     cancelTab(refDep, false);
     cancelTab(refCut, false);
     cancelTab(refSke, false);
-    showTab  (refStr);
+    showTab  (refCon);
   } else if (vocabName.equals("{Skeleton}")){
     cancelTab(refDep, false);
     cancelTab(refCut, false);
-    cancelTab(refStr, false);
+    cancelTab(refCon, false);
     showTab  (refSke);
   } else {
     cancelTab(refCut, false);
     cancelTab(refDep, false);
-    cancelTab(refStr, false);
+    cancelTab(refCon, false);
     cancelTab(refSke, false);
   }
 
@@ -4786,50 +4854,50 @@ void openContextTabs(Boolean showGeneralInformationTab){
 FEATURE_TYPE_VOCAB = new ArrayList();
 fetchVocab("Feature Type", FEATURE_TYPE_VOCAB);
 
-void updateContextGroupFields() {
-  String ref       = "Context_Group/Gen/Record_Type";
+void updateStratumFeatureFields() {
+  String ref       = "Stratum_Feature/General/Record_Type";
   String vocabName = getMenuValue(ref);
   String STRATUM   = "{Stratum}";
   String FEATURE   = "{Feature}";
 
   if (isNull(vocabName)) {
     setMenuValue(ref, FEATURE);
-    updateContextGroupToFeature();
+    updateStratumFeatureToFeature();
     return;
   }
 
-  if (vocabName.equals(STRATUM)) updateContextGroupToStratum();
-  if (vocabName.equals(FEATURE)) updateContextGroupToFeature();
+  if (vocabName.equals(STRATUM)) updateStratumFeatureToStratum();
+  if (vocabName.equals(FEATURE)) updateStratumFeatureToFeature();
 }
 
-void updateContextGroupToStratum() {
-  hideContextGroupPrefix();
-  hideContextGroupType();
-  showContextGroupParens();
+void updateStratumFeatureToStratum() {
+  hideStratumFeaturePrefix();
+  hideStratumFeatureType();
+  showStratumFeatureParens();
 }
 
-void updateContextGroupToFeature() {
-  showContextGroupPrefix();
-  showContextGroupType();
-  hideContextGroupParens();
+void updateStratumFeatureToFeature() {
+  showStratumFeaturePrefix();
+  showStratumFeatureType();
+  hideStratumFeatureParens();
 }
 
-void hideContextGroupType() {
-  hideView("Context_Group/Gen/Feature_Type");
+void hideStratumFeatureType() {
+  hideView("Stratum_Feature/General/Feature_Type");
 }
 
-void hideContextGroupPrefix() {
-  hideView("Context_Group/Gen/Feature_Prefix");
+void hideStratumFeaturePrefix() {
+  hideView("Stratum_Feature/General/Feature_Prefix");
 }
 
-void hideContextGroupParens() {
-  setFieldValue("Context_Group/Vars/L_Paren", "");
-  setFieldValue("Context_Group/Vars/R_Paren", "");
+void hideStratumFeatureParens() {
+  setFieldValue("Stratum_Feature/Vars/L_Paren", "");
+  setFieldValue("Stratum_Feature/Vars/R_Paren", "");
 }
 
-void showContextGroupType() {
-  String refView  = "Context_Group/Gen/Feature_Type";
-  String refGroup = "Context_Group/Gen/Feature_Type_Group";
+void showStratumFeatureType() {
+  String refView  = "Stratum_Feature/General/Feature_Type";
+  String refGroup = "Stratum_Feature/General/Feature_Type_Group";
 
   if (hasView(refView)) return;
 
@@ -4853,9 +4921,9 @@ void showContextGroupType() {
   populateDropDown(refView, FEATURE_TYPE_VOCAB, hasNull);
 }
 
-void showContextGroupPrefix() {
-  String refView  = "Context_Group/Gen/Feature_Prefix";
-  String refGroup = "Context_Group/Gen/Feature_Prefix_Group";
+void showStratumFeaturePrefix() {
+  String refView  = "Stratum_Feature/General/Feature_Prefix";
+  String refGroup = "Stratum_Feature/General/Feature_Prefix_Group";
 
   if (hasView(refView)) return;
 
@@ -4876,15 +4944,15 @@ void showContextGroupPrefix() {
   createView(refView, viewDef, refGroup);
 }
 
-void showContextGroupParens() {
-  setFieldValue("Context_Group/Vars/L_Paren", "(");
-  setFieldValue("Context_Group/Vars/R_Paren", ")");
+void showStratumFeatureParens() {
+  setFieldValue("Stratum_Feature/Vars/L_Paren", "(");
+  setFieldValue("Stratum_Feature/Vars/R_Paren", ")");
 }
 
-addOnEvent("Context_Group/Gen/Record_Type", "click", "updateContextGroupFields()");
-addOnEvent("Context_Group", "create",   "updateContextGroupFields()");
-addOnEvent("Context_Group", "prefetch", "updateContextGroupToFeature()");
-addOnEvent("Context_Group",    "fetch", "updateContextGroupFields()");
+addOnEvent("Stratum_Feature/General/Record_Type", "click", "updateStratumFeatureFields()");
+addOnEvent("Stratum_Feature", "create",   "updateStratumFeatureFields()");
+addOnEvent("Stratum_Feature", "prefetch", "updateStratumFeatureToFeature()");
+addOnEvent("Stratum_Feature",    "fetch", "updateStratumFeatureFields()");
 /****************************** DYNAMIC UI - FCN ******************************/
 void updateFcnVolume() {
   String ref       = "FCN/General/FCN_Class";
@@ -4926,8 +4994,8 @@ addOnEvent("FCN/General/FCN_Class", "click", "updateFcnVolume()");
 addOnEvent("FCN",                "prefetch", "showFcnVolume()");
 addOnEvent("FCN",                   "fetch", "updateFcnVolume()");
 /******************************* CONTEXT DATES ********************************/
-addOnEvent("Context/General/Add_Date_Closed", "click", "setContextDateClosed()");
-addOnEvent("Context", "create", "setContextDateOpened()");
+addOnEvent("Locus/General/Add_Date_Closed", "click", "setLocusDateClosed()");
+addOnEvent("Locus", "create", "setLocusDateOpened()");
 
 void setTimestamp(String path) {
   setFieldValue(
@@ -4936,28 +5004,28 @@ void setTimestamp(String path) {
   );
 }
 
-void setContextDateOpened() {
-  String ref = "Context/General/Date_Opened";
+void setLocusDateOpened() {
+  String ref = "Locus/General/Date_Opened";
   setTimestamp(ref);
 }
 
-void setContextDateClosed() {
-  String ref = "Context/General/Date_Closed";
+void setLocusDateClosed() {
+  String ref = "Locus/General/Date_Closed";
   setTimestamp(ref);
 }
 /******************************* TEXTURE HELPER *******************************/
-onEvent("Context/Soil_Texture_Helper/Update_Soil_Texture", "click", "setTextureActual()");
+onEvent("Locus/Material_Helper/Update_Material", "click", "setTextureActual()");
 
 // Overrides the original function definition using @POSTPROC.
-void onClickContextSoilTextureHelper () {
-  showTab("Context/Soil_Texture_Helper");
+void onClickLocusSoilTextureHelper () {
+  showTab("Locus/Material_Helper");
 }
 
 void setTextureActual(){
     String soilQuery= "SELECT vocabid " +
                       "  FROM vocabulary JOIN attributekey USING (attributeid) "+
-                      " WHERE attributeName = 'Soil Texture' "+
-                      "   AND vocabname = '" + getMenuValue("Context/Soil_Texture_Helper/Soil_Texture_Helper") + "' ";
+                      " WHERE attributeName = 'Material' "+
+                      "   AND vocabname = '" + getMenuValue("Locus/Material_Helper/Material_Helper") + "' ";
     //This function makes the hierarchical soil texture selector write to the texture dropdown. We should discuss.
     Log.d("foo1", soilQuery);
 
@@ -4965,12 +5033,12 @@ void setTextureActual(){
         onFetch(textureToSet) {
             if(!isNull(textureToSet)){
                 Log.d("foo1", textureToSet.get(0));
-                setFieldValue("Context/Deposit/Soil_Texture", textureToSet.get(0));
+                setFieldValue("Locus/Deposit/Material", textureToSet.get(0));
             } else {
                 showToast("Match not found. You shouldn't see this, but select the result manually.");
             }
-            cancelTab("Context/Soil_Texture_Helper", false);
-            showTab("Context/Deposit");
+            cancelTab("Locus/Material_Helper", false);
+            showTab("Locus/Deposit");
         }
     });
 }
@@ -4982,13 +5050,16 @@ delOnEvent("Control/Search", "show", "search()");
 addOnEvent("Control/Search", "show", "populateSelectUser()");
 addOnEvent("Control/Search", "show", "populateSite()");
 
+addOnEvent("Control/Search/Select_User", "click", "search()");
+addOnEvent("Control/Search/Select_Site", "click", "search()");
+
 void populateSelectUser(){
   String refSearchUsers = "Control/Search/Select_User";
   String getNonDeletedUsersQuery = "SELECT userid, fname || ' ' || lname "+
                                    "  FROM user "+
                                    " WHERE userdeleted is null "+
                                    " UNION " +
-                                   "SELECT -1, '{All_Users}'";
+                                   "SELECT -1, '{All}'";
 
   fetchAll(getNonDeletedUsersQuery, new FetchCallback() {
     onFetch(result) {
@@ -5006,13 +5077,13 @@ void populateSite() {
   q += "   FROM latestNonDeletedAentvalue";
   q += "   JOIN latestNonDeletedArchEntFormattedIdentifiers USING (uuid)";
   q += "   JOIN attributekey USING (attributeid)";
-  q += "  WHERE attributename LIKE '% Site Name'";
-  q += "     OR attributename LIKE '% Year of Campaign'";
+  q += "  WHERE attributename = 'Site Site Name'";
+  q += "     OR attributename = 'Site Year of Campaign'";
 
   FetchCallback popSite = new FetchCallback() {
     onFetch(result) {
       List normalised = normaliseSiteResult(result);
-      populateDropDown(refSite, normalised, true);
+      populateDropDown(refSite, normalised);
     }
   };
 
@@ -5036,16 +5107,13 @@ List normaliseSiteResult(List result) {
     normalisedResultMap.put(uuid, mapRow);
   }
 
+  insertListRow(normalisedResultList, "", "", "{All}");
   for (List val : normalisedResultMap.values()) {
     String response = val.get(0);
     String siteName = val.get(1);
     String siteYear = val.get(2);
 
-    List normalisedRow = new ArrayList();
-    normalisedRow.add(siteName + SEP + siteYear);
-    normalisedRow.add(response);
-
-    normalisedResultList.add(normalisedRow);
+    insertListRow(normalisedResultList, siteName, siteYear, response);
   }
 
   return normalisedResultList;
@@ -5061,6 +5129,8 @@ List updateMapRow(List row, String key, String val) {
     row.add("");
     row.add("");
     row.add("");
+  } else {
+    row = new ArrayList(row);
   }
 
   if (key == null)
@@ -5070,6 +5140,19 @@ List updateMapRow(List row, String key, String val) {
   else if (key.contains(YEAR_OF_CAMPAIGN)) row.set(2, val);
 
   return row;
+}
+
+void insertListRow(
+    List   normalisedList,
+    String siteName,
+    String siteYear,
+    String response
+) {
+    List normalisedRow = new ArrayList();
+    normalisedRow.add(siteName + SEP + siteYear);
+    normalisedRow.add(response);
+
+    normalisedList.add(normalisedRow);
 }
 
 // Overrides auto-generated definition
@@ -5140,17 +5223,20 @@ String getSearchSiteYear(String ref) {
 }
 
 String getSearchSiteField(String ref, int index) {
-  String nameYear = getFieldValue(ref);
-
+  String   nameYear = getFieldValue(ref);
   if (isNull(nameYear))
-    return "\\0";
+    nameYear = "";
+
+  String[] splitted = nameYear.split(SEP);
+  if (index < splitted.length)
+    return splitted[index];
   else
-    return nameYear.split(SEP)[index];
+    return "\\0";
 }
 /***************************** CUSTOM VALIDATION ******************************/
 
 String getName(String ref, String defaultName) {
-  String refOri = "Context/Cut/Orientation_Degree";
+  String refOri = "Locus/Cut/Orientation_Degree";
 
   if (ref.equals(refOri))
     return defaultName + " {Must_be_between_0_0_and_90_0}";
@@ -5161,22 +5247,25 @@ String getName(String ref, String defaultName) {
 String getCond(String ref, String defaultCond) {
   String refTab  = getTabRef(ref);
 
-  if (refTab.equals("Context/Cut"      ))
-    return "isSelected(\"Context/General/Context_Type\", \"{Cut}\")";
-  if (refTab.equals("Context/Deposit"  ))
-    return "isSelected(\"Context/General/Context_Type\", \"{Deposit}\")" +
-      " ||  isSelected(\"Context/General/Context_Type\", \"{Natural}\")";
-  if (refTab.equals("Context/Skeleton" ))
-    return "isSelected(\"Context/General/Context_Type\", \"{Skeleton}\")";
-  if (refTab.equals("Context/Structure"))
-    return "isSelected(\"Context/General/Context_Type\", \"{Construction}\")";
+  if (refTab.equals("Locus/Cut"      ))
+    return "isSelected(\"Locus/General/Locus_Type\", \"{Cut}\")";
+  if (refTab.equals("Locus/Deposit"  ))
+    return "isSelected(\"Locus/General/Locus_Type\", \"{Deposit}\")" +
+      " ||  isSelected(\"Locus/General/Locus_Type\", \"{Natural}\")";
+  if (refTab.equals("Locus/Skeleton" ))
+    return "isSelected(\"Locus/General/Locus_Type\", \"{Skeleton}\")";
+  if (refTab.equals("Locus/Construction"))
+    return "isSelected(\"Locus/General/Locus_Type\", \"{Construction}\")";
+
+  if (ref.equals("Stratum_Feature/General/Feature_Prefix"))
+    return "isSelected(\"Stratum_Feature/General/Record_Type\", \"{Feature}\")";
 
   return defaultCond;
 }
 
 // Overrides autogenerated definition
 boolean isValidField(String ref) {
-  String refOri = "Context/Cut/Orientation_Degree";
+  String refOri = "Locus/Cut/Orientation_Degree";
   if (!ref.equals(refOri))
     return !isNull(getFieldValue(ref)); // Do blank check
 
@@ -5198,7 +5287,7 @@ boolean isValidField(String ref) {
 
 // Overrides autogenerated definition
 List fieldPair(String ref, String name, String cond) {
-  String refOri = "Context/Cut/Orientation_Degree";
+  String refOri = "Locus/Cut/Orientation_Degree";
 
   name = getName(ref, name);
   cond = getCond(ref, cond);
@@ -5252,16 +5341,16 @@ void setDateClosed() {
 }
 /*************************** CREATE NEW SITE BUTTON ***************************/
 
-// Overrrides autogenerated definition
-void onClickControlContextsCreateNewSite() {
+// Overrides autogenerated definition
+void onClickControlLociCreateNewSite() {
   parentTabgroup__ = "Control";
 
   tryCreateNewSite();
 }
 
 void tryCreateNewSite() {
-  String siteName = getFieldValue("Control/Contexts/New_Site_Name");
-  String siteYear = getFieldValue("Control/Contexts/Year_of_Campaign");
+  String siteName = getFieldValue("Control/Site/New_Site_Name");
+  String siteYear = getFieldValue("Control/Site/Year_of_Campaign");
 
   String q = "";
   q += " SELECT response";
@@ -5327,22 +5416,22 @@ void tryCreateNewTrench () {
   String parentUuid = getUuid(getDisplayedTabGroup());
   String trenchId   = getFieldValue("Site/Site/Trench_ID");
 
-  String q = "" +
-    "SELECT childuuid, response "+
-    "  FROM parentchild "+
-    "  JOIN latestNonDeletedArchEntFormattedIdentifiers ON (childuuid = uuid) " +
-    "  JOIN createdmodifiedatby USING (uuid) " +
-    " WHERE relationshipid IN (SELECT relationshipid  " +
-    "                            FROM latestnondeletedrelationship JOIN relntype USING (relntypeid) " +
-    "                           WHERE relntypename = 'Site - Trench') " +
-    "   AND parentuuid = '" + parentUuid + "' " +
-    "   AND (childaenttypename = 'Trench') " +
-    "   AND childuuid IN (" +
-    "           SELECT uuid" +
-    "             FROM latestnondeletedaentvalue"+
-    "             JOIN attributekey USING (attributeid)"+
-    "            WHERE attributename = 'Trench AreaCode'"+
-    "              AND measure = '" + trenchId + "')";
+  String q = "";
+  q += "SELECT childuuid, response ";
+  q += "  FROM parentchild ";
+  q += "  JOIN latestNonDeletedArchEntFormattedIdentifiers ON (childuuid = uuid) ";
+  q += "  JOIN createdmodifiedatby USING (uuid) ";
+  q += " WHERE relationshipid IN (SELECT relationshipid  ";
+  q += "                            FROM latestnondeletedrelationship JOIN relntype USING (relntypeid) ";
+  q += "                           WHERE relntypename = 'Site - Trench') ";
+  q += "   AND parentuuid = '" + parentUuid + "' ";
+  q += "   AND (childaenttypename = 'Trench') ";
+  q += "   AND childuuid IN (";
+  q += "           SELECT uuid";
+  q += "             FROM latestnondeletedaentvalue";
+  q += "             JOIN attributekey USING (attributeid)";
+  q += "            WHERE attributename = 'Trench Trench ID'";
+  q += "              AND measure = '" + trenchId + "')";
 
   FetchCallback callback = new FetchCallback() {
     onFetch(result) {
@@ -5364,13 +5453,47 @@ void confirmNewTrench() {
   head  = "Trench Already Exists";
   body  = "A trench having this trench ID already exists. Tap 'OK' to change ";
   body += " the 'Trench ID' field, or 'Cancel' to dismiss this  message and ";
-  boyd += " create a new Trench anyway.";
+  body += " create a new Trench anyway.";
 
   cbOk  = "";
   cbBad = "newTrench()";
 
   showAlert(head, body, cbOk, cbBad);
 }
+/************************* FCN ENTITY LIST POPULATION *************************/
+addOnEvent("Trench", "create", "populateTrenchFcns()");
+addOnEvent("Trench", "fetch",  "populateTrenchFcns()");
+addOnEvent("FCN",    "save",   "populateTrenchFcns()");
+addOnEvent("Trench/FCNs/List_of_Existing_FCNs", "click", "loadEntity()");
+
+void populateTrenchFcns() {
+  String parentUuid    = getUuid("Trench");
+  String refEntityList = "Trench/FCNs/List_of_Existing_FCNs";
+
+  String q = "";
+  q += "SELECT childuuid, response";
+  q += "  FROM parentchild JOIN latestNonDeletedArchEntFormattedIdentifiers ON (childuuid = uuid)";
+  q += "  JOIN createdmodifiedatby USING (uuid)";
+  q += " WHERE (relationshipid IN (SELECT relationshipid";
+  q += "                            FROM latestnondeletedrelationship JOIN relntype USING (relntypeid)";
+  q += "                           WHERE relntypename IN ('Trench - FCN'))";
+  q += "   AND parentuuid = '{parentUuid}')";
+  q += "    OR (parentuuid IN (SELECT childuuid";
+  q += "                       FROM parentchild";
+  q += "                      WHERE relationshipid in (SELECT relationshipid";
+  q += "                                                 FROM latestnondeletedrelationship JOIN relntype USING (relntypeid)";
+  q += "                                                WHERE relntypename IN ('Trench - Locus'))";
+  q += "                        AND parentuuid = '{parentUuid}'))";
+  q += "   AND childaenttypename IN ('FCN')";
+  q += " ORDER BY createdat DESC";
+  q += " LIMIT ? OFFSET ?";
+  q  = replaceFirst(q, "{parentUuid}", parentUuid);
+  q  = replaceFirst(q, "{parentUuid}", parentUuid);
+
+  populateCursorList(refEntityList, q, 25);
+}
+
+
 
 
 /******************************************************************************/

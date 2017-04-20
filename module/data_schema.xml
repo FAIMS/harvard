@@ -1,51 +1,51 @@
 <?xml version='1.0' encoding='utf-8'?>
 <dataSchema>
-  <RelationshipElement name="Context Group - Context" type="hierarchical">
+  <RelationshipElement name="Stratum Feature - Locus" type="hierarchical">
     <description>A 1-to-n relationship between the parent and its children, respectively.</description>
     <parent>includes</parent>
     <child>is included in</child>
   </RelationshipElement>
-  <RelationshipElement name="ParentChild" type="hierarchical">
-    <description/>
-    <parent>Parent of</parent>
-    <child>Child of</child>
+  <RelationshipElement name="Arbitrarily separated from" type="bidirectional">
+    <description>When two or more locus codes have been assigned to what is ultimately determined to be the same locus</description>
+  </RelationshipElement>
+  <RelationshipElement name="Bonded to" type="bidirectional">
+    <description>Implements a bonded to for loci</description>
+  </RelationshipElement>
+  <RelationshipElement name="Broadly contemporary with" type="bidirectional">
+    <description>Loci suspected to be contemporary but no direct physical relationship or evidence (i.e. adjacent buildings)</description>
   </RelationshipElement>
   <RelationshipElement name="Butts" type="hierarchical">
-    <description>Implements a Butts-Butted By for loci.</description>
+    <description>Implements a Butts-Butted by for loci.</description>
     <parent>Butts</parent>
-    <child>Butted By</child>
+    <child>Butted by</child>
   </RelationshipElement>
-  <RelationshipElement name="Rebuilt" type="hierarchical">
-    <description>Implements a Rebuilt - Rebuilt By</description>
-    <parent>Rebuilt</parent>
-    <child>Rebuilt By</child>
-  </RelationshipElement>
-  <RelationshipElement name="Bonded To" type="bidirectional">
-    <description>Implements a bonded to for loci</description>
+  <RelationshipElement name="Covers" type="hierarchical">
+    <description>Implements a Butts-Butted by for loci.</description>
+    <parent>Covers</parent>
+    <child>Covered by</child>
   </RelationshipElement>
   <RelationshipElement name="Cuts" type="hierarchical">
     <description>Implements a cuts-cutby for loci.</description>
     <parent>Cuts</parent>
     <child>Cut by</child>
   </RelationshipElement>
-  <RelationshipElement name="Fill Of" type="hierarchical">
-    <description>Implements a fillof-filledwith for loci.</description>
-    <parent>Fill Of</parent>
-    <child>Filled With </child>
-  </RelationshipElement>
-  <RelationshipElement name="Arbitrarily separated from" type="bidirectional">
-    <description>When two or more locus codes have been assigned to what is ultimately determined to be the same locus</description>
-  </RelationshipElement>
-  <RelationshipElement name="Precisely contemporary with" type="bidirectional">
-    <description>Loci unequivocally contemporary</description>
-  </RelationshipElement>
-  <RelationshipElement name="Broadly contemporary with" type="bidirectional">
-    <description>Loci suspected to be contemporary but no direct physical relationship or evidence (i.e. adjacent buildings)</description>
-  </RelationshipElement>
   <RelationshipElement name="EarlierLater" type="hierarchical">
     <description>Implements a Stratigraphically Immediately Earlier-Later for loci.</description>
     <parent>Immediately Earlier Than</parent>
     <child>Immediately Later Than</child>
+  </RelationshipElement>
+  <RelationshipElement name="Fill of" type="hierarchical">
+    <description>Implements a fillof-filledwith for loci.</description>
+    <parent>Fill of</parent>
+    <child>Filled with</child>
+  </RelationshipElement>
+  <RelationshipElement name="Precisely Contemporary with" type="bidirectional">
+    <description>Loci unequivocally contemporary</description>
+  </RelationshipElement>
+  <RelationshipElement name="ParentChild" type="hierarchical">
+    <description/>
+    <parent>Parent of</parent>
+    <child>Child of</child>
   </RelationshipElement>
   <RelationshipElement name="Site - Trench" type="hierarchical">
     <description>A 1-to-n relationship between the parent and its children, respectively.</description>
@@ -57,12 +57,12 @@
     <parent>Parent Of</parent>
     <child>Child Of</child>
   </RelationshipElement>
-  <RelationshipElement name="Trench - Context" type="hierarchical">
+  <RelationshipElement name="Trench - Locus" type="hierarchical">
     <description>A 1-to-n relationship between the parent and its children, respectively.</description>
     <parent>Parent Of</parent>
     <child>Child Of</child>
   </RelationshipElement>
-  <RelationshipElement name="Trench - Context Group" type="hierarchical">
+  <RelationshipElement name="Trench - Stratum Feature" type="hierarchical">
     <description>A 1-to-n relationship between the parent and its children, respectively.</description>
     <parent>Parent Of</parent>
     <child>Child Of</child>
@@ -82,27 +82,27 @@
     <parent>Parent Of</parent>
     <child>Child Of</child>
   </RelationshipElement>
-  <RelationshipElement name="Context - Soil Munsel Color" type="hierarchical">
+  <RelationshipElement name="Locus - Soil Munsel Color" type="hierarchical">
     <description>A 1-to-n relationship between the parent and its children, respectively.</description>
     <parent>Parent Of</parent>
     <child>Child Of</child>
   </RelationshipElement>
-  <RelationshipElement name="Context - Matrix" type="hierarchical">
+  <RelationshipElement name="Locus - Sediment Aggregate" type="hierarchical">
     <description>A 1-to-n relationship between the parent and its children, respectively.</description>
     <parent>Parent Of</parent>
     <child>Child Of</child>
   </RelationshipElement>
-  <RelationshipElement name="Context - FCN" type="hierarchical">
+  <RelationshipElement name="Locus - FCN" type="hierarchical">
     <description>A 1-to-n relationship between the parent and its children, respectively.</description>
     <parent>Parent Of</parent>
     <child>Child Of</child>
   </RelationshipElement>
-  <RelationshipElement name="Context - Photograph Log" type="hierarchical">
+  <RelationshipElement name="Locus - Photograph Log" type="hierarchical">
     <description>A 1-to-n relationship between the parent and its children, respectively.</description>
     <parent>Parent Of</parent>
     <child>Child Of</child>
   </RelationshipElement>
-  <RelationshipElement name="Context Group - Photograph Log" type="hierarchical">
+  <RelationshipElement name="Stratum Feature - Photograph Log" type="hierarchical">
     <description>A 1-to-n relationship between the parent and its children, respectively.</description>
     <parent>Parent Of</parent>
     <child>Child Of</child>
@@ -137,7 +137,7 @@
       <formatString> $2</formatString>
       <appendCharacterString> - </appendCharacterString>
     </property>
-    <property name="Trench AreaCode" type="measure" isIdentifier="true">
+    <property name="Trench Trench ID" type="measure" isIdentifier="true">
       <description></description>
       <formatString>-$2</formatString>
       <appendCharacterString> - </appendCharacterString>
@@ -237,6 +237,11 @@
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
     </property>
+    <property name="List of Existing FCNs" type="vocab">
+      <description></description>
+      <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
+      <appendCharacterString> - </appendCharacterString>
+    </property>
   </ArchaeologicalElement>
   <ArchaeologicalElement name="Trench Files">
     <description></description>
@@ -250,7 +255,7 @@
       <formatString> $2</formatString>
       <appendCharacterString> - </appendCharacterString>
     </property>
-    <property name="Trench Files AreaCode" type="measure" isIdentifier="true">
+    <property name="Trench Files Trench ID" type="measure" isIdentifier="true">
       <description></description>
       <formatString>-$2</formatString>
       <appendCharacterString> - </appendCharacterString>
@@ -296,19 +301,19 @@
       <appendCharacterString> - </appendCharacterString>
     </property>
   </ArchaeologicalElement>
-  <ArchaeologicalElement name="Context">
+  <ArchaeologicalElement name="Locus">
     <description>The physical result of any single action whether it leaves a positive or negative record within the stratigraphic sequence. (MoLAS 1994)</description>
-    <property name="Context Site Name" type="measure" isIdentifier="true">
+    <property name="Locus Site Name" type="measure" isIdentifier="true">
       <description></description>
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
     </property>
-    <property name="Context Year of Campaign" type="measure" isIdentifier="true">
+    <property name="Locus Year of Campaign" type="measure" isIdentifier="true">
       <description></description>
       <formatString> $2</formatString>
       <appendCharacterString> - </appendCharacterString>
     </property>
-    <property name="Context Type" type="vocab" isIdentifier="true">
+    <property name="Locus Type" type="vocab" isIdentifier="true">
       <description>Describe the locus type by selecting an icon as defined below.
   When you have selected a locus type you can proceed to open the "Fill in locus type details" page. Note this page will not open unless you have selected a locus type.</description>
       <formatString>-$1</formatString>
@@ -328,12 +333,12 @@
 <description>Human skeletal remains.</description></term>
       </lookup>
     </property>
-    <property name="Context AreaCode" type="measure" isIdentifier="true">
+    <property name="Locus Trench ID" type="measure" isIdentifier="true">
       <description></description>
       <formatString>-$2</formatString>
       <appendCharacterString> - </appendCharacterString>
     </property>
-    <property name="Context Context ID" type="measure" isIdentifier="true">
+    <property name="Locus Locus ID" type="measure" isIdentifier="true">
       <description>Every archaeological locus (negative element (cut), deposit, structure, skeleton, artefact cluster) is given a unique 3 or 4 letter locus code. Each trench is designated with a separate letter which starts the code, so it is immediately obvious to which trench a locus belongs. For example locus HAA belongs to Trench H, locus MQP to Trench M etc.
         The loci are labelled consecutively in alphabetical order using the letters following the trench letter. For Trench H the first locus would be HAA, the second HAB, the third HAB and so on. In addition sets of letters can denote parts of trenches, buildings etc. E.g. HFs might denote loci from a specific building.
         Burial locus codes begin with the letter Z, followed by the trench letter. Hence burial ZHA is the first burial locus from trench H.
@@ -341,8 +346,8 @@
       <formatString>-L$2</formatString>
       <appendCharacterString> - </appendCharacterString>
     </property>
-    <property name="Context Name" type="measure">
-      <description>Enter a brief, clear name for the Context eg 'House A - west wall'</description>
+    <property name="Brief Description" type="measure">
+      <description>Enter a brief, clear name for the Locus eg 'House A - west wall'</description>
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
     </property>
@@ -383,7 +388,7 @@
 <description>Excavated by another method. Add details in Annotation field.</description></term>
       </lookup>
     </property>
-    <property name="Horizon Boundary" type="vocab">
+    <property name="Basal Edge Definition" type="vocab">
       <description>Describe the boundary between this and the next locus.</description>
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
@@ -438,22 +443,22 @@
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
     </property>
-    <property name="Context author" type="measure">
+    <property name="Locus author" type="measure">
       <description></description>
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
     </property>
-    <property name="Context timestamp" type="measure">
+    <property name="Locus timestamp" type="measure">
       <description></description>
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
     </property>
-    <property name="Highest Level" type="measure">
+    <property name="Absolute Height Top m" type="measure">
       <description>The highest elevation or 'starting level' recorded for that locus relative to the site grid.</description>
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
     </property>
-    <property name="Lowest Level" type="measure">
+    <property name="Absolute Height Bottom m" type="measure">
       <description>The lowest elevation recorded for that locus relative to the site grid.</description>
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
@@ -523,7 +528,7 @@
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
     </property>
-    <property name="Volume" type="measure">
+    <property name="Volume Liters" type="measure">
       <description>Estimate the volume of the locus in liters. All soil will be collected in buckets of a known volume. A tally should be kept of buckets produced from a locus and the total volume calculated using that tally.</description>
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
@@ -561,7 +566,7 @@
 <description>Function not elsewhere described. Provide details in Annotation field.</description></term>
       </lookup>
     </property>
-    <property name="Shape of Cut" type="vocab">
+    <property name="Shape in Plan" type="vocab">
       <description>Describe the shape of the negative element/cut viewed from above.</description>
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
@@ -867,7 +872,7 @@
 <description>Function not elsewhere described. Provide details in Annotation field.</description></term>
       </lookup>
     </property>
-    <property name="Soil Compaction Type" type="vocab">
+    <property name="Texture" type="vocab">
       <description>Describe the compaction of the sediments in the Locus.</description>
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
@@ -888,7 +893,7 @@
 <description>Deposit disintegrates into lumps under pressure.</description></term>
       </lookup>
     </property>
-    <property name="Soil Compaction Description" type="measure">
+    <property name="Texture Description" type="measure">
       <description>Description of the compaction of soil including changes throughout the deposit. Eg "Varies from loose to compact."</description>
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
@@ -910,7 +915,7 @@
 <description>Particles are roughly the same size and evenly distributed.</description></term>
       </lookup>
     </property>
-    <property name="Soil Texture" type="vocab">
+    <property name="Material" type="vocab">
       <description>The type of sediment, eg clay, silt, sand and loam. Use the Material Helper or a Soil Sediment diagram for assisance.</description>
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
@@ -1148,7 +1153,7 @@
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
     </property>
-    <property name="Soil Texture Helper" type="vocab">
+    <property name="Material Helper" type="vocab">
       <description>This helper is based on the standard flow chart for determining soil texture. Start by taking 25g of soil and placing it in your palm. Select each option and follow the prompts for TASKS (like roll ribbon) until you get a result, eg 'silty loam'. Then click the 'Update' button to have that value pasted onto your Locus record.</description>
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
@@ -1212,19 +1217,19 @@
       </lookup>
     </property>
   </ArchaeologicalElement>
-  <ArchaeologicalElement name="Context Group">
+  <ArchaeologicalElement name="Stratum Feature">
     <description>A group of loci.</description>
-    <property name="Context Group Site Name" type="measure" isIdentifier="true">
+    <property name="Stratum Feature Site Name" type="measure" isIdentifier="true">
       <description></description>
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
     </property>
-    <property name="Context Group Year of Campaign" type="measure" isIdentifier="true">
+    <property name="Stratum Feature Year of Campaign" type="measure" isIdentifier="true">
       <description></description>
       <formatString> $2</formatString>
       <appendCharacterString> - </appendCharacterString>
     </property>
-    <property name="Context Group AreaCode" type="measure" isIdentifier="true">
+    <property name="Stratum Feature Trench ID" type="measure" isIdentifier="true">
       <description></description>
       <formatString>-$2-</formatString>
       <appendCharacterString> - </appendCharacterString>
@@ -1239,7 +1244,7 @@
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
     </property>
-    <property name="Context Group ID" type="measure" isIdentifier="true">
+    <property name="Stratum Feature ID" type="measure" isIdentifier="true">
       <description>Feature number taken from the central register.</description>
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
@@ -1309,17 +1314,17 @@
 <description></description></term>
       </lookup>
     </property>
-    <property name="CG Your description" type="measure">
+    <property name="Description" type="measure">
       <description>Describe the feature, any details of dimensions, disturbance, orientation etc.</description>
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
     </property>
-    <property name="CG Your Interpretation" type="measure">
+    <property name="Interpretation" type="measure">
       <description>Describe your understanding of the feature function, phasing etc.</description>
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
     </property>
-    <property name="Your Discussion" type="measure">
+    <property name="Discussion" type="measure">
       <description>Add here any elaborations on the interpretation and description.</description>
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
@@ -1394,22 +1399,22 @@
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
     </property>
-    <property name="CG Plans" type="measure">
+    <property name="Plans" type="measure">
       <description>Reference numbers to plans or drawings of this feature.</description>
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
     </property>
-    <property name="CG Section Numbers" type="measure">
+    <property name="Section Numbers" type="measure">
       <description>Reference numbers to section drawings of this feature</description>
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
     </property>
-    <property name="Context Group author" type="measure">
+    <property name="Stratum Feature author" type="measure">
       <description></description>
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
     </property>
-    <property name="Context Group timestamp" type="measure">
+    <property name="Stratum Feature timestamp" type="measure">
       <description></description>
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
@@ -1440,9 +1445,9 @@
       </lookup>
     </property>
   </ArchaeologicalElement>
-  <ArchaeologicalElement name="Matrix">
+  <ArchaeologicalElement name="Sediment Aggregate">
     <description></description>
-    <property name="Component" type="vocab" isIdentifier="true">
+    <property name="Component Type" type="vocab" isIdentifier="true">
       <description>Describe the components which make up 10% or more of the deposit.</description>
       <formatString>$1-</formatString>
       <appendCharacterString> - </appendCharacterString>
@@ -1474,7 +1479,7 @@
       <formatString>$2%</formatString>
       <appendCharacterString> - </appendCharacterString>
     </property>
-    <property name="Shape" type="vocab">
+    <property name="Soil Stone Shape" type="vocab">
       <description>Shape and roundness of stones and pebbles in the deposit.</description>
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
@@ -1499,12 +1504,12 @@
 <description>Stones that have been deliberately shaped smooth by grinding.</description></term>
       </lookup>
     </property>
-    <property name="Context ID" type="measure">
+    <property name="Locus ID" type="measure">
       <description></description>
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
     </property>
-    <property name="AreaCode" type="measure">
+    <property name="Trench ID" type="measure">
       <description></description>
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
@@ -1512,12 +1517,12 @@
   </ArchaeologicalElement>
   <ArchaeologicalElement name="Photograph Log">
     <description>A record of images created and stored on another device, eg by a professional site photographer.</description>
-    <property name="Photo Context Group ID" type="measure" isIdentifier="true">
+    <property name="Photo Stratum Feature ID" type="measure" isIdentifier="true">
       <description>Unique number or code for each Stratum/Feature</description>
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
     </property>
-    <property name="Photo Context ID" type="measure" isIdentifier="true">
+    <property name="Photo Locus ID" type="measure" isIdentifier="true">
       <description>Unique number or code for each Locus</description>
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
@@ -1542,12 +1547,12 @@
 <description>Scene not elsewhere described. Enter detail into Annotation field.</description></term>
       </lookup>
     </property>
-    <property name="Photograph Description" type="measure">
+    <property name="Brief Description" type="measure">
       <description></description>
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
     </property>
-    <property name="AreaCode" type="measure">
+    <property name="Trench ID" type="measure">
       <description></description>
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
@@ -1613,7 +1618,7 @@
       <formatString> $2</formatString>
       <appendCharacterString> - </appendCharacterString>
     </property>
-    <property name="FCN AreaCode" type="measure" isIdentifier="true">
+    <property name="FCN Trench ID" type="measure" isIdentifier="true">
       <description></description>
       <formatString>-$2</formatString>
       <appendCharacterString> - </appendCharacterString>
@@ -1647,7 +1652,7 @@
 <description></description></term>
       </lookup>
     </property>
-    <property name="Context ID" type="measure">
+    <property name="Locus ID" type="measure">
       <description>Every archaeological locus (negative element (cut), deposit, structure, skeleton, artefact cluster) is given a unique 3 or 4 letter locus code. Each trench is designated with a separate letter which starts the code, so it is immediately obvious to which trench a locus belongs. For example locus HAA belongs to Trench H, locus MQP to Trench M etc.
       The loci are labelled consecutively in alphabetical order using the letters following the trench letter. For Trench H the first locus would be HAA, the second HAB, the third HAB and so on. In addition sets of letters can denote parts of trenches, buildings etc. E.g. HFs might denote loci from a specific building.
       Burial locus codes begin with the letter Z, followed by the trench letter. Hence burial ZHA is the first burial locus from trench H.
@@ -4946,12 +4951,12 @@
       <formatString> $2</formatString>
       <appendCharacterString> - </appendCharacterString>
     </property>
-    <property name="Legacy AreaCode" type="measure" isIdentifier="true">
+    <property name="Legacy Trench ID" type="measure" isIdentifier="true">
       <description></description>
       <formatString> $2</formatString>
       <appendCharacterString> - </appendCharacterString>
     </property>
-    <property name="Legacy Context ID" type="measure" isIdentifier="true">
+    <property name="Legacy Locus ID" type="measure" isIdentifier="true">
       <description></description>
       <formatString> L$2</formatString>
       <appendCharacterString> - </appendCharacterString>

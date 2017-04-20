@@ -14,13 +14,13 @@
       </validator>
     </property>
   </ArchaeologicalElement>
-  <ArchaeologicalElement name="Context">
-    <property name="Context Site Name">
+  <ArchaeologicalElement name="Locus">
+    <property name="Locus Site Name">
       <validator type="blankchecker">
         <param type="field" value="measure"/>
       </validator>
     </property>
-    <property name="Context Context ID">
+    <property name="Locus Locus ID">
       <validator type="blankchecker">
         <param type="field" value="measure"/>
       </validator>
@@ -30,12 +30,12 @@
         <param type="field" value="vocab"/>
       </validator>
     </property>
-    <property name="Highest Level">
+    <property name="Absolute Height Top m">
       <validator type="blankchecker">
         <param type="field" value="measure"/>
       </validator>
     </property>
-    <property name="Lowest Level">
+    <property name="Absolute Height Bottom m">
       <validator type="blankchecker">
         <param type="field" value="measure"/>
       </validator>
@@ -55,7 +55,7 @@
         <param type="field" value="measure"/>
       </validator>
     </property>
-    <property name="Volume">
+    <property name="Volume Liters">
       <validator type="blankchecker">
         <param type="field" value="measure"/>
       </validator>
@@ -65,7 +65,7 @@
         <param type="field" value="vocab"/>
       </validator>
     </property>
-    <property name="Shape of Cut">
+    <property name="Shape in Plan">
       <validator type="blankchecker">
         <param type="field" value="vocab"/>
       </validator>
@@ -116,12 +116,12 @@
         <param type="field" value="vocab"/>
       </validator>
     </property>
-    <property name="Soil Compaction Type">
+    <property name="Texture">
       <validator type="blankchecker">
         <param type="field" value="vocab"/>
       </validator>
     </property>
-    <property name="Soil Texture">
+    <property name="Material">
       <validator type="blankchecker">
         <param type="field" value="vocab"/>
       </validator>
@@ -202,7 +202,7 @@
       </validator>
     </property>
   </ArchaeologicalElement>
-  <ArchaeologicalElement name="Context Group">
+  <ArchaeologicalElement name="Stratum Feature">
     <property name="Record Type">
       <validator type="blankchecker">
         <param type="field" value="vocab"/>
@@ -213,17 +213,17 @@
         <param type="field" value="measure"/>
       </validator>
     </property>
-    <property name="Context Group ID">
+    <property name="Stratum Feature ID">
       <validator type="blankchecker">
         <param type="field" value="measure"/>
       </validator>
     </property>
-    <property name="CG Your description">
+    <property name="Description">
       <validator type="blankchecker">
         <param type="field" value="measure"/>
       </validator>
     </property>
-    <property name="CG Your Interpretation">
+    <property name="Interpretation">
       <validator type="blankchecker">
         <param type="field" value="measure"/>
       </validator>
@@ -242,12 +242,12 @@
         <param type="field" value="measure"/>
       </validator>
     </property>
-    <property name="Legacy AreaCode">
+    <property name="Legacy Trench ID">
       <validator type="blankchecker">
         <param type="field" value="measure"/>
       </validator>
     </property>
-    <property name="Legacy Context ID">
+    <property name="Legacy Locus ID">
       <validator type="blankchecker">
         <param type="field" value="measure"/>
       </validator>

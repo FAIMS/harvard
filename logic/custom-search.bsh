@@ -6,6 +6,9 @@ delOnEvent("Control/Search", "show", "search()");
 addOnEvent("Control/Search", "show", "populateSelectUser()");
 addOnEvent("Control/Search", "show", "populateSite()");
 
+addOnEvent("Control/Search/Select_User", "click", "search()");
+addOnEvent("Control/Search/Select_Site", "click", "search()");
+
 void populateSelectUser(){
   String refSearchUsers = "Control/Search/Select_User";
   String getNonDeletedUsersQuery = "SELECT userid, fname || ' ' || lname "+
@@ -30,8 +33,8 @@ void populateSite() {
   q += "   FROM latestNonDeletedAentvalue";
   q += "   JOIN latestNonDeletedArchEntFormattedIdentifiers USING (uuid)";
   q += "   JOIN attributekey USING (attributeid)";
-  q += "  WHERE attributename LIKE '% Site Name'";
-  q += "     OR attributename LIKE '% Year of Campaign'";
+  q += "  WHERE attributename = 'Site Site Name'";
+  q += "     OR attributename = 'Site Year of Campaign'";
 
   FetchCallback popSite = new FetchCallback() {
     onFetch(result) {
