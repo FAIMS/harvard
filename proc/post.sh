@@ -107,6 +107,27 @@ no_user_selected_head=No User Selected
 no_user_selected_body=A user must be selected in order to log in.
 no_device_code_selected_head=No Device Code Selected
 no_device_code_selected_body=A device code must be selected in order to log in.
+
+arbitrarily_separated_from=Arbitrarily separated from
+bonded_to=Bonded to
+broadly_contemporary_with=Broadly contemporary with
+butted_by=Butted by
+butts=Butts
+child_of=Child of
+covered_by=Covered by
+covers=Covers
+cut_by=Cut by
+cuts=Cuts
+earlierlater=EarlierLater
+filled_with=Filled with
+fill_of=Fill of
+immediately_earlier_than=Immediately Earlier Than
+immediately_later_than=Immediately Later Than
+includes=includes
+is_included_in=is included in
+parentchild=ParentChild
+parent_of=Parent of
+precisely_contemporary_with=Precisely Contemporary with
 EOF
 
 rm ui_schema.xml.original

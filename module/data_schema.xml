@@ -2,50 +2,50 @@
 <dataSchema>
   <RelationshipElement name="Stratum Feature - Locus" type="hierarchical">
     <description>A 1-to-n relationship between the parent and its children, respectively.</description>
-    <parent>includes</parent>
-    <child>is included in</child>
+    <parent>{includes}</parent>
+    <child>{is_included_in}</child>
   </RelationshipElement>
-  <RelationshipElement name="Arbitrarily separated from" type="bidirectional">
+  <RelationshipElement name="{arbitrarily_separated_from}" type="bidirectional">
     <description>When two or more locus codes have been assigned to what is ultimately determined to be the same locus</description>
   </RelationshipElement>
-  <RelationshipElement name="Bonded to" type="bidirectional">
+  <RelationshipElement name="{bonded_to}" type="bidirectional">
     <description>Implements a bonded to for loci</description>
   </RelationshipElement>
-  <RelationshipElement name="Broadly contemporary with" type="bidirectional">
+  <RelationshipElement name="{broadly_contemporary_with}" type="bidirectional">
     <description>Loci suspected to be contemporary but no direct physical relationship or evidence (i.e. adjacent buildings)</description>
   </RelationshipElement>
-  <RelationshipElement name="Butts" type="hierarchical">
+  <RelationshipElement name="{butts}" type="hierarchical">
     <description>Implements a Butts-Butted by for loci.</description>
-    <parent>Butts</parent>
-    <child>Butted by</child>
+    <parent>{butts}</parent>
+    <child>{butted_by}</child>
   </RelationshipElement>
-  <RelationshipElement name="Covers" type="hierarchical">
+  <RelationshipElement name="{covers}" type="hierarchical">
     <description>Implements a Butts-Butted by for loci.</description>
-    <parent>Covers</parent>
-    <child>Covered by</child>
+    <parent>{covers}</parent>
+    <child>{covered_by}</child>
   </RelationshipElement>
-  <RelationshipElement name="Cuts" type="hierarchical">
+  <RelationshipElement name="{cuts}" type="hierarchical">
     <description>Implements a cuts-cutby for loci.</description>
-    <parent>Cuts</parent>
-    <child>Cut by</child>
+    <parent>cuts</parent>
+    <child>{cut_by}</child>
   </RelationshipElement>
-  <RelationshipElement name="EarlierLater" type="hierarchical">
+  <RelationshipElement name="{earlierlater}" type="hierarchical">
     <description>Implements a Stratigraphically Immediately Earlier-Later for loci.</description>
-    <parent>Immediately Earlier Than</parent>
-    <child>Immediately Later Than</child>
+    <parent>{immediately_earlier_than}</parent>
+    <child>{immediately_later_than}</child>
   </RelationshipElement>
-  <RelationshipElement name="Fill of" type="hierarchical">
+  <RelationshipElement name="{fill_of}" type="hierarchical">
     <description>Implements a fillof-filledwith for loci.</description>
-    <parent>Fill of</parent>
-    <child>Filled with</child>
+    <parent>{fill_of}</parent>
+    <child>{filled_with}</child>
   </RelationshipElement>
-  <RelationshipElement name="Precisely Contemporary with" type="bidirectional">
+  <RelationshipElement name="{precisely_contemporary_with}" type="bidirectional">
     <description>Loci unequivocally contemporary</description>
   </RelationshipElement>
   <RelationshipElement name="ParentChild" type="hierarchical">
     <description/>
-    <parent>Parent of</parent>
-    <child>Child of</child>
+    <parent>{parent_of}</parent>
+    <child>{child_of}</child>
   </RelationshipElement>
   <RelationshipElement name="Site - Trench" type="hierarchical">
     <description>A 1-to-n relationship between the parent and its children, respectively.</description>
@@ -1213,7 +1213,7 @@
 <description>A sand has a loose gritty feel and does not stick together. Individual sand grains can be seen or felt. (VDEPI 2009: AG0058)</description></term></term></term>
         <term>{Soil_remains_in_ball_when_squeezed}
 <description>Place approximately 25 g soil in palm. Add water dropwise and knead the soil to break down all aggregates. Soil is at the proper consistency when plastic and moldable like moist putty.</description><term>{TASK__Roll_ribbon}
-<description>Rub a ball of soil between thumb and forefinger to make a 'ribbon'</description><term>{Does_NOT_form_a_ribbom}
+<description>Rub a ball of soil between thumb and forefinger to make a 'ribbon'</description><term>{Does_NOT_form_a_ribbon}
 <description>A 'ribbon' is NOT formed when a ball of soil is rubbed between thumb and forefinger.</description><term>{Loamy_Sand}
 <description>In a loamy sand particles barely stick together and a moulded piece of soil just holds its shape. (VDEPI 2009: AG0058)</description></term></term><term>{Forms_ribbon}
 <description>A 'ribbon' is formed when a ball of soil is rubbed between thumb and forefinger.</description><term>{Medium_ribbon__2_5_5cm_long_}
@@ -1597,6 +1597,11 @@
       <formatString> $2</formatString>
       <appendCharacterString> - </appendCharacterString>
     </property>
+    <property name="Photograph Trench ID" type="measure" isIdentifier="true">
+      <description></description>
+      <formatString>-$2</formatString>
+      <appendCharacterString> - </appendCharacterString>
+    </property>
     <property name="Photo Locus ID" type="measure" isIdentifier="true">
       <description>Unique number or code for each Locus</description>
       <formatString>{{if $2 then "-$2"}}</formatString>
@@ -1605,11 +1610,6 @@
     <property name="Photo Stratum Feature ID" type="measure" isIdentifier="true">
       <description>Unique number or code for each Stratum/Feature</description>
       <formatString>{{ if $2 then "-($2)" }}</formatString>
-      <appendCharacterString> - </appendCharacterString>
-    </property>
-    <property name="Photograph Trench ID" type="measure" isIdentifier="true">
-      <description></description>
-      <formatString>-$2</formatString>
       <appendCharacterString> - </appendCharacterString>
     </property>
     <property name="Scene Type" type="vocab" isIdentifier="true">

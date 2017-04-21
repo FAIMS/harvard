@@ -84,7 +84,7 @@ void CGpopulateProposedRelationship() {
   String identifierTo;
 
   identifierFrom = locusIdentifer; // Defined in logic/shared.bsh
-  relationship   = "includes";
+  relationship   = "{includes}";
   identifierTo   = proposedChildIdentifier;
 
   if (isNull(identifierFrom)) identifierFrom = WEB_REL_DESC_FILL;
@@ -118,7 +118,7 @@ void CGsearchRelationship() {
   String locusId    = getFieldValue(refLocusId);
   String siteName   = getFieldValue(refSiteName);
   String siteYear   = getFieldValue(refSiteYear);
-  String parentRole = "includes";
+  String parentRole = "{includes}";
   String unrelatedQ = "";
   String relatedQ   = "";
 
@@ -206,8 +206,8 @@ void CGaddRelationship() {
   String relName    = "Stratum Feature - Locus";
   String parentUuid = getUuid(parentTabGroup);
   String childUuid  = proposedChildUuid;
-  String parentRole = "includes";
-  String childRole  = "is included by";
+  String parentRole = "{includes}";
+  String childRole  = "{is_included_in}";
   String callback   = "CGaddRelationshipSucceeded()";
 
   if (isNull(parentUuid)) {
