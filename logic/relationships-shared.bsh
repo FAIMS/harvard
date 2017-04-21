@@ -35,7 +35,7 @@ boolean CGisDisplayedRelationship() {return displayedTabGroup.equals("Stratum_Fe
 //   - userid        (Defined by autogen)
 void deleteRelationship() {
   if (isNull(selectedRelId)) {
-    showToast("No relationship selected");
+    showToast("{no_relationship_selected}");
     return;
   }
 
@@ -103,7 +103,7 @@ String getSelectedRelationshipComponent(String ref, String component) {
 
 void loadRelatedEntity() {
   if (isNull(selectedChildUuid)) {
-    showToast("No relationship selected");
+    showToast("{no_relationship_selected}");
     return;
   }
   loadEntityFrom(selectedChildUuid);

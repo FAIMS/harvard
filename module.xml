@@ -1,7 +1,7 @@
-
+<?xml version="1.0" encoding="utf-8"?>
 <!--@PREPROC:  ./proc/pre.sh-->
 <!--@POSTPROC: ./proc/post.sh-->
-
+<!--TODO: parent and child tags might need curlies-->
 <module suppressWarnings="true">
 
 <rels>
@@ -941,7 +941,7 @@
         <desc>Place approximately 25 g soil in palm. Add water dropwise and knead the soil to break down all aggregates. Soil is at the proper consistency when plastic and moldable like moist putty.</desc>
         <opt>TASK: Roll ribbon
         <desc>Rub a ball of soil between thumb and forefinger to make a 'ribbon'</desc>
-        <opt>Does NOT form a ribbom
+        <opt>Does NOT form a ribbon
         <desc>A 'ribbon' is NOT formed when a ball of soil is rubbed between thumb and forefinger.</desc>
         <opt>Loamy Sand
         <desc>In a loamy sand particles barely stick together and a moulded piece of soil just holds its shape. (VDEPI 2009: AG0058)</desc></opt></opt>
@@ -1283,7 +1283,7 @@
         <desc>Unique number or code for each Locus</desc>
         <str>
           <fmt>{{if $0 then "-$0"}}</fmt>
-          <pos>3</pos>
+          <pos>4</pos>
         </str>
       </Photo_Locus_ID>
       <Photo_Stratum_Feature_ID f="id readonly" i="Stratum_Feature/General/Stratum_Feature_ID">
@@ -1291,7 +1291,7 @@
         <desc>Unique number or code for each Stratum/Feature</desc>
         <str>
           <fmt>{{ if $0 then "-($0)" }}</fmt>
-          <pos>4</pos>
+          <pos>5</pos>
         </str>
       </Photo_Stratum_Feature_ID>
       <Photograph_Reference_ID>
@@ -1336,7 +1336,7 @@
     <Photograph_Trench_ID f="id" i="Locus/General/Locus_Trench_ID Stratum_Feature/General/Stratum_Feature_Trench_ID">
       <str>
         <fmt>-$0</fmt>
-        <pos>5</pos>
+        <pos>3</pos>
       </str>
     </Photograph_Trench_ID>
     <Device_Code i="User/User_List/Device_Code!">

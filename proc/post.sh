@@ -83,12 +83,31 @@ replacement="
     <\/property>"
 perl -0777 -i.original -pe "s/$string/$replacement/igs" validation.xml
 
-echo "Select_User=Select User"                                            >> english.0.properties
-echo "Select_Site=Select Site"                                            >> english.0.properties
-echo "Volume_Liters=Volume (Liters)"                                      >> english.0.properties
-echo "Must_be_between_0_0_and_90_0=(Must be between 0.0 and 90.0)"        >> english.0.properties
-echo "Cannot_Log_in=Cannot Log in"                                        >> english.0.properties
-echo "You_must_select_a_user_to_log_in=You must select a user to log in." >> english.0.properties
+cat << EOF >> english.0.properties
+Select_User=Select User
+Select_Site=Select Site
+Volume_Liters=Volume (Liters)
+Must_be_between_0_0_and_90_0=(Must be between 0.0 and 90.0)
+Cannot_Log_in=Cannot Log in
+You_must_select_a_user_to_log_in=You must select a user to log in.
+site_already_exists_head=Site Already Exists
+site_already_exists_body=A site having this name and campaign year already exists. Tap 'OK' to change the 'New Site Name' and 'Year of Campaign' fields, or 'Cancel' to dismiss this message and create a new Site anyway.
+trench_already_exists_head=Trench Already Exists
+trench_already_exists_body=A trench having this trench ID already exists. Tap 'OK' to change the 'Trench ID' field, or 'Cancel' to dismiss this  message and create a new Trench anyway.
+proceed_to_date_picker_head=Proceed To Date Picker?
+proceed_to_date_picker_body=Have you established the closing date? If not, press 'Cancel' and return. If yes, press 'OK' and select date from date picker. Once selected, 'Date Closed' can only be edited but not blanked.
+trench_id_required_head=Trench ID Required
+trench_id_required_body=Searching requires that the Trench ID field is filled in.
+logic_error_head=Logic Error
+logic_error_body=Something happened which never should.
+no_locus_selected=No Locus selected
+no_relationship_selected=No relationship selected
+soil_texture_no_match=Match not found. You shouldn't see this, but select the result manually.
+no_user_selected_head=No User Selected
+no_user_selected_body=A user must be selected in order to log in.
+no_device_code_selected_head=No Device Code Selected
+no_device_code_selected_body=A device code must be selected in order to log in.
+EOF
 
 rm ui_schema.xml.original
 rm validation.xml.original

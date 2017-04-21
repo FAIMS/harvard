@@ -20,7 +20,7 @@ void setTextureActual(){
                 Log.d("foo1", textureToSet.get(0));
                 setFieldValue("Locus/Deposit/Material", textureToSet.get(0));
             } else {
-                showToast("Match not found. You shouldn't see this, but select the result manually.");
+                showToast("{soil_texture_no_match}");
             }
             cancelTab("Locus/Material_Helper", false);
             showTab("Locus/Deposit");

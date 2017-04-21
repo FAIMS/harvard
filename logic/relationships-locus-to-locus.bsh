@@ -144,8 +144,8 @@ void searchRelationship() {
   String relatedQ   = "";
 
   if (isNull(trenchId)) {
-    msgHead  = "Trench ID required";
-    msgBody  = "Searching requires that the Trench ID field is filled in.";
+    msgHead  = "{trench_id_required_head}";
+    msgBody  = "{trench_id_required_body}";
     showWarning(msgHead, msgBody);
     return;
   }
@@ -233,13 +233,13 @@ void addRelationship() {
   String callback   = "addRelationshipSucceeded()";
 
   if (isNull(parentUuid)) {
-    String msgHead = "Logic Error";
-    String msgBody = "Something happened which never should.";
+    String msgHead = "{logic_error_head}";
+    String msgBody = "{logic_error_body}";
     showWarning(msgHead, msgBody);
     return;
   }
   if (isNull(childUuid)) {
-    showToast("No Locus selected");
+    showToast("no_locus_selected");
     return;
   }
 

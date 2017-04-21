@@ -45,18 +45,10 @@ void tryCreateNewTrench () {
 }
 
 void confirmNewTrench() {
-  String head;
-  String body;
-  String cbOk;
-  String cbBad;
-
-  head  = "Trench Already Exists";
-  body  = "A trench having this trench ID already exists. Tap 'OK' to change ";
-  body += " the 'Trench ID' field, or 'Cancel' to dismiss this  message and ";
-  body += " create a new Trench anyway.";
-
-  cbOk  = "";
-  cbBad = "newTrench()";
+  String head  = "{trench_already_exists_head}";
+  String body  = "{trench_already_exists_body}";
+  String cbOk  = "";
+  String cbBad = "newTrench()";
 
   showAlert(head, body, cbOk, cbBad);
 }
