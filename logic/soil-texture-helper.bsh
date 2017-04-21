@@ -2,7 +2,7 @@
 onEvent("Locus/Material_Helper/Update_Material", "click", "setTextureActual()");
 
 // Overrides the original function definition using @POSTPROC.
-void onClickLocusSoilTextureHelper () {
+void onClickLocusDepositMaterialHelper () {
   showTab("Locus/Material_Helper");
 }
 

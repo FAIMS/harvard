@@ -33,11 +33,22 @@ void updateStratumFeatureToFeature() {
 }
 
 void hideStratumFeatureType() {
-  hideView("Stratum_Feature/General/Feature_Type");
+  hideView(
+      "Stratum_Feature/General/Feature_Type",
+      "Stratum_Feature/Vars/Last_Feature_Type"
+  );
 }
 
 void hideStratumFeaturePrefix() {
-  hideView("Stratum_Feature/General/Feature_Prefix");
+  hideView(
+      "Stratum_Feature/General/Feature_Prefix",
+      "Stratum_Feature/Vars/Last_Feature_Prefix"
+  );
+}
+
+void hideView(String refView, String refViewLast) {
+  copyFieldValue(refView, refViewLast);
+  hideView(refView);
 }
 
 void hideStratumFeatureParens() {
@@ -46,8 +57,9 @@ void hideStratumFeatureParens() {
 }
 
 void showStratumFeatureType() {
-  String refView  = "Stratum_Feature/General/Feature_Type";
-  String refGroup = "Stratum_Feature/General/Feature_Type_Group";
+  String refViewLast = "Stratum_Feature/Vars/Last_Feature_Type";
+  String refView     = "Stratum_Feature/General/Feature_Type";
+  String refGroup    = "Stratum_Feature/General/Feature_Type_Group";
 
   if (hasView(refView)) return;
 
@@ -69,11 +81,13 @@ void showStratumFeatureType() {
   // Populate view
   Boolean hasNull = true;
   populateDropDown(refView, FEATURE_TYPE_VOCAB, hasNull);
+  copyFieldValue(refViewLast, refView);
 }
 
 void showStratumFeaturePrefix() {
-  String refView  = "Stratum_Feature/General/Feature_Prefix";
-  String refGroup = "Stratum_Feature/General/Feature_Prefix_Group";
+  String refViewLast = "Stratum_Feature/Vars/Last_Feature_Prefix";
+  String refView     = "Stratum_Feature/General/Feature_Prefix";
+  String refGroup    = "Stratum_Feature/General/Feature_Prefix_Group";
 
   if (hasView(refView)) return;
 
@@ -92,6 +106,7 @@ void showStratumFeaturePrefix() {
   viewDef.setStyleCss         ("required");
 
   createView(refView, viewDef, refGroup);
+  copyFieldValue(refViewLast, refView);
 }
 
 void showStratumFeatureParens() {

@@ -1,0 +1,14 @@
+/*************************** CUSTOM DIARY TIMESTAMP ***************************/
+import java.text.SimpleDateFormat;
+
+addOnEvent("Diary", "create", "populateDiaryTimestamp()");
+
+void populateDiaryTimestamp() {
+  String           ref    = "Diary/Diary/Timestamp";
+  String           fmt    = "yyyy-MM-dd";
+  SimpleDateFormat dFmt   = new SimpleDateFormat(fmt);
+  Date             now    = new Date();
+  String           nowStr = dFmt.format(now);
+
+  setFieldValue(ref, nowStr);
+}

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+
 <!--@PREPROC:  ./proc/pre.sh-->
 <!--@POSTPROC: ./proc/post.sh-->
 
@@ -107,6 +107,11 @@
     <Trenches                  lc="Trench"/>
     <List_of_Existing_Trenches ec="Trench"/>
   </Site>
+  <Vars f="hidden">
+    <Device_Code i="User/User_List/Device_Code!">
+      <!--@SOURCE: vocabs/device-code.xml-->
+    </Device_Code>
+  </Vars>
 </Site>
 
 <Trench>
@@ -193,6 +198,9 @@
         <fmt> $0</fmt>
       </str>
     </Trench_Year_of_Campaign>
+    <Device_Code i="User/User_List/Device_Code!">
+      <!--@SOURCE: vocabs/device-code.xml-->
+    </Device_Code>
   </Vars>
 </Trench>
 
@@ -235,6 +243,11 @@
     <Attach_File t="file"/>
     <View_Attached_Files t="viewfiles"/>
   </Add_Trench_Files>
+  <Vars f="hidden">
+    <Device_Code i="User/User_List/Device_Code!">
+      <!--@SOURCE: vocabs/device-code.xml-->
+    </Device_Code>
+  </Vars>
 </Trench_Files>
 
 <Locus>
@@ -993,7 +1006,7 @@
     <Update_Material t="button"/>
   </Material_Helper>
   <Vars f="hidden">
-    <Device_Code i="User/User_List/Device_Code">
+    <Device_Code i="User/User_List/Device_Code!">
       <!--@SOURCE: vocabs/device-code.xml-->
     </Device_Code>
     <Locus_Year_of_Campaign f="id" i="Trench/Vars/Trench_Year_of_Campaign">
@@ -1153,7 +1166,7 @@
     <Select_a_Photograph_Log t="dropdown" ec="Photograph_Log"/>
   </Add>
   <Vars f="hidden">
-    <Device_Code i="User/User_List/Device_Code">
+    <Device_Code i="User/User_List/Device_Code!">
       <!--@SOURCE: vocabs/device-code.xml-->
     </Device_Code>
     <Stratum_Feature_Site_Name f="id" i="Trench/Trench/Trench_Site_Name">
@@ -1175,6 +1188,8 @@
         <pos>7</pos>
       </str>
     </R_Paren>
+    <Last_Feature_Type t="dropdown" vp="Stratum_Feature/General/Feature_Type"/>
+    <Last_Feature_Prefix/>
   </Vars>
 </Stratum_Feature>
 
@@ -1253,6 +1268,9 @@
   <Vars f="hidden">
     <Locus_ID  i="Locus/General/Locus_Locus_ID"/>
     <Trench_ID i="Locus/General/Locus_Trench_ID"/>
+    <Device_Code i="User/User_List/Device_Code!">
+      <!--@SOURCE: vocabs/device-code.xml-->
+    </Device_Code>
   </Vars>
 </Sediment_Aggregate>
 
@@ -1263,23 +1281,29 @@
       <Photo_Locus_ID f="id readonly" i="Locus/General/Locus_Locus_ID">
         Locus ID
         <desc>Unique number or code for each Locus</desc>
-        <str><pos>2</pos></str>
+        <str>
+          <fmt>{{if $0 then "-$0"}}</fmt>
+          <pos>3</pos>
+        </str>
       </Photo_Locus_ID>
       <Photo_Stratum_Feature_ID f="id readonly" i="Stratum_Feature/General/Stratum_Feature_ID">
         Stratum/Feature ID
         <desc>Unique number or code for each Stratum/Feature</desc>
-        <str><pos>1</pos></str>
-      </Photo_Stratum_Feature_ID>
-      <Photograph_Reference_ID f="id">
-        <desc>Unique number or code allocated by creator of the image. It could be a filename or a reference number</desc>
         <str>
-          <pos>3</pos>
-          <fmt>-Photo-$2</fmt>
+          <fmt>{{ if $0 then "-($0)" }}</fmt>
+          <pos>4</pos>
         </str>
+      </Photo_Stratum_Feature_ID>
+      <Photograph_Reference_ID>
+        <desc>Unique number or code allocated by creator of the image. It could be a filename or a reference number</desc>
       </Photograph_Reference_ID>
     </cols>
-    <Scene_Type>
+    <Scene_Type f="id">
       <desc>The type of scene captured, eg opening or closing view of the Locus. (Vocab: Open, Close, Other)</desc>
+      <str>
+        <fmt>-$0</fmt>
+        <pos>6</pos>
+      </str>
       <opts>
         <opt>No Observation
         <desc>data not collected</desc></opt>
@@ -1297,8 +1321,25 @@
     <Brief_Description/>
   </Photograph_Log>
   <Vars f="hidden">
-    <Trench_ID i="Locus/General/Locus_Trench_ID Stratum_Feature/General/Stratum_Feature_Trench_ID"/>
-    <Device_Code i="User/User_List/Device_Code">
+    <Photograph_Log_Site_Name f="id" i="Locus/General/Locus_Site_Name Stratum_Feature/Vars/Stratum_Feature_Site_Name">
+      <str>
+        <fmt>Photo-$0</fmt>
+        <pos>1</pos>
+      </str>
+    </Photograph_Log_Site_Name>
+    <Photograph_Log_Year_of_Campaign f="id" i="Locus/Vars/Locus_Year_of_Campaign Stratum_Feature/Vars/Stratum_Feature_Year_of_Campaign">
+      <str>
+        <fmt> $0</fmt>
+        <pos>2</pos>
+      </str>
+    </Photograph_Log_Year_of_Campaign>
+    <Photograph_Trench_ID f="id" i="Locus/General/Locus_Trench_ID Stratum_Feature/General/Stratum_Feature_Trench_ID">
+      <str>
+        <fmt>-$0</fmt>
+        <pos>5</pos>
+      </str>
+    </Photograph_Trench_ID>
+    <Device_Code i="User/User_List/Device_Code!">
       <!--@SOURCE: vocabs/device-code.xml-->
     </Device_Code>
   </Vars>
@@ -1310,19 +1351,15 @@
       <desc>Give your entry a simple, short title, such as Daily Trench Update, Burial 34, Storm Damage. Note that diary entries allow you to add information in addition to the locus, feature and artefact records elsewhere in the module and should not be the primary description point for those entities</desc>
     </Title>
     <cols>
-      <timestamp f="id readonly">
+      <Timestamp f="id readonly">
         <desc>The date this entry is created will automatically appear here</desc>
         <str>
-          <pos>1</pos>
-          <fmt>Diary-$0</fmt>
-        </str>
-      </timestamp>
-      <author f="id readonly">
-        <desc>Your name will be added here based on your login</desc>
-        <str>
-          <pos>2</pos>
+          <pos>4</pos>
           <fmt>-$0</fmt>
         </str>
+      </Timestamp>
+      <author>
+        <desc>Your name will be added here based on your login</desc>
       </author>
     </cols>
     <Text>
@@ -1332,6 +1369,29 @@
       <desc>Use this button to take a photo relevant to this entry using the camera on the tablet</desc>
     </Photo>
   </Diary>
+  <Vars f="hidden">
+    <Diary_Site_Name f="id" i="Trench/Trench/Trench_Site_Name">
+      <str>
+        <fmt>Diary-$0</fmt>
+        <pos>1</pos>
+      </str>
+    </Diary_Site_Name>
+    <Diary_Year_of_Campaign f="id" i="Trench/Vars/Trench_Year_of_Campaign">
+      <str>
+        <fmt> $0</fmt>
+        <pos>2</pos>
+      </str>
+    </Diary_Year_of_Campaign>
+    <Diary_Trench_ID f="id" i="Trench/Trench/Trench_Trench_ID">
+      <str>
+        <fmt>-$0</fmt>
+        <pos>3</pos>
+      </str>
+    </Diary_Trench_ID>
+    <Device_Code i="User/User_List/Device_Code!">
+      <!--@SOURCE: vocabs/device-code.xml-->
+    </Device_Code>
+  </Vars>
 </Diary>
 
 <!--Locus-to-Locus-->
@@ -1394,6 +1454,14 @@
       <Existing_Relationships t="list"/>
     </cols>
   </Relationships>
+  <Legacies f="noscroll">
+    <Create_New_Legacy         t="button" l="Legacy"/>
+    <List_of_Existing_Legacies t="list"   e="Legacy"/>
+  </Legacies>
+  <Vars f="hidden">
+    <Stratum_Feature_Relationship_Site_Name        i="Stratum_Feature/Vars/Stratum_Feature_Site_Name!"/>
+    <Stratum_Feature_Relationship_Year_of_Campaign i="Stratum_Feature/Vars/Stratum_Feature_Year_of_Campaign!"/>
+  </Vars>
 </Stratum_Feature_Relationship>
 
 <FCN>
@@ -1493,6 +1561,9 @@
         <fmt> $0</fmt>
       </str>
     </FCN_Year_of_Campaign>
+    <Device_Code i="User/User_List/Device_Code!">
+      <!--@SOURCE: vocabs/device-code.xml-->
+    </Device_Code>
   </Vars>
 </FCN>
 
@@ -1513,16 +1584,19 @@
         <fmt>$0</fmt>
       </str>
     </Soil_Munsel_Color_Locus_ID>
+    <Device_Code i="User/User_List/Device_Code!">
+      <!--@SOURCE: vocabs/device-code.xml-->
+    </Device_Code>
   </Vars>
 </Soil_Munsel_Color>
 
 <Legacy>
   <Legacy>
     <cols>
-      <Legacy_Site_Name        f="id readonly" i="Trench/Trench/Trench_Site_Name Relationship/Vars/Relationship_Site_Name">
+      <Legacy_Site_Name        f="id readonly" i="Trench/Trench/Trench_Site_Name Relationship/Vars/Relationship_Site_Name Stratum_Feature_Relationship/Vars/Stratum_Feature_Relationship_Site_Name">
         Site Name
       </Legacy_Site_Name>
-      <Legacy_Year_of_Campaign f="id notnull"  i="Trench/Vars/Trench_Year_of_Campaign Relationship/Vars/Relationship_Year_of_Campaign">
+      <Legacy_Year_of_Campaign f="id notnull"  i="Trench/Vars/Trench_Year_of_Campaign Relationship/Vars/Relationship_Year_of_Campaign Stratum_Feature_Relationship/Vars/Stratum_Feature_Relationship_Year_of_Campaign">
         Year of Campaign
         <str><fmt> $0</fmt></str>
       </Legacy_Year_of_Campaign>
@@ -1543,6 +1617,11 @@
       </Legacy_Locus_ID>
     </cols>
   </Legacy>
+  <Var f="hidden">
+    <Device_Code i="User/User_List/Device_Code!">
+      <!--@SOURCE: vocabs/device-code.xml-->
+    </Device_Code>
+  </Var>
 </Legacy>
 
 <logic><![CDATA[
@@ -1566,5 +1645,6 @@
   <!--@SOURCE: logic/create-new-site-button.bsh-->
   <!--@SOURCE: logic/create-new-trench-button.bsh-->
   <!--@SOURCE: logic/fcn-entity-list-population.bsh-->
+  <!--@SOURCE: logic/custom-diary-timestamp.bsh-->
 ]]></logic>
 </module>

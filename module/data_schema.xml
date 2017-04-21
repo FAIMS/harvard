@@ -124,6 +124,21 @@
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
     </property>
+    <property name="Device Code" type="vocab">
+      <description></description>
+      <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
+      <appendCharacterString> - </appendCharacterString>
+      <lookup>
+        <term>{1}
+<description></description></term>
+        <term>{2}
+<description></description></term>
+        <term>{3}
+<description></description></term>
+        <term>{4}
+<description></description></term>
+      </lookup>
+    </property>
   </ArchaeologicalElement>
   <ArchaeologicalElement name="Trench">
     <description></description>
@@ -242,6 +257,21 @@
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
     </property>
+    <property name="Device Code" type="vocab">
+      <description></description>
+      <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
+      <appendCharacterString> - </appendCharacterString>
+      <lookup>
+        <term>{1}
+<description></description></term>
+        <term>{2}
+<description></description></term>
+        <term>{3}
+<description></description></term>
+        <term>{4}
+<description></description></term>
+      </lookup>
+    </property>
   </ArchaeologicalElement>
   <ArchaeologicalElement name="Trench Files">
     <description></description>
@@ -299,6 +329,21 @@
       <description></description>
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
+    </property>
+    <property name="Device Code" type="vocab">
+      <description></description>
+      <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
+      <appendCharacterString> - </appendCharacterString>
+      <lookup>
+        <term>{1}
+<description></description></term>
+        <term>{2}
+<description></description></term>
+        <term>{3}
+<description></description></term>
+        <term>{4}
+<description></description></term>
+      </lookup>
     </property>
   </ArchaeologicalElement>
   <ArchaeologicalElement name="Locus">
@@ -1444,6 +1489,16 @@
 <description></description></term>
       </lookup>
     </property>
+    <property name="Last Feature Type" type="vocab">
+      <description></description>
+      <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
+      <appendCharacterString> - </appendCharacterString>
+    </property>
+    <property name="Last Feature Prefix" type="measure">
+      <description></description>
+      <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
+      <appendCharacterString> - </appendCharacterString>
+    </property>
   </ArchaeologicalElement>
   <ArchaeologicalElement name="Sediment Aggregate">
     <description></description>
@@ -1514,27 +1569,52 @@
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
     </property>
+    <property name="Device Code" type="vocab">
+      <description></description>
+      <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
+      <appendCharacterString> - </appendCharacterString>
+      <lookup>
+        <term>{1}
+<description></description></term>
+        <term>{2}
+<description></description></term>
+        <term>{3}
+<description></description></term>
+        <term>{4}
+<description></description></term>
+      </lookup>
+    </property>
   </ArchaeologicalElement>
   <ArchaeologicalElement name="Photograph Log">
     <description>A record of images created and stored on another device, eg by a professional site photographer.</description>
-    <property name="Photo Stratum Feature ID" type="measure" isIdentifier="true">
-      <description>Unique number or code for each Stratum/Feature</description>
-      <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
+    <property name="Photograph Log Site Name" type="measure" isIdentifier="true">
+      <description></description>
+      <formatString>Photo-$2</formatString>
+      <appendCharacterString> - </appendCharacterString>
+    </property>
+    <property name="Photograph Log Year of Campaign" type="measure" isIdentifier="true">
+      <description></description>
+      <formatString> $2</formatString>
       <appendCharacterString> - </appendCharacterString>
     </property>
     <property name="Photo Locus ID" type="measure" isIdentifier="true">
       <description>Unique number or code for each Locus</description>
-      <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
+      <formatString>{{if $2 then "-$2"}}</formatString>
       <appendCharacterString> - </appendCharacterString>
     </property>
-    <property name="Photograph Reference ID" type="measure" isIdentifier="true">
-      <description>Unique number or code allocated by creator of the image. It could be a filename or a reference number</description>
-      <formatString>-Photo-$2</formatString>
+    <property name="Photo Stratum Feature ID" type="measure" isIdentifier="true">
+      <description>Unique number or code for each Stratum/Feature</description>
+      <formatString>{{ if $2 then "-($2)" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
     </property>
-    <property name="Scene Type" type="vocab">
+    <property name="Photograph Trench ID" type="measure" isIdentifier="true">
+      <description></description>
+      <formatString>-$2</formatString>
+      <appendCharacterString> - </appendCharacterString>
+    </property>
+    <property name="Scene Type" type="vocab" isIdentifier="true">
       <description>The type of scene captured, eg opening or closing view of the Locus. (Vocab: Open, Close, Other)</description>
-      <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
+      <formatString>-$1</formatString>
       <appendCharacterString> - </appendCharacterString>
       <lookup>
         <term>{No_Observation}
@@ -1547,12 +1627,12 @@
 <description>Scene not elsewhere described. Enter detail into Annotation field.</description></term>
       </lookup>
     </property>
-    <property name="Brief Description" type="measure">
-      <description></description>
+    <property name="Photograph Reference ID" type="measure">
+      <description>Unique number or code allocated by creator of the image. It could be a filename or a reference number</description>
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
     </property>
-    <property name="Trench ID" type="measure">
+    <property name="Brief Description" type="measure">
       <description></description>
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
@@ -1575,18 +1655,33 @@
   </ArchaeologicalElement>
   <ArchaeologicalElement name="Diary">
     <description></description>
-    <property name="Diary timestamp" type="measure" isIdentifier="true">
-      <description>The date this entry is created will automatically appear here</description>
+    <property name="Diary Site Name" type="measure" isIdentifier="true">
+      <description></description>
       <formatString>Diary-$2</formatString>
       <appendCharacterString> - </appendCharacterString>
     </property>
-    <property name="Diary author" type="measure" isIdentifier="true">
-      <description>Your name will be added here based on your login</description>
+    <property name="Diary Year of Campaign" type="measure" isIdentifier="true">
+      <description></description>
+      <formatString> $2</formatString>
+      <appendCharacterString> - </appendCharacterString>
+    </property>
+    <property name="Diary Trench ID" type="measure" isIdentifier="true">
+      <description></description>
+      <formatString>-$2</formatString>
+      <appendCharacterString> - </appendCharacterString>
+    </property>
+    <property name="Timestamp" type="measure" isIdentifier="true">
+      <description>The date this entry is created will automatically appear here</description>
       <formatString>-$2</formatString>
       <appendCharacterString> - </appendCharacterString>
     </property>
     <property name="Title" type="measure">
       <description>Give your entry a simple, short title, such as Daily Trench Update, Burial 34, Storm Damage. Note that diary entries allow you to add information in addition to the locus, feature and artefact records elsewhere in the module and should not be the primary description point for those entities</description>
+      <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
+      <appendCharacterString> - </appendCharacterString>
+    </property>
+    <property name="Diary author" type="measure">
+      <description>Your name will be added here based on your login</description>
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
     </property>
@@ -1599,6 +1694,21 @@
       <description>Use this button to take a photo relevant to this entry using the camera on the tablet</description>
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
+    </property>
+    <property name="Device Code" type="vocab">
+      <description></description>
+      <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
+      <appendCharacterString> - </appendCharacterString>
+      <lookup>
+        <term>{1}
+<description></description></term>
+        <term>{2}
+<description></description></term>
+        <term>{3}
+<description></description></term>
+        <term>{4}
+<description></description></term>
+      </lookup>
     </property>
   </ArchaeologicalElement>
   <ArchaeologicalElement name="FCN">
@@ -1768,6 +1878,21 @@
       <description></description>
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
+    </property>
+    <property name="Device Code" type="vocab">
+      <description></description>
+      <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
+      <appendCharacterString> - </appendCharacterString>
+      <lookup>
+        <term>{1}
+<description></description></term>
+        <term>{2}
+<description></description></term>
+        <term>{3}
+<description></description></term>
+        <term>{4}
+<description></description></term>
+      </lookup>
     </property>
   </ArchaeologicalElement>
   <ArchaeologicalElement name="Soil Munsel Color">
@@ -4938,6 +5063,21 @@
 <description></description></term></term></term></term>
       </lookup>
     </property>
+    <property name="Device Code" type="vocab">
+      <description></description>
+      <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
+      <appendCharacterString> - </appendCharacterString>
+      <lookup>
+        <term>{1}
+<description></description></term>
+        <term>{2}
+<description></description></term>
+        <term>{3}
+<description></description></term>
+        <term>{4}
+<description></description></term>
+      </lookup>
+    </property>
   </ArchaeologicalElement>
   <ArchaeologicalElement name="Legacy">
     <description></description>
@@ -4960,6 +5100,21 @@
       <description></description>
       <formatString> L$2</formatString>
       <appendCharacterString> - </appendCharacterString>
+    </property>
+    <property name="Device Code" type="vocab">
+      <description></description>
+      <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
+      <appendCharacterString> - </appendCharacterString>
+      <lookup>
+        <term>{1}
+<description></description></term>
+        <term>{2}
+<description></description></term>
+        <term>{3}
+<description></description></term>
+        <term>{4}
+<description></description></term>
+      </lookup>
     </property>
   </ArchaeologicalElement>
 </dataSchema>

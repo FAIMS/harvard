@@ -196,6 +196,15 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: tab
+        Ref:  Diary/Vars
+     */
+    public static View get_Diary_Vars(Solo solo) {
+        String ref = "Diary/Vars";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: tab
         Ref:  FCN/General
      */
     public static View get_FCN_General(Solo solo) {
@@ -218,6 +227,15 @@ public class ModuleUtil extends ModuleHelper {
      */
     public static View get_Legacy_Legacy(Solo solo) {
         String ref = "Legacy/Legacy";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: tab
+        Ref:  Legacy/Var
+     */
+    public static View get_Legacy_Var(Solo solo) {
+        String ref = "Legacy/Var";
         return (android.view.View) solo.getView((Object) ref);
     }
 
@@ -403,6 +421,15 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: tab
+        Ref:  Site/Vars
+     */
+    public static View get_Site_Vars(Solo solo) {
+        String ref = "Site/Vars";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: tab
         Ref:  Soil_Munsel_Color/Add_Soil_Munsel_Color
      */
     public static View get_SoilMunselColor_AddSoilMunselColor(Solo solo) {
@@ -457,10 +484,28 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: tab
+        Ref:  Stratum_Feature_Relationship/Legacies
+     */
+    public static View get_StratumFeatureRelationship_Legacies(Solo solo) {
+        String ref = "Stratum_Feature_Relationship/Legacies";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: tab
         Ref:  Stratum_Feature_Relationship/Relationships
      */
     public static View get_StratumFeatureRelationship_Relationships(Solo solo) {
         String ref = "Stratum_Feature_Relationship/Relationships";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: tab
+        Ref:  Stratum_Feature_Relationship/Vars
+     */
+    public static View get_StratumFeatureRelationship_Vars(Solo solo) {
+        String ref = "Stratum_Feature_Relationship/Vars";
         return (android.view.View) solo.getView((Object) ref);
     }
 
@@ -533,6 +578,15 @@ public class ModuleUtil extends ModuleHelper {
      */
     public static View get_TrenchFiles_AddTrenchFiles(Solo solo) {
         String ref = "Trench_Files/Add_Trench_Files";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: tab
+        Ref:  Trench_Files/Vars
+     */
+    public static View get_TrenchFiles_Vars(Solo solo) {
+        String ref = "Trench_Files/Vars";
         return (android.view.View) solo.getView((Object) ref);
     }
 
@@ -852,6 +906,15 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: button
+        Ref:  Stratum_Feature_Relationship/Legacies/Create_New_Legacy
+     */
+    public static View get_StratumFeatureRelationship_Legacies_CreateNewLegacy(Solo solo) {
+        String ref = "Stratum_Feature_Relationship/Legacies/Create_New_Legacy";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: button
         Ref:  Stratum_Feature_Relationship/Relationships/Add_Relationship
      */
     public static View get_StratumFeatureRelationship_Relationships_AddRelationship(Solo solo) {
@@ -1005,6 +1068,15 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: dropdown
+        Ref:  Diary/Vars/Device_Code
+     */
+    public static View get_Diary_Vars_DeviceCode(Solo solo) {
+        String ref = "Diary/Vars/Device_Code";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: dropdown
         Ref:  FCN/General/Attach_File
      */
     public static View get_FCN_General_AttachFile(Solo solo) {
@@ -1036,6 +1108,24 @@ public class ModuleUtil extends ModuleHelper {
      */
     public static View get_FCN_General_FCNClass(Solo solo) {
         String ref = "FCN/General/FCN_Class";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: dropdown
+        Ref:  FCN/Vars/Device_Code
+     */
+    public static View get_FCN_Vars_DeviceCode(Solo solo) {
+        String ref = "FCN/Vars/Device_Code";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: dropdown
+        Ref:  Legacy/Var/Device_Code
+     */
+    public static View get_Legacy_Var_DeviceCode(Solo solo) {
+        String ref = "Legacy/Var/Device_Code";
         return (android.view.View) solo.getView((Object) ref);
     }
 
@@ -1275,10 +1365,37 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: dropdown
+        Ref:  Sediment_Aggregate/Vars/Device_Code
+     */
+    public static View get_SedimentAggregate_Vars_DeviceCode(Solo solo) {
+        String ref = "Sediment_Aggregate/Vars/Device_Code";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: dropdown
+        Ref:  Site/Vars/Device_Code
+     */
+    public static View get_Site_Vars_DeviceCode(Solo solo) {
+        String ref = "Site/Vars/Device_Code";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: dropdown
         Ref:  Soil_Munsel_Color/Add_Soil_Munsel_Color/Soil_Munsel_Color
      */
     public static View get_SoilMunselColor_AddSoilMunselColor_SoilMunselColor(Solo solo) {
         String ref = "Soil_Munsel_Color/Add_Soil_Munsel_Color/Soil_Munsel_Color";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: dropdown
+        Ref:  Soil_Munsel_Color/Vars/Device_Code
+     */
+    public static View get_SoilMunselColor_Vars_DeviceCode(Solo solo) {
+        String ref = "Soil_Munsel_Color/Vars/Device_Code";
         return (android.view.View) solo.getView((Object) ref);
     }
 
@@ -1320,6 +1437,15 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: dropdown
+        Ref:  Stratum_Feature/Vars/Last_Feature_Type
+     */
+    public static View get_StratumFeature_Vars_LastFeatureType(Solo solo) {
+        String ref = "Stratum_Feature/Vars/Last_Feature_Type";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: dropdown
         Ref:  Trench/Trench/Attached_Trench_Files
      */
     public static View get_Trench_Trench_AttachedTrenchFiles(Solo solo) {
@@ -1333,6 +1459,15 @@ public class ModuleUtil extends ModuleHelper {
      */
     public static View get_Trench_Trench_TrenchDimensions(Solo solo) {
         String ref = "Trench/Trench/Trench_Dimensions";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: dropdown
+        Ref:  Trench/Vars/Device_Code
+     */
+    public static View get_Trench_Vars_DeviceCode(Solo solo) {
+        String ref = "Trench/Vars/Device_Code";
         return (android.view.View) solo.getView((Object) ref);
     }
 
@@ -1360,6 +1495,15 @@ public class ModuleUtil extends ModuleHelper {
      */
     public static View get_TrenchFiles_AddTrenchFiles_FileType(Solo solo) {
         String ref = "Trench_Files/Add_Trench_Files/File_Type";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: dropdown
+        Ref:  Trench_Files/Vars/Device_Code
+     */
+    public static View get_TrenchFiles_Vars_DeviceCode(Solo solo) {
+        String ref = "Trench_Files/Vars/Device_Code";
         return (android.view.View) solo.getView((Object) ref);
     }
 
@@ -1495,6 +1639,33 @@ public class ModuleUtil extends ModuleHelper {
      */
     public static EditText get_Diary_Diary_Title(Solo solo) {
         String ref = "Diary/Diary/Title";
+        return (android.widget.EditText) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: input
+        Ref:  Diary/Vars/Diary_Site_Name
+     */
+    public static EditText get_Diary_Vars_DiarySiteName(Solo solo) {
+        String ref = "Diary/Vars/Diary_Site_Name";
+        return (android.widget.EditText) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: input
+        Ref:  Diary/Vars/Diary_Trench_ID
+     */
+    public static EditText get_Diary_Vars_DiaryTrenchID(Solo solo) {
+        String ref = "Diary/Vars/Diary_Trench_ID";
+        return (android.widget.EditText) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: input
+        Ref:  Diary/Vars/Diary_Year_of_Campaign
+     */
+    public static EditText get_Diary_Vars_DiaryYearofCampaign(Solo solo) {
+        String ref = "Diary/Vars/Diary_Year_of_Campaign";
         return (android.widget.EditText) solo.getView((Object) ref);
     }
 
@@ -2409,10 +2580,28 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: input
-        Ref:  Photograph_Log/Vars/Trench_ID
+        Ref:  Photograph_Log/Vars/Photograph_Log_Site_Name
      */
-    public static EditText get_PhotographLog_Vars_TrenchID(Solo solo) {
-        String ref = "Photograph_Log/Vars/Trench_ID";
+    public static EditText get_PhotographLog_Vars_PhotographLogSiteName(Solo solo) {
+        String ref = "Photograph_Log/Vars/Photograph_Log_Site_Name";
+        return (android.widget.EditText) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: input
+        Ref:  Photograph_Log/Vars/Photograph_Log_Year_of_Campaign
+     */
+    public static EditText get_PhotographLog_Vars_PhotographLogYearofCampaign(Solo solo) {
+        String ref = "Photograph_Log/Vars/Photograph_Log_Year_of_Campaign";
+        return (android.widget.EditText) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: input
+        Ref:  Photograph_Log/Vars/Photograph_Trench_ID
+     */
+    public static EditText get_PhotographLog_Vars_PhotographTrenchID(Solo solo) {
+        String ref = "Photograph_Log/Vars/Photograph_Trench_ID";
         return (android.widget.EditText) solo.getView((Object) ref);
     }
 
@@ -2733,6 +2922,15 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: input
+        Ref:  Stratum_Feature/Vars/Last_Feature_Prefix
+     */
+    public static EditText get_StratumFeature_Vars_LastFeaturePrefix(Solo solo) {
+        String ref = "Stratum_Feature/Vars/Last_Feature_Prefix";
+        return (android.widget.EditText) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: input
         Ref:  Stratum_Feature/Vars/R_Paren
      */
     public static EditText get_StratumFeature_Vars_RParen(Solo solo) {
@@ -2773,6 +2971,24 @@ public class ModuleUtil extends ModuleHelper {
      */
     public static EditText get_StratumFeatureRelationship_Relationships_TrenchID(Solo solo) {
         String ref = "Stratum_Feature_Relationship/Relationships/Trench_ID";
+        return (android.widget.EditText) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: input
+        Ref:  Stratum_Feature_Relationship/Vars/Stratum_Feature_Relationship_Site_Name
+     */
+    public static EditText get_StratumFeatureRelationship_Vars_StratumFeatureRelationshipSiteName(Solo solo) {
+        String ref = "Stratum_Feature_Relationship/Vars/Stratum_Feature_Relationship_Site_Name";
+        return (android.widget.EditText) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: input
+        Ref:  Stratum_Feature_Relationship/Vars/Stratum_Feature_Relationship_Year_of_Campaign
+     */
+    public static EditText get_StratumFeatureRelationship_Vars_StratumFeatureRelationshipYearofCampaign(Solo solo) {
+        String ref = "Stratum_Feature_Relationship/Vars/Stratum_Feature_Relationship_Year_of_Campaign";
         return (android.widget.EditText) solo.getView((Object) ref);
     }
 
@@ -3025,6 +3241,15 @@ public class ModuleUtil extends ModuleHelper {
      */
     public static View get_StratumFeature_StratumFeatureLoci_ExistingRelationshipstoThisStratumFeature(Solo solo) {
         String ref = "Stratum_Feature/Stratum_Feature_Loci/Existing_Relationships_to_This_Stratum_Feature";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: list
+        Ref:  Stratum_Feature_Relationship/Legacies/List_of_Existing_Legacies
+     */
+    public static View get_StratumFeatureRelationship_Legacies_ListofExistingLegacies(Solo solo) {
+        String ref = "Stratum_Feature_Relationship/Legacies/List_of_Existing_Legacies";
         return (android.view.View) solo.getView((Object) ref);
     }
 

@@ -110,23 +110,21 @@ void CGsearchRelationship() {
   String refUnrelated = "Stratum_Feature_Relationship/Relationships/Unrelated_Loci";
   String refRelated   = "Stratum_Feature_Relationship/Relationships/Existing_Relationships";
   String refTrenchId  = "Stratum_Feature_Relationship/Relationships/Trench_ID";
-  String refLocusId = "Stratum_Feature_Relationship/Relationships/Locus_ID";
+  String refLocusId   = "Stratum_Feature_Relationship/Relationships/Locus_ID";
+  String refSiteName  = "Stratum_Feature_Relationship/Vars/Stratum_Feature_Relationship_Site_Name";
+  String refSiteYear  = "Stratum_Feature_Relationship/Vars/Stratum_Feature_Relationship_Year_of_Campaign";
 
-  String trenchId         = getFieldValue(refTrenchId);
-  String locusId = getFieldValue(refLocusId);
-  String parentRole       = "includes";
-  String unrelatedQ       = "";
-  String relatedQ         = "";
+  String trenchId   = getFieldValue(refTrenchId);
+  String locusId    = getFieldValue(refLocusId);
+  String siteName   = getFieldValue(refSiteName);
+  String siteYear   = getFieldValue(refSiteYear);
+  String parentRole = "includes";
+  String unrelatedQ = "";
+  String relatedQ   = "";
 
   if (isNull(trenchId)) {
     msgHead  = "Trench ID required";
     msgBody  = "Searching requires that the Trench ID field is filled in.";
-    showWarning(msgHead, msgBody);
-    return;
-  }
-  if (isNull(locusId)) {
-    msgHead  = "Locus ID required";
-    msgBody  = "Searching requires that the Locus ID field is filled in.";
     showWarning(msgHead, msgBody);
     return;
   }
@@ -136,26 +134,40 @@ void CGsearchRelationship() {
   unrelatedQ += "  WHERE uuid IN (";
   unrelatedQ += "         SELECT uuid";
   unrelatedQ += "           FROM latestnondeletedaentvalue JOIN attributekey USING (attributeid)";
-  unrelatedQ += "          WHERE attributename = 'Locus Trench ID'";
-  unrelatedQ += "            AND measure = '{Locus_Trench_ID}'";
+  unrelatedQ += "          WHERE attributename LIKE '% Trench ID'";
+  unrelatedQ += "            AND measure = '{Trench_ID}'";
   unrelatedQ += "            AND uuid IN (";
   unrelatedQ += "                 SELECT uuid";
   unrelatedQ += "                   FROM latestnondeletedaentvalue JOIN attributekey USING (attributeid) ";
-  unrelatedQ += "                  WHERE attributename IN ('Locus Locus ID', 'Legacy Locus ID')";
-  unrelatedQ += "                    AND measure = '{Locus_Locus_ID}')";
+  unrelatedQ += "                  WHERE attributename LIKE '% Locus ID'";
+  unrelatedQ += "                    AND (measure = '{Locus_ID}' OR '{Locus_ID}' = ''))";
+  unrelatedQ += "            AND uuid IN (";
+  unrelatedQ += "                 SELECT uuid";
+  unrelatedQ += "                   FROM latestnondeletedaentvalue JOIN attributekey USING (attributeid) ";
+  unrelatedQ += "                  WHERE attributename LIKE '% Site Name'";
+  unrelatedQ += "                    AND measure = '{Site_Name}')";
+  unrelatedQ += "            AND uuid IN (";
+  unrelatedQ += "                 SELECT uuid";
+  unrelatedQ += "                   FROM latestnondeletedaentvalue JOIN attributekey USING (attributeid) ";
+  unrelatedQ += "                  WHERE attributename LIKE '% Year of Campaign'";
+  unrelatedQ += "                    AND measure = '{Year_of_Campaign}')";
   unrelatedQ += "            AND uuid NOT IN (";
   unrelatedQ += "                 SELECT childuuid";
   unrelatedQ += "                   FROM parentchild";
   unrelatedQ += "                  WHERE parentuuid = '{parentUuid}'";
   unrelatedQ += "                    AND parentparticipatesverb = '{parentRole}')";
   unrelatedQ += "            AND uuid != '{parentUuid}')";
+  unrelatedQ += "    AND aenttypename IN ('Locus', 'Legacy')";
   unrelatedQ += " ORDER BY response";
   unrelatedQ += " LIMIT ? OFFSET ?";
-  unrelatedQ  = replaceFirst(unrelatedQ, "{Locus_Trench_ID}",  trenchId);
-  unrelatedQ  = replaceFirst(unrelatedQ, "{Locus_Locus_ID}",  locusId);
-  unrelatedQ  = replaceFirst(unrelatedQ, "{parentUuid}",      parentUuid);
-  unrelatedQ  = replaceFirst(unrelatedQ, "{parentUuid}",      parentUuid);
-  unrelatedQ  = replaceFirst(unrelatedQ, "{parentRole}",      parentRole);
+  unrelatedQ  = replaceFirst(unrelatedQ, "{Trench_ID}",        trenchId);
+  unrelatedQ  = replaceFirst(unrelatedQ, "{Locus_ID}",         locusId);
+  unrelatedQ  = replaceFirst(unrelatedQ, "{Locus_ID}",         locusId);
+  unrelatedQ  = replaceFirst(unrelatedQ, "{Site_Name}",        siteName);
+  unrelatedQ  = replaceFirst(unrelatedQ, "{Year_of_Campaign}", siteYear);
+  unrelatedQ  = replaceFirst(unrelatedQ, "{parentUuid}",       parentUuid);
+  unrelatedQ  = replaceFirst(unrelatedQ, "{parentUuid}",       parentUuid);
+  unrelatedQ  = replaceFirst(unrelatedQ, "{parentRole}",       parentRole);
 
   relatedQ += getCGChildQuery(parentUuid);
 

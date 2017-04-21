@@ -75,6 +75,9 @@
               <Trenches/>
               <List_of_Existing_Trenches/>
             </Site>
+            <Vars>
+              <Device_Code/>
+            </Vars>
           </Site>
           <Trench>
             <Trench>
@@ -135,6 +138,7 @@
             </Legacies>
             <Vars>
               <Trench_Year_of_Campaign/>
+              <Device_Code/>
             </Vars>
           </Trench>
           <Date_Closed>
@@ -165,6 +169,9 @@
               <Attach_File_Button_1/>
               <View_Attached_Files/>
             </Add_Trench_Files>
+            <Vars>
+              <Device_Code/>
+            </Vars>
           </Trench_Files>
           <Locus>
             <General>
@@ -583,6 +590,8 @@
               <Stratum_Feature_Year_of_Campaign/>
               <L_Paren/>
               <R_Paren/>
+              <Last_Feature_Type/>
+              <Last_Feature_Prefix/>
             </Vars>
           </Stratum_Feature>
           <Sediment_Aggregate>
@@ -600,6 +609,7 @@
             <Vars>
               <Locus_ID/>
               <Trench_ID/>
+              <Device_Code/>
             </Vars>
           </Sediment_Aggregate>
           <Photograph_Log>
@@ -619,7 +629,9 @@
               <Brief_Description/>
             </Photograph_Log>
             <Vars>
-              <Trench_ID/>
+              <Photograph_Log_Site_Name/>
+              <Photograph_Log_Year_of_Campaign/>
+              <Photograph_Trench_ID/>
               <Device_Code/>
             </Vars>
           </Photograph_Log>
@@ -628,7 +640,7 @@
               <Title/>
               <Colgroup_1>
                 <Col_1>
-                  <Diary_timestamp/>
+                  <Timestamp/>
                 </Col_1>
                 <Col_2>
                   <Diary_author/>
@@ -638,6 +650,12 @@
               <Photo/>
               <Photo_Button_1/>
             </Diary>
+            <Vars>
+              <Diary_Site_Name/>
+              <Diary_Year_of_Campaign/>
+              <Diary_Trench_ID/>
+              <Device_Code/>
+            </Vars>
           </Diary>
           <Relationship>
             <Relationships>
@@ -711,6 +729,14 @@
                 </Col_2>
               </Colgroup_3>
             </Relationships>
+            <Legacies>
+              <Create_New_Legacy/>
+              <List_of_Existing_Legacies/>
+            </Legacies>
+            <Vars>
+              <Stratum_Feature_Relationship_Site_Name/>
+              <Stratum_Feature_Relationship_Year_of_Campaign/>
+            </Vars>
           </Stratum_Feature_Relationship>
           <FCN>
             <General>
@@ -755,6 +781,7 @@
             </General>
             <Vars>
               <FCN_Year_of_Campaign/>
+              <Device_Code/>
             </Vars>
           </FCN>
           <Soil_Munsel_Color>
@@ -763,6 +790,7 @@
             </Add_Soil_Munsel_Color>
             <Vars>
               <Soil_Munsel_Color_Locus_ID/>
+              <Device_Code/>
             </Vars>
           </Soil_Munsel_Color>
           <Legacy>
@@ -784,6 +812,9 @@
                 </Col_2>
               </Colgroup_2>
             </Legacy>
+            <Var>
+              <Device_Code/>
+            </Var>
           </Legacy>
         </faims>
       </instance>
@@ -1037,6 +1068,16 @@
           </item>
         </select1>
       </group>
+      <group ref="Vars" faims_hidden="true">
+        <label>{Vars}</label>
+        <select1 faims_attribute_name="Device Code" faims_attribute_type="vocab" ref="Device_Code">
+          <label>{Device_Code}</label>
+          <item>
+            <label>Options not loaded</label>
+            <value>Options not loaded</value>
+          </item>
+        </select1>
+      </group>
     </group>
     <group ref="Trench" faims_archent_type="Trench">
       <label>{Trench}</label>
@@ -1206,6 +1247,13 @@
         <input faims_attribute_name="Trench Year of Campaign" faims_attribute_type="measure" ref="Trench_Year_of_Campaign">
           <label>{Trench_Year_of_Campaign}</label>
         </input>
+        <select1 faims_attribute_name="Device Code" faims_attribute_type="vocab" ref="Device_Code">
+          <label>{Device_Code}</label>
+          <item>
+            <label>Options not loaded</label>
+            <value>Options not loaded</value>
+          </item>
+        </select1>
       </group>
     </group>
     <group ref="Date_Closed">
@@ -1284,6 +1332,16 @@
         <trigger ref="View_Attached_Files">
           <label>{View_Attached_Files}</label>
         </trigger>
+      </group>
+      <group ref="Vars" faims_hidden="true">
+        <label>{Vars}</label>
+        <select1 faims_attribute_name="Device Code" faims_attribute_type="vocab" ref="Device_Code">
+          <label>{Device_Code}</label>
+          <item>
+            <label>Options not loaded</label>
+            <value>Options not loaded</value>
+          </item>
+        </select1>
       </group>
     </group>
     <group ref="Locus" faims_archent_type="Locus">
@@ -2320,6 +2378,16 @@
         <input faims_attribute_name="R Paren" faims_attribute_type="measure" ref="R_Paren">
           <label>{R_Paren}</label>
         </input>
+        <select1 faims_attribute_name="Last Feature Type" faims_attribute_type="vocab" ref="Last_Feature_Type">
+          <label>{Last_Feature_Type}</label>
+          <item>
+            <label>Options not loaded</label>
+            <value>Options not loaded</value>
+          </item>
+        </select1>
+        <input faims_attribute_name="Last Feature Prefix" faims_attribute_type="measure" ref="Last_Feature_Prefix">
+          <label>{Last_Feature_Prefix}</label>
+        </input>
       </group>
     </group>
     <group ref="Sediment_Aggregate" faims_archent_type="Sediment Aggregate">
@@ -2361,6 +2429,13 @@
         <input faims_attribute_name="Trench ID" faims_attribute_type="measure" ref="Trench_ID">
           <label>{Trench_ID}</label>
         </input>
+        <select1 faims_attribute_name="Device Code" faims_attribute_type="vocab" ref="Device_Code">
+          <label>{Device_Code}</label>
+          <item>
+            <label>Options not loaded</label>
+            <value>Options not loaded</value>
+          </item>
+        </select1>
       </group>
     </group>
     <group ref="Photograph_Log" faims_archent_type="Photograph Log">
@@ -2401,8 +2476,14 @@
       </group>
       <group ref="Vars" faims_hidden="true">
         <label>{Vars}</label>
-        <input faims_attribute_name="Trench ID" faims_attribute_type="measure" ref="Trench_ID">
-          <label>{Trench_ID}</label>
+        <input faims_attribute_name="Photograph Log Site Name" faims_attribute_type="measure" ref="Photograph_Log_Site_Name">
+          <label>{Photograph_Log_Site_Name}</label>
+        </input>
+        <input faims_attribute_name="Photograph Log Year of Campaign" faims_attribute_type="measure" ref="Photograph_Log_Year_of_Campaign">
+          <label>{Photograph_Log_Year_of_Campaign}</label>
+        </input>
+        <input faims_attribute_name="Photograph Trench ID" faims_attribute_type="measure" ref="Photograph_Trench_ID">
+          <label>{Photograph_Trench_ID}</label>
         </input>
         <select1 faims_attribute_name="Device Code" faims_attribute_type="vocab" ref="Device_Code">
           <label>{Device_Code}</label>
@@ -2424,8 +2505,8 @@
           <label/>
           <group ref="Col_1" faims_style="even">
             <label/>
-            <input faims_attribute_name="Diary timestamp" faims_attribute_type="measure" ref="Diary_timestamp" faims_read_only="true">
-              <label>{Diary_timestamp}</label>
+            <input faims_attribute_name="Timestamp" faims_attribute_type="measure" ref="Timestamp" faims_read_only="true">
+              <label>{Timestamp}</label>
             </input>
           </group>
           <group ref="Col_2" faims_style="even">
@@ -2448,6 +2529,25 @@
         <trigger ref="Photo_Button_1">
           <label>{Photo}</label>
         </trigger>
+      </group>
+      <group ref="Vars" faims_hidden="true">
+        <label>{Vars}</label>
+        <input faims_attribute_name="Diary Site Name" faims_attribute_type="measure" ref="Diary_Site_Name">
+          <label>{Diary_Site_Name}</label>
+        </input>
+        <input faims_attribute_name="Diary Year of Campaign" faims_attribute_type="measure" ref="Diary_Year_of_Campaign">
+          <label>{Diary_Year_of_Campaign}</label>
+        </input>
+        <input faims_attribute_name="Diary Trench ID" faims_attribute_type="measure" ref="Diary_Trench_ID">
+          <label>{Diary_Trench_ID}</label>
+        </input>
+        <select1 faims_attribute_name="Device Code" faims_attribute_type="vocab" ref="Device_Code">
+          <label>{Device_Code}</label>
+          <item>
+            <label>Options not loaded</label>
+            <value>Options not loaded</value>
+          </item>
+        </select1>
       </group>
     </group>
     <group ref="Relationship">
@@ -2620,6 +2720,28 @@
           </group>
         </group>
       </group>
+      <group ref="Legacies" faims_scrollable="false">
+        <label>{Legacies}</label>
+        <trigger ref="Create_New_Legacy">
+          <label>{Create_New_Legacy}</label>
+        </trigger>
+        <select1 appearance="compact" ref="List_of_Existing_Legacies">
+          <label>{List_of_Existing_Legacies}</label>
+          <item>
+            <label>Options not loaded</label>
+            <value>Options not loaded</value>
+          </item>
+        </select1>
+      </group>
+      <group ref="Vars" faims_hidden="true">
+        <label>{Vars}</label>
+        <input ref="Stratum_Feature_Relationship_Site_Name">
+          <label>{Stratum_Feature_Relationship_Site_Name}</label>
+        </input>
+        <input ref="Stratum_Feature_Relationship_Year_of_Campaign">
+          <label>{Stratum_Feature_Relationship_Year_of_Campaign}</label>
+        </input>
+      </group>
     </group>
     <group ref="FCN" faims_archent_type="FCN">
       <label>{FCN}</label>
@@ -2752,6 +2874,13 @@
         <input faims_attribute_name="FCN Year of Campaign" faims_attribute_type="measure" ref="FCN_Year_of_Campaign">
           <label>{FCN_Year_of_Campaign}</label>
         </input>
+        <select1 faims_attribute_name="Device Code" faims_attribute_type="vocab" ref="Device_Code">
+          <label>{Device_Code}</label>
+          <item>
+            <label>Options not loaded</label>
+            <value>Options not loaded</value>
+          </item>
+        </select1>
       </group>
     </group>
     <group ref="Soil_Munsel_Color" faims_archent_type="Soil Munsel Color">
@@ -2771,6 +2900,13 @@
         <input faims_attribute_name="Soil Munsel Color Locus ID" faims_attribute_type="measure" ref="Soil_Munsel_Color_Locus_ID">
           <label>{Soil_Munsel_Color_Locus_ID}</label>
         </input>
+        <select1 faims_attribute_name="Device Code" faims_attribute_type="vocab" ref="Device_Code">
+          <label>{Device_Code}</label>
+          <item>
+            <label>Options not loaded</label>
+            <value>Options not loaded</value>
+          </item>
+        </select1>
       </group>
     </group>
     <group ref="Legacy" faims_archent_type="Legacy">
@@ -2807,6 +2943,16 @@
             </input>
           </group>
         </group>
+      </group>
+      <group ref="Var" faims_hidden="true">
+        <label>{Var}</label>
+        <select1 faims_attribute_name="Device Code" faims_attribute_type="vocab" ref="Device_Code">
+          <label>{Device_Code}</label>
+          <item>
+            <label>Options not loaded</label>
+            <value>Options not loaded</value>
+          </item>
+        </select1>
       </group>
     </group>
   </h:body>
