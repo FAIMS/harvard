@@ -83,10 +83,12 @@ replacement="
     <\/property>"
 perl -0777 -i.original -pe "s/$string/$replacement/igs" validation.xml
 
-echo "Select_User=Select User"                                     >> english.0.properties
-echo "Select_Site=Select Site"                                     >> english.0.properties
-echo "Volume_Liters=Volume (Liters)"                               >> english.0.properties
-echo "Must_be_between_0_0_and_90_0=(Must be between 0.0 and 90.0)" >> english.0.properties
+echo "Select_User=Select User"                                            >> english.0.properties
+echo "Select_Site=Select Site"                                            >> english.0.properties
+echo "Volume_Liters=Volume (Liters)"                                      >> english.0.properties
+echo "Must_be_between_0_0_and_90_0=(Must be between 0.0 and 90.0)"        >> english.0.properties
+echo "Cannot_Log_in=Cannot Log in"                                        >> english.0.properties
+echo "You_must_select_a_user_to_log_in=You must select a user to log in." >> english.0.properties
 
 rm ui_schema.xml.original
 rm validation.xml.original
