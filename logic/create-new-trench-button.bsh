@@ -7,8 +7,15 @@ void onClickSiteSiteTrenches() {
     showToast("{You_must_save_this_tabgroup_first}");
     return;
   }
-  parentTabgroup   = tabgroup;
-  parentTabgroup__ = tabgroup;
+  if (!isValidTrenchId()) {
+    String head  = "{invalid_trench_id_head}";
+    String body  = "{invalid_trench_id_body}";
+    String cbOk  = "tryCreateNewTrench()";
+    String cbBad = "";
+    showAlert(head, body, cbOk, cbBad);
+    return;
+  }
+
   tryCreateNewTrench();
 }
 
@@ -35,8 +42,8 @@ void tryCreateNewTrench () {
 
   FetchCallback callback = new FetchCallback() {
     onFetch(result) {
-      if      (result        == null) newTrench();
-      else if (result.size() == 0   ) newTrench();
+      if      (result        == null) setParentAndNewTrench();
+      else if (result.size() == 0   ) setParentAndNewTrench();
       else                            confirmNewTrench();
     }
   };
@@ -48,7 +55,21 @@ void confirmNewTrench() {
   String head  = "{trench_already_exists_head}";
   String body  = "{trench_already_exists_body}";
   String cbOk  = "";
-  String cbBad = "newTrench()";
+  String cbBad = "setParentAndNewTrench()";
 
   showAlert(head, body, cbOk, cbBad);
+}
+
+void setParentAndNewTrench() {
+  String tabgroup = "Site";
+  parentTabgroup   = tabgroup;
+  parentTabgroup__ = tabgroup;
+  newTrench();
+}
+
+
+boolean isValidTrenchId() {
+  String ref = "Site/Site/Trench_ID";
+  String trenchId = getFieldValue(ref);
+  return trenchId.matches("T\\d+");
 }

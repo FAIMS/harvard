@@ -128,6 +128,8 @@ is_included_in=is included in
 parentchild=ParentChild
 parent_of=Parent of
 precisely_contemporary_with=Precisely Contemporary with
+invalid_trench_id_head=Invalid Trench ID
+invalid_trench_id_body=Tap 'Cancel' to change the 'Trench ID' field, or 'OK' to proceed.
 EOF
 
 rm ui_schema.xml.original

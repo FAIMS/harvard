@@ -803,18 +803,18 @@ void makeLocalID(){
   fetchOne("CREATE TABLE IF NOT EXISTS localSettings (key text primary key, value text);", null);
   fetchOne("DROP VIEW IF EXISTS parentchild;", null);
   fetchOne("CREATE VIEW parentchild AS "+
-           "SELECT parent.uuid as parentuuid, child.uuid as childuuid, parent.participatesverb as parentparticipatesverb, parent.relationshipid, parent.aenttypename as parentaenttypename, child.participatesverb as childparticipatesverb, child.aenttypename as childaenttypename "+
-           "  FROM (SELECT uuid, participatesverb, aenttypename, relationshipid"+
-           "          FROM latestnondeletedaentreln "+
-           "          JOIN relationship USING (relationshipid) "+
-           "          JOIN latestnondeletedarchent USING (uuid) "+
-           "          JOIN aenttype USING (aenttypeid)) parent "+
-           "  JOIN (SELECT uuid, relationshipid, participatesverb, aenttypename "+
-           "          FROM latestnondeletedaentreln "+
-           "          JOIN relationship USING (relationshipid) "+
-           "          JOIN latestnondeletedarchent USING (uuid) "+
-           "          JOIN aenttype USING (aenttypeid)) child "+
-           "    ON (parent.relationshipid = child.relationshipid AND parent.uuid != child.uuid);", null);
+           "           SELECT parent.uuid as parentuuid, child.uuid as childuuid, parent.participatesverb as parentparticipatesverb, parent.relationshipid, parent.aenttypename as parentaenttypename, child.participatesverb as childparticipatesverb, child.aenttypename as childaenttypename, createdat"+
+           "             FROM (SELECT uuid, participatesverb, aenttypename, relationshipid, relntimestamp as createdat"+
+           "                     FROM latestnondeletedaentreln "+
+           "                     JOIN relationship USING (relationshipid) "+
+           "                     JOIN latestnondeletedarchent USING (uuid) "+
+           "                     JOIN aenttype USING (aenttypeid)) parent "+
+           "             JOIN (SELECT uuid, relationshipid, participatesverb, aenttypename "+
+           "                     FROM latestnondeletedaentreln "+
+           "                     JOIN relationship USING (relationshipid) "+
+           "                     JOIN latestnondeletedarchent USING (uuid) "+
+           "                     JOIN aenttype USING (aenttypeid)) child "+
+           "               ON (parent.relationshipid = child.relationshipid AND parent.uuid != child.uuid)");
 }
 makeLocalID();
 
@@ -2429,13 +2429,8 @@ void loadEntityFrom(String entityID) {
           result       .size() == 0    ||
           result.get(0).size() == 0
       ) {
-        String head;
-        String body;
-
-        head  = "Record Could Not Be Loaded";
-        body  = "The record could not be loaded. It may have been deleted by";
-        body += " another user.";
-
+        String head  = "{err_load_entity_head}";
+        String body  = "{err_load_entity_body}";
         showWarning(head, body);
         return;
       }
@@ -3705,27 +3700,32 @@ void doNotDelete(){
   showToast("{Delete_Cancelled}");
 }
 
+addOnEvent("User", "show", "removeNavigationButtons()");
+addOnEvent("Control", "show", "removeNavigationButtons()");
 addOnEvent("Site", "show", "removeNavigationButtons()");
-addOnEvent("Site", "show", "addNavigationButtons(\"Site\")");
 addOnEvent("Trench", "show", "removeNavigationButtons()");
-addOnEvent("Trench", "show", "addNavigationButtons(\"Trench\")");
+addOnEvent("Date_Closed", "show", "removeNavigationButtons()");
 addOnEvent("Trench_Files", "show", "removeNavigationButtons()");
-addOnEvent("Trench_Files", "show", "addNavigationButtons(\"Trench_Files\")");
 addOnEvent("Locus", "show", "removeNavigationButtons()");
-addOnEvent("Locus", "show", "addNavigationButtons(\"Locus\")");
 addOnEvent("Stratum_Feature", "show", "removeNavigationButtons()");
-addOnEvent("Stratum_Feature", "show", "addNavigationButtons(\"Stratum_Feature\")");
 addOnEvent("Sediment_Aggregate", "show", "removeNavigationButtons()");
-addOnEvent("Sediment_Aggregate", "show", "addNavigationButtons(\"Sediment_Aggregate\")");
 addOnEvent("Photograph_Log", "show", "removeNavigationButtons()");
-addOnEvent("Photograph_Log", "show", "addNavigationButtons(\"Photograph_Log\")");
 addOnEvent("Diary", "show", "removeNavigationButtons()");
-addOnEvent("Diary", "show", "addNavigationButtons(\"Diary\")");
+addOnEvent("Relationship", "show", "removeNavigationButtons()");
+addOnEvent("Stratum_Feature_Relationship", "show", "removeNavigationButtons()");
 addOnEvent("FCN", "show", "removeNavigationButtons()");
-addOnEvent("FCN", "show", "addNavigationButtons(\"FCN\")");
 addOnEvent("Soil_Munsel_Color", "show", "removeNavigationButtons()");
-addOnEvent("Soil_Munsel_Color", "show", "addNavigationButtons(\"Soil_Munsel_Color\")");
 addOnEvent("Legacy", "show", "removeNavigationButtons()");
+addOnEvent("Site", "show", "addNavigationButtons(\"Site\")");
+addOnEvent("Trench", "show", "addNavigationButtons(\"Trench\")");
+addOnEvent("Trench_Files", "show", "addNavigationButtons(\"Trench_Files\")");
+addOnEvent("Locus", "show", "addNavigationButtons(\"Locus\")");
+addOnEvent("Stratum_Feature", "show", "addNavigationButtons(\"Stratum_Feature\")");
+addOnEvent("Sediment_Aggregate", "show", "addNavigationButtons(\"Sediment_Aggregate\")");
+addOnEvent("Photograph_Log", "show", "addNavigationButtons(\"Photograph_Log\")");
+addOnEvent("Diary", "show", "addNavigationButtons(\"Diary\")");
+addOnEvent("FCN", "show", "addNavigationButtons(\"FCN\")");
+addOnEvent("Soil_Munsel_Color", "show", "addNavigationButtons(\"Soil_Munsel_Color\")");
 addOnEvent("Legacy", "show", "addNavigationButtons(\"Legacy\")");
 
 /******************************************************************************/
@@ -3768,7 +3768,7 @@ void search(){
                        " WHERE uuid in (SELECT uuid "+
                        "                  FROM latestNonDeletedArchEntIdentifiers "+
                        "                 WHERE measure LIKE '"+term+"'||'%'  "+
-                       "                   AND ( aenttypename LIKE '"+type+"' OR '' = '"+type+"' ) "+
+                       "                   AND ( aenttypename = '"+type+"' OR '' = '"+type+"' ) "+
                        "                )  "+
                        " ORDER BY response "+
                        " LIMIT ? "+
@@ -4206,16 +4206,34 @@ void populateMenuWithEntities (
   String entType,
   String relType
 ) {
+  if (!"DropDown".equals(viewType) && !"List".equals(viewType)) {
+    Log.e("populateMenuWithEntities ", "Unexpected type '" + viewType + "'");
+    return;
+  }
+
+  String limit;
+  switch (viewType) {
+    case "DropDown": limit = "";                   break;
+    case "List":     limit = " LIMIT ? OFFSET ? "; break;
+  }
+
   String getChildEntitiesQ = "" +
-    "SELECT childuuid, response "+
-    "  FROM parentchild JOIN latestNonDeletedArchEntFormattedIdentifiers ON (childuuid = uuid) " +
-    "  JOIN createdmodifiedatby USING (uuid) " +
-    " WHERE relationshipid IN (SELECT relationshipid  " +
-    "                            FROM latestnondeletedrelationship JOIN relntype USING (relntypeid) " +
-    "                           WHERE relntypename = '"+relType+"') " +
-    "   AND parentuuid = '" + parentUuid + "' " +
-    "   AND (childaenttypename = '"+entType+"' OR '"+entType+"' = '') " +
-    " ORDER BY createdat DESC ";
+    "SELECT childuuid, response " +
+    "  FROM (select childuuid, createdat" +
+    "          from (select childuuid, createdat, relationshipid" +
+    "                    from parentchild" +
+    "                   where parentuuid = '" + parentUuid + "' " +
+    "                   and (childaenttypename = '"+entType+"')" +
+    "                   order by createdat           " +
+    "                   )" +
+    "          JOIN (SELECT relationshipid   " +
+    "                  FROM latestnondeletedrelationship JOIN relntype USING (relntypeid)  " +
+    "                 WHERE relntypename = '"+relType+"') USING (relationshipid)" +
+    "          order by createdat desc" +
+    limit +
+    "        )  " +
+    "  JOIN latestNonDeletedArchEntFormattedIdentifiers ON (childuuid = uuid)   " +
+    "  order by createdat desc";
 
   String getEntitiesQ = "" +
     "SELECT uuid, response "+
@@ -4224,14 +4242,8 @@ void populateMenuWithEntities (
     "                  FROM latestNonDeletedArchEntIdentifiers "+
     "                 WHERE aenttypename = '"+entType+"' OR '"+entType+"' = '' " +
     "               )  "+
-    " ORDER BY response ";
-
-  String q = null;
-  if (relType.equals("")) {
-    q = getEntitiesQ;
-  } else {
-    q = getChildEntitiesQ;
-  }
+    " ORDER BY response " +
+    limit;
 
   FetchCallback cbPopulateDropDown = new FetchCallback() {
     onFetch(result) {
@@ -4239,16 +4251,13 @@ void populateMenuWithEntities (
     }
   };
 
+  String q;
+  if (relType.equals("")) q = getEntitiesQ;
+  else                    q = getChildEntitiesQ;
+
   switch (viewType) {
-    case "DropDown":
-      fetchAll(q, cbPopulateDropDown);
-      break;
-    case "List":
-      q += " LIMIT ? OFFSET ? ";
-      populateCursorList(path, q, 25);
-      break;
-    default:
-      Log.e("populateMenuWithEntities ", "Unexpected type '" + viewType + "'");
+    case "DropDown": fetchAll(q, cbPopulateDropDown); break;
+    case "List":     populateCursorList(path, q, 25); break;
   }
 }
 
@@ -5890,8 +5899,15 @@ void onClickSiteSiteTrenches() {
     showToast("{You_must_save_this_tabgroup_first}");
     return;
   }
-  parentTabgroup   = tabgroup;
-  parentTabgroup__ = tabgroup;
+  if (!isValidTrenchId()) {
+    String head  = "{invalid_trench_id_head}";
+    String body  = "{invalid_trench_id_body}";
+    String cbOk  = "tryCreateNewTrench()";
+    String cbBad = "";
+    showAlert(head, body, cbOk, cbBad);
+    return;
+  }
+
   tryCreateNewTrench();
 }
 
@@ -5918,8 +5934,8 @@ void tryCreateNewTrench () {
 
   FetchCallback callback = new FetchCallback() {
     onFetch(result) {
-      if      (result        == null) newTrench();
-      else if (result.size() == 0   ) newTrench();
+      if      (result        == null) setParentAndNewTrench();
+      else if (result.size() == 0   ) setParentAndNewTrench();
       else                            confirmNewTrench();
     }
   };
@@ -5931,9 +5947,23 @@ void confirmNewTrench() {
   String head  = "{trench_already_exists_head}";
   String body  = "{trench_already_exists_body}";
   String cbOk  = "";
-  String cbBad = "newTrench()";
+  String cbBad = "setParentAndNewTrench()";
 
   showAlert(head, body, cbOk, cbBad);
+}
+
+void setParentAndNewTrench() {
+  String tabgroup = "Site";
+  parentTabgroup   = tabgroup;
+  parentTabgroup__ = tabgroup;
+  newTrench();
+}
+
+
+boolean isValidTrenchId() {
+  String ref = "Site/Site/Trench_ID";
+  String trenchId = getFieldValue(ref);
+  return trenchId.matches("T\\d+");
 }
 /************************* FCN ENTITY LIST POPULATION *************************/
 addOnEvent("Trench", "create", "populateTrenchFcns()");
