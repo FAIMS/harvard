@@ -295,7 +295,7 @@ String getRelatedChildQuery(String parentUuid) {
   relatedQ += "                            FROM latestnondeletedrelationship JOIN relntype USING (relntypeid)  ";
   relatedQ += "                           WHERE relntypename NOT like '% - %') ";
   relatedQ += "   and parentuuid = '"+parentUuid+"' ";
-  relatedQ += " ORDER BY createdat desc ";
+  relatedQ += " ORDER BY parentchild.createdat desc ";
   relatedQ += " LIMIT ? OFFSET ? ";
   return relatedQ;
 }

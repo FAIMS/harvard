@@ -23,7 +23,7 @@ void populateTrenchFcns() {
   q += "                                                WHERE relntypename IN ('Trench - Locus'))";
   q += "                        AND parentuuid = '{parentUuid}'))";
   q += "   AND childaenttypename IN ('FCN')";
-  q += " ORDER BY createdat DESC";
+  q += " ORDER BY parentchild.createdat DESC";
   q += " LIMIT ? OFFSET ?";
   q  = replaceFirst(q, "{parentUuid}", parentUuid);
   q  = replaceFirst(q, "{parentUuid}", parentUuid);
