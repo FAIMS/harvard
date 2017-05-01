@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--@PREPROC:  ./proc/pre.sh-->
 <!--@POSTPROC: ./proc/post.sh-->
-<!--TODO: Trigger autosave on click of Site/Site/Trenches-->
-<!--TODO: Validation for Site/Site/Trench_ID-->
-<!--TODO: Search: change "LIKE '% Year of Campaign'"-->
+<!--TODO: Search: Reload results only once dropdowns are populated-->
 <module suppressWarnings="true">
 
 <rels>
@@ -74,8 +72,8 @@
 
 <Control f="nodata">
   <Site f="noscroll">
-    <New_Site_Name    f="persist notnull"/>
-    <Year_of_Campaign f="persist notnull" b="decimal"/>
+    <New_Site_Name    f="notnull"/>
+    <Year_of_Campaign f="notnull" b="decimal"/>
     <GPS_Diagnostics t="gpsdiag"/>
     <Create_New_Site         t="button" l="Site"/>
     <Choose_an_Existing_Site t="list"   e="Site"/>
@@ -105,7 +103,7 @@
     <Guide t="webview">
       'Trench ID' must be in the format 'T + number', e.g. T1, T2, T3.
     </Guide>
-    <Trench_ID f="notnull"/>
+    <Trench_ID f="nodata notnull"/>
     <Trenches                  lc="Trench"/>
     <List_of_Existing_Trenches ec="Trench"/>
   </Site>
@@ -1644,7 +1642,6 @@
   <!--@SOURCE: logic/custom-search.bsh-->
   <!--@SOURCE: logic/custom-validation.bsh-->
   <!--@SOURCE: logic/date-closed.bsh-->
-  <!--@SOURCE: logic/create-new-site-button.bsh-->
   <!--@SOURCE: logic/create-new-trench-button.bsh-->
   <!--@SOURCE: logic/fcn-entity-list-population.bsh-->
   <!--@SOURCE: logic/custom-diary-timestamp.bsh-->

@@ -50,3 +50,37 @@ void populateLotLabel(String lotRef) {
   identiferType = "Locus";
   setFieldToIdentifier(identiferType, lotRef);
 }
+
+List getAttribNamesEndingWith(String ending) {
+  List attribNamesEndingWith = new ArrayList();
+  for (String ref : DATA_REFS) {
+    String attribName = getAttributeName(ref);
+    if (attribName.endsWith(ending))
+      attribNamesEndingWith.add(attribName);
+  }
+  return attribNamesEndingWith;
+}
+
+String getAttribNamesEndingWithAsString(String ending) {
+  List   attribNames       = getAttribNamesEndingWith(ending);
+  String attribNamesString = "";
+
+  attribNamesString += "(";
+  for (int i = 0; i < attribNames.size() - 1; i++) {
+    attribName = attribNames.get(i);
+    attribNamesString += "'" + attribName + "', ";
+  }
+  if (attribNames.size() > 0) {
+    int lastIndex = attribNames.size() - 1;
+    attribName = attribNames.get(lastIndex);
+    attribNamesString += "'" + attribName + "'";
+  }
+  attribNamesString += ")";
+
+  return attribNamesString;
+}
+
+ATTRIBS_TRENCH_ID        = getAttribNamesEndingWithAsString("Trench ID");
+ATTRIBS_LOCUS_ID         = getAttribNamesEndingWithAsString("Locus ID");
+ATTRIBS_SITE_NAME        = getAttribNamesEndingWithAsString("Site Name");
+ATTRIBS_YEAR_OF_CAMPAIGN = getAttribNamesEndingWithAsString("Year of Campaign");

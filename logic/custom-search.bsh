@@ -140,13 +140,13 @@ void search(){
                        "            SELECT uuid" +
                        "              FROM latestnondeletedaentvalue" +
                        "              JOIN attributekey USING (attributeid)" +
-                       "             WHERE attributename LIKE '% Site Name'" +
+                       "             WHERE attributename IN " + ATTRIBS_SITE_NAME +
                        "               AND measure = '{name}'" +
                        "               AND uuid IN (" +
                        "                    SELECT uuid" +
                        "                      FROM latestnondeletedaentvalue" +
                        "                      JOIN attributekey USING (attributeid)" +
-                       "                     WHERE attributename LIKE '% Year of Campaign'" +
+                       "                     WHERE attributename IN " + ATTRIBS_YEAR_OF_CAMPAIGN +
                        "                       AND measure = '{year}'" +
                        "               )" +
                        "           )" +
@@ -163,6 +163,7 @@ void search(){
   searchQuery = replaceFirst(searchQuery, "{year}", year);
   searchQuery = replaceFirst(searchQuery, "{name}", name);
   searchQuery = replaceFirst(searchQuery, "{year}", year);
+  showWarning("", searchQuery);
 
   populateCursorList(refEntityList, searchQuery, 25);
   refreshTabgroupCSS(tabgroup);
