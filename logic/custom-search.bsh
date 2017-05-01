@@ -163,7 +163,6 @@ void search(){
   searchQuery = replaceFirst(searchQuery, "{year}", year);
   searchQuery = replaceFirst(searchQuery, "{name}", name);
   searchQuery = replaceFirst(searchQuery, "{year}", year);
-  showWarning("", searchQuery);
 
   populateCursorList(refEntityList, searchQuery, 25);
   refreshTabgroupCSS(tabgroup);
