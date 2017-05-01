@@ -1645,5 +1645,7 @@
   <!--@SOURCE: logic/create-new-trench-button.bsh-->
   <!--@SOURCE: logic/fcn-entity-list-population.bsh-->
   <!--@SOURCE: logic/custom-diary-timestamp.bsh-->
+  <!--@SOURCE: logic/field-clearing.bsh-->
+
 ]]></logic>
 </module>

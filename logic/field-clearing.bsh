@@ -1,0 +1,8 @@
+/******************************* FIELD CLEARING *******************************/
+clearControlNewSiteName()    { clearField("Control/Site/New_Site_Name"); }
+clearControlYearofCampaign() { clearField("Control/Site/Year_of_Campaign"); }
+clearSiteTrenchId()          { clearField("Site/Site/Trench_ID"); }
+
+addOnEvent("Control/Site/New_Site_Name",    "show", "clearControlNewSiteName()");
+addOnEvent("Control/Site/Year_of_Campaign", "show", "clearControlYearofCampaign()");
+addOnEvent("Site/Site/Trench_ID",           "show", "clearSiteTrenchId()");
