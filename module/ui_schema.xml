@@ -72,7 +72,7 @@
               <Site_Year_of_Campaign/>
               <Guide/>
               <Trench_ID/>
-              <Trenches/>
+              <Create_New_Trench/>
               <List_of_Existing_Trenches/>
             </Site>
             <Vars>
@@ -1054,11 +1054,11 @@
         <input faims_web="true" ref="Guide">
           <label>{_Trench_ID__must_be_in_the_format__T___number___e_g__T1__T2__T3_}</label>
         </input>
-        <input faims_attribute_name="Trench ID" faims_attribute_type="measure" ref="Trench_ID" faims_style_class="required">
+        <input ref="Trench_ID" faims_style_class="required">
           <label>{Trench_ID}</label>
         </input>
-        <trigger ref="Trenches">
-          <label>{Trenches}</label>
+        <trigger ref="Create_New_Trench">
+          <label>{Create_New_Trench}</label>
         </trigger>
         <select1 appearance="compact" ref="List_of_Existing_Trenches">
           <label>{List_of_Existing_Trenches}</label>

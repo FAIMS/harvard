@@ -26,7 +26,7 @@
   </RelationshipElement>
   <RelationshipElement name="{cuts}" type="hierarchical">
     <description>Implements a cuts-cutby for loci.</description>
-    <parent>cuts</parent>
+    <parent>{cuts}</parent>
     <child>{cut_by}</child>
   </RelationshipElement>
   <RelationshipElement name="{earlierlater}" type="hierarchical">
@@ -117,11 +117,6 @@
     <property name="Site Year of Campaign" type="measure" isIdentifier="true">
       <description></description>
       <formatString> $2</formatString>
-      <appendCharacterString> - </appendCharacterString>
-    </property>
-    <property name="Trench ID" type="measure">
-      <description></description>
-      <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
     </property>
     <property name="Device Code" type="vocab">

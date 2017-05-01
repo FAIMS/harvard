@@ -1,12 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <ValidationSchema>
-  <ArchaeologicalElement name="Site">
-    <property name="Trench ID">
-      <validator type="blankchecker">
-        <param type="field" value="measure"/>
-      </validator>
-    </property>
-  </ArchaeologicalElement>
+  <ArchaeologicalElement name="Site"/>
   <ArchaeologicalElement name="Trench">
     <property name="Excavation Method">
       <validator type="blankchecker">

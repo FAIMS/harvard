@@ -35,7 +35,7 @@
   </RelationshipElement>
   <RelationshipElement name="{cuts}" type="hierarchical">
     <description>Implements a cuts-cutby for loci.</description>
-    <parent>cuts</parent>
+    <parent>{cuts}</parent>
     <child>{cut_by}</child>
   </RelationshipElement>
   <RelationshipElement name="{earlierlater}" type="hierarchical">
@@ -104,7 +104,7 @@
       'Trench ID' must be in the format 'T + number', e.g. T1, T2, T3.
     </Guide>
     <Trench_ID f="nodata notnull"/>
-    <Trenches                  lc="Trench"/>
+    <Create_New_Trench         lc="Trench"/>
     <List_of_Existing_Trenches ec="Trench"/>
   </Site>
   <Vars f="hidden">

@@ -89,403 +89,636 @@ String fun2str(String funName, Object args) {
 /******************************************************************************/
 /*                           DOCUMENT OBJECT MODEL                            */
 /******************************************************************************/
-String PREVIOUSLY_DISPLAYED_TAB_GROUP = "";
-String CURRENTLY_DISPLAYED_TAB_GROUP  = "";
+String  PREVIOUSLY_DISPLAYED_TAB_GROUP = "";
+String  CURRENTLY_DISPLAYED_TAB_GROUP  = "";
+Map     REF_TO_TYPE                    = new HashMap();
+HashSet DATA_REFS                      = new HashSet();
+
+REF_TO_TYPE.put("User/User_List/Users", "dropdown");
+REF_TO_TYPE.put("User/User_List/Device_Code", "dropdown");
+REF_TO_TYPE.put("User/User_List/Login", "button");
+REF_TO_TYPE.put("User/User_List/Module_Guide", "button");
+REF_TO_TYPE.put("User/Help/Help", "webview");
+REF_TO_TYPE.put("Control/Site/New_Site_Name", "input");
+REF_TO_TYPE.put("Control/Site/Year_of_Campaign", "input");
+REF_TO_TYPE.put("Control/Site/GPS_Diagnostics", "gpsdiag");
+REF_TO_TYPE.put("Control/Site/Create_New_Site", "button");
+REF_TO_TYPE.put("Control/Site/Choose_an_Existing_Site", "list");
+REF_TO_TYPE.put("Control/Next_IDs/Next_Locus_Locus_ID", "input");
+REF_TO_TYPE.put("Control/Next_IDs/Next_Stratum_Feature_ID", "input");
+REF_TO_TYPE.put("Control/Next_IDs/Next_FCN_ID", "input");
+REF_TO_TYPE.put("Control/Search", "group");
+REF_TO_TYPE.put("Control/Search/Search_Term", "input");
+REF_TO_TYPE.put("Control/Search/Search_Button", "button");
+REF_TO_TYPE.put("Control/Search/Entity_Types", "dropdown");
+REF_TO_TYPE.put("Control/Search/Entity_List", "list");
+REF_TO_TYPE.put("Site/Site/Site_Site_Name", "input");
+REF_TO_TYPE.put("Site/Site/Site_Year_of_Campaign", "input");
+REF_TO_TYPE.put("Site/Site/Guide", "webview");
+REF_TO_TYPE.put("Site/Site/Trench_ID", "input");
+REF_TO_TYPE.put("Site/Site/Create_New_Trench", "button");
+REF_TO_TYPE.put("Site/Site/List_of_Existing_Trenches", "list");
+REF_TO_TYPE.put("Site/Vars/Device_Code", "dropdown");
+REF_TO_TYPE.put("Trench/Trench/Trench_Site_Name", "input");
+REF_TO_TYPE.put("Trench/Trench/Trench_author", "input");
+REF_TO_TYPE.put("Trench/Trench/Trench_Trench_ID", "input");
+REF_TO_TYPE.put("Trench/Trench/Team_Members", "input");
+REF_TO_TYPE.put("Trench/Trench/Trench_Dimensions", "dropdown");
+REF_TO_TYPE.put("Trench/Trench/Grid_SW_Corner_Coordinates", "webview");
+REF_TO_TYPE.put("Trench/Trench", "group");
+REF_TO_TYPE.put("Trench/Trench/Latitude", "input");
+REF_TO_TYPE.put("Trench/Trench/Longitude", "input");
+REF_TO_TYPE.put("Trench/Trench", "group");
+REF_TO_TYPE.put("Trench/Trench/Northing", "input");
+REF_TO_TYPE.put("Trench/Trench/Easting", "input");
+REF_TO_TYPE.put("Trench/Trench/Accuracy", "input");
+REF_TO_TYPE.put("Trench/Trench/Take_From_GPS_1", "button");
+REF_TO_TYPE.put("Trench/Trench/Excavation_Method", "checkbox");
+REF_TO_TYPE.put("Trench/Trench/Trench_timestamp", "input");
+REF_TO_TYPE.put("Trench/Trench/Set_Date_Closed", "button");
+REF_TO_TYPE.put("Trench/Trench/Date_Closed", "input");
+REF_TO_TYPE.put("Trench/Trench/Brief_Description", "input");
+REF_TO_TYPE.put("Trench/Trench/Your_Discussion", "input");
+REF_TO_TYPE.put("Trench/Trench/Add_Trench_Files", "button");
+REF_TO_TYPE.put("Trench/Trench/Attached_Trench_Files", "dropdown");
+REF_TO_TYPE.put("Trench/Loci/Create_New_Locus", "button");
+REF_TO_TYPE.put("Trench/Loci/List_of_Existing_Loci", "list");
+REF_TO_TYPE.put("Trench/Strata_Features/Create_New_Stratum_Feature", "button");
+REF_TO_TYPE.put("Trench/Strata_Features/List_of_Existing_Strata_Features", "list");
+REF_TO_TYPE.put("Trench/FCNs/Create_New_FCN", "button");
+REF_TO_TYPE.put("Trench/FCNs/List_of_Existing_FCNs", "list");
+REF_TO_TYPE.put("Trench/Diaries/Create_New_Diary", "button");
+REF_TO_TYPE.put("Trench/Diaries/List_of_Existing_Diaries", "list");
+REF_TO_TYPE.put("Trench/Legacies/Create_New_Legacy", "button");
+REF_TO_TYPE.put("Trench/Legacies/List_of_Existing_Legacies", "list");
+REF_TO_TYPE.put("Trench/Vars/Trench_Year_of_Campaign", "input");
+REF_TO_TYPE.put("Trench/Vars/Device_Code", "dropdown");
+REF_TO_TYPE.put("Date_Closed/Date_Closed/Date_Closed", "input");
+REF_TO_TYPE.put("Date_Closed/Date_Closed/Set_Date_Closed", "button");
+REF_TO_TYPE.put("Date_Closed/Date_Closed/Cancel", "button");
+REF_TO_TYPE.put("Trench_Files/Add_Trench_Files", "group");
+REF_TO_TYPE.put("Trench_Files/Add_Trench_Files/Trench_Files_Site_Name", "input");
+REF_TO_TYPE.put("Trench_Files/Add_Trench_Files/Trench_Files_Year_of_Campaign", "input");
+REF_TO_TYPE.put("Trench_Files/Add_Trench_Files/Trench_Files_Trench_ID", "input");
+REF_TO_TYPE.put("Trench_Files/Add_Trench_Files/Trench_Files_author", "input");
+REF_TO_TYPE.put("Trench_Files/Add_Trench_Files/File_Type", "dropdown");
+REF_TO_TYPE.put("Trench_Files/Add_Trench_Files/File_Name", "input");
+REF_TO_TYPE.put("Trench_Files/Add_Trench_Files/File_Comment", "input");
+REF_TO_TYPE.put("Trench_Files/Add_Trench_Files/Add_Photo", "camera");
+REF_TO_TYPE.put("Trench_Files/Add_Trench_Files/Add_Photo_Button_1", "button");
+REF_TO_TYPE.put("Trench_Files/Add_Trench_Files/Attach_File", "file");
+REF_TO_TYPE.put("Trench_Files/Add_Trench_Files/Attach_File_Button_1", "button");
+REF_TO_TYPE.put("Trench_Files/Add_Trench_Files/View_Attached_Files", "viewfiles");
+REF_TO_TYPE.put("Trench_Files/Vars/Device_Code", "dropdown");
+REF_TO_TYPE.put("Locus/General", "group");
+REF_TO_TYPE.put("Locus/General/Locus_Site_Name", "input");
+REF_TO_TYPE.put("Locus/General/Locus_Trench_ID", "input");
+REF_TO_TYPE.put("Locus/General/Locus_Locus_ID", "input");
+REF_TO_TYPE.put("Locus/General/Brief_Description", "input");
+REF_TO_TYPE.put("Locus/General", "group");
+REF_TO_TYPE.put("Locus/General/Grid_X", "input");
+REF_TO_TYPE.put("Locus/General/Grid_Y", "input");
+REF_TO_TYPE.put("Locus/General", "group");
+REF_TO_TYPE.put("Locus/General/Date_Opened", "input");
+REF_TO_TYPE.put("Locus/General/Team_Members", "input");
+REF_TO_TYPE.put("Locus/General/Excavation_Method", "checkbox");
+REF_TO_TYPE.put("Locus/General", "group");
+REF_TO_TYPE.put("Locus/General/Basal_Edge_Definition", "dropdown");
+REF_TO_TYPE.put("Locus/General/Contamination", "dropdown");
+REF_TO_TYPE.put("Locus/General/Locus_Type", "picture");
+REF_TO_TYPE.put("Locus/General/Fill_in_Locus_Type_Details", "button");
+REF_TO_TYPE.put("Locus/General", "group");
+REF_TO_TYPE.put("Locus/General/Photo_of_Plan", "camera");
+REF_TO_TYPE.put("Locus/General/Photo_of_Plan_Button_1", "button");
+REF_TO_TYPE.put("Locus/General/Photo_of_Section", "camera");
+REF_TO_TYPE.put("Locus/General/Photo_of_Section_Button_1", "button");
+REF_TO_TYPE.put("Locus/General", "group");
+REF_TO_TYPE.put("Locus/General/Date_Closed", "input");
+REF_TO_TYPE.put("Locus/General/Add_Date_Closed", "button");
+REF_TO_TYPE.put("Locus/General", "group");
+REF_TO_TYPE.put("Locus/General/Locus_author", "input");
+REF_TO_TYPE.put("Locus/General/Locus_timestamp", "input");
+REF_TO_TYPE.put("Locus/Measure", "group");
+REF_TO_TYPE.put("Locus/Measure/Absolute_Height_Top_m", "input");
+REF_TO_TYPE.put("Locus/Measure/Absolute_Height_Bottom_m", "input");
+REF_TO_TYPE.put("Locus/Measure", "group");
+REF_TO_TYPE.put("Locus/Measure/Measure_Length", "input");
+REF_TO_TYPE.put("Locus/Measure/Measure_Width", "input");
+REF_TO_TYPE.put("Locus/Measure/Measure_Depth", "input");
+REF_TO_TYPE.put("Locus/Measure", "group");
+REF_TO_TYPE.put("Locus/Measure/NW_Top_Height", "input");
+REF_TO_TYPE.put("Locus/Measure/SW_Top_Height", "input");
+REF_TO_TYPE.put("Locus/Measure/Center_Top_Height", "input");
+REF_TO_TYPE.put("Locus/Measure/NE_Top_Height", "input");
+REF_TO_TYPE.put("Locus/Measure/SE_Top_Height", "input");
+REF_TO_TYPE.put("Locus/Measure", "group");
+REF_TO_TYPE.put("Locus/Measure/NW_Bottom_Height", "input");
+REF_TO_TYPE.put("Locus/Measure/SW_Bottom_Height", "input");
+REF_TO_TYPE.put("Locus/Measure/Center_Bottom_Height", "input");
+REF_TO_TYPE.put("Locus/Measure/NE_Bottom_Height", "input");
+REF_TO_TYPE.put("Locus/Measure/SE_Bottom_Height", "input");
+REF_TO_TYPE.put("Locus/Measure/Volume_Liters", "input");
+REF_TO_TYPE.put("Locus/Cut/Cut_Your_Interpretation", "dropdown");
+REF_TO_TYPE.put("Locus/Cut", "group");
+REF_TO_TYPE.put("Locus/Cut/Shape_in_Plan", "dropdown");
+REF_TO_TYPE.put("Locus/Cut/Shape_of_Cut_-_Note", "input");
+REF_TO_TYPE.put("Locus/Cut/Shape_of_Corners", "radio");
+REF_TO_TYPE.put("Locus/Cut/Break_of_Slope_-_Top", "radio");
+REF_TO_TYPE.put("Locus/Cut/Break_of_Slope_-_Base", "radio");
+REF_TO_TYPE.put("Locus/Cut", "group");
+REF_TO_TYPE.put("Locus/Cut/Sides_of_Cut", "dropdown");
+REF_TO_TYPE.put("Locus/Cut/Shape_of_Base", "dropdown");
+REF_TO_TYPE.put("Locus/Cut/Orientation", "dropdown");
+REF_TO_TYPE.put("Locus/Cut/Orientation_Degree", "input");
+REF_TO_TYPE.put("Locus/Cut/Inclination_of_axis", "dropdown");
+REF_TO_TYPE.put("Locus/Cut/Truncation", "input");
+REF_TO_TYPE.put("Locus/Construction/Description", "input");
+REF_TO_TYPE.put("Locus/Construction/Discussion", "input");
+REF_TO_TYPE.put("Locus/Construction/Length", "input");
+REF_TO_TYPE.put("Locus/Construction/Width", "input");
+REF_TO_TYPE.put("Locus/Construction", "group");
+REF_TO_TYPE.put("Locus/Construction/NW_Top_Depth", "input");
+REF_TO_TYPE.put("Locus/Construction/SW_Top_Depth", "input");
+REF_TO_TYPE.put("Locus/Construction/Center_Top_Depth", "input");
+REF_TO_TYPE.put("Locus/Construction/NE_Top_Depth", "input");
+REF_TO_TYPE.put("Locus/Construction/SE_Top_Depth", "input");
+REF_TO_TYPE.put("Locus/Construction", "group");
+REF_TO_TYPE.put("Locus/Construction/NW_Bottom_Depth", "input");
+REF_TO_TYPE.put("Locus/Construction/SW_Bottom_Depth", "input");
+REF_TO_TYPE.put("Locus/Construction/Center_Bottom_Depth", "input");
+REF_TO_TYPE.put("Locus/Construction/NE_Bottom_Depth", "input");
+REF_TO_TYPE.put("Locus/Construction/SE_Bottom_Depth", "input");
+REF_TO_TYPE.put("Locus/Construction/Mid_X", "input");
+REF_TO_TYPE.put("Locus/Construction/Mid_Y", "input");
+REF_TO_TYPE.put("Locus/Construction/Sorting", "input");
+REF_TO_TYPE.put("Locus/Construction/Notes", "input");
+REF_TO_TYPE.put("Locus/Construction/Plans", "input");
+REF_TO_TYPE.put("Locus/Construction/Section_Numbers", "input");
+REF_TO_TYPE.put("Locus/Deposit/Deposit_Your_Interpretation", "dropdown");
+REF_TO_TYPE.put("Locus/Deposit/Texture", "dropdown");
+REF_TO_TYPE.put("Locus/Deposit/Texture_Description", "input");
+REF_TO_TYPE.put("Locus/Deposit/Soil_Particle_Sorting", "picture");
+REF_TO_TYPE.put("Locus/Deposit", "group");
+REF_TO_TYPE.put("Locus/Deposit/Material", "dropdown");
+REF_TO_TYPE.put("Locus/Deposit/Material_Helper", "button");
+REF_TO_TYPE.put("Locus/Deposit/Soil_Colour", "input");
+REF_TO_TYPE.put("Locus/Deposit/Add_Munsel_Color", "button");
+REF_TO_TYPE.put("Locus/Deposit/Munsel_Colors", "dropdown");
+REF_TO_TYPE.put("Locus/Deposit", "group");
+REF_TO_TYPE.put("Locus/Deposit/Composition_Type", "dropdown");
+REF_TO_TYPE.put("Locus/Deposit/Deposit_Bedding", "dropdown");
+REF_TO_TYPE.put("Locus/Deposit", "group");
+REF_TO_TYPE.put("Locus/Deposit/Sterile", "radio");
+REF_TO_TYPE.put("Locus/Deposit/Deposit_Inclusions", "input");
+REF_TO_TYPE.put("Locus/Deposit/Add_New_Sediment_Aggregate", "button");
+REF_TO_TYPE.put("Locus/Deposit/Associated_Sediment_Aggregates", "dropdown");
+REF_TO_TYPE.put("Locus/Skeleton/Location", "input");
+REF_TO_TYPE.put("Locus/Skeleton/Skeleton_Dimensions", "input");
+REF_TO_TYPE.put("Locus/Skeleton", "group");
+REF_TO_TYPE.put("Locus/Skeleton/Skeleton_Head", "input");
+REF_TO_TYPE.put("Locus/Skeleton/Skeleton_Body", "input");
+REF_TO_TYPE.put("Locus/Skeleton", "group");
+REF_TO_TYPE.put("Locus/Skeleton/Skeleton_Left_Arm", "input");
+REF_TO_TYPE.put("Locus/Skeleton/Skeleton_Right_Arm", "input");
+REF_TO_TYPE.put("Locus/Skeleton", "group");
+REF_TO_TYPE.put("Locus/Skeleton/Skeleton_Left_Leg", "input");
+REF_TO_TYPE.put("Locus/Skeleton/Skeleton_Right_Leg", "input");
+REF_TO_TYPE.put("Locus/Skeleton/Skeleton_Condition", "input");
+REF_TO_TYPE.put("Locus/Skeleton/Skeleton_Surface_Modifications", "input");
+REF_TO_TYPE.put("Locus/Skeleton/Skeleton_Environment", "input");
+REF_TO_TYPE.put("Locus/Skeleton/Skeleton_Days_Exposed", "input");
+REF_TO_TYPE.put("Locus/Skeleton", "group");
+REF_TO_TYPE.put("Locus/Skeleton/Target_A_X", "input");
+REF_TO_TYPE.put("Locus/Skeleton/Target_A_Y", "input");
+REF_TO_TYPE.put("Locus/Skeleton/Target_A_Z", "input");
+REF_TO_TYPE.put("Locus/Skeleton", "group");
+REF_TO_TYPE.put("Locus/Skeleton/Target_B_X", "input");
+REF_TO_TYPE.put("Locus/Skeleton/Target_B_Y", "input");
+REF_TO_TYPE.put("Locus/Skeleton/Target_B_Z", "input");
+REF_TO_TYPE.put("Locus/Skeleton", "group");
+REF_TO_TYPE.put("Locus/Skeleton/Target_C_X", "input");
+REF_TO_TYPE.put("Locus/Skeleton/Target_C_Y", "input");
+REF_TO_TYPE.put("Locus/Skeleton/Target_C_Z", "input");
+REF_TO_TYPE.put("Locus/Skeleton", "group");
+REF_TO_TYPE.put("Locus/Skeleton/Target_D_X", "input");
+REF_TO_TYPE.put("Locus/Skeleton/Target_D_Y", "input");
+REF_TO_TYPE.put("Locus/Skeleton/Target_D_Z", "input");
+REF_TO_TYPE.put("Locus/Skeleton/Skeleton_Notes", "input");
+REF_TO_TYPE.put("Locus/Int/Your_description", "input");
+REF_TO_TYPE.put("Locus/Int/Your_Discussion", "input");
+REF_TO_TYPE.put("Locus/Relationships/Create_Relationships_to_This_Locus", "button");
+REF_TO_TYPE.put("Locus/Relationships", "group");
+REF_TO_TYPE.put("Locus/Relationships/Existing_Relationships_to_This_Locus", "list");
+REF_TO_TYPE.put("Locus/Relationships/Selected_Relationship", "webview");
+REF_TO_TYPE.put("Locus/Relationships/Load_Related_Locus", "button");
+REF_TO_TYPE.put("Locus/Relationships/Delete_Relationship", "button");
+REF_TO_TYPE.put("Locus/FCNs/Add_FCN", "button");
+REF_TO_TYPE.put("Locus/FCNs/List_of_Related_FCNs", "list");
+REF_TO_TYPE.put("Locus/Add/Photo", "camera");
+REF_TO_TYPE.put("Locus/Add/Photo_Button_1", "button");
+REF_TO_TYPE.put("Locus/Add/Attach_File", "file");
+REF_TO_TYPE.put("Locus/Add/Attach_File_Button_1", "button");
+REF_TO_TYPE.put("Locus/Add/View_Attached_Files", "viewfiles");
+REF_TO_TYPE.put("Locus/Add/Add_Photograph_Log", "button");
+REF_TO_TYPE.put("Locus/Add/Select_a_Photograph_Log", "dropdown");
+REF_TO_TYPE.put("Locus/Material_Helper/Material_Helper", "dropdown");
+REF_TO_TYPE.put("Locus/Material_Helper/Update_Material", "button");
+REF_TO_TYPE.put("Locus/Vars/Device_Code", "dropdown");
+REF_TO_TYPE.put("Locus/Vars/Locus_Year_of_Campaign", "input");
+REF_TO_TYPE.put("Stratum_Feature/General/Record_Type", "radio");
+REF_TO_TYPE.put("Stratum_Feature/General", "group");
+REF_TO_TYPE.put("Stratum_Feature/General/Feature_Type", "dropdown");
+REF_TO_TYPE.put("Stratum_Feature/General", "group");
+REF_TO_TYPE.put("Stratum_Feature/General/Feature_Prefix", "input");
+REF_TO_TYPE.put("Stratum_Feature/General", "group");
+REF_TO_TYPE.put("Stratum_Feature/General/Stratum_Feature_Trench_ID", "input");
+REF_TO_TYPE.put("Stratum_Feature/General/Stratum_Feature_ID", "input");
+REF_TO_TYPE.put("Stratum_Feature/General/Description", "input");
+REF_TO_TYPE.put("Stratum_Feature/General/Interpretation", "input");
+REF_TO_TYPE.put("Stratum_Feature/General/Discussion", "input");
+REF_TO_TYPE.put("Stratum_Feature/General", "group");
+REF_TO_TYPE.put("Stratum_Feature/General/Length", "input");
+REF_TO_TYPE.put("Stratum_Feature/General/Width", "input");
+REF_TO_TYPE.put("Stratum_Feature/General", "group");
+REF_TO_TYPE.put("Stratum_Feature/General/NW_Top_Depth", "input");
+REF_TO_TYPE.put("Stratum_Feature/General/SW_Top_Depth", "input");
+REF_TO_TYPE.put("Stratum_Feature/General/Center_Top_Depth", "input");
+REF_TO_TYPE.put("Stratum_Feature/General/NE_Top_Depth", "input");
+REF_TO_TYPE.put("Stratum_Feature/General/SE_Top_Depth", "input");
+REF_TO_TYPE.put("Stratum_Feature/General", "group");
+REF_TO_TYPE.put("Stratum_Feature/General/NW_Bottom_Depth", "input");
+REF_TO_TYPE.put("Stratum_Feature/General/SW_Bottom_Depth", "input");
+REF_TO_TYPE.put("Stratum_Feature/General/Center_Bottom_Depth", "input");
+REF_TO_TYPE.put("Stratum_Feature/General/NE_Bottom_Depth", "input");
+REF_TO_TYPE.put("Stratum_Feature/General/SE_Bottom_Depth", "input");
+REF_TO_TYPE.put("Stratum_Feature/General", "group");
+REF_TO_TYPE.put("Stratum_Feature/General/Mid_X", "input");
+REF_TO_TYPE.put("Stratum_Feature/General/Mid_Y", "input");
+REF_TO_TYPE.put("Stratum_Feature/General/Plans", "input");
+REF_TO_TYPE.put("Stratum_Feature/General/Section_Numbers", "input");
+REF_TO_TYPE.put("Stratum_Feature/General", "group");
+REF_TO_TYPE.put("Stratum_Feature/General/Stratum_Feature_author", "input");
+REF_TO_TYPE.put("Stratum_Feature/General/Stratum_Feature_timestamp", "input");
+REF_TO_TYPE.put("Stratum_Feature/Stratum_Feature_Loci/Create_Relationships_to_This_Stratum_Feature", "button");
+REF_TO_TYPE.put("Stratum_Feature/Stratum_Feature_Loci", "group");
+REF_TO_TYPE.put("Stratum_Feature/Stratum_Feature_Loci/Existing_Relationships_to_This_Stratum_Feature", "list");
+REF_TO_TYPE.put("Stratum_Feature/Stratum_Feature_Loci/Selected_Relationship", "webview");
+REF_TO_TYPE.put("Stratum_Feature/Stratum_Feature_Loci/Load_Related_Locus", "button");
+REF_TO_TYPE.put("Stratum_Feature/Stratum_Feature_Loci/Delete_Relationship", "button");
+REF_TO_TYPE.put("Stratum_Feature/Add/Photo", "camera");
+REF_TO_TYPE.put("Stratum_Feature/Add/Photo_Button_1", "button");
+REF_TO_TYPE.put("Stratum_Feature/Add/Attach_File", "file");
+REF_TO_TYPE.put("Stratum_Feature/Add/Attach_File_Button_1", "button");
+REF_TO_TYPE.put("Stratum_Feature/Add/View_Attached_Files", "viewfiles");
+REF_TO_TYPE.put("Stratum_Feature/Add/Guide_2", "webview");
+REF_TO_TYPE.put("Stratum_Feature/Add/Add_Photograph_Log", "button");
+REF_TO_TYPE.put("Stratum_Feature/Add/Select_a_Photograph_Log", "dropdown");
+REF_TO_TYPE.put("Stratum_Feature/Vars/Device_Code", "dropdown");
+REF_TO_TYPE.put("Stratum_Feature/Vars/Stratum_Feature_Site_Name", "input");
+REF_TO_TYPE.put("Stratum_Feature/Vars/Stratum_Feature_Year_of_Campaign", "input");
+REF_TO_TYPE.put("Stratum_Feature/Vars/L_Paren", "input");
+REF_TO_TYPE.put("Stratum_Feature/Vars/R_Paren", "input");
+REF_TO_TYPE.put("Stratum_Feature/Vars/Last_Feature_Type", "dropdown");
+REF_TO_TYPE.put("Stratum_Feature/Vars/Last_Feature_Prefix", "input");
+REF_TO_TYPE.put("Sediment_Aggregate/Sediment_Aggregate", "group");
+REF_TO_TYPE.put("Sediment_Aggregate/Sediment_Aggregate/Component_Type", "dropdown");
+REF_TO_TYPE.put("Sediment_Aggregate/Sediment_Aggregate/Percentage", "input");
+REF_TO_TYPE.put("Sediment_Aggregate/Sediment_Aggregate/Soil_Stone_Shape", "picture");
+REF_TO_TYPE.put("Sediment_Aggregate/Vars/Locus_ID", "input");
+REF_TO_TYPE.put("Sediment_Aggregate/Vars/Trench_ID", "input");
+REF_TO_TYPE.put("Sediment_Aggregate/Vars/Device_Code", "dropdown");
+REF_TO_TYPE.put("Photograph_Log/Photograph_Log", "group");
+REF_TO_TYPE.put("Photograph_Log/Photograph_Log/Photo_Locus_ID", "input");
+REF_TO_TYPE.put("Photograph_Log/Photograph_Log/Photo_Stratum_Feature_ID", "input");
+REF_TO_TYPE.put("Photograph_Log/Photograph_Log/Photograph_Reference_ID", "input");
+REF_TO_TYPE.put("Photograph_Log/Photograph_Log/Scene_Type", "dropdown");
+REF_TO_TYPE.put("Photograph_Log/Photograph_Log/Brief_Description", "input");
+REF_TO_TYPE.put("Photograph_Log/Vars/Photograph_Log_Site_Name", "input");
+REF_TO_TYPE.put("Photograph_Log/Vars/Photograph_Log_Year_of_Campaign", "input");
+REF_TO_TYPE.put("Photograph_Log/Vars/Photograph_Trench_ID", "input");
+REF_TO_TYPE.put("Photograph_Log/Vars/Device_Code", "dropdown");
+REF_TO_TYPE.put("Diary/Diary/Title", "input");
+REF_TO_TYPE.put("Diary/Diary", "group");
+REF_TO_TYPE.put("Diary/Diary/Timestamp", "input");
+REF_TO_TYPE.put("Diary/Diary/Diary_author", "input");
+REF_TO_TYPE.put("Diary/Diary/Text", "input");
+REF_TO_TYPE.put("Diary/Diary/Photo", "camera");
+REF_TO_TYPE.put("Diary/Diary/Photo_Button_1", "button");
+REF_TO_TYPE.put("Diary/Vars/Diary_Site_Name", "input");
+REF_TO_TYPE.put("Diary/Vars/Diary_Year_of_Campaign", "input");
+REF_TO_TYPE.put("Diary/Vars/Diary_Trench_ID", "input");
+REF_TO_TYPE.put("Diary/Vars/Device_Code", "dropdown");
+REF_TO_TYPE.put("Relationship/Relationships/Parent_Identifier", "webview");
+REF_TO_TYPE.put("Relationship/Relationships", "group");
+REF_TO_TYPE.put("Relationship/Relationships/Trench_ID", "input");
+REF_TO_TYPE.put("Relationship/Relationships/Locus_ID", "input");
+REF_TO_TYPE.put("Relationship/Relationships/Relationship_Type", "dropdown");
+REF_TO_TYPE.put("Relationship/Relationships/Search", "button");
+REF_TO_TYPE.put("Relationship/Relationships", "group");
+REF_TO_TYPE.put("Relationship/Relationships/Add_Relationship", "button");
+REF_TO_TYPE.put("Relationship/Relationships/Proposed_Relationship", "webview");
+REF_TO_TYPE.put("Relationship/Relationships/Delete_Relationship", "button");
+REF_TO_TYPE.put("Relationship/Relationships/Selected_Relationship", "webview");
+REF_TO_TYPE.put("Relationship/Relationships", "group");
+REF_TO_TYPE.put("Relationship/Relationships/Unrelated_Loci", "list");
+REF_TO_TYPE.put("Relationship/Relationships/Existing_Relationships", "list");
+REF_TO_TYPE.put("Relationship/Legacies/Create_New_Legacy", "button");
+REF_TO_TYPE.put("Relationship/Legacies/List_of_Existing_Legacies", "list");
+REF_TO_TYPE.put("Relationship/Vars/Relationship_Site_Name", "input");
+REF_TO_TYPE.put("Relationship/Vars/Relationship_Year_of_Campaign", "input");
+REF_TO_TYPE.put("Stratum_Feature_Relationship/Relationships/Parent_Identifier", "webview");
+REF_TO_TYPE.put("Stratum_Feature_Relationship/Relationships", "group");
+REF_TO_TYPE.put("Stratum_Feature_Relationship/Relationships/Trench_ID", "input");
+REF_TO_TYPE.put("Stratum_Feature_Relationship/Relationships/Locus_ID", "input");
+REF_TO_TYPE.put("Stratum_Feature_Relationship/Relationships/Search", "button");
+REF_TO_TYPE.put("Stratum_Feature_Relationship/Relationships", "group");
+REF_TO_TYPE.put("Stratum_Feature_Relationship/Relationships/Add_Relationship", "button");
+REF_TO_TYPE.put("Stratum_Feature_Relationship/Relationships/Proposed_Relationship", "webview");
+REF_TO_TYPE.put("Stratum_Feature_Relationship/Relationships/Delete_Relationship", "button");
+REF_TO_TYPE.put("Stratum_Feature_Relationship/Relationships/Selected_Relationship", "webview");
+REF_TO_TYPE.put("Stratum_Feature_Relationship/Relationships", "group");
+REF_TO_TYPE.put("Stratum_Feature_Relationship/Relationships/Unrelated_Loci", "list");
+REF_TO_TYPE.put("Stratum_Feature_Relationship/Relationships/Existing_Relationships", "list");
+REF_TO_TYPE.put("Stratum_Feature_Relationship/Legacies/Create_New_Legacy", "button");
+REF_TO_TYPE.put("Stratum_Feature_Relationship/Legacies/List_of_Existing_Legacies", "list");
+REF_TO_TYPE.put("Stratum_Feature_Relationship/Vars/Stratum_Feature_Relationship_Site_Name", "input");
+REF_TO_TYPE.put("Stratum_Feature_Relationship/Vars/Stratum_Feature_Relationship_Year_of_Campaign", "input");
+REF_TO_TYPE.put("FCN/General/FCN_ID", "input");
+REF_TO_TYPE.put("FCN/General/FCN_Site_Name", "input");
+REF_TO_TYPE.put("FCN/General/FCN_Trench_ID", "input");
+REF_TO_TYPE.put("FCN/General/Locus_ID", "input");
+REF_TO_TYPE.put("FCN/General", "group");
+REF_TO_TYPE.put("FCN/General/Latitude", "input");
+REF_TO_TYPE.put("FCN/General/Longitude", "input");
+REF_TO_TYPE.put("FCN/General", "group");
+REF_TO_TYPE.put("FCN/General/Northing", "input");
+REF_TO_TYPE.put("FCN/General/Easting", "input");
+REF_TO_TYPE.put("FCN/General/Accuracy", "input");
+REF_TO_TYPE.put("FCN/General/Take_From_GPS_1", "button");
+REF_TO_TYPE.put("FCN/General/Collection_Method", "dropdown");
+REF_TO_TYPE.put("FCN/General/FCN_Class", "dropdown");
+REF_TO_TYPE.put("FCN/General/FCN_Quantity", "input");
+REF_TO_TYPE.put("FCN/General/FCN_Weight_g", "input");
+REF_TO_TYPE.put("FCN/General", "group");
+REF_TO_TYPE.put("FCN/General/Volume_Liters", "input");
+REF_TO_TYPE.put("FCN/General/Washed", "radio");
+REF_TO_TYPE.put("FCN/General/Weighted", "radio");
+REF_TO_TYPE.put("FCN/General/Analyzed", "radio");
+REF_TO_TYPE.put("FCN/General/FCN_Group_Comment", "input");
+REF_TO_TYPE.put("FCN/General/Attach_File", "file");
+REF_TO_TYPE.put("FCN/General/Attach_File_Button_1", "button");
+REF_TO_TYPE.put("FCN/General/View_Attached_Files", "viewfiles");
+REF_TO_TYPE.put("FCN/General/Attach_Photograph", "camera");
+REF_TO_TYPE.put("FCN/General/Attach_Photograph_Button_1", "button");
+REF_TO_TYPE.put("FCN/Vars/FCN_Year_of_Campaign", "input");
+REF_TO_TYPE.put("FCN/Vars/Device_Code", "dropdown");
+REF_TO_TYPE.put("Soil_Munsel_Color/Add_Soil_Munsel_Color/Soil_Munsel_Color", "dropdown");
+REF_TO_TYPE.put("Soil_Munsel_Color/Vars/Soil_Munsel_Color_Locus_ID", "input");
+REF_TO_TYPE.put("Soil_Munsel_Color/Vars/Device_Code", "dropdown");
+REF_TO_TYPE.put("Legacy/Legacy", "group");
+REF_TO_TYPE.put("Legacy/Legacy/Legacy_Site_Name", "input");
+REF_TO_TYPE.put("Legacy/Legacy/Legacy_Year_of_Campaign", "input");
+REF_TO_TYPE.put("Legacy/Legacy", "group");
+REF_TO_TYPE.put("Legacy/Legacy/Legacy_Trench_ID", "input");
+REF_TO_TYPE.put("Legacy/Legacy/Legacy_Locus_ID", "input");
+REF_TO_TYPE.put("Legacy/Var/Device_Code", "dropdown");
+
+DATA_REFS.add("Site/Site/Site_Site_Name");
+DATA_REFS.add("Site/Site/Site_Year_of_Campaign");
+DATA_REFS.add("Site/Vars/Device_Code");
+DATA_REFS.add("Trench/Trench/Trench_Site_Name");
+DATA_REFS.add("Trench/Trench/Trench_author");
+DATA_REFS.add("Trench/Trench/Trench_Trench_ID");
+DATA_REFS.add("Trench/Trench/Team_Members");
+DATA_REFS.add("Trench/Trench/Trench_Dimensions");
+DATA_REFS.add("Trench/Trench/Latitude");
+DATA_REFS.add("Trench/Trench/Longitude");
+DATA_REFS.add("Trench/Trench/Northing");
+DATA_REFS.add("Trench/Trench/Easting");
+DATA_REFS.add("Trench/Trench/Accuracy");
+DATA_REFS.add("Trench/Trench/Excavation_Method");
+DATA_REFS.add("Trench/Trench/Trench_timestamp");
+DATA_REFS.add("Trench/Trench/Date_Closed");
+DATA_REFS.add("Trench/Trench/Brief_Description");
+DATA_REFS.add("Trench/Trench/Your_Discussion");
+DATA_REFS.add("Trench/FCNs/List_of_Existing_FCNs");
+DATA_REFS.add("Trench/Vars/Trench_Year_of_Campaign");
+DATA_REFS.add("Trench/Vars/Device_Code");
+DATA_REFS.add("Trench_Files/Add_Trench_Files/Trench_Files_Site_Name");
+DATA_REFS.add("Trench_Files/Add_Trench_Files/Trench_Files_Year_of_Campaign");
+DATA_REFS.add("Trench_Files/Add_Trench_Files/Trench_Files_Trench_ID");
+DATA_REFS.add("Trench_Files/Add_Trench_Files/Trench_Files_author");
+DATA_REFS.add("Trench_Files/Add_Trench_Files/File_Type");
+DATA_REFS.add("Trench_Files/Add_Trench_Files/File_Name");
+DATA_REFS.add("Trench_Files/Add_Trench_Files/File_Comment");
+DATA_REFS.add("Trench_Files/Add_Trench_Files/Add_Photo");
+DATA_REFS.add("Trench_Files/Add_Trench_Files/Attach_File");
+DATA_REFS.add("Trench_Files/Vars/Device_Code");
+DATA_REFS.add("Locus/General/Locus_Site_Name");
+DATA_REFS.add("Locus/General/Locus_Trench_ID");
+DATA_REFS.add("Locus/General/Locus_Locus_ID");
+DATA_REFS.add("Locus/General/Brief_Description");
+DATA_REFS.add("Locus/General/Grid_X");
+DATA_REFS.add("Locus/General/Grid_Y");
+DATA_REFS.add("Locus/General/Date_Opened");
+DATA_REFS.add("Locus/General/Team_Members");
+DATA_REFS.add("Locus/General/Excavation_Method");
+DATA_REFS.add("Locus/General/Basal_Edge_Definition");
+DATA_REFS.add("Locus/General/Contamination");
+DATA_REFS.add("Locus/General/Locus_Type");
+DATA_REFS.add("Locus/General/Photo_of_Plan");
+DATA_REFS.add("Locus/General/Photo_of_Section");
+DATA_REFS.add("Locus/General/Date_Closed");
+DATA_REFS.add("Locus/General/Locus_author");
+DATA_REFS.add("Locus/General/Locus_timestamp");
+DATA_REFS.add("Locus/Measure/Absolute_Height_Top_m");
+DATA_REFS.add("Locus/Measure/Absolute_Height_Bottom_m");
+DATA_REFS.add("Locus/Measure/Measure_Length");
+DATA_REFS.add("Locus/Measure/Measure_Width");
+DATA_REFS.add("Locus/Measure/Measure_Depth");
+DATA_REFS.add("Locus/Measure/NW_Top_Height");
+DATA_REFS.add("Locus/Measure/SW_Top_Height");
+DATA_REFS.add("Locus/Measure/Center_Top_Height");
+DATA_REFS.add("Locus/Measure/NE_Top_Height");
+DATA_REFS.add("Locus/Measure/SE_Top_Height");
+DATA_REFS.add("Locus/Measure/NW_Bottom_Height");
+DATA_REFS.add("Locus/Measure/SW_Bottom_Height");
+DATA_REFS.add("Locus/Measure/Center_Bottom_Height");
+DATA_REFS.add("Locus/Measure/NE_Bottom_Height");
+DATA_REFS.add("Locus/Measure/SE_Bottom_Height");
+DATA_REFS.add("Locus/Measure/Volume_Liters");
+DATA_REFS.add("Locus/Cut/Cut_Your_Interpretation");
+DATA_REFS.add("Locus/Cut/Shape_in_Plan");
+DATA_REFS.add("Locus/Cut/Shape_of_Cut_-_Note");
+DATA_REFS.add("Locus/Cut/Shape_of_Corners");
+DATA_REFS.add("Locus/Cut/Break_of_Slope_-_Top");
+DATA_REFS.add("Locus/Cut/Break_of_Slope_-_Base");
+DATA_REFS.add("Locus/Cut/Sides_of_Cut");
+DATA_REFS.add("Locus/Cut/Shape_of_Base");
+DATA_REFS.add("Locus/Cut/Orientation");
+DATA_REFS.add("Locus/Cut/Orientation_Degree");
+DATA_REFS.add("Locus/Cut/Inclination_of_axis");
+DATA_REFS.add("Locus/Cut/Truncation");
+DATA_REFS.add("Locus/Construction/Description");
+DATA_REFS.add("Locus/Construction/Discussion");
+DATA_REFS.add("Locus/Construction/Length");
+DATA_REFS.add("Locus/Construction/Width");
+DATA_REFS.add("Locus/Construction/NW_Top_Depth");
+DATA_REFS.add("Locus/Construction/SW_Top_Depth");
+DATA_REFS.add("Locus/Construction/Center_Top_Depth");
+DATA_REFS.add("Locus/Construction/NE_Top_Depth");
+DATA_REFS.add("Locus/Construction/SE_Top_Depth");
+DATA_REFS.add("Locus/Construction/NW_Bottom_Depth");
+DATA_REFS.add("Locus/Construction/SW_Bottom_Depth");
+DATA_REFS.add("Locus/Construction/Center_Bottom_Depth");
+DATA_REFS.add("Locus/Construction/NE_Bottom_Depth");
+DATA_REFS.add("Locus/Construction/SE_Bottom_Depth");
+DATA_REFS.add("Locus/Construction/Mid_X");
+DATA_REFS.add("Locus/Construction/Mid_Y");
+DATA_REFS.add("Locus/Construction/Sorting");
+DATA_REFS.add("Locus/Construction/Notes");
+DATA_REFS.add("Locus/Construction/Plans");
+DATA_REFS.add("Locus/Construction/Section_Numbers");
+DATA_REFS.add("Locus/Deposit/Deposit_Your_Interpretation");
+DATA_REFS.add("Locus/Deposit/Texture");
+DATA_REFS.add("Locus/Deposit/Texture_Description");
+DATA_REFS.add("Locus/Deposit/Soil_Particle_Sorting");
+DATA_REFS.add("Locus/Deposit/Material");
+DATA_REFS.add("Locus/Deposit/Soil_Colour");
+DATA_REFS.add("Locus/Deposit/Composition_Type");
+DATA_REFS.add("Locus/Deposit/Deposit_Bedding");
+DATA_REFS.add("Locus/Deposit/Sterile");
+DATA_REFS.add("Locus/Deposit/Deposit_Inclusions");
+DATA_REFS.add("Locus/Skeleton/Location");
+DATA_REFS.add("Locus/Skeleton/Skeleton_Dimensions");
+DATA_REFS.add("Locus/Skeleton/Skeleton_Head");
+DATA_REFS.add("Locus/Skeleton/Skeleton_Body");
+DATA_REFS.add("Locus/Skeleton/Skeleton_Left_Arm");
+DATA_REFS.add("Locus/Skeleton/Skeleton_Right_Arm");
+DATA_REFS.add("Locus/Skeleton/Skeleton_Left_Leg");
+DATA_REFS.add("Locus/Skeleton/Skeleton_Right_Leg");
+DATA_REFS.add("Locus/Skeleton/Skeleton_Condition");
+DATA_REFS.add("Locus/Skeleton/Skeleton_Surface_Modifications");
+DATA_REFS.add("Locus/Skeleton/Skeleton_Environment");
+DATA_REFS.add("Locus/Skeleton/Skeleton_Days_Exposed");
+DATA_REFS.add("Locus/Skeleton/Target_A_X");
+DATA_REFS.add("Locus/Skeleton/Target_A_Y");
+DATA_REFS.add("Locus/Skeleton/Target_A_Z");
+DATA_REFS.add("Locus/Skeleton/Target_B_X");
+DATA_REFS.add("Locus/Skeleton/Target_B_Y");
+DATA_REFS.add("Locus/Skeleton/Target_B_Z");
+DATA_REFS.add("Locus/Skeleton/Target_C_X");
+DATA_REFS.add("Locus/Skeleton/Target_C_Y");
+DATA_REFS.add("Locus/Skeleton/Target_C_Z");
+DATA_REFS.add("Locus/Skeleton/Target_D_X");
+DATA_REFS.add("Locus/Skeleton/Target_D_Y");
+DATA_REFS.add("Locus/Skeleton/Target_D_Z");
+DATA_REFS.add("Locus/Skeleton/Skeleton_Notes");
+DATA_REFS.add("Locus/Int/Your_description");
+DATA_REFS.add("Locus/Int/Your_Discussion");
+DATA_REFS.add("Locus/Add/Photo");
+DATA_REFS.add("Locus/Add/Attach_File");
+DATA_REFS.add("Locus/Material_Helper/Material_Helper");
+DATA_REFS.add("Locus/Vars/Device_Code");
+DATA_REFS.add("Locus/Vars/Locus_Year_of_Campaign");
+DATA_REFS.add("Stratum_Feature/General/Record_Type");
+DATA_REFS.add("Stratum_Feature/General/Feature_Type");
+DATA_REFS.add("Stratum_Feature/General/Feature_Prefix");
+DATA_REFS.add("Stratum_Feature/General/Stratum_Feature_Trench_ID");
+DATA_REFS.add("Stratum_Feature/General/Stratum_Feature_ID");
+DATA_REFS.add("Stratum_Feature/General/Description");
+DATA_REFS.add("Stratum_Feature/General/Interpretation");
+DATA_REFS.add("Stratum_Feature/General/Discussion");
+DATA_REFS.add("Stratum_Feature/General/Length");
+DATA_REFS.add("Stratum_Feature/General/Width");
+DATA_REFS.add("Stratum_Feature/General/NW_Top_Depth");
+DATA_REFS.add("Stratum_Feature/General/SW_Top_Depth");
+DATA_REFS.add("Stratum_Feature/General/Center_Top_Depth");
+DATA_REFS.add("Stratum_Feature/General/NE_Top_Depth");
+DATA_REFS.add("Stratum_Feature/General/SE_Top_Depth");
+DATA_REFS.add("Stratum_Feature/General/NW_Bottom_Depth");
+DATA_REFS.add("Stratum_Feature/General/SW_Bottom_Depth");
+DATA_REFS.add("Stratum_Feature/General/Center_Bottom_Depth");
+DATA_REFS.add("Stratum_Feature/General/NE_Bottom_Depth");
+DATA_REFS.add("Stratum_Feature/General/SE_Bottom_Depth");
+DATA_REFS.add("Stratum_Feature/General/Mid_X");
+DATA_REFS.add("Stratum_Feature/General/Mid_Y");
+DATA_REFS.add("Stratum_Feature/General/Plans");
+DATA_REFS.add("Stratum_Feature/General/Section_Numbers");
+DATA_REFS.add("Stratum_Feature/General/Stratum_Feature_author");
+DATA_REFS.add("Stratum_Feature/General/Stratum_Feature_timestamp");
+DATA_REFS.add("Stratum_Feature/Add/Photo");
+DATA_REFS.add("Stratum_Feature/Add/Attach_File");
+DATA_REFS.add("Stratum_Feature/Vars/Device_Code");
+DATA_REFS.add("Stratum_Feature/Vars/Stratum_Feature_Site_Name");
+DATA_REFS.add("Stratum_Feature/Vars/Stratum_Feature_Year_of_Campaign");
+DATA_REFS.add("Stratum_Feature/Vars/L_Paren");
+DATA_REFS.add("Stratum_Feature/Vars/R_Paren");
+DATA_REFS.add("Stratum_Feature/Vars/Last_Feature_Type");
+DATA_REFS.add("Stratum_Feature/Vars/Last_Feature_Prefix");
+DATA_REFS.add("Sediment_Aggregate/Sediment_Aggregate/Component_Type");
+DATA_REFS.add("Sediment_Aggregate/Sediment_Aggregate/Percentage");
+DATA_REFS.add("Sediment_Aggregate/Sediment_Aggregate/Soil_Stone_Shape");
+DATA_REFS.add("Sediment_Aggregate/Vars/Locus_ID");
+DATA_REFS.add("Sediment_Aggregate/Vars/Trench_ID");
+DATA_REFS.add("Sediment_Aggregate/Vars/Device_Code");
+DATA_REFS.add("Photograph_Log/Photograph_Log/Photo_Locus_ID");
+DATA_REFS.add("Photograph_Log/Photograph_Log/Photo_Stratum_Feature_ID");
+DATA_REFS.add("Photograph_Log/Photograph_Log/Photograph_Reference_ID");
+DATA_REFS.add("Photograph_Log/Photograph_Log/Scene_Type");
+DATA_REFS.add("Photograph_Log/Photograph_Log/Brief_Description");
+DATA_REFS.add("Photograph_Log/Vars/Photograph_Log_Site_Name");
+DATA_REFS.add("Photograph_Log/Vars/Photograph_Log_Year_of_Campaign");
+DATA_REFS.add("Photograph_Log/Vars/Photograph_Trench_ID");
+DATA_REFS.add("Photograph_Log/Vars/Device_Code");
+DATA_REFS.add("Diary/Diary/Title");
+DATA_REFS.add("Diary/Diary/Timestamp");
+DATA_REFS.add("Diary/Diary/Diary_author");
+DATA_REFS.add("Diary/Diary/Text");
+DATA_REFS.add("Diary/Diary/Photo");
+DATA_REFS.add("Diary/Vars/Diary_Site_Name");
+DATA_REFS.add("Diary/Vars/Diary_Year_of_Campaign");
+DATA_REFS.add("Diary/Vars/Diary_Trench_ID");
+DATA_REFS.add("Diary/Vars/Device_Code");
+DATA_REFS.add("FCN/General/FCN_ID");
+DATA_REFS.add("FCN/General/FCN_Site_Name");
+DATA_REFS.add("FCN/General/FCN_Trench_ID");
+DATA_REFS.add("FCN/General/Locus_ID");
+DATA_REFS.add("FCN/General/Latitude");
+DATA_REFS.add("FCN/General/Longitude");
+DATA_REFS.add("FCN/General/Northing");
+DATA_REFS.add("FCN/General/Easting");
+DATA_REFS.add("FCN/General/Accuracy");
+DATA_REFS.add("FCN/General/Collection_Method");
+DATA_REFS.add("FCN/General/FCN_Class");
+DATA_REFS.add("FCN/General/FCN_Quantity");
+DATA_REFS.add("FCN/General/FCN_Weight_g");
+DATA_REFS.add("FCN/General/Volume_Liters");
+DATA_REFS.add("FCN/General/Washed");
+DATA_REFS.add("FCN/General/Weighted");
+DATA_REFS.add("FCN/General/Analyzed");
+DATA_REFS.add("FCN/General/FCN_Group_Comment");
+DATA_REFS.add("FCN/General/Attach_File");
+DATA_REFS.add("FCN/General/Attach_Photograph");
+DATA_REFS.add("FCN/Vars/FCN_Year_of_Campaign");
+DATA_REFS.add("FCN/Vars/Device_Code");
+DATA_REFS.add("Soil_Munsel_Color/Add_Soil_Munsel_Color/Soil_Munsel_Color");
+DATA_REFS.add("Soil_Munsel_Color/Vars/Soil_Munsel_Color_Locus_ID");
+DATA_REFS.add("Soil_Munsel_Color/Vars/Device_Code");
+DATA_REFS.add("Legacy/Legacy/Legacy_Site_Name");
+DATA_REFS.add("Legacy/Legacy/Legacy_Year_of_Campaign");
+DATA_REFS.add("Legacy/Legacy/Legacy_Trench_ID");
+DATA_REFS.add("Legacy/Legacy/Legacy_Locus_ID");
+DATA_REFS.add("Legacy/Var/Device_Code");
 
 String getType(String ref) {
-  Map refToType = new HashMap();
-  refToType.put("User/User_List/Users", "dropdown");
-  refToType.put("User/User_List/Device_Code", "dropdown");
-  refToType.put("User/User_List/Login", "button");
-  refToType.put("User/User_List/Module_Guide", "button");
-  refToType.put("User/Help/Help", "webview");
-  refToType.put("Control/Site/New_Site_Name", "input");
-  refToType.put("Control/Site/Year_of_Campaign", "input");
-  refToType.put("Control/Site/GPS_Diagnostics", "gpsdiag");
-  refToType.put("Control/Site/Create_New_Site", "button");
-  refToType.put("Control/Site/Choose_an_Existing_Site", "list");
-  refToType.put("Control/Next_IDs/Next_Locus_Locus_ID", "input");
-  refToType.put("Control/Next_IDs/Next_Stratum_Feature_ID", "input");
-  refToType.put("Control/Next_IDs/Next_FCN_ID", "input");
-  refToType.put("Control/Search", "group");
-  refToType.put("Control/Search/Search_Term", "input");
-  refToType.put("Control/Search/Search_Button", "button");
-  refToType.put("Control/Search/Entity_Types", "dropdown");
-  refToType.put("Control/Search/Entity_List", "list");
-  refToType.put("Site/Site/Site_Site_Name", "input");
-  refToType.put("Site/Site/Site_Year_of_Campaign", "input");
-  refToType.put("Site/Site/Guide", "webview");
-  refToType.put("Site/Site/Trench_ID", "input");
-  refToType.put("Site/Site/Trenches", "button");
-  refToType.put("Site/Site/List_of_Existing_Trenches", "list");
-  refToType.put("Site/Vars/Device_Code", "dropdown");
-  refToType.put("Trench/Trench/Trench_Site_Name", "input");
-  refToType.put("Trench/Trench/Trench_author", "input");
-  refToType.put("Trench/Trench/Trench_Trench_ID", "input");
-  refToType.put("Trench/Trench/Team_Members", "input");
-  refToType.put("Trench/Trench/Trench_Dimensions", "dropdown");
-  refToType.put("Trench/Trench/Grid_SW_Corner_Coordinates", "webview");
-  refToType.put("Trench/Trench", "group");
-  refToType.put("Trench/Trench/Latitude", "input");
-  refToType.put("Trench/Trench/Longitude", "input");
-  refToType.put("Trench/Trench", "group");
-  refToType.put("Trench/Trench/Northing", "input");
-  refToType.put("Trench/Trench/Easting", "input");
-  refToType.put("Trench/Trench/Accuracy", "input");
-  refToType.put("Trench/Trench/Take_From_GPS_1", "button");
-  refToType.put("Trench/Trench/Excavation_Method", "checkbox");
-  refToType.put("Trench/Trench/Trench_timestamp", "input");
-  refToType.put("Trench/Trench/Set_Date_Closed", "button");
-  refToType.put("Trench/Trench/Date_Closed", "input");
-  refToType.put("Trench/Trench/Brief_Description", "input");
-  refToType.put("Trench/Trench/Your_Discussion", "input");
-  refToType.put("Trench/Trench/Add_Trench_Files", "button");
-  refToType.put("Trench/Trench/Attached_Trench_Files", "dropdown");
-  refToType.put("Trench/Loci/Create_New_Locus", "button");
-  refToType.put("Trench/Loci/List_of_Existing_Loci", "list");
-  refToType.put("Trench/Strata_Features/Create_New_Stratum_Feature", "button");
-  refToType.put("Trench/Strata_Features/List_of_Existing_Strata_Features", "list");
-  refToType.put("Trench/FCNs/Create_New_FCN", "button");
-  refToType.put("Trench/FCNs/List_of_Existing_FCNs", "list");
-  refToType.put("Trench/Diaries/Create_New_Diary", "button");
-  refToType.put("Trench/Diaries/List_of_Existing_Diaries", "list");
-  refToType.put("Trench/Legacies/Create_New_Legacy", "button");
-  refToType.put("Trench/Legacies/List_of_Existing_Legacies", "list");
-  refToType.put("Trench/Vars/Trench_Year_of_Campaign", "input");
-  refToType.put("Trench/Vars/Device_Code", "dropdown");
-  refToType.put("Date_Closed/Date_Closed/Date_Closed", "input");
-  refToType.put("Date_Closed/Date_Closed/Set_Date_Closed", "button");
-  refToType.put("Date_Closed/Date_Closed/Cancel", "button");
-  refToType.put("Trench_Files/Add_Trench_Files", "group");
-  refToType.put("Trench_Files/Add_Trench_Files/Trench_Files_Site_Name", "input");
-  refToType.put("Trench_Files/Add_Trench_Files/Trench_Files_Year_of_Campaign", "input");
-  refToType.put("Trench_Files/Add_Trench_Files/Trench_Files_Trench_ID", "input");
-  refToType.put("Trench_Files/Add_Trench_Files/Trench_Files_author", "input");
-  refToType.put("Trench_Files/Add_Trench_Files/File_Type", "dropdown");
-  refToType.put("Trench_Files/Add_Trench_Files/File_Name", "input");
-  refToType.put("Trench_Files/Add_Trench_Files/File_Comment", "input");
-  refToType.put("Trench_Files/Add_Trench_Files/Add_Photo", "camera");
-  refToType.put("Trench_Files/Add_Trench_Files/Add_Photo_Button_1", "button");
-  refToType.put("Trench_Files/Add_Trench_Files/Attach_File", "file");
-  refToType.put("Trench_Files/Add_Trench_Files/Attach_File_Button_1", "button");
-  refToType.put("Trench_Files/Add_Trench_Files/View_Attached_Files", "viewfiles");
-  refToType.put("Trench_Files/Vars/Device_Code", "dropdown");
-  refToType.put("Locus/General", "group");
-  refToType.put("Locus/General/Locus_Site_Name", "input");
-  refToType.put("Locus/General/Locus_Trench_ID", "input");
-  refToType.put("Locus/General/Locus_Locus_ID", "input");
-  refToType.put("Locus/General/Brief_Description", "input");
-  refToType.put("Locus/General", "group");
-  refToType.put("Locus/General/Grid_X", "input");
-  refToType.put("Locus/General/Grid_Y", "input");
-  refToType.put("Locus/General", "group");
-  refToType.put("Locus/General/Date_Opened", "input");
-  refToType.put("Locus/General/Team_Members", "input");
-  refToType.put("Locus/General/Excavation_Method", "checkbox");
-  refToType.put("Locus/General", "group");
-  refToType.put("Locus/General/Basal_Edge_Definition", "dropdown");
-  refToType.put("Locus/General/Contamination", "dropdown");
-  refToType.put("Locus/General/Locus_Type", "picture");
-  refToType.put("Locus/General/Fill_in_Locus_Type_Details", "button");
-  refToType.put("Locus/General", "group");
-  refToType.put("Locus/General/Photo_of_Plan", "camera");
-  refToType.put("Locus/General/Photo_of_Plan_Button_1", "button");
-  refToType.put("Locus/General/Photo_of_Section", "camera");
-  refToType.put("Locus/General/Photo_of_Section_Button_1", "button");
-  refToType.put("Locus/General", "group");
-  refToType.put("Locus/General/Date_Closed", "input");
-  refToType.put("Locus/General/Add_Date_Closed", "button");
-  refToType.put("Locus/General", "group");
-  refToType.put("Locus/General/Locus_author", "input");
-  refToType.put("Locus/General/Locus_timestamp", "input");
-  refToType.put("Locus/Measure", "group");
-  refToType.put("Locus/Measure/Absolute_Height_Top_m", "input");
-  refToType.put("Locus/Measure/Absolute_Height_Bottom_m", "input");
-  refToType.put("Locus/Measure", "group");
-  refToType.put("Locus/Measure/Measure_Length", "input");
-  refToType.put("Locus/Measure/Measure_Width", "input");
-  refToType.put("Locus/Measure/Measure_Depth", "input");
-  refToType.put("Locus/Measure", "group");
-  refToType.put("Locus/Measure/NW_Top_Height", "input");
-  refToType.put("Locus/Measure/SW_Top_Height", "input");
-  refToType.put("Locus/Measure/Center_Top_Height", "input");
-  refToType.put("Locus/Measure/NE_Top_Height", "input");
-  refToType.put("Locus/Measure/SE_Top_Height", "input");
-  refToType.put("Locus/Measure", "group");
-  refToType.put("Locus/Measure/NW_Bottom_Height", "input");
-  refToType.put("Locus/Measure/SW_Bottom_Height", "input");
-  refToType.put("Locus/Measure/Center_Bottom_Height", "input");
-  refToType.put("Locus/Measure/NE_Bottom_Height", "input");
-  refToType.put("Locus/Measure/SE_Bottom_Height", "input");
-  refToType.put("Locus/Measure/Volume_Liters", "input");
-  refToType.put("Locus/Cut/Cut_Your_Interpretation", "dropdown");
-  refToType.put("Locus/Cut", "group");
-  refToType.put("Locus/Cut/Shape_in_Plan", "dropdown");
-  refToType.put("Locus/Cut/Shape_of_Cut_-_Note", "input");
-  refToType.put("Locus/Cut/Shape_of_Corners", "radio");
-  refToType.put("Locus/Cut/Break_of_Slope_-_Top", "radio");
-  refToType.put("Locus/Cut/Break_of_Slope_-_Base", "radio");
-  refToType.put("Locus/Cut", "group");
-  refToType.put("Locus/Cut/Sides_of_Cut", "dropdown");
-  refToType.put("Locus/Cut/Shape_of_Base", "dropdown");
-  refToType.put("Locus/Cut/Orientation", "dropdown");
-  refToType.put("Locus/Cut/Orientation_Degree", "input");
-  refToType.put("Locus/Cut/Inclination_of_axis", "dropdown");
-  refToType.put("Locus/Cut/Truncation", "input");
-  refToType.put("Locus/Construction/Description", "input");
-  refToType.put("Locus/Construction/Discussion", "input");
-  refToType.put("Locus/Construction/Length", "input");
-  refToType.put("Locus/Construction/Width", "input");
-  refToType.put("Locus/Construction", "group");
-  refToType.put("Locus/Construction/NW_Top_Depth", "input");
-  refToType.put("Locus/Construction/SW_Top_Depth", "input");
-  refToType.put("Locus/Construction/Center_Top_Depth", "input");
-  refToType.put("Locus/Construction/NE_Top_Depth", "input");
-  refToType.put("Locus/Construction/SE_Top_Depth", "input");
-  refToType.put("Locus/Construction", "group");
-  refToType.put("Locus/Construction/NW_Bottom_Depth", "input");
-  refToType.put("Locus/Construction/SW_Bottom_Depth", "input");
-  refToType.put("Locus/Construction/Center_Bottom_Depth", "input");
-  refToType.put("Locus/Construction/NE_Bottom_Depth", "input");
-  refToType.put("Locus/Construction/SE_Bottom_Depth", "input");
-  refToType.put("Locus/Construction/Mid_X", "input");
-  refToType.put("Locus/Construction/Mid_Y", "input");
-  refToType.put("Locus/Construction/Sorting", "input");
-  refToType.put("Locus/Construction/Notes", "input");
-  refToType.put("Locus/Construction/Plans", "input");
-  refToType.put("Locus/Construction/Section_Numbers", "input");
-  refToType.put("Locus/Deposit/Deposit_Your_Interpretation", "dropdown");
-  refToType.put("Locus/Deposit/Texture", "dropdown");
-  refToType.put("Locus/Deposit/Texture_Description", "input");
-  refToType.put("Locus/Deposit/Soil_Particle_Sorting", "picture");
-  refToType.put("Locus/Deposit", "group");
-  refToType.put("Locus/Deposit/Material", "dropdown");
-  refToType.put("Locus/Deposit/Material_Helper", "button");
-  refToType.put("Locus/Deposit/Soil_Colour", "input");
-  refToType.put("Locus/Deposit/Add_Munsel_Color", "button");
-  refToType.put("Locus/Deposit/Munsel_Colors", "dropdown");
-  refToType.put("Locus/Deposit", "group");
-  refToType.put("Locus/Deposit/Composition_Type", "dropdown");
-  refToType.put("Locus/Deposit/Deposit_Bedding", "dropdown");
-  refToType.put("Locus/Deposit", "group");
-  refToType.put("Locus/Deposit/Sterile", "radio");
-  refToType.put("Locus/Deposit/Deposit_Inclusions", "input");
-  refToType.put("Locus/Deposit/Add_New_Sediment_Aggregate", "button");
-  refToType.put("Locus/Deposit/Associated_Sediment_Aggregates", "dropdown");
-  refToType.put("Locus/Skeleton/Location", "input");
-  refToType.put("Locus/Skeleton/Skeleton_Dimensions", "input");
-  refToType.put("Locus/Skeleton", "group");
-  refToType.put("Locus/Skeleton/Skeleton_Head", "input");
-  refToType.put("Locus/Skeleton/Skeleton_Body", "input");
-  refToType.put("Locus/Skeleton", "group");
-  refToType.put("Locus/Skeleton/Skeleton_Left_Arm", "input");
-  refToType.put("Locus/Skeleton/Skeleton_Right_Arm", "input");
-  refToType.put("Locus/Skeleton", "group");
-  refToType.put("Locus/Skeleton/Skeleton_Left_Leg", "input");
-  refToType.put("Locus/Skeleton/Skeleton_Right_Leg", "input");
-  refToType.put("Locus/Skeleton/Skeleton_Condition", "input");
-  refToType.put("Locus/Skeleton/Skeleton_Surface_Modifications", "input");
-  refToType.put("Locus/Skeleton/Skeleton_Environment", "input");
-  refToType.put("Locus/Skeleton/Skeleton_Days_Exposed", "input");
-  refToType.put("Locus/Skeleton", "group");
-  refToType.put("Locus/Skeleton/Target_A_X", "input");
-  refToType.put("Locus/Skeleton/Target_A_Y", "input");
-  refToType.put("Locus/Skeleton/Target_A_Z", "input");
-  refToType.put("Locus/Skeleton", "group");
-  refToType.put("Locus/Skeleton/Target_B_X", "input");
-  refToType.put("Locus/Skeleton/Target_B_Y", "input");
-  refToType.put("Locus/Skeleton/Target_B_Z", "input");
-  refToType.put("Locus/Skeleton", "group");
-  refToType.put("Locus/Skeleton/Target_C_X", "input");
-  refToType.put("Locus/Skeleton/Target_C_Y", "input");
-  refToType.put("Locus/Skeleton/Target_C_Z", "input");
-  refToType.put("Locus/Skeleton", "group");
-  refToType.put("Locus/Skeleton/Target_D_X", "input");
-  refToType.put("Locus/Skeleton/Target_D_Y", "input");
-  refToType.put("Locus/Skeleton/Target_D_Z", "input");
-  refToType.put("Locus/Skeleton/Skeleton_Notes", "input");
-  refToType.put("Locus/Int/Your_description", "input");
-  refToType.put("Locus/Int/Your_Discussion", "input");
-  refToType.put("Locus/Relationships/Create_Relationships_to_This_Locus", "button");
-  refToType.put("Locus/Relationships", "group");
-  refToType.put("Locus/Relationships/Existing_Relationships_to_This_Locus", "list");
-  refToType.put("Locus/Relationships/Selected_Relationship", "webview");
-  refToType.put("Locus/Relationships/Load_Related_Locus", "button");
-  refToType.put("Locus/Relationships/Delete_Relationship", "button");
-  refToType.put("Locus/FCNs/Add_FCN", "button");
-  refToType.put("Locus/FCNs/List_of_Related_FCNs", "list");
-  refToType.put("Locus/Add/Photo", "camera");
-  refToType.put("Locus/Add/Photo_Button_1", "button");
-  refToType.put("Locus/Add/Attach_File", "file");
-  refToType.put("Locus/Add/Attach_File_Button_1", "button");
-  refToType.put("Locus/Add/View_Attached_Files", "viewfiles");
-  refToType.put("Locus/Add/Add_Photograph_Log", "button");
-  refToType.put("Locus/Add/Select_a_Photograph_Log", "dropdown");
-  refToType.put("Locus/Material_Helper/Material_Helper", "dropdown");
-  refToType.put("Locus/Material_Helper/Update_Material", "button");
-  refToType.put("Locus/Vars/Device_Code", "dropdown");
-  refToType.put("Locus/Vars/Locus_Year_of_Campaign", "input");
-  refToType.put("Stratum_Feature/General/Record_Type", "radio");
-  refToType.put("Stratum_Feature/General", "group");
-  refToType.put("Stratum_Feature/General/Feature_Type", "dropdown");
-  refToType.put("Stratum_Feature/General", "group");
-  refToType.put("Stratum_Feature/General/Feature_Prefix", "input");
-  refToType.put("Stratum_Feature/General", "group");
-  refToType.put("Stratum_Feature/General/Stratum_Feature_Trench_ID", "input");
-  refToType.put("Stratum_Feature/General/Stratum_Feature_ID", "input");
-  refToType.put("Stratum_Feature/General/Description", "input");
-  refToType.put("Stratum_Feature/General/Interpretation", "input");
-  refToType.put("Stratum_Feature/General/Discussion", "input");
-  refToType.put("Stratum_Feature/General", "group");
-  refToType.put("Stratum_Feature/General/Length", "input");
-  refToType.put("Stratum_Feature/General/Width", "input");
-  refToType.put("Stratum_Feature/General", "group");
-  refToType.put("Stratum_Feature/General/NW_Top_Depth", "input");
-  refToType.put("Stratum_Feature/General/SW_Top_Depth", "input");
-  refToType.put("Stratum_Feature/General/Center_Top_Depth", "input");
-  refToType.put("Stratum_Feature/General/NE_Top_Depth", "input");
-  refToType.put("Stratum_Feature/General/SE_Top_Depth", "input");
-  refToType.put("Stratum_Feature/General", "group");
-  refToType.put("Stratum_Feature/General/NW_Bottom_Depth", "input");
-  refToType.put("Stratum_Feature/General/SW_Bottom_Depth", "input");
-  refToType.put("Stratum_Feature/General/Center_Bottom_Depth", "input");
-  refToType.put("Stratum_Feature/General/NE_Bottom_Depth", "input");
-  refToType.put("Stratum_Feature/General/SE_Bottom_Depth", "input");
-  refToType.put("Stratum_Feature/General", "group");
-  refToType.put("Stratum_Feature/General/Mid_X", "input");
-  refToType.put("Stratum_Feature/General/Mid_Y", "input");
-  refToType.put("Stratum_Feature/General/Plans", "input");
-  refToType.put("Stratum_Feature/General/Section_Numbers", "input");
-  refToType.put("Stratum_Feature/General", "group");
-  refToType.put("Stratum_Feature/General/Stratum_Feature_author", "input");
-  refToType.put("Stratum_Feature/General/Stratum_Feature_timestamp", "input");
-  refToType.put("Stratum_Feature/Stratum_Feature_Loci/Create_Relationships_to_This_Stratum_Feature", "button");
-  refToType.put("Stratum_Feature/Stratum_Feature_Loci", "group");
-  refToType.put("Stratum_Feature/Stratum_Feature_Loci/Existing_Relationships_to_This_Stratum_Feature", "list");
-  refToType.put("Stratum_Feature/Stratum_Feature_Loci/Selected_Relationship", "webview");
-  refToType.put("Stratum_Feature/Stratum_Feature_Loci/Load_Related_Locus", "button");
-  refToType.put("Stratum_Feature/Stratum_Feature_Loci/Delete_Relationship", "button");
-  refToType.put("Stratum_Feature/Add/Photo", "camera");
-  refToType.put("Stratum_Feature/Add/Photo_Button_1", "button");
-  refToType.put("Stratum_Feature/Add/Attach_File", "file");
-  refToType.put("Stratum_Feature/Add/Attach_File_Button_1", "button");
-  refToType.put("Stratum_Feature/Add/View_Attached_Files", "viewfiles");
-  refToType.put("Stratum_Feature/Add/Guide_2", "webview");
-  refToType.put("Stratum_Feature/Add/Add_Photograph_Log", "button");
-  refToType.put("Stratum_Feature/Add/Select_a_Photograph_Log", "dropdown");
-  refToType.put("Stratum_Feature/Vars/Device_Code", "dropdown");
-  refToType.put("Stratum_Feature/Vars/Stratum_Feature_Site_Name", "input");
-  refToType.put("Stratum_Feature/Vars/Stratum_Feature_Year_of_Campaign", "input");
-  refToType.put("Stratum_Feature/Vars/L_Paren", "input");
-  refToType.put("Stratum_Feature/Vars/R_Paren", "input");
-  refToType.put("Stratum_Feature/Vars/Last_Feature_Type", "dropdown");
-  refToType.put("Stratum_Feature/Vars/Last_Feature_Prefix", "input");
-  refToType.put("Sediment_Aggregate/Sediment_Aggregate", "group");
-  refToType.put("Sediment_Aggregate/Sediment_Aggregate/Component_Type", "dropdown");
-  refToType.put("Sediment_Aggregate/Sediment_Aggregate/Percentage", "input");
-  refToType.put("Sediment_Aggregate/Sediment_Aggregate/Soil_Stone_Shape", "picture");
-  refToType.put("Sediment_Aggregate/Vars/Locus_ID", "input");
-  refToType.put("Sediment_Aggregate/Vars/Trench_ID", "input");
-  refToType.put("Sediment_Aggregate/Vars/Device_Code", "dropdown");
-  refToType.put("Photograph_Log/Photograph_Log", "group");
-  refToType.put("Photograph_Log/Photograph_Log/Photo_Locus_ID", "input");
-  refToType.put("Photograph_Log/Photograph_Log/Photo_Stratum_Feature_ID", "input");
-  refToType.put("Photograph_Log/Photograph_Log/Photograph_Reference_ID", "input");
-  refToType.put("Photograph_Log/Photograph_Log/Scene_Type", "dropdown");
-  refToType.put("Photograph_Log/Photograph_Log/Brief_Description", "input");
-  refToType.put("Photograph_Log/Vars/Photograph_Log_Site_Name", "input");
-  refToType.put("Photograph_Log/Vars/Photograph_Log_Year_of_Campaign", "input");
-  refToType.put("Photograph_Log/Vars/Photograph_Trench_ID", "input");
-  refToType.put("Photograph_Log/Vars/Device_Code", "dropdown");
-  refToType.put("Diary/Diary/Title", "input");
-  refToType.put("Diary/Diary", "group");
-  refToType.put("Diary/Diary/Timestamp", "input");
-  refToType.put("Diary/Diary/Diary_author", "input");
-  refToType.put("Diary/Diary/Text", "input");
-  refToType.put("Diary/Diary/Photo", "camera");
-  refToType.put("Diary/Diary/Photo_Button_1", "button");
-  refToType.put("Diary/Vars/Diary_Site_Name", "input");
-  refToType.put("Diary/Vars/Diary_Year_of_Campaign", "input");
-  refToType.put("Diary/Vars/Diary_Trench_ID", "input");
-  refToType.put("Diary/Vars/Device_Code", "dropdown");
-  refToType.put("Relationship/Relationships/Parent_Identifier", "webview");
-  refToType.put("Relationship/Relationships", "group");
-  refToType.put("Relationship/Relationships/Trench_ID", "input");
-  refToType.put("Relationship/Relationships/Locus_ID", "input");
-  refToType.put("Relationship/Relationships/Relationship_Type", "dropdown");
-  refToType.put("Relationship/Relationships/Search", "button");
-  refToType.put("Relationship/Relationships", "group");
-  refToType.put("Relationship/Relationships/Add_Relationship", "button");
-  refToType.put("Relationship/Relationships/Proposed_Relationship", "webview");
-  refToType.put("Relationship/Relationships/Delete_Relationship", "button");
-  refToType.put("Relationship/Relationships/Selected_Relationship", "webview");
-  refToType.put("Relationship/Relationships", "group");
-  refToType.put("Relationship/Relationships/Unrelated_Loci", "list");
-  refToType.put("Relationship/Relationships/Existing_Relationships", "list");
-  refToType.put("Relationship/Legacies/Create_New_Legacy", "button");
-  refToType.put("Relationship/Legacies/List_of_Existing_Legacies", "list");
-  refToType.put("Relationship/Vars/Relationship_Site_Name", "input");
-  refToType.put("Relationship/Vars/Relationship_Year_of_Campaign", "input");
-  refToType.put("Stratum_Feature_Relationship/Relationships/Parent_Identifier", "webview");
-  refToType.put("Stratum_Feature_Relationship/Relationships", "group");
-  refToType.put("Stratum_Feature_Relationship/Relationships/Trench_ID", "input");
-  refToType.put("Stratum_Feature_Relationship/Relationships/Locus_ID", "input");
-  refToType.put("Stratum_Feature_Relationship/Relationships/Search", "button");
-  refToType.put("Stratum_Feature_Relationship/Relationships", "group");
-  refToType.put("Stratum_Feature_Relationship/Relationships/Add_Relationship", "button");
-  refToType.put("Stratum_Feature_Relationship/Relationships/Proposed_Relationship", "webview");
-  refToType.put("Stratum_Feature_Relationship/Relationships/Delete_Relationship", "button");
-  refToType.put("Stratum_Feature_Relationship/Relationships/Selected_Relationship", "webview");
-  refToType.put("Stratum_Feature_Relationship/Relationships", "group");
-  refToType.put("Stratum_Feature_Relationship/Relationships/Unrelated_Loci", "list");
-  refToType.put("Stratum_Feature_Relationship/Relationships/Existing_Relationships", "list");
-  refToType.put("Stratum_Feature_Relationship/Legacies/Create_New_Legacy", "button");
-  refToType.put("Stratum_Feature_Relationship/Legacies/List_of_Existing_Legacies", "list");
-  refToType.put("Stratum_Feature_Relationship/Vars/Stratum_Feature_Relationship_Site_Name", "input");
-  refToType.put("Stratum_Feature_Relationship/Vars/Stratum_Feature_Relationship_Year_of_Campaign", "input");
-  refToType.put("FCN/General/FCN_ID", "input");
-  refToType.put("FCN/General/FCN_Site_Name", "input");
-  refToType.put("FCN/General/FCN_Trench_ID", "input");
-  refToType.put("FCN/General/Locus_ID", "input");
-  refToType.put("FCN/General", "group");
-  refToType.put("FCN/General/Latitude", "input");
-  refToType.put("FCN/General/Longitude", "input");
-  refToType.put("FCN/General", "group");
-  refToType.put("FCN/General/Northing", "input");
-  refToType.put("FCN/General/Easting", "input");
-  refToType.put("FCN/General/Accuracy", "input");
-  refToType.put("FCN/General/Take_From_GPS_1", "button");
-  refToType.put("FCN/General/Collection_Method", "dropdown");
-  refToType.put("FCN/General/FCN_Class", "dropdown");
-  refToType.put("FCN/General/FCN_Quantity", "input");
-  refToType.put("FCN/General/FCN_Weight_g", "input");
-  refToType.put("FCN/General", "group");
-  refToType.put("FCN/General/Volume_Liters", "input");
-  refToType.put("FCN/General/Washed", "radio");
-  refToType.put("FCN/General/Weighted", "radio");
-  refToType.put("FCN/General/Analyzed", "radio");
-  refToType.put("FCN/General/FCN_Group_Comment", "input");
-  refToType.put("FCN/General/Attach_File", "file");
-  refToType.put("FCN/General/Attach_File_Button_1", "button");
-  refToType.put("FCN/General/View_Attached_Files", "viewfiles");
-  refToType.put("FCN/General/Attach_Photograph", "camera");
-  refToType.put("FCN/General/Attach_Photograph_Button_1", "button");
-  refToType.put("FCN/Vars/FCN_Year_of_Campaign", "input");
-  refToType.put("FCN/Vars/Device_Code", "dropdown");
-  refToType.put("Soil_Munsel_Color/Add_Soil_Munsel_Color/Soil_Munsel_Color", "dropdown");
-  refToType.put("Soil_Munsel_Color/Vars/Soil_Munsel_Color_Locus_ID", "input");
-  refToType.put("Soil_Munsel_Color/Vars/Device_Code", "dropdown");
-  refToType.put("Legacy/Legacy", "group");
-  refToType.put("Legacy/Legacy/Legacy_Site_Name", "input");
-  refToType.put("Legacy/Legacy/Legacy_Year_of_Campaign", "input");
-  refToType.put("Legacy/Legacy", "group");
-  refToType.put("Legacy/Legacy/Legacy_Trench_ID", "input");
-  refToType.put("Legacy/Legacy/Legacy_Locus_ID", "input");
-  refToType.put("Legacy/Var/Device_Code", "dropdown");
-
-  String type = refToType.get(ref);
+  String type = REF_TO_TYPE.get(ref);
   if (type == null) return "";
   else              return type;
+}
+
+boolean hasData(String ref) {
+  return DATA_REFS.contains(ref);
 }
 
 List getTabGroups() {
@@ -507,6 +740,43 @@ List getTabGroups() {
   tabGroups.add("Soil_Munsel_Color");
   tabGroups.add("Legacy");
   return tabGroups;
+}
+
+List getMenuTypes() {
+  List menuTypes = new ArrayList();
+  menuTypes.add("checkbox");
+  menuTypes.add("dropdown");
+  menuTypes.add("list");
+  menuTypes.add("picture");
+  menuTypes.add("radio");
+  return menuTypes;
+}
+
+List getMediaTypes() {
+  List mediaTypes = new ArrayList();
+  mediaTypes.add("audio");
+  mediaTypes.add("camera");
+  mediaTypes.add("file");
+  mediaTypes.add("video");
+  return mediaTypes;
+}
+
+boolean isMenuType(String type) {
+  return getMenuTypes().contains(type);
+}
+
+boolean isMediaType(String type) {
+  return getMediaTypes().contains(type);
+}
+
+boolean hasMenuType(String ref) {
+  String refType = getType(ref);
+  return isMenuType(refType);
+}
+
+boolean hasMediaType(String ref) {
+  String type = getType(ref);
+  return isMediaType(type);
 }
 
 boolean isFlaggedNodata(String tabGroup) {
@@ -902,8 +1172,6 @@ void persistOverSessions(String ref, boolean doOverwrite) {
 }
 
 persistOverSessions("User/User_List/Device_Code", false);
-persistOverSessions("Control/Site/New_Site_Name", false);
-persistOverSessions("Control/Site/Year_of_Campaign", false);
 persistOverSessions("Relationship/Relationships/Relationship_Type", true);
 
 /*************************** FIELD COPYING HELPERS ****************************/
@@ -1142,9 +1410,9 @@ addOnEvent("Legacy/Var/Device_Code", "click", "DROPDOWN_ITEM_VALUE = getFieldVal
 /* default, which is the vocabid.                                             */
 /******************************************************************************/
 // Map from vocabid to vocabname. Populated by `fetchMenuValues()`.
-Map VOCABID_TO_VOCABNAME = null;
-Map VOCABNAME_TO_VOCABID = null;
-
+Map VOCABID_TO_VOCABNAME    = null;
+Map VOCABNAME_TO_VOCABID    = null;
+Map ATTRIB_NAME_TO_VOCABIDS = null;
 
 void setVocabId(String attrName, String vocabName, String vocabId) {
   String key = attrName + SEP + vocabName;
@@ -1155,6 +1423,30 @@ void setVocabId(String attrName, String vocabName, String vocabId) {
 
 String getVocabId(String attrName, String vocabName) {
   return VOCABNAME_TO_VOCABID.get(attrName + SEP + vocabName);
+}
+
+void addVocabId(String attrName, String vocabId) {
+  if (ATTRIB_NAME_TO_VOCABIDS == null)
+    ATTRIB_NAME_TO_VOCABIDS = new HashMap();
+
+  List vocabIds = ATTRIB_NAME_TO_VOCABIDS.get(attrName);
+  if (vocabIds == null) {
+    vocabIds = new ArrayList();
+    ATTRIB_NAME_TO_VOCABIDS.put(attrName, vocabIds);
+  }
+
+  vocabIds.add(vocabId);
+}
+
+List getVocabIdsFromAttribName(String attribName) {
+  List vocabIds = ATTRIB_NAME_TO_VOCABIDS.get(attribName);
+  if (vocabIds == null) return new ArrayList();
+  else                  return vocabIds;
+}
+
+List getVocabIdsFromRef(String ref) {
+  String attribName = getAttributeName(ref);
+  return getVocabIdsFromAttribName(attribName);
 }
 
 /*
@@ -1173,21 +1465,19 @@ void fetchMenuValues() {
 
   FetchCallback populateHashMap = new FetchCallback() {
     onFetch(result) {
-      // Populate VOCABID_TO_VOCABNAME
-      for (row : result) {
-        String vocabId   = row.get(0);
-        String vocabName = row.get(1);
-        VOCABID_TO_VOCABNAME.put(vocabId, vocabName);
-      }
-
-      // Populate VOCABNAME_TO_VOCABID
       for (row : result) {
         String vocabId   = row.get(0);
         String vocabName = row.get(1);
         String attrName  = row.get(2);
 
+        // Populate VOCABID_TO_VOCABNAME
+        VOCABID_TO_VOCABNAME.put(vocabId, vocabName);
 
+        // Populate VOCABNAME_TO_VOCABID
         setVocabId(attrName, vocabName, vocabId);
+
+        // Populate ATTRIB_NAME_TO_VOCABIDS
+        addVocabId(attrName, vocabId);
       }
     }
   };
@@ -2001,12 +2291,9 @@ void onClickStratumFeatureRelationshipLegaciesCreateNewLegacy () {
   newLegacy();
 }
 
-void onClickSiteSiteTrenches () {
+void onClickSiteSiteCreateNewTrench () {
   String tabgroup = "Site";
-  if (isNull(getUuid(tabgroup))){
-    showToast("{You_must_save_this_tabgroup_first}");
-    return;
-  }
+  triggerAutoSave();
   parentTabgroup   = tabgroup;
   parentTabgroup__ = tabgroup;
   newTrench();
@@ -2014,10 +2301,7 @@ void onClickSiteSiteTrenches () {
 
 void onClickTrenchTrenchAddTrenchFiles () {
   String tabgroup = "Trench";
-  if (isNull(getUuid(tabgroup))){
-    showToast("{You_must_save_this_tabgroup_first}");
-    return;
-  }
+  triggerAutoSave();
   parentTabgroup   = tabgroup;
   parentTabgroup__ = tabgroup;
   newTrenchFiles();
@@ -2025,10 +2309,7 @@ void onClickTrenchTrenchAddTrenchFiles () {
 
 void onClickTrenchLociCreateNewLocus () {
   String tabgroup = "Trench";
-  if (isNull(getUuid(tabgroup))){
-    showToast("{You_must_save_this_tabgroup_first}");
-    return;
-  }
+  triggerAutoSave();
   parentTabgroup   = tabgroup;
   parentTabgroup__ = tabgroup;
   newLocus();
@@ -2036,10 +2317,7 @@ void onClickTrenchLociCreateNewLocus () {
 
 void onClickTrenchStrataFeaturesCreateNewStratumFeature () {
   String tabgroup = "Trench";
-  if (isNull(getUuid(tabgroup))){
-    showToast("{You_must_save_this_tabgroup_first}");
-    return;
-  }
+  triggerAutoSave();
   parentTabgroup   = tabgroup;
   parentTabgroup__ = tabgroup;
   newStratumFeature();
@@ -2047,10 +2325,7 @@ void onClickTrenchStrataFeaturesCreateNewStratumFeature () {
 
 void onClickTrenchFCNsCreateNewFCN () {
   String tabgroup = "Trench";
-  if (isNull(getUuid(tabgroup))){
-    showToast("{You_must_save_this_tabgroup_first}");
-    return;
-  }
+  triggerAutoSave();
   parentTabgroup   = tabgroup;
   parentTabgroup__ = tabgroup;
   newFCN();
@@ -2058,10 +2333,7 @@ void onClickTrenchFCNsCreateNewFCN () {
 
 void onClickTrenchDiariesCreateNewDiary () {
   String tabgroup = "Trench";
-  if (isNull(getUuid(tabgroup))){
-    showToast("{You_must_save_this_tabgroup_first}");
-    return;
-  }
+  triggerAutoSave();
   parentTabgroup   = tabgroup;
   parentTabgroup__ = tabgroup;
   newDiary();
@@ -2069,10 +2341,7 @@ void onClickTrenchDiariesCreateNewDiary () {
 
 void onClickTrenchLegaciesCreateNewLegacy () {
   String tabgroup = "Trench";
-  if (isNull(getUuid(tabgroup))){
-    showToast("{You_must_save_this_tabgroup_first}");
-    return;
-  }
+  triggerAutoSave();
   parentTabgroup   = tabgroup;
   parentTabgroup__ = tabgroup;
   newLegacy();
@@ -2080,10 +2349,7 @@ void onClickTrenchLegaciesCreateNewLegacy () {
 
 void onClickLocusDepositAddMunselColor () {
   String tabgroup = "Locus";
-  if (isNull(getUuid(tabgroup))){
-    showToast("{You_must_save_this_tabgroup_first}");
-    return;
-  }
+  triggerAutoSave();
   parentTabgroup   = tabgroup;
   parentTabgroup__ = tabgroup;
   newSoilMunselColor();
@@ -2091,10 +2357,7 @@ void onClickLocusDepositAddMunselColor () {
 
 void onClickLocusDepositAddNewSedimentAggregate () {
   String tabgroup = "Locus";
-  if (isNull(getUuid(tabgroup))){
-    showToast("{You_must_save_this_tabgroup_first}");
-    return;
-  }
+  triggerAutoSave();
   parentTabgroup   = tabgroup;
   parentTabgroup__ = tabgroup;
   newSedimentAggregate();
@@ -2102,10 +2365,7 @@ void onClickLocusDepositAddNewSedimentAggregate () {
 
 void onClickLocusFCNsAddFCN () {
   String tabgroup = "Locus";
-  if (isNull(getUuid(tabgroup))){
-    showToast("{You_must_save_this_tabgroup_first}");
-    return;
-  }
+  triggerAutoSave();
   parentTabgroup   = tabgroup;
   parentTabgroup__ = tabgroup;
   newFCN();
@@ -2113,10 +2373,7 @@ void onClickLocusFCNsAddFCN () {
 
 void onClickLocusAddAddPhotographLog () {
   String tabgroup = "Locus";
-  if (isNull(getUuid(tabgroup))){
-    showToast("{You_must_save_this_tabgroup_first}");
-    return;
-  }
+  triggerAutoSave();
   parentTabgroup   = tabgroup;
   parentTabgroup__ = tabgroup;
   newPhotographLog();
@@ -2124,10 +2381,7 @@ void onClickLocusAddAddPhotographLog () {
 
 void onClickStratumFeatureAddAddPhotographLog () {
   String tabgroup = "Stratum_Feature";
-  if (isNull(getUuid(tabgroup))){
-    showToast("{You_must_save_this_tabgroup_first}");
-    return;
-  }
+  triggerAutoSave();
   parentTabgroup   = tabgroup;
   parentTabgroup__ = tabgroup;
   newPhotographLog();
@@ -2141,7 +2395,7 @@ addOnEvent("Stratum_Feature/Stratum_Feature_Loci/Create_Relationships_to_This_St
 addOnEvent("Control/Site/Create_New_Site", "click", "onClickControlSiteCreateNewSite()");
 addOnEvent("Relationship/Legacies/Create_New_Legacy", "click", "onClickRelationshipLegaciesCreateNewLegacy()");
 addOnEvent("Stratum_Feature_Relationship/Legacies/Create_New_Legacy", "click", "onClickStratumFeatureRelationshipLegaciesCreateNewLegacy()");
-addOnEvent("Site/Site/Trenches", "click", "onClickSiteSiteTrenches()");
+addOnEvent("Site/Site/Create_New_Trench", "click", "onClickSiteSiteCreateNewTrench()");
 addOnEvent("Trench/Trench/Add_Trench_Files", "click", "onClickTrenchTrenchAddTrenchFiles()");
 addOnEvent("Trench/Loci/Create_New_Locus", "click", "onClickTrenchLociCreateNewLocus()");
 addOnEvent("Trench/Strata_Features/Create_New_Stratum_Feature", "click", "onClickTrenchStrataFeaturesCreateNewStratumFeature()");
@@ -4507,6 +4761,40 @@ void populateLotLabel(String lotRef) {
   identiferType = "Locus";
   setFieldToIdentifier(identiferType, lotRef);
 }
+
+List getAttribNamesEndingWith(String ending) {
+  List attribNamesEndingWith = new ArrayList();
+  for (String ref : DATA_REFS) {
+    String attribName = getAttributeName(ref);
+    if (attribName.endsWith(ending))
+      attribNamesEndingWith.add(attribName);
+  }
+  return attribNamesEndingWith;
+}
+
+String getAttribNamesEndingWithAsString(String ending) {
+  List   attribNames       = getAttribNamesEndingWith(ending);
+  String attribNamesString = "";
+
+  attribNamesString += "(";
+  for (int i = 0; i < attribNames.size() - 1; i++) {
+    attribName = attribNames.get(i);
+    attribNamesString += "'" + attribName + "', ";
+  }
+  if (attribNames.size() > 0) {
+    int lastIndex = attribNames.size() - 1;
+    attribName = attribNames.get(lastIndex);
+    attribNamesString += "'" + attribName + "'";
+  }
+  attribNamesString += ")";
+
+  return attribNamesString;
+}
+
+ATTRIBS_TRENCH_ID        = getAttribNamesEndingWithAsString("Trench ID");
+ATTRIBS_LOCUS_ID         = getAttribNamesEndingWithAsString("Locus ID");
+ATTRIBS_SITE_NAME        = getAttribNamesEndingWithAsString("Site Name");
+ATTRIBS_YEAR_OF_CAMPAIGN = getAttribNamesEndingWithAsString("Year of Campaign");
 /******************************* RELATIONSHIPS ********************************/
 /* Variables and functions shared by entity-specfic code fo relating          */
 /* entities.                                                                  */
@@ -4808,22 +5096,22 @@ void searchRelationship() {
   unrelatedQ += "  WHERE uuid IN (";
   unrelatedQ += "         SELECT uuid";
   unrelatedQ += "           FROM latestnondeletedaentvalue JOIN attributekey USING (attributeid)";
-  unrelatedQ += "          WHERE attributename LIKE '% Trench ID'";
+  unrelatedQ += "          WHERE attributename IN " + ATTRIBS_TRENCH_ID;
   unrelatedQ += "            AND measure = '{Locus_Trench_ID}'";
   unrelatedQ += "            AND uuid IN (";
   unrelatedQ += "                 SELECT uuid";
   unrelatedQ += "                   FROM latestnondeletedaentvalue JOIN attributekey USING (attributeid) ";
-  unrelatedQ += "                  WHERE attributename LIKE '% Locus ID'";
+  unrelatedQ += "                  WHERE attributename IN " + ATTRIBS_LOCUS_ID;
   unrelatedQ += "                    AND (measure = '{Locus_Locus_ID}' OR '{Locus_Locus_ID}' = ''))";
   unrelatedQ += "            AND uuid IN (";
   unrelatedQ += "                 SELECT uuid";
   unrelatedQ += "                   FROM latestnondeletedaentvalue JOIN attributekey USING (attributeid) ";
-  unrelatedQ += "                  WHERE attributename LIKE '% Site Name'";
+  unrelatedQ += "                  WHERE attributename IN " + ATTRIBS_SITE_NAME;
   unrelatedQ += "                    AND measure = '{Relationship_Site_Name}')";
   unrelatedQ += "            AND uuid IN (";
   unrelatedQ += "                 SELECT uuid";
   unrelatedQ += "                   FROM latestnondeletedaentvalue JOIN attributekey USING (attributeid) ";
-  unrelatedQ += "                  WHERE attributename LIKE '% Year of Campaign'";
+  unrelatedQ += "                  WHERE attributename IN " + ATTRIBS_YEAR_OF_CAMPAIGN;
   unrelatedQ += "                    AND measure = '{Relationship_Year_of_Campaign}')";
   unrelatedQ += "            AND uuid NOT IN (";
   unrelatedQ += "                 SELECT childuuid";
@@ -4948,7 +5236,7 @@ String getRelatedChildQuery(String parentUuid) {
   relatedQ += "                            FROM latestnondeletedrelationship JOIN relntype USING (relntypeid)  ";
   relatedQ += "                           WHERE relntypename NOT like '% - %') ";
   relatedQ += "   and parentuuid = '"+parentUuid+"' ";
-  relatedQ += " ORDER BY createdat desc ";
+  relatedQ += " ORDER BY parentchild.createdat desc ";
   relatedQ += " LIMIT ? OFFSET ? ";
   return relatedQ;
 }
@@ -5101,22 +5389,22 @@ void CGsearchRelationship() {
   unrelatedQ += "  WHERE uuid IN (";
   unrelatedQ += "         SELECT uuid";
   unrelatedQ += "           FROM latestnondeletedaentvalue JOIN attributekey USING (attributeid)";
-  unrelatedQ += "          WHERE attributename LIKE '% Trench ID'";
+  unrelatedQ += "          WHERE attributename IN " + ATTRIBS_TRENCH_ID;
   unrelatedQ += "            AND measure = '{Trench_ID}'";
   unrelatedQ += "            AND uuid IN (";
   unrelatedQ += "                 SELECT uuid";
   unrelatedQ += "                   FROM latestnondeletedaentvalue JOIN attributekey USING (attributeid) ";
-  unrelatedQ += "                  WHERE attributename LIKE '% Locus ID'";
+  unrelatedQ += "                  WHERE attributename IN " + ATTRIBS_LOCUS_ID;
   unrelatedQ += "                    AND (measure = '{Locus_ID}' OR '{Locus_ID}' = ''))";
   unrelatedQ += "            AND uuid IN (";
   unrelatedQ += "                 SELECT uuid";
   unrelatedQ += "                   FROM latestnondeletedaentvalue JOIN attributekey USING (attributeid) ";
-  unrelatedQ += "                  WHERE attributename LIKE '% Site Name'";
+  unrelatedQ += "                  WHERE attributename IN " + ATTRIBS_SITE_NAME;
   unrelatedQ += "                    AND measure = '{Site_Name}')";
   unrelatedQ += "            AND uuid IN (";
   unrelatedQ += "                 SELECT uuid";
   unrelatedQ += "                   FROM latestnondeletedaentvalue JOIN attributekey USING (attributeid) ";
-  unrelatedQ += "                  WHERE attributename LIKE '% Year of Campaign'";
+  unrelatedQ += "                  WHERE attributename IN " + ATTRIBS_YEAR_OF_CAMPAIGN;
   unrelatedQ += "                    AND measure = '{Year_of_Campaign}')";
   unrelatedQ += "            AND uuid NOT IN (";
   unrelatedQ += "                 SELECT childuuid";
@@ -5241,7 +5529,7 @@ String getCGChildQuery(String parentUuid) {
   relatedQ += "                            FROM latestnondeletedrelationship JOIN relntype USING (relntypeid)  ";
   relatedQ += "                           WHERE relntypename = '"+relntypename+"') ";
   relatedQ += "   and parentuuid = '"+parentUuid+"' ";
-  relatedQ += " ORDER BY createdat desc ";
+  relatedQ += " ORDER BY parentchild.createdat desc ";
   relatedQ += " LIMIT ? OFFSET ? ";
   return relatedQ;
 }
@@ -5692,13 +5980,13 @@ void search(){
                        "            SELECT uuid" +
                        "              FROM latestnondeletedaentvalue" +
                        "              JOIN attributekey USING (attributeid)" +
-                       "             WHERE attributename LIKE '% Site Name'" +
+                       "             WHERE attributename IN " + ATTRIBS_SITE_NAME +
                        "               AND measure = '{name}'" +
                        "               AND uuid IN (" +
                        "                    SELECT uuid" +
                        "                      FROM latestnondeletedaentvalue" +
                        "                      JOIN attributekey USING (attributeid)" +
-                       "                     WHERE attributename LIKE '% Year of Campaign'" +
+                       "                     WHERE attributename IN " + ATTRIBS_YEAR_OF_CAMPAIGN +
                        "                       AND measure = '{year}'" +
                        "               )" +
                        "           )" +
@@ -5715,6 +6003,7 @@ void search(){
   searchQuery = replaceFirst(searchQuery, "{year}", year);
   searchQuery = replaceFirst(searchQuery, "{name}", name);
   searchQuery = replaceFirst(searchQuery, "{year}", year);
+  showWarning("", searchQuery);
 
   populateCursorList(refEntityList, searchQuery, 25);
   refreshTabgroupCSS(tabgroup);
@@ -5839,117 +6128,22 @@ void setDateClosed() {
   setFieldValue(dst, val);
   goBack();
 }
-/*************************** CREATE NEW SITE BUTTON ***************************/
-
-// Overrides autogenerated definition
-void onClickControlSiteCreateNewSite() {
-  parentTabgroup__ = "Control";
-
-  tryCreateNewSite();
-}
-
-void tryCreateNewSite() {
-  String siteName = getFieldValue("Control/Site/New_Site_Name");
-  String siteYear = getFieldValue("Control/Site/Year_of_Campaign");
-
-  String q = "";
-  q += " SELECT response";
-  q += "   FROM latestNonDeletedArchEntFormattedIdentifiers";
-  q += "  WHERE uuid IN (";
-  q += "         SELECT uuid";
-  q += "           FROM latestnondeletedaentvalue";
-  q += "           JOIN attributekey USING (attributeid)";
-  q += "          WHERE attributename = 'Site Site Name'";
-  q += "            AND measure = '{Site_Site_Name}'";
-  q += "            AND uuid IN (";
-  q += "                 SELECT uuid";
-  q += "                   FROM latestnondeletedaentvalue";
-  q += "                   JOIN attributekey USING (attributeid)";
-  q += "                  WHERE attributename = 'Site Year of Campaign'";
-  q += "                    AND measure = '{Site_Year_of_Campaign}'))";
-  q += "    AND aenttypename = 'Site'";
-  q  = replaceFirst(q, "{Site_Site_Name}",        siteName);
-  q  = replaceFirst(q, "{Site_Year_of_Campaign}", siteYear);
-
-  FetchCallback callback = new FetchCallback() {
-    onFetch(result) {
-      if      (result        == null) newSite();
-      else if (result.size() == 0   ) newSite();
-      else                            confirmNewSite();
-    }
-  };
-
-  fetchAll(q, callback);
-}
-
-void confirmNewSite() {
-  String head  = "{site_already_exists_head}";
-  String body  = "{site_already_exists_body}";
-  String cbOk  = "";
-  String cbBad = "newSite()";
-
-  showAlert(head, body, cbOk, cbBad);
-}
 /************************** CREATE NEW TRENCH BUTTON **************************/
 
 // Overrrides autogenerated definition
-void onClickSiteSiteTrenches() {
+void onClickSiteSiteCreateNewTrench() {
   String tabgroup = "Site";
-  if (isNull(getUuid(tabgroup))){
-    showToast("{You_must_save_this_tabgroup_first}");
-    return;
-  }
-  if (!isValidTrenchId()) {
+  triggerAutoSave();
+
+  if (isValidTrenchId()) {
+    setParentAndNewTrench();
+  } else {
     String head  = "{invalid_trench_id_head}";
     String body  = "{invalid_trench_id_body}";
-    String cbOk  = "tryCreateNewTrench()";
+    String cbOk  = "setParentAndNewTrench()";
     String cbBad = "";
     showAlert(head, body, cbOk, cbBad);
-    return;
   }
-
-  tryCreateNewTrench();
-}
-
-void tryCreateNewTrench () {
-  String parentUuid = getUuid(getDisplayedTabGroup());
-  String trenchId   = getFieldValue("Site/Site/Trench_ID");
-
-  String q = "";
-  q += "SELECT childuuid, response ";
-  q += "  FROM parentchild ";
-  q += "  JOIN latestNonDeletedArchEntFormattedIdentifiers ON (childuuid = uuid) ";
-  q += "  JOIN createdmodifiedatby USING (uuid) ";
-  q += " WHERE relationshipid IN (SELECT relationshipid  ";
-  q += "                            FROM latestnondeletedrelationship JOIN relntype USING (relntypeid) ";
-  q += "                           WHERE relntypename = 'Site - Trench') ";
-  q += "   AND parentuuid = '" + parentUuid + "' ";
-  q += "   AND (childaenttypename = 'Trench') ";
-  q += "   AND childuuid IN (";
-  q += "           SELECT uuid";
-  q += "             FROM latestnondeletedaentvalue";
-  q += "             JOIN attributekey USING (attributeid)";
-  q += "            WHERE attributename = 'Trench Trench ID'";
-  q += "              AND measure = '" + trenchId + "')";
-
-  FetchCallback callback = new FetchCallback() {
-    onFetch(result) {
-      if      (result        == null) setParentAndNewTrench();
-      else if (result.size() == 0   ) setParentAndNewTrench();
-      else                            confirmNewTrench();
-    }
-  };
-
-  fetchAll(q, callback);
-}
-
-void confirmNewTrench() {
-  String head  = "{trench_already_exists_head}";
-  String body  = "{trench_already_exists_body}";
-  String cbOk  = "";
-  String cbBad = "setParentAndNewTrench()";
-
-  showAlert(head, body, cbOk, cbBad);
 }
 
 void setParentAndNewTrench() {
@@ -5990,7 +6184,7 @@ void populateTrenchFcns() {
   q += "                                                WHERE relntypename IN ('Trench - Locus'))";
   q += "                        AND parentuuid = '{parentUuid}'))";
   q += "   AND childaenttypename IN ('FCN')";
-  q += " ORDER BY createdat DESC";
+  q += " ORDER BY parentchild.createdat DESC";
   q += " LIMIT ? OFFSET ?";
   q  = replaceFirst(q, "{parentUuid}", parentUuid);
   q  = replaceFirst(q, "{parentUuid}", parentUuid);

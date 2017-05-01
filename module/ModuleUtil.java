@@ -843,10 +843,10 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: button
-        Ref:  Site/Site/Trenches
+        Ref:  Site/Site/Create_New_Trench
      */
-    public static View get_Site_Site_Trenches(Solo solo) {
-        String ref = "Site/Site/Trenches";
+    public static View get_Site_Site_CreateNewTrench(Solo solo) {
+        String ref = "Site/Site/Create_New_Trench";
         return (android.view.View) solo.getView((Object) ref);
     }
 
