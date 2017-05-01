@@ -7,57 +7,16 @@ void onClickSiteSiteTrenches() {
     showToast("{You_must_save_this_tabgroup_first}");
     return;
   }
-  if (!isValidTrenchId()) {
+
+  if (isValidTrenchId()) {
+    setParentAndNewTrench();
+  } else {
     String head  = "{invalid_trench_id_head}";
     String body  = "{invalid_trench_id_body}";
-    String cbOk  = "tryCreateNewTrench()";
+    String cbOk  = "setParentAndNewTrench()";
     String cbBad = "";
     showAlert(head, body, cbOk, cbBad);
-    return;
   }
-
-  tryCreateNewTrench();
-}
-
-void tryCreateNewTrench () {
-  String parentUuid = getUuid(getDisplayedTabGroup());
-  String trenchId   = getFieldValue("Site/Site/Trench_ID");
-
-  String q = "";
-  q += "SELECT childuuid, response ";
-  q += "  FROM parentchild ";
-  q += "  JOIN latestNonDeletedArchEntFormattedIdentifiers ON (childuuid = uuid) ";
-  q += "  JOIN createdmodifiedatby USING (uuid) ";
-  q += " WHERE relationshipid IN (SELECT relationshipid  ";
-  q += "                            FROM latestnondeletedrelationship JOIN relntype USING (relntypeid) ";
-  q += "                           WHERE relntypename = 'Site - Trench') ";
-  q += "   AND parentuuid = '" + parentUuid + "' ";
-  q += "   AND (childaenttypename = 'Trench') ";
-  q += "   AND childuuid IN (";
-  q += "           SELECT uuid";
-  q += "             FROM latestnondeletedaentvalue";
-  q += "             JOIN attributekey USING (attributeid)";
-  q += "            WHERE attributename = 'Trench Trench ID'";
-  q += "              AND measure = '" + trenchId + "')";
-
-  FetchCallback callback = new FetchCallback() {
-    onFetch(result) {
-      if      (result        == null) setParentAndNewTrench();
-      else if (result.size() == 0   ) setParentAndNewTrench();
-      else                            confirmNewTrench();
-    }
-  };
-
-  fetchAll(q, callback);
-}
-
-void confirmNewTrench() {
-  String head  = "{trench_already_exists_head}";
-  String body  = "{trench_already_exists_body}";
-  String cbOk  = "";
-  String cbBad = "setParentAndNewTrench()";
-
-  showAlert(head, body, cbOk, cbBad);
 }
 
 void setParentAndNewTrench() {
