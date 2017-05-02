@@ -51,6 +51,12 @@ void populateLotLabel(String lotRef) {
   setFieldToIdentifier(identiferType, lotRef);
 }
 
+boolean isValidTrenchId() {
+  String ref = "Site/Site/Trench_ID";
+  String trenchId = getFieldValue(ref);
+  return trenchId.matches("T\\d+");
+}
+
 List getAttribNamesEndingWith(String ending) {
   List attribNamesEndingWith = new ArrayList();
   for (String ref : DATA_REFS) {

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--@PREPROC:  ./proc/pre.sh-->
 <!--@POSTPROC: ./proc/post.sh-->
-<!--TODO: Search: Reload results only once dropdowns are populated-->
 <module suppressWarnings="true">
 
 <rels>
@@ -1643,9 +1642,9 @@
   <!--@SOURCE: logic/custom-validation.bsh-->
   <!--@SOURCE: logic/date-closed.bsh-->
   <!--@SOURCE: logic/create-new-trench-button.bsh-->
+  <!--@SOURCE: logic/create-new-site-button.bsh-->
   <!--@SOURCE: logic/fcn-entity-list-population.bsh-->
   <!--@SOURCE: logic/custom-diary-timestamp.bsh-->
   <!--@SOURCE: logic/field-clearing.bsh-->
-
 ]]></logic>
 </module>

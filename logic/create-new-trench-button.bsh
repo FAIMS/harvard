@@ -5,7 +5,7 @@ void onClickSiteSiteCreateNewTrench() {
   String tabgroup = "Site";
   triggerAutoSave();
 
-  if (isValidTrenchId()) {
+  if (isValidTrenchId()) { // `isValidTrenchId` defined in logic/shared.bsh
     setParentAndNewTrench();
   } else {
     String head  = "{invalid_trench_id_head}";
@@ -21,11 +21,4 @@ void setParentAndNewTrench() {
   parentTabgroup   = tabgroup;
   parentTabgroup__ = tabgroup;
   newTrench();
-}
-
-
-boolean isValidTrenchId() {
-  String ref = "Site/Site/Trench_ID";
-  String trenchId = getFieldValue(ref);
-  return trenchId.matches("T\\d+");
 }
