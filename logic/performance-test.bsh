@@ -9,8 +9,8 @@
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-AtomicInteger PERF_NUM_CBS_ENDED  = 0;
-AtomicInteger PERF_NUM_CBS_NEEDED = 0;
+AtomicInteger PERF_NUM_CBS_TODO = null;
+AtomicInteger PERF_NUM_CBS_DONE = null;
 
 Tree(String label, Object data) {
   String label    = label;
@@ -31,6 +31,8 @@ Tree(String label, Object data) {
   }
 
   List getChildren() {
+    if (super.children == null)
+      return new ArrayList();
     return super.children;
   }
 
@@ -59,18 +61,16 @@ Tree(String label, Object data) {
   return this;
 }
 
-// TODO
 int computeCbsNeeded(tree) {
   if (tree == null) return 0;
 
-  int thisNode = tree.data;
-  if (tree.getNumChildren() == 0)
-    return thisNode;
-
   int childSum = 0;
-  for (int i = 0; i < tree.getNumChildren(); i++) {
+  for (child : tree.getChildren())
+    childSum += computeCbsNeeded(child);
 
-  }
+  int thisNode = tree.data;
+
+  return thisNode + thisNode * childSum;
 }
 
 getRecordTypeTree() {
@@ -188,17 +188,6 @@ List getAttribs(String archEntType) {
   return attribs;
 }
 
-void makeRecords(tree, String parentUuid) {
-  String archEntName = tree.label;
-  int    numEnts     = tree.data;
-  cb                 = PerfSaveCallback(tree, parentUuid);
-
-  for (int i = 0; i < numEnts; i++) {
-    List attribs = getAttribs(archEntName);
-    saveArchEnt(null, archEntName, (List) null, attribs, cb);
-  }
-}
-
 PerfSaveCallback(tree, String parentUuid) {
   tree              = tree;
   String parentUuid = parentUuid;
@@ -223,16 +212,34 @@ PerfSaveCallback(tree, String parentUuid) {
     if (super.tree.getNumChildren() == 0)
       return;
 
-    for (child : super.tree.getChildren())
-      makeRecords(child, uuid);
+    for (subtree : super.tree.getChildren())
+      makeRecords(subtree, uuid);
+
+    PERF_NUM_CBS_DONE.incrementAndGet();
   }
 
   return this;
 }
 
+void makeRecords(tree, String parentUuid) {
+  String archEntName = tree.label;
+  int    numEnts     = tree.data;
+  cb                 = PerfSaveCallback(tree, parentUuid);
+
+  for (int i = 0; i < numEnts; i++) {
+    List attribs = getAttribs(archEntName);
+    saveArchEnt(null, archEntName, (List) null, attribs, cb);
+  }
+}
+
 void startPerformanceTest() {
   t = getRecordTypeTree();
-  makeRecords(t);
+
+  int n = computeCbsNeeded(t);
+  PERF_NUM_CBS_TODO = new AtomicInteger(i);
+  PERF_NUM_CBS_DONE = new AtomicInteger(0);
+
+  makeRecords(t, null);
 }
 
 void promptPerformanceTest() {

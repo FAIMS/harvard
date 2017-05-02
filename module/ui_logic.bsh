@@ -6254,6 +6254,264 @@ addOnEvent("Control/Site/New_Site_Name",    "show", "clearControlNewSiteName()")
 addOnEvent("Control/Site/Year_of_Campaign", "show", "clearControlYearofCampaign()");
 addOnEvent("Site/Site/Trench_ID",           "show", "clearSiteTrenchId()");
 
+/****************************** PERFORMANCE TEST ******************************/
+// As per Adela's request: @christian and @brian - for the preformance test:
+// we need minimum 10 site, in each 10 trenches, in each of them 100 loci, 100
+// strata, 100 diaries, 100 photologs, 1000 FCNs, with each children having at
+// least one picture. Ideally Adela want a separate test where would be all this
+// + 2 relationships to each locus, 2 relationships to each stratum too see if
+// the relationship do really slow down substantially the module. I will provide
+// you with images shortly.
+
+import java.util.concurrent.atomic.AtomicInteger;
+
+AtomicInteger PERF_NUM_CBS_ENDED  = new AtomicInteger(0);
+AtomicInteger PERF_NUM_CBS_NEEDED = new AtomicInteger(0);
+
+Tree(String label, Object data) {
+  String label    = label;
+  Object data     = data;
+         parent   = null;
+  List   children;
+
+  void addChild(tree) {
+    if (super.children == null)
+      super.children = new ArrayList();
+
+    tree.setParent(super);
+    super.children.add(tree);
+  }
+
+  getChild(int i) {
+    return super.children.get(i);
+  }
+
+  List getChildren() {
+    if (super.children == null)
+      return new ArrayList();
+    return super.children;
+  }
+
+  int getNumChildren() {
+    if (super.children == null)
+      return 0;
+    return super.children.size();
+  }
+
+  void setParent(tree) {
+    super.parent = tree;
+  }
+
+  getParent() {
+    return super.parent;
+  }
+
+  String toString() {
+    String s = "\n- " + super.label + " | " + data;
+    if (super.children != null)
+      for (c : super.children)
+        s += c.toString().replace("\n", "\n\t\t");
+    return s;
+  }
+
+  return this;
+}
+
+// TODO
+int computeCbsNeeded(tree) {
+  if (tree == null) return 0;
+
+  int childSum = 0;
+  for (child : tree.getChildren())
+    childSum += computeCbsNeeded(child);
+
+  int thisNode = tree.data;
+
+  return thisNode + thisNode * childSum;
+}
+
+getRecordTypeTree() {
+  // Site
+  //  - Trench
+  //    - Locus
+  //      - Photograph Log
+  //    - Stratum Feature
+  //      - Photograph Log
+  //    - Diary
+  //    - FCN
+
+  Ph1 = Tree("Photograph Log" , 3);
+  Ph2 = Tree("Photograph Log" , 2);
+  Loc = Tree("Locus"          , 1);
+  Str = Tree("Stratum Feature", 3);
+  Dia = Tree("Diary"          , 2);
+  fcn = Tree("FCN"            , 3);
+  Tre = Tree("Trench"         , 1);
+  Sit = Tree("Site"           , 2);
+
+  Loc.addChild(Ph1);
+  Str.addChild(Ph2);
+
+  Tre.addChild(Loc);
+  Tre.addChild(Str);
+  Tre.addChild(Dia);
+  Tre.addChild(fcn);
+
+  Sit.addChild(Tre);
+
+  return Sit;
+}
+
+void saveEntitiesToPCRel(
+    String parentType,
+    String childType,
+    String parentUuid,
+    String childUuid
+) {
+    String relName = parentType + " - " + childType;
+    String pOf     = "Parent Of";
+    String cOf     = "Child Of";
+    saveEntitiesToHierRel(relName, parentUuid, childUuid, pOf, cOf, "");
+}
+
+String randomMenuValue(String ref) {
+  List vocabIds = getVocabIdsFromRef(ref);
+  int  len      = vocabIds.size();
+  if (len <= 0)
+    return "";
+
+  Random r   = new Random();
+  int    i   = r.nextInt(len);
+
+  return vocabIds.get(i);
+}
+
+String getRandomString(int len) {
+  char[] chars  = (
+      "abcdefghijklmnopqrstuvwxyz" +
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
+      "1234567890"
+  ).toCharArray();
+  Random random = new Random();
+
+  StringBuilder sb = new StringBuilder();
+  for (int i = 0; i < len; i++) {
+      char c = chars[random.nextInt(chars.length)];
+      sb.append(c);
+  }
+
+  return sb.toString();
+}
+
+String randomInputValue(String ref) {
+  int len = 5;
+  randomInputValue(ref, len);
+}
+
+String randomInputValue(String ref, int len) {
+  return getRandomString(len);
+}
+
+List getAttribs(String archEntType) {
+  List attribs = new ArrayList();
+  for (String ref : REF_TO_TYPE.keySet()) {
+    String archEntTypeActual = getArchEntType(ref);
+    if (!archEntType.equals(archEntTypeActual))
+      continue;
+    if (!hasData(ref))
+      continue;
+    if (hasMediaType(ref))
+      continue;
+
+    String attribName = getAttributeName(ref);
+    String annotation = "";
+    String vocab      = "";
+    String measure    = "";
+    String certainty  = "1.0";
+
+    if (hasMenuType(ref)) vocab   = randomMenuValue (ref);
+    else                  measure = randomInputValue(ref);
+
+    EntityAttribute ea = createEntityAttribute(
+        attribName,
+        annotation,
+        vocab,
+        measure,
+        certainty
+    );
+    attribs.add(ea);
+  }
+
+  return attribs;
+}
+
+PerfSaveCallback(tree, String parentUuid) {
+  tree              = tree;
+  String parentUuid = parentUuid;
+
+  saveRel(uuid) {
+    parent            = super.tree.getParent();
+    String parentUuid = super.parentUuid;
+
+    if (parent == null || parentUuid == null)
+      return;
+
+    String parentType = parent    .label;
+    String childType  = super.tree.label;
+
+    saveEntitiesToPCRel(parentType, childType, parentUuid, uuid);
+  }
+
+  onSave(uuid, newRecord) {
+    if (newRecord)
+      saveRel(uuid);
+
+    if (super.tree.getNumChildren() == 0)
+      return;
+
+    for (subtree : super.tree.getChildren())
+      makeRecords(subtree, uuid);
+  }
+
+  return this;
+}
+
+void makeRecords(tree, String parentUuid) {
+  String archEntName = tree.label;
+  int    numEnts     = tree.data;
+  cb                 = PerfSaveCallback(tree, parentUuid);
+
+  for (int i = 0; i < numEnts; i++) {
+    List attribs = getAttribs(archEntName);
+    saveArchEnt(null, archEntName, (List) null, attribs, cb);
+  }
+}
+
+void startPerformanceTest() {
+  t = getRecordTypeTree();
+  makeRecords(t, null);
+}
+
+void promptPerformanceTest() {
+  SimpleDateFormat fmt = new SimpleDateFormat("yyyy");
+
+  Date now      = new Date();
+  Date testTime = fmt.parse("2010");
+
+  boolean isInTestTime = now.before(testTime);
+
+  if (isInTestTime) {
+    String head  = "{perf_test_head}";
+    String body  = "{perf_test_body}";
+    String cbOk  = "startPerformanceTest()";
+    String cbBad = "";
+
+    showAlert(head, body, cbOk, cbBad);
+  }
+}
+
+promptPerformanceTest();
+
 
 /******************************************************************************/
 /*                                    INIT                                    */
