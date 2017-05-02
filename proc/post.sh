@@ -130,6 +130,8 @@ parent_of=Parent of
 precisely_contemporary_with=Precisely Contemporary with
 invalid_trench_id_head=Invalid Trench ID
 invalid_trench_id_body=Tap 'Cancel' to change the 'Trench ID' field, or 'OK' to proceed.
+perf_test_head=Begin a Performance Test?
+perf_test_body=Do you wish to begin a performance test? Tapping 'OK' will create many entities. (The exact number depends on the number of arch ent types present in this module.) Entity creation takes a few minutes.\n\nIf you would not like to run a performance test, tap 'Cancel' to dismiss this message.\n\nIf you would not like to see this message again, please set this device's date to any year after 2010.
 EOF
 
 rm ui_schema.xml.original

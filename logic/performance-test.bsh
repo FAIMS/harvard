@@ -6,34 +6,50 @@
 // + 2 relationships to each locus, 2 relationships to each stratum too see if
 // the relationship do really slow down substantially the module. I will provide
 // you with images shortly.
-//
-// Site
-//  - Trench
-//    - Locus
-//      - Photograph Log
-//    - Stratum Feature
-//      - Photograph Log
-//    - Diary
-//    - FCN
+
+import java.util.concurrent.atomic.AtomicInteger;
+
+AtomicInteger PERF_NUM_CBS_ENDED  = 0;
+AtomicInteger PERF_NUM_CBS_NEEDED = 0;
 
 Tree(String label, Object data) {
-  String label = label;
-  Object data  = data;
+  String label    = label;
+  Object data     = data;
+         parent   = null;
   List   children;
 
   void addChild(tree) {
     if (super.children == null)
       super.children = new ArrayList();
 
+    tree.setParent(super);
     super.children.add(tree);
   }
 
+  getChild(int i) {
+    return super.children.get(i);
+  }
+
   List getChildren() {
-    return children;
+    return super.children;
+  }
+
+  int getNumChildren() {
+    if (super.children == null)
+      return 0;
+    return super.children.size();
+  }
+
+  void setParent(tree) {
+    super.parent = tree;
+  }
+
+  getParent() {
+    return super.parent;
   }
 
   String toString() {
-    String s = "\n- " + super.label;
+    String s = "\n- " + super.label + " | " + data;
     if (super.children != null)
       for (c : super.children)
         s += c.toString().replace("\n", "\n\t\t");
@@ -43,15 +59,38 @@ Tree(String label, Object data) {
   return this;
 }
 
-makeTree() {
-  Ph1 = Tree("Photograph Log");
-  Ph2 = Tree("Photograph Log");
-  Loc = Tree("Locus");
-  Str = Tree("Stratum Feature");
-  Dia = Tree("Diary");
-  fcn = Tree("FCN");
-  Tre = Tree("Trench");
-  Sit = Tree("Site");
+// TODO
+int computeCbsNeeded(tree) {
+  if (tree == null) return 0;
+
+  int thisNode = tree.data;
+  if (tree.getNumChildren() == 0)
+    return thisNode;
+
+  int childSum = 0;
+  for (int i = 0; i < tree.getNumChildren(); i++) {
+
+  }
+}
+
+getRecordTypeTree() {
+  // Site
+  //  - Trench
+  //    - Locus
+  //      - Photograph Log
+  //    - Stratum Feature
+  //      - Photograph Log
+  //    - Diary
+  //    - FCN
+
+  Ph1 = Tree("Photograph Log" , 3);
+  Ph2 = Tree("Photograph Log" , 2);
+  Loc = Tree("Locus"          , 1);
+  Str = Tree("Stratum Feature", 3);
+  Dia = Tree("Diary"          , 2);
+  fcn = Tree("FCN"            , 3);
+  Tre = Tree("Trench"         , 1);
+  Sit = Tree("Site"           , 2);
 
   Loc.addChild(Ph1);
   Str.addChild(Ph2);
@@ -65,8 +104,6 @@ makeTree() {
 
   return Sit;
 }
-
-showWarning("", makeTree().toString());
 
 void saveEntitiesToPCRel(
     String parentType,
@@ -151,121 +188,66 @@ List getAttribs(String archEntType) {
   return attribs;
 }
 
-// CALLBACKS
-LocusSaveCallback(String parentUuid, String parentType) {
-  onSave(uuid, newRecord) {
-    // Relate parentUuid to uuid
-    saveEntitiesToPCRel(parentType, "Locus", parentUuid, uuid);
+PerfSaveCallback(tree, String parentUuid) {
+  tree              = tree;
+  String parentUuid = parentUuid;
 
-    // Make children
-    for (int i = 0; i < 3; i++) {
-      cb = PhotographLogSaveCallback(uuid, "Locus");
-      saveArchEnt(null, "Photograph Log", (List) null, getAttribs("Photograph Log"), cb);
+  saveRel(uuid) {
+    parent            = super.tree.getParent();
+    String parentUuid = super.parentUuid;
+
+    if (parent == null || parentUuid == null)
+      return;
+
+    String parentType = parent    .label;
+    String childType  = super.tree.label;
+
+    saveEntitiesToPCRel(parentType, childType, parentUuid, uuid);
+  }
+
+  onSave(uuid, newRecord) {
+    if (newRecord)
+      saveRel(uuid);
+
+    if (super.tree.getNumChildren() == 0)
+      return;
+
+    for (child : super.tree.getChildren()) {
+      String archEntName = child.label;
+      int    numEnts     = child.data;
+      cb                 = PerfSaveCallback(child, uuid);
+
+      for (int i = 0; i < numEnts; i++) {
+        List attribs = getAttribs(archEntName);
+        saveArchEnt(null, archEntName, (List) null, attribs, cb);
+      }
     }
   }
 
   return this;
 }
 
-StratumFeatureSaveCallback(String parentUuid, String parentType) {
-  onSave(uuid, newRecord) {
-    // Relate parentUuid to uuid
-    saveEntitiesToPCRel(parentType, "Stratum Feature", parentUuid, uuid);
+RecordMaker(tree) {
+  tree = tree;
 
-    // Make children
-    for (int i = 0; i < 3; i++) {
-      cb = PhotographLogSaveCallback(uuid, "Stratum Feature");
-      saveArchEnt(null, "Photograph Log", (List) null, getAttribs("Photograph Log"), cb);
-    }
-  }
-
-  return this;
-}
-
-DiarySaveCallback(String parentUuid, String parentType) {
-  onSave(uuid, newRecord) {
-    // Relate parentUuid to uuid
-    saveEntitiesToPCRel(parentType, "Diary", parentUuid, uuid);
-  }
-
-  return this;
-}
-
-PhotographLogSaveCallback(String parentUuid, String parentType) {
-  onSave(uuid, newRecord) {
-    // Relate parentUuid to uuid
-    saveEntitiesToPCRel(parentType, "Photograph Log", parentUuid, uuid);
-  }
-
-  return this;
-}
-
-FcnSaveCallback(String parentUuid, String parentType) {
-  onSave(uuid, newRecord) {
-    // Relate parentUuid to uuid
-    saveEntitiesToPCRel(parentType, "FCN", parentUuid, uuid);
-  }
-
-  return this;
-}
-
-TrenchSaveCallback(String parentUuid, String parentType) {
-  onSave(uuid, newRecord) {
-    // Relate parentUuid to uuid
-    saveEntitiesToPCRel(parentType, "Trench", parentUuid, uuid);
-
-    // Make children
-    for (int i = 0; i < 3; i++) {
-      cb = LocusSaveCallback(uuid, "Trench");
-      saveArchEnt(null, "Locus", (List) null, getAttribs("Locus"), cb);
-    }
-    for (int i = 0; i < 3; i++) {
-      cb = StratumFeatureSaveCallback(uuid, "Trench");
-      saveArchEnt(null, "Stratum Feature", (List) null, getAttribs("Stratum Feature"), cb);
-    }
-    for (int i = 0; i < 3; i++) {
-      cb = DiarySaveCallback(uuid, "Trench");
-      saveArchEnt(null, "Diary", (List) null, getAttribs("Diary"), cb);
-    }
-    for (int i = 0; i < 3; i++) {
-      cb = FcnSaveCallback(uuid, "Trench");
-      saveArchEnt(null, "FCN", (List) null, getAttribs("FCN"), cb);
-    }
-  }
-
-  return this;
-}
-
-SiteSaveCallback() {
-  onSave(uuid, newRecord) {
-    // Make children
-    for (int i = 0; i < 3; i++) {
-      cb = TrenchSaveCallback(uuid, "Site");
-      saveArchEnt(null, "Trench", (List) null, getAttribs("Trench"), cb);
-    }
-  }
-
-  return this;
-}
-
-SiteMaker() {
   run() {
-    for (int i = 0; i < 3; i++) {
-      cb = SiteSaveCallback();
-      saveArchEnt(null, "Site", (List) null, getAttribs("Site"), cb);
+    String archEntName = super.tree.label;
+    int    numEnts     = super.tree.data;
+    cb                 = PerfSaveCallback(tree, null);
+
+    for (int i = 0; i < numEnts; i++) {
+      List attribs = getAttribs(archEntName);
+      saveArchEnt(null, archEntName, (List) null, attribs, cb);
     }
   }
 
   return this;
-}
-
-void makeSites() {
-  sm = SiteMaker();
-  sm.run();
 }
 
 void startPerformanceTest() {
-  makeSites();
+  t  = getRecordTypeTree();
+  sm = RecordMaker(t);
+  sm.run();
 }
 
 void promptPerformanceTest() {
