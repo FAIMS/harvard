@@ -230,20 +230,9 @@ PerfSaveCallback(tree, String parentUuid) {
   return this;
 }
 
-RecordMaker(tree) {
-  tree = tree;
-
-  run() {
-    makeRecords(super.tree, null);
-  }
-
-  return this;
-}
-
 void startPerformanceTest() {
-  t  = getRecordTypeTree();
-  sm = RecordMaker(t);
-  sm.run();
+  t = getRecordTypeTree();
+  makeRecords(t);
 }
 
 void promptPerformanceTest() {
