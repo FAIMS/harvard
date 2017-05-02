@@ -10,9 +10,7 @@ void onClickSiteSiteCreateNewTrench() {
   } else {
     String head  = "{invalid_trench_id_head}";
     String body  = "{invalid_trench_id_body}";
-    String cbOk  = "setParentAndNewTrench()";
-    String cbBad = "";
-    showAlert(head, body, cbOk, cbBad);
+    showWarning(head, body);
   }
 }
 
