@@ -188,6 +188,17 @@ List getAttribs(String archEntType) {
   return attribs;
 }
 
+void makeRecords(tree, String parentUuid) {
+  String archEntName = tree.label;
+  int    numEnts     = tree.data;
+  cb                 = PerfSaveCallback(tree, parentUuid);
+
+  for (int i = 0; i < numEnts; i++) {
+    List attribs = getAttribs(archEntName);
+    saveArchEnt(null, archEntName, (List) null, attribs, cb);
+  }
+}
+
 PerfSaveCallback(tree, String parentUuid) {
   tree              = tree;
   String parentUuid = parentUuid;
@@ -212,16 +223,8 @@ PerfSaveCallback(tree, String parentUuid) {
     if (super.tree.getNumChildren() == 0)
       return;
 
-    for (child : super.tree.getChildren()) {
-      String archEntName = child.label;
-      int    numEnts     = child.data;
-      cb                 = PerfSaveCallback(child, uuid);
-
-      for (int i = 0; i < numEnts; i++) {
-        List attribs = getAttribs(archEntName);
-        saveArchEnt(null, archEntName, (List) null, attribs, cb);
-      }
-    }
+    for (child : super.tree.getChildren())
+      makeRecords(child, uuid);
   }
 
   return this;
@@ -231,14 +234,7 @@ RecordMaker(tree) {
   tree = tree;
 
   run() {
-    String archEntName = super.tree.label;
-    int    numEnts     = super.tree.data;
-    cb                 = PerfSaveCallback(tree, null);
-
-    for (int i = 0; i < numEnts; i++) {
-      List attribs = getAttribs(archEntName);
-      saveArchEnt(null, archEntName, (List) null, attribs, cb);
-    }
+    makeRecords(super.tree, null);
   }
 
   return this;
