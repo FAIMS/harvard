@@ -130,8 +130,28 @@ parent_of=Parent of
 precisely_contemporary_with=Precisely Contemporary with
 invalid_trench_id_head=Invalid Trench ID
 invalid_trench_id_body=Tap 'Cancel' to change the 'Trench ID' field, or 'OK' to proceed.
-perf_test_head=Begin a Performance Test?
-perf_test_body=Do you wish to begin a performance test? Tapping 'OK' will create many entities. (The exact number depends on the number of arch ent types present in this module.) Entity creation takes a few minutes.\n\nIf you would not like to run a performance test, tap 'Cancel' to dismiss this message.\n\nIf you would not like to see this message again, please set this device's date to any year after 2010.
+
+
+perf_mode_head=Performance Testing Mode Enabled
+perf_mode_body=Performance testing mode has been enabled for this session. Performance testing mode adds some features which help to benchmark queries, however it may reduce the responsiveness of the module.\n\nTo disable performance testing mode, set your device's date to any year after 2015.
+
+
+perf_dummy_head=Create Dummy Records?
+perf_dummy_body_1=Do you wish to create dummy records? Tapping 'OK' will create
+perf_dummy_body_2=new entities. Entity creation takes a few minutes.\n\nIf you would not like to create any dummy records, tap 'Cancel' to dismiss this message.
+
+
+perf_dummy_busy_head=Creating Entities...
+perf_dummy_busy_body=entities are currently being created. This can take a few minutes. During this time the module may appear to freeze. Please wait.
+
+
+perf_digest_1_head=Entities Created!
+perf_digest_1_body_1=entities have been successfully created.
+perf_digest_1_body_2=The total number of entities on this device, by type, is as follows:\n\n
+
+perf_digest_2_head=Display a Record Digest?
+perf_digest_2_body=Would you like to display the number of records present on this device? Tap 'OK' to display them, or 'Cancel' to dismiss this message.
+
 
 valid_control_head=Invalid Field(s) Found
 valid_control_body_1=The following fields are invalid:\n
