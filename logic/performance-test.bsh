@@ -8,9 +8,15 @@
 // you with images shortly.
 // TODO: Pictures
 
-import java.util.concurrent.atomic.AtomicInteger;
 import android.database.DatabaseUtils; // TODO: Add to autogen
+import java.io.File;
+import java.io.FileOutputStream;
+import java.nio.channels.Channels;
+import java.nio.channels.FileChannel;
+import java.nio.channels.ReadableByteChannel;
+import java.nio.file.Files;
 import java.text.DecimalFormat; // TODO: Add to autogen
+import java.util.concurrent.atomic.AtomicInteger;
 
 final long SESS_START_TIME = System.currentTimeMillis();
 
@@ -232,6 +238,7 @@ void test() {
 addOnEvent("User/User_List/Module_Guide", "show", "test()");
 
 getRecordTypeTree() {
+  // TODO: Allow trees to have multiple roots
   // Site
   //  - Trench
   //    - Locus
@@ -310,7 +317,10 @@ String randomInputValue(String ref) {
 }
 
 String randomInputValue(String ref, int len) {
-  return getRandomString(len);
+  if (getType(ref).equals("camera"))
+    return "files/app/test.original.jpg";
+  else
+    return getRandomString(len);
 }
 
 List getAttribs(String archEntType) {
@@ -321,7 +331,7 @@ List getAttribs(String archEntType) {
       continue;
     if (!hasData(ref))
       continue;
-    if (hasMediaType(ref))
+    if (hasMediaType(ref) && !getType(ref).equals("camera"))
       continue;
 
     String attribName = getAttributeName(ref);
@@ -435,9 +445,39 @@ void makeDummyRecords() {
   PERF_NUM_CBS_TODO = new AtomicInteger(n);
   PERF_NUM_CBS_DONE = new AtomicInteger(0);
 
-  dialog = showBusy("{perf_dummy_busy_head} ", n + "{perf_dummy_busy_body}");
+  dialog = showBusy("{perf_dummy_busy_head}", n + " {perf_dummy_busy_body}");
 
   saveArchEnts(t, null);
+}
+
+PerfImageDownloader() {
+  void run() {
+    String dirStr    = "/sdcard/faims/modules/" + getModuleId() + "/files/app/";
+    String filStrOri = "test.original.jpg";
+    String filStrThm = "test.thumbnail.jpg";
+    String urlStr    = "http://placehold.it/200.jpg?text=TEST";
+
+    // Download test image
+    new File(dirStr).mkdirs();
+
+    URL urlObj = new URL(urlStr);
+    ReadableByteChannel in  = Channels.newChannel(urlObj.openStream());
+    FileChannel out = new FileOutputStream(dirStr + filStrOri).getChannel();
+
+    long tenMb = 10 * 1024 * 1024;
+
+    out.transferFrom(in, 0, tenMb);
+
+    // Make a thumbnail file (which is just a copy of the original)
+    Files.copy(dirStr + filStrOri, dirStr + filStrThm);
+  }
+
+  void start() {
+    Runnable r = PerfImageDownloader();
+    new Thread(r).start();
+  }
+
+  return this;
 }
 
 void promptPerformanceMode() {
@@ -448,6 +488,8 @@ void promptPerformanceMode() {
   boolean isInTestTime = now.before(testTime);
   if (isInTestTime) {
     PERF_DO_LOG_QUERIES = true;
+
+    PerfImageDownloader().start();
 
     String head;
     String body;
