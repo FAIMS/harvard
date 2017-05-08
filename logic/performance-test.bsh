@@ -18,6 +18,7 @@ import java.nio.channels.ReadableByteChannel;
 import java.nio.file.Files;
 import java.text.DecimalFormat; // TODO: Add to autogen
 import java.util.concurrent.atomic.AtomicInteger;
+import android.os.Build.MODEL;
 
 final long SESS_START_TIME = System.currentTimeMillis();
 
@@ -26,7 +27,7 @@ AtomicInteger PERF_NUM_CBS_DONE   = null;
 boolean       PERF_DO_LOG_QUERIES = false;
 boolean       PERF_ALLOW_CREATION = false;
 String        PERF_TEST_IMG       = "";
-              PERF_GET_TYPE_TREE  = null;
+              PERF_TYPE_TREE      = null;
 
 // TODO: Add these to autogen and make sure they're used
 String dbReplaceFirst(String haystack, String needle, String replacement) {
@@ -43,14 +44,16 @@ void makeLocalID(){
   fetchOne(
       "CREATE TABLE IF NOT EXISTS perflog (" +
       "    id              INTEGER PRIMARY KEY," +
-      "    sessStartTime   INTEGER," +
+      "    deviceModel     TEXT," +
+      "    sessStartMs     INTEGER," +
       "    srcLine         TEXT," +
       "    query           TEXT," +
-      "    durationMs      INTEGER" +
-      "    numAentvalue    INTEGER" +
-      "    numArchentity   INTEGER" +
-      "    numRelationship INTEGER" +
-      "    numAentreln     INTEGER" +
+      "    queryStartMs    INTEGER," +
+      "    queryStopMs     INTEGER," +
+      "    numAentvalue    INTEGER," +
+      "    numArchentity   INTEGER," +
+      "    numRelationship INTEGER," +
+      "    numAentreln     INTEGER " +
       ")"
   );
   fetchOne(
@@ -106,6 +109,45 @@ Tree(String label, Object data) {
 
   getChild(int i) {
     return super.children.get(i);
+  }
+
+  int getIndex() {
+    if (super.getParent() == null)
+      return -1;
+    return super.getParent().getChildren().indexOf(super);
+  }
+
+  getDescendant(String ref) {
+    String[] refStrArr  = split("/");
+    List     refIntList = new ArrayList();
+
+    for (String refStr : refStrArr) {
+      int refInt = Integer.parseInt(refStr);
+      refIntList.add(refInt);
+    }
+
+    return super.getDescendant(refIntList);
+  }
+
+  getDescendant(List ref) {
+    int  head = ref.get(0);
+    List tail = ref.subList(1, ref.size() - 1);
+
+    if      (ref.size() == 0) return super;
+    else if (ref.size() == 1) return getChild(head);
+    else                      return getChild(head).getDescendant(tail);
+  }
+
+  String getAncestorRefString() {
+    String s = "";
+
+    for (Object n = super; n.getParent() != null; n = n.getParent())
+      s = "/" + n.getIndex() + s;
+
+    if (!s.equals(""))
+      s = s.substring(1, s.length() - 1); // Remove initial forward slash
+
+    return s;
   }
 
   List getChildren() {
@@ -171,33 +213,38 @@ TimedFetchCallback(String query, FetchCallback cb) {
   }
 
   void updatePerfLog() {
-    DecimalFormat fmt = new DecimalFormat("#.###");
+    String deviceModel  = android.os.Build.MODEL;
+    String sessStartMs  = SESS_START_TIME + "";
+    String srcLine      = super.callstack_.get(1).getInvocationLine() + "";
+    String query        = super.query;
+    String queryStartMs = super.startTime + "";
+    String queryStopMs  = super.stopTime + "";
 
-    String sessStartTime = SESS_START_TIME + "";
-    String srcLine       = super.callstack_.get(1).getInvocationLine() + "";
-    String query         = super.query;
-    String durationMs    = fmt.format(super.getElapsedMillis());
-
+    String updateQuery = "";
     updateQuery += " INSERT INTO perflog (";
-    updateQuery += "             sessStartTime,";
+    updateQuery += "             deviceModel,";
+    updateQuery += "             sessStartMs,";
     updateQuery += "             srcLine,";
     updateQuery += "             query,";
-    updateQuery += "             durationMs,";
+    updateQuery += "             queryStartMs,";
+    updateQuery += "             queryStopMs,";
     updateQuery += "             numAentvalue,";
     updateQuery += "             numArchentity,";
     updateQuery += "             numRelationship,";
-    updateQuery += "             numAentreln)";
-    updateQuery += "      SELECT '%s', '%s', '%s', '%s', a, av, r, ar";
+    updateQuery += "             numAentreln";
+    updateQuery += " )    SELECT %s, %s, %s, %s, %s, %s, a, av, r, ar";
     updateQuery += "        FROM";
     updateQuery += "             (SELECT COUNT(*) AS a  FROM archentity  ) a,";
     updateQuery += "             (SELECT COUNT(*) AS av FROM aentvalue   ) av,";
     updateQuery += "             (SELECT COUNT(*) AS r  FROM relationship) r,";
     updateQuery += "             (SELECT COUNT(*) AS ar FROM aentreln    ) ar";
 
-    updateQuery = dbReplaceFirst(updateQuery, sessStartTime);
+    updateQuery = dbReplaceFirst(updateQuery, deviceModel);
+    updateQuery = dbReplaceFirst(updateQuery, sessStartMs);
     updateQuery = dbReplaceFirst(updateQuery, srcLine);
     updateQuery = dbReplaceFirst(updateQuery, query);
-    updateQuery = dbReplaceFirst(updateQuery, durationMs);
+    updateQuery = dbReplaceFirst(updateQuery, queryStartMs);
+    updateQuery = dbReplaceFirst(updateQuery, queryStopMs);
 
     fetchOne(updateQuery);
   }
@@ -539,45 +586,57 @@ void enableRecordCreation() {
 
   showWarning(
       "Record Creation Enabled!",
-      "Record creation is now enabled during this session. Record can be created via the action bar."
+      "Record creation is now enabled during this session. Records can be created via the action bar."
   );
 }
 
 boolean isInTestTime() {
-  SimpleDateFormat fmt      = new SimpleDateFormat("yyyy");
-  Date             now      = new Date();
-  Date             testTime = fmt.parse("2000");
-
-  return now.before(testTime);
+  return true; // TODO: Autogen
 }
 
 // Produce entity number specification
 void setUpDummyRecordCreation() {
-  // TODO: 
-  setUpDummyRecordCreation(PERF_GET_TYPE_TREE, null, "");
+  setUpDummyRecordCreation(PERF_TYPE_TREE, null, "");
 }
 
+// TODO: Ensure that tree nodes are set correctly
+// TODO: Ensure robustness to malformed inputs
+// TODO: Call createDummyRecords once this is done
 void setUpDummyRecordCreation(tree, String parentType, String breadCrumbs) {
-  String type = tree.label;
+  String treeRef = tree.getAncestorRefString();
+  String type    = tree.label;
 
-  if (parentType == null) breadCrumbs +=         type;
-  else                    breadCrumbs += " › " + type;
+  if (type.equals("")) {
+    for (child : tree.getChildren())
+      setUpDummyRecordCreation(child, type, breadCrumbs);
+    return;
+  }
 
-  showTextAlert(
-      breadCrumbs,
-      "How many '%s' records should each '%s' contain?",
-      "", // TODO: Set tree's node value"
-      ""
-  );
+  if (parentType.equals("")) breadCrumbs +=         type;
+  else                       breadCrumbs += " › " + type;
+
+  String head = breadCrumbs;
+  String body = "How many '%s' records should %s contain?";
+  body = replaceFirst(body, type);
+  if (parentType.equals(""))
+    body = replaceFirst(body, "this module");
+  else
+    body = replaceFirst(body, "each '" + parentType + "'");
+
+  String setData = "PERF_TYPE_TREE.getDescendant(\"{treeRef}\").data = " +
+      "Integer.parseInt(getLastTextAlertInput())";
+  setData = replaceFirst(setData, "{treeRef}", treeRef);
 
   for (child : tree.getChildren())
     setUpDummyRecordCreation(child, type, breadCrumbs);
+
+  showTextAlert(head, body, setData, "");
 }
 
 void verifyCreateDummyRecords() {
-  showWarning(
+  showAlert(
       "Are You Sure?",
-      "Are you sure you want to create dummy records? Tap 'OK' to begin creating entity records, or 'Cancel' to dismiss this message."
+      "Are you sure you want to create dummy records? Tap 'OK' to begin creating entity records, or 'Cancel' to dismiss this message.",
       "setUpDummyRecordCreation()",
       ""
   );
@@ -587,6 +646,12 @@ void setUpPerfActionBarItems() {
   removeActionBarItem("create_dummy_records");
   removeActionBarItem("display_record_digest");
   removeActionBarItem("enable_record_creation");
+
+  String userMenuTabGroup = getTabGroupRef(userMenuPath);
+  if (!isInTestTime())
+    return;
+  if (!isDisplayed(userMenuTabGroup))
+    return;
 
   ActionButtonCallback createDummyRecords = new ActionButtonCallback() {
       actionOnLabel() {
@@ -615,23 +680,19 @@ void setUpPerfActionBarItems() {
       }
   };
 
-  // TODO: isDisplayed might not work as expected
-  String userMenuTabGroup = getTabGroupRef(userMenuPath);
-  if (isInTestTime() && isDisplayed(userMenuTabGroup)) {
-    // Careful! The `if` statements are weirdly formatted
-    if (PERF_ALLOW_CREATION)
-    addActionBarItem("create_dummy_records",   createDummyRecords);
-    addActionBarItem("display_record_digest",  displayRecordDigest);
-    if (!PERF_ALLOW_CREATION)
-    addActionBarItem("enable_record_creation", enableRecordCreation);
-  }
+  // Careful! The `if` statements are weirdly formatted
+  addActionBarItem("display_record_digest",  displayRecordDigest);
+  if (PERF_ALLOW_CREATION)
+  addActionBarItem("create_dummy_records",   createDummyRecords);
+  if (!PERF_ALLOW_CREATION)
+  addActionBarItem("enable_record_creation", enableRecordCreation);
 }
 
 void setUpPerfTestMode() {
   if (!isInTestTime())
     return;
 
-  PERF_GET_TYPE_TREE = getTypeTree();
+  PERF_TYPE_TREE = getTypeTree();
 
   // Enable performance logging
   PERF_DO_LOG_QUERIES = true;
