@@ -118,7 +118,7 @@ Tree(String label, Object data) {
   }
 
   getDescendant(String ref) {
-    String[] refStrArr  = split("/");
+    String[] refStrArr  = ref.split("/");
     List     refIntList = new ArrayList();
 
     for (String refStr : refStrArr) {
@@ -130,24 +130,34 @@ Tree(String label, Object data) {
   }
 
   getDescendant(List ref) {
-    int  head = ref.get(0);
-    List tail = ref.subList(1, ref.size() - 1);
+    if (ref.size() == 0)
+      return super;
 
-    if      (ref.size() == 0) return super;
-    else if (ref.size() == 1) return getChild(head);
-    else                      return getChild(head).getDescendant(tail);
+    int  head = ref.get(0);
+    List tail = ref.subList(1, ref.size());
+
+    if (ref.size() == 1) return getChild(head);
+    if (ref.size() >= 2) return getChild(head).getDescendant(tail);
+  }
+
+  String getAncestorRefString(String sep, String key) {
+    String s = "";
+    for (Object n = super; n.getParent() != null; n = n.getParent()) {
+      String val = "";
+      if (key.equals("index")) val = n.getIndex() + "";
+      if (key.equals("label")) val = n.label;
+
+      s = sep + val + s;
+    }
+
+    if (!s.equals(""))
+      s = s.substring(sep.length(), s.length()); // Remove initial `sep`
+
+    return s;
   }
 
   String getAncestorRefString() {
-    String s = "";
-
-    for (Object n = super; n.getParent() != null; n = n.getParent())
-      s = "/" + n.getIndex() + s;
-
-    if (!s.equals(""))
-      s = s.substring(1, s.length() - 1); // Remove initial forward slash
-
-    return s;
+    return getAncestorRefString("/", "index");
   }
 
   List getChildren() {
@@ -156,10 +166,11 @@ Tree(String label, Object data) {
     return super.children;
   }
 
-  int getNumChildren() {
-    if (super.children == null)
-      return 0;
-    return super.children.size();
+  int getNumNodes() {
+    int sum = 1;
+    for (child : super.getChildren())
+      sum += child.getNumNodes();
+    return sum;
   }
 
   void setParent(tree) {
@@ -171,7 +182,7 @@ Tree(String label, Object data) {
   }
 
   String toString() {
-    String s = "\n- " + super.label + " | " + data;
+    String s = "\n- " + super.label + " (" + data + ")";
     if (super.children != null)
       for (c : super.children)
         s += c.toString().replace("\n", "\n\t\t");
@@ -307,14 +318,14 @@ addOnEvent("User/User_List/Module_Guide", "show", "test()");
 
 getTypeTree() {
   // Root
-  // 3 - Site
-  // 3    - Trench
+  // 1 - Site
+  // 2    - Trench
   // 3      - Locus
-  // 3        - Photograph Log
-  // 3      - Stratum Feature
-  // 3        - Photograph Log
-  // 3      - Diary
-  // 3      - FCN
+  // 4        - Photograph Log
+  // 5      - Stratum Feature
+  // 6        - Photograph Log
+  // 7      - Diary
+  // 8      - FCN
 
   Ph1 = Tree("Photograph Log" , 1);
   Ph2 = Tree("Photograph Log" , 1);
@@ -521,7 +532,7 @@ void createDummyRecords() {
 
   dialog = showBusy("{perf_dummy_busy_head}", n + " {perf_dummy_busy_body}");
 
-  for (child : t)
+  for (child : t.getChildren())
     saveArchEnts(child, null);
 }
 
@@ -596,47 +607,101 @@ boolean isInTestTime() {
 
 // Produce entity number specification
 void setUpDummyRecordCreation() {
-  setUpDummyRecordCreation(PERF_TYPE_TREE, null, "");
+  int n = PERF_TYPE_TREE.getNumNodes()
+      - 1; // Ignore root node
+
+  PERF_NUM_CBS_TODO = new AtomicInteger(n);
+  PERF_NUM_CBS_DONE = new AtomicInteger(0);
+
+  setUpDummyRecordCreation(PERF_TYPE_TREE, "");
+}
+
+String getBreadCrumbs(node) {
+  return node.getAncestorRefString(" › ", "label");
+}
+
+String typeToReadableType(String type) {
+  if (type.equals("")) return "this module";
+  else                 return "each " + type;
 }
 
 // TODO: Ensure that tree nodes are set correctly
 // TODO: Ensure robustness to malformed inputs
 // TODO: Call createDummyRecords once this is done
-void setUpDummyRecordCreation(tree, String parentType, String breadCrumbs) {
-  String treeRef = tree.getAncestorRefString();
-  String type    = tree.label;
+void setUpDummyRecordCreation(tree, String parentType) {
+  String type = tree.label;
 
-  if (type.equals("")) {
-    for (child : tree.getChildren())
-      setUpDummyRecordCreation(child, type, breadCrumbs);
+  for (child : tree.getChildren())
+    setUpDummyRecordCreation(child, type);
+
+  if (!type.equals("")) {
+    // Make head and body for `showTextAlert`
+    String treeRef = tree.getAncestorRefString();
+    String head    = getBreadCrumbs(tree);
+    String body    = "How many %s records should %s contain?\n\nTap 'OK' to " +
+                     "set a new value, or 'Cancel' to retain the previous " +
+                     "one. Tap anywhere outside this dialogue box to dismiss " +
+                     "it and skip this wizard's record creation step.";
+    body = replaceFirst(body, type);
+    body = replaceFirst(body, typeToReadableType(parentType));
+
+    promptSetDummyRecordQuantity(treeRef, head, body);
+  }
+}
+
+void promptSetDummyRecordQuantity(String treeRef, String head, String body) {
+  String cb = "setDummyRecordQuantity(\"%s\", \"%s\", \"%s\")";
+  cb = replaceFirst(cb, treeRef);
+  cb = replaceFirst(cb, head);
+  cb = replaceFirst(cb, escape(body));
+
+  showTextAlert(head, body, cb, "checkSetDummyRecordQuantityIsDone()");
+}
+
+void setDummyRecordQuantity(
+    String treeRef,
+    String failHead,
+    String failBody
+) {
+  // Parse data as int
+  int intData;
+  try {
+    intData = Integer.parseInt(getLastTextAlertInput());
+  } catch (Exception e) {
+    promptSetDummyRecordQuantity(treeRef, failHead, failBody);
     return;
   }
 
-  if (parentType.equals("")) breadCrumbs +=         type;
-  else                       breadCrumbs += " › " + type;
+  PERF_TYPE_TREE.getDescendant(treeRef).data = intData;
+  checkSetDummyRecordQuantityIsDone();
+}
 
-  String head = breadCrumbs;
-  String body = "How many '%s' records should %s contain?";
-  body = replaceFirst(body, type);
-  if (parentType.equals(""))
-    body = replaceFirst(body, "this module");
-  else
-    body = replaceFirst(body, "each '" + parentType + "'");
+void checkSetDummyRecordQuantityIsDone() {
+  int cbsDone = PERF_NUM_CBS_DONE.incrementAndGet();
+  int cbsTodo = PERF_NUM_CBS_TODO.get();
+  if (cbsTodo == cbsDone) {
+    String totalRecs = computeCbsNeeded(PERF_TYPE_TREE) + "";
+    String treeString = PERF_TYPE_TREE.toString();
+    String treeStringNoRoot = treeString.substring(
+        "\n-  (1)".length(),
+        treeString.length()
+    );
 
-  String setData = "PERF_TYPE_TREE.getDescendant(\"{treeRef}\").data = " +
-      "Integer.parseInt(getLastTextAlertInput())";
-  setData = replaceFirst(setData, "{treeRef}", treeRef);
+    String head = "Update Successful";
+    String body = "The updated record quantities are as follows:\n" +
+        treeStringNoRoot +
+        "\n\nThese quantities will result in a total of " + totalRecs +
+        " records being created. Do you wish to create them? Tap 'OK' to do " +
+        "so, or 'Cancel' otherwise.";
 
-  for (child : tree.getChildren())
-    setUpDummyRecordCreation(child, type, breadCrumbs);
-
-  showTextAlert(head, body, setData, "");
+    showAlert(head, body, "createDummyRecords()", "");
+  }
 }
 
 void verifyCreateDummyRecords() {
   showAlert(
-      "Are You Sure?",
-      "Are you sure you want to create dummy records? Tap 'OK' to begin creating entity records, or 'Cancel' to dismiss this message.",
+      "Welcome to The Record Creation Wizard!",
+      "The record creation wizard will guide you through the process of setting the number of records to create and subsequently creating them.\n\nTap 'OK' to proceed, or 'Cancel' exit the wizard.",
       "setUpDummyRecordCreation()",
       ""
   );

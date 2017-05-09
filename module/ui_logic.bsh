@@ -6262,11 +6262,92 @@ addOnEvent("Site/Site/Trench_ID",           "show", "clearSiteTrenchId()");
 // + 2 relationships to each locus, 2 relationships to each stratum too see if
 // the relationship do really slow down substantially the module. I will provide
 // you with images shortly.
+// TODO: Export arch16n entries
 
+
+import android.database.DatabaseUtils; // TODO: Add to autogen
+import java.io.File;
+import java.io.FileOutputStream;
+import java.nio.channels.Channels;
+import java.nio.channels.FileChannel;
+import java.nio.channels.ReadableByteChannel;
+import java.nio.file.Files;
+import java.text.DecimalFormat; // TODO: Add to autogen
 import java.util.concurrent.atomic.AtomicInteger;
+import android.os.Build.MODEL;
 
-AtomicInteger PERF_NUM_CBS_ENDED  = new AtomicInteger(0);
-AtomicInteger PERF_NUM_CBS_NEEDED = new AtomicInteger(0);
+final long SESS_START_TIME = System.currentTimeMillis();
+
+AtomicInteger PERF_NUM_CBS_TODO   = null;
+AtomicInteger PERF_NUM_CBS_DONE   = null;
+boolean       PERF_DO_LOG_QUERIES = false;
+boolean       PERF_ALLOW_CREATION = false;
+String        PERF_TEST_IMG       = "";
+              PERF_TYPE_TREE      = null;
+
+// TODO: Add these to autogen and make sure they're used
+String dbReplaceFirst(String haystack, String needle, String replacement) {
+  String escapedReplacement = DatabaseUtils.sqlEscapeString(replacement);
+  return replaceFirst(haystack, needle, escapedReplacement);
+}
+
+String dbReplaceFirst(String haystack, String replacement) {
+  return dbReplaceFirst(haystack, "%s", replacement);
+}
+
+// TODO Add to autogen
+void makeLocalID(){
+  fetchOne(
+      "CREATE TABLE IF NOT EXISTS perflog (" +
+      "    id              INTEGER PRIMARY KEY," +
+      "    deviceModel     TEXT," +
+      "    sessStartMs     INTEGER," +
+      "    srcLine         TEXT," +
+      "    query           TEXT," +
+      "    queryStartMs    INTEGER," +
+      "    queryStopMs     INTEGER," +
+      "    numAentvalue    INTEGER," +
+      "    numArchentity   INTEGER," +
+      "    numRelationship INTEGER," +
+      "    numAentreln     INTEGER " +
+      ")"
+  );
+  fetchOne(
+      "CREATE TABLE IF NOT EXISTS localSettings (" +
+      "    key   TEXT PRIMARY KEY," +
+      "    value TEXT" +
+      ")"
+  );
+  fetchOne("DROP VIEW IF EXISTS parentchild");
+  fetchOne("CREATE VIEW parentchild AS "+
+           "           SELECT parent.uuid as parentuuid, child.uuid as childuuid, parent.participatesverb as parentparticipatesverb, parent.relationshipid, parent.aenttypename as parentaenttypename, child.participatesverb as childparticipatesverb, child.aenttypename as childaenttypename, createdat"+
+           "             FROM (SELECT uuid, participatesverb, aenttypename, relationshipid, relntimestamp as createdat"+
+           "                     FROM latestnondeletedaentreln "+
+           "                     JOIN relationship USING (relationshipid) "+
+           "                     JOIN latestnondeletedarchent USING (uuid) "+
+           "                     JOIN aenttype USING (aenttypeid)) parent "+
+           "             JOIN (SELECT uuid, relationshipid, participatesverb, aenttypename "+
+           "                     FROM latestnondeletedaentreln "+
+           "                     JOIN relationship USING (relationshipid) "+
+           "                     JOIN latestnondeletedarchent USING (uuid) "+
+           "                     JOIN aenttype USING (aenttypeid)) child "+
+           "               ON (parent.relationshipid = child.relationshipid AND parent.uuid != child.uuid)");
+}
+makeLocalID();
+
+int computeCbsNeeded(tree) {
+  if (tree == null) return 0;
+
+  int childSum = 0;
+  for (child : tree.getChildren())
+    childSum += computeCbsNeeded(child);
+
+  boolean isRoot   = isNull(tree.label);
+  int     thisNode =        tree.data;
+
+  if (isRoot) return 0        + 1        * childSum;
+  else        return thisNode + thisNode * childSum;
+}
 
 Tree(String label, Object data) {
   String label    = label;
@@ -6286,16 +6367,66 @@ Tree(String label, Object data) {
     return super.children.get(i);
   }
 
+  int getIndex() {
+    if (super.getParent() == null)
+      return -1;
+    return super.getParent().getChildren().indexOf(super);
+  }
+
+  getDescendant(String ref) {
+    String[] refStrArr  = ref.split("/");
+    List     refIntList = new ArrayList();
+
+    for (String refStr : refStrArr) {
+      int refInt = Integer.parseInt(refStr);
+      refIntList.add(refInt);
+    }
+
+    return super.getDescendant(refIntList);
+  }
+
+  getDescendant(List ref) {
+    if (ref.size() == 0)
+      return super;
+
+    int  head = ref.get(0);
+    List tail = ref.subList(1, ref.size());
+
+    if (ref.size() == 1) return getChild(head);
+    if (ref.size() >= 2) return getChild(head).getDescendant(tail);
+  }
+
+  String getAncestorRefString(String sep, String key) {
+    String s = "";
+    for (Object n = super; n.getParent() != null; n = n.getParent()) {
+      String val = "";
+      if (key.equals("index")) val = n.getIndex() + "";
+      if (key.equals("label")) val = n.label;
+
+      s = sep + val + s;
+    }
+
+    if (!s.equals(""))
+      s = s.substring(sep.length(), s.length()); // Remove initial `sep`
+
+    return s;
+  }
+
+  String getAncestorRefString() {
+    return getAncestorRefString("/", "index");
+  }
+
   List getChildren() {
     if (super.children == null)
       return new ArrayList();
     return super.children;
   }
 
-  int getNumChildren() {
-    if (super.children == null)
-      return 0;
-    return super.children.size();
+  int getNumNodes() {
+    int sum = 1;
+    for (child : super.getChildren())
+      sum += child.getNumNodes();
+    return sum;
   }
 
   void setParent(tree) {
@@ -6307,7 +6438,7 @@ Tree(String label, Object data) {
   }
 
   String toString() {
-    String s = "\n- " + super.label + " | " + data;
+    String s = "\n- " + super.label + " (" + data + ")";
     if (super.children != null)
       for (c : super.children)
         s += c.toString().replace("\n", "\n\t\t");
@@ -6317,37 +6448,150 @@ Tree(String label, Object data) {
   return this;
 }
 
-// TODO
-int computeCbsNeeded(tree) {
-  if (tree == null) return 0;
+TimedFetchCallback(String query, FetchCallback cb) {
+  String        query      = query;
+  FetchCallback cb         = cb;
+  bsh.CallStack callstack_ = this.callstack.copy();
 
-  int childSum = 0;
-  for (child : tree.getChildren())
-    childSum += computeCbsNeeded(child);
+  long startTime = System.currentTimeMillis(); // Timer starts here
+  long stopTime  = -1;
 
-  int thisNode = tree.data;
+  void onFetch(Object result) {
+    super.stopTimer();
+    super.updatePerfLog();
 
-  return thisNode + thisNode * childSum;
+    if (super.cb != null)
+      super.cb.onFetch(result);
+  }
+
+  void onError(String message) {
+    if (super.cb != null)
+      super.cb.onError(message);
+  }
+
+  void stopTimer() {
+    super.stopTime = System.currentTimeMillis();
+  }
+
+  double getElapsedMillis() {
+    if (stopTime < 0)
+      return -Double.MAX_VALUE;
+    return super.stopTime - super.startTime;
+  }
+
+  void updatePerfLog() {
+    String deviceModel  = android.os.Build.MODEL;
+    String sessStartMs  = SESS_START_TIME + "";
+    String srcLine      = super.callstack_.get(1).getInvocationLine() + "";
+    String query        = super.query;
+    String queryStartMs = super.startTime + "";
+    String queryStopMs  = super.stopTime + "";
+
+    String updateQuery = "";
+    updateQuery += " INSERT INTO perflog (";
+    updateQuery += "             deviceModel,";
+    updateQuery += "             sessStartMs,";
+    updateQuery += "             srcLine,";
+    updateQuery += "             query,";
+    updateQuery += "             queryStartMs,";
+    updateQuery += "             queryStopMs,";
+    updateQuery += "             numAentvalue,";
+    updateQuery += "             numArchentity,";
+    updateQuery += "             numRelationship,";
+    updateQuery += "             numAentreln";
+    updateQuery += " )    SELECT %s, %s, %s, %s, %s, %s, a, av, r, ar";
+    updateQuery += "        FROM";
+    updateQuery += "             (SELECT COUNT(*) AS a  FROM archentity  ) a,";
+    updateQuery += "             (SELECT COUNT(*) AS av FROM aentvalue   ) av,";
+    updateQuery += "             (SELECT COUNT(*) AS r  FROM relationship) r,";
+    updateQuery += "             (SELECT COUNT(*) AS ar FROM aentreln    ) ar";
+
+    updateQuery = dbReplaceFirst(updateQuery, deviceModel);
+    updateQuery = dbReplaceFirst(updateQuery, sessStartMs);
+    updateQuery = dbReplaceFirst(updateQuery, srcLine);
+    updateQuery = dbReplaceFirst(updateQuery, query);
+    updateQuery = dbReplaceFirst(updateQuery, queryStartMs);
+    updateQuery = dbReplaceFirst(updateQuery, queryStopMs);
+
+    fetchOne(updateQuery);
+  }
+
+  return this;
 }
 
-getRecordTypeTree() {
-  // Site
-  //  - Trench
-  //    - Locus
-  //      - Photograph Log
-  //    - Stratum Feature
-  //      - Photograph Log
-  //    - Diary
-  //    - FCN
+void timedFetchOne(String q, FetchCallback cb) {
+  if (!PERF_DO_LOG_QUERIES) {
+    fetchOne(q, cb);
+    return;
+  }
 
-  Ph1 = Tree("Photograph Log" , 3);
-  Ph2 = Tree("Photograph Log" , 2);
+  tcb = TimedFetchCallback(q, cb);
+  fetchOne(q, tcb);
+}
+
+void timedFetchOne(String q) {
+  fetchOne(q, null);
+}
+
+void timedFetchAll(String q, FetchCallback cb) {
+  if (!PERF_DO_LOG_QUERIES) {
+    fetchAll(q, cb);
+    return;
+  }
+
+  tcb = TimedFetchCallback(q, cb);
+  fetchAll(q, tcb);
+}
+
+void timedFetchAll(String q) {
+  timedFetchAll(q, null);
+}
+
+void timedPopulateCursorList(String ref, String q, int limit) {
+  if (PERF_DO_LOG_QUERIES) {
+    String boundQ = q;
+    boundQ = dbReplaceFirst(boundQ, "?", limit + "");
+    boundQ = dbReplaceFirst(boundQ, "?", "0");
+    timedFetchAll(boundQ);
+  }
+
+  populateCursorList(ref, q, limit);
+}
+
+// TODO delete me
+void test() {
+  String q = "" +
+      "SELECT uuid, response "+
+      "  FROM latestNonDeletedArchEntFormattedIdentifiers  "+
+      " WHERE uuid in (SELECT uuid "+
+      "                  FROM latestNonDeletedArchEntIdentifiers "+
+      "                 WHERE aenttypename = 'Photograph Log'" +
+      "               )  "+
+      " ORDER BY response ";
+  timedFetchAll(q, null);
+}
+addOnEvent("User/User_List/Module_Guide", "show", "test()");
+
+getTypeTree() {
+  // Root
+  // 1 - Site
+  // 2    - Trench
+  // 3      - Locus
+  // 4        - Photograph Log
+  // 5      - Stratum Feature
+  // 6        - Photograph Log
+  // 7      - Diary
+  // 8      - FCN
+
+  Ph1 = Tree("Photograph Log" , 1);
+  Ph2 = Tree("Photograph Log" , 1);
   Loc = Tree("Locus"          , 1);
-  Str = Tree("Stratum Feature", 3);
-  Dia = Tree("Diary"          , 2);
-  fcn = Tree("FCN"            , 3);
+  Str = Tree("Stratum Feature", 1);
+  Dia = Tree("Diary"          , 1);
+  fcn = Tree("FCN"            , 1);
   Tre = Tree("Trench"         , 1);
-  Sit = Tree("Site"           , 2);
+  Sit = Tree("Site"           , 1);
+  Roo = Tree(""               , 1);
 
   Loc.addChild(Ph1);
   Str.addChild(Ph2);
@@ -6359,7 +6603,9 @@ getRecordTypeTree() {
 
   Sit.addChild(Tre);
 
-  return Sit;
+  Roo.addChild(Sit);
+
+  return Roo;
 }
 
 void saveEntitiesToPCRel(
@@ -6409,7 +6655,13 @@ String randomInputValue(String ref) {
 }
 
 String randomInputValue(String ref, int len) {
-  return getRandomString(len);
+  if (getType(ref).equals("camera"))
+    if (PERF_TEST_IMG.equals(""))
+      return "";
+    else
+      return attachFile(PERF_TEST_IMG, true);
+  else
+    return getRandomString(len);
 }
 
 List getAttribs(String archEntType) {
@@ -6420,7 +6672,7 @@ List getAttribs(String archEntType) {
       continue;
     if (!hasData(ref))
       continue;
-    if (hasMediaType(ref))
+    if (hasMediaType(ref) && !getType(ref).equals("camera"))
       continue;
 
     String attribName = getAttributeName(ref);
@@ -6463,20 +6715,60 @@ PerfSaveCallback(tree, String parentUuid) {
   }
 
   onSave(uuid, newRecord) {
+    int cbsDone = PERF_NUM_CBS_DONE.incrementAndGet();
+    int cbsTodo = PERF_NUM_CBS_TODO.get();
+    if (cbsTodo == cbsDone)
+      displayRecordDigest(cbsDone);
+
     if (newRecord)
       saveRel(uuid);
 
-    if (super.tree.getNumChildren() == 0)
-      return;
-
     for (subtree : super.tree.getChildren())
-      makeRecords(subtree, uuid);
+      saveArchEnts(subtree, uuid);
   }
 
   return this;
 }
 
-void makeRecords(tree, String parentUuid) {
+void displayRecordDigest(int numCreated) {
+  String q = "";
+  q += "   SELECT 'All', count(*)";
+  q += "     FROM latestnondeletedarchent";
+  q += "    UNION";
+  q += "   SELECT aenttypename, count(*)";
+  q += "     FROM latestnondeletedarchent";
+  q += "     JOIN aenttype USING (aenttypeid)";
+  q += " GROUP BY aenttypename";
+
+  FetchCallback cb = new FetchCallback() {
+    onFetch(result) {
+      String head = "{perf_digest_1_head}";
+      String body = "";
+      if (numCreated >= 0)
+        body += numCreated + " {perf_digest_1_body_1}";
+      body += " {perf_digest_1_body_2}";
+
+      for (List row : result) {
+        String type = row.get(0);
+        String num  = row.get(1);
+
+        body += "\t- " + type + ": " + num + "\n";
+      }
+
+      if (dialog != null)
+        dialog.dismiss();
+      showWarning(head, body);
+    }
+  };
+
+  fetchAll(q, cb);
+}
+
+void displayRecordDigest() {
+  displayRecordDigest(-1);
+}
+
+void saveArchEnts(tree, String parentUuid) {
   String archEntName = tree.label;
   int    numEnts     = tree.data;
   cb                 = PerfSaveCallback(tree, parentUuid);
@@ -6487,31 +6779,255 @@ void makeRecords(tree, String parentUuid) {
   }
 }
 
-void startPerformanceTest() {
-  t = getRecordTypeTree();
-  makeRecords(t, null);
+void createDummyRecords() {
+  t = getTypeTree();
+
+  int n = computeCbsNeeded(t);
+  PERF_NUM_CBS_TODO = new AtomicInteger(n);
+  PERF_NUM_CBS_DONE = new AtomicInteger(0);
+
+  dialog = showBusy("{perf_dummy_busy_head}", n + " {perf_dummy_busy_body}");
+
+  for (child : t.getChildren())
+    saveArchEnts(child, null);
 }
 
-void promptPerformanceTest() {
-  SimpleDateFormat fmt = new SimpleDateFormat("yyyy");
+PerfImageDownloader() {
+  void run() {
+    String filStr = "/sdcard/faims/modules/" + getModuleId() +
+        "/files/app/test.jpg";
+    String urlStr = "http://placeholdit.imgix.net/" +
+        "~text?txtsize=100&txt=TEST&w=200&h=200&fm=jpg";
 
-  Date now      = new Date();
-  Date testTime = fmt.parse("2010");
+    // Download test image
+    new File(filStr).getParentFile().mkdirs();
 
-  boolean isInTestTime = now.before(testTime);
+    long tenMb = 10 * 1024 * 1024;
+    URL urlObj = new URL(urlStr);
+    ReadableByteChannel in  = Channels.newChannel(urlObj.openStream());
+    FileChannel out = new FileOutputStream(filStr).getChannel();
+    out.transferFrom(in, 0, tenMb);
 
-  if (isInTestTime) {
-    String head  = "{perf_test_head}";
-    String body  = "{perf_test_body}";
-    String cbOk  = "startPerformanceTest()";
-    String cbBad = "";
+    // Set `PERF_TEST_IMG` if the file was created successfully
+    File newImg = new File(filStr);
+    if (newImg.length() > 0)
+      PERF_TEST_IMG = filStr;
+  }
 
-    showAlert(head, body, cbOk, cbBad);
+  void start() {
+    Runnable r = PerfImageDownloader();
+    new Thread(r).start();
+  }
+
+  return this;
+}
+
+void verifyEnableRecordCreation() {
+  String q = "";
+  q += " SELECT userid, fname, lname, email, password";
+  q += "   FROM user";
+  q += "  WHERE fname = 'Faims'";
+  q += "    AND lname = 'Admin'";
+
+  FetchCallback callback = new FetchCallback() {
+    onFetch(result) {
+      String userId    = result.get(0);
+      String nameFirst = result.get(1);
+      String nameLast  = result.get(2);
+      String email     = result.get(3);
+      String password  = result.get(4);
+
+      User user = new User(userId, nameFirst, nameLast, email, password);
+      setUser(user);
+
+      showVerifyUserDialog("enableRecordCreation()");
+    }
+  };
+
+  fetchOne(q, callback);
+}
+
+void enableRecordCreation() {
+  PERF_ALLOW_CREATION = true;
+  setUpPerfActionBarItems();
+
+  showWarning(
+      "Record Creation Enabled!",
+      "Record creation is now enabled during this session. Records can be created via the action bar."
+  );
+}
+
+boolean isInTestTime() {
+  return true; // TODO: Autogen
+}
+
+// Produce entity number specification
+void setUpDummyRecordCreation() {
+  int n = PERF_TYPE_TREE.getNumNodes()
+      - 1; // Ignore root node
+
+  PERF_NUM_CBS_TODO = new AtomicInteger(n);
+  PERF_NUM_CBS_DONE = new AtomicInteger(0);
+
+  setUpDummyRecordCreation(PERF_TYPE_TREE, "");
+}
+
+String getBreadCrumbs(node) {
+  return node.getAncestorRefString(" › ", "label");
+}
+
+String typeToReadableType(String type) {
+  if (type.equals("")) return "this module";
+  else                 return "each " + type;
+}
+
+// TODO: Ensure that tree nodes are set correctly
+// TODO: Ensure robustness to malformed inputs
+// TODO: Call createDummyRecords once this is done
+void setUpDummyRecordCreation(tree, String parentType) {
+  String type = tree.label;
+
+  for (child : tree.getChildren())
+    setUpDummyRecordCreation(child, type);
+
+  if (!type.equals("")) {
+    // Make head and body for `showTextAlert`
+    String treeRef = tree.getAncestorRefString();
+    String head    = getBreadCrumbs(tree);
+    String body    = "How many %s records should %s contain?\n\nTap 'OK' to " +
+                     "set a new value, or 'Cancel' to retain the previous " +
+                     "one. Tap anywhere outside this dialogue box to dismiss " +
+                     "it and skip this wizard's record creation step.";
+    body = replaceFirst(body, type);
+    body = replaceFirst(body, typeToReadableType(parentType));
+
+    promptSetDummyRecordQuantity(treeRef, head, body);
   }
 }
 
-promptPerformanceTest();
+void promptSetDummyRecordQuantity(String treeRef, String head, String body) {
+  String cb = "setDummyRecordQuantity(\"%s\", \"%s\", \"%s\")";
+  cb = replaceFirst(cb, treeRef);
+  cb = replaceFirst(cb, head);
+  cb = replaceFirst(cb, escape(body));
 
+  showTextAlert(head, body, cb, "checkSetDummyRecordQuantityIsDone()");
+}
+
+void setDummyRecordQuantity(
+    String treeRef,
+    String failHead,
+    String failBody
+) {
+  // Parse data as int
+  int intData;
+  try {
+    intData = Integer.parseInt(getLastTextAlertInput());
+  } catch (Exception e) {
+    promptSetDummyRecordQuantity(treeRef, failHead, failBody);
+    return;
+  }
+
+  PERF_TYPE_TREE.getDescendant(treeRef).data = intData;
+  checkSetDummyRecordQuantityIsDone();
+}
+
+void checkSetDummyRecordQuantityIsDone() {
+  int cbsDone = PERF_NUM_CBS_DONE.incrementAndGet();
+  int cbsTodo = PERF_NUM_CBS_TODO.get();
+  if (cbsTodo == cbsDone) {
+    String totalRecs = computeCbsNeeded(PERF_TYPE_TREE) + "";
+    String treeString = PERF_TYPE_TREE.toString();
+    String treeStringNoRoot = treeString.substring(
+        "\n-  (1)".length(),
+        treeString.length()
+    );
+
+    String head = "Update Successful";
+    String body = "The updated record quantities are as follows:\n" +
+        treeStringNoRoot +
+        "\n\nThese quantities will result in a total of " + totalRecs +
+        " records being created. Do you wish to create them? Tap 'OK' to do " +
+        "so, or 'Cancel' otherwise.";
+
+    showAlert(head, body, "createDummyRecords()", "");
+  }
+}
+
+void verifyCreateDummyRecords() {
+  showAlert(
+      "Welcome to The Record Creation Wizard!",
+      "The record creation wizard will guide you through the process of setting the number of records to create and subsequently creating them.\n\nTap 'OK' to proceed, or 'Cancel' exit the wizard.",
+      "setUpDummyRecordCreation()",
+      ""
+  );
+}
+
+void setUpPerfActionBarItems() {
+  removeActionBarItem("create_dummy_records");
+  removeActionBarItem("display_record_digest");
+  removeActionBarItem("enable_record_creation");
+
+  String userMenuTabGroup = getTabGroupRef(userMenuPath);
+  if (!isInTestTime())
+    return;
+  if (!isDisplayed(userMenuTabGroup))
+    return;
+
+  ActionButtonCallback createDummyRecords = new ActionButtonCallback() {
+      actionOnLabel() {
+        "{create_dummy_records}";
+      }
+      actionOn() {
+        verifyCreateDummyRecords();
+      }
+  };
+
+  ActionButtonCallback displayRecordDigest = new ActionButtonCallback() {
+      actionOnLabel() {
+        "{display_record_digest}";
+      }
+      actionOn() {
+        displayRecordDigest();
+      }
+  };
+
+  ActionButtonCallback enableRecordCreation = new ActionButtonCallback() {
+      actionOnLabel() {
+        "{enable_record_creation}";
+      }
+      actionOn() {
+        verifyEnableRecordCreation();
+      }
+  };
+
+  // Careful! The `if` statements are weirdly formatted
+  addActionBarItem("display_record_digest",  displayRecordDigest);
+  if (PERF_ALLOW_CREATION)
+  addActionBarItem("create_dummy_records",   createDummyRecords);
+  if (!PERF_ALLOW_CREATION)
+  addActionBarItem("enable_record_creation", enableRecordCreation);
+}
+
+void setUpPerfTestMode() {
+  if (!isInTestTime())
+    return;
+
+  PERF_TYPE_TREE = getTypeTree();
+
+  // Enable performance logging
+  PERF_DO_LOG_QUERIES = true;
+
+  // Download test image
+  PerfImageDownloader().start();
+
+  // Display performance testing notification
+  showWarning("{perf_mode_head}", "{perf_mode_body}");
+}
+
+setUpPerfTestMode();
+addOnEvent(getTabGroupRef(userMenuPath), "show",  "setUpPerfActionBarItems()");
+addOnEvent(getTabGroupRef(userMenuPath), "leave", "setUpPerfActionBarItems()");
 
 /******************************************************************************/
 /*                                    INIT                                    */
