@@ -6335,6 +6335,10 @@ void makeLocalID(){
 }
 makeLocalID();
 
+int computeCbsNeeded() {
+  computeCbsNeeded(PERF_TYPE_TREE);
+}
+
 int computeCbsNeeded(tree) {
   if (tree == null) return 0;
 
@@ -6572,7 +6576,7 @@ void test() {
 }
 addOnEvent("User/User_List/Module_Guide", "show", "test()");
 
-getTypeTree() {
+void setUpTypeHierarchy() {
   // Root
   // 1 - Site
   // 2    - Trench
@@ -6605,8 +6609,10 @@ getTypeTree() {
 
   Roo.addChild(Sit);
 
-  return Roo;
+  PERF_TYPE_TREE = Roo;
 }
+
+setUpTypeHierarchy();
 
 void saveEntitiesToPCRel(
     String parentType,
@@ -6659,7 +6665,8 @@ String randomInputValue(String ref, int len) {
     if (PERF_TEST_IMG.equals(""))
       return "";
     else
-      return attachFile(PERF_TEST_IMG, true);
+      return "";
+      // return attachFile(PERF_TEST_IMG, false);
   else
     return getRandomString(len);
 }
@@ -6695,39 +6702,6 @@ List getAttribs(String archEntType) {
   }
 
   return attribs;
-}
-
-PerfSaveCallback(tree, String parentUuid) {
-  tree              = tree;
-  String parentUuid = parentUuid;
-
-  saveRel(uuid) {
-    parent            = super.tree.getParent();
-    String parentUuid = super.parentUuid;
-
-    if (parent == null || parentUuid == null)
-      return;
-
-    String parentType = parent    .label;
-    String childType  = super.tree.label;
-
-    saveEntitiesToPCRel(parentType, childType, parentUuid, uuid);
-  }
-
-  onSave(uuid, newRecord) {
-    int cbsDone = PERF_NUM_CBS_DONE.incrementAndGet();
-    int cbsTodo = PERF_NUM_CBS_TODO.get();
-    if (cbsTodo == cbsDone)
-      displayRecordDigest(cbsDone);
-
-    if (newRecord)
-      saveRel(uuid);
-
-    for (subtree : super.tree.getChildren())
-      saveArchEnts(subtree, uuid);
-  }
-
-  return this;
 }
 
 void displayRecordDigest(int numCreated) {
@@ -6768,6 +6742,45 @@ void displayRecordDigest() {
   displayRecordDigest(-1);
 }
 
+PerfSaveCallback(tree, String parentUuid) {
+  tree              = tree;
+  String parentUuid = parentUuid;
+
+  saveRel(uuid) {
+    parent            = super.tree.getParent();
+    String parentUuid = super.parentUuid;
+
+    if (parent == null || parentUuid == null)
+      return;
+
+    String parentType = parent    .label;
+    String childType  = super.tree.label;
+
+    saveEntitiesToPCRel(parentType, childType, parentUuid, uuid);
+  }
+
+  void onSave(String uuid, boolean newRecord) {
+    int cbsDone = PERF_NUM_CBS_DONE.incrementAndGet();
+    int cbsTodo = PERF_NUM_CBS_TODO.get();
+    if (cbsTodo == cbsDone)
+      displayRecordDigest(cbsDone);
+
+    if (newRecord)
+      saveRel(uuid);
+
+    for (subtree : super.tree.getChildren())
+      saveArchEnts(subtree, uuid);
+  }
+  
+  void onError(String message) {
+    if (dialog != null)
+      dialog.dismiss();
+    showWarning("Error", message);
+  }
+
+  return this;
+}
+
 void saveArchEnts(tree, String parentUuid) {
   String archEntName = tree.label;
   int    numEnts     = tree.data;
@@ -6780,15 +6793,13 @@ void saveArchEnts(tree, String parentUuid) {
 }
 
 void createDummyRecords() {
-  t = getTypeTree();
-
-  int n = computeCbsNeeded(t);
+  int n = computeCbsNeeded();
   PERF_NUM_CBS_TODO = new AtomicInteger(n);
   PERF_NUM_CBS_DONE = new AtomicInteger(0);
 
   dialog = showBusy("{perf_dummy_busy_head}", n + " {perf_dummy_busy_body}");
 
-  for (child : t.getChildren())
+  for (child : PERF_TYPE_TREE.getChildren())
     saveArchEnts(child, null);
 }
 
@@ -6936,7 +6947,7 @@ void checkSetDummyRecordQuantityIsDone() {
   int cbsDone = PERF_NUM_CBS_DONE.incrementAndGet();
   int cbsTodo = PERF_NUM_CBS_TODO.get();
   if (cbsTodo == cbsDone) {
-    String totalRecs = computeCbsNeeded(PERF_TYPE_TREE) + "";
+    String totalRecs = computeCbsNeeded() + "";
     String treeString = PERF_TYPE_TREE.toString();
     String treeStringNoRoot = treeString.substring(
         "\n-  (1)".length(),
@@ -6956,8 +6967,8 @@ void checkSetDummyRecordQuantityIsDone() {
 
 void verifyCreateDummyRecords() {
   showAlert(
-      "Welcome to The Record Creation Wizard!",
-      "The record creation wizard will guide you through the process of setting the number of records to create and subsequently creating them.\n\nTap 'OK' to proceed, or 'Cancel' exit the wizard.",
+      "Welcome to The Record Creation Wizard",
+      "The record creation wizard will guide you through the process of creating dummy records.\n\nThe first step is to set the number of records you want to create. Tap 'OK' to do so, or 'Cancel' exit the wizard.",
       "setUpDummyRecordCreation()",
       ""
   );
@@ -6969,9 +6980,9 @@ void setUpPerfActionBarItems() {
   removeActionBarItem("enable_record_creation");
 
   String userMenuTabGroup = getTabGroupRef(userMenuPath);
-  if (!isInTestTime())
-    return;
   if (!isDisplayed(userMenuTabGroup))
+    return;
+  if (!isInTestTime())
     return;
 
   ActionButtonCallback createDummyRecords = new ActionButtonCallback() {
@@ -7012,8 +7023,6 @@ void setUpPerfActionBarItems() {
 void setUpPerfTestMode() {
   if (!isInTestTime())
     return;
-
-  PERF_TYPE_TREE = getTypeTree();
 
   // Enable performance logging
   PERF_DO_LOG_QUERIES = true;
