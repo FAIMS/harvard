@@ -822,6 +822,7 @@
       <bind nodeset="/faims/Control/Next_IDs/Next_FCN_ID" type="decimal"/>
       <bind nodeset="/faims/Site/Site/Site_Year_of_Campaign" type="decimal"/>
       <bind nodeset="/faims/Date_Closed/Date_Closed/Date_Closed" type="date"/>
+      <bind nodeset="/faims/Locus/General/Colgroup_1/Col_3/Locus_Locus_ID" type="decimal"/>
       <bind nodeset="/faims/Locus/General/Colgroup_2/Col_1/Grid_X" type="decimal"/>
       <bind nodeset="/faims/Locus/General/Colgroup_2/Col_2/Grid_Y" type="decimal"/>
       <bind nodeset="/faims/Locus/Measure/Colgroup_1/Col_1/Absolute_Height_Top_m" type="decimal"/>
