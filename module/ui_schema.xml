@@ -1359,7 +1359,7 @@
           </group>
           <group ref="Col_3" faims_style="even">
             <label/>
-            <input faims_attribute_name="Locus Locus ID" faims_attribute_type="measure" ref="Locus_Locus_ID" faims_style_class="required" faims_read_only="true">
+            <input faims_attribute_name="Locus Locus ID" faims_attribute_type="measure" ref="Locus_Locus_ID" faims_style_class="required">
               <label>{Locus_ID}</label>
             </input>
           </group>
