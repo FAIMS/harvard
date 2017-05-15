@@ -268,7 +268,7 @@
           <fmt>-$0</fmt>
         </str>
       </Locus_Trench_ID>
-      <Locus_Locus_ID f="id notnull autonum readonly">
+      <Locus_Locus_ID f="id notnull readonly">
         Locus ID
         <desc>Every archaeological locus (negative element (cut), deposit, structure, skeleton, artefact cluster) is given a unique 3 or 4 letter locus code. Each trench is designated with a separate letter which starts the code, so it is immediately obvious to which trench a locus belongs. For example locus HAA belongs to Trench H, locus MQP to Trench M etc.
         The loci are labelled consecutively in alphabetical order using the letters following the trench letter. For Trench H the first locus would be HAA, the second HAB, the third HAB and so on. In addition sets of letters can denote parts of trenches, buildings etc. E.g. HFs might denote loci from a specific building.

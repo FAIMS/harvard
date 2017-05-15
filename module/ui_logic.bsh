@@ -104,7 +104,6 @@ REF_TO_TYPE.put("Control/Site/Year_of_Campaign", "input");
 REF_TO_TYPE.put("Control/Site/GPS_Diagnostics", "gpsdiag");
 REF_TO_TYPE.put("Control/Site/Create_New_Site", "button");
 REF_TO_TYPE.put("Control/Site/Choose_an_Existing_Site", "list");
-//REF_TO_TYPE.put("Control/Next_IDs/Next_Locus_Locus_ID", "input");
 REF_TO_TYPE.put("Control/Next_IDs/Next_Stratum_Feature_ID", "input");
 REF_TO_TYPE.put("Control/Next_IDs/Next_FCN_ID", "input");
 REF_TO_TYPE.put("Control/Search", "group");
@@ -1673,16 +1672,6 @@ void updateGPSDiagnostics() {
 /******************************************************************************/
 /*                                 USER LOGIN                                 */
 /******************************************************************************/
-/*{
-  userId           = "1";
-  String nameFirst = "";
-  String nameLast  = "";
-  String email     = "";
-
-  User user = new User(userId, nameFirst, nameLast, email);
-  setUser(user);
-}*/
-
 String userMenuPath = "User/User_List/Users";
 
 void populateListForUsers(){
@@ -1701,15 +1690,15 @@ void selectUser() {
   String userVocabId = getFieldValue(userMenuPath);
   if (isNull(userVocabId)) {
     username = "";
-    userid   = "";
+    userId   = "";
     return;
   }
 
   String q = "";
   q += "SELECT userid, fname, lname, email, password";
   q += "  FROM user ";
-  q += " WHERE userid = '{userId}'";
-  q  = replaceFirst(q, "{userId}", userVocabId);
+  q += " WHERE userid = '{userVocabId}'";
+  q  = replaceFirst(q, "{userVocabId}", userVocabId);
 
   FetchCallback callback = new FetchCallback() {
     onFetch(result) {
@@ -1966,7 +1955,6 @@ void validateControl() {
   List f = new ArrayList(); // Fields to be validated
   f.add(fieldPair("Control/Site/New_Site_Name", "{New_Site_Name}"));
   f.add(fieldPair("Control/Site/Year_of_Campaign", "{Year_of_Campaign}"));
-  //f.add(fieldPair("Control/Next_IDs/Next_Locus_Locus_ID", "{Locus_ID}"));
   f.add(fieldPair("Control/Next_IDs/Next_Stratum_Feature_ID", "{Stratum_Feature_ID}"));
   f.add(fieldPair("Control/Next_IDs/Next_FCN_ID", "{Next_FCN_ID}"));
 
@@ -2734,16 +2722,13 @@ void newTrenchFiles (){
 }
 void newLocus (){
   String tabgroup = "Locus";
-  /*if (isNull("Control/Next_IDs/Next_Locus_Locus_ID")) {
-    showWarning("{Alert}", "{A_next_ID_has_not_been_entered_please_provide_one}");
-    return;
-  }*/
+  
 
   setUuid(tabgroup, null);
   newTabGroup(tabgroup);
   populateAuthorAndTimestamp(tabgroup);
   populateEntityListsInTabGroup(tabgroup);
-  //incAutoNum("Locus/General/Locus_Locus_ID");
+  
 
   onCreateLocus__();
 }
@@ -3381,7 +3366,7 @@ void duplicateLocus(){
   String uuidOld = getUuid(tabgroup);
   setUuid(tabgroup, "");
   disableAutoSave(tabgroup);
-  //incAutoNum("Locus/General/Locus_Locus_ID");
+  
   clearGpsInTabGroup(tabgroup);
   populateAuthorAndTimestamp(tabgroup);
   populateEntityListsInTabGroup(tabgroup);
@@ -4388,7 +4373,6 @@ Integer incField(String ref) {
 
 List getStartingIdPaths() {
   List l = new ArrayList();
-  //l.add("Control/Next_IDs/Next_Locus_Locus_ID");
   l.add("Control/Next_IDs/Next_Stratum_Feature_ID");
   l.add("Control/Next_IDs/Next_FCN_ID");
   return l;
@@ -4431,7 +4415,6 @@ for (ref : getStartingIdPaths()) {
 
 void incAutoNum(String destPath) {
   Map destToSource = new HashMap();
-  //estToSource.put("Locus/General/Locus_Locus_ID", "Control/Next_IDs/Next_Locus_Locus_ID");
   destToSource.put("Stratum_Feature/General/Stratum_Feature_ID", "Control/Next_IDs/Next_Stratum_Feature_ID");
   destToSource.put("FCN/General/FCN_ID", "Control/Next_IDs/Next_FCN_ID");
 

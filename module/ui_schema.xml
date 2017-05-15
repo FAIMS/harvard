@@ -38,7 +38,6 @@
               <Choose_an_Existing_Site/>
             </Site>
             <Next_IDs>
-              <!--<Next_Locus_Locus_ID/>-->
               <Next_Stratum_Feature_ID/>
               <Next_FCN_ID/>
             </Next_IDs>
@@ -819,12 +818,10 @@
         </faims>
       </instance>
       <bind nodeset="/faims/Control/Site/Year_of_Campaign" type="decimal"/>
-      <!--<bind nodeset="/faims/Control/Next_IDs/Next_Locus_Locus_ID" type="decimal"/>-->
       <bind nodeset="/faims/Control/Next_IDs/Next_Stratum_Feature_ID" type="decimal"/>
       <bind nodeset="/faims/Control/Next_IDs/Next_FCN_ID" type="decimal"/>
       <bind nodeset="/faims/Site/Site/Site_Year_of_Campaign" type="decimal"/>
       <bind nodeset="/faims/Date_Closed/Date_Closed/Date_Closed" type="date"/>
-      <bind nodeset="/faims/Locus/General/Colgroup_1/Col_3/Locus_Locus_ID" type="decimal"/>
       <bind nodeset="/faims/Locus/General/Colgroup_2/Col_1/Grid_X" type="decimal"/>
       <bind nodeset="/faims/Locus/General/Colgroup_2/Col_2/Grid_Y" type="decimal"/>
       <bind nodeset="/faims/Locus/Measure/Colgroup_1/Col_1/Absolute_Height_Top_m" type="decimal"/>
@@ -973,9 +970,6 @@
       </group>
       <group ref="Next_IDs">
         <label>{Next_IDs}</label>
-        <!--<input ref="Next_Locus_Locus_ID" faims_style_class="required">
-          <label>{Locus_ID}</label>
-        </input>-->
         <input ref="Next_Stratum_Feature_ID" faims_style_class="required">
           <label>{Stratum_Feature_ID}</label>
         </input>
@@ -1365,8 +1359,7 @@
           </group>
           <group ref="Col_3" faims_style="even">
             <label/>
-            <input faims_attribute_name="Locus Locus ID" faims_attribute_type="measure" ref="Locus_Locus_ID" faims_style_class="required" >
-
+            <input faims_attribute_name="Locus Locus ID" faims_attribute_type="measure" ref="Locus_Locus_ID" faims_style_class="required" faims_read_only="true">
               <label>{Locus_ID}</label>
             </input>
           </group>
