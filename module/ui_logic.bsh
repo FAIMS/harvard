@@ -6275,15 +6275,22 @@ import java.nio.file.Files;
 import java.text.DecimalFormat; // TODO: Add to autogen
 import java.util.concurrent.atomic.AtomicInteger;
 import android.os.Build.MODEL;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 final long SESS_START_TIME = System.currentTimeMillis();
 
-AtomicInteger PERF_NUM_CBS_TODO   = null;
-AtomicInteger PERF_NUM_CBS_DONE   = null;
-boolean       PERF_DO_LOG_QUERIES = false;
-boolean       PERF_ALLOW_CREATION = false;
-String        PERF_TEST_IMG       = "";
-              PERF_TYPE_TREE      = null;
+AtomicInteger PERF_NUM_CBS_DONE_FILE = null;
+AtomicInteger PERF_NUM_CBS_DONE_SAVE = null;
+AtomicInteger PERF_NUM_CBS_DONE_SET  = null;
+AtomicInteger PERF_NUM_CBS_TODO_FILE = null;
+AtomicInteger PERF_NUM_CBS_TODO_SAVE = null;
+AtomicInteger PERF_NUM_CBS_TODO_SET  = null;
+boolean       PERF_DO_LOG_QUERIES    = false;
+boolean       PERF_ALLOW_CREATION    = false;
+String        PERF_TEST_IMG          = "";
+              PERF_TYPE_TREE         = null;
+
+ConcurrentLinkedQueue PERF_FILES = null;
 
 // TODO: Add these to autogen and make sure they're used
 String dbReplaceFirst(String haystack, String needle, String replacement) {
@@ -6335,16 +6342,16 @@ void makeLocalID(){
 }
 makeLocalID();
 
-int computeCbsNeeded() {
-  computeCbsNeeded(PERF_TYPE_TREE);
+int getNumDummyRecords() {
+  getNumDummyRecords(PERF_TYPE_TREE);
 }
 
-int computeCbsNeeded(tree) {
+int getNumDummyRecords(tree) {
   if (tree == null) return 0;
 
   int childSum = 0;
   for (child : tree.getChildren())
-    childSum += computeCbsNeeded(child);
+    childSum += getNumDummyRecords(child);
 
   boolean isRoot   = isNull(tree.label);
   int     thisNode =        tree.data;
@@ -6562,20 +6569,6 @@ void timedPopulateCursorList(String ref, String q, int limit) {
   populateCursorList(ref, q, limit);
 }
 
-// TODO delete me
-void test() {
-  String q = "" +
-      "SELECT uuid, response "+
-      "  FROM latestNonDeletedArchEntFormattedIdentifiers  "+
-      " WHERE uuid in (SELECT uuid "+
-      "                  FROM latestNonDeletedArchEntIdentifiers "+
-      "                 WHERE aenttypename = 'Photograph Log'" +
-      "               )  "+
-      " ORDER BY response ";
-  timedFetchAll(q, null);
-}
-addOnEvent("User/User_List/Module_Guide", "show", "test()");
-
 void setUpTypeHierarchy() {
   // Root
   // 1 - Site
@@ -6662,11 +6655,12 @@ String randomInputValue(String ref) {
 
 String randomInputValue(String ref, int len) {
   if (getType(ref).equals("camera"))
-    if (PERF_TEST_IMG.equals(""))
+    if (PERF_FILES.isEmpty()) {
+      Log.e("randomInputValue()", "PERF_FILES empty, using empty string");
       return "";
-    else
-      return "";
-      // return attachFile(PERF_TEST_IMG, false);
+    } else {
+      return PERF_FILES.poll();
+    }
   else
     return getRandomString(len);
 }
@@ -6760,8 +6754,8 @@ PerfSaveCallback(tree, String parentUuid) {
   }
 
   void onSave(String uuid, boolean newRecord) {
-    int cbsDone = PERF_NUM_CBS_DONE.incrementAndGet();
-    int cbsTodo = PERF_NUM_CBS_TODO.get();
+    int cbsDone = PERF_NUM_CBS_DONE_SAVE.incrementAndGet();
+    int cbsTodo = PERF_NUM_CBS_TODO_SAVE.get();
     if (cbsTodo == cbsDone)
       displayRecordDigest(cbsDone);
 
@@ -6771,7 +6765,7 @@ PerfSaveCallback(tree, String parentUuid) {
     for (subtree : super.tree.getChildren())
       saveArchEnts(subtree, uuid);
   }
-  
+
   void onError(String message) {
     if (dialog != null)
       dialog.dismiss();
@@ -6793,9 +6787,17 @@ void saveArchEnts(tree, String parentUuid) {
 }
 
 void createDummyRecords() {
-  int n = computeCbsNeeded();
-  PERF_NUM_CBS_TODO = new AtomicInteger(n);
-  PERF_NUM_CBS_DONE = new AtomicInteger(0);
+  createDummyRecordsStep1("createDummyRecordsStep2()");
+}
+
+void createDummyRecordsStep1(String cb) {
+  enqueueTestFiles(getNumDummyRecords(), cb);
+}
+
+void createDummyRecordsStep2() {
+  int n = getNumDummyRecords();
+  PERF_NUM_CBS_TODO_SAVE = new AtomicInteger(n);
+  PERF_NUM_CBS_DONE_SAVE = new AtomicInteger(0);
 
   dialog = showBusy("{perf_dummy_busy_head}", n + " {perf_dummy_busy_body}");
 
@@ -6877,8 +6879,8 @@ void setUpDummyRecordCreation() {
   int n = PERF_TYPE_TREE.getNumNodes()
       - 1; // Ignore root node
 
-  PERF_NUM_CBS_TODO = new AtomicInteger(n);
-  PERF_NUM_CBS_DONE = new AtomicInteger(0);
+  PERF_NUM_CBS_TODO_SET = new AtomicInteger(n);
+  PERF_NUM_CBS_DONE_SET = new AtomicInteger(0);
 
   setUpDummyRecordCreation(PERF_TYPE_TREE, "");
 }
@@ -6944,10 +6946,10 @@ void setDummyRecordQuantity(
 }
 
 void checkSetDummyRecordQuantityIsDone() {
-  int cbsDone = PERF_NUM_CBS_DONE.incrementAndGet();
-  int cbsTodo = PERF_NUM_CBS_TODO.get();
+  int cbsDone = PERF_NUM_CBS_DONE_SET.incrementAndGet();
+  int cbsTodo = PERF_NUM_CBS_TODO_SET.get();
   if (cbsTodo == cbsDone) {
-    String totalRecs = computeCbsNeeded() + "";
+    String totalRecs = getNumDummyRecords() + "";
     String treeString = PERF_TYPE_TREE.toString();
     String treeStringNoRoot = treeString.substring(
         "\n-  (1)".length(),
@@ -7037,6 +7039,44 @@ void setUpPerfTestMode() {
 setUpPerfTestMode();
 addOnEvent(getTabGroupRef(userMenuPath), "show",  "setUpPerfActionBarItems()");
 addOnEvent(getTabGroupRef(userMenuPath), "leave", "setUpPerfActionBarItems()");
+
+void enqueueTestFiles(int numFiles, String cb) {
+  if (PERF_TEST_IMG == null || PERF_TEST_IMG.equals("")) {
+    Log.e("enqueueTestFiles()", "Could not enqueue test files");
+    return;
+  }
+
+  // Set `PERF_FILES`
+  if (PERF_FILES == null)
+    PERF_FILES = new ConcurrentLinkedQueue();
+
+  // Set `PERF_NUM_CBS_TODO_FILE` and `PERF_NUM_CBS_DONE_FILE`
+  int maxNumPhotosPerRecord = 2;
+  int n = getNumDummyRecords() * maxNumPhotosPerRecord
+      - PERF_FILES.size(); // No need to make files if there's enough in queue
+
+  PERF_NUM_CBS_TODO_FILE = new AtomicInteger(n);
+  PERF_NUM_CBS_DONE_FILE = new AtomicInteger(0);
+
+  // Make records
+  for (int i = 0; i < n; i++) {
+    String fileName = attachFile(
+        PERF_TEST_IMG,
+        false,
+        null,
+        "checkEnqueueTestFilesIsDone(\"" + escape(cb) + "\")"
+    );
+
+    PERF_FILES.add(fileName);
+  }
+}
+
+void checkEnqueueTestFilesIsDone(String onDone) {
+  int cbsDone = PERF_NUM_CBS_DONE_FILE.incrementAndGet();
+  int cbsTodo = PERF_NUM_CBS_TODO_FILE.get();
+  if (cbsTodo == cbsDone)
+    execute(onDone);
+}
 
 /******************************************************************************/
 /*                                    INIT                                    */
