@@ -51,7 +51,7 @@ void deleteRelationship() {
     }
   };
 
-  fetchOne(q);
+  timedFetchOne(q);
   deleteRel(selectedRelId, cb);
 
   selectedRelId         = null;

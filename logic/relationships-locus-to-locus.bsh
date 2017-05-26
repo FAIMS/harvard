@@ -95,7 +95,7 @@ void populateRelationshipType() {
     }
   };
 
-  fetchAll(q, populate);
+  timedFetchAll(q, populate);
 }
 
 void populateProposedRelationship() {

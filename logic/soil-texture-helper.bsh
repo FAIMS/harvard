@@ -14,7 +14,7 @@ void setTextureActual(){
     //This function makes the hierarchical soil texture selector write to the texture dropdown. We should discuss.
     Log.d("foo1", soilQuery);
 
-    fetchOne(soilQuery, new FetchCallback() {
+    timedFetchOne(soilQuery, new FetchCallback() {
         onFetch(textureToSet) {
             if(!isNull(textureToSet)){
                 Log.d("foo1", textureToSet.get(0));

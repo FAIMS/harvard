@@ -19,6 +19,6 @@ void hideView(String refView) {
     q  = replaceFirst(q, "{userid}", userid);
     q  = replaceFirst(q, "{attributename}", attribName);
 
-    fetchOne(q);
+    timedFetchOne(q);
   }
 }

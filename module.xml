@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--@PREPROC:  ./proc/pre.sh-->
 <!--@POSTPROC: ./proc/post.sh-->
 <module test_mode="true">
 
