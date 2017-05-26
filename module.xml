@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--@PREPROC:  ./proc/pre.sh-->
 <!--@POSTPROC: ./proc/post.sh-->
-<module suppressWarnings="true">
+<module test_mode="true">
 
 <rels>
   <!--Stratum/Feature-to-Locus relationship(s)-->
@@ -1646,7 +1646,5 @@
   <!--@SOURCE: logic/fcn-entity-list-population.bsh-->
   <!--@SOURCE: logic/custom-diary-timestamp.bsh-->
   <!--@SOURCE: logic/field-clearing.bsh-->
-
-  <!--@SOURCE: logic/performance-test.bsh-->
 ]]></logic>
 </module>
