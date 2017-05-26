@@ -1,5 +1,5 @@
 /*
- * GENERATED WITH FAIMS-TOOLS, SHA1: 4eae4eb25d7b54c5b7c2ac30af8ff6549bb5a5e4
+ * GENERATED WITH FAIMS-TOOLS, SHA1: 1639312a47c9726e5c6e36da15ffaf874c1fbd17
  */
 import android.util.Log;
 
@@ -1327,10 +1327,11 @@ Tree(String label, Object data) {
   return this;
 }
 
-TimedFetchCallback(String query, FetchCallback cb) {
-  String        query      = query;
-  FetchCallback cb         = cb;
-  bsh.CallStack callstack_ = this.callstack.copy();
+TimedFetchCallback(String query, FetchCallback cb, int callerIdx) {
+  int           callerIdx = callerIdx;
+  String        query     = query;
+  FetchCallback cb        = cb;
+  bsh.CallStack cs_       = this.callstack.copy();
 
   long startTime = System.currentTimeMillis(); // Timer starts here
   long stopTime  = -1;
@@ -1361,7 +1362,7 @@ TimedFetchCallback(String query, FetchCallback cb) {
   void updatePerfLog() {
     String deviceModel  = android.os.Build.MODEL;
     String sessStartMs  = SESS_START_TIME + "";
-    String srcLine      = super.callstack_.get(1).getInvocationLine() + "";
+    String srcLine      = super.cs_.get(super.callerIdx).getInvocationLine()+"";
     String query        = super.query;
     String queryStartMs = super.startTime + "";
     String queryStopMs  = super.stopTime + "";
@@ -1398,32 +1399,40 @@ TimedFetchCallback(String query, FetchCallback cb) {
   return this;
 }
 
-void timedFetchOne(String q, FetchCallback cb) {
+void timedFetchOne(String q, FetchCallback cb, int callerIdx) {
   if (!PERF_DO_LOG_QUERIES) {
     fetchOne(q, cb);
     return;
   }
 
-  tcb = TimedFetchCallback(q, cb);
+  tcb = TimedFetchCallback(q, cb, callerIdx);
   fetchOne(q, tcb);
 }
 
-void timedFetchOne(String q) {
-  fetchOne(q, null);
-}
-
-void timedFetchAll(String q, FetchCallback cb) {
+void timedFetchAll(String q, FetchCallback cb, int callerIdx) {
   if (!PERF_DO_LOG_QUERIES) {
     fetchAll(q, cb);
     return;
   }
 
-  tcb = TimedFetchCallback(q, cb);
+  tcb = TimedFetchCallback(q, cb, callerIdx);
   fetchAll(q, tcb);
 }
 
+void timedFetchOne(String q, FetchCallback cb) {
+  timedFetchOne(q, cb, 2);
+}
+
+void timedFetchAll(String q, FetchCallback cb) {
+  timedFetchAll(q, cb, 2);
+}
+
+void timedFetchOne(String q) {
+  timedFetchOne(q, null, 2);
+}
+
 void timedFetchAll(String q) {
-  timedFetchAll(q, null);
+  timedFetchAll(q, null, 2);
 }
 
 void timedPopulateCursorList(String ref, String q, int limit) {
@@ -1431,7 +1440,7 @@ void timedPopulateCursorList(String ref, String q, int limit) {
     String boundQ = q;
     boundQ = dbReplaceFirst(boundQ, "?", limit + "");
     boundQ = dbReplaceFirst(boundQ, "?", "0");
-    timedFetchAll(boundQ);
+    timedFetchAll(boundQ, null, 2);
   }
 
   populateCursorList(ref, q, limit);
@@ -5523,7 +5532,7 @@ void populateSquare(String ref) {
     }
   };
 
-  fetchAll(q, populate);
+  timedFetchAll(q, populate);
 }
 
 void setFieldToIdentifier(String identiferType, String lotRef) {
@@ -5548,7 +5557,7 @@ void setFieldToIdentifier(String identiferType, String lotRef) {
     }
   };
 
-  fetchOne(q, cb);
+  timedFetchOne(q, cb);
 }
 
 void populateLotLabel(String lotRef) {
@@ -5648,7 +5657,7 @@ void deleteRelationship() {
     }
   };
 
-  fetchOne(q);
+  timedFetchOne(q);
   deleteRel(selectedRelId, cb);
 
   selectedRelId         = null;
@@ -5836,7 +5845,7 @@ void populateRelationshipType() {
     }
   };
 
-  fetchAll(q, populate);
+  timedFetchAll(q, populate);
 }
 
 void populateProposedRelationship() {
@@ -6365,7 +6374,7 @@ void hideView(String refView) {
     q  = replaceFirst(q, "{userid}", userid);
     q  = replaceFirst(q, "{attributename}", attribName);
 
-    fetchOne(q);
+    timedFetchOne(q);
   }
 }
 /************************ DYNAMIC UI - OPEN/CLOSE SITE ************************/
@@ -6621,7 +6630,7 @@ void setTextureActual(){
     //This function makes the hierarchical soil texture selector write to the texture dropdown. We should discuss.
     Log.d("foo1", soilQuery);
 
-    fetchOne(soilQuery, new FetchCallback() {
+    timedFetchOne(soilQuery, new FetchCallback() {
         onFetch(textureToSet) {
             if(!isNull(textureToSet)){
                 Log.d("foo1", textureToSet.get(0));
@@ -6653,7 +6662,7 @@ void populateSelectUser(){
                                    " UNION " +
                                    "SELECT -1, '{All}'";
 
-  fetchAll(getNonDeletedUsersQuery, new FetchCallback() {
+  timedFetchAll(getNonDeletedUsersQuery, new FetchCallback() {
     onFetch(result) {
       populateDropDown(refSearchUsers, result, false);
       search();
@@ -6679,7 +6688,7 @@ void populateSite() {
     }
   };
 
-  fetchAll(q, popSite);
+  timedFetchAll(q, popSite);
 }
 
 List normaliseSiteResult(List result) {
