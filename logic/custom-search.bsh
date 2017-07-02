@@ -17,7 +17,7 @@ void populateSelectUser(){
                                    " UNION " +
                                    "SELECT -1, '{All}'";
 
-  timedFetchAll(getNonDeletedUsersQuery, new FetchCallback() {
+  fetchAll(getNonDeletedUsersQuery, new FetchCallback() {
     onFetch(result) {
       populateDropDown(refSearchUsers, result, false);
       search();
@@ -43,7 +43,7 @@ void populateSite() {
     }
   };
 
-  timedFetchAll(q, popSite);
+  fetchAll(q, popSite);
 }
 
 List normaliseSiteResult(List result) {

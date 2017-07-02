@@ -18,7 +18,7 @@ void populateSquare(String ref) {
     }
   };
 
-  timedFetchAll(q, populate);
+  fetchAll(q, populate);
 }
 
 void setFieldToIdentifier(String identiferType, String lotRef) {
@@ -43,7 +43,7 @@ void setFieldToIdentifier(String identiferType, String lotRef) {
     }
   };
 
-  timedFetchOne(q, cb);
+  fetchOne(q, cb);
 }
 
 void populateLotLabel(String lotRef) {
