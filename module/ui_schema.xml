@@ -991,7 +991,7 @@
           <group ref="Col_1" faims_style="large">
             <label/>
             <trigger ref="Search_Button">
-              <label>{Search_Button}</label>
+              <label>{Search}</label>
             </trigger>
           </group>
         </group>
@@ -1088,7 +1088,7 @@
         <input faims_attribute_name="Trench Trench ID" faims_attribute_type="measure" ref="Trench_Trench_ID" faims_read_only="true">
           <label>{Trench_ID}</label>
         </input>
-        <input faims_attribute_name="Team Members" faims_attribute_type="measure" ref="Team_Members">
+        <input faims_attribute_name="Trench Team Members" faims_attribute_type="measure" ref="Team_Members">
           <label>{Team_Members}</label>
         </input>
         <select1 faims_attribute_name="Trench Dimensions" faims_attribute_type="vocab" ref="Trench_Dimensions">
@@ -1153,13 +1153,13 @@
         <trigger ref="Set_Date_Closed">
           <label>{Set_Date_Closed___}</label>
         </trigger>
-        <input faims_attribute_name="Date Closed" faims_attribute_type="measure" ref="Date_Closed" faims_read_only="true">
+        <input faims_attribute_name="Trench Date Closed" faims_attribute_type="measure" ref="Date_Closed" faims_read_only="true">
           <label>{Date_Closed}</label>
         </input>
-        <input faims_attribute_name="Brief Description" faims_attribute_type="measure" ref="Brief_Description">
+        <input faims_attribute_name="Trench Brief Description" faims_attribute_type="measure" ref="Brief_Description">
           <label>{Brief_Description}</label>
         </input>
-        <input faims_attribute_name="Your Discussion" faims_attribute_type="measure" ref="Your_Discussion">
+        <input faims_attribute_name="Trench Your Discussion" faims_attribute_type="measure" ref="Your_Discussion">
           <label>{Your_Discussion}</label>
         </input>
         <trigger ref="Add_Trench_Files">
@@ -1365,7 +1365,7 @@
             </input>
           </group>
         </group>
-        <input faims_attribute_name="Brief Description" faims_attribute_type="measure" ref="Brief_Description">
+        <input faims_attribute_name="Locus Brief Description" faims_attribute_type="measure" ref="Brief_Description">
           <label>{Brief_Description}</label>
         </input>
         <group ref="Colgroup_2" faims_style="orientation">
@@ -1390,7 +1390,7 @@
             <input faims_attribute_name="Date Opened" faims_attribute_type="measure" ref="Date_Opened">
               <label>{Date_Opened}</label>
             </input>
-            <input faims_attribute_name="Team Members" faims_attribute_type="measure" ref="Team_Members">
+            <input faims_attribute_name="Locus Team Members" faims_attribute_type="measure" ref="Team_Members">
               <label>{Team_Members}</label>
             </input>
           </group>
@@ -1471,7 +1471,7 @@
           <label/>
           <group ref="Col_1" faims_style="even">
             <label/>
-            <input faims_attribute_name="Date Closed" faims_attribute_type="measure" ref="Date_Closed">
+            <input faims_attribute_name="Locus Date Closed" faims_attribute_type="measure" ref="Date_Closed">
               <label>{Date_Closed}</label>
             </input>
           </group>
@@ -1584,7 +1584,7 @@
             </input>
           </group>
         </group>
-        <input faims_attribute_name="Volume Liters" faims_attribute_type="measure" ref="Volume_Liters" faims_style_class="required">
+        <input faims_attribute_name="Locus Volume Liters" faims_attribute_type="measure" ref="Volume_Liters" faims_style_class="required">
           <label>{Volume__liters_}</label>
         </input>
       </group>
@@ -1683,16 +1683,16 @@
       </group>
       <group ref="Construction">
         <label>{Construction}</label>
-        <input faims_attribute_name="Description" faims_attribute_type="measure" ref="Description">
+        <input faims_attribute_name="Locus Description" faims_attribute_type="measure" ref="Description">
           <label>{Description}</label>
         </input>
-        <input faims_attribute_name="Discussion" faims_attribute_type="measure" ref="Discussion">
+        <input faims_attribute_name="Locus Discussion" faims_attribute_type="measure" ref="Discussion">
           <label>{Discussion}</label>
         </input>
-        <input faims_attribute_name="Length" faims_attribute_type="measure" ref="Length">
+        <input faims_attribute_name="Locus Length" faims_attribute_type="measure" ref="Length">
           <label>{Length}</label>
         </input>
-        <input faims_attribute_name="Width" faims_attribute_type="measure" ref="Width">
+        <input faims_attribute_name="Locus Width" faims_attribute_type="measure" ref="Width">
           <label>{Width}</label>
         </input>
         <group ref="Colgroup_1" faims_style="orientation">
@@ -1743,10 +1743,10 @@
             </input>
           </group>
         </group>
-        <input faims_attribute_name="Mid X" faims_attribute_type="measure" ref="Mid_X">
+        <input faims_attribute_name="Locus Mid X" faims_attribute_type="measure" ref="Mid_X">
           <label>{Mid_X}</label>
         </input>
-        <input faims_attribute_name="Mid Y" faims_attribute_type="measure" ref="Mid_Y">
+        <input faims_attribute_name="Locus Mid Y" faims_attribute_type="measure" ref="Mid_Y">
           <label>{Mid_Y}</label>
         </input>
         <input faims_attribute_name="Sorting" faims_attribute_type="measure" ref="Sorting">
@@ -1755,10 +1755,10 @@
         <input faims_attribute_name="Notes" faims_attribute_type="measure" ref="Notes">
           <label>{Notes}</label>
         </input>
-        <input faims_attribute_name="Plans" faims_attribute_type="measure" ref="Plans">
+        <input faims_attribute_name="Locus Plans" faims_attribute_type="measure" ref="Plans">
           <label>{Plans}</label>
         </input>
-        <input faims_attribute_name="Section Numbers" faims_attribute_type="measure" ref="Section_Numbers">
+        <input faims_attribute_name="Locus Section Numbers" faims_attribute_type="measure" ref="Section_Numbers">
           <label>{Section_Numbers}</label>
         </input>
       </group>
@@ -2031,7 +2031,7 @@
         <input faims_attribute_name="Your description" faims_attribute_type="measure" ref="Your_description" faims_style_class="required">
           <label>{Your_Description}</label>
         </input>
-        <input faims_attribute_name="Your Discussion" faims_attribute_type="measure" ref="Your_Discussion" faims_style_class="required">
+        <input faims_attribute_name="Locus Your Discussion" faims_attribute_type="measure" ref="Your_Discussion" faims_style_class="required">
           <label>{Your_Discussion}</label>
         </input>
       </group>
@@ -2081,7 +2081,7 @@
       </group>
       <group ref="Add">
         <label>{Add}</label>
-        <select faims_sync="true" type="camera" faims_attribute_name="Photo" faims_attribute_type="measure" ref="Photo">
+        <select faims_sync="true" type="camera" faims_attribute_name="Locus Photo" faims_attribute_type="measure" ref="Photo">
           <label>{Photo}</label>
           <item>
             <label>Options not loaded</label>
@@ -2174,26 +2174,26 @@
             </input>
           </group>
         </group>
-        <input faims_attribute_name="Description" faims_attribute_type="measure" ref="Description" faims_style_class="required">
+        <input faims_attribute_name="Stratum Feature Description" faims_attribute_type="measure" ref="Description" faims_style_class="required">
           <label>{Description}</label>
         </input>
         <input faims_attribute_name="Interpretation" faims_attribute_type="measure" ref="Interpretation" faims_style_class="required">
           <label>{Interpretation}</label>
         </input>
-        <input faims_attribute_name="Discussion" faims_attribute_type="measure" ref="Discussion">
+        <input faims_attribute_name="Stratum Feature Discussion" faims_attribute_type="measure" ref="Discussion">
           <label>{Discussion}</label>
         </input>
         <group ref="Colgroup_2" faims_style="orientation">
           <label/>
           <group ref="Col_1" faims_style="even">
             <label/>
-            <input faims_attribute_name="Length" faims_attribute_type="measure" ref="Length">
+            <input faims_attribute_name="Stratum Feature Length" faims_attribute_type="measure" ref="Length">
               <label>{Length__m_}</label>
             </input>
           </group>
           <group ref="Col_2" faims_style="even">
             <label/>
-            <input faims_attribute_name="Width" faims_attribute_type="measure" ref="Width">
+            <input faims_attribute_name="Stratum Feature Width" faims_attribute_type="measure" ref="Width">
               <label>{Width__m_}</label>
             </input>
           </group>
@@ -2250,21 +2250,21 @@
           <label/>
           <group ref="Col_1" faims_style="even">
             <label/>
-            <input faims_attribute_name="Mid X" faims_attribute_type="measure" ref="Mid_X">
+            <input faims_attribute_name="Stratum Feature Mid X" faims_attribute_type="measure" ref="Mid_X">
               <label>{Mid_X}</label>
             </input>
           </group>
           <group ref="Col_2" faims_style="even">
             <label/>
-            <input faims_attribute_name="Mid Y" faims_attribute_type="measure" ref="Mid_Y">
+            <input faims_attribute_name="Stratum Feature Mid Y" faims_attribute_type="measure" ref="Mid_Y">
               <label>{Mid_Y}</label>
             </input>
           </group>
         </group>
-        <input faims_attribute_name="Plans" faims_attribute_type="measure" ref="Plans">
+        <input faims_attribute_name="Stratum Feature Plans" faims_attribute_type="measure" ref="Plans">
           <label>{Plans}</label>
         </input>
-        <input faims_attribute_name="Section Numbers" faims_attribute_type="measure" ref="Section_Numbers">
+        <input faims_attribute_name="Stratum Feature Section Numbers" faims_attribute_type="measure" ref="Section_Numbers">
           <label>{Section_Numbers}</label>
         </input>
         <group ref="Colgroup_6" faims_style="orientation">
@@ -2316,7 +2316,7 @@
       </group>
       <group ref="Add">
         <label>{Attachments}</label>
-        <select faims_sync="true" type="camera" faims_attribute_name="Photo" faims_attribute_type="measure" ref="Photo">
+        <select faims_sync="true" type="camera" faims_attribute_name="Stratum Feature Photo" faims_attribute_type="measure" ref="Photo">
           <label>{Photo}</label>
           <item>
             <label>Options not loaded</label>
@@ -2419,7 +2419,7 @@
       </group>
       <group ref="Vars" faims_hidden="true">
         <label>{Vars}</label>
-        <input faims_attribute_name="Locus ID" faims_attribute_type="measure" ref="Locus_ID">
+        <input faims_attribute_name="Sediment Aggregate Locus ID" faims_attribute_type="measure" ref="Locus_ID">
           <label>{Locus_ID}</label>
         </input>
         <input faims_attribute_name="Trench ID" faims_attribute_type="measure" ref="Trench_ID">
@@ -2466,7 +2466,7 @@
             <value>Options not loaded</value>
           </item>
         </select1>
-        <input faims_attribute_name="Brief Description" faims_attribute_type="measure" ref="Brief_Description">
+        <input faims_attribute_name="Photograph Log Brief Description" faims_attribute_type="measure" ref="Brief_Description">
           <label>{Brief_Description}</label>
         </input>
       </group>
@@ -2515,7 +2515,7 @@
         <input faims_attribute_name="Text" faims_attribute_type="measure" ref="Text">
           <label>{Text}</label>
         </input>
-        <select faims_sync="true" type="camera" faims_attribute_name="Photo" faims_attribute_type="measure" ref="Photo">
+        <select faims_sync="true" type="camera" faims_attribute_name="Diary Photo" faims_attribute_type="measure" ref="Photo">
           <label>{Photo}</label>
           <item>
             <label>Options not loaded</label>
@@ -2752,7 +2752,7 @@
         <input faims_attribute_name="FCN Trench ID" faims_attribute_type="measure" ref="FCN_Trench_ID" faims_read_only="true">
           <label>{Trench_ID}</label>
         </input>
-        <input faims_attribute_name="Locus ID" faims_attribute_type="measure" ref="Locus_ID" faims_read_only="true">
+        <input faims_attribute_name="FCN Locus ID" faims_attribute_type="measure" ref="Locus_ID" faims_read_only="true">
           <label>{Locus_ID}</label>
         </input>
         <group ref="Colgroup_1" faims_style="orientation">

@@ -1,9 +1,6 @@
 /************************* DYNAMIC UI - CONTEXT GROUP *************************/
 // Prefetch this vocab seeing as it will be dynamically loaded multiple times
 // throughout the module's runtime.
-FEATURE_TYPE_VOCAB = new ArrayList();
-fetchVocab("Feature Type", FEATURE_TYPE_VOCAB);
-
 void updateStratumFeatureFields() {
   String ref       = "Stratum_Feature/General/Record_Type";
   String vocabName = getMenuValue(ref);
@@ -79,8 +76,7 @@ void showStratumFeatureType() {
   createView(refView, viewDef, refGroup);
 
   // Populate view
-  Boolean hasNull = true;
-  populateDropDown(refView, FEATURE_TYPE_VOCAB, hasNull);
+  makeVocab(refView);
   copyFieldValue(refViewLast, refView);
 }
 

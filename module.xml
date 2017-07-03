@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--@PREPROC:  ./proc/pre.sh-->
 <!--@POSTPROC: ./proc/post.sh-->
-<module suppressWarnings="true">
+<module test_mode="true">
 
 <rels>
   <!--Stratum/Feature-to-Locus relationship(s)-->
@@ -703,11 +702,7 @@
           <desc>Other: describe in Annotation.</desc></opt>
         </opts>
       </Material>
-      <Material_Helper t="button" l="Locus/Material_Helper">
-        Material Helper
-        <!--Here the semantics of the `l` attribute have been altered using
-            @POSTPROC-->
-      </Material_Helper>
+      <Material_Helper t="button" l="Locus/Material_Helper"/>
     </cols>
     <Soil_Colour>
       <desc>Broad colour  description of the soil, eg 'mid greyish brown'.

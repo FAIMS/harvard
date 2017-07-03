@@ -130,12 +130,10 @@ parent_of=Parent of
 precisely_contemporary_with=Precisely Contemporary with
 invalid_trench_id_head=Invalid Trench ID
 invalid_trench_id_body=The given Trench ID is not valid. Valid Trench IDs consist of a capital 'T' followed by one or more digits.
-perf_test_head=Begin a Performance Test?
-perf_test_body=Do you wish to begin a performance test? Tapping 'OK' will create many entities. (The exact number depends on the number of arch ent types present in this module.) Entity creation takes a few minutes.\n\nIf you would not like to run a performance test, tap 'Cancel' to dismiss this message.\n\nIf you would not like to see this message again, please set this device's date to any year after 2010.
-
 valid_control_head=Invalid Field(s) Found
 valid_control_body_1=The following fields are invalid:\n
 valid_control_body_2=You must enter data into these fields to proceed.
+invalid_trench_id_body=Tap 'Cancel' to change the 'Trench ID' field, or 'OK' to proceed.
 EOF
 
 rm ui_schema.xml.original
