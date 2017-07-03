@@ -49,7 +49,7 @@
         <param type="field" value="measure"/>
       </validator>
     </property>
-    <property name="Volume Liters">
+    <property name="Locus Volume Liters">
       <validator type="blankchecker">
         <param type="field" value="measure"/>
       </validator>
@@ -190,7 +190,7 @@
         <param type="field" value="measure"/>
       </validator>
     </property>
-    <property name="Your Discussion">
+    <property name="Locus Your Discussion">
       <validator type="blankchecker">
         <param type="field" value="measure"/>
       </validator>
@@ -212,7 +212,7 @@
         <param type="field" value="measure"/>
       </validator>
     </property>
-    <property name="Description">
+    <property name="Stratum Feature Description">
       <validator type="blankchecker">
         <param type="field" value="measure"/>
       </validator>

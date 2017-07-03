@@ -160,15 +160,6 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: tab
-        Ref:  Control/Search
-     */
-    public static View get_Control_Search(Solo solo) {
-        String ref = "Control/Search";
-        return (android.view.View) solo.getView((Object) ref);
-    }
-
-    /*
-        Type: tab
         Ref:  Control/Site
      */
     public static View get_Control_Site(Solo solo) {
@@ -645,28 +636,37 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: button
-        Ref:  Diary/Diary/Button_Photo
+        Ref:  Diary/Diary/Photo_Button_1
      */
-    public static View get_Diary_Diary_ButtonPhoto(Solo solo) {
-        String ref = "Diary/Diary/Button_Photo";
+    public static View get_Diary_Diary_PhotoButton1(Solo solo) {
+        String ref = "Diary/Diary/Photo_Button_1";
         return (android.view.View) solo.getView((Object) ref);
     }
 
     /*
         Type: button
-        Ref:  FCN/General/Button_Attach_File
+        Ref:  FCN/General/Attach_File_Button_1
      */
-    public static View get_FCN_General_ButtonAttachFile(Solo solo) {
-        String ref = "FCN/General/Button_Attach_File";
+    public static View get_FCN_General_AttachFileButton1(Solo solo) {
+        String ref = "FCN/General/Attach_File_Button_1";
         return (android.view.View) solo.getView((Object) ref);
     }
 
     /*
         Type: button
-        Ref:  FCN/General/Button_Attach_Photograph
+        Ref:  FCN/General/Attach_Photograph_Button_1
      */
-    public static View get_FCN_General_ButtonAttachPhotograph(Solo solo) {
-        String ref = "FCN/General/Button_Attach_Photograph";
+    public static View get_FCN_General_AttachPhotographButton1(Solo solo) {
+        String ref = "FCN/General/Attach_Photograph_Button_1";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: button
+        Ref:  FCN/General/Take_From_GPS_1
+     */
+    public static View get_FCN_General_TakeFromGPS1(Solo solo) {
+        String ref = "FCN/General/Take_From_GPS_1";
         return (android.view.View) solo.getView((Object) ref);
     }
 
@@ -681,19 +681,19 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: button
-        Ref:  Locus/Add/Button_Attach_File
+        Ref:  Locus/Add/Attach_File_Button_1
      */
-    public static View get_Locus_Add_ButtonAttachFile(Solo solo) {
-        String ref = "Locus/Add/Button_Attach_File";
+    public static View get_Locus_Add_AttachFileButton1(Solo solo) {
+        String ref = "Locus/Add/Attach_File_Button_1";
         return (android.view.View) solo.getView((Object) ref);
     }
 
     /*
         Type: button
-        Ref:  Locus/Add/Button_Photo
+        Ref:  Locus/Add/Photo_Button_1
      */
-    public static View get_Locus_Add_ButtonPhoto(Solo solo) {
-        String ref = "Locus/Add/Button_Photo";
+    public static View get_Locus_Add_PhotoButton1(Solo solo) {
+        String ref = "Locus/Add/Photo_Button_1";
         return (android.view.View) solo.getView((Object) ref);
     }
 
@@ -744,28 +744,28 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: button
-        Ref:  Locus/General/Button_Photo_of_Plan
-     */
-    public static View get_Locus_General_ButtonPhotoofPlan(Solo solo) {
-        String ref = "Locus/General/Button_Photo_of_Plan";
-        return (android.view.View) solo.getView((Object) ref);
-    }
-
-    /*
-        Type: button
-        Ref:  Locus/General/Button_Photo_of_Section
-     */
-    public static View get_Locus_General_ButtonPhotoofSection(Solo solo) {
-        String ref = "Locus/General/Button_Photo_of_Section";
-        return (android.view.View) solo.getView((Object) ref);
-    }
-
-    /*
-        Type: button
         Ref:  Locus/General/Fill_in_Locus_Type_Details
      */
     public static View get_Locus_General_FillinLocusTypeDetails(Solo solo) {
         String ref = "Locus/General/Fill_in_Locus_Type_Details";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: button
+        Ref:  Locus/General/Photo_of_Plan_Button_1
+     */
+    public static View get_Locus_General_PhotoofPlanButton1(Solo solo) {
+        String ref = "Locus/General/Photo_of_Plan_Button_1";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: button
+        Ref:  Locus/General/Photo_of_Section_Button_1
+     */
+    public static View get_Locus_General_PhotoofSectionButton1(Solo solo) {
+        String ref = "Locus/General/Photo_of_Section_Button_1";
         return (android.view.View) solo.getView((Object) ref);
     }
 
@@ -861,19 +861,19 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: button
-        Ref:  Stratum_Feature/Add/Button_Attach_File
+        Ref:  Stratum_Feature/Add/Attach_File_Button_1
      */
-    public static View get_StratumFeature_Add_ButtonAttachFile(Solo solo) {
-        String ref = "Stratum_Feature/Add/Button_Attach_File";
+    public static View get_StratumFeature_Add_AttachFileButton1(Solo solo) {
+        String ref = "Stratum_Feature/Add/Attach_File_Button_1";
         return (android.view.View) solo.getView((Object) ref);
     }
 
     /*
         Type: button
-        Ref:  Stratum_Feature/Add/Button_Photo
+        Ref:  Stratum_Feature/Add/Photo_Button_1
      */
-    public static View get_StratumFeature_Add_ButtonPhoto(Solo solo) {
-        String ref = "Stratum_Feature/Add/Button_Photo";
+    public static View get_StratumFeature_Add_PhotoButton1(Solo solo) {
+        String ref = "Stratum_Feature/Add/Photo_Button_1";
         return (android.view.View) solo.getView((Object) ref);
     }
 
@@ -1005,19 +1005,28 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: button
-        Ref:  Trench_Files/Add_Trench_Files/Button_Add_Photo
+        Ref:  Trench/Trench/Take_From_GPS_1
      */
-    public static View get_TrenchFiles_AddTrenchFiles_ButtonAddPhoto(Solo solo) {
-        String ref = "Trench_Files/Add_Trench_Files/Button_Add_Photo";
+    public static View get_Trench_Trench_TakeFromGPS1(Solo solo) {
+        String ref = "Trench/Trench/Take_From_GPS_1";
         return (android.view.View) solo.getView((Object) ref);
     }
 
     /*
         Type: button
-        Ref:  Trench_Files/Add_Trench_Files/Button_Attach_File
+        Ref:  Trench_Files/Add_Trench_Files/Add_Photo_Button_1
      */
-    public static View get_TrenchFiles_AddTrenchFiles_ButtonAttachFile(Solo solo) {
-        String ref = "Trench_Files/Add_Trench_Files/Button_Attach_File";
+    public static View get_TrenchFiles_AddTrenchFiles_AddPhotoButton1(Solo solo) {
+        String ref = "Trench_Files/Add_Trench_Files/Add_Photo_Button_1";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: button
+        Ref:  Trench_Files/Add_Trench_Files/Attach_File_Button_1
+     */
+    public static View get_TrenchFiles_AddTrenchFiles_AttachFileButton1(Solo solo) {
+        String ref = "Trench_Files/Add_Trench_Files/Attach_File_Button_1";
         return (android.view.View) solo.getView((Object) ref);
     }
 
@@ -1036,6 +1045,69 @@ public class ModuleUtil extends ModuleHelper {
      */
     public static View get_User_UserList_ModuleGuide(Solo solo) {
         String ref = "User/User_List/Module_Guide";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: camera
+        Ref:  Diary/Diary/Photo
+     */
+    public static View get_Diary_Diary_Photo(Solo solo) {
+        String ref = "Diary/Diary/Photo";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: camera
+        Ref:  FCN/General/Attach_Photograph
+     */
+    public static View get_FCN_General_AttachPhotograph(Solo solo) {
+        String ref = "FCN/General/Attach_Photograph";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: camera
+        Ref:  Locus/Add/Photo
+     */
+    public static View get_Locus_Add_Photo(Solo solo) {
+        String ref = "Locus/Add/Photo";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: camera
+        Ref:  Locus/General/Photo_of_Plan
+     */
+    public static View get_Locus_General_PhotoofPlan(Solo solo) {
+        String ref = "Locus/General/Photo_of_Plan";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: camera
+        Ref:  Locus/General/Photo_of_Section
+     */
+    public static View get_Locus_General_PhotoofSection(Solo solo) {
+        String ref = "Locus/General/Photo_of_Section";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: camera
+        Ref:  Stratum_Feature/Add/Photo
+     */
+    public static View get_StratumFeature_Add_Photo(Solo solo) {
+        String ref = "Stratum_Feature/Add/Photo";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: camera
+        Ref:  Trench_Files/Add_Trench_Files/Add_Photo
+     */
+    public static View get_TrenchFiles_AddTrenchFiles_AddPhoto(Solo solo) {
+        String ref = "Trench_Files/Add_Trench_Files/Add_Photo";
         return (android.view.View) solo.getView((Object) ref);
     }
 
@@ -1059,10 +1131,10 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: dropdown
-        Ref:  Diary/Diary/Photo
+        Ref:  Control/Search/Entity_Types
      */
-    public static View get_Diary_Diary_Photo(Solo solo) {
-        String ref = "Diary/Diary/Photo";
+    public static View get_Control_Search_EntityTypes(Solo solo) {
+        String ref = "Control/Search/Entity_Types";
         return (android.view.View) solo.getView((Object) ref);
     }
 
@@ -1072,24 +1144,6 @@ public class ModuleUtil extends ModuleHelper {
      */
     public static View get_Diary_Vars_DeviceCode(Solo solo) {
         String ref = "Diary/Vars/Device_Code";
-        return (android.view.View) solo.getView((Object) ref);
-    }
-
-    /*
-        Type: dropdown
-        Ref:  FCN/General/Attach_File
-     */
-    public static View get_FCN_General_AttachFile(Solo solo) {
-        String ref = "FCN/General/Attach_File";
-        return (android.view.View) solo.getView((Object) ref);
-    }
-
-    /*
-        Type: dropdown
-        Ref:  FCN/General/Attach_Photograph
-     */
-    public static View get_FCN_General_AttachPhotograph(Solo solo) {
-        String ref = "FCN/General/Attach_Photograph";
         return (android.view.View) solo.getView((Object) ref);
     }
 
@@ -1126,24 +1180,6 @@ public class ModuleUtil extends ModuleHelper {
      */
     public static View get_Legacy_Var_DeviceCode(Solo solo) {
         String ref = "Legacy/Var/Device_Code";
-        return (android.view.View) solo.getView((Object) ref);
-    }
-
-    /*
-        Type: dropdown
-        Ref:  Locus/Add/Attach_File
-     */
-    public static View get_Locus_Add_AttachFile(Solo solo) {
-        String ref = "Locus/Add/Attach_File";
-        return (android.view.View) solo.getView((Object) ref);
-    }
-
-    /*
-        Type: dropdown
-        Ref:  Locus/Add/Photo
-     */
-    public static View get_Locus_Add_Photo(Solo solo) {
-        String ref = "Locus/Add/Photo";
         return (android.view.View) solo.getView((Object) ref);
     }
 
@@ -1293,24 +1329,6 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: dropdown
-        Ref:  Locus/General/Photo_of_Plan
-     */
-    public static View get_Locus_General_PhotoofPlan(Solo solo) {
-        String ref = "Locus/General/Photo_of_Plan";
-        return (android.view.View) solo.getView((Object) ref);
-    }
-
-    /*
-        Type: dropdown
-        Ref:  Locus/General/Photo_of_Section
-     */
-    public static View get_Locus_General_PhotoofSection(Solo solo) {
-        String ref = "Locus/General/Photo_of_Section";
-        return (android.view.View) solo.getView((Object) ref);
-    }
-
-    /*
-        Type: dropdown
         Ref:  Locus/Material_Helper/Material_Helper
      */
     public static View get_Locus_MaterialHelper_MaterialHelper(Solo solo) {
@@ -1401,24 +1419,6 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: dropdown
-        Ref:  Stratum_Feature/Add/Attach_File
-     */
-    public static View get_StratumFeature_Add_AttachFile(Solo solo) {
-        String ref = "Stratum_Feature/Add/Attach_File";
-        return (android.view.View) solo.getView((Object) ref);
-    }
-
-    /*
-        Type: dropdown
-        Ref:  Stratum_Feature/Add/Photo
-     */
-    public static View get_StratumFeature_Add_Photo(Solo solo) {
-        String ref = "Stratum_Feature/Add/Photo";
-        return (android.view.View) solo.getView((Object) ref);
-    }
-
-    /*
-        Type: dropdown
         Ref:  Stratum_Feature/Add/Select_a_Photograph_Log
      */
     public static View get_StratumFeature_Add_SelectaPhotographLog(Solo solo) {
@@ -1473,24 +1473,6 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: dropdown
-        Ref:  Trench_Files/Add_Trench_Files/Add_Photo
-     */
-    public static View get_TrenchFiles_AddTrenchFiles_AddPhoto(Solo solo) {
-        String ref = "Trench_Files/Add_Trench_Files/Add_Photo";
-        return (android.view.View) solo.getView((Object) ref);
-    }
-
-    /*
-        Type: dropdown
-        Ref:  Trench_Files/Add_Trench_Files/Attach_File
-     */
-    public static View get_TrenchFiles_AddTrenchFiles_AttachFile(Solo solo) {
-        String ref = "Trench_Files/Add_Trench_Files/Attach_File";
-        return (android.view.View) solo.getView((Object) ref);
-    }
-
-    /*
-        Type: dropdown
         Ref:  Trench_Files/Add_Trench_Files/File_Type
      */
     public static View get_TrenchFiles_AddTrenchFiles_FileType(Solo solo) {
@@ -1526,6 +1508,42 @@ public class ModuleUtil extends ModuleHelper {
     }
 
     /*
+        Type: file
+        Ref:  FCN/General/Attach_File
+     */
+    public static View get_FCN_General_AttachFile(Solo solo) {
+        String ref = "FCN/General/Attach_File";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: file
+        Ref:  Locus/Add/Attach_File
+     */
+    public static View get_Locus_Add_AttachFile(Solo solo) {
+        String ref = "Locus/Add/Attach_File";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: file
+        Ref:  Stratum_Feature/Add/Attach_File
+     */
+    public static View get_StratumFeature_Add_AttachFile(Solo solo) {
+        String ref = "Stratum_Feature/Add/Attach_File";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: file
+        Ref:  Trench_Files/Add_Trench_Files/Attach_File
+     */
+    public static View get_TrenchFiles_AddTrenchFiles_AttachFile(Solo solo) {
+        String ref = "Trench_Files/Add_Trench_Files/Attach_File";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
         Type: gpsdiag
         Ref:  Control/Site/GPS_Diagnostics
      */
@@ -1538,35 +1556,26 @@ public class ModuleUtil extends ModuleHelper {
         Type: input
         Ref:  Control/Next_IDs/Next_FCN_ID
      */
-    public static View get_Control_NextIDs_NextFCNID(Solo solo) {
+    public static EditText get_Control_NextIDs_NextFCNID(Solo solo) {
         String ref = "Control/Next_IDs/Next_FCN_ID";
-        return (android.view.View) solo.getView((Object) ref);
+        return (android.widget.EditText) solo.getView((Object) ref);
     }
 
     /*
         Type: input
         Ref:  Control/Next_IDs/Next_Locus_Locus_ID
      */
-    public static View get_Control_NextIDs_NextLocusLocusID(Solo solo) {
+    public static EditText get_Control_NextIDs_NextLocusLocusID(Solo solo) {
         String ref = "Control/Next_IDs/Next_Locus_Locus_ID";
-        return (android.view.View) solo.getView((Object) ref);
+        return (android.widget.EditText) solo.getView((Object) ref);
     }
 
     /*
         Type: input
         Ref:  Control/Next_IDs/Next_Stratum_Feature_ID
      */
-    public static View get_Control_NextIDs_NextStratumFeatureID(Solo solo) {
+    public static EditText get_Control_NextIDs_NextStratumFeatureID(Solo solo) {
         String ref = "Control/Next_IDs/Next_Stratum_Feature_ID";
-        return (android.view.View) solo.getView((Object) ref);
-    }
-
-    /*
-        Type: input
-        Ref:  Control/Search/Entity_Types
-     */
-    public static EditText get_Control_Search_EntityTypes(Solo solo) {
-        String ref = "Control/Search/Entity_Types";
         return (android.widget.EditText) solo.getView((Object) ref);
     }
 
@@ -1604,15 +1613,6 @@ public class ModuleUtil extends ModuleHelper {
     public static EditText get_DateClosed_DateClosed_DateClosed(Solo solo) {
         String ref = "Date_Closed/Date_Closed/Date_Closed";
         return (android.widget.EditText) solo.getView((Object) ref);
-    }
-
-    /*
-        Type: input
-        Ref:  Diary/Diary/Author
-     */
-    public static View get_Diary_Diary_Author(Solo solo) {
-        String ref = "Diary/Diary/Author";
-        return (android.view.View) solo.getView((Object) ref);
     }
 
     /*
@@ -1667,6 +1667,15 @@ public class ModuleUtil extends ModuleHelper {
     public static EditText get_Diary_Vars_DiaryYearofCampaign(Solo solo) {
         String ref = "Diary/Vars/Diary_Year_of_Campaign";
         return (android.widget.EditText) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: input
+        Ref:  FCN/General/Accuracy
+     */
+    public static View get_FCN_General_Accuracy(Solo solo) {
+        String ref = "FCN/General/Accuracy";
+        return (android.view.View) solo.getView((Object) ref);
     }
 
     /*
@@ -2049,15 +2058,6 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: input
-        Ref:  Locus/General/Author
-     */
-    public static View get_Locus_General_Author(Solo solo) {
-        String ref = "Locus/General/Author";
-        return (android.view.View) solo.getView((Object) ref);
-    }
-
-    /*
-        Type: input
         Ref:  Locus/General/Brief_Description
      */
     public static EditText get_Locus_General_BriefDescription(Solo solo) {
@@ -2135,15 +2135,6 @@ public class ModuleUtil extends ModuleHelper {
     public static EditText get_Locus_General_TeamMembers(Solo solo) {
         String ref = "Locus/General/Team_Members";
         return (android.widget.EditText) solo.getView((Object) ref);
-    }
-
-    /*
-        Type: input
-        Ref:  Locus/General/Timestamp
-     */
-    public static View get_Locus_General_Timestamp(Solo solo) {
-        String ref = "Locus/General/Timestamp";
-        return (android.view.View) solo.getView((Object) ref);
     }
 
     /*
@@ -2706,15 +2697,6 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: input
-        Ref:  Stratum_Feature/General/Author
-     */
-    public static View get_StratumFeature_General_Author(Solo solo) {
-        String ref = "Stratum_Feature/General/Author";
-        return (android.view.View) solo.getView((Object) ref);
-    }
-
-    /*
-        Type: input
         Ref:  Stratum_Feature/General/Center_Bottom_Depth
      */
     public static EditText get_StratumFeature_General_CenterBottomDepth(Solo solo) {
@@ -2895,15 +2877,6 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: input
-        Ref:  Stratum_Feature/General/Timestamp
-     */
-    public static View get_StratumFeature_General_Timestamp(Solo solo) {
-        String ref = "Stratum_Feature/General/Timestamp";
-        return (android.view.View) solo.getView((Object) ref);
-    }
-
-    /*
-        Type: input
         Ref:  Stratum_Feature/General/Width
      */
     public static EditText get_StratumFeature_General_Width(Solo solo) {
@@ -2994,10 +2967,10 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: input
-        Ref:  Trench/Trench/Author
+        Ref:  Trench/Trench/Accuracy
      */
-    public static View get_Trench_Trench_Author(Solo solo) {
-        String ref = "Trench/Trench/Author";
+    public static View get_Trench_Trench_Accuracy(Solo solo) {
+        String ref = "Trench/Trench/Accuracy";
         return (android.view.View) solo.getView((Object) ref);
     }
 
@@ -3066,15 +3039,6 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: input
-        Ref:  Trench/Trench/Timestamp
-     */
-    public static View get_Trench_Trench_Timestamp(Solo solo) {
-        String ref = "Trench/Trench/Timestamp";
-        return (android.view.View) solo.getView((Object) ref);
-    }
-
-    /*
-        Type: input
         Ref:  Trench/Trench/Trench_Site_Name
      */
     public static View get_Trench_Trench_TrenchSiteName(Solo solo) {
@@ -3107,15 +3071,6 @@ public class ModuleUtil extends ModuleHelper {
     public static EditText get_Trench_Vars_TrenchYearofCampaign(Solo solo) {
         String ref = "Trench/Vars/Trench_Year_of_Campaign";
         return (android.widget.EditText) solo.getView((Object) ref);
-    }
-
-    /*
-        Type: input
-        Ref:  Trench_Files/Add_Trench_Files/Author
-     */
-    public static View get_TrenchFiles_AddTrenchFiles_Author(Solo solo) {
-        String ref = "Trench_Files/Add_Trench_Files/Author";
-        return (android.view.View) solo.getView((Object) ref);
     }
 
     /*

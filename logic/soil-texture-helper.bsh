@@ -1,11 +1,6 @@
 /******************************* TEXTURE HELPER *******************************/
 onEvent("Locus/Material_Helper/Update_Material", "click", "setTextureActual()");
 
-// Overrides the original function definition using @POSTPROC.
-void onClickLocusDepositMaterialHelper () {
-  showTab("Locus/Material_Helper");
-}
-
 void setTextureActual(){
     String soilQuery= "SELECT vocabid " +
                       "  FROM vocabulary JOIN attributekey USING (attributeid) "+
