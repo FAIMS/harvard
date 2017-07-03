@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--@POSTPROC: ./proc/post.sh-->
-<module test_mode="true">
+<module>
 
 <rels>
   <!--Stratum/Feature-to-Locus relationship(s)-->

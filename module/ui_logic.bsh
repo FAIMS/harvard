@@ -2060,7 +2060,7 @@ void enableRecordCreation() {
 }
 
 boolean isInPerfTestTime() {
-  return true;
+  return false;
 }
 
 // Produce entity number specification
@@ -2249,7 +2249,7 @@ void insertIntoLocalSettings(String key, String val) {
   String q = "REPLACE INTO localSettings(key, value) VALUES(%s, %s)";
   q = dbReplaceFirst(q, key);
   q = dbReplaceFirst(q, val);
-  timedFetchOne(q);
+  fetchOne(q);
 }
 
 void insertIntoLocalSettings(String key, Integer val) {
@@ -2289,7 +2289,7 @@ void setFieldValueFromLocalSettings(
     }
   };
 
-  timedFetchOne(q, set);
+  fetchOne(q, set);
 }
 
 void setFieldValueFromLocalSettings(
@@ -2810,7 +2810,7 @@ void fetchMenuValues() {
   };
 
   incJobsTillLoaded();
-  timedFetchAll(q, populateHashMap);
+  fetchAll(q, populateHashMap);
 }
 
 addOnEvent("module", "load", "makeVocabs()");
@@ -3014,7 +3014,7 @@ void populateListForUsers(){
   q += "   FROM user ";
   q += "  WHERE userdeleted is null";
 
-  timedFetchAll(q, new FetchCallback() {
+  fetchAll(q, new FetchCallback() {
     onFetch(result) {
       populateDropDown(USER_MENU_PATH, result, true);
     }
@@ -3698,7 +3698,7 @@ void newRecord(String tabgroup, boolean doUpdateRelVars) {
         newRecord(tabgroup, false);
       }
     };
-    timedFetchAll(q, updateRelVars);
+    fetchAll(q, updateRelVars);
     return;
   }
 
@@ -3827,7 +3827,7 @@ void loadEntityFrom(String entityID, String onFail) {
                            "  JOIN aenttype " +
                            " USING (aenttypeid) " +
                            " WHERE uuid = '" + entityID + "'";
-  timedFetchAll(getEntTypeNameQ, new FetchCallback() {
+  fetchAll(getEntTypeNameQ, new FetchCallback() {
     onFetch(result) {
       if (
           result               == null ||
@@ -4718,7 +4718,7 @@ void search(){
   searchQuery = dbReplaceFirst(searchQuery, "{type}", type);
   searchQuery = dbReplaceFirst(searchQuery, "{type}", type);
 
-  timedPopulateCursorList(refEntityList, searchQuery, 25);
+  populateCursorList(refEntityList, searchQuery, 25);
   refreshTabgroupCSS("Control");
 
   Log.d("Module", "Search query: " + searchQuery);
@@ -4958,7 +4958,7 @@ void fillInGPS(String tabgroup) {
                  "  FROM latestnondeletedarchent, vocabulary " +
                  " WHERE uuid = '" + currentUuid + "';";
 
-  timedFetchOne(query, new FetchCallback() {
+  fetchOne(query, new FetchCallback() {
     onFetch(result) {
       print("[fillInGPS()] Fetched DB transformed geometry: " + result);
       setFieldValue(tabgroupToTabRef.get(tabgroup) + "/Longitude" , result.get(0));
@@ -5150,8 +5150,8 @@ void populateMenuWithEntities (
   else                    q = getChildEntitiesQ;
 
   switch (viewType) {
-    case "dropdown": timedFetchAll(q, cbPopulateDropDown); break;
-    case "list":     timedPopulateCursorList(ref, q, 25); break;
+    case "dropdown": fetchAll(q, cbPopulateDropDown); break;
+    case "list":     populateCursorList(ref, q, 25); break;
   }
 }
 
@@ -5352,7 +5352,7 @@ void populateSquare(String ref) {
     }
   };
 
-  timedFetchAll(q, populate);
+  fetchAll(q, populate);
 }
 
 void setFieldToIdentifier(String identiferType, String lotRef) {
@@ -5377,7 +5377,7 @@ void setFieldToIdentifier(String identiferType, String lotRef) {
     }
   };
 
-  timedFetchOne(q, cb);
+  fetchOne(q, cb);
 }
 
 void populateLotLabel(String lotRef) {
@@ -5477,7 +5477,7 @@ void deleteRelationship() {
     }
   };
 
-  timedFetchOne(q);
+  fetchOne(q);
   deleteRel(selectedRelId, cb);
 
   selectedRelId         = null;
@@ -5600,7 +5600,7 @@ void populateExistingRelationships(){
 
   String q = getRelatedChildQuery(currentUuid);
 
-  timedPopulateCursorList(refExistingRelationships, q, 25);
+  populateCursorList(refExistingRelationships, q, 25);
   refreshTabgroupCSS(tabGroup);
 }
 
@@ -5665,7 +5665,7 @@ void populateRelationshipType() {
     }
   };
 
-  timedFetchAll(q, populate);
+  fetchAll(q, populate);
 }
 
 void populateProposedRelationship() {
@@ -5762,8 +5762,8 @@ void searchRelationship() {
 
   relatedQ += getRelatedChildQuery(parentUuid);
 
-  timedPopulateCursorList(refUnrelated, unrelatedQ, 25);
-  timedPopulateCursorList(refRelated,   relatedQ,   25);
+  populateCursorList(refUnrelated, unrelatedQ, 25);
+  populateCursorList(refRelated,   relatedQ,   25);
 
   proposedChildUuid = null; proposedChildIdentifier = null;
   populateProposedRelationship();
@@ -5774,8 +5774,8 @@ void clearSearch() {
   String refRelated   = "Relationship/Relationships/Existing_Relationships";
 
   String q = "SELECT '' WHERE 0 LIMIT ? OFFSET ?";
-  timedPopulateCursorList(refUnrelated, q, 25);
-  timedPopulateCursorList(refRelated,   q, 25);
+  populateCursorList(refUnrelated, q, 25);
+  populateCursorList(refRelated,   q, 25);
 }
 
 void selectUnrelatedEntity() {
@@ -5915,7 +5915,7 @@ void CGpopulateExistingRelationships(){
 
   String q = getCGChildQuery(currentUuid);
 
-  timedPopulateCursorList(refExistingRelationships, q, 25);
+  populateCursorList(refExistingRelationships, q, 25);
   refreshTabgroupCSS(tabGroup);
 }
 
@@ -6055,8 +6055,8 @@ void CGsearchRelationship() {
 
   relatedQ += getCGChildQuery(parentUuid);
 
-  timedPopulateCursorList(refUnrelated, unrelatedQ, 25);
-  timedPopulateCursorList(refRelated,   relatedQ,   25);
+  populateCursorList(refUnrelated, unrelatedQ, 25);
+  populateCursorList(refRelated,   relatedQ,   25);
 
   proposedChildUuid = null; proposedChildIdentifier = null;
   CGpopulateProposedRelationship();
@@ -6067,8 +6067,8 @@ void CGclearSearch() {
   String refRelated   = "Stratum_Feature_Relationship/Relationships/Existing_Relationships";
 
   String q = "SELECT '' WHERE 0 LIMIT ? OFFSET ?";
-  timedPopulateCursorList(refUnrelated, q, 25);
-  timedPopulateCursorList(refRelated,   q, 25);
+  populateCursorList(refUnrelated, q, 25);
+  populateCursorList(refRelated,   q, 25);
 }
 
 void CGselectUnrelatedEntity() {
@@ -6194,7 +6194,7 @@ void hideView(String refView) {
     q  = replaceFirst(q, "{userid}", userid);
     q  = replaceFirst(q, "{attributename}", attribName);
 
-    timedFetchOne(q);
+    fetchOne(q);
   }
 }
 /************************ DYNAMIC UI - OPEN/CLOSE SITE ************************/
@@ -6445,7 +6445,7 @@ void setTextureActual(){
     //This function makes the hierarchical soil texture selector write to the texture dropdown. We should discuss.
     Log.d("foo1", soilQuery);
 
-    timedFetchOne(soilQuery, new FetchCallback() {
+    fetchOne(soilQuery, new FetchCallback() {
         onFetch(textureToSet) {
             if(!isNull(textureToSet)){
                 Log.d("foo1", textureToSet.get(0));
@@ -6477,7 +6477,7 @@ void populateSelectUser(){
                                    " UNION " +
                                    "SELECT -1, '{All}'";
 
-  timedFetchAll(getNonDeletedUsersQuery, new FetchCallback() {
+  fetchAll(getNonDeletedUsersQuery, new FetchCallback() {
     onFetch(result) {
       populateDropDown(refSearchUsers, result, false);
       search();
@@ -6503,7 +6503,7 @@ void populateSite() {
     }
   };
 
-  timedFetchAll(q, popSite);
+  fetchAll(q, popSite);
 }
 
 List normaliseSiteResult(List result) {
@@ -6624,7 +6624,7 @@ void search(){
   searchQuery = replaceFirst(searchQuery, "{name}", name);
   searchQuery = replaceFirst(searchQuery, "{year}", year);
 
-  timedPopulateCursorList(refEntityList, searchQuery, 25);
+  populateCursorList(refEntityList, searchQuery, 25);
   refreshTabgroupCSS(tabgroup);
 
   Log.d("Module", "Search query: " + searchQuery);
@@ -6839,7 +6839,7 @@ void populateTrenchFcns() {
   q  = replaceFirst(q, "{parentUuid}", parentUuid);
   q  = replaceFirst(q, "{parentUuid}", parentUuid);
 
-  timedPopulateCursorList(refEntityList, q, 25);
+  populateCursorList(refEntityList, q, 25);
 }
 
 
