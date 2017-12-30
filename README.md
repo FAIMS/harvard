@@ -1,4 +1,3 @@
-Harvard: Tao River Archaeological Project
 # About this module:
 This module was created for the **The Tao River Archaeological Project**, based at Harvard University, Cambridge (MA), USA. The module has been designed to document the archaeological excavation and sampling in the area of Tao River in China. The Tao River Archaeological Project investigates technological changes in Northwest China during the late Neolithic period and the Bronze Age. The data structure of this module is partially based on the Boncuklu Excavation module and the PAZC Excavation module, but implements own specific workflows (i.e. the FCN sampling).
 
