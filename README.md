@@ -28,7 +28,7 @@ This module is part of the **FAIMS Demo library** on our publicly accessible Dem
 * coordinates from internal GPS
 * validated fields with user observations
 * controlled vocabularies
-* language translation into Chinese (Q&A @ Prof Flad)
+* language translation into Chinese (Q&A Prof Flad)
 
 ## This module can be used with no or minor modification for:
 * Locus based complex excavation
