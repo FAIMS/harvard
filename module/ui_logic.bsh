@@ -5360,11 +5360,6 @@ void populateSquare(String ref) {
 void setLocusIdentifierVar(String identiferType, String callback) {
   String uuid = getUuid(identiferType);
 
-  if (isNull(uuid)) {
-    populateWebViewHtml(lotRef, "&nbsp;");
-    return;
-  }
-
   String q = "";
   q += "SELECT uuid, response ";
   q += "FROM latestnondeletedarchentformattedidentifiers ";
