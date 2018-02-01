@@ -1,10 +1,23 @@
 <opts>
-  <opt>0.5 x 0.5 m</opt>
-  <opt>1 x 1 m</opt>
-  <opt>2 x 2 m</opt>
-  <opt>2 x 1 m</opt>
-  <opt>5 x 5 m</opt>
-  <opt>10 x 10 m</opt>
-  <opt>No Observation</opt>
+  <opt>1</opt>
+  <opt>2</opt>
+  <opt>3</opt>
+  <opt>4</opt>
+  <opt>5</opt>
+  <opt>6</opt>
+  <opt>7</opt>
+  <opt>8</opt>
+  <opt>9</opt>
+  <opt>10</opt>
+  <opt>11</opt>
+  <opt>12</opt>
+  <opt>13</opt>
+  <opt>14</opt>
+  <opt>15</opt>
+  <opt>16</opt>
+  <opt>17</opt>
+  <opt>18</opt>
+  <opt>19</opt>
+  <opt>20</opt>
   <opt>Other</opt>
 </opts>

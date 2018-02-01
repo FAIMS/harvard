@@ -129,9 +129,12 @@
       </str>
     </Trench_Trench_ID>
     <Team_Members/>
-    <Trench_Dimensions>
+    <Trench_Dimension_1>
       <!--@SOURCE: vocabs/trench-dimensions.xml-->
-    </Trench_Dimensions>
+    </Trench_Dimension_1>
+    <Trench_Dimension_2>
+      <!--@SOURCE: vocabs/trench-dimensions.xml-->
+    </Trench_Dimension_2>
     <Grid_SW_Corner_Coordinates t="webview"/>
     <gps/>
     <Excavation_Method t="checkbox" f="notnull">
@@ -1459,6 +1462,7 @@
 </Stratum_Feature_Relationship>
 
 <FCN>
+  <fmt>FCN{{FCN_ID}}-{{FCN_Site_Name}} {{FCN_Year_of_Campaign}}-{{FCN_Trench_ID}}{{Locus_ID if $0 then "-$0"}}-{{FCN_Class}}</fmt>
   <General>
     <FCN_ID f="id notnull autonum">
       <str>
@@ -1525,7 +1529,15 @@
         <opt>Other</opt>
       </opts>
     </FCN_Class>
-    <FCN_Quantity b="decimal"/>
+    <FCN_Quantity>
+      <opts>
+        <opt>1</opt>
+        <opt>2-5</opt>
+        <opt>5-10</opt>
+        <opt>10-50</opt>
+        <opt>50+</opt>
+      </opts>
+    </FCN_Quantity>
     <FCN_Weight_g b="decimal">
       FCN Weight (g)
     </FCN_Weight_g>

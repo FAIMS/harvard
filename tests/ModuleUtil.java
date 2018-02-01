@@ -1167,6 +1167,15 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: dropdown
+        Ref:  FCN/General/FCN_Quantity
+     */
+    public static View get_FCN_General_FCNQuantity(Solo solo) {
+        String ref = "FCN/General/FCN_Quantity";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: dropdown
         Ref:  FCN/Vars/Device_Code
      */
     public static View get_FCN_Vars_DeviceCode(Solo solo) {
@@ -1455,10 +1464,19 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: dropdown
-        Ref:  Trench/Trench/Trench_Dimensions
+        Ref:  Trench/Trench/Trench_Dimension_1
      */
-    public static View get_Trench_Trench_TrenchDimensions(Solo solo) {
-        String ref = "Trench/Trench/Trench_Dimensions";
+    public static View get_Trench_Trench_TrenchDimension1(Solo solo) {
+        String ref = "Trench/Trench/Trench_Dimension_1";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: dropdown
+        Ref:  Trench/Trench/Trench_Dimension_2
+     */
+    public static View get_Trench_Trench_TrenchDimension2(Solo solo) {
+        String ref = "Trench/Trench/Trench_Dimension_2";
         return (android.view.View) solo.getView((Object) ref);
     }
 
@@ -1693,15 +1711,6 @@ public class ModuleUtil extends ModuleHelper {
      */
     public static EditText get_FCN_General_FCNID(Solo solo) {
         String ref = "FCN/General/FCN_ID";
-        return (android.widget.EditText) solo.getView((Object) ref);
-    }
-
-    /*
-        Type: input
-        Ref:  FCN/General/FCN_Quantity
-     */
-    public static EditText get_FCN_General_FCNQuantity(Solo solo) {
-        String ref = "FCN/General/FCN_Quantity";
         return (android.widget.EditText) solo.getView((Object) ref);
     }
 

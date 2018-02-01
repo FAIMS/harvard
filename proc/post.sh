@@ -68,6 +68,12 @@ replacement="
               <Select_User\/>"
 perl -0777 -i.original -pe "s/$string/$replacement/igs" ui_schema.xml
 
+# Remove faims_read_only from gps fields. Fake it using a CSS style
+refs="((Latitude)|(Longitude)|(Northing)|(Easting))"
+string=(     "<input faims_attribute_name=\"$refs\" faims_attribute_type=\"measure\" ref=\"$refs\" faims_read_only=\"true\">")
+replacement=("<input faims_attribute_name=\"\\1\"   faims_attribute_type=\"measure\" ref=\"\\1\"   faims_style_class=\"readonly\">")
+perl -0777 -i.original -pe "s/$string/$replacement/igs" ui_schema.xml
+
 string="
     <property name=\"Orientation Degree\">
       <validator type=\"blankchecker\">
@@ -82,6 +88,12 @@ replacement="
       <\/validator>
     <\/property>"
 perl -0777 -i.original -pe "s/$string/$replacement/igs" validation.xml
+
+cat << EOF >> ui_styling.css
+.readonly {
+  color: #B2B2B2;
+}
+EOF
 
 cat << EOF >> english.0.properties
 Select_User=Select User

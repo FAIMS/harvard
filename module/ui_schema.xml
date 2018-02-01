@@ -84,7 +84,8 @@
               <Trench_author/>
               <Trench_Trench_ID/>
               <Team_Members/>
-              <Trench_Dimensions/>
+              <Trench_Dimension_1/>
+              <Trench_Dimension_2/>
               <Grid_SW_Corner_Coordinates/>
               <Colgroup_1>
                 <Col_1>
@@ -885,7 +886,6 @@
       <bind nodeset="/faims/Stratum_Feature/General/Colgroup_5/Col_1/Mid_X" type="decimal"/>
       <bind nodeset="/faims/Stratum_Feature/General/Colgroup_5/Col_2/Mid_Y" type="decimal"/>
       <bind nodeset="/faims/Sediment_Aggregate/Sediment_Aggregate/Colgroup_1/Col_2/Percentage" type="decimal"/>
-      <bind nodeset="/faims/FCN/General/FCN_Quantity" type="decimal"/>
       <bind nodeset="/faims/FCN/General/FCN_Weight_g" type="decimal"/>
     </model>
   </h:head>
@@ -1091,8 +1091,15 @@
         <input faims_attribute_name="Trench Team Members" faims_attribute_type="measure" ref="Team_Members">
           <label>{Team_Members}</label>
         </input>
-        <select1 faims_attribute_name="Trench Dimensions" faims_attribute_type="vocab" ref="Trench_Dimensions">
-          <label>{Trench_Dimensions}</label>
+        <select1 faims_attribute_name="Trench Dimension 1" faims_attribute_type="vocab" ref="Trench_Dimension_1">
+          <label>{Trench_Dimension_1}</label>
+          <item>
+            <label>Options not loaded</label>
+            <value>Options not loaded</value>
+          </item>
+        </select1>
+        <select1 faims_attribute_name="Trench Dimension 2" faims_attribute_type="vocab" ref="Trench_Dimension_2">
+          <label>{Trench_Dimension_2}</label>
           <item>
             <label>Options not loaded</label>
             <value>Options not loaded</value>
@@ -1105,13 +1112,13 @@
           <label/>
           <group ref="Col_1" faims_style="even">
             <label/>
-            <input faims_attribute_name="Latitude" faims_attribute_type="measure" ref="Latitude" faims_read_only="true">
+            <input faims_attribute_name="Latitude"   faims_attribute_type="measure" ref="Latitude"   faims_style_class="readonly">
               <label>{Latitude}</label>
             </input>
           </group>
           <group ref="Col_2" faims_style="even">
             <label/>
-            <input faims_attribute_name="Longitude" faims_attribute_type="measure" ref="Longitude" faims_read_only="true">
+            <input faims_attribute_name="Longitude"   faims_attribute_type="measure" ref="Longitude"   faims_style_class="readonly">
               <label>{Longitude}</label>
             </input>
           </group>
@@ -1120,13 +1127,13 @@
           <label/>
           <group ref="Col_1" faims_style="even">
             <label/>
-            <input faims_attribute_name="Northing" faims_attribute_type="measure" ref="Northing" faims_read_only="true">
+            <input faims_attribute_name="Northing"   faims_attribute_type="measure" ref="Northing"   faims_style_class="readonly">
               <label>{Northing}</label>
             </input>
           </group>
           <group ref="Col_2" faims_style="even">
             <label/>
-            <input faims_attribute_name="Easting" faims_attribute_type="measure" ref="Easting" faims_read_only="true">
+            <input faims_attribute_name="Easting"   faims_attribute_type="measure" ref="Easting"   faims_style_class="readonly">
               <label>{Easting}</label>
             </input>
           </group>
@@ -2759,13 +2766,13 @@
           <label/>
           <group ref="Col_1" faims_style="even">
             <label/>
-            <input faims_attribute_name="Latitude" faims_attribute_type="measure" ref="Latitude" faims_read_only="true">
+            <input faims_attribute_name="Latitude"   faims_attribute_type="measure" ref="Latitude"   faims_style_class="readonly">
               <label>{Latitude}</label>
             </input>
           </group>
           <group ref="Col_2" faims_style="even">
             <label/>
-            <input faims_attribute_name="Longitude" faims_attribute_type="measure" ref="Longitude" faims_read_only="true">
+            <input faims_attribute_name="Longitude"   faims_attribute_type="measure" ref="Longitude"   faims_style_class="readonly">
               <label>{Longitude}</label>
             </input>
           </group>
@@ -2774,13 +2781,13 @@
           <label/>
           <group ref="Col_1" faims_style="even">
             <label/>
-            <input faims_attribute_name="Northing" faims_attribute_type="measure" ref="Northing" faims_read_only="true">
+            <input faims_attribute_name="Northing"   faims_attribute_type="measure" ref="Northing"   faims_style_class="readonly">
               <label>{Northing}</label>
             </input>
           </group>
           <group ref="Col_2" faims_style="even">
             <label/>
-            <input faims_attribute_name="Easting" faims_attribute_type="measure" ref="Easting" faims_read_only="true">
+            <input faims_attribute_name="Easting"   faims_attribute_type="measure" ref="Easting"   faims_style_class="readonly">
               <label>{Easting}</label>
             </input>
           </group>
@@ -2808,9 +2815,13 @@
             <value>Options not loaded</value>
           </item>
         </select1>
-        <input faims_attribute_name="FCN Quantity" faims_attribute_type="measure" ref="FCN_Quantity">
+        <select1 faims_attribute_name="FCN Quantity" faims_attribute_type="vocab" ref="FCN_Quantity">
           <label>{FCN_Quantity}</label>
-        </input>
+          <item>
+            <label>Options not loaded</label>
+            <value>Options not loaded</value>
+          </item>
+        </select1>
         <input faims_attribute_name="FCN Weight g" faims_attribute_type="measure" ref="FCN_Weight_g">
           <label>{FCN_Weight__g_}</label>
         </input>

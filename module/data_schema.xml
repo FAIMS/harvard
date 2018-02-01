@@ -162,24 +162,99 @@
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
     </property>
-    <property name="Trench Dimensions" type="vocab">
+    <property name="Trench Dimension 1" type="vocab">
       <description></description>
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
       <lookup>
-        <term>{0_5_x_0_5_m}
+        <term>{1}
 <description></description></term>
-        <term>{1_x_1_m}
+        <term>{2}
 <description></description></term>
-        <term>{2_x_2_m}
+        <term>{3}
 <description></description></term>
-        <term>{2_x_1_m}
+        <term>{4}
 <description></description></term>
-        <term>{5_x_5_m}
+        <term>{5}
 <description></description></term>
-        <term>{10_x_10_m}
+        <term>{6}
 <description></description></term>
-        <term>{No_Observation}
+        <term>{7}
+<description></description></term>
+        <term>{8}
+<description></description></term>
+        <term>{9}
+<description></description></term>
+        <term>{10}
+<description></description></term>
+        <term>{11}
+<description></description></term>
+        <term>{12}
+<description></description></term>
+        <term>{13}
+<description></description></term>
+        <term>{14}
+<description></description></term>
+        <term>{15}
+<description></description></term>
+        <term>{16}
+<description></description></term>
+        <term>{17}
+<description></description></term>
+        <term>{18}
+<description></description></term>
+        <term>{19}
+<description></description></term>
+        <term>{20}
+<description></description></term>
+        <term>{Other}
+<description></description></term>
+      </lookup>
+    </property>
+    <property name="Trench Dimension 2" type="vocab">
+      <description></description>
+      <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
+      <appendCharacterString> - </appendCharacterString>
+      <lookup>
+        <term>{1}
+<description></description></term>
+        <term>{2}
+<description></description></term>
+        <term>{3}
+<description></description></term>
+        <term>{4}
+<description></description></term>
+        <term>{5}
+<description></description></term>
+        <term>{6}
+<description></description></term>
+        <term>{7}
+<description></description></term>
+        <term>{8}
+<description></description></term>
+        <term>{9}
+<description></description></term>
+        <term>{10}
+<description></description></term>
+        <term>{11}
+<description></description></term>
+        <term>{12}
+<description></description></term>
+        <term>{13}
+<description></description></term>
+        <term>{14}
+<description></description></term>
+        <term>{15}
+<description></description></term>
+        <term>{16}
+<description></description></term>
+        <term>{17}
+<description></description></term>
+        <term>{18}
+<description></description></term>
+        <term>{19}
+<description></description></term>
+        <term>{20}
 <description></description></term>
         <term>{Other}
 <description></description></term>
@@ -1728,6 +1803,14 @@
       <formatString>-$2</formatString>
       <appendCharacterString> - </appendCharacterString>
     </property>
+    <property name="FCN Locus ID" type="measure" isIdentifier="true">
+      <description>Every archaeological locus (negative element (cut), deposit, structure, skeleton, artefact cluster) is given a unique 3 or 4 letter locus code. Each trench is designated with a separate letter which starts the code, so it is immediately obvious to which trench a locus belongs. For example locus HAA belongs to Trench H, locus MQP to Trench M etc.
+      The loci are labelled consecutively in alphabetical order using the letters following the trench letter. For Trench H the first locus would be HAA, the second HAB, the third HAB and so on. In addition sets of letters can denote parts of trenches, buildings etc. E.g. HFs might denote loci from a specific building.
+      Burial locus codes begin with the letter Z, followed by the trench letter. Hence burial ZHA is the first burial locus from trench H.
+      Check with the trench supervisor who will assign the locus code from the central register.</description>
+      <formatString>{{ if $2 then "-$2"}}</formatString>
+      <appendCharacterString> - </appendCharacterString>
+    </property>
     <property name="FCN Class" type="vocab" isIdentifier="true">
       <description></description>
       <formatString>-$1</formatString>
@@ -1756,14 +1839,6 @@
         <term>{Other}
 <description></description></term>
       </lookup>
-    </property>
-    <property name="FCN Locus ID" type="measure">
-      <description>Every archaeological locus (negative element (cut), deposit, structure, skeleton, artefact cluster) is given a unique 3 or 4 letter locus code. Each trench is designated with a separate letter which starts the code, so it is immediately obvious to which trench a locus belongs. For example locus HAA belongs to Trench H, locus MQP to Trench M etc.
-      The loci are labelled consecutively in alphabetical order using the letters following the trench letter. For Trench H the first locus would be HAA, the second HAB, the third HAB and so on. In addition sets of letters can denote parts of trenches, buildings etc. E.g. HFs might denote loci from a specific building.
-      Burial locus codes begin with the letter Z, followed by the trench letter. Hence burial ZHA is the first burial locus from trench H.
-      Check with the trench supervisor who will assign the locus code from the central register.</description>
-      <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
-      <appendCharacterString> - </appendCharacterString>
     </property>
     <property name="Latitude" type="measure">
       <description></description>
@@ -1811,10 +1886,22 @@
 <description></description></term>
       </lookup>
     </property>
-    <property name="FCN Quantity" type="measure">
+    <property name="FCN Quantity" type="vocab">
       <description></description>
       <formatString>{{if $1 then $1}}{{if and($1, $2) then " " }}{{if $2 then $2}}{{if $3 then " ($3)"}}{{if between($4,0,0.49) then "??" elsif lessThan($4,1) then "?" }}</formatString>
       <appendCharacterString> - </appendCharacterString>
+      <lookup>
+        <term>{1}
+<description></description></term>
+        <term>{2_5}
+<description></description></term>
+        <term>{5_10}
+<description></description></term>
+        <term>{10_50}
+<description></description></term>
+        <term>{50_}
+<description></description></term>
+      </lookup>
     </property>
     <property name="FCN Weight g" type="measure">
       <description></description>
