@@ -21,7 +21,7 @@ void populateSquare(String ref) {
   fetchAll(q, populate);
 }
 
-void setFieldToIdentifier(String identiferType, String lotRef) {
+void setLocusIdentifierVar(String identiferType, String callback) {
   String uuid = getUuid(identiferType);
 
   if (isNull(uuid)) {
@@ -37,13 +37,30 @@ void setFieldToIdentifier(String identiferType, String lotRef) {
 
   cb = new FetchCallback() {
     onFetch(result) {
-      locusIdentifer  = result.get(1);
+      if (result != null && result.size() >= 2)
+        locusIdentifer = result.get(1);
 
-      populateWebViewHtml(lotRef, locusIdentifer);
+      execute(callback);
     }
   };
 
   fetchOne(q, cb);
+}
+
+void setFieldToIdentifier(String identiferType, String lotRef) {
+  String uuid = getUuid(identiferType);
+
+  if (isNull(uuid)) {
+    populateWebViewHtml(lotRef, "&nbsp;");
+    return;
+  }
+
+  String cb = fun2str(
+      "populateWebViewHtml",
+      new Object[] {lotRef, locusIdentifer}
+  );
+
+  setLocusIdentifierVar(identiferType, cb);
 }
 
 void populateLotLabel(String lotRef) {
@@ -55,6 +72,10 @@ boolean isValidTrenchId() {
   String ref = "Site/Site/Trench_ID";
   String trenchId = getFieldValue(ref);
   return trenchId.matches("T\\d+");
+}
+
+void clearCursorList(String ref) {
+  populateCursorList(ref, "SELECT 0 WHERE 0 LIMIT ? OFFSET ?", 25);
 }
 
 List getAttribNamesEndingWith(String ending) {
