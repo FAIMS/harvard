@@ -129,12 +129,16 @@
       </str>
     </Trench_Trench_ID>
     <Team_Members/>
-    <Trench_Dimension_1>
-      <!--@SOURCE: vocabs/trench-dimensions.xml-->
-    </Trench_Dimension_1>
-    <Trench_Dimension_2>
-      <!--@SOURCE: vocabs/trench-dimensions.xml-->
-    </Trench_Dimension_2>
+    <cols>
+      <Trench_Dimension_1_m>
+        Trench Dimension 1 (m)
+        <!--@SOURCE: vocabs/trench-dimensions.xml-->
+      </Trench_Dimension_1_m>
+      <Trench_Dimension_2_m>
+        Trench Dimension 2 (m)
+        <!--@SOURCE: vocabs/trench-dimensions.xml-->
+      </Trench_Dimension_2_m>
+    </cols>
     <Grid_SW_Corner_Coordinates t="webview"/>
     <gps/>
     <Excavation_Method t="checkbox" f="notnull">

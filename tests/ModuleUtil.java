@@ -1464,19 +1464,19 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: dropdown
-        Ref:  Trench/Trench/Trench_Dimension_1
+        Ref:  Trench/Trench/Trench_Dimension_1_m
      */
-    public static View get_Trench_Trench_TrenchDimension1(Solo solo) {
-        String ref = "Trench/Trench/Trench_Dimension_1";
+    public static View get_Trench_Trench_TrenchDimension1m(Solo solo) {
+        String ref = "Trench/Trench/Trench_Dimension_1_m";
         return (android.view.View) solo.getView((Object) ref);
     }
 
     /*
         Type: dropdown
-        Ref:  Trench/Trench/Trench_Dimension_2
+        Ref:  Trench/Trench/Trench_Dimension_2_m
      */
-    public static View get_Trench_Trench_TrenchDimension2(Solo solo) {
-        String ref = "Trench/Trench/Trench_Dimension_2";
+    public static View get_Trench_Trench_TrenchDimension2m(Solo solo) {
+        String ref = "Trench/Trench/Trench_Dimension_2_m";
         return (android.view.View) solo.getView((Object) ref);
     }
 

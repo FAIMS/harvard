@@ -84,18 +84,24 @@
               <Trench_author/>
               <Trench_Trench_ID/>
               <Team_Members/>
-              <Trench_Dimension_1/>
-              <Trench_Dimension_2/>
-              <Grid_SW_Corner_Coordinates/>
               <Colgroup_1>
+                <Col_1>
+                  <Trench_Dimension_1_m/>
+                </Col_1>
+                <Col_2>
+                  <Trench_Dimension_2_m/>
+                </Col_2>
+              </Colgroup_1>
+              <Grid_SW_Corner_Coordinates/>
+              <Colgroup_2>
                 <Col_1>
                   <Latitude/>
                 </Col_1>
                 <Col_2>
                   <Longitude/>
                 </Col_2>
-              </Colgroup_1>
-              <Colgroup_2>
+              </Colgroup_2>
+              <Colgroup_3>
                 <Col_1>
                   <Northing/>
                 </Col_1>
@@ -105,7 +111,7 @@
                 <Col_3>
                   <Accuracy/>
                 </Col_3>
-              </Colgroup_2>
+              </Colgroup_3>
               <Take_From_GPS_1/>
               <Excavation_Method/>
               <Trench_timestamp/>
@@ -1091,24 +1097,33 @@
         <input faims_attribute_name="Trench Team Members" faims_attribute_type="measure" ref="Team_Members">
           <label>{Team_Members}</label>
         </input>
-        <select1 faims_attribute_name="Trench Dimension 1" faims_attribute_type="vocab" ref="Trench_Dimension_1">
-          <label>{Trench_Dimension_1}</label>
-          <item>
-            <label>Options not loaded</label>
-            <value>Options not loaded</value>
-          </item>
-        </select1>
-        <select1 faims_attribute_name="Trench Dimension 2" faims_attribute_type="vocab" ref="Trench_Dimension_2">
-          <label>{Trench_Dimension_2}</label>
-          <item>
-            <label>Options not loaded</label>
-            <value>Options not loaded</value>
-          </item>
-        </select1>
+        <group ref="Colgroup_1" faims_style="orientation">
+          <label/>
+          <group ref="Col_1" faims_style="even">
+            <label/>
+            <select1 faims_attribute_name="Trench Dimension 1 m" faims_attribute_type="vocab" ref="Trench_Dimension_1_m">
+              <label>{Trench_Dimension_1__m_}</label>
+              <item>
+                <label>Options not loaded</label>
+                <value>Options not loaded</value>
+              </item>
+            </select1>
+          </group>
+          <group ref="Col_2" faims_style="even">
+            <label/>
+            <select1 faims_attribute_name="Trench Dimension 2 m" faims_attribute_type="vocab" ref="Trench_Dimension_2_m">
+              <label>{Trench_Dimension_2__m_}</label>
+              <item>
+                <label>Options not loaded</label>
+                <value>Options not loaded</value>
+              </item>
+            </select1>
+          </group>
+        </group>
         <input faims_web="true" ref="Grid_SW_Corner_Coordinates">
           <label>{Grid_SW_Corner_Coordinates}</label>
         </input>
-        <group ref="Colgroup_1" faims_style="orientation">
+        <group ref="Colgroup_2" faims_style="orientation">
           <label/>
           <group ref="Col_1" faims_style="even">
             <label/>
@@ -1123,7 +1138,7 @@
             </input>
           </group>
         </group>
-        <group ref="Colgroup_2" faims_style="orientation">
+        <group ref="Colgroup_3" faims_style="orientation">
           <label/>
           <group ref="Col_1" faims_style="even">
             <label/>
