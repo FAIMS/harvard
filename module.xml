@@ -138,6 +138,10 @@
         Trench Dimension 2 (m)
         <!--@SOURCE: vocabs/trench-dimensions.xml-->
       </Trench_Dimension_2_m>
+      <Trench_SW_Corner_Elevation_m b="decimal">
+        <!--TODO: Use me-->
+        Trench SW Corner Elevation (m)
+      </Trench_SW_Corner_Elevation_m>
     </cols>
     <Grid_SW_Corner_Coordinates t="webview"/>
     <gps/>
@@ -289,14 +293,22 @@
     <Brief_Description>
       <desc>Enter a brief, clear name for the Locus eg 'House A - west wall'</desc>
     </Brief_Description>
+    <!--TODO: The following two cols are new cols-->
     <cols>
-      <Grid_X b="decimal">
-        <desc>The X coordinate on the SW corner of the locus.</desc>
-      </Grid_X>
-      <Grid_Y b="decimal">
-        <desc>The Y coordinate on the SW corner of the locus.</desc>
-      </Grid_Y>
+      <Locus_Mid_X_Dimension_m b="decimal">
+        Locus Mid X Dimension (m)
+      </Locus_Mid_X_Dimension_m>
+      <Locus_Y_Calculated b="decimal"/>
     </cols>
+    <cols>
+      <Locus_Mid_Y_Dimension_m b="decimal">
+        Locus Mid Y Dimension (m)
+      </Locus_Mid_Y_Dimension_m>
+      <Locus_X_Calculated b="decimal"/>
+    </cols>
+    <Calculate_X_and_Y_values t="button">
+      <!--TODO: Make me do something-->
+    </Calculate_X_and_Y_values>
     <cols>
       <col>
         <Date_Opened>
@@ -392,16 +404,6 @@
   </General>
   <Measure>
     <cols>
-      <Absolute_Height_Top_m f="notnull" b="decimal">
-        Absolute Height Top (m)
-        <desc>The highest elevation or 'starting level' recorded for that locus relative to the site grid.</desc>
-      </Absolute_Height_Top_m>
-      <Absolute_Height_Bottom_m f="notnull" b="decimal">
-        Absolute Height Bottom (m)
-        <desc>The lowest elevation recorded for that locus relative to the site grid.</desc>
-      </Absolute_Height_Bottom_m>
-    </cols>
-    <cols>
       <Measure_Length f="notnull" b="decimal">
         Length (m)
         <desc>Longest dimension in metres.</desc>
@@ -415,28 +417,90 @@
         <desc>Depth or Height in metres.</desc>
       </Measure_Depth>
     </cols>
+    <!--TODO: git 'er done-->
     <cols>
       <col>
-        <NW_Top_Height b="decimal"/>
-        <SW_Top_Height b="decimal"/>
-        <Center_Top_Height b="decimal"/>
+        <Absolute_Height_Top_Dim_m f="notnull" b="decimal">
+          Absolute Height Top Dim (m)
+          <desc>The highest elevation or 'starting level' recorded for that locus relative to the site grid.</desc>
+        </Absolute_Height_Top_Dim_m>
+        <Absolute_Height_Bottom_Dim_m f="notnull" b="decimal">
+          Absolute Height Bottom Dim (m)
+          <desc>The lowest elevation recorded for that locus relative to the site grid.</desc>
+        </Absolute_Height_Bottom_Dim_m>
+        <NW_Top_Height_Dim_m b="decimal">
+          NW Top Height Dim (m)
+        </NW_Top_Height_Dim_m>
+        <NE_Top_Height_Dim_m b="decimal">
+          NE Top Height Dim (m)
+        </NE_Top_Height_Dim_m>
+        <SW_Top_Height_Dim_m b="decimal">
+          SW Top Height Dim (m)
+        </SW_Top_Height_Dim_m>
+        <SE_Top_Height_Dim_m b="decimal">
+          SE Top Height Dim (m)
+        </SE_Top_Height_Dim_m>
+        <Centre_Top_Height_Dim_m b="decimal">
+          Centre Top Height Dim (m)
+        </Centre_Top_Height_Dim_m>
+        <NW_Bottom_Height_Dim_m b="decimal">
+          NW Bottom Height Dim (m)
+        </NW_Bottom_Height_Dim_m>
+        <NE_Bottom_Height_Dim_m b="decimal">
+          NE Bottom Height Dim (m)
+        </NE_Bottom_Height_Dim_m>
+        <SW_Bottom_Height_Dim_m b="decimal">
+          SW Bottom Height Dim (m)
+        </SW_Bottom_Height_Dim_m>
+        <SE_Bottom_Height_Dim_m b="decimal">
+          SE Bottom Height Dim (m)
+        </SE_Bottom_Height_Dim_m>
+        <Centre_Bottom_Height_Dim_m b="decimal">
+          Centre Bottom Height Dim (m)
+        </Centre_Bottom_Height_Dim_m>
       </col>
       <col>
-        <NE_Top_Height b="decimal"/>
-        <SE_Top_Height b="decimal"/>
+        <Elevation_Top_Calc_m b="decimal">
+          Elevation Top Calc (m)
+        </Elevation_Top_Calc_m>
+        <Elevation_Bottom_Calc_m b="decimal">
+          Elevation Bottom Calc (m)
+        </Elevation_Bottom_Calc_m>
+        <NW_Top_Elevation_Calc_m b="decimal">
+          NW Top Elevation Calc (m)
+        </NW_Top_Elevation_Calc_m>
+        <NE_Top_Elevation_Calc_m b="decimal">
+          NE Top Elevation Calc (m)
+        </NE_Top_Elevation_Calc_m>
+        <SW_Top_Elevation_Calc_m b="decimal">
+          SW Top Elevation Calc (m)
+        </SW_Top_Elevation_Calc_m>
+        <SE_Top_Elevation_Calc_m b="decimal">
+          SE Top Elevation Calc (m)
+        </SE_Top_Elevation_Calc_m>
+        <Centre_Top_Elevation_Calc_m b="decimal">
+          Centre Top Elevation Calc (m)
+        </Centre_Top_Elevation_Calc_m>
+        <NW_Bottom_Elevation_Calc_m b="decimal">
+          NW Bottom Elevation Calc (m)
+        </NW_Bottom_Elevation_Calc_m>
+        <NE_Bottom_Elevation_Calc_m b="decimal">
+          NE Bottom Elevation Calc (m)
+        </NE_Bottom_Elevation_Calc_m>
+        <SW_Bottom_Elevation_Calc_m b="decimal">
+          SW Bottom Elevation Calc (m)
+        </SW_Bottom_Elevation_Calc_m>
+        <SE_Bottom_Elevation_Calc_m b="decimal">
+          SE Bottom Elevation Calc (m)
+        </SE_Bottom_Elevation_Calc_m>
+        <Centre_Bottom_Elevation_Calc_m b="decimal">
+          Centre Bottom Elevation Calc (m)
+        </Centre_Bottom_Elevation_Calc_m>
       </col>
     </cols>
-    <cols>
-      <col>
-        <NW_Bottom_Height b="decimal"/>
-        <SW_Bottom_Height b="decimal"/>
-        <Center_Bottom_Height b="decimal"/>
-      </col>
-      <col>
-        <NE_Bottom_Height b="decimal"/>
-        <SE_Bottom_Height b="decimal"/>
-      </col>
-    </cols>
+    <Calculate_All_Elevations t="button">
+      <!--TODO: git 'er workin'-->
+    </Calculate_All_Elevations>
     <Volume_Liters f="notnull" b="decimal">
       Volume (liters)
       <desc>Estimate the volume of the locus in liters. All soil will be collected in buckets of a known volume. A tally should be kept of buckets produced from a locus and the total volume calculated using that tally.</desc>
@@ -1077,6 +1141,7 @@
     <Interpretation f="notnull">
       <desc>Describe your understanding of the feature function, phasing etc.</desc>
     </Interpretation>
+    <Preliminary_Cultural_Association/>
     <Discussion>
       <desc>Add here any elaborations on the interpretation and description.</desc>
     </Discussion>
@@ -1092,34 +1157,94 @@
     </cols>
     <cols>
       <col>
-        <NW_Top_Depth b="decimal"/>
-        <SW_Top_Depth b="decimal"/>
-        <Center_Top_Depth b="decimal"/>
+        <NW_Top_Depth_Dim_m b="decimal">
+          NW Top Depth Dim (m)
+        </NW_Top_Depth_Dim_m>
+        <NE_Top_Depth_Dim_m b="decimal">
+          NE Top Depth Dim (m)
+        </NE_Top_Depth_Dim_m>
+        <SW_Top_Depth_Dim_m b="decimal">
+          SW Top Depth Dim (m)
+        </SW_Top_Depth_Dim_m>
+        <SE_Top_Depth_Dim_m b="decimal">
+          SE Top Depth Dim (m)
+        </SE_Top_Depth_Dim_m>
+        <Center_Top_Depth_Dim_m b="decimal">
+          Center Top Depth Dim (m)
+        </Center_Top_Depth_Dim_m>
+        <NW_Bottom_Depth_Dim_m b="decimal">
+          NW Bottom Depth Dim (m)
+        </NW_Bottom_Depth_Dim_m>
+        <NE_Bottom_Depth_Dim_m b="decimal">
+          NE Bottom Depth Dim (m)
+        </NE_Bottom_Depth_Dim_m>
+        <SW_Bottom_Depth_Dim_m b="decimal">
+          SW Bottom Depth Dim (m)
+        </SW_Bottom_Depth_Dim_m>
+        <SE_Bottom_Depth_Dim_m b="decimal">
+          SE Bottom Depth Dim (m)
+        </SE_Bottom_Depth_Dim_m>
+        <Centre_Bottom_Depth_Dim_m b="decimal">
+          Centre Bottom Depth Dim (m)
+        </Centre_Bottom_Depth_Dim_m>
       </col>
       <col>
-        <NE_Top_Depth b="decimal"/>
-        <SE_Top_Depth b="decimal"/>
+        <NW_Top_Elevation_Calc_m b="decimal">
+          NW Top Elevation Calc (m)
+        </NW_Top_Elevation_Calc_m>
+        <NE_Top_Elevation_Calc_m b="decimal">
+          NE Top Elevation Calc (m)
+        </NE_Top_Elevation_Calc_m>
+        <SW_Top_Elevation_Calc_m b="decimal">
+          SW Top Elevation Calc (m)
+        </SW_Top_Elevation_Calc_m>
+        <SE_Top_Elevation_Calc_m b="decimal">
+          SE Top Elevation Calc (m)
+        </SE_Top_Elevation_Calc_m>
+        <Center_Top_Elevation_Calc_m b="decimal">
+          Center Top Elevation Calc (m)
+        </Center_Top_Elevation_Calc_m>
+        <NW_Bottom_Elevation_Calc_m b="decimal">
+          NW Bottom Elevation Calc (m)
+        </NW_Bottom_Elevation_Calc_m>
+        <NE_Bottom_Elevation_Calc_m b="decimal">
+          NE Bottom Elevation Calc (m)
+        </NE_Bottom_Elevation_Calc_m>
+        <SW_Bottom_Elevation_Calc_m b="decimal">
+          SW Bottom Elevation Calc (m)
+        </SW_Bottom_Elevation_Calc_m>
+        <SE_Bottom_Elevation_Calc_m b="decimal">
+          SE Bottom Elevation Calc (m)
+        </SE_Bottom_Elevation_Calc_m>
+        <Centre_Bottom_Elevation_Calc_m b="decimal">
+          Centre Bottom Elevation Calc (m)
+        </Centre_Bottom_Elevation_Calc_m>
       </col>
+    </cols>
+    <Calculate_All_Elevations t="button">
+      <!--TODO: git 'er workin'-->
+    </Calculate_All_Elevations>
+    <!--TODO: The following two <cols> are neu-->
+    <cols>
+      <Stratum_Feature_Mid_X_Dimension_m b="decimal">
+        Stratum/Feature Mid X Dimension (m)
+        <desc>An appropriate mid-point on the feature should be recorded on the X/Y coordinates. This will locate the feature on the site grid system.</desc>
+      </Stratum_Feature_Mid_X_Dimension_m>
+      <Stratum_Feature_Mid_X_Calculated b="decimal">
+        Stratum/Feature Mid X Calculated
+      </Stratum_Feature_Mid_X_Calculated>
     </cols>
     <cols>
-      <col>
-        <NW_Bottom_Depth b="decimal"/>
-        <SW_Bottom_Depth b="decimal"/>
-        <Center_Bottom_Depth b="decimal"/>
-      </col>
-      <col>
-        <NE_Bottom_Depth b="decimal"/>
-        <SE_Bottom_Depth b="decimal"/>
-      </col>
-    </cols>
-    <cols>
-      <Mid_X b="decimal">
+      <Stratum_Feature_Mid_Y_Dimension_m b="decimal">
         <desc>An appropriate mid-point on the feature should be recorded on the X/Y coordinates. This will locate the feature on the site grid system.</desc>
-      </Mid_X>
-      <Mid_Y b="decimal">
-        <desc>An appropriate mid-point on the feature should be recorded on the X/Y coordinates. This will locate the feature on the site grid system.</desc>
-      </Mid_Y>
+      </Stratum_Feature_Mid_Y_Dimension_m>
+      <Stratum_Feature_Mid_Y_Calculated b="decimal">
+        Stratum/Feature Mid Y Calculated
+      </Stratum_Feature_Mid_Y_Calculated>
     </cols>
+    <Calculate_X_and_Y_values t="button">
+      <!--TODO: Make me do da ting-->
+    </Calculate_X_and_Y_values>
     <Plans>
       <desc>Reference numbers to plans or drawings of this feature.</desc>
     </Plans>
@@ -1550,6 +1675,22 @@
       Volume (Liters)
       <!--This will be added to the UI dynamically-->
     </Volume_Liters>
+    <!--TODO: The following two cols are new cols-->
+    <cols>
+      <FCN_X_Dimension_m b="decimal">
+        FCN X Dimension (m)
+      </FCN_X_Dimension_m>
+      <FCN_X_Calculated b="decimal"/>
+    </cols>
+    <cols>
+      <FCN_Y_Dimension_m b="decimal">
+        FCN Y Dimension (m)
+      </FCN_Y_Dimension_m>
+      <FCN_Y_Calculated b="decimal"/>
+    </cols>
+    <Calculate_X_and_Y_values t="button">
+      <!--TODO: Make me do something-->
+    </Calculate_X_and_Y_values>
     <Washed t="radio">
       <!--@SOURCE: vocabs/boolean.xml-->
     </Washed>
