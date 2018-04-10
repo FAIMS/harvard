@@ -139,7 +139,6 @@
         <!--@SOURCE: vocabs/trench-dimensions.xml-->
       </Trench_Dimension_2_m>
       <Trench_SW_Corner_Elevation_m b="decimal">
-        <!--TODO: Use me-->
         Trench SW Corner Elevation (m)
       </Trench_SW_Corner_Elevation_m>
     </cols>
@@ -417,7 +416,6 @@
         <desc>Depth or Height in metres.</desc>
       </Measure_Depth>
     </cols>
-    <!--TODO: git 'er done-->
     <cols>
       <col>
         <Absolute_Height_Top_Dim_m f="notnull" b="decimal">
@@ -498,9 +496,7 @@
         </Centre_Bottom_Elevation_Calc_m>
       </col>
     </cols>
-    <Calculate_All_Elevations t="button">
-      <!--TODO: git 'er workin'-->
-    </Calculate_All_Elevations>
+    <Calculate_All_Elevations t="button"/>
     <Volume_Liters f="notnull" b="decimal">
       Volume (liters)
       <desc>Estimate the volume of the locus in liters. All soil will be collected in buckets of a known volume. A tally should be kept of buckets produced from a locus and the total volume calculated using that tally.</desc>
@@ -1080,6 +1076,9 @@
         <fmt> $0</fmt>
       </str>
     </Locus_Year_of_Campaign>
+    <Locus_SW_Corner_Elevation_m b="decimal" i="Trench/Trench/Trench_SW_Corner_Elevation_m">
+      Locus SW Corner Elevation (m)
+    </Locus_SW_Corner_Elevation_m>
   </Vars>
 </Locus>
 
@@ -1221,9 +1220,7 @@
         </Centre_Bottom_Elevation_Calc_m>
       </col>
     </cols>
-    <Calculate_All_Elevations t="button">
-      <!--TODO: git 'er workin'-->
-    </Calculate_All_Elevations>
+    <Calculate_All_Elevations t="button"/>
     <!--TODO: The following two <cols> are neu-->
     <cols>
       <Stratum_Feature_Mid_X_Dimension_m b="decimal">
@@ -1316,6 +1313,9 @@
     </R_Paren>
     <Last_Feature_Type t="dropdown" vp="Stratum_Feature/General/Feature_Type"/>
     <Last_Feature_Prefix/>
+    <Stratum_Feature_SW_Corner_Elevation_m b="decimal" i="Trench/Trench/Trench_SW_Corner_Elevation_m">
+      Stratum_Feature SW Corner Elevation (m)
+    </Stratum_Feature_SW_Corner_Elevation_m>
   </Vars>
 </Stratum_Feature>
 
@@ -1798,5 +1798,6 @@
   <!--@SOURCE: logic/fcn-entity-list-population.bsh-->
   <!--@SOURCE: logic/custom-diary-timestamp.bsh-->
   <!--@SOURCE: logic/field-clearing.bsh-->
+  <!--@SOURCE: logic/elevation-calculation.bsh-->
 ]]></logic>
 </module>

@@ -24,16 +24,6 @@
         <param type="field" value="vocab"/>
       </validator>
     </property>
-    <property name="Absolute Height Top m">
-      <validator type="blankchecker">
-        <param type="field" value="measure"/>
-      </validator>
-    </property>
-    <property name="Absolute Height Bottom m">
-      <validator type="blankchecker">
-        <param type="field" value="measure"/>
-      </validator>
-    </property>
     <property name="Measure Length">
       <validator type="blankchecker">
         <param type="field" value="measure"/>
@@ -45,6 +35,16 @@
       </validator>
     </property>
     <property name="Measure Depth">
+      <validator type="blankchecker">
+        <param type="field" value="measure"/>
+      </validator>
+    </property>
+    <property name="Absolute Height Top Dim m">
+      <validator type="blankchecker">
+        <param type="field" value="measure"/>
+      </validator>
+    </property>
+    <property name="Absolute Height Bottom Dim m">
       <validator type="blankchecker">
         <param type="field" value="measure"/>
       </validator>

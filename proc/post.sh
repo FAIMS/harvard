@@ -68,6 +68,10 @@ replacement="
               <Select_User\/>"
 perl -0777 -i.original -pe "s/$string/$replacement/igs" ui_schema.xml
 
+string="Map     REF_TO_TYPE                    = new HashMap"
+replacement="Map     REF_TO_TYPE                    = new LinkedHashMap"
+perl -0777 -i.original -pe "s/$string/$replacement/igs" ui_logic.bsh
+
 # Remove faims_read_only from gps fields. Fake it using a CSS style
 refs="((Latitude)|(Longitude)|(Northing)|(Easting))"
 string=(     "<input faims_attribute_name=\"$refs\" faims_attribute_type=\"measure\" ref=\"$refs\" faims_read_only=\"true\">")
@@ -150,3 +154,4 @@ EOF
 
 rm ui_schema.xml.original
 rm validation.xml.original
+rm ui_logic.bsh.original
