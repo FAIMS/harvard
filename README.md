@@ -76,3 +76,14 @@ If you have any questions about the module, please contact the FAIMS team at **e
   <img src="https://github.com/FAIMS/harvard/blob/master/screenshots/Screenshot_20170913-223541.png" width="250"/>
   <img src="https://github.com/FAIMS/harvard/blob/master/screenshots/Screenshot_20170913-223547.png" width="250"/>
 </p>
+
+<p align="left">
+ <img src="https://github.com/FAIMS/harvard/blob/master/screenshots/Screenshot_20180410-113926.png" width="250"/>
+  <img src="https://github.com/FAIMS/harvard/blob/master/screenshots/Screenshot_20180410-113951.png" width="250"/>
+  <img src="https://github.com/FAIMS/harvard/blob/master/screenshots/Screenshot_20180410-114004.png" width="250"/>
+</p>
+
+<p align="left">
+ <img src="https://github.com/FAIMS/harvard/blob/master/screenshots/Screenshot_20180410-114023.png" width="250"/>
+  <img src="https://github.com/FAIMS/harvard/blob/master/screenshots/Screenshot_20180410-114038.png" width="250"/>
+</p>
