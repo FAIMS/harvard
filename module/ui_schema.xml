@@ -91,10 +91,8 @@
                 <Col_2>
                   <Trench_Dimension_2_m/>
                 </Col_2>
-                <Col_3>
-                  <Trench_SW_Corner_Elevation_m/>
-                </Col_3>
               </Colgroup_1>
+              <Trench_SW_Corner_Elevation_m/>
               <Grid_SW_Corner_Coordinates/>
               <Colgroup_2>
                 <Col_1>
@@ -875,7 +873,7 @@
       <bind nodeset="/faims/Control/Next_IDs/Next_Stratum_Feature_ID" type="decimal"/>
       <bind nodeset="/faims/Control/Next_IDs/Next_FCN_ID" type="decimal"/>
       <bind nodeset="/faims/Site/Site/Site_Year_of_Campaign" type="decimal"/>
-      <bind nodeset="/faims/Trench/Trench/Colgroup_1/Col_3/Trench_SW_Corner_Elevation_m" type="decimal"/>
+      <bind nodeset="/faims/Trench/Trench/Trench_SW_Corner_Elevation_m" type="decimal"/>
       <bind nodeset="/faims/Date_Closed/Date_Closed/Date_Closed" type="date"/>
       <bind nodeset="/faims/Locus/General/Colgroup_1/Col_3/Locus_Locus_ID" type="decimal"/>
       <bind nodeset="/faims/Locus/General/Colgroup_2/Col_1/Locus_Mid_X_Dimension_m" type="decimal"/>
@@ -1199,13 +1197,10 @@
               </item>
             </select1>
           </group>
-          <group ref="Col_3" faims_style="even">
-            <label/>
-            <input faims_attribute_name="Trench SW Corner Elevation m" faims_attribute_type="measure" ref="Trench_SW_Corner_Elevation_m">
-              <label>{Trench_SW_Corner_Elevation__m_}</label>
-            </input>
-          </group>
         </group>
+        <input faims_attribute_name="Trench SW Corner Elevation m" faims_attribute_type="measure" ref="Trench_SW_Corner_Elevation_m">
+          <label>{Trench_SW_Corner_Elevation__m_}</label>
+        </input>
         <input faims_web="true" ref="Grid_SW_Corner_Coordinates">
           <label>{Grid_SW_Corner_Coordinates}</label>
         </input>

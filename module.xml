@@ -138,10 +138,10 @@
         Trench Dimension 2 (m)
         <!--@SOURCE: vocabs/trench-dimensions.xml-->
       </Trench_Dimension_2_m>
-      <Trench_SW_Corner_Elevation_m b="decimal">
-        Trench SW Corner Elevation (m)
-      </Trench_SW_Corner_Elevation_m>
     </cols>
+    <Trench_SW_Corner_Elevation_m b="decimal">
+      Trench SW Corner Elevation (m)
+    </Trench_SW_Corner_Elevation_m>
     <Grid_SW_Corner_Coordinates t="webview"/>
     <gps/>
     <Excavation_Method t="checkbox" f="notnull">
