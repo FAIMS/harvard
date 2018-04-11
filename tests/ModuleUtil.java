@@ -1248,15 +1248,6 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: dropdown
-        Ref:  Locus/Cut/Cut_Your_Interpretation
-     */
-    public static View get_Locus_Cut_CutYourInterpretation(Solo solo) {
-        String ref = "Locus/Cut/Cut_Your_Interpretation";
-        return (android.view.View) solo.getView((Object) ref);
-    }
-
-    /*
-        Type: dropdown
         Ref:  Locus/Cut/Inclination_of_axis
      */
     public static View get_Locus_Cut_Inclinationofaxis(Solo solo) {
@@ -1302,6 +1293,15 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: dropdown
+        Ref:  Locus/Cut/Your_Identification_Type_of_Cut
+     */
+    public static View get_Locus_Cut_YourIdentificationTypeofCut(Solo solo) {
+        String ref = "Locus/Cut/Your_Identification_Type_of_Cut";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: dropdown
         Ref:  Locus/Deposit/Associated_Sediment_Aggregates
      */
     public static View get_Locus_Deposit_AssociatedSedimentAggregates(Solo solo) {
@@ -1329,15 +1329,6 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: dropdown
-        Ref:  Locus/Deposit/Deposit_Your_Interpretation
-     */
-    public static View get_Locus_Deposit_DepositYourInterpretation(Solo solo) {
-        String ref = "Locus/Deposit/Deposit_Your_Interpretation";
-        return (android.view.View) solo.getView((Object) ref);
-    }
-
-    /*
-        Type: dropdown
         Ref:  Locus/Deposit/Material
      */
     public static View get_Locus_Deposit_Material(Solo solo) {
@@ -1360,6 +1351,15 @@ public class ModuleUtil extends ModuleHelper {
      */
     public static View get_Locus_Deposit_Texture(Solo solo) {
         String ref = "Locus/Deposit/Texture";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: dropdown
+        Ref:  Locus/Deposit/Your_Identification_Type_of_Deposit
+     */
+    public static View get_Locus_Deposit_YourIdentificationTypeofDeposit(Solo solo) {
+        String ref = "Locus/Deposit/Your_Identification_Type_of_Deposit";
         return (android.view.View) solo.getView((Object) ref);
     }
 
@@ -1923,24 +1923,6 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: input
-        Ref:  Locus/Construction/Description
-     */
-    public static EditText get_Locus_Construction_Description(Solo solo) {
-        String ref = "Locus/Construction/Description";
-        return (android.widget.EditText) solo.getView((Object) ref);
-    }
-
-    /*
-        Type: input
-        Ref:  Locus/Construction/Discussion
-     */
-    public static EditText get_Locus_Construction_Discussion(Solo solo) {
-        String ref = "Locus/Construction/Discussion";
-        return (android.widget.EditText) solo.getView((Object) ref);
-    }
-
-    /*
-        Type: input
         Ref:  Locus/Construction/Length
      */
     public static EditText get_Locus_Construction_Length(Solo solo) {
@@ -2238,19 +2220,10 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: input
-        Ref:  Locus/Int/Your_Discussion
+        Ref:  Locus/Int/Your_Interpretation_Discussion
      */
-    public static EditText get_Locus_Int_YourDiscussion(Solo solo) {
-        String ref = "Locus/Int/Your_Discussion";
-        return (android.widget.EditText) solo.getView((Object) ref);
-    }
-
-    /*
-        Type: input
-        Ref:  Locus/Int/Your_description
-     */
-    public static EditText get_Locus_Int_Yourdescription(Solo solo) {
-        String ref = "Locus/Int/Your_description";
+    public static EditText get_Locus_Int_YourInterpretationDiscussion(Solo solo) {
+        String ref = "Locus/Int/Your_Interpretation_Discussion";
         return (android.widget.EditText) solo.getView((Object) ref);
     }
 

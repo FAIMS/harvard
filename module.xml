@@ -503,8 +503,8 @@
     </Volume_Liters>
   </Measure>
   <Cut>
-    <Cut_Your_Interpretation f="notnull">
-      Your Interpretation
+    <Your_Identification_Type_of_Cut f="notnull">
+      Your Identification (Type of Cut)
       <desc>Your interpretation of the likely function of the Locus using standardised definitions.</desc>
       <opts>
         <opt>No Observation</opt>
@@ -523,7 +523,7 @@
           <desc>Function not elsewhere described. Provide details in Annotation field.</desc>
         </opt>
       </opts>
-    </Cut_Your_Interpretation>
+    </Your_Identification_Type_of_Cut>
     <cols>
       <Shape_in_Plan f="notnull">
         <desc>Describe the shape of the negative element/cut viewed from above.</desc>
@@ -623,10 +623,8 @@
     <Truncation/>
   </Cut>
   <Construction>
-    <Description/>
-    <Discussion/>
-    <Length       b="decimal"/>
-    <Width        b="decimal"/>
+    <Length b="decimal"/>
+    <Width  b="decimal"/>
     <cols>
       <col>
         <NW_Top_Depth b="decimal"/>
@@ -657,8 +655,8 @@
     <Section_Numbers/>
   </Construction>
   <Deposit>
-    <Deposit_Your_Interpretation f="notnull">
-      Your Interpretation
+    <Your_Identification_Type_of_Deposit f="notnull">
+      Your Identification (Type of Deposit)
       <desc>Your interpretation of the likely function of the locus.</desc>
       <opts>
         <opt>No Observation</opt>
@@ -696,7 +694,7 @@
         <opt>Other
         <desc>Function not elsewhere described. Provide details in Annotation field.</desc></opt>
       </opts>
-    </Deposit_Your_Interpretation>
+    </Your_Identification_Type_of_Deposit>
     <Texture f="notnull">
       <desc>Describe the compaction of the sediments in the Locus.</desc>
       <opts>
@@ -942,13 +940,10 @@
   </Skeleton>
   <Int>
     Interpretation
-    <Your_description f="notnull">
-      Your Description
-      <desc>Enter a verbal description of the Locus, including its form, loci, relationship to other Loci and any other relevant information. This is the main place to record all other descriptive information that may be treated briefly or not covered elsewhere, including signs of disturbance  by burrowing animals etc.</desc>
-    </Your_description>
-    <Your_Discussion f="notnull">
+    <Your_Interpretation_Discussion f="notnull">
+      Your Interpretation/Discussion
       <desc>Enter an interpretation of the function of the Locus and its place in the stratigraphical sequence.</desc>
-    </Your_Discussion>
+    </Your_Interpretation_Discussion>
   </Int>
   <Relationships f="noscroll">
     <Create_Relationships_to_This_Locus t="button" l="Relationship">

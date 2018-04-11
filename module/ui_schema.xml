@@ -303,7 +303,7 @@
               <Volume_Liters/>
             </Measure>
             <Cut>
-              <Cut_Your_Interpretation/>
+              <Your_Identification_Type_of_Cut/>
               <Colgroup_1>
                 <Col_1>
                   <Shape_in_Plan/>
@@ -329,8 +329,6 @@
               <Truncation/>
             </Cut>
             <Construction>
-              <Description/>
-              <Discussion/>
               <Length/>
               <Width/>
               <Colgroup_1>
@@ -363,7 +361,7 @@
               <Section_Numbers/>
             </Construction>
             <Deposit>
-              <Deposit_Your_Interpretation/>
+              <Your_Identification_Type_of_Deposit/>
               <Texture/>
               <Texture_Description/>
               <Soil_Particle_Sorting/>
@@ -475,8 +473,7 @@
               <Skeleton_Notes/>
             </Skeleton>
             <Int>
-              <Your_description/>
-              <Your_Discussion/>
+              <Your_Interpretation_Discussion/>
             </Int>
             <Relationships>
               <Create_Relationships_to_This_Locus/>
@@ -1262,7 +1259,7 @@
         <input faims_attribute_name="Trench Brief Description" faims_attribute_type="measure" ref="Brief_Description">
           <label>{Brief_Description}</label>
         </input>
-        <input faims_attribute_name="Trench Your Discussion" faims_attribute_type="measure" ref="Your_Discussion">
+        <input faims_attribute_name="Your Discussion" faims_attribute_type="measure" ref="Your_Discussion">
           <label>{Your_Discussion}</label>
         </input>
         <trigger ref="Add_Trench_Files">
@@ -1732,8 +1729,8 @@
       </group>
       <group ref="Cut">
         <label>{Cut}</label>
-        <select1 faims_attribute_name="Cut Your Interpretation" faims_attribute_type="vocab" ref="Cut_Your_Interpretation" faims_style_class="required">
-          <label>{Your_Interpretation}</label>
+        <select1 faims_attribute_name="Your Identification Type of Cut" faims_attribute_type="vocab" ref="Your_Identification_Type_of_Cut" faims_style_class="required">
+          <label>{Your_Identification__Type_of_Cut_}</label>
           <item>
             <label>Options not loaded</label>
             <value>Options not loaded</value>
@@ -1825,12 +1822,6 @@
       </group>
       <group ref="Construction">
         <label>{Construction}</label>
-        <input faims_attribute_name="Locus Description" faims_attribute_type="measure" ref="Description">
-          <label>{Description}</label>
-        </input>
-        <input faims_attribute_name="Locus Discussion" faims_attribute_type="measure" ref="Discussion">
-          <label>{Discussion}</label>
-        </input>
         <input faims_attribute_name="Locus Length" faims_attribute_type="measure" ref="Length">
           <label>{Length}</label>
         </input>
@@ -1906,8 +1897,8 @@
       </group>
       <group ref="Deposit">
         <label>{Deposit}</label>
-        <select1 faims_attribute_name="Deposit Your Interpretation" faims_attribute_type="vocab" ref="Deposit_Your_Interpretation" faims_style_class="required">
-          <label>{Your_Interpretation}</label>
+        <select1 faims_attribute_name="Your Identification Type of Deposit" faims_attribute_type="vocab" ref="Your_Identification_Type_of_Deposit" faims_style_class="required">
+          <label>{Your_Identification__Type_of_Deposit_}</label>
           <item>
             <label>Options not loaded</label>
             <value>Options not loaded</value>
@@ -2170,11 +2161,8 @@
       </group>
       <group ref="Int">
         <label>{Interpretation}</label>
-        <input faims_attribute_name="Your description" faims_attribute_type="measure" ref="Your_description" faims_style_class="required">
-          <label>{Your_Description}</label>
-        </input>
-        <input faims_attribute_name="Locus Your Discussion" faims_attribute_type="measure" ref="Your_Discussion" faims_style_class="required">
-          <label>{Your_Discussion}</label>
+        <input faims_attribute_name="Your Interpretation Discussion" faims_attribute_type="measure" ref="Your_Interpretation_Discussion" faims_style_class="required">
+          <label>{Your_Interpretation_Discussion}</label>
         </input>
       </group>
       <group ref="Relationships" faims_scrollable="false">
@@ -2319,7 +2307,7 @@
             </input>
           </group>
         </group>
-        <input faims_attribute_name="Stratum Feature Description" faims_attribute_type="measure" ref="Description" faims_style_class="required">
+        <input faims_attribute_name="Description" faims_attribute_type="measure" ref="Description" faims_style_class="required">
           <label>{Description}</label>
         </input>
         <input faims_attribute_name="Interpretation" faims_attribute_type="measure" ref="Interpretation" faims_style_class="required">
@@ -2328,7 +2316,7 @@
         <input faims_attribute_name="Preliminary Cultural Association" faims_attribute_type="measure" ref="Preliminary_Cultural_Association">
           <label>{Preliminary_Cultural_Association}</label>
         </input>
-        <input faims_attribute_name="Stratum Feature Discussion" faims_attribute_type="measure" ref="Discussion">
+        <input faims_attribute_name="Discussion" faims_attribute_type="measure" ref="Discussion">
           <label>{Discussion}</label>
         </input>
         <group ref="Colgroup_2" faims_style="orientation">

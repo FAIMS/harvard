@@ -273,7 +273,7 @@ REF_TO_TYPE.put("Locus/Measure/SE_Bottom_Elevation_Calc_m", "input");
 REF_TO_TYPE.put("Locus/Measure/Centre_Bottom_Elevation_Calc_m", "input");
 REF_TO_TYPE.put("Locus/Measure/Calculate_All_Elevations", "button");
 REF_TO_TYPE.put("Locus/Measure/Volume_Liters", "input");
-REF_TO_TYPE.put("Locus/Cut/Cut_Your_Interpretation", "dropdown");
+REF_TO_TYPE.put("Locus/Cut/Your_Identification_Type_of_Cut", "dropdown");
 REF_TO_TYPE.put("Locus/Cut/Shape_in_Plan", "dropdown");
 REF_TO_TYPE.put("Locus/Cut/Shape_of_Cut_-_Note", "input");
 REF_TO_TYPE.put("Locus/Cut/Shape_of_Corners", "radio");
@@ -285,8 +285,6 @@ REF_TO_TYPE.put("Locus/Cut/Orientation", "dropdown");
 REF_TO_TYPE.put("Locus/Cut/Orientation_Degree", "input");
 REF_TO_TYPE.put("Locus/Cut/Inclination_of_axis", "dropdown");
 REF_TO_TYPE.put("Locus/Cut/Truncation", "input");
-REF_TO_TYPE.put("Locus/Construction/Description", "input");
-REF_TO_TYPE.put("Locus/Construction/Discussion", "input");
 REF_TO_TYPE.put("Locus/Construction/Length", "input");
 REF_TO_TYPE.put("Locus/Construction/Width", "input");
 REF_TO_TYPE.put("Locus/Construction/NW_Top_Depth", "input");
@@ -305,7 +303,7 @@ REF_TO_TYPE.put("Locus/Construction/Sorting", "input");
 REF_TO_TYPE.put("Locus/Construction/Notes", "input");
 REF_TO_TYPE.put("Locus/Construction/Plans", "input");
 REF_TO_TYPE.put("Locus/Construction/Section_Numbers", "input");
-REF_TO_TYPE.put("Locus/Deposit/Deposit_Your_Interpretation", "dropdown");
+REF_TO_TYPE.put("Locus/Deposit/Your_Identification_Type_of_Deposit", "dropdown");
 REF_TO_TYPE.put("Locus/Deposit/Texture", "dropdown");
 REF_TO_TYPE.put("Locus/Deposit/Texture_Description", "input");
 REF_TO_TYPE.put("Locus/Deposit/Soil_Particle_Sorting", "picture");
@@ -345,8 +343,7 @@ REF_TO_TYPE.put("Locus/Skeleton/Target_D_X", "input");
 REF_TO_TYPE.put("Locus/Skeleton/Target_D_Y", "input");
 REF_TO_TYPE.put("Locus/Skeleton/Target_D_Z", "input");
 REF_TO_TYPE.put("Locus/Skeleton/Skeleton_Notes", "input");
-REF_TO_TYPE.put("Locus/Int/Your_description", "input");
-REF_TO_TYPE.put("Locus/Int/Your_Discussion", "input");
+REF_TO_TYPE.put("Locus/Int/Your_Interpretation_Discussion", "input");
 REF_TO_TYPE.put("Locus/Relationships/Create_Relationships_to_This_Locus", "button");
 REF_TO_TYPE.put("Locus/Relationships/Existing_Relationships_to_This_Locus", "list");
 REF_TO_TYPE.put("Locus/Relationships/Selected_Relationship", "webview");
@@ -653,7 +650,7 @@ DATA_REFS.add("Locus/Measure/SW_Bottom_Elevation_Calc_m");
 DATA_REFS.add("Locus/Measure/SE_Bottom_Elevation_Calc_m");
 DATA_REFS.add("Locus/Measure/Centre_Bottom_Elevation_Calc_m");
 DATA_REFS.add("Locus/Measure/Volume_Liters");
-DATA_REFS.add("Locus/Cut/Cut_Your_Interpretation");
+DATA_REFS.add("Locus/Cut/Your_Identification_Type_of_Cut");
 DATA_REFS.add("Locus/Cut/Shape_in_Plan");
 DATA_REFS.add("Locus/Cut/Shape_of_Cut_-_Note");
 DATA_REFS.add("Locus/Cut/Shape_of_Corners");
@@ -665,8 +662,6 @@ DATA_REFS.add("Locus/Cut/Orientation");
 DATA_REFS.add("Locus/Cut/Orientation_Degree");
 DATA_REFS.add("Locus/Cut/Inclination_of_axis");
 DATA_REFS.add("Locus/Cut/Truncation");
-DATA_REFS.add("Locus/Construction/Description");
-DATA_REFS.add("Locus/Construction/Discussion");
 DATA_REFS.add("Locus/Construction/Length");
 DATA_REFS.add("Locus/Construction/Width");
 DATA_REFS.add("Locus/Construction/NW_Top_Depth");
@@ -685,7 +680,7 @@ DATA_REFS.add("Locus/Construction/Sorting");
 DATA_REFS.add("Locus/Construction/Notes");
 DATA_REFS.add("Locus/Construction/Plans");
 DATA_REFS.add("Locus/Construction/Section_Numbers");
-DATA_REFS.add("Locus/Deposit/Deposit_Your_Interpretation");
+DATA_REFS.add("Locus/Deposit/Your_Identification_Type_of_Deposit");
 DATA_REFS.add("Locus/Deposit/Texture");
 DATA_REFS.add("Locus/Deposit/Texture_Description");
 DATA_REFS.add("Locus/Deposit/Soil_Particle_Sorting");
@@ -720,8 +715,7 @@ DATA_REFS.add("Locus/Skeleton/Target_D_X");
 DATA_REFS.add("Locus/Skeleton/Target_D_Y");
 DATA_REFS.add("Locus/Skeleton/Target_D_Z");
 DATA_REFS.add("Locus/Skeleton/Skeleton_Notes");
-DATA_REFS.add("Locus/Int/Your_description");
-DATA_REFS.add("Locus/Int/Your_Discussion");
+DATA_REFS.add("Locus/Int/Your_Interpretation_Discussion");
 DATA_REFS.add("Locus/Add/Photo");
 DATA_REFS.add("Locus/Add/Attach_File");
 DATA_REFS.add("Locus/Material_Helper/Material_Helper");
@@ -921,21 +915,15 @@ TABS_AS_LIST.add("Legacy/Var");
 ATTRIB_NAMES_NON_STANDARD.put("Trench/Trench/Team_Members", "Trench Team Members");
 ATTRIB_NAMES_NON_STANDARD.put("Trench/Trench/Date_Closed", "Trench Date Closed");
 ATTRIB_NAMES_NON_STANDARD.put("Trench/Trench/Brief_Description", "Trench Brief Description");
-ATTRIB_NAMES_NON_STANDARD.put("Trench/Trench/Your_Discussion", "Trench Your Discussion");
 ATTRIB_NAMES_NON_STANDARD.put("Locus/General/Brief_Description", "Locus Brief Description");
 ATTRIB_NAMES_NON_STANDARD.put("Locus/General/Team_Members", "Locus Team Members");
 ATTRIB_NAMES_NON_STANDARD.put("Locus/General/Date_Closed", "Locus Date Closed");
 ATTRIB_NAMES_NON_STANDARD.put("Locus/Measure/Volume_Liters", "Locus Volume Liters");
-ATTRIB_NAMES_NON_STANDARD.put("Locus/Construction/Description", "Locus Description");
-ATTRIB_NAMES_NON_STANDARD.put("Locus/Construction/Discussion", "Locus Discussion");
 ATTRIB_NAMES_NON_STANDARD.put("Locus/Construction/Length", "Locus Length");
 ATTRIB_NAMES_NON_STANDARD.put("Locus/Construction/Width", "Locus Width");
 ATTRIB_NAMES_NON_STANDARD.put("Locus/Construction/Plans", "Locus Plans");
 ATTRIB_NAMES_NON_STANDARD.put("Locus/Construction/Section_Numbers", "Locus Section Numbers");
-ATTRIB_NAMES_NON_STANDARD.put("Locus/Int/Your_Discussion", "Locus Your Discussion");
 ATTRIB_NAMES_NON_STANDARD.put("Locus/Add/Photo", "Locus Photo");
-ATTRIB_NAMES_NON_STANDARD.put("Stratum_Feature/General/Description", "Stratum Feature Description");
-ATTRIB_NAMES_NON_STANDARD.put("Stratum_Feature/General/Discussion", "Stratum Feature Discussion");
 ATTRIB_NAMES_NON_STANDARD.put("Stratum_Feature/General/Length", "Stratum Feature Length");
 ATTRIB_NAMES_NON_STANDARD.put("Stratum_Feature/General/Width", "Stratum Feature Width");
 ATTRIB_NAMES_NON_STANDARD.put("Stratum_Feature/General/Plans", "Stratum Feature Plans");
@@ -1739,7 +1727,6 @@ void timedPopulateCursorList(String ref, String q, int limit) {
 
 void setUpTypeHierarchy() {
   //- 
-  //  - Legacy
   //  - Site
   //    - Trench
   //      - Trench Files
@@ -1753,41 +1740,42 @@ void setUpTypeHierarchy() {
   //      - FCN
   //      - Diary
   //      - Legacy
+  //  - Legacy
 
   n0 = Tree("", 1);
-  n1 = Tree("Legacy", 1);
-  n2 = Tree("Site", 1);
-  n3 = Tree("Trench", 1);
-  n4 = Tree("Trench Files", 1);
-  n5 = Tree("Locus", 1);
-  n6 = Tree("Soil Munsel Color", 1);
-  n7 = Tree("Sediment Aggregate", 1);
-  n8 = Tree("FCN", 1);
-  n9 = Tree("Photograph Log", 1);
-  n10 = Tree("Stratum Feature", 1);
-  n11 = Tree("Photograph Log", 1);
-  n12 = Tree("FCN", 1);
-  n13 = Tree("Diary", 1);
+  n1 = Tree("Site", 1);
+  n2 = Tree("Trench", 1);
+  n3 = Tree("Trench Files", 1);
+  n4 = Tree("Locus", 1);
+  n5 = Tree("Soil Munsel Color", 1);
+  n6 = Tree("Sediment Aggregate", 1);
+  n7 = Tree("FCN", 1);
+  n8 = Tree("Photograph Log", 1);
+  n9 = Tree("Stratum Feature", 1);
+  n10 = Tree("Photograph Log", 1);
+  n11 = Tree("FCN", 1);
+  n12 = Tree("Diary", 1);
+  n13 = Tree("Legacy", 1);
   n14 = Tree("Legacy", 1);
 
   n0.addChild(n1);
-  n0.addChild(n2);
+  n0.addChild(n14);
+
+  n1.addChild(n2);
 
   n2.addChild(n3);
+  n2.addChild(n4);
+  n2.addChild(n9);
+  n2.addChild(n11);
+  n2.addChild(n12);
+  n2.addChild(n13);
 
-  n3.addChild(n4);
-  n3.addChild(n5);
-  n3.addChild(n10);
-  n3.addChild(n12);
-  n3.addChild(n13);
-  n3.addChild(n14);
+  n4.addChild(n5);
+  n4.addChild(n6);
+  n4.addChild(n7);
+  n4.addChild(n8);
 
-  n5.addChild(n6);
-  n5.addChild(n7);
-  n5.addChild(n8);
-  n5.addChild(n9);
-
-  n10.addChild(n11);
+  n9.addChild(n10);
 
 
   PERF_TYPE_TREE = n0;
@@ -3244,7 +3232,7 @@ void validateLocus() {
   f.add(fieldPair("Locus/Measure/Absolute_Height_Top_Dim_m", "{Absolute_Height_Top_Dim__m_}"));
   f.add(fieldPair("Locus/Measure/Absolute_Height_Bottom_Dim_m", "{Absolute_Height_Bottom_Dim__m_}"));
   f.add(fieldPair("Locus/Measure/Volume_Liters", "{Volume__liters_}"));
-  f.add(fieldPair("Locus/Cut/Cut_Your_Interpretation", "{Your_Interpretation}"));
+  f.add(fieldPair("Locus/Cut/Your_Identification_Type_of_Cut", "{Your_Identification__Type_of_Cut_}"));
   f.add(fieldPair("Locus/Cut/Shape_in_Plan", "{Shape_in_Plan}"));
   f.add(fieldPair("Locus/Cut/Shape_of_Corners", "{Shape_of_Corners}"));
   f.add(fieldPair("Locus/Cut/Break_of_Slope_-_Top", "{Break_of_Slope___Top}"));
@@ -3254,7 +3242,7 @@ void validateLocus() {
   f.add(fieldPair("Locus/Cut/Orientation", "{Orientation}"));
   f.add(fieldPair("Locus/Cut/Orientation_Degree", "{Orientation_Degree}"));
   f.add(fieldPair("Locus/Cut/Inclination_of_axis", "{Inclination_of_axis}"));
-  f.add(fieldPair("Locus/Deposit/Deposit_Your_Interpretation", "{Your_Interpretation}"));
+  f.add(fieldPair("Locus/Deposit/Your_Identification_Type_of_Deposit", "{Your_Identification__Type_of_Deposit_}"));
   f.add(fieldPair("Locus/Deposit/Texture", "{Texture}"));
   f.add(fieldPair("Locus/Deposit/Material", "{Material}"));
   f.add(fieldPair("Locus/Deposit/Composition_Type", "{Deposit_Structure}"));
@@ -3270,8 +3258,7 @@ void validateLocus() {
   f.add(fieldPair("Locus/Skeleton/Target_A_X", "{Target_A_X}"));
   f.add(fieldPair("Locus/Skeleton/Target_A_Y", "{Target_A_Y}"));
   f.add(fieldPair("Locus/Skeleton/Target_A_Z", "{Target_A_Z}"));
-  f.add(fieldPair("Locus/Int/Your_description", "{Your_Description}"));
-  f.add(fieldPair("Locus/Int/Your_Discussion", "{Your_Discussion}"));
+  f.add(fieldPair("Locus/Int/Your_Interpretation_Discussion", "{Your_Interpretation_Discussion}"));
 
   String validationMessage = validateFields(f, "PLAINTEXT");
   showWarning("{validation_results}", validationMessage);

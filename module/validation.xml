@@ -54,7 +54,7 @@
         <param type="field" value="measure"/>
       </validator>
     </property>
-    <property name="Cut Your Interpretation">
+    <property name="Your Identification Type of Cut">
       <validator type="blankchecker">
         <param type="field" value="vocab"/>
       </validator>
@@ -105,7 +105,7 @@
         <param type="field" value="vocab"/>
       </validator>
     </property>
-    <property name="Deposit Your Interpretation">
+    <property name="Your Identification Type of Deposit">
       <validator type="blankchecker">
         <param type="field" value="vocab"/>
       </validator>
@@ -185,12 +185,7 @@
         <param type="field" value="measure"/>
       </validator>
     </property>
-    <property name="Your description">
-      <validator type="blankchecker">
-        <param type="field" value="measure"/>
-      </validator>
-    </property>
-    <property name="Locus Your Discussion">
+    <property name="Your Interpretation Discussion">
       <validator type="blankchecker">
         <param type="field" value="measure"/>
       </validator>
@@ -212,7 +207,7 @@
         <param type="field" value="measure"/>
       </validator>
     </property>
-    <property name="Stratum Feature Description">
+    <property name="Description">
       <validator type="blankchecker">
         <param type="field" value="measure"/>
       </validator>
