@@ -300,13 +300,13 @@
       <Locus_Mid_X_Dimension_m b="decimal">
         Locus Mid X Dimension (m)
       </Locus_Mid_X_Dimension_m>
-      <Locus_Y_Calculated b="decimal"/>
+      <Locus_X_Calculated b="decimal"/>
     </cols>
     <cols>
       <Locus_Mid_Y_Dimension_m b="decimal">
         Locus Mid Y Dimension (m)
       </Locus_Mid_Y_Dimension_m>
-      <Locus_X_Calculated b="decimal"/>
+      <Locus_Y_Calculated b="decimal"/>
     </cols>
     <Calculate_X_and_Y_values t="button">
       <!--TODO: Make me do something-->
