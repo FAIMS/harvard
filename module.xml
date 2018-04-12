@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--Mid X Measurement -> Mid X Measurement (m)-->
+<!--Mid Y Measurement -> Mid Y Measurement (m)-->
+<!--basically all the calculated fields should be nonwritable-->
 <!--@POSTPROC: ./proc/post.sh-->
 <module>
 
