@@ -663,10 +663,10 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: button
-        Ref:  FCN/General/Calculate_X_and_Y_values
+        Ref:  FCN/General/Calculate_X_Y_Coordinates
      */
-    public static View get_FCN_General_CalculateXandYvalues(Solo solo) {
-        String ref = "FCN/General/Calculate_X_and_Y_values";
+    public static View get_FCN_General_CalculateXYCoordinates(Solo solo) {
+        String ref = "FCN/General/Calculate_X_Y_Coordinates";
         return (android.view.View) solo.getView((Object) ref);
     }
 
@@ -915,10 +915,10 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: button
-        Ref:  Stratum_Feature/General/Calculate_X_and_Y_values
+        Ref:  Stratum_Feature/General/Calculate_Stratum_Feature_Mid_X_Y_Coordinates
      */
-    public static View get_StratumFeature_General_CalculateXandYvalues(Solo solo) {
-        String ref = "Stratum_Feature/General/Calculate_X_and_Y_values";
+    public static View get_StratumFeature_General_CalculateStratumFeatureMidXYCoordinates(Solo solo) {
+        String ref = "Stratum_Feature/General/Calculate_Stratum_Feature_Mid_X_Y_Coordinates";
         return (android.view.View) solo.getView((Object) ref);
     }
 
@@ -1788,37 +1788,19 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: input
-        Ref:  FCN/General/FCN_X_Calculated
+        Ref:  FCN/General/FCN_X_Measurement_m
      */
-    public static EditText get_FCN_General_FCNXCalculated(Solo solo) {
-        String ref = "FCN/General/FCN_X_Calculated";
+    public static EditText get_FCN_General_FCNXMeasurementm(Solo solo) {
+        String ref = "FCN/General/FCN_X_Measurement_m";
         return (android.widget.EditText) solo.getView((Object) ref);
     }
 
     /*
         Type: input
-        Ref:  FCN/General/FCN_X_Dimension_m
+        Ref:  FCN/General/FCN_Y_Measurement_m
      */
-    public static EditText get_FCN_General_FCNXDimensionm(Solo solo) {
-        String ref = "FCN/General/FCN_X_Dimension_m";
-        return (android.widget.EditText) solo.getView((Object) ref);
-    }
-
-    /*
-        Type: input
-        Ref:  FCN/General/FCN_Y_Calculated
-     */
-    public static EditText get_FCN_General_FCNYCalculated(Solo solo) {
-        String ref = "FCN/General/FCN_Y_Calculated";
-        return (android.widget.EditText) solo.getView((Object) ref);
-    }
-
-    /*
-        Type: input
-        Ref:  FCN/General/FCN_Y_Dimension_m
-     */
-    public static EditText get_FCN_General_FCNYDimensionm(Solo solo) {
-        String ref = "FCN/General/FCN_Y_Dimension_m";
+    public static EditText get_FCN_General_FCNYMeasurementm(Solo solo) {
+        String ref = "FCN/General/FCN_Y_Measurement_m";
         return (android.widget.EditText) solo.getView((Object) ref);
     }
 
@@ -1856,6 +1838,42 @@ public class ModuleUtil extends ModuleHelper {
     public static View get_FCN_General_Northing(Solo solo) {
         String ref = "FCN/General/Northing";
         return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: input
+        Ref:  FCN/General/X_Calculated_Coord
+     */
+    public static View get_FCN_General_XCalculatedCoord(Solo solo) {
+        String ref = "FCN/General/X_Calculated_Coord";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: input
+        Ref:  FCN/General/Y_Calculated_Coord
+     */
+    public static View get_FCN_General_YCalculatedCoord(Solo solo) {
+        String ref = "FCN/General/Y_Calculated_Coord";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: input
+        Ref:  FCN/Vars/FCN_SW_Corner_Easting
+     */
+    public static EditText get_FCN_Vars_FCNSWCornerEasting(Solo solo) {
+        String ref = "FCN/Vars/FCN_SW_Corner_Easting";
+        return (android.widget.EditText) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: input
+        Ref:  FCN/Vars/FCN_SW_Corner_Northing
+     */
+    public static EditText get_FCN_Vars_FCNSWCornerNorthing(Solo solo) {
+        String ref = "FCN/Vars/FCN_SW_Corner_Northing";
+        return (android.widget.EditText) solo.getView((Object) ref);
     }
 
     /*
@@ -2157,19 +2175,19 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: input
-        Ref:  Locus/General/Locus_Mid_X_Dimension_m
+        Ref:  Locus/General/Locus_Mid_X_Measurement_m
      */
-    public static EditText get_Locus_General_LocusMidXDimensionm(Solo solo) {
-        String ref = "Locus/General/Locus_Mid_X_Dimension_m";
+    public static EditText get_Locus_General_LocusMidXMeasurementm(Solo solo) {
+        String ref = "Locus/General/Locus_Mid_X_Measurement_m";
         return (android.widget.EditText) solo.getView((Object) ref);
     }
 
     /*
         Type: input
-        Ref:  Locus/General/Locus_Mid_Y_Dimension_m
+        Ref:  Locus/General/Locus_Mid_Y_Measurement_m
      */
-    public static EditText get_Locus_General_LocusMidYDimensionm(Solo solo) {
-        String ref = "Locus/General/Locus_Mid_Y_Dimension_m";
+    public static EditText get_Locus_General_LocusMidYMeasurementm(Solo solo) {
+        String ref = "Locus/General/Locus_Mid_Y_Measurement_m";
         return (android.widget.EditText) solo.getView((Object) ref);
     }
 
@@ -2193,20 +2211,20 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: input
-        Ref:  Locus/General/Locus_X_Calculated
+        Ref:  Locus/General/Mid_X_Calculated_Coord
      */
-    public static EditText get_Locus_General_LocusXCalculated(Solo solo) {
-        String ref = "Locus/General/Locus_X_Calculated";
-        return (android.widget.EditText) solo.getView((Object) ref);
+    public static View get_Locus_General_MidXCalculatedCoord(Solo solo) {
+        String ref = "Locus/General/Mid_X_Calculated_Coord";
+        return (android.view.View) solo.getView((Object) ref);
     }
 
     /*
         Type: input
-        Ref:  Locus/General/Locus_Y_Calculated
+        Ref:  Locus/General/Mid_Y_Calculated_Coord
      */
-    public static EditText get_Locus_General_LocusYCalculated(Solo solo) {
-        String ref = "Locus/General/Locus_Y_Calculated";
-        return (android.widget.EditText) solo.getView((Object) ref);
+    public static View get_Locus_General_MidYCalculatedCoord(Solo solo) {
+        String ref = "Locus/General/Mid_Y_Calculated_Coord";
+        return (android.view.View) solo.getView((Object) ref);
     }
 
     /*
@@ -2229,74 +2247,74 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: input
-        Ref:  Locus/Measure/Absolute_Height_Bottom_Dim_m
+        Ref:  Locus/Measure/Absolute_Height_Bottom_Meas_masl
      */
-    public static EditText get_Locus_Measure_AbsoluteHeightBottomDimm(Solo solo) {
-        String ref = "Locus/Measure/Absolute_Height_Bottom_Dim_m";
+    public static EditText get_Locus_Measure_AbsoluteHeightBottomMeasmasl(Solo solo) {
+        String ref = "Locus/Measure/Absolute_Height_Bottom_Meas_masl";
         return (android.widget.EditText) solo.getView((Object) ref);
     }
 
     /*
         Type: input
-        Ref:  Locus/Measure/Absolute_Height_Top_Dim_m
+        Ref:  Locus/Measure/Absolute_Height_Top_Meas_masl
      */
-    public static EditText get_Locus_Measure_AbsoluteHeightTopDimm(Solo solo) {
-        String ref = "Locus/Measure/Absolute_Height_Top_Dim_m";
+    public static EditText get_Locus_Measure_AbsoluteHeightTopMeasmasl(Solo solo) {
+        String ref = "Locus/Measure/Absolute_Height_Top_Meas_masl";
         return (android.widget.EditText) solo.getView((Object) ref);
     }
 
     /*
         Type: input
-        Ref:  Locus/Measure/Centre_Bottom_Elevation_Calc_m
+        Ref:  Locus/Measure/Centre_Bottom_Elevation_Calc_masl
      */
-    public static EditText get_Locus_Measure_CentreBottomElevationCalcm(Solo solo) {
-        String ref = "Locus/Measure/Centre_Bottom_Elevation_Calc_m";
+    public static View get_Locus_Measure_CentreBottomElevationCalcmasl(Solo solo) {
+        String ref = "Locus/Measure/Centre_Bottom_Elevation_Calc_masl";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: input
+        Ref:  Locus/Measure/Centre_Bottom_Height_Meas_masl
+     */
+    public static EditText get_Locus_Measure_CentreBottomHeightMeasmasl(Solo solo) {
+        String ref = "Locus/Measure/Centre_Bottom_Height_Meas_masl";
         return (android.widget.EditText) solo.getView((Object) ref);
     }
 
     /*
         Type: input
-        Ref:  Locus/Measure/Centre_Bottom_Height_Dim_m
+        Ref:  Locus/Measure/Centre_Top_Elevation_Calc_masl
      */
-    public static EditText get_Locus_Measure_CentreBottomHeightDimm(Solo solo) {
-        String ref = "Locus/Measure/Centre_Bottom_Height_Dim_m";
+    public static View get_Locus_Measure_CentreTopElevationCalcmasl(Solo solo) {
+        String ref = "Locus/Measure/Centre_Top_Elevation_Calc_masl";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: input
+        Ref:  Locus/Measure/Centre_Top_Height_Meas_masl
+     */
+    public static EditText get_Locus_Measure_CentreTopHeightMeasmasl(Solo solo) {
+        String ref = "Locus/Measure/Centre_Top_Height_Meas_masl";
         return (android.widget.EditText) solo.getView((Object) ref);
     }
 
     /*
         Type: input
-        Ref:  Locus/Measure/Centre_Top_Elevation_Calc_m
+        Ref:  Locus/Measure/Elevation_Bottom_Calc_masl
      */
-    public static EditText get_Locus_Measure_CentreTopElevationCalcm(Solo solo) {
-        String ref = "Locus/Measure/Centre_Top_Elevation_Calc_m";
-        return (android.widget.EditText) solo.getView((Object) ref);
+    public static View get_Locus_Measure_ElevationBottomCalcmasl(Solo solo) {
+        String ref = "Locus/Measure/Elevation_Bottom_Calc_masl";
+        return (android.view.View) solo.getView((Object) ref);
     }
 
     /*
         Type: input
-        Ref:  Locus/Measure/Centre_Top_Height_Dim_m
+        Ref:  Locus/Measure/Elevation_Top_Calc_masl
      */
-    public static EditText get_Locus_Measure_CentreTopHeightDimm(Solo solo) {
-        String ref = "Locus/Measure/Centre_Top_Height_Dim_m";
-        return (android.widget.EditText) solo.getView((Object) ref);
-    }
-
-    /*
-        Type: input
-        Ref:  Locus/Measure/Elevation_Bottom_Calc_m
-     */
-    public static EditText get_Locus_Measure_ElevationBottomCalcm(Solo solo) {
-        String ref = "Locus/Measure/Elevation_Bottom_Calc_m";
-        return (android.widget.EditText) solo.getView((Object) ref);
-    }
-
-    /*
-        Type: input
-        Ref:  Locus/Measure/Elevation_Top_Calc_m
-     */
-    public static EditText get_Locus_Measure_ElevationTopCalcm(Solo solo) {
-        String ref = "Locus/Measure/Elevation_Top_Calc_m";
-        return (android.widget.EditText) solo.getView((Object) ref);
+    public static View get_Locus_Measure_ElevationTopCalcmasl(Solo solo) {
+        String ref = "Locus/Measure/Elevation_Top_Calc_masl";
+        return (android.view.View) solo.getView((Object) ref);
     }
 
     /*
@@ -2328,145 +2346,145 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: input
-        Ref:  Locus/Measure/NE_Bottom_Elevation_Calc_m
+        Ref:  Locus/Measure/NE_Bottom_Elevation_Calc_masl
      */
-    public static EditText get_Locus_Measure_NEBottomElevationCalcm(Solo solo) {
-        String ref = "Locus/Measure/NE_Bottom_Elevation_Calc_m";
+    public static View get_Locus_Measure_NEBottomElevationCalcmasl(Solo solo) {
+        String ref = "Locus/Measure/NE_Bottom_Elevation_Calc_masl";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: input
+        Ref:  Locus/Measure/NE_Bottom_Height_Meas_masl
+     */
+    public static EditText get_Locus_Measure_NEBottomHeightMeasmasl(Solo solo) {
+        String ref = "Locus/Measure/NE_Bottom_Height_Meas_masl";
         return (android.widget.EditText) solo.getView((Object) ref);
     }
 
     /*
         Type: input
-        Ref:  Locus/Measure/NE_Bottom_Height_Dim_m
+        Ref:  Locus/Measure/NE_Top_Elevation_Calc_masl
      */
-    public static EditText get_Locus_Measure_NEBottomHeightDimm(Solo solo) {
-        String ref = "Locus/Measure/NE_Bottom_Height_Dim_m";
+    public static View get_Locus_Measure_NETopElevationCalcmasl(Solo solo) {
+        String ref = "Locus/Measure/NE_Top_Elevation_Calc_masl";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: input
+        Ref:  Locus/Measure/NE_Top_Height_Meas_masl
+     */
+    public static EditText get_Locus_Measure_NETopHeightMeasmasl(Solo solo) {
+        String ref = "Locus/Measure/NE_Top_Height_Meas_masl";
         return (android.widget.EditText) solo.getView((Object) ref);
     }
 
     /*
         Type: input
-        Ref:  Locus/Measure/NE_Top_Elevation_Calc_m
+        Ref:  Locus/Measure/NW_Bottom_Elevation_Calc_masl
      */
-    public static EditText get_Locus_Measure_NETopElevationCalcm(Solo solo) {
-        String ref = "Locus/Measure/NE_Top_Elevation_Calc_m";
+    public static View get_Locus_Measure_NWBottomElevationCalcmasl(Solo solo) {
+        String ref = "Locus/Measure/NW_Bottom_Elevation_Calc_masl";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: input
+        Ref:  Locus/Measure/NW_Bottom_Height_Meas_masl
+     */
+    public static EditText get_Locus_Measure_NWBottomHeightMeasmasl(Solo solo) {
+        String ref = "Locus/Measure/NW_Bottom_Height_Meas_masl";
         return (android.widget.EditText) solo.getView((Object) ref);
     }
 
     /*
         Type: input
-        Ref:  Locus/Measure/NE_Top_Height_Dim_m
+        Ref:  Locus/Measure/NW_Top_Elevation_Calc_masl
      */
-    public static EditText get_Locus_Measure_NETopHeightDimm(Solo solo) {
-        String ref = "Locus/Measure/NE_Top_Height_Dim_m";
+    public static View get_Locus_Measure_NWTopElevationCalcmasl(Solo solo) {
+        String ref = "Locus/Measure/NW_Top_Elevation_Calc_masl";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: input
+        Ref:  Locus/Measure/NW_Top_Height_Meas_masl
+     */
+    public static EditText get_Locus_Measure_NWTopHeightMeasmasl(Solo solo) {
+        String ref = "Locus/Measure/NW_Top_Height_Meas_masl";
         return (android.widget.EditText) solo.getView((Object) ref);
     }
 
     /*
         Type: input
-        Ref:  Locus/Measure/NW_Bottom_Elevation_Calc_m
+        Ref:  Locus/Measure/SE_Bottom_Elevation_Calc_masl
      */
-    public static EditText get_Locus_Measure_NWBottomElevationCalcm(Solo solo) {
-        String ref = "Locus/Measure/NW_Bottom_Elevation_Calc_m";
+    public static View get_Locus_Measure_SEBottomElevationCalcmasl(Solo solo) {
+        String ref = "Locus/Measure/SE_Bottom_Elevation_Calc_masl";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: input
+        Ref:  Locus/Measure/SE_Bottom_Height_Meas_masl
+     */
+    public static EditText get_Locus_Measure_SEBottomHeightMeasmasl(Solo solo) {
+        String ref = "Locus/Measure/SE_Bottom_Height_Meas_masl";
         return (android.widget.EditText) solo.getView((Object) ref);
     }
 
     /*
         Type: input
-        Ref:  Locus/Measure/NW_Bottom_Height_Dim_m
+        Ref:  Locus/Measure/SE_Top_Elevation_Calc_masl
      */
-    public static EditText get_Locus_Measure_NWBottomHeightDimm(Solo solo) {
-        String ref = "Locus/Measure/NW_Bottom_Height_Dim_m";
+    public static View get_Locus_Measure_SETopElevationCalcmasl(Solo solo) {
+        String ref = "Locus/Measure/SE_Top_Elevation_Calc_masl";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: input
+        Ref:  Locus/Measure/SE_Top_Height_Meas_masl
+     */
+    public static EditText get_Locus_Measure_SETopHeightMeasmasl(Solo solo) {
+        String ref = "Locus/Measure/SE_Top_Height_Meas_masl";
         return (android.widget.EditText) solo.getView((Object) ref);
     }
 
     /*
         Type: input
-        Ref:  Locus/Measure/NW_Top_Elevation_Calc_m
+        Ref:  Locus/Measure/SW_Bottom_Elevation_Calc_masl
      */
-    public static EditText get_Locus_Measure_NWTopElevationCalcm(Solo solo) {
-        String ref = "Locus/Measure/NW_Top_Elevation_Calc_m";
+    public static View get_Locus_Measure_SWBottomElevationCalcmasl(Solo solo) {
+        String ref = "Locus/Measure/SW_Bottom_Elevation_Calc_masl";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: input
+        Ref:  Locus/Measure/SW_Bottom_Height_Meas_masl
+     */
+    public static EditText get_Locus_Measure_SWBottomHeightMeasmasl(Solo solo) {
+        String ref = "Locus/Measure/SW_Bottom_Height_Meas_masl";
         return (android.widget.EditText) solo.getView((Object) ref);
     }
 
     /*
         Type: input
-        Ref:  Locus/Measure/NW_Top_Height_Dim_m
+        Ref:  Locus/Measure/SW_Top_Elevation_Calc_masl
      */
-    public static EditText get_Locus_Measure_NWTopHeightDimm(Solo solo) {
-        String ref = "Locus/Measure/NW_Top_Height_Dim_m";
-        return (android.widget.EditText) solo.getView((Object) ref);
+    public static View get_Locus_Measure_SWTopElevationCalcmasl(Solo solo) {
+        String ref = "Locus/Measure/SW_Top_Elevation_Calc_masl";
+        return (android.view.View) solo.getView((Object) ref);
     }
 
     /*
         Type: input
-        Ref:  Locus/Measure/SE_Bottom_Elevation_Calc_m
+        Ref:  Locus/Measure/SW_Top_Height_Meas_masl
      */
-    public static EditText get_Locus_Measure_SEBottomElevationCalcm(Solo solo) {
-        String ref = "Locus/Measure/SE_Bottom_Elevation_Calc_m";
-        return (android.widget.EditText) solo.getView((Object) ref);
-    }
-
-    /*
-        Type: input
-        Ref:  Locus/Measure/SE_Bottom_Height_Dim_m
-     */
-    public static EditText get_Locus_Measure_SEBottomHeightDimm(Solo solo) {
-        String ref = "Locus/Measure/SE_Bottom_Height_Dim_m";
-        return (android.widget.EditText) solo.getView((Object) ref);
-    }
-
-    /*
-        Type: input
-        Ref:  Locus/Measure/SE_Top_Elevation_Calc_m
-     */
-    public static EditText get_Locus_Measure_SETopElevationCalcm(Solo solo) {
-        String ref = "Locus/Measure/SE_Top_Elevation_Calc_m";
-        return (android.widget.EditText) solo.getView((Object) ref);
-    }
-
-    /*
-        Type: input
-        Ref:  Locus/Measure/SE_Top_Height_Dim_m
-     */
-    public static EditText get_Locus_Measure_SETopHeightDimm(Solo solo) {
-        String ref = "Locus/Measure/SE_Top_Height_Dim_m";
-        return (android.widget.EditText) solo.getView((Object) ref);
-    }
-
-    /*
-        Type: input
-        Ref:  Locus/Measure/SW_Bottom_Elevation_Calc_m
-     */
-    public static EditText get_Locus_Measure_SWBottomElevationCalcm(Solo solo) {
-        String ref = "Locus/Measure/SW_Bottom_Elevation_Calc_m";
-        return (android.widget.EditText) solo.getView((Object) ref);
-    }
-
-    /*
-        Type: input
-        Ref:  Locus/Measure/SW_Bottom_Height_Dim_m
-     */
-    public static EditText get_Locus_Measure_SWBottomHeightDimm(Solo solo) {
-        String ref = "Locus/Measure/SW_Bottom_Height_Dim_m";
-        return (android.widget.EditText) solo.getView((Object) ref);
-    }
-
-    /*
-        Type: input
-        Ref:  Locus/Measure/SW_Top_Elevation_Calc_m
-     */
-    public static EditText get_Locus_Measure_SWTopElevationCalcm(Solo solo) {
-        String ref = "Locus/Measure/SW_Top_Elevation_Calc_m";
-        return (android.widget.EditText) solo.getView((Object) ref);
-    }
-
-    /*
-        Type: input
-        Ref:  Locus/Measure/SW_Top_Height_Dim_m
-     */
-    public static EditText get_Locus_Measure_SWTopHeightDimm(Solo solo) {
-        String ref = "Locus/Measure/SW_Top_Height_Dim_m";
+    public static EditText get_Locus_Measure_SWTopHeightMeasmasl(Solo solo) {
+        String ref = "Locus/Measure/SW_Top_Height_Meas_masl";
         return (android.widget.EditText) solo.getView((Object) ref);
     }
 
@@ -2706,10 +2724,28 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: input
-        Ref:  Locus/Vars/Locus_SW_Corner_Elevation_m
+        Ref:  Locus/Vars/Locus_SW_Corner_Easting
      */
-    public static EditText get_Locus_Vars_LocusSWCornerElevationm(Solo solo) {
-        String ref = "Locus/Vars/Locus_SW_Corner_Elevation_m";
+    public static EditText get_Locus_Vars_LocusSWCornerEasting(Solo solo) {
+        String ref = "Locus/Vars/Locus_SW_Corner_Easting";
+        return (android.widget.EditText) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: input
+        Ref:  Locus/Vars/Locus_SW_Corner_Elevation_masl
+     */
+    public static EditText get_Locus_Vars_LocusSWCornerElevationmasl(Solo solo) {
+        String ref = "Locus/Vars/Locus_SW_Corner_Elevation_masl";
+        return (android.widget.EditText) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: input
+        Ref:  Locus/Vars/Locus_SW_Corner_Northing
+     */
+    public static EditText get_Locus_Vars_LocusSWCornerNorthing(Solo solo) {
+        String ref = "Locus/Vars/Locus_SW_Corner_Northing";
         return (android.widget.EditText) solo.getView((Object) ref);
     }
 
@@ -2886,38 +2922,38 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: input
-        Ref:  Stratum_Feature/General/Center_Top_Depth_Dim_m
+        Ref:  Stratum_Feature/General/Center_Top_Depth_Meas_masl
      */
-    public static EditText get_StratumFeature_General_CenterTopDepthDimm(Solo solo) {
-        String ref = "Stratum_Feature/General/Center_Top_Depth_Dim_m";
+    public static EditText get_StratumFeature_General_CenterTopDepthMeasmasl(Solo solo) {
+        String ref = "Stratum_Feature/General/Center_Top_Depth_Meas_masl";
         return (android.widget.EditText) solo.getView((Object) ref);
     }
 
     /*
         Type: input
-        Ref:  Stratum_Feature/General/Center_Top_Elevation_Calc_m
+        Ref:  Stratum_Feature/General/Center_Top_Elevation_Calc_masl
      */
-    public static EditText get_StratumFeature_General_CenterTopElevationCalcm(Solo solo) {
-        String ref = "Stratum_Feature/General/Center_Top_Elevation_Calc_m";
+    public static View get_StratumFeature_General_CenterTopElevationCalcmasl(Solo solo) {
+        String ref = "Stratum_Feature/General/Center_Top_Elevation_Calc_masl";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: input
+        Ref:  Stratum_Feature/General/Centre_Bottom_Depth_Meas_masl
+     */
+    public static EditText get_StratumFeature_General_CentreBottomDepthMeasmasl(Solo solo) {
+        String ref = "Stratum_Feature/General/Centre_Bottom_Depth_Meas_masl";
         return (android.widget.EditText) solo.getView((Object) ref);
     }
 
     /*
         Type: input
-        Ref:  Stratum_Feature/General/Centre_Bottom_Depth_Dim_m
+        Ref:  Stratum_Feature/General/Centre_Bottom_Elevation_Calc_masl
      */
-    public static EditText get_StratumFeature_General_CentreBottomDepthDimm(Solo solo) {
-        String ref = "Stratum_Feature/General/Centre_Bottom_Depth_Dim_m";
-        return (android.widget.EditText) solo.getView((Object) ref);
-    }
-
-    /*
-        Type: input
-        Ref:  Stratum_Feature/General/Centre_Bottom_Elevation_Calc_m
-     */
-    public static EditText get_StratumFeature_General_CentreBottomElevationCalcm(Solo solo) {
-        String ref = "Stratum_Feature/General/Centre_Bottom_Elevation_Calc_m";
-        return (android.widget.EditText) solo.getView((Object) ref);
+    public static View get_StratumFeature_General_CentreBottomElevationCalcmasl(Solo solo) {
+        String ref = "Stratum_Feature/General/Centre_Bottom_Elevation_Calc_masl";
+        return (android.view.View) solo.getView((Object) ref);
     }
 
     /*
@@ -2958,74 +2994,74 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: input
-        Ref:  Stratum_Feature/General/NE_Bottom_Depth_Dim_m
+        Ref:  Stratum_Feature/General/NE_Bottom_Depth_Meas_masl
      */
-    public static EditText get_StratumFeature_General_NEBottomDepthDimm(Solo solo) {
-        String ref = "Stratum_Feature/General/NE_Bottom_Depth_Dim_m";
+    public static EditText get_StratumFeature_General_NEBottomDepthMeasmasl(Solo solo) {
+        String ref = "Stratum_Feature/General/NE_Bottom_Depth_Meas_masl";
         return (android.widget.EditText) solo.getView((Object) ref);
     }
 
     /*
         Type: input
-        Ref:  Stratum_Feature/General/NE_Bottom_Elevation_Calc_m
+        Ref:  Stratum_Feature/General/NE_Bottom_Elevation_Calc_masl
      */
-    public static EditText get_StratumFeature_General_NEBottomElevationCalcm(Solo solo) {
-        String ref = "Stratum_Feature/General/NE_Bottom_Elevation_Calc_m";
+    public static View get_StratumFeature_General_NEBottomElevationCalcmasl(Solo solo) {
+        String ref = "Stratum_Feature/General/NE_Bottom_Elevation_Calc_masl";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: input
+        Ref:  Stratum_Feature/General/NE_Top_Depth_Meas_masl
+     */
+    public static EditText get_StratumFeature_General_NETopDepthMeasmasl(Solo solo) {
+        String ref = "Stratum_Feature/General/NE_Top_Depth_Meas_masl";
         return (android.widget.EditText) solo.getView((Object) ref);
     }
 
     /*
         Type: input
-        Ref:  Stratum_Feature/General/NE_Top_Depth_Dim_m
+        Ref:  Stratum_Feature/General/NE_Top_Elevation_Calc_masl
      */
-    public static EditText get_StratumFeature_General_NETopDepthDimm(Solo solo) {
-        String ref = "Stratum_Feature/General/NE_Top_Depth_Dim_m";
+    public static View get_StratumFeature_General_NETopElevationCalcmasl(Solo solo) {
+        String ref = "Stratum_Feature/General/NE_Top_Elevation_Calc_masl";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: input
+        Ref:  Stratum_Feature/General/NW_Bottom_Depth_Meas_masl
+     */
+    public static EditText get_StratumFeature_General_NWBottomDepthMeasmasl(Solo solo) {
+        String ref = "Stratum_Feature/General/NW_Bottom_Depth_Meas_masl";
         return (android.widget.EditText) solo.getView((Object) ref);
     }
 
     /*
         Type: input
-        Ref:  Stratum_Feature/General/NE_Top_Elevation_Calc_m
+        Ref:  Stratum_Feature/General/NW_Bottom_Elevation_Calc_masl
      */
-    public static EditText get_StratumFeature_General_NETopElevationCalcm(Solo solo) {
-        String ref = "Stratum_Feature/General/NE_Top_Elevation_Calc_m";
+    public static View get_StratumFeature_General_NWBottomElevationCalcmasl(Solo solo) {
+        String ref = "Stratum_Feature/General/NW_Bottom_Elevation_Calc_masl";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: input
+        Ref:  Stratum_Feature/General/NW_Top_Depth_Meas_masl
+     */
+    public static EditText get_StratumFeature_General_NWTopDepthMeasmasl(Solo solo) {
+        String ref = "Stratum_Feature/General/NW_Top_Depth_Meas_masl";
         return (android.widget.EditText) solo.getView((Object) ref);
     }
 
     /*
         Type: input
-        Ref:  Stratum_Feature/General/NW_Bottom_Depth_Dim_m
+        Ref:  Stratum_Feature/General/NW_Top_Elevation_Calc_masl
      */
-    public static EditText get_StratumFeature_General_NWBottomDepthDimm(Solo solo) {
-        String ref = "Stratum_Feature/General/NW_Bottom_Depth_Dim_m";
-        return (android.widget.EditText) solo.getView((Object) ref);
-    }
-
-    /*
-        Type: input
-        Ref:  Stratum_Feature/General/NW_Bottom_Elevation_Calc_m
-     */
-    public static EditText get_StratumFeature_General_NWBottomElevationCalcm(Solo solo) {
-        String ref = "Stratum_Feature/General/NW_Bottom_Elevation_Calc_m";
-        return (android.widget.EditText) solo.getView((Object) ref);
-    }
-
-    /*
-        Type: input
-        Ref:  Stratum_Feature/General/NW_Top_Depth_Dim_m
-     */
-    public static EditText get_StratumFeature_General_NWTopDepthDimm(Solo solo) {
-        String ref = "Stratum_Feature/General/NW_Top_Depth_Dim_m";
-        return (android.widget.EditText) solo.getView((Object) ref);
-    }
-
-    /*
-        Type: input
-        Ref:  Stratum_Feature/General/NW_Top_Elevation_Calc_m
-     */
-    public static EditText get_StratumFeature_General_NWTopElevationCalcm(Solo solo) {
-        String ref = "Stratum_Feature/General/NW_Top_Elevation_Calc_m";
-        return (android.widget.EditText) solo.getView((Object) ref);
+    public static View get_StratumFeature_General_NWTopElevationCalcmasl(Solo solo) {
+        String ref = "Stratum_Feature/General/NW_Top_Elevation_Calc_masl";
+        return (android.view.View) solo.getView((Object) ref);
     }
 
     /*
@@ -3048,74 +3084,74 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: input
-        Ref:  Stratum_Feature/General/SE_Bottom_Depth_Dim_m
+        Ref:  Stratum_Feature/General/SE_Bottom_Depth_Meas_masl
      */
-    public static EditText get_StratumFeature_General_SEBottomDepthDimm(Solo solo) {
-        String ref = "Stratum_Feature/General/SE_Bottom_Depth_Dim_m";
+    public static EditText get_StratumFeature_General_SEBottomDepthMeasmasl(Solo solo) {
+        String ref = "Stratum_Feature/General/SE_Bottom_Depth_Meas_masl";
         return (android.widget.EditText) solo.getView((Object) ref);
     }
 
     /*
         Type: input
-        Ref:  Stratum_Feature/General/SE_Bottom_Elevation_Calc_m
+        Ref:  Stratum_Feature/General/SE_Bottom_Elevation_Calc_masl
      */
-    public static EditText get_StratumFeature_General_SEBottomElevationCalcm(Solo solo) {
-        String ref = "Stratum_Feature/General/SE_Bottom_Elevation_Calc_m";
+    public static View get_StratumFeature_General_SEBottomElevationCalcmasl(Solo solo) {
+        String ref = "Stratum_Feature/General/SE_Bottom_Elevation_Calc_masl";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: input
+        Ref:  Stratum_Feature/General/SE_Top_Depth_Meas_masl
+     */
+    public static EditText get_StratumFeature_General_SETopDepthMeasmasl(Solo solo) {
+        String ref = "Stratum_Feature/General/SE_Top_Depth_Meas_masl";
         return (android.widget.EditText) solo.getView((Object) ref);
     }
 
     /*
         Type: input
-        Ref:  Stratum_Feature/General/SE_Top_Depth_Dim_m
+        Ref:  Stratum_Feature/General/SE_Top_Elevation_Calc_masl
      */
-    public static EditText get_StratumFeature_General_SETopDepthDimm(Solo solo) {
-        String ref = "Stratum_Feature/General/SE_Top_Depth_Dim_m";
+    public static View get_StratumFeature_General_SETopElevationCalcmasl(Solo solo) {
+        String ref = "Stratum_Feature/General/SE_Top_Elevation_Calc_masl";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: input
+        Ref:  Stratum_Feature/General/SW_Bottom_Depth_Meas_masl
+     */
+    public static EditText get_StratumFeature_General_SWBottomDepthMeasmasl(Solo solo) {
+        String ref = "Stratum_Feature/General/SW_Bottom_Depth_Meas_masl";
         return (android.widget.EditText) solo.getView((Object) ref);
     }
 
     /*
         Type: input
-        Ref:  Stratum_Feature/General/SE_Top_Elevation_Calc_m
+        Ref:  Stratum_Feature/General/SW_Bottom_Elevation_Calc_masl
      */
-    public static EditText get_StratumFeature_General_SETopElevationCalcm(Solo solo) {
-        String ref = "Stratum_Feature/General/SE_Top_Elevation_Calc_m";
+    public static View get_StratumFeature_General_SWBottomElevationCalcmasl(Solo solo) {
+        String ref = "Stratum_Feature/General/SW_Bottom_Elevation_Calc_masl";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: input
+        Ref:  Stratum_Feature/General/SW_Top_Depth_Meas_masl
+     */
+    public static EditText get_StratumFeature_General_SWTopDepthMeasmasl(Solo solo) {
+        String ref = "Stratum_Feature/General/SW_Top_Depth_Meas_masl";
         return (android.widget.EditText) solo.getView((Object) ref);
     }
 
     /*
         Type: input
-        Ref:  Stratum_Feature/General/SW_Bottom_Depth_Dim_m
+        Ref:  Stratum_Feature/General/SW_Top_Elevation_Calc_masl
      */
-    public static EditText get_StratumFeature_General_SWBottomDepthDimm(Solo solo) {
-        String ref = "Stratum_Feature/General/SW_Bottom_Depth_Dim_m";
-        return (android.widget.EditText) solo.getView((Object) ref);
-    }
-
-    /*
-        Type: input
-        Ref:  Stratum_Feature/General/SW_Bottom_Elevation_Calc_m
-     */
-    public static EditText get_StratumFeature_General_SWBottomElevationCalcm(Solo solo) {
-        String ref = "Stratum_Feature/General/SW_Bottom_Elevation_Calc_m";
-        return (android.widget.EditText) solo.getView((Object) ref);
-    }
-
-    /*
-        Type: input
-        Ref:  Stratum_Feature/General/SW_Top_Depth_Dim_m
-     */
-    public static EditText get_StratumFeature_General_SWTopDepthDimm(Solo solo) {
-        String ref = "Stratum_Feature/General/SW_Top_Depth_Dim_m";
-        return (android.widget.EditText) solo.getView((Object) ref);
-    }
-
-    /*
-        Type: input
-        Ref:  Stratum_Feature/General/SW_Top_Elevation_Calc_m
-     */
-    public static EditText get_StratumFeature_General_SWTopElevationCalcm(Solo solo) {
-        String ref = "Stratum_Feature/General/SW_Top_Elevation_Calc_m";
-        return (android.widget.EditText) solo.getView((Object) ref);
+    public static View get_StratumFeature_General_SWTopElevationCalcmasl(Solo solo) {
+        String ref = "Stratum_Feature/General/SW_Top_Elevation_Calc_masl";
+        return (android.view.View) solo.getView((Object) ref);
     }
 
     /*
@@ -3140,17 +3176,17 @@ public class ModuleUtil extends ModuleHelper {
         Type: input
         Ref:  Stratum_Feature/General/Stratum_Feature_Mid_X_Calculated
      */
-    public static EditText get_StratumFeature_General_StratumFeatureMidXCalculated(Solo solo) {
+    public static View get_StratumFeature_General_StratumFeatureMidXCalculated(Solo solo) {
         String ref = "Stratum_Feature/General/Stratum_Feature_Mid_X_Calculated";
-        return (android.widget.EditText) solo.getView((Object) ref);
+        return (android.view.View) solo.getView((Object) ref);
     }
 
     /*
         Type: input
-        Ref:  Stratum_Feature/General/Stratum_Feature_Mid_X_Dimension_m
+        Ref:  Stratum_Feature/General/Stratum_Feature_Mid_X_Measurement_m
      */
-    public static EditText get_StratumFeature_General_StratumFeatureMidXDimensionm(Solo solo) {
-        String ref = "Stratum_Feature/General/Stratum_Feature_Mid_X_Dimension_m";
+    public static EditText get_StratumFeature_General_StratumFeatureMidXMeasurementm(Solo solo) {
+        String ref = "Stratum_Feature/General/Stratum_Feature_Mid_X_Measurement_m";
         return (android.widget.EditText) solo.getView((Object) ref);
     }
 
@@ -3158,17 +3194,17 @@ public class ModuleUtil extends ModuleHelper {
         Type: input
         Ref:  Stratum_Feature/General/Stratum_Feature_Mid_Y_Calculated
      */
-    public static EditText get_StratumFeature_General_StratumFeatureMidYCalculated(Solo solo) {
+    public static View get_StratumFeature_General_StratumFeatureMidYCalculated(Solo solo) {
         String ref = "Stratum_Feature/General/Stratum_Feature_Mid_Y_Calculated";
-        return (android.widget.EditText) solo.getView((Object) ref);
+        return (android.view.View) solo.getView((Object) ref);
     }
 
     /*
         Type: input
-        Ref:  Stratum_Feature/General/Stratum_Feature_Mid_Y_Dimension_m
+        Ref:  Stratum_Feature/General/Stratum_Feature_Mid_Y_Measurement_m
      */
-    public static EditText get_StratumFeature_General_StratumFeatureMidYDimensionm(Solo solo) {
-        String ref = "Stratum_Feature/General/Stratum_Feature_Mid_Y_Dimension_m";
+    public static EditText get_StratumFeature_General_StratumFeatureMidYMeasurementm(Solo solo) {
+        String ref = "Stratum_Feature/General/Stratum_Feature_Mid_Y_Measurement_m";
         return (android.widget.EditText) solo.getView((Object) ref);
     }
 
@@ -3219,10 +3255,28 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: input
-        Ref:  Stratum_Feature/Vars/Stratum_Feature_SW_Corner_Elevation_m
+        Ref:  Stratum_Feature/Vars/Stratum_Feature_SW_Corner_Easting
      */
-    public static EditText get_StratumFeature_Vars_StratumFeatureSWCornerElevationm(Solo solo) {
-        String ref = "Stratum_Feature/Vars/Stratum_Feature_SW_Corner_Elevation_m";
+    public static EditText get_StratumFeature_Vars_StratumFeatureSWCornerEasting(Solo solo) {
+        String ref = "Stratum_Feature/Vars/Stratum_Feature_SW_Corner_Easting";
+        return (android.widget.EditText) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: input
+        Ref:  Stratum_Feature/Vars/Stratum_Feature_SW_Corner_Elevation_masl
+     */
+    public static EditText get_StratumFeature_Vars_StratumFeatureSWCornerElevationmasl(Solo solo) {
+        String ref = "Stratum_Feature/Vars/Stratum_Feature_SW_Corner_Elevation_masl";
+        return (android.widget.EditText) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: input
+        Ref:  Stratum_Feature/Vars/Stratum_Feature_SW_Corner_Northing
+     */
+    public static EditText get_StratumFeature_Vars_StratumFeatureSWCornerNorthing(Solo solo) {
+        String ref = "Stratum_Feature/Vars/Stratum_Feature_SW_Corner_Northing";
         return (android.widget.EditText) solo.getView((Object) ref);
     }
 
@@ -3354,10 +3408,10 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: input
-        Ref:  Trench/Trench/Trench_SW_Corner_Elevation_m
+        Ref:  Trench/Trench/Trench_SW_Corner_Elevation_masl
      */
-    public static EditText get_Trench_Trench_TrenchSWCornerElevationm(Solo solo) {
-        String ref = "Trench/Trench/Trench_SW_Corner_Elevation_m";
+    public static EditText get_Trench_Trench_TrenchSWCornerElevationmasl(Solo solo) {
+        String ref = "Trench/Trench/Trench_SW_Corner_Elevation_masl";
         return (android.widget.EditText) solo.getView((Object) ref);
     }
 

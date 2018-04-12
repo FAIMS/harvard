@@ -1,21 +1,21 @@
 /*************************** ELEVATION CALCULATION ****************************/
-// 'SW Corner Elevation (m)' fields
-final String REF_LOCUS_SW_CORNER_ELEVATION_M =
-    "Locus/Vars/Locus_SW_Corner_Elevation_m";
-final String REF_STRATUM_FEATURE_SW_CORNER_ELEVATION_M =
-    "Stratum_Feature/Vars/Stratum_Feature_SW_Corner_Elevation_m";
+// 'SW Corner Elevation (masl)' fields
+final String REF_LOCUS_SW_CORNER_ELEVATION_MASL =
+    "Locus/Vars/Locus_SW_Corner_Elevation_masl";
+final String REF_STRATUM_FEATURE_SW_CORNER_ELEVATION_MASL =
+    "Stratum_Feature/Vars/Stratum_Feature_SW_Corner_Elevation_masl";
 
 // Locus fields from columns to calculate
 final List REFS_LOCUS_DIM_FIELDS  = getRefsMatching(
-    "Locus/Measure/*_Dim_m");
+    "Locus/Measure/*_Meas_masl");
 final List REFS_LOCUS_CALC_FIELDS = getRefsMatching(
-    "Locus/Measure/*_Calc_m");
+    "Locus/Measure/*_Calc_masl");
 
 // Stratum Feature fields from columns to calculate
 final List REFS_STRATUM_FEATURE_DIM_FIELDS  = getRefsMatching(
-    "Stratum_Feature/General/*_Dim_m");
+    "Stratum_Feature/General/*_Meas_masl");
 final List REFS_STRATUM_FEATURE_CALC_FIELDS = getRefsMatching(
-    "Stratum_Feature/General/*_Calc_m");
+    "Stratum_Feature/General/*_Calc_masl");
 
 // Testing
 assert(
@@ -43,7 +43,7 @@ void calculateElevations(String refCornerElevation, refsIn, List refsOut) {
 // Calculation for Locus
 void calculateLocusElevations() {
   calculateElevations(
-      REF_LOCUS_SW_CORNER_ELEVATION_M,
+      REF_LOCUS_SW_CORNER_ELEVATION_MASL,
       REFS_LOCUS_DIM_FIELDS,
       REFS_LOCUS_CALC_FIELDS
   );
@@ -52,7 +52,7 @@ void calculateLocusElevations() {
 // Calculation for Stratum Feature
 void calculateStratumFeatureElevations() {
   calculateElevations(
-      REF_STRATUM_FEATURE_SW_CORNER_ELEVATION_M,
+      REF_STRATUM_FEATURE_SW_CORNER_ELEVATION_MASL,
       REFS_STRATUM_FEATURE_DIM_FIELDS,
       REFS_STRATUM_FEATURE_CALC_FIELDS
   );

@@ -176,7 +176,7 @@ REF_TO_TYPE.put("Trench/Trench/Trench_Trench_ID", "input");
 REF_TO_TYPE.put("Trench/Trench/Team_Members", "input");
 REF_TO_TYPE.put("Trench/Trench/Trench_Dimension_1_m", "dropdown");
 REF_TO_TYPE.put("Trench/Trench/Trench_Dimension_2_m", "dropdown");
-REF_TO_TYPE.put("Trench/Trench/Trench_SW_Corner_Elevation_m", "input");
+REF_TO_TYPE.put("Trench/Trench/Trench_SW_Corner_Elevation_masl", "input");
 REF_TO_TYPE.put("Trench/Trench/Grid_SW_Corner_Coordinates", "webview");
 REF_TO_TYPE.put("Trench/Trench/Latitude", "input");
 REF_TO_TYPE.put("Trench/Trench/Longitude", "input");
@@ -224,10 +224,10 @@ REF_TO_TYPE.put("Locus/General/Locus_Site_Name", "input");
 REF_TO_TYPE.put("Locus/General/Locus_Trench_ID", "input");
 REF_TO_TYPE.put("Locus/General/Locus_Locus_ID", "input");
 REF_TO_TYPE.put("Locus/General/Brief_Description", "input");
-REF_TO_TYPE.put("Locus/General/Locus_Mid_X_Dimension_m", "input");
-REF_TO_TYPE.put("Locus/General/Locus_Y_Calculated", "input");
-REF_TO_TYPE.put("Locus/General/Locus_Mid_Y_Dimension_m", "input");
-REF_TO_TYPE.put("Locus/General/Locus_X_Calculated", "input");
+REF_TO_TYPE.put("Locus/General/Locus_Mid_X_Measurement_m", "input");
+REF_TO_TYPE.put("Locus/General/Mid_X_Calculated_Coord", "input");
+REF_TO_TYPE.put("Locus/General/Locus_Mid_Y_Measurement_m", "input");
+REF_TO_TYPE.put("Locus/General/Mid_Y_Calculated_Coord", "input");
 REF_TO_TYPE.put("Locus/General/Calculate_X_and_Y_values", "button");
 REF_TO_TYPE.put("Locus/General/Date_Opened", "input");
 REF_TO_TYPE.put("Locus/General/Team_Members", "input");
@@ -247,30 +247,30 @@ REF_TO_TYPE.put("Locus/General/Locus_timestamp", "input");
 REF_TO_TYPE.put("Locus/Measure/Measure_Length", "input");
 REF_TO_TYPE.put("Locus/Measure/Measure_Width", "input");
 REF_TO_TYPE.put("Locus/Measure/Measure_Depth", "input");
-REF_TO_TYPE.put("Locus/Measure/Absolute_Height_Top_Dim_m", "input");
-REF_TO_TYPE.put("Locus/Measure/Absolute_Height_Bottom_Dim_m", "input");
-REF_TO_TYPE.put("Locus/Measure/NW_Top_Height_Dim_m", "input");
-REF_TO_TYPE.put("Locus/Measure/NE_Top_Height_Dim_m", "input");
-REF_TO_TYPE.put("Locus/Measure/SW_Top_Height_Dim_m", "input");
-REF_TO_TYPE.put("Locus/Measure/SE_Top_Height_Dim_m", "input");
-REF_TO_TYPE.put("Locus/Measure/Centre_Top_Height_Dim_m", "input");
-REF_TO_TYPE.put("Locus/Measure/NW_Bottom_Height_Dim_m", "input");
-REF_TO_TYPE.put("Locus/Measure/NE_Bottom_Height_Dim_m", "input");
-REF_TO_TYPE.put("Locus/Measure/SW_Bottom_Height_Dim_m", "input");
-REF_TO_TYPE.put("Locus/Measure/SE_Bottom_Height_Dim_m", "input");
-REF_TO_TYPE.put("Locus/Measure/Centre_Bottom_Height_Dim_m", "input");
-REF_TO_TYPE.put("Locus/Measure/Elevation_Top_Calc_m", "input");
-REF_TO_TYPE.put("Locus/Measure/Elevation_Bottom_Calc_m", "input");
-REF_TO_TYPE.put("Locus/Measure/NW_Top_Elevation_Calc_m", "input");
-REF_TO_TYPE.put("Locus/Measure/NE_Top_Elevation_Calc_m", "input");
-REF_TO_TYPE.put("Locus/Measure/SW_Top_Elevation_Calc_m", "input");
-REF_TO_TYPE.put("Locus/Measure/SE_Top_Elevation_Calc_m", "input");
-REF_TO_TYPE.put("Locus/Measure/Centre_Top_Elevation_Calc_m", "input");
-REF_TO_TYPE.put("Locus/Measure/NW_Bottom_Elevation_Calc_m", "input");
-REF_TO_TYPE.put("Locus/Measure/NE_Bottom_Elevation_Calc_m", "input");
-REF_TO_TYPE.put("Locus/Measure/SW_Bottom_Elevation_Calc_m", "input");
-REF_TO_TYPE.put("Locus/Measure/SE_Bottom_Elevation_Calc_m", "input");
-REF_TO_TYPE.put("Locus/Measure/Centre_Bottom_Elevation_Calc_m", "input");
+REF_TO_TYPE.put("Locus/Measure/Absolute_Height_Top_Meas_masl", "input");
+REF_TO_TYPE.put("Locus/Measure/Absolute_Height_Bottom_Meas_masl", "input");
+REF_TO_TYPE.put("Locus/Measure/NW_Top_Height_Meas_masl", "input");
+REF_TO_TYPE.put("Locus/Measure/NE_Top_Height_Meas_masl", "input");
+REF_TO_TYPE.put("Locus/Measure/SW_Top_Height_Meas_masl", "input");
+REF_TO_TYPE.put("Locus/Measure/SE_Top_Height_Meas_masl", "input");
+REF_TO_TYPE.put("Locus/Measure/Centre_Top_Height_Meas_masl", "input");
+REF_TO_TYPE.put("Locus/Measure/NW_Bottom_Height_Meas_masl", "input");
+REF_TO_TYPE.put("Locus/Measure/NE_Bottom_Height_Meas_masl", "input");
+REF_TO_TYPE.put("Locus/Measure/SW_Bottom_Height_Meas_masl", "input");
+REF_TO_TYPE.put("Locus/Measure/SE_Bottom_Height_Meas_masl", "input");
+REF_TO_TYPE.put("Locus/Measure/Centre_Bottom_Height_Meas_masl", "input");
+REF_TO_TYPE.put("Locus/Measure/Elevation_Top_Calc_masl", "input");
+REF_TO_TYPE.put("Locus/Measure/Elevation_Bottom_Calc_masl", "input");
+REF_TO_TYPE.put("Locus/Measure/NW_Top_Elevation_Calc_masl", "input");
+REF_TO_TYPE.put("Locus/Measure/NE_Top_Elevation_Calc_masl", "input");
+REF_TO_TYPE.put("Locus/Measure/SW_Top_Elevation_Calc_masl", "input");
+REF_TO_TYPE.put("Locus/Measure/SE_Top_Elevation_Calc_masl", "input");
+REF_TO_TYPE.put("Locus/Measure/Centre_Top_Elevation_Calc_masl", "input");
+REF_TO_TYPE.put("Locus/Measure/NW_Bottom_Elevation_Calc_masl", "input");
+REF_TO_TYPE.put("Locus/Measure/NE_Bottom_Elevation_Calc_masl", "input");
+REF_TO_TYPE.put("Locus/Measure/SW_Bottom_Elevation_Calc_masl", "input");
+REF_TO_TYPE.put("Locus/Measure/SE_Bottom_Elevation_Calc_masl", "input");
+REF_TO_TYPE.put("Locus/Measure/Centre_Bottom_Elevation_Calc_masl", "input");
 REF_TO_TYPE.put("Locus/Measure/Calculate_All_Elevations", "button");
 REF_TO_TYPE.put("Locus/Measure/Volume_Liters", "input");
 REF_TO_TYPE.put("Locus/Cut/Your_Identification_Type_of_Cut", "dropdown");
@@ -362,7 +362,9 @@ REF_TO_TYPE.put("Locus/Material_Helper/Material_Helper", "dropdown");
 REF_TO_TYPE.put("Locus/Material_Helper/Update_Material", "button");
 REF_TO_TYPE.put("Locus/Vars/Device_Code", "dropdown");
 REF_TO_TYPE.put("Locus/Vars/Locus_Year_of_Campaign", "input");
-REF_TO_TYPE.put("Locus/Vars/Locus_SW_Corner_Elevation_m", "input");
+REF_TO_TYPE.put("Locus/Vars/Locus_SW_Corner_Elevation_masl", "input");
+REF_TO_TYPE.put("Locus/Vars/Locus_SW_Corner_Northing", "input");
+REF_TO_TYPE.put("Locus/Vars/Locus_SW_Corner_Easting", "input");
 REF_TO_TYPE.put("Stratum_Feature/General/Record_Type", "radio");
 REF_TO_TYPE.put("Stratum_Feature/General/Feature_Type", "dropdown");
 REF_TO_TYPE.put("Stratum_Feature/General/Feature_Prefix", "input");
@@ -374,32 +376,32 @@ REF_TO_TYPE.put("Stratum_Feature/General/Preliminary_Cultural_Association", "inp
 REF_TO_TYPE.put("Stratum_Feature/General/Discussion", "input");
 REF_TO_TYPE.put("Stratum_Feature/General/Length", "input");
 REF_TO_TYPE.put("Stratum_Feature/General/Width", "input");
-REF_TO_TYPE.put("Stratum_Feature/General/NW_Top_Depth_Dim_m", "input");
-REF_TO_TYPE.put("Stratum_Feature/General/NE_Top_Depth_Dim_m", "input");
-REF_TO_TYPE.put("Stratum_Feature/General/SW_Top_Depth_Dim_m", "input");
-REF_TO_TYPE.put("Stratum_Feature/General/SE_Top_Depth_Dim_m", "input");
-REF_TO_TYPE.put("Stratum_Feature/General/Center_Top_Depth_Dim_m", "input");
-REF_TO_TYPE.put("Stratum_Feature/General/NW_Bottom_Depth_Dim_m", "input");
-REF_TO_TYPE.put("Stratum_Feature/General/NE_Bottom_Depth_Dim_m", "input");
-REF_TO_TYPE.put("Stratum_Feature/General/SW_Bottom_Depth_Dim_m", "input");
-REF_TO_TYPE.put("Stratum_Feature/General/SE_Bottom_Depth_Dim_m", "input");
-REF_TO_TYPE.put("Stratum_Feature/General/Centre_Bottom_Depth_Dim_m", "input");
-REF_TO_TYPE.put("Stratum_Feature/General/NW_Top_Elevation_Calc_m", "input");
-REF_TO_TYPE.put("Stratum_Feature/General/NE_Top_Elevation_Calc_m", "input");
-REF_TO_TYPE.put("Stratum_Feature/General/SW_Top_Elevation_Calc_m", "input");
-REF_TO_TYPE.put("Stratum_Feature/General/SE_Top_Elevation_Calc_m", "input");
-REF_TO_TYPE.put("Stratum_Feature/General/Center_Top_Elevation_Calc_m", "input");
-REF_TO_TYPE.put("Stratum_Feature/General/NW_Bottom_Elevation_Calc_m", "input");
-REF_TO_TYPE.put("Stratum_Feature/General/NE_Bottom_Elevation_Calc_m", "input");
-REF_TO_TYPE.put("Stratum_Feature/General/SW_Bottom_Elevation_Calc_m", "input");
-REF_TO_TYPE.put("Stratum_Feature/General/SE_Bottom_Elevation_Calc_m", "input");
-REF_TO_TYPE.put("Stratum_Feature/General/Centre_Bottom_Elevation_Calc_m", "input");
+REF_TO_TYPE.put("Stratum_Feature/General/NW_Top_Depth_Meas_masl", "input");
+REF_TO_TYPE.put("Stratum_Feature/General/NE_Top_Depth_Meas_masl", "input");
+REF_TO_TYPE.put("Stratum_Feature/General/SW_Top_Depth_Meas_masl", "input");
+REF_TO_TYPE.put("Stratum_Feature/General/SE_Top_Depth_Meas_masl", "input");
+REF_TO_TYPE.put("Stratum_Feature/General/Center_Top_Depth_Meas_masl", "input");
+REF_TO_TYPE.put("Stratum_Feature/General/NW_Bottom_Depth_Meas_masl", "input");
+REF_TO_TYPE.put("Stratum_Feature/General/NE_Bottom_Depth_Meas_masl", "input");
+REF_TO_TYPE.put("Stratum_Feature/General/SW_Bottom_Depth_Meas_masl", "input");
+REF_TO_TYPE.put("Stratum_Feature/General/SE_Bottom_Depth_Meas_masl", "input");
+REF_TO_TYPE.put("Stratum_Feature/General/Centre_Bottom_Depth_Meas_masl", "input");
+REF_TO_TYPE.put("Stratum_Feature/General/NW_Top_Elevation_Calc_masl", "input");
+REF_TO_TYPE.put("Stratum_Feature/General/NE_Top_Elevation_Calc_masl", "input");
+REF_TO_TYPE.put("Stratum_Feature/General/SW_Top_Elevation_Calc_masl", "input");
+REF_TO_TYPE.put("Stratum_Feature/General/SE_Top_Elevation_Calc_masl", "input");
+REF_TO_TYPE.put("Stratum_Feature/General/Center_Top_Elevation_Calc_masl", "input");
+REF_TO_TYPE.put("Stratum_Feature/General/NW_Bottom_Elevation_Calc_masl", "input");
+REF_TO_TYPE.put("Stratum_Feature/General/NE_Bottom_Elevation_Calc_masl", "input");
+REF_TO_TYPE.put("Stratum_Feature/General/SW_Bottom_Elevation_Calc_masl", "input");
+REF_TO_TYPE.put("Stratum_Feature/General/SE_Bottom_Elevation_Calc_masl", "input");
+REF_TO_TYPE.put("Stratum_Feature/General/Centre_Bottom_Elevation_Calc_masl", "input");
 REF_TO_TYPE.put("Stratum_Feature/General/Calculate_All_Elevations", "button");
-REF_TO_TYPE.put("Stratum_Feature/General/Stratum_Feature_Mid_X_Dimension_m", "input");
+REF_TO_TYPE.put("Stratum_Feature/General/Stratum_Feature_Mid_X_Measurement_m", "input");
 REF_TO_TYPE.put("Stratum_Feature/General/Stratum_Feature_Mid_X_Calculated", "input");
-REF_TO_TYPE.put("Stratum_Feature/General/Stratum_Feature_Mid_Y_Dimension_m", "input");
+REF_TO_TYPE.put("Stratum_Feature/General/Stratum_Feature_Mid_Y_Measurement_m", "input");
 REF_TO_TYPE.put("Stratum_Feature/General/Stratum_Feature_Mid_Y_Calculated", "input");
-REF_TO_TYPE.put("Stratum_Feature/General/Calculate_X_and_Y_values", "button");
+REF_TO_TYPE.put("Stratum_Feature/General/Calculate_Stratum_Feature_Mid_X_Y_Coordinates", "button");
 REF_TO_TYPE.put("Stratum_Feature/General/Plans", "input");
 REF_TO_TYPE.put("Stratum_Feature/General/Section_Numbers", "input");
 REF_TO_TYPE.put("Stratum_Feature/General/Stratum_Feature_author", "input");
@@ -424,7 +426,9 @@ REF_TO_TYPE.put("Stratum_Feature/Vars/L_Paren", "input");
 REF_TO_TYPE.put("Stratum_Feature/Vars/R_Paren", "input");
 REF_TO_TYPE.put("Stratum_Feature/Vars/Last_Feature_Type", "dropdown");
 REF_TO_TYPE.put("Stratum_Feature/Vars/Last_Feature_Prefix", "input");
-REF_TO_TYPE.put("Stratum_Feature/Vars/Stratum_Feature_SW_Corner_Elevation_m", "input");
+REF_TO_TYPE.put("Stratum_Feature/Vars/Stratum_Feature_SW_Corner_Elevation_masl", "input");
+REF_TO_TYPE.put("Stratum_Feature/Vars/Stratum_Feature_SW_Corner_Northing", "input");
+REF_TO_TYPE.put("Stratum_Feature/Vars/Stratum_Feature_SW_Corner_Easting", "input");
 REF_TO_TYPE.put("Sediment_Aggregate/Sediment_Aggregate/Component_Type", "dropdown");
 REF_TO_TYPE.put("Sediment_Aggregate/Sediment_Aggregate/Percentage", "input");
 REF_TO_TYPE.put("Sediment_Aggregate/Sediment_Aggregate/Soil_Stone_Shape", "picture");
@@ -483,6 +487,11 @@ REF_TO_TYPE.put("FCN/General/FCN_ID", "input");
 REF_TO_TYPE.put("FCN/General/FCN_Site_Name", "input");
 REF_TO_TYPE.put("FCN/General/FCN_Trench_ID", "input");
 REF_TO_TYPE.put("FCN/General/Locus_ID", "input");
+REF_TO_TYPE.put("FCN/General/FCN_X_Measurement_m", "input");
+REF_TO_TYPE.put("FCN/General/X_Calculated_Coord", "input");
+REF_TO_TYPE.put("FCN/General/FCN_Y_Measurement_m", "input");
+REF_TO_TYPE.put("FCN/General/Y_Calculated_Coord", "input");
+REF_TO_TYPE.put("FCN/General/Calculate_X_Y_Coordinates", "button");
 REF_TO_TYPE.put("FCN/General/Latitude", "input");
 REF_TO_TYPE.put("FCN/General/Longitude", "input");
 REF_TO_TYPE.put("FCN/General/Northing", "input");
@@ -494,11 +503,6 @@ REF_TO_TYPE.put("FCN/General/FCN_Class", "dropdown");
 REF_TO_TYPE.put("FCN/General/FCN_Quantity", "dropdown");
 REF_TO_TYPE.put("FCN/General/FCN_Weight_g", "input");
 REF_TO_TYPE.put("FCN/General/Volume_Liters", "input");
-REF_TO_TYPE.put("FCN/General/FCN_X_Dimension_m", "input");
-REF_TO_TYPE.put("FCN/General/FCN_X_Calculated", "input");
-REF_TO_TYPE.put("FCN/General/FCN_Y_Dimension_m", "input");
-REF_TO_TYPE.put("FCN/General/FCN_Y_Calculated", "input");
-REF_TO_TYPE.put("FCN/General/Calculate_X_and_Y_values", "button");
 REF_TO_TYPE.put("FCN/General/Washed", "radio");
 REF_TO_TYPE.put("FCN/General/Weighted", "radio");
 REF_TO_TYPE.put("FCN/General/Analyzed", "radio");
@@ -510,6 +514,8 @@ REF_TO_TYPE.put("FCN/General/Attach_Photograph", "camera");
 REF_TO_TYPE.put("FCN/General/Attach_Photograph_Button_1", "button");
 REF_TO_TYPE.put("FCN/Vars/FCN_Year_of_Campaign", "input");
 REF_TO_TYPE.put("FCN/Vars/Device_Code", "dropdown");
+REF_TO_TYPE.put("FCN/Vars/FCN_SW_Corner_Northing", "input");
+REF_TO_TYPE.put("FCN/Vars/FCN_SW_Corner_Easting", "input");
 REF_TO_TYPE.put("Soil_Munsel_Color/Add_Soil_Munsel_Color/Soil_Munsel_Color", "dropdown");
 REF_TO_TYPE.put("Soil_Munsel_Color/Vars/Soil_Munsel_Color_Locus_ID", "input");
 REF_TO_TYPE.put("Soil_Munsel_Color/Vars/Device_Code", "dropdown");
@@ -579,7 +585,7 @@ DATA_REFS.add("Trench/Trench/Trench_Trench_ID");
 DATA_REFS.add("Trench/Trench/Team_Members");
 DATA_REFS.add("Trench/Trench/Trench_Dimension_1_m");
 DATA_REFS.add("Trench/Trench/Trench_Dimension_2_m");
-DATA_REFS.add("Trench/Trench/Trench_SW_Corner_Elevation_m");
+DATA_REFS.add("Trench/Trench/Trench_SW_Corner_Elevation_masl");
 DATA_REFS.add("Trench/Trench/Latitude");
 DATA_REFS.add("Trench/Trench/Longitude");
 DATA_REFS.add("Trench/Trench/Northing");
@@ -607,10 +613,10 @@ DATA_REFS.add("Locus/General/Locus_Site_Name");
 DATA_REFS.add("Locus/General/Locus_Trench_ID");
 DATA_REFS.add("Locus/General/Locus_Locus_ID");
 DATA_REFS.add("Locus/General/Brief_Description");
-DATA_REFS.add("Locus/General/Locus_Mid_X_Dimension_m");
-DATA_REFS.add("Locus/General/Locus_Y_Calculated");
-DATA_REFS.add("Locus/General/Locus_Mid_Y_Dimension_m");
-DATA_REFS.add("Locus/General/Locus_X_Calculated");
+DATA_REFS.add("Locus/General/Locus_Mid_X_Measurement_m");
+DATA_REFS.add("Locus/General/Mid_X_Calculated_Coord");
+DATA_REFS.add("Locus/General/Locus_Mid_Y_Measurement_m");
+DATA_REFS.add("Locus/General/Mid_Y_Calculated_Coord");
 DATA_REFS.add("Locus/General/Date_Opened");
 DATA_REFS.add("Locus/General/Team_Members");
 DATA_REFS.add("Locus/General/Excavation_Method");
@@ -625,30 +631,30 @@ DATA_REFS.add("Locus/General/Locus_timestamp");
 DATA_REFS.add("Locus/Measure/Measure_Length");
 DATA_REFS.add("Locus/Measure/Measure_Width");
 DATA_REFS.add("Locus/Measure/Measure_Depth");
-DATA_REFS.add("Locus/Measure/Absolute_Height_Top_Dim_m");
-DATA_REFS.add("Locus/Measure/Absolute_Height_Bottom_Dim_m");
-DATA_REFS.add("Locus/Measure/NW_Top_Height_Dim_m");
-DATA_REFS.add("Locus/Measure/NE_Top_Height_Dim_m");
-DATA_REFS.add("Locus/Measure/SW_Top_Height_Dim_m");
-DATA_REFS.add("Locus/Measure/SE_Top_Height_Dim_m");
-DATA_REFS.add("Locus/Measure/Centre_Top_Height_Dim_m");
-DATA_REFS.add("Locus/Measure/NW_Bottom_Height_Dim_m");
-DATA_REFS.add("Locus/Measure/NE_Bottom_Height_Dim_m");
-DATA_REFS.add("Locus/Measure/SW_Bottom_Height_Dim_m");
-DATA_REFS.add("Locus/Measure/SE_Bottom_Height_Dim_m");
-DATA_REFS.add("Locus/Measure/Centre_Bottom_Height_Dim_m");
-DATA_REFS.add("Locus/Measure/Elevation_Top_Calc_m");
-DATA_REFS.add("Locus/Measure/Elevation_Bottom_Calc_m");
-DATA_REFS.add("Locus/Measure/NW_Top_Elevation_Calc_m");
-DATA_REFS.add("Locus/Measure/NE_Top_Elevation_Calc_m");
-DATA_REFS.add("Locus/Measure/SW_Top_Elevation_Calc_m");
-DATA_REFS.add("Locus/Measure/SE_Top_Elevation_Calc_m");
-DATA_REFS.add("Locus/Measure/Centre_Top_Elevation_Calc_m");
-DATA_REFS.add("Locus/Measure/NW_Bottom_Elevation_Calc_m");
-DATA_REFS.add("Locus/Measure/NE_Bottom_Elevation_Calc_m");
-DATA_REFS.add("Locus/Measure/SW_Bottom_Elevation_Calc_m");
-DATA_REFS.add("Locus/Measure/SE_Bottom_Elevation_Calc_m");
-DATA_REFS.add("Locus/Measure/Centre_Bottom_Elevation_Calc_m");
+DATA_REFS.add("Locus/Measure/Absolute_Height_Top_Meas_masl");
+DATA_REFS.add("Locus/Measure/Absolute_Height_Bottom_Meas_masl");
+DATA_REFS.add("Locus/Measure/NW_Top_Height_Meas_masl");
+DATA_REFS.add("Locus/Measure/NE_Top_Height_Meas_masl");
+DATA_REFS.add("Locus/Measure/SW_Top_Height_Meas_masl");
+DATA_REFS.add("Locus/Measure/SE_Top_Height_Meas_masl");
+DATA_REFS.add("Locus/Measure/Centre_Top_Height_Meas_masl");
+DATA_REFS.add("Locus/Measure/NW_Bottom_Height_Meas_masl");
+DATA_REFS.add("Locus/Measure/NE_Bottom_Height_Meas_masl");
+DATA_REFS.add("Locus/Measure/SW_Bottom_Height_Meas_masl");
+DATA_REFS.add("Locus/Measure/SE_Bottom_Height_Meas_masl");
+DATA_REFS.add("Locus/Measure/Centre_Bottom_Height_Meas_masl");
+DATA_REFS.add("Locus/Measure/Elevation_Top_Calc_masl");
+DATA_REFS.add("Locus/Measure/Elevation_Bottom_Calc_masl");
+DATA_REFS.add("Locus/Measure/NW_Top_Elevation_Calc_masl");
+DATA_REFS.add("Locus/Measure/NE_Top_Elevation_Calc_masl");
+DATA_REFS.add("Locus/Measure/SW_Top_Elevation_Calc_masl");
+DATA_REFS.add("Locus/Measure/SE_Top_Elevation_Calc_masl");
+DATA_REFS.add("Locus/Measure/Centre_Top_Elevation_Calc_masl");
+DATA_REFS.add("Locus/Measure/NW_Bottom_Elevation_Calc_masl");
+DATA_REFS.add("Locus/Measure/NE_Bottom_Elevation_Calc_masl");
+DATA_REFS.add("Locus/Measure/SW_Bottom_Elevation_Calc_masl");
+DATA_REFS.add("Locus/Measure/SE_Bottom_Elevation_Calc_masl");
+DATA_REFS.add("Locus/Measure/Centre_Bottom_Elevation_Calc_masl");
 DATA_REFS.add("Locus/Measure/Volume_Liters");
 DATA_REFS.add("Locus/Cut/Your_Identification_Type_of_Cut");
 DATA_REFS.add("Locus/Cut/Shape_in_Plan");
@@ -721,7 +727,9 @@ DATA_REFS.add("Locus/Add/Attach_File");
 DATA_REFS.add("Locus/Material_Helper/Material_Helper");
 DATA_REFS.add("Locus/Vars/Device_Code");
 DATA_REFS.add("Locus/Vars/Locus_Year_of_Campaign");
-DATA_REFS.add("Locus/Vars/Locus_SW_Corner_Elevation_m");
+DATA_REFS.add("Locus/Vars/Locus_SW_Corner_Elevation_masl");
+DATA_REFS.add("Locus/Vars/Locus_SW_Corner_Northing");
+DATA_REFS.add("Locus/Vars/Locus_SW_Corner_Easting");
 DATA_REFS.add("Stratum_Feature/General/Record_Type");
 DATA_REFS.add("Stratum_Feature/General/Feature_Type");
 DATA_REFS.add("Stratum_Feature/General/Feature_Prefix");
@@ -733,29 +741,29 @@ DATA_REFS.add("Stratum_Feature/General/Preliminary_Cultural_Association");
 DATA_REFS.add("Stratum_Feature/General/Discussion");
 DATA_REFS.add("Stratum_Feature/General/Length");
 DATA_REFS.add("Stratum_Feature/General/Width");
-DATA_REFS.add("Stratum_Feature/General/NW_Top_Depth_Dim_m");
-DATA_REFS.add("Stratum_Feature/General/NE_Top_Depth_Dim_m");
-DATA_REFS.add("Stratum_Feature/General/SW_Top_Depth_Dim_m");
-DATA_REFS.add("Stratum_Feature/General/SE_Top_Depth_Dim_m");
-DATA_REFS.add("Stratum_Feature/General/Center_Top_Depth_Dim_m");
-DATA_REFS.add("Stratum_Feature/General/NW_Bottom_Depth_Dim_m");
-DATA_REFS.add("Stratum_Feature/General/NE_Bottom_Depth_Dim_m");
-DATA_REFS.add("Stratum_Feature/General/SW_Bottom_Depth_Dim_m");
-DATA_REFS.add("Stratum_Feature/General/SE_Bottom_Depth_Dim_m");
-DATA_REFS.add("Stratum_Feature/General/Centre_Bottom_Depth_Dim_m");
-DATA_REFS.add("Stratum_Feature/General/NW_Top_Elevation_Calc_m");
-DATA_REFS.add("Stratum_Feature/General/NE_Top_Elevation_Calc_m");
-DATA_REFS.add("Stratum_Feature/General/SW_Top_Elevation_Calc_m");
-DATA_REFS.add("Stratum_Feature/General/SE_Top_Elevation_Calc_m");
-DATA_REFS.add("Stratum_Feature/General/Center_Top_Elevation_Calc_m");
-DATA_REFS.add("Stratum_Feature/General/NW_Bottom_Elevation_Calc_m");
-DATA_REFS.add("Stratum_Feature/General/NE_Bottom_Elevation_Calc_m");
-DATA_REFS.add("Stratum_Feature/General/SW_Bottom_Elevation_Calc_m");
-DATA_REFS.add("Stratum_Feature/General/SE_Bottom_Elevation_Calc_m");
-DATA_REFS.add("Stratum_Feature/General/Centre_Bottom_Elevation_Calc_m");
-DATA_REFS.add("Stratum_Feature/General/Stratum_Feature_Mid_X_Dimension_m");
+DATA_REFS.add("Stratum_Feature/General/NW_Top_Depth_Meas_masl");
+DATA_REFS.add("Stratum_Feature/General/NE_Top_Depth_Meas_masl");
+DATA_REFS.add("Stratum_Feature/General/SW_Top_Depth_Meas_masl");
+DATA_REFS.add("Stratum_Feature/General/SE_Top_Depth_Meas_masl");
+DATA_REFS.add("Stratum_Feature/General/Center_Top_Depth_Meas_masl");
+DATA_REFS.add("Stratum_Feature/General/NW_Bottom_Depth_Meas_masl");
+DATA_REFS.add("Stratum_Feature/General/NE_Bottom_Depth_Meas_masl");
+DATA_REFS.add("Stratum_Feature/General/SW_Bottom_Depth_Meas_masl");
+DATA_REFS.add("Stratum_Feature/General/SE_Bottom_Depth_Meas_masl");
+DATA_REFS.add("Stratum_Feature/General/Centre_Bottom_Depth_Meas_masl");
+DATA_REFS.add("Stratum_Feature/General/NW_Top_Elevation_Calc_masl");
+DATA_REFS.add("Stratum_Feature/General/NE_Top_Elevation_Calc_masl");
+DATA_REFS.add("Stratum_Feature/General/SW_Top_Elevation_Calc_masl");
+DATA_REFS.add("Stratum_Feature/General/SE_Top_Elevation_Calc_masl");
+DATA_REFS.add("Stratum_Feature/General/Center_Top_Elevation_Calc_masl");
+DATA_REFS.add("Stratum_Feature/General/NW_Bottom_Elevation_Calc_masl");
+DATA_REFS.add("Stratum_Feature/General/NE_Bottom_Elevation_Calc_masl");
+DATA_REFS.add("Stratum_Feature/General/SW_Bottom_Elevation_Calc_masl");
+DATA_REFS.add("Stratum_Feature/General/SE_Bottom_Elevation_Calc_masl");
+DATA_REFS.add("Stratum_Feature/General/Centre_Bottom_Elevation_Calc_masl");
+DATA_REFS.add("Stratum_Feature/General/Stratum_Feature_Mid_X_Measurement_m");
 DATA_REFS.add("Stratum_Feature/General/Stratum_Feature_Mid_X_Calculated");
-DATA_REFS.add("Stratum_Feature/General/Stratum_Feature_Mid_Y_Dimension_m");
+DATA_REFS.add("Stratum_Feature/General/Stratum_Feature_Mid_Y_Measurement_m");
 DATA_REFS.add("Stratum_Feature/General/Stratum_Feature_Mid_Y_Calculated");
 DATA_REFS.add("Stratum_Feature/General/Plans");
 DATA_REFS.add("Stratum_Feature/General/Section_Numbers");
@@ -770,7 +778,9 @@ DATA_REFS.add("Stratum_Feature/Vars/L_Paren");
 DATA_REFS.add("Stratum_Feature/Vars/R_Paren");
 DATA_REFS.add("Stratum_Feature/Vars/Last_Feature_Type");
 DATA_REFS.add("Stratum_Feature/Vars/Last_Feature_Prefix");
-DATA_REFS.add("Stratum_Feature/Vars/Stratum_Feature_SW_Corner_Elevation_m");
+DATA_REFS.add("Stratum_Feature/Vars/Stratum_Feature_SW_Corner_Elevation_masl");
+DATA_REFS.add("Stratum_Feature/Vars/Stratum_Feature_SW_Corner_Northing");
+DATA_REFS.add("Stratum_Feature/Vars/Stratum_Feature_SW_Corner_Easting");
 DATA_REFS.add("Sediment_Aggregate/Sediment_Aggregate/Component_Type");
 DATA_REFS.add("Sediment_Aggregate/Sediment_Aggregate/Percentage");
 DATA_REFS.add("Sediment_Aggregate/Sediment_Aggregate/Soil_Stone_Shape");
@@ -799,6 +809,10 @@ DATA_REFS.add("FCN/General/FCN_ID");
 DATA_REFS.add("FCN/General/FCN_Site_Name");
 DATA_REFS.add("FCN/General/FCN_Trench_ID");
 DATA_REFS.add("FCN/General/Locus_ID");
+DATA_REFS.add("FCN/General/FCN_X_Measurement_m");
+DATA_REFS.add("FCN/General/X_Calculated_Coord");
+DATA_REFS.add("FCN/General/FCN_Y_Measurement_m");
+DATA_REFS.add("FCN/General/Y_Calculated_Coord");
 DATA_REFS.add("FCN/General/Latitude");
 DATA_REFS.add("FCN/General/Longitude");
 DATA_REFS.add("FCN/General/Northing");
@@ -809,10 +823,6 @@ DATA_REFS.add("FCN/General/FCN_Class");
 DATA_REFS.add("FCN/General/FCN_Quantity");
 DATA_REFS.add("FCN/General/FCN_Weight_g");
 DATA_REFS.add("FCN/General/Volume_Liters");
-DATA_REFS.add("FCN/General/FCN_X_Dimension_m");
-DATA_REFS.add("FCN/General/FCN_X_Calculated");
-DATA_REFS.add("FCN/General/FCN_Y_Dimension_m");
-DATA_REFS.add("FCN/General/FCN_Y_Calculated");
 DATA_REFS.add("FCN/General/Washed");
 DATA_REFS.add("FCN/General/Weighted");
 DATA_REFS.add("FCN/General/Analyzed");
@@ -821,6 +831,8 @@ DATA_REFS.add("FCN/General/Attach_File");
 DATA_REFS.add("FCN/General/Attach_Photograph");
 DATA_REFS.add("FCN/Vars/FCN_Year_of_Campaign");
 DATA_REFS.add("FCN/Vars/Device_Code");
+DATA_REFS.add("FCN/Vars/FCN_SW_Corner_Northing");
+DATA_REFS.add("FCN/Vars/FCN_SW_Corner_Easting");
 DATA_REFS.add("Soil_Munsel_Color/Add_Soil_Munsel_Color/Soil_Munsel_Color");
 DATA_REFS.add("Soil_Munsel_Color/Vars/Soil_Munsel_Color_Locus_ID");
 DATA_REFS.add("Soil_Munsel_Color/Vars/Device_Code");
@@ -2554,12 +2566,16 @@ inheritFieldValue("Trench/Trench/Trench_Trench_ID", "Locus/General/Locus_Trench_
 inheritFieldValue("Trench/Trench/Team_Members", "Locus/General/Team_Members", true);
 inheritFieldValue("User/User_List/Device_Code", "Locus/Vars/Device_Code", false);
 inheritFieldValue("Trench/Vars/Trench_Year_of_Campaign", "Locus/Vars/Locus_Year_of_Campaign", true);
-inheritFieldValue("Trench/Trench/Trench_SW_Corner_Elevation_m", "Locus/Vars/Locus_SW_Corner_Elevation_m", true);
+inheritFieldValue("Trench/Trench/Trench_SW_Corner_Elevation_masl", "Locus/Vars/Locus_SW_Corner_Elevation_masl", true);
+inheritFieldValue("Trench/Trench/Northing", "Locus/Vars/Locus_SW_Corner_Northing", true);
+inheritFieldValue("Trench/Trench/Easting", "Locus/Vars/Locus_SW_Corner_Easting", true);
 inheritFieldValue("Trench/Trench/Trench_Trench_ID", "Stratum_Feature/General/Stratum_Feature_Trench_ID", true);
 inheritFieldValue("User/User_List/Device_Code", "Stratum_Feature/Vars/Device_Code", false);
 inheritFieldValue("Trench/Trench/Trench_Site_Name", "Stratum_Feature/Vars/Stratum_Feature_Site_Name", true);
 inheritFieldValue("Trench/Vars/Trench_Year_of_Campaign", "Stratum_Feature/Vars/Stratum_Feature_Year_of_Campaign", true);
-inheritFieldValue("Trench/Trench/Trench_SW_Corner_Elevation_m", "Stratum_Feature/Vars/Stratum_Feature_SW_Corner_Elevation_m", true);
+inheritFieldValue("Trench/Trench/Trench_SW_Corner_Elevation_masl", "Stratum_Feature/Vars/Stratum_Feature_SW_Corner_Elevation_masl", true);
+inheritFieldValue("Trench/Trench/Northing", "Stratum_Feature/Vars/Stratum_Feature_SW_Corner_Northing", true);
+inheritFieldValue("Trench/Trench/Easting", "Stratum_Feature/Vars/Stratum_Feature_SW_Corner_Easting", true);
 inheritFieldValue("Locus/General/Locus_Locus_ID", "Sediment_Aggregate/Vars/Locus_ID", true);
 inheritFieldValue("Locus/General/Locus_Trench_ID", "Sediment_Aggregate/Vars/Trench_ID", true);
 inheritFieldValue("User/User_List/Device_Code", "Sediment_Aggregate/Vars/Device_Code", false);
@@ -2588,6 +2604,8 @@ inheritFieldValue("Locus/General/Locus_Locus_ID", "FCN/General/Locus_ID", true);
 inheritFieldValue("Locus/Vars/Locus_Year_of_Campaign", "FCN/Vars/FCN_Year_of_Campaign", true);
 inheritFieldValue("Trench/Vars/Trench_Year_of_Campaign", "FCN/Vars/FCN_Year_of_Campaign", true);
 inheritFieldValue("User/User_List/Device_Code", "FCN/Vars/Device_Code", false);
+inheritFieldValue("Trench/Trench/Northing", "FCN/Vars/FCN_SW_Corner_Northing", true);
+inheritFieldValue("Trench/Trench/Easting", "FCN/Vars/FCN_SW_Corner_Easting", true);
 inheritFieldValue("Locus/General/Locus_Locus_ID", "Soil_Munsel_Color/Vars/Soil_Munsel_Color_Locus_ID", true);
 inheritFieldValue("User/User_List/Device_Code", "Soil_Munsel_Color/Vars/Device_Code", false);
 inheritFieldValue("Relationship/Vars/Relationship_Site_Name", "Legacy/Legacy/Legacy_Site_Name", true);
@@ -3229,8 +3247,8 @@ void validateLocus() {
   f.add(fieldPair("Locus/Measure/Measure_Length", "{Length__m_}"));
   f.add(fieldPair("Locus/Measure/Measure_Width", "{Width__m_}"));
   f.add(fieldPair("Locus/Measure/Measure_Depth", "{Depth__m_}"));
-  f.add(fieldPair("Locus/Measure/Absolute_Height_Top_Dim_m", "{Absolute_Height_Top_Dim__m_}"));
-  f.add(fieldPair("Locus/Measure/Absolute_Height_Bottom_Dim_m", "{Absolute_Height_Bottom_Dim__m_}"));
+  f.add(fieldPair("Locus/Measure/Absolute_Height_Top_Meas_masl", "{Absolute_Height_Top_Meas__masl_}"));
+  f.add(fieldPair("Locus/Measure/Absolute_Height_Bottom_Meas_masl", "{Absolute_Height_Bottom_Meas__masl_}"));
   f.add(fieldPair("Locus/Measure/Volume_Liters", "{Volume__liters_}"));
   f.add(fieldPair("Locus/Cut/Your_Identification_Type_of_Cut", "{Your_Identification__Type_of_Cut_}"));
   f.add(fieldPair("Locus/Cut/Shape_in_Plan", "{Shape_in_Plan}"));
@@ -7021,23 +7039,23 @@ addOnEvent("Control/Site/New_Site_Name",    "show", "clearControlNewSiteName()")
 addOnEvent("Control/Site/Year_of_Campaign", "show", "clearControlYearofCampaign()");
 addOnEvent("Site/Site/Trench_ID",           "show", "clearSiteTrenchId()");
 /*************************** ELEVATION CALCULATION ****************************/
-// 'SW Corner Elevation (m)' fields
-final String REF_LOCUS_SW_CORNER_ELEVATION_M =
-    "Locus/Vars/Locus_SW_Corner_Elevation_m";
-final String REF_STRATUM_FEATURE_SW_CORNER_ELEVATION_M =
-    "Stratum_Feature/Vars/Stratum_Feature_SW_Corner_Elevation_m";
+// 'SW Corner Elevation (masl)' fields
+final String REF_LOCUS_SW_CORNER_ELEVATION_MASL =
+    "Locus/Vars/Locus_SW_Corner_Elevation_masl";
+final String REF_STRATUM_FEATURE_SW_CORNER_ELEVATION_MASL =
+    "Stratum_Feature/Vars/Stratum_Feature_SW_Corner_Elevation_masl";
 
 // Locus fields from columns to calculate
 final List REFS_LOCUS_DIM_FIELDS  = getRefsMatching(
-    "Locus/Measure/*_Dim_m");
+    "Locus/Measure/*_Meas_masl");
 final List REFS_LOCUS_CALC_FIELDS = getRefsMatching(
-    "Locus/Measure/*_Calc_m");
+    "Locus/Measure/*_Calc_masl");
 
 // Stratum Feature fields from columns to calculate
 final List REFS_STRATUM_FEATURE_DIM_FIELDS  = getRefsMatching(
-    "Stratum_Feature/General/*_Dim_m");
+    "Stratum_Feature/General/*_Meas_masl");
 final List REFS_STRATUM_FEATURE_CALC_FIELDS = getRefsMatching(
-    "Stratum_Feature/General/*_Calc_m");
+    "Stratum_Feature/General/*_Calc_masl");
 
 // Testing
 assert(
@@ -7065,7 +7083,7 @@ void calculateElevations(String refCornerElevation, refsIn, List refsOut) {
 // Calculation for Locus
 void calculateLocusElevations() {
   calculateElevations(
-      REF_LOCUS_SW_CORNER_ELEVATION_M,
+      REF_LOCUS_SW_CORNER_ELEVATION_MASL,
       REFS_LOCUS_DIM_FIELDS,
       REFS_LOCUS_CALC_FIELDS
   );
@@ -7074,7 +7092,7 @@ void calculateLocusElevations() {
 // Calculation for Stratum Feature
 void calculateStratumFeatureElevations() {
   calculateElevations(
-      REF_STRATUM_FEATURE_SW_CORNER_ELEVATION_M,
+      REF_STRATUM_FEATURE_SW_CORNER_ELEVATION_MASL,
       REFS_STRATUM_FEATURE_DIM_FIELDS,
       REFS_STRATUM_FEATURE_CALC_FIELDS
   );
@@ -7089,6 +7107,74 @@ addOnEvent(
     "Stratum_Feature/General/Calculate_All_Elevations",
     "click",
     "calculateStratumFeatureElevations()"
+);
+/************************* CALCULATE X Y COORDINATES **************************/
+void addFieldValuesAsDoubles(
+    String refOperand1,
+    String refOperand2,
+    String refResult
+) {
+  double operand1 = getFieldValueAsDouble(refOperand1);
+  double operand2 = getFieldValueAsDouble(refOperand2);
+  double result   = operand1 + operand2;
+  setFieldValue(refResult, result + "");
+}
+
+void calculateLocusMidXYCoordinates() {
+  addFieldValuesAsDoubles(
+      "Locus/General/Locus_Mid_X_Measurement_m",
+      "Locus/Vars/Locus_SW_Corner_Northing",
+      "Locus/General/Mid_X_Calculated_Coord"
+  );
+  addFieldValuesAsDoubles(
+      "Locus/General/Locus_Mid_Y_Measurement_m",
+      "Locus/Vars/Locus_SW_Corner_Easting",
+      "Locus/General/Mid_Y_Calculated_Coord"
+  );
+}
+
+void calculateStratumFeatureMidXYCoordinates() {
+  addFieldValuesAsDoubles(
+      "Stratum_Feature/General/Stratum_Feature_Mid_X_Measurement_m",
+      "Stratum_Feature/Vars/Stratum_Feature_SW_Corner_Northing",
+      "Stratum_Feature/General/Stratum_Feature_Mid_X_Calculated"
+  );
+  addFieldValuesAsDoubles(
+      "Stratum_Feature/General/Stratum_Feature_Mid_Y_Measurement_m",
+      "Stratum_Feature/Vars/Stratum_Feature_SW_Corner_Easting",
+      "Stratum_Feature/General/Stratum_Feature_Mid_Y_Calculated"
+  );
+}
+
+void calculateFcnXYCoordinates() {
+  addFieldValuesAsDoubles(
+      "FCN/General/FCN_X_Measurement_m",
+      "FCN/Vars/FCN_SW_Corner_Northing",
+      "FCN/General/X_Calculated_Coord"
+  );
+  addFieldValuesAsDoubles(
+      "FCN/General/FCN_Y_Measurement_m",
+      "FCN/Vars/FCN_SW_Corner_Easting",
+      "FCN/General/Y_Calculated_Coord"
+  );
+}
+
+addOnEvent(
+    "Locus/General/Calculate_X_and_Y_values",
+    "click",
+    "calculateLocusMidXYCoordinates()"
+);
+
+addOnEvent(
+    "Stratum_Feature/General/Calculate_Stratum_Feature_Mid_X_Y_Coordinates",
+    "click",
+    "calculateStratumFeatureMidXYCoordinates()"
+);
+
+addOnEvent(
+    "FCN/General/Calculate_X_Y_Coordinates",
+    "click",
+    "calculateFcnXYCoordinates()"
 );
 
 

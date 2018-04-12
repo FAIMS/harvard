@@ -39,12 +39,12 @@
         <param type="field" value="measure"/>
       </validator>
     </property>
-    <property name="Absolute Height Top Dim m">
+    <property name="Absolute Height Top Meas masl">
       <validator type="blankchecker">
         <param type="field" value="measure"/>
       </validator>
     </property>
-    <property name="Absolute Height Bottom Dim m">
+    <property name="Absolute Height Bottom Meas masl">
       <validator type="blankchecker">
         <param type="field" value="measure"/>
       </validator>
