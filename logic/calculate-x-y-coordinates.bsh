@@ -1,0 +1,68 @@
+/************************* CALCULATE X Y COORDINATES **************************/
+void addFieldValuesAsDoubles(
+    String refOperand1,
+    String refOperand2,
+    String refResult
+) {
+  double operand1 = getFieldValueAsDouble(refOperand1);
+  double operand2 = getFieldValueAsDouble(refOperand2);
+  double result   = operand1 + operand2;
+  setFieldValue(refResult, result + "");
+}
+
+void calculateLocusMidXYCoordinates() {
+  addFieldValuesAsDoubles(
+      "Locus/General/Locus_Mid_X_Measurement_m",
+      "Locus/Vars/Locus_SW_Corner_Northing",
+      "Locus/General/Mid_X_Calculated_Coord"
+  );
+  addFieldValuesAsDoubles(
+      "Locus/General/Locus_Mid_Y_Measurement_m",
+      "Locus/Vars/Locus_SW_Corner_Easting",
+      "Locus/General/Mid_Y_Calculated_Coord"
+  );
+}
+
+void calculateStratumFeatureMidXYCoordinates() {
+  addFieldValuesAsDoubles(
+      "Stratum_Feature/General/Stratum_Feature_Mid_X_Measurement_m",
+      "Stratum_Feature/Vars/Stratum_Feature_SW_Corner_Northing",
+      "Stratum_Feature/General/Stratum_Feature_Mid_X_Calculated"
+  );
+  addFieldValuesAsDoubles(
+      "Stratum_Feature/General/Stratum_Feature_Mid_Y_Measurement_m",
+      "Stratum_Feature/Vars/Stratum_Feature_SW_Corner_Easting",
+      "Stratum_Feature/General/Stratum_Feature_Mid_Y_Calculated"
+  );
+}
+
+void calculateFcnXYCoordinates() {
+  addFieldValuesAsDoubles(
+      "FCN/General/FCN_X_Measurement_m",
+      "FCN/Vars/FCN_SW_Corner_Northing",
+      "FCN/General/X_Calculated_Coord"
+  );
+  addFieldValuesAsDoubles(
+      "FCN/General/FCN_Y_Measurement_m",
+      "FCN/Vars/FCN_SW_Corner_Easting",
+      "FCN/General/Y_Calculated_Coord"
+  );
+}
+
+addOnEvent(
+    "Locus/General/Calculate_X_and_Y_values",
+    "click",
+    "calculateLocusMidXYCoordinates()"
+);
+
+addOnEvent(
+    "Stratum_Feature/General/Calculate_Stratum_Feature_Mid_X_Y_Coordinates",
+    "click",
+    "calculateStratumFeatureMidXYCoordinates()"
+);
+
+addOnEvent(
+    "FCN/General/Calculate_X_Y_Coordinates",
+    "click",
+    "calculateFcnXYCoordinates()"
+);

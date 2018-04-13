@@ -1,0 +1,70 @@
+/*************************** ELEVATION CALCULATION ****************************/
+// 'SW Corner Elevation (masl)' fields
+final String REF_LOCUS_SW_CORNER_ELEVATION_MASL =
+    "Locus/Vars/Locus_SW_Corner_Elevation_masl";
+final String REF_STRATUM_FEATURE_SW_CORNER_ELEVATION_MASL =
+    "Stratum_Feature/Vars/Stratum_Feature_SW_Corner_Elevation_masl";
+
+// Locus fields from columns to calculate
+final List REFS_LOCUS_DIM_FIELDS  = getRefsMatching(
+    "Locus/Measure/*_Meas_masl");
+final List REFS_LOCUS_CALC_FIELDS = getRefsMatching(
+    "Locus/Measure/*_Calc_masl");
+
+// Stratum Feature fields from columns to calculate
+final List REFS_STRATUM_FEATURE_DIM_FIELDS  = getRefsMatching(
+    "Stratum_Feature/General/*_Meas_masl");
+final List REFS_STRATUM_FEATURE_CALC_FIELDS = getRefsMatching(
+    "Stratum_Feature/General/*_Calc_masl");
+
+// Testing
+assert(
+    REFS_LOCUS_DIM_FIELDS .size() ==
+    REFS_LOCUS_CALC_FIELDS.size());
+assert(
+    REFS_STRATUM_FEATURE_DIM_FIELDS .size() ==
+    REFS_STRATUM_FEATURE_CALC_FIELDS.size());
+
+// Calculation
+void calculateElevations(String refCornerElevation, refsIn, List refsOut) {
+  double valCornerElevation = getFieldValueAsDouble(refCornerElevation);
+
+  for (int i = 0; i < refsIn.size(); i++) {
+    String refIn  = refsIn .get(i);
+    String refOut = refsOut.get(i);
+
+    double valIn  = getFieldValueAsDouble(refIn);
+    double valOut = valCornerElevation + valIn;
+
+    setFieldValue(refOut, "" + valOut);
+  }
+}
+
+// Calculation for Locus
+void calculateLocusElevations() {
+  calculateElevations(
+      REF_LOCUS_SW_CORNER_ELEVATION_MASL,
+      REFS_LOCUS_DIM_FIELDS,
+      REFS_LOCUS_CALC_FIELDS
+  );
+}
+
+// Calculation for Stratum Feature
+void calculateStratumFeatureElevations() {
+  calculateElevations(
+      REF_STRATUM_FEATURE_SW_CORNER_ELEVATION_MASL,
+      REFS_STRATUM_FEATURE_DIM_FIELDS,
+      REFS_STRATUM_FEATURE_CALC_FIELDS
+  );
+}
+
+addOnEvent(
+    "Locus/Measure/Calculate_All_Elevations",
+    "click",
+    "calculateLocusElevations()"
+);
+addOnEvent(
+    "Stratum_Feature/General/Calculate_All_Elevations",
+    "click",
+    "calculateStratumFeatureElevations()"
+);

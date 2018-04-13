@@ -92,6 +92,7 @@
                   <Trench_Dimension_2_m/>
                 </Col_2>
               </Colgroup_1>
+              <Trench_SW_Corner_Elevation_masl/>
               <Grid_SW_Corner_Coordinates/>
               <Colgroup_2>
                 <Col_1>
@@ -195,13 +196,22 @@
               <Brief_Description/>
               <Colgroup_2>
                 <Col_1>
-                  <Grid_X/>
+                  <Locus_Mid_X_Measurement_m/>
                 </Col_1>
                 <Col_2>
-                  <Grid_Y/>
+                  <Mid_X_Calculated_Coord/>
                 </Col_2>
               </Colgroup_2>
               <Colgroup_3>
+                <Col_1>
+                  <Locus_Mid_Y_Measurement_m/>
+                </Col_1>
+                <Col_2>
+                  <Mid_Y_Calculated_Coord/>
+                </Col_2>
+              </Colgroup_3>
+              <Calculate_X_and_Y_values/>
+              <Colgroup_4>
                 <Col_1>
                   <Date_Opened/>
                   <Team_Members/>
@@ -209,18 +219,18 @@
                 <Col_2>
                   <Excavation_Method/>
                 </Col_2>
-              </Colgroup_3>
-              <Colgroup_4>
+              </Colgroup_4>
+              <Colgroup_5>
                 <Col_1>
                   <Basal_Edge_Definition/>
                 </Col_1>
                 <Col_2>
                   <Contamination/>
                 </Col_2>
-              </Colgroup_4>
+              </Colgroup_5>
               <Locus_Type/>
               <Fill_in_Locus_Type_Details/>
-              <Colgroup_5>
+              <Colgroup_6>
                 <Col_1>
                   <Photo_of_Plan/>
                   <Photo_of_Plan_Button_1/>
@@ -229,34 +239,26 @@
                   <Photo_of_Section/>
                   <Photo_of_Section_Button_1/>
                 </Col_2>
-              </Colgroup_5>
-              <Colgroup_6>
+              </Colgroup_6>
+              <Colgroup_7>
                 <Col_1>
                   <Date_Closed/>
                 </Col_1>
                 <Col_2>
                   <Add_Date_Closed/>
                 </Col_2>
-              </Colgroup_6>
-              <Colgroup_7>
+              </Colgroup_7>
+              <Colgroup_8>
                 <Col_1>
                   <Locus_author/>
                 </Col_1>
                 <Col_2>
                   <Locus_timestamp/>
                 </Col_2>
-              </Colgroup_7>
+              </Colgroup_8>
             </General>
             <Measure>
               <Colgroup_1>
-                <Col_1>
-                  <Absolute_Height_Top_m/>
-                </Col_1>
-                <Col_2>
-                  <Absolute_Height_Bottom_m/>
-                </Col_2>
-              </Colgroup_1>
-              <Colgroup_2>
                 <Col_1>
                   <Measure_Length/>
                 </Col_1>
@@ -266,33 +268,42 @@
                 <Col_3>
                   <Measure_Depth/>
                 </Col_3>
+              </Colgroup_1>
+              <Colgroup_2>
+                <Col_1>
+                  <Absolute_Height_Top_Meas_masl/>
+                  <Absolute_Height_Bottom_Meas_masl/>
+                  <NW_Top_Height_Meas_masl/>
+                  <NE_Top_Height_Meas_masl/>
+                  <SW_Top_Height_Meas_masl/>
+                  <SE_Top_Height_Meas_masl/>
+                  <Centre_Top_Height_Meas_masl/>
+                  <NW_Bottom_Height_Meas_masl/>
+                  <NE_Bottom_Height_Meas_masl/>
+                  <SW_Bottom_Height_Meas_masl/>
+                  <SE_Bottom_Height_Meas_masl/>
+                  <Centre_Bottom_Height_Meas_masl/>
+                </Col_1>
+                <Col_2>
+                  <Elevation_Top_Calc_masl/>
+                  <Elevation_Bottom_Calc_masl/>
+                  <NW_Top_Elevation_Calc_masl/>
+                  <NE_Top_Elevation_Calc_masl/>
+                  <SW_Top_Elevation_Calc_masl/>
+                  <SE_Top_Elevation_Calc_masl/>
+                  <Centre_Top_Elevation_Calc_masl/>
+                  <NW_Bottom_Elevation_Calc_masl/>
+                  <NE_Bottom_Elevation_Calc_masl/>
+                  <SW_Bottom_Elevation_Calc_masl/>
+                  <SE_Bottom_Elevation_Calc_masl/>
+                  <Centre_Bottom_Elevation_Calc_masl/>
+                </Col_2>
               </Colgroup_2>
-              <Colgroup_3>
-                <Col_1>
-                  <NW_Top_Height/>
-                  <SW_Top_Height/>
-                  <Center_Top_Height/>
-                </Col_1>
-                <Col_2>
-                  <NE_Top_Height/>
-                  <SE_Top_Height/>
-                </Col_2>
-              </Colgroup_3>
-              <Colgroup_4>
-                <Col_1>
-                  <NW_Bottom_Height/>
-                  <SW_Bottom_Height/>
-                  <Center_Bottom_Height/>
-                </Col_1>
-                <Col_2>
-                  <NE_Bottom_Height/>
-                  <SE_Bottom_Height/>
-                </Col_2>
-              </Colgroup_4>
+              <Calculate_All_Elevations/>
               <Volume_Liters/>
             </Measure>
             <Cut>
-              <Cut_Your_Interpretation/>
+              <Your_Identification_Type_of_Cut/>
               <Colgroup_1>
                 <Col_1>
                   <Shape_in_Plan/>
@@ -318,8 +329,6 @@
               <Truncation/>
             </Cut>
             <Construction>
-              <Description/>
-              <Discussion/>
               <Length/>
               <Width/>
               <Colgroup_1>
@@ -352,7 +361,7 @@
               <Section_Numbers/>
             </Construction>
             <Deposit>
-              <Deposit_Your_Interpretation/>
+              <Your_Identification_Type_of_Deposit/>
               <Texture/>
               <Texture_Description/>
               <Soil_Particle_Sorting/>
@@ -464,8 +473,7 @@
               <Skeleton_Notes/>
             </Skeleton>
             <Int>
-              <Your_description/>
-              <Your_Discussion/>
+              <Your_Interpretation_Discussion/>
             </Int>
             <Relationships>
               <Create_Relationships_to_This_Locus/>
@@ -500,6 +508,9 @@
             <Vars>
               <Device_Code/>
               <Locus_Year_of_Campaign/>
+              <Locus_SW_Corner_Elevation_masl/>
+              <Locus_SW_Corner_Northing/>
+              <Locus_SW_Corner_Easting/>
             </Vars>
           </Locus>
           <Stratum_Feature>
@@ -517,6 +528,7 @@
               </Colgroup_1>
               <Description/>
               <Interpretation/>
+              <Preliminary_Cultural_Association/>
               <Discussion/>
               <Colgroup_2>
                 <Col_1>
@@ -528,34 +540,48 @@
               </Colgroup_2>
               <Colgroup_3>
                 <Col_1>
-                  <NW_Top_Depth/>
-                  <SW_Top_Depth/>
-                  <Center_Top_Depth/>
+                  <NW_Top_Depth_Meas_masl/>
+                  <NE_Top_Depth_Meas_masl/>
+                  <SW_Top_Depth_Meas_masl/>
+                  <SE_Top_Depth_Meas_masl/>
+                  <Center_Top_Depth_Meas_masl/>
+                  <NW_Bottom_Depth_Meas_masl/>
+                  <NE_Bottom_Depth_Meas_masl/>
+                  <SW_Bottom_Depth_Meas_masl/>
+                  <SE_Bottom_Depth_Meas_masl/>
+                  <Centre_Bottom_Depth_Meas_masl/>
                 </Col_1>
                 <Col_2>
-                  <NE_Top_Depth/>
-                  <SE_Top_Depth/>
+                  <NW_Top_Elevation_Calc_masl/>
+                  <NE_Top_Elevation_Calc_masl/>
+                  <SW_Top_Elevation_Calc_masl/>
+                  <SE_Top_Elevation_Calc_masl/>
+                  <Center_Top_Elevation_Calc_masl/>
+                  <NW_Bottom_Elevation_Calc_masl/>
+                  <NE_Bottom_Elevation_Calc_masl/>
+                  <SW_Bottom_Elevation_Calc_masl/>
+                  <SE_Bottom_Elevation_Calc_masl/>
+                  <Centre_Bottom_Elevation_Calc_masl/>
                 </Col_2>
               </Colgroup_3>
+              <Calculate_All_Elevations/>
               <Colgroup_4>
                 <Col_1>
-                  <NW_Bottom_Depth/>
-                  <SW_Bottom_Depth/>
-                  <Center_Bottom_Depth/>
+                  <Stratum_Feature_Mid_X_Measurement_m/>
                 </Col_1>
                 <Col_2>
-                  <NE_Bottom_Depth/>
-                  <SE_Bottom_Depth/>
+                  <Stratum_Feature_Mid_X_Calculated/>
                 </Col_2>
               </Colgroup_4>
               <Colgroup_5>
                 <Col_1>
-                  <Mid_X/>
+                  <Stratum_Feature_Mid_Y_Measurement_m/>
                 </Col_1>
                 <Col_2>
-                  <Mid_Y/>
+                  <Stratum_Feature_Mid_Y_Calculated/>
                 </Col_2>
               </Colgroup_5>
+              <Calculate_Stratum_Feature_Mid_X_Y_Coordinates/>
               <Plans/>
               <Section_Numbers/>
               <Colgroup_6>
@@ -598,6 +624,9 @@
               <R_Paren/>
               <Last_Feature_Type/>
               <Last_Feature_Prefix/>
+              <Stratum_Feature_SW_Corner_Elevation_masl/>
+              <Stratum_Feature_SW_Corner_Northing/>
+              <Stratum_Feature_SW_Corner_Easting/>
             </Vars>
           </Stratum_Feature>
           <Sediment_Aggregate>
@@ -752,13 +781,30 @@
               <Locus_ID/>
               <Colgroup_1>
                 <Col_1>
+                  <FCN_X_Measurement_m/>
+                </Col_1>
+                <Col_2>
+                  <X_Calculated_Coord/>
+                </Col_2>
+              </Colgroup_1>
+              <Colgroup_2>
+                <Col_1>
+                  <FCN_Y_Measurement_m/>
+                </Col_1>
+                <Col_2>
+                  <Y_Calculated_Coord/>
+                </Col_2>
+              </Colgroup_2>
+              <Calculate_X_Y_Coordinates/>
+              <Colgroup_3>
+                <Col_1>
                   <Latitude/>
                 </Col_1>
                 <Col_2>
                   <Longitude/>
                 </Col_2>
-              </Colgroup_1>
-              <Colgroup_2>
+              </Colgroup_3>
+              <Colgroup_4>
                 <Col_1>
                   <Northing/>
                 </Col_1>
@@ -768,7 +814,7 @@
                 <Col_3>
                   <Accuracy/>
                 </Col_3>
-              </Colgroup_2>
+              </Colgroup_4>
               <Take_From_GPS_1/>
               <Collection_Method/>
               <FCN_Class/>
@@ -788,6 +834,8 @@
             <Vars>
               <FCN_Year_of_Campaign/>
               <Device_Code/>
+              <FCN_SW_Corner_Northing/>
+              <FCN_SW_Corner_Easting/>
             </Vars>
           </FCN>
           <Soil_Munsel_Color>
@@ -828,25 +876,40 @@
       <bind nodeset="/faims/Control/Next_IDs/Next_Stratum_Feature_ID" type="decimal"/>
       <bind nodeset="/faims/Control/Next_IDs/Next_FCN_ID" type="decimal"/>
       <bind nodeset="/faims/Site/Site/Site_Year_of_Campaign" type="decimal"/>
+      <bind nodeset="/faims/Trench/Trench/Trench_SW_Corner_Elevation_masl" type="decimal"/>
       <bind nodeset="/faims/Date_Closed/Date_Closed/Date_Closed" type="date"/>
       <bind nodeset="/faims/Locus/General/Colgroup_1/Col_3/Locus_Locus_ID" type="decimal"/>
-      <bind nodeset="/faims/Locus/General/Colgroup_2/Col_1/Grid_X" type="decimal"/>
-      <bind nodeset="/faims/Locus/General/Colgroup_2/Col_2/Grid_Y" type="decimal"/>
-      <bind nodeset="/faims/Locus/Measure/Colgroup_1/Col_1/Absolute_Height_Top_m" type="decimal"/>
-      <bind nodeset="/faims/Locus/Measure/Colgroup_1/Col_2/Absolute_Height_Bottom_m" type="decimal"/>
-      <bind nodeset="/faims/Locus/Measure/Colgroup_2/Col_1/Measure_Length" type="decimal"/>
-      <bind nodeset="/faims/Locus/Measure/Colgroup_2/Col_2/Measure_Width" type="decimal"/>
-      <bind nodeset="/faims/Locus/Measure/Colgroup_2/Col_3/Measure_Depth" type="decimal"/>
-      <bind nodeset="/faims/Locus/Measure/Colgroup_3/Col_1/NW_Top_Height" type="decimal"/>
-      <bind nodeset="/faims/Locus/Measure/Colgroup_3/Col_1/SW_Top_Height" type="decimal"/>
-      <bind nodeset="/faims/Locus/Measure/Colgroup_3/Col_1/Center_Top_Height" type="decimal"/>
-      <bind nodeset="/faims/Locus/Measure/Colgroup_3/Col_2/NE_Top_Height" type="decimal"/>
-      <bind nodeset="/faims/Locus/Measure/Colgroup_3/Col_2/SE_Top_Height" type="decimal"/>
-      <bind nodeset="/faims/Locus/Measure/Colgroup_4/Col_1/NW_Bottom_Height" type="decimal"/>
-      <bind nodeset="/faims/Locus/Measure/Colgroup_4/Col_1/SW_Bottom_Height" type="decimal"/>
-      <bind nodeset="/faims/Locus/Measure/Colgroup_4/Col_1/Center_Bottom_Height" type="decimal"/>
-      <bind nodeset="/faims/Locus/Measure/Colgroup_4/Col_2/NE_Bottom_Height" type="decimal"/>
-      <bind nodeset="/faims/Locus/Measure/Colgroup_4/Col_2/SE_Bottom_Height" type="decimal"/>
+      <bind nodeset="/faims/Locus/General/Colgroup_2/Col_1/Locus_Mid_X_Measurement_m" type="decimal"/>
+      <bind nodeset="/faims/Locus/General/Colgroup_2/Col_2/Mid_X_Calculated_Coord" type="decimal"/>
+      <bind nodeset="/faims/Locus/General/Colgroup_3/Col_1/Locus_Mid_Y_Measurement_m" type="decimal"/>
+      <bind nodeset="/faims/Locus/General/Colgroup_3/Col_2/Mid_Y_Calculated_Coord" type="decimal"/>
+      <bind nodeset="/faims/Locus/Measure/Colgroup_1/Col_1/Measure_Length" type="decimal"/>
+      <bind nodeset="/faims/Locus/Measure/Colgroup_1/Col_2/Measure_Width" type="decimal"/>
+      <bind nodeset="/faims/Locus/Measure/Colgroup_1/Col_3/Measure_Depth" type="decimal"/>
+      <bind nodeset="/faims/Locus/Measure/Colgroup_2/Col_1/Absolute_Height_Top_Meas_masl" type="decimal"/>
+      <bind nodeset="/faims/Locus/Measure/Colgroup_2/Col_1/Absolute_Height_Bottom_Meas_masl" type="decimal"/>
+      <bind nodeset="/faims/Locus/Measure/Colgroup_2/Col_1/NW_Top_Height_Meas_masl" type="decimal"/>
+      <bind nodeset="/faims/Locus/Measure/Colgroup_2/Col_1/NE_Top_Height_Meas_masl" type="decimal"/>
+      <bind nodeset="/faims/Locus/Measure/Colgroup_2/Col_1/SW_Top_Height_Meas_masl" type="decimal"/>
+      <bind nodeset="/faims/Locus/Measure/Colgroup_2/Col_1/SE_Top_Height_Meas_masl" type="decimal"/>
+      <bind nodeset="/faims/Locus/Measure/Colgroup_2/Col_1/Centre_Top_Height_Meas_masl" type="decimal"/>
+      <bind nodeset="/faims/Locus/Measure/Colgroup_2/Col_1/NW_Bottom_Height_Meas_masl" type="decimal"/>
+      <bind nodeset="/faims/Locus/Measure/Colgroup_2/Col_1/NE_Bottom_Height_Meas_masl" type="decimal"/>
+      <bind nodeset="/faims/Locus/Measure/Colgroup_2/Col_1/SW_Bottom_Height_Meas_masl" type="decimal"/>
+      <bind nodeset="/faims/Locus/Measure/Colgroup_2/Col_1/SE_Bottom_Height_Meas_masl" type="decimal"/>
+      <bind nodeset="/faims/Locus/Measure/Colgroup_2/Col_1/Centre_Bottom_Height_Meas_masl" type="decimal"/>
+      <bind nodeset="/faims/Locus/Measure/Colgroup_2/Col_2/Elevation_Top_Calc_masl" type="decimal"/>
+      <bind nodeset="/faims/Locus/Measure/Colgroup_2/Col_2/Elevation_Bottom_Calc_masl" type="decimal"/>
+      <bind nodeset="/faims/Locus/Measure/Colgroup_2/Col_2/NW_Top_Elevation_Calc_masl" type="decimal"/>
+      <bind nodeset="/faims/Locus/Measure/Colgroup_2/Col_2/NE_Top_Elevation_Calc_masl" type="decimal"/>
+      <bind nodeset="/faims/Locus/Measure/Colgroup_2/Col_2/SW_Top_Elevation_Calc_masl" type="decimal"/>
+      <bind nodeset="/faims/Locus/Measure/Colgroup_2/Col_2/SE_Top_Elevation_Calc_masl" type="decimal"/>
+      <bind nodeset="/faims/Locus/Measure/Colgroup_2/Col_2/Centre_Top_Elevation_Calc_masl" type="decimal"/>
+      <bind nodeset="/faims/Locus/Measure/Colgroup_2/Col_2/NW_Bottom_Elevation_Calc_masl" type="decimal"/>
+      <bind nodeset="/faims/Locus/Measure/Colgroup_2/Col_2/NE_Bottom_Elevation_Calc_masl" type="decimal"/>
+      <bind nodeset="/faims/Locus/Measure/Colgroup_2/Col_2/SW_Bottom_Elevation_Calc_masl" type="decimal"/>
+      <bind nodeset="/faims/Locus/Measure/Colgroup_2/Col_2/SE_Bottom_Elevation_Calc_masl" type="decimal"/>
+      <bind nodeset="/faims/Locus/Measure/Colgroup_2/Col_2/Centre_Bottom_Elevation_Calc_masl" type="decimal"/>
       <bind nodeset="/faims/Locus/Measure/Volume_Liters" type="decimal"/>
       <bind nodeset="/faims/Locus/Cut/Orientation_Degree" type="decimal"/>
       <bind nodeset="/faims/Locus/Construction/Length" type="decimal"/>
@@ -877,22 +940,46 @@
       <bind nodeset="/faims/Locus/Skeleton/Colgroup_7/Col_1/Target_D_X" type="decimal"/>
       <bind nodeset="/faims/Locus/Skeleton/Colgroup_7/Col_2/Target_D_Y" type="decimal"/>
       <bind nodeset="/faims/Locus/Skeleton/Colgroup_7/Col_3/Target_D_Z" type="decimal"/>
+      <bind nodeset="/faims/Locus/Vars/Locus_SW_Corner_Elevation_masl" type="decimal"/>
+      <bind nodeset="/faims/Locus/Vars/Locus_SW_Corner_Northing" type="decimal"/>
+      <bind nodeset="/faims/Locus/Vars/Locus_SW_Corner_Easting" type="decimal"/>
       <bind nodeset="/faims/Stratum_Feature/General/Colgroup_2/Col_1/Length" type="decimal"/>
       <bind nodeset="/faims/Stratum_Feature/General/Colgroup_2/Col_2/Width" type="decimal"/>
-      <bind nodeset="/faims/Stratum_Feature/General/Colgroup_3/Col_1/NW_Top_Depth" type="decimal"/>
-      <bind nodeset="/faims/Stratum_Feature/General/Colgroup_3/Col_1/SW_Top_Depth" type="decimal"/>
-      <bind nodeset="/faims/Stratum_Feature/General/Colgroup_3/Col_1/Center_Top_Depth" type="decimal"/>
-      <bind nodeset="/faims/Stratum_Feature/General/Colgroup_3/Col_2/NE_Top_Depth" type="decimal"/>
-      <bind nodeset="/faims/Stratum_Feature/General/Colgroup_3/Col_2/SE_Top_Depth" type="decimal"/>
-      <bind nodeset="/faims/Stratum_Feature/General/Colgroup_4/Col_1/NW_Bottom_Depth" type="decimal"/>
-      <bind nodeset="/faims/Stratum_Feature/General/Colgroup_4/Col_1/SW_Bottom_Depth" type="decimal"/>
-      <bind nodeset="/faims/Stratum_Feature/General/Colgroup_4/Col_1/Center_Bottom_Depth" type="decimal"/>
-      <bind nodeset="/faims/Stratum_Feature/General/Colgroup_4/Col_2/NE_Bottom_Depth" type="decimal"/>
-      <bind nodeset="/faims/Stratum_Feature/General/Colgroup_4/Col_2/SE_Bottom_Depth" type="decimal"/>
-      <bind nodeset="/faims/Stratum_Feature/General/Colgroup_5/Col_1/Mid_X" type="decimal"/>
-      <bind nodeset="/faims/Stratum_Feature/General/Colgroup_5/Col_2/Mid_Y" type="decimal"/>
+      <bind nodeset="/faims/Stratum_Feature/General/Colgroup_3/Col_1/NW_Top_Depth_Meas_masl" type="decimal"/>
+      <bind nodeset="/faims/Stratum_Feature/General/Colgroup_3/Col_1/NE_Top_Depth_Meas_masl" type="decimal"/>
+      <bind nodeset="/faims/Stratum_Feature/General/Colgroup_3/Col_1/SW_Top_Depth_Meas_masl" type="decimal"/>
+      <bind nodeset="/faims/Stratum_Feature/General/Colgroup_3/Col_1/SE_Top_Depth_Meas_masl" type="decimal"/>
+      <bind nodeset="/faims/Stratum_Feature/General/Colgroup_3/Col_1/Center_Top_Depth_Meas_masl" type="decimal"/>
+      <bind nodeset="/faims/Stratum_Feature/General/Colgroup_3/Col_1/NW_Bottom_Depth_Meas_masl" type="decimal"/>
+      <bind nodeset="/faims/Stratum_Feature/General/Colgroup_3/Col_1/NE_Bottom_Depth_Meas_masl" type="decimal"/>
+      <bind nodeset="/faims/Stratum_Feature/General/Colgroup_3/Col_1/SW_Bottom_Depth_Meas_masl" type="decimal"/>
+      <bind nodeset="/faims/Stratum_Feature/General/Colgroup_3/Col_1/SE_Bottom_Depth_Meas_masl" type="decimal"/>
+      <bind nodeset="/faims/Stratum_Feature/General/Colgroup_3/Col_1/Centre_Bottom_Depth_Meas_masl" type="decimal"/>
+      <bind nodeset="/faims/Stratum_Feature/General/Colgroup_3/Col_2/NW_Top_Elevation_Calc_masl" type="decimal"/>
+      <bind nodeset="/faims/Stratum_Feature/General/Colgroup_3/Col_2/NE_Top_Elevation_Calc_masl" type="decimal"/>
+      <bind nodeset="/faims/Stratum_Feature/General/Colgroup_3/Col_2/SW_Top_Elevation_Calc_masl" type="decimal"/>
+      <bind nodeset="/faims/Stratum_Feature/General/Colgroup_3/Col_2/SE_Top_Elevation_Calc_masl" type="decimal"/>
+      <bind nodeset="/faims/Stratum_Feature/General/Colgroup_3/Col_2/Center_Top_Elevation_Calc_masl" type="decimal"/>
+      <bind nodeset="/faims/Stratum_Feature/General/Colgroup_3/Col_2/NW_Bottom_Elevation_Calc_masl" type="decimal"/>
+      <bind nodeset="/faims/Stratum_Feature/General/Colgroup_3/Col_2/NE_Bottom_Elevation_Calc_masl" type="decimal"/>
+      <bind nodeset="/faims/Stratum_Feature/General/Colgroup_3/Col_2/SW_Bottom_Elevation_Calc_masl" type="decimal"/>
+      <bind nodeset="/faims/Stratum_Feature/General/Colgroup_3/Col_2/SE_Bottom_Elevation_Calc_masl" type="decimal"/>
+      <bind nodeset="/faims/Stratum_Feature/General/Colgroup_3/Col_2/Centre_Bottom_Elevation_Calc_masl" type="decimal"/>
+      <bind nodeset="/faims/Stratum_Feature/General/Colgroup_4/Col_1/Stratum_Feature_Mid_X_Measurement_m" type="decimal"/>
+      <bind nodeset="/faims/Stratum_Feature/General/Colgroup_4/Col_2/Stratum_Feature_Mid_X_Calculated" type="decimal"/>
+      <bind nodeset="/faims/Stratum_Feature/General/Colgroup_5/Col_1/Stratum_Feature_Mid_Y_Measurement_m" type="decimal"/>
+      <bind nodeset="/faims/Stratum_Feature/General/Colgroup_5/Col_2/Stratum_Feature_Mid_Y_Calculated" type="decimal"/>
+      <bind nodeset="/faims/Stratum_Feature/Vars/Stratum_Feature_SW_Corner_Elevation_masl" type="decimal"/>
+      <bind nodeset="/faims/Stratum_Feature/Vars/Stratum_Feature_SW_Corner_Northing" type="decimal"/>
+      <bind nodeset="/faims/Stratum_Feature/Vars/Stratum_Feature_SW_Corner_Easting" type="decimal"/>
       <bind nodeset="/faims/Sediment_Aggregate/Sediment_Aggregate/Colgroup_1/Col_2/Percentage" type="decimal"/>
+      <bind nodeset="/faims/FCN/General/Colgroup_1/Col_1/FCN_X_Measurement_m" type="decimal"/>
+      <bind nodeset="/faims/FCN/General/Colgroup_1/Col_2/X_Calculated_Coord" type="decimal"/>
+      <bind nodeset="/faims/FCN/General/Colgroup_2/Col_1/FCN_Y_Measurement_m" type="decimal"/>
+      <bind nodeset="/faims/FCN/General/Colgroup_2/Col_2/Y_Calculated_Coord" type="decimal"/>
       <bind nodeset="/faims/FCN/General/FCN_Weight_g" type="decimal"/>
+      <bind nodeset="/faims/FCN/Vars/FCN_SW_Corner_Northing" type="decimal"/>
+      <bind nodeset="/faims/FCN/Vars/FCN_SW_Corner_Easting" type="decimal"/>
     </model>
   </h:head>
   <h:body>
@@ -1120,6 +1207,9 @@
             </select1>
           </group>
         </group>
+        <input faims_attribute_name="Trench SW Corner Elevation masl" faims_attribute_type="measure" ref="Trench_SW_Corner_Elevation_masl">
+          <label>{Trench_SW_Corner_Elevation__masl_}</label>
+        </input>
         <input faims_web="true" ref="Grid_SW_Corner_Coordinates">
           <label>{Grid_SW_Corner_Coordinates}</label>
         </input>
@@ -1181,7 +1271,7 @@
         <input faims_attribute_name="Trench Brief Description" faims_attribute_type="measure" ref="Brief_Description">
           <label>{Brief_Description}</label>
         </input>
-        <input faims_attribute_name="Trench Your Discussion" faims_attribute_type="measure" ref="Your_Discussion">
+        <input faims_attribute_name="Your Discussion" faims_attribute_type="measure" ref="Your_Discussion">
           <label>{Your_Discussion}</label>
         </input>
         <trigger ref="Add_Trench_Files">
@@ -1394,18 +1484,36 @@
           <label/>
           <group ref="Col_1" faims_style="even">
             <label/>
-            <input faims_attribute_name="Grid X" faims_attribute_type="measure" ref="Grid_X">
-              <label>{Grid_X}</label>
+            <input faims_attribute_name="Locus Mid X Measurement m" faims_attribute_type="measure" ref="Locus_Mid_X_Measurement_m">
+              <label>{Mid_X_Measurement__m_}</label>
             </input>
           </group>
           <group ref="Col_2" faims_style="even">
             <label/>
-            <input faims_attribute_name="Grid Y" faims_attribute_type="measure" ref="Grid_Y">
-              <label>{Grid_Y}</label>
+            <input faims_attribute_name="Mid X Calculated Coord" faims_attribute_type="measure" ref="Mid_X_Calculated_Coord" faims_read_only="true">
+              <label>{Mid_X_Calculated_Coord}</label>
             </input>
           </group>
         </group>
         <group ref="Colgroup_3" faims_style="orientation">
+          <label/>
+          <group ref="Col_1" faims_style="even">
+            <label/>
+            <input faims_attribute_name="Locus Mid Y Measurement m" faims_attribute_type="measure" ref="Locus_Mid_Y_Measurement_m">
+              <label>{Mid_Y_Measurement__m_}</label>
+            </input>
+          </group>
+          <group ref="Col_2" faims_style="even">
+            <label/>
+            <input faims_attribute_name="Mid Y Calculated Coord" faims_attribute_type="measure" ref="Mid_Y_Calculated_Coord" faims_read_only="true">
+              <label>{Mid_Y_Calculated_Coord}</label>
+            </input>
+          </group>
+        </group>
+        <trigger ref="Calculate_X_and_Y_values">
+          <label>{Calculate_X_and_Y_values}</label>
+        </trigger>
+        <group ref="Colgroup_4" faims_style="orientation">
           <label/>
           <group ref="Col_1" faims_style="even">
             <label/>
@@ -1427,7 +1535,7 @@
             </select>
           </group>
         </group>
-        <group ref="Colgroup_4" faims_style="orientation">
+        <group ref="Colgroup_5" faims_style="orientation">
           <label/>
           <group ref="Col_1" faims_style="even">
             <label/>
@@ -1460,7 +1568,7 @@
         <trigger ref="Fill_in_Locus_Type_Details">
           <label>{Fill_in_Locus_Type_Details}</label>
         </trigger>
-        <group ref="Colgroup_5" faims_style="orientation">
+        <group ref="Colgroup_6" faims_style="orientation">
           <label/>
           <group ref="Col_1" faims_style="even">
             <label/>
@@ -1489,7 +1597,7 @@
             </trigger>
           </group>
         </group>
-        <group ref="Colgroup_6" faims_style="orientation">
+        <group ref="Colgroup_7" faims_style="orientation">
           <label/>
           <group ref="Col_1" faims_style="even">
             <label/>
@@ -1504,7 +1612,7 @@
             </trigger>
           </group>
         </group>
-        <group ref="Colgroup_7" faims_style="orientation">
+        <group ref="Colgroup_8" faims_style="orientation">
           <label/>
           <group ref="Col_1" faims_style="even">
             <label/>
@@ -1526,21 +1634,6 @@
           <label/>
           <group ref="Col_1" faims_style="even">
             <label/>
-            <input faims_attribute_name="Absolute Height Top m" faims_attribute_type="measure" ref="Absolute_Height_Top_m" faims_style_class="required">
-              <label>{Absolute_Height_Top__m_}</label>
-            </input>
-          </group>
-          <group ref="Col_2" faims_style="even">
-            <label/>
-            <input faims_attribute_name="Absolute Height Bottom m" faims_attribute_type="measure" ref="Absolute_Height_Bottom_m" faims_style_class="required">
-              <label>{Absolute_Height_Bottom__m_}</label>
-            </input>
-          </group>
-        </group>
-        <group ref="Colgroup_2" faims_style="orientation">
-          <label/>
-          <group ref="Col_1" faims_style="even">
-            <label/>
             <input faims_attribute_name="Measure Length" faims_attribute_type="measure" ref="Measure_Length" faims_style_class="required">
               <label>{Length__m_}</label>
             </input>
@@ -1558,62 +1651,98 @@
             </input>
           </group>
         </group>
-        <group ref="Colgroup_3" faims_style="orientation">
+        <group ref="Colgroup_2" faims_style="orientation">
           <label/>
           <group ref="Col_1" faims_style="even">
             <label/>
-            <input faims_attribute_name="NW Top Height" faims_attribute_type="measure" ref="NW_Top_Height">
-              <label>{NW_Top_Height}</label>
+            <input faims_attribute_name="Absolute Height Top Meas masl" faims_attribute_type="measure" ref="Absolute_Height_Top_Meas_masl" faims_style_class="required">
+              <label>{Absolute_Height_Top_Meas__masl_}</label>
             </input>
-            <input faims_attribute_name="SW Top Height" faims_attribute_type="measure" ref="SW_Top_Height">
-              <label>{SW_Top_Height}</label>
+            <input faims_attribute_name="Absolute Height Bottom Meas masl" faims_attribute_type="measure" ref="Absolute_Height_Bottom_Meas_masl" faims_style_class="required">
+              <label>{Absolute_Height_Bottom_Meas__masl_}</label>
             </input>
-            <input faims_attribute_name="Center Top Height" faims_attribute_type="measure" ref="Center_Top_Height">
-              <label>{Center_Top_Height}</label>
+            <input faims_attribute_name="NW Top Height Meas masl" faims_attribute_type="measure" ref="NW_Top_Height_Meas_masl">
+              <label>{NW_Top_Height_Meas__masl_}</label>
+            </input>
+            <input faims_attribute_name="NE Top Height Meas masl" faims_attribute_type="measure" ref="NE_Top_Height_Meas_masl">
+              <label>{NE_Top_Height_Meas__masl_}</label>
+            </input>
+            <input faims_attribute_name="SW Top Height Meas masl" faims_attribute_type="measure" ref="SW_Top_Height_Meas_masl">
+              <label>{SW_Top_Height_Meas__masl_}</label>
+            </input>
+            <input faims_attribute_name="SE Top Height Meas masl" faims_attribute_type="measure" ref="SE_Top_Height_Meas_masl">
+              <label>{SE_Top_Height_Meas__masl_}</label>
+            </input>
+            <input faims_attribute_name="Centre Top Height Meas masl" faims_attribute_type="measure" ref="Centre_Top_Height_Meas_masl">
+              <label>{Centre_Top_Height_Meas__masl_}</label>
+            </input>
+            <input faims_attribute_name="NW Bottom Height Meas masl" faims_attribute_type="measure" ref="NW_Bottom_Height_Meas_masl">
+              <label>{NW_Bottom_Height_Meas__masl_}</label>
+            </input>
+            <input faims_attribute_name="NE Bottom Height Meas masl" faims_attribute_type="measure" ref="NE_Bottom_Height_Meas_masl">
+              <label>{NE_Bottom_Height_Meas__masl_}</label>
+            </input>
+            <input faims_attribute_name="SW Bottom Height Meas masl" faims_attribute_type="measure" ref="SW_Bottom_Height_Meas_masl">
+              <label>{SW_Bottom_Height_Meas__masl_}</label>
+            </input>
+            <input faims_attribute_name="SE Bottom Height Meas masl" faims_attribute_type="measure" ref="SE_Bottom_Height_Meas_masl">
+              <label>{SE_Bottom_Height_Meas__masl_}</label>
+            </input>
+            <input faims_attribute_name="Centre Bottom Height Meas masl" faims_attribute_type="measure" ref="Centre_Bottom_Height_Meas_masl">
+              <label>{Centre_Bottom_Height_Meas__masl_}</label>
             </input>
           </group>
           <group ref="Col_2" faims_style="even">
             <label/>
-            <input faims_attribute_name="NE Top Height" faims_attribute_type="measure" ref="NE_Top_Height">
-              <label>{NE_Top_Height}</label>
+            <input faims_attribute_name="Elevation Top Calc masl" faims_attribute_type="measure" ref="Elevation_Top_Calc_masl" faims_read_only="true">
+              <label>{Elevation_Top_Calc__masl_}</label>
             </input>
-            <input faims_attribute_name="SE Top Height" faims_attribute_type="measure" ref="SE_Top_Height">
-              <label>{SE_Top_Height}</label>
+            <input faims_attribute_name="Elevation Bottom Calc masl" faims_attribute_type="measure" ref="Elevation_Bottom_Calc_masl" faims_read_only="true">
+              <label>{Elevation_Bottom_Calc__masl_}</label>
+            </input>
+            <input faims_attribute_name="NW Top Elevation Calc masl" faims_attribute_type="measure" ref="NW_Top_Elevation_Calc_masl" faims_read_only="true">
+              <label>{NW_Top_Elevation_Calc__masl_}</label>
+            </input>
+            <input faims_attribute_name="NE Top Elevation Calc masl" faims_attribute_type="measure" ref="NE_Top_Elevation_Calc_masl" faims_read_only="true">
+              <label>{NE_Top_Elevation_Calc__masl_}</label>
+            </input>
+            <input faims_attribute_name="SW Top Elevation Calc masl" faims_attribute_type="measure" ref="SW_Top_Elevation_Calc_masl" faims_read_only="true">
+              <label>{SW_Top_Elevation_Calc__masl_}</label>
+            </input>
+            <input faims_attribute_name="SE Top Elevation Calc masl" faims_attribute_type="measure" ref="SE_Top_Elevation_Calc_masl" faims_read_only="true">
+              <label>{SE_Top_Elevation_Calc__masl_}</label>
+            </input>
+            <input faims_attribute_name="Centre Top Elevation Calc masl" faims_attribute_type="measure" ref="Centre_Top_Elevation_Calc_masl" faims_read_only="true">
+              <label>{Centre_Top_Elevation_Calc__masl_}</label>
+            </input>
+            <input faims_attribute_name="NW Bottom Elevation Calc masl" faims_attribute_type="measure" ref="NW_Bottom_Elevation_Calc_masl" faims_read_only="true">
+              <label>{NW_Bottom_Elevation_Calc__masl_}</label>
+            </input>
+            <input faims_attribute_name="NE Bottom Elevation Calc masl" faims_attribute_type="measure" ref="NE_Bottom_Elevation_Calc_masl" faims_read_only="true">
+              <label>{NE_Bottom_Elevation_Calc__masl_}</label>
+            </input>
+            <input faims_attribute_name="SW Bottom Elevation Calc masl" faims_attribute_type="measure" ref="SW_Bottom_Elevation_Calc_masl" faims_read_only="true">
+              <label>{SW_Bottom_Elevation_Calc__masl_}</label>
+            </input>
+            <input faims_attribute_name="SE Bottom Elevation Calc masl" faims_attribute_type="measure" ref="SE_Bottom_Elevation_Calc_masl" faims_read_only="true">
+              <label>{SE_Bottom_Elevation_Calc__masl_}</label>
+            </input>
+            <input faims_attribute_name="Centre Bottom Elevation Calc masl" faims_attribute_type="measure" ref="Centre_Bottom_Elevation_Calc_masl" faims_read_only="true">
+              <label>{Centre_Bottom_Elevation_Calc__masl_}</label>
             </input>
           </group>
         </group>
-        <group ref="Colgroup_4" faims_style="orientation">
-          <label/>
-          <group ref="Col_1" faims_style="even">
-            <label/>
-            <input faims_attribute_name="NW Bottom Height" faims_attribute_type="measure" ref="NW_Bottom_Height">
-              <label>{NW_Bottom_Height}</label>
-            </input>
-            <input faims_attribute_name="SW Bottom Height" faims_attribute_type="measure" ref="SW_Bottom_Height">
-              <label>{SW_Bottom_Height}</label>
-            </input>
-            <input faims_attribute_name="Center Bottom Height" faims_attribute_type="measure" ref="Center_Bottom_Height">
-              <label>{Center_Bottom_Height}</label>
-            </input>
-          </group>
-          <group ref="Col_2" faims_style="even">
-            <label/>
-            <input faims_attribute_name="NE Bottom Height" faims_attribute_type="measure" ref="NE_Bottom_Height">
-              <label>{NE_Bottom_Height}</label>
-            </input>
-            <input faims_attribute_name="SE Bottom Height" faims_attribute_type="measure" ref="SE_Bottom_Height">
-              <label>{SE_Bottom_Height}</label>
-            </input>
-          </group>
-        </group>
+        <trigger ref="Calculate_All_Elevations">
+          <label>{Calculate_All_Elevations}</label>
+        </trigger>
         <input faims_attribute_name="Locus Volume Liters" faims_attribute_type="measure" ref="Volume_Liters" faims_style_class="required">
           <label>{Volume__liters_}</label>
         </input>
       </group>
       <group ref="Cut">
         <label>{Cut}</label>
-        <select1 faims_attribute_name="Cut Your Interpretation" faims_attribute_type="vocab" ref="Cut_Your_Interpretation" faims_style_class="required">
-          <label>{Your_Interpretation}</label>
+        <select1 faims_attribute_name="Your Identification Type of Cut" faims_attribute_type="vocab" ref="Your_Identification_Type_of_Cut" faims_style_class="required">
+          <label>{Your_Identification__Type_of_Cut_}</label>
           <item>
             <label>Options not loaded</label>
             <value>Options not loaded</value>
@@ -1705,12 +1834,6 @@
       </group>
       <group ref="Construction">
         <label>{Construction}</label>
-        <input faims_attribute_name="Locus Description" faims_attribute_type="measure" ref="Description">
-          <label>{Description}</label>
-        </input>
-        <input faims_attribute_name="Locus Discussion" faims_attribute_type="measure" ref="Discussion">
-          <label>{Discussion}</label>
-        </input>
         <input faims_attribute_name="Locus Length" faims_attribute_type="measure" ref="Length">
           <label>{Length}</label>
         </input>
@@ -1765,10 +1888,10 @@
             </input>
           </group>
         </group>
-        <input faims_attribute_name="Locus Mid X" faims_attribute_type="measure" ref="Mid_X">
+        <input faims_attribute_name="Mid X" faims_attribute_type="measure" ref="Mid_X">
           <label>{Mid_X}</label>
         </input>
-        <input faims_attribute_name="Locus Mid Y" faims_attribute_type="measure" ref="Mid_Y">
+        <input faims_attribute_name="Mid Y" faims_attribute_type="measure" ref="Mid_Y">
           <label>{Mid_Y}</label>
         </input>
         <input faims_attribute_name="Sorting" faims_attribute_type="measure" ref="Sorting">
@@ -1786,8 +1909,8 @@
       </group>
       <group ref="Deposit">
         <label>{Deposit}</label>
-        <select1 faims_attribute_name="Deposit Your Interpretation" faims_attribute_type="vocab" ref="Deposit_Your_Interpretation" faims_style_class="required">
-          <label>{Your_Interpretation}</label>
+        <select1 faims_attribute_name="Your Identification Type of Deposit" faims_attribute_type="vocab" ref="Your_Identification_Type_of_Deposit" faims_style_class="required">
+          <label>{Your_Identification__Type_of_Deposit_}</label>
           <item>
             <label>Options not loaded</label>
             <value>Options not loaded</value>
@@ -2050,11 +2173,8 @@
       </group>
       <group ref="Int">
         <label>{Interpretation}</label>
-        <input faims_attribute_name="Your description" faims_attribute_type="measure" ref="Your_description" faims_style_class="required">
-          <label>{Your_Description}</label>
-        </input>
-        <input faims_attribute_name="Locus Your Discussion" faims_attribute_type="measure" ref="Your_Discussion" faims_style_class="required">
-          <label>{Your_Discussion}</label>
+        <input faims_attribute_name="Your Interpretation Discussion" faims_attribute_type="measure" ref="Your_Interpretation_Discussion" faims_style_class="required">
+          <label>{Your_Interpretation_Discussion}</label>
         </input>
       </group>
       <group ref="Relationships" faims_scrollable="false">
@@ -2162,6 +2282,15 @@
         <input faims_attribute_name="Locus Year of Campaign" faims_attribute_type="measure" ref="Locus_Year_of_Campaign">
           <label>{Locus_Year_of_Campaign}</label>
         </input>
+        <input faims_attribute_name="Locus SW Corner Elevation masl" faims_attribute_type="measure" ref="Locus_SW_Corner_Elevation_masl">
+          <label>{Locus_SW_Corner_Elevation__masl_}</label>
+        </input>
+        <input faims_attribute_name="Locus SW Corner Northing" faims_attribute_type="measure" ref="Locus_SW_Corner_Northing">
+          <label>{Locus_SW_Corner_Northing}</label>
+        </input>
+        <input faims_attribute_name="Locus SW Corner Easting" faims_attribute_type="measure" ref="Locus_SW_Corner_Easting">
+          <label>{Locus_SW_Corner_Easting}</label>
+        </input>
       </group>
     </group>
     <group ref="Stratum_Feature" faims_archent_type="Stratum Feature">
@@ -2196,13 +2325,16 @@
             </input>
           </group>
         </group>
-        <input faims_attribute_name="Stratum Feature Description" faims_attribute_type="measure" ref="Description" faims_style_class="required">
+        <input faims_attribute_name="Description" faims_attribute_type="measure" ref="Description" faims_style_class="required">
           <label>{Description}</label>
         </input>
         <input faims_attribute_name="Interpretation" faims_attribute_type="measure" ref="Interpretation" faims_style_class="required">
           <label>{Interpretation}</label>
         </input>
-        <input faims_attribute_name="Stratum Feature Discussion" faims_attribute_type="measure" ref="Discussion">
+        <input faims_attribute_name="Preliminary Cultural Association" faims_attribute_type="measure" ref="Preliminary_Cultural_Association">
+          <label>{Preliminary_Cultural_Association}</label>
+        </input>
+        <input faims_attribute_name="Discussion" faims_attribute_type="measure" ref="Discussion">
           <label>{Discussion}</label>
         </input>
         <group ref="Colgroup_2" faims_style="orientation">
@@ -2224,47 +2356,86 @@
           <label/>
           <group ref="Col_1" faims_style="even">
             <label/>
-            <input faims_attribute_name="NW Top Depth" faims_attribute_type="measure" ref="NW_Top_Depth">
-              <label>{NW_Top_Depth}</label>
+            <input faims_attribute_name="NW Top Depth Meas masl" faims_attribute_type="measure" ref="NW_Top_Depth_Meas_masl">
+              <label>{NW_Top_Depth_Meas__masl_}</label>
             </input>
-            <input faims_attribute_name="SW Top Depth" faims_attribute_type="measure" ref="SW_Top_Depth">
-              <label>{SW_Top_Depth}</label>
+            <input faims_attribute_name="NE Top Depth Meas masl" faims_attribute_type="measure" ref="NE_Top_Depth_Meas_masl">
+              <label>{NE_Top_Depth_Meas__masl_}</label>
             </input>
-            <input faims_attribute_name="Center Top Depth" faims_attribute_type="measure" ref="Center_Top_Depth">
-              <label>{Center_Top_Depth}</label>
+            <input faims_attribute_name="SW Top Depth Meas masl" faims_attribute_type="measure" ref="SW_Top_Depth_Meas_masl">
+              <label>{SW_Top_Depth_Meas__masl_}</label>
+            </input>
+            <input faims_attribute_name="SE Top Depth Meas masl" faims_attribute_type="measure" ref="SE_Top_Depth_Meas_masl">
+              <label>{SE_Top_Depth_Meas__masl_}</label>
+            </input>
+            <input faims_attribute_name="Center Top Depth Meas masl" faims_attribute_type="measure" ref="Center_Top_Depth_Meas_masl">
+              <label>{Center_Top_Depth_Meas__masl_}</label>
+            </input>
+            <input faims_attribute_name="NW Bottom Depth Meas masl" faims_attribute_type="measure" ref="NW_Bottom_Depth_Meas_masl">
+              <label>{NW_Bottom_Depth_Meas__masl_}</label>
+            </input>
+            <input faims_attribute_name="NE Bottom Depth Meas masl" faims_attribute_type="measure" ref="NE_Bottom_Depth_Meas_masl">
+              <label>{NE_Bottom_Depth_Meas__masl_}</label>
+            </input>
+            <input faims_attribute_name="SW Bottom Depth Meas masl" faims_attribute_type="measure" ref="SW_Bottom_Depth_Meas_masl">
+              <label>{SW_Bottom_Depth_Meas__masl_}</label>
+            </input>
+            <input faims_attribute_name="SE Bottom Depth Meas masl" faims_attribute_type="measure" ref="SE_Bottom_Depth_Meas_masl">
+              <label>{SE_Bottom_Depth_Meas__masl_}</label>
+            </input>
+            <input faims_attribute_name="Centre Bottom Depth Meas masl" faims_attribute_type="measure" ref="Centre_Bottom_Depth_Meas_masl">
+              <label>{Centre_Bottom_Depth_Meas__masl_}</label>
             </input>
           </group>
           <group ref="Col_2" faims_style="even">
             <label/>
-            <input faims_attribute_name="NE Top Depth" faims_attribute_type="measure" ref="NE_Top_Depth">
-              <label>{NE_Top_Depth}</label>
+            <input faims_attribute_name="NW Top Elevation Calc masl" faims_attribute_type="measure" ref="NW_Top_Elevation_Calc_masl" faims_read_only="true">
+              <label>{NW_Top_Elevation_Calc__masl_}</label>
             </input>
-            <input faims_attribute_name="SE Top Depth" faims_attribute_type="measure" ref="SE_Top_Depth">
-              <label>{SE_Top_Depth}</label>
+            <input faims_attribute_name="NE Top Elevation Calc masl" faims_attribute_type="measure" ref="NE_Top_Elevation_Calc_masl" faims_read_only="true">
+              <label>{NE_Top_Elevation_Calc__masl_}</label>
+            </input>
+            <input faims_attribute_name="SW Top Elevation Calc masl" faims_attribute_type="measure" ref="SW_Top_Elevation_Calc_masl" faims_read_only="true">
+              <label>{SW_Top_Elevation_Calc__masl_}</label>
+            </input>
+            <input faims_attribute_name="SE Top Elevation Calc masl" faims_attribute_type="measure" ref="SE_Top_Elevation_Calc_masl" faims_read_only="true">
+              <label>{SE_Top_Elevation_Calc__masl_}</label>
+            </input>
+            <input faims_attribute_name="Center Top Elevation Calc masl" faims_attribute_type="measure" ref="Center_Top_Elevation_Calc_masl" faims_read_only="true">
+              <label>{Center_Top_Elevation_Calc__masl_}</label>
+            </input>
+            <input faims_attribute_name="NW Bottom Elevation Calc masl" faims_attribute_type="measure" ref="NW_Bottom_Elevation_Calc_masl" faims_read_only="true">
+              <label>{NW_Bottom_Elevation_Calc__masl_}</label>
+            </input>
+            <input faims_attribute_name="NE Bottom Elevation Calc masl" faims_attribute_type="measure" ref="NE_Bottom_Elevation_Calc_masl" faims_read_only="true">
+              <label>{NE_Bottom_Elevation_Calc__masl_}</label>
+            </input>
+            <input faims_attribute_name="SW Bottom Elevation Calc masl" faims_attribute_type="measure" ref="SW_Bottom_Elevation_Calc_masl" faims_read_only="true">
+              <label>{SW_Bottom_Elevation_Calc__masl_}</label>
+            </input>
+            <input faims_attribute_name="SE Bottom Elevation Calc masl" faims_attribute_type="measure" ref="SE_Bottom_Elevation_Calc_masl" faims_read_only="true">
+              <label>{SE_Bottom_Elevation_Calc__masl_}</label>
+            </input>
+            <input faims_attribute_name="Centre Bottom Elevation Calc masl" faims_attribute_type="measure" ref="Centre_Bottom_Elevation_Calc_masl" faims_read_only="true">
+              <label>{Centre_Bottom_Elevation_Calc__masl_}</label>
             </input>
           </group>
         </group>
+        <trigger ref="Calculate_All_Elevations">
+          <label>{Calculate_All_Elevations}</label>
+        </trigger>
         <group ref="Colgroup_4" faims_style="orientation">
           <label/>
           <group ref="Col_1" faims_style="even">
             <label/>
-            <input faims_attribute_name="NW Bottom Depth" faims_attribute_type="measure" ref="NW_Bottom_Depth">
-              <label>{NW_Bottom_Depth}</label>
-            </input>
-            <input faims_attribute_name="SW Bottom Depth" faims_attribute_type="measure" ref="SW_Bottom_Depth">
-              <label>{SW_Bottom_Depth}</label>
-            </input>
-            <input faims_attribute_name="Center Bottom Depth" faims_attribute_type="measure" ref="Center_Bottom_Depth">
-              <label>{Center_Bottom_Depth}</label>
+            <input faims_attribute_name="Stratum Feature Mid X Measurement m" faims_attribute_type="measure" ref="Stratum_Feature_Mid_X_Measurement_m">
+              <label>{Mid_X_Measurement__m_}</label>
             </input>
           </group>
           <group ref="Col_2" faims_style="even">
             <label/>
-            <input faims_attribute_name="NE Bottom Depth" faims_attribute_type="measure" ref="NE_Bottom_Depth">
-              <label>{NE_Bottom_Depth}</label>
-            </input>
-            <input faims_attribute_name="SE Bottom Depth" faims_attribute_type="measure" ref="SE_Bottom_Depth">
-              <label>{SE_Bottom_Depth}</label>
+            <input faims_attribute_name="Stratum Feature Mid X Calculated" faims_attribute_type="measure" ref="Stratum_Feature_Mid_X_Calculated" faims_read_only="true">
+              <label>{Mid_X_Calculated}</label>
             </input>
           </group>
         </group>
@@ -2272,17 +2443,20 @@
           <label/>
           <group ref="Col_1" faims_style="even">
             <label/>
-            <input faims_attribute_name="Stratum Feature Mid X" faims_attribute_type="measure" ref="Mid_X">
-              <label>{Mid_X}</label>
+            <input faims_attribute_name="Stratum Feature Mid Y Measurement m" faims_attribute_type="measure" ref="Stratum_Feature_Mid_Y_Measurement_m">
+              <label>{Mid_Y_Measurement__m_}</label>
             </input>
           </group>
           <group ref="Col_2" faims_style="even">
             <label/>
-            <input faims_attribute_name="Stratum Feature Mid Y" faims_attribute_type="measure" ref="Mid_Y">
-              <label>{Mid_Y}</label>
+            <input faims_attribute_name="Stratum Feature Mid Y Calculated" faims_attribute_type="measure" ref="Stratum_Feature_Mid_Y_Calculated" faims_read_only="true">
+              <label>{Mid_Y_Calculated}</label>
             </input>
           </group>
         </group>
+        <trigger ref="Calculate_Stratum_Feature_Mid_X_Y_Coordinates">
+          <label>{Calculate_Stratum_Feature_Mid_X_Y_Coordinates}</label>
+        </trigger>
         <input faims_attribute_name="Stratum Feature Plans" faims_attribute_type="measure" ref="Plans">
           <label>{Plans}</label>
         </input>
@@ -2405,6 +2579,15 @@
         </select1>
         <input faims_attribute_name="Last Feature Prefix" faims_attribute_type="measure" ref="Last_Feature_Prefix">
           <label>{Last_Feature_Prefix}</label>
+        </input>
+        <input faims_attribute_name="Stratum Feature SW Corner Elevation masl" faims_attribute_type="measure" ref="Stratum_Feature_SW_Corner_Elevation_masl">
+          <label>{Stratum_Feature_SW_Corner_Elevation__masl_}</label>
+        </input>
+        <input faims_attribute_name="Stratum Feature SW Corner Northing" faims_attribute_type="measure" ref="Stratum_Feature_SW_Corner_Northing">
+          <label>{Stratum_Feature_SW_Corner_Northing}</label>
+        </input>
+        <input faims_attribute_name="Stratum Feature SW Corner Easting" faims_attribute_type="measure" ref="Stratum_Feature_SW_Corner_Easting">
+          <label>{Stratum_Feature_SW_Corner_Easting}</label>
         </input>
       </group>
     </group>
@@ -2781,6 +2964,39 @@
           <label/>
           <group ref="Col_1" faims_style="even">
             <label/>
+            <input faims_attribute_name="FCN X Measurement m" faims_attribute_type="measure" ref="FCN_X_Measurement_m">
+              <label>{X_Measurement__m_}</label>
+            </input>
+          </group>
+          <group ref="Col_2" faims_style="even">
+            <label/>
+            <input faims_attribute_name="X Calculated Coord" faims_attribute_type="measure" ref="X_Calculated_Coord" faims_read_only="true">
+              <label>{X_Calculated_Coord}</label>
+            </input>
+          </group>
+        </group>
+        <group ref="Colgroup_2" faims_style="orientation">
+          <label/>
+          <group ref="Col_1" faims_style="even">
+            <label/>
+            <input faims_attribute_name="FCN Y Measurement m" faims_attribute_type="measure" ref="FCN_Y_Measurement_m">
+              <label>{Y_Measurement__m_}</label>
+            </input>
+          </group>
+          <group ref="Col_2" faims_style="even">
+            <label/>
+            <input faims_attribute_name="Y Calculated Coord" faims_attribute_type="measure" ref="Y_Calculated_Coord" faims_read_only="true">
+              <label>{Y_Calculated_Coord}</label>
+            </input>
+          </group>
+        </group>
+        <trigger ref="Calculate_X_Y_Coordinates">
+          <label>{Calculate_X_Y_Coordinates}</label>
+        </trigger>
+        <group ref="Colgroup_3" faims_style="orientation">
+          <label/>
+          <group ref="Col_1" faims_style="even">
+            <label/>
             <input faims_attribute_name="Latitude"   faims_attribute_type="measure" ref="Latitude"   faims_style_class="readonly">
               <label>{Latitude}</label>
             </input>
@@ -2792,7 +3008,7 @@
             </input>
           </group>
         </group>
-        <group ref="Colgroup_2" faims_style="orientation">
+        <group ref="Colgroup_4" faims_style="orientation">
           <label/>
           <group ref="Col_1" faims_style="even">
             <label/>
@@ -2903,6 +3119,12 @@
             <value>Options not loaded</value>
           </item>
         </select1>
+        <input faims_attribute_name="FCN SW Corner Northing" faims_attribute_type="measure" ref="FCN_SW_Corner_Northing">
+          <label>{FCN_SW_Corner_Northing}</label>
+        </input>
+        <input faims_attribute_name="FCN SW Corner Easting" faims_attribute_type="measure" ref="FCN_SW_Corner_Easting">
+          <label>{FCN_SW_Corner_Easting}</label>
+        </input>
       </group>
     </group>
     <group ref="Soil_Munsel_Color" faims_archent_type="Soil Munsel Color">
