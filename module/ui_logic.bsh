@@ -247,18 +247,18 @@ REF_TO_TYPE.put("Locus/General/Locus_timestamp", "input");
 REF_TO_TYPE.put("Locus/Measure/Measure_Length", "input");
 REF_TO_TYPE.put("Locus/Measure/Measure_Width", "input");
 REF_TO_TYPE.put("Locus/Measure/Measure_Depth", "input");
-REF_TO_TYPE.put("Locus/Measure/Absolute_Height_Top_Meas_masl", "input");
-REF_TO_TYPE.put("Locus/Measure/Absolute_Height_Bottom_Meas_masl", "input");
-REF_TO_TYPE.put("Locus/Measure/NW_Top_Height_Meas_masl", "input");
-REF_TO_TYPE.put("Locus/Measure/NE_Top_Height_Meas_masl", "input");
-REF_TO_TYPE.put("Locus/Measure/SW_Top_Height_Meas_masl", "input");
-REF_TO_TYPE.put("Locus/Measure/SE_Top_Height_Meas_masl", "input");
-REF_TO_TYPE.put("Locus/Measure/Centre_Top_Height_Meas_masl", "input");
-REF_TO_TYPE.put("Locus/Measure/NW_Bottom_Height_Meas_masl", "input");
-REF_TO_TYPE.put("Locus/Measure/NE_Bottom_Height_Meas_masl", "input");
-REF_TO_TYPE.put("Locus/Measure/SW_Bottom_Height_Meas_masl", "input");
-REF_TO_TYPE.put("Locus/Measure/SE_Bottom_Height_Meas_masl", "input");
-REF_TO_TYPE.put("Locus/Measure/Centre_Bottom_Height_Meas_masl", "input");
+REF_TO_TYPE.put("Locus/Measure/Absolute_Height_Top_Meas_m", "input");
+REF_TO_TYPE.put("Locus/Measure/Absolute_Height_Bottom_Meas_m", "input");
+REF_TO_TYPE.put("Locus/Measure/NW_Top_Height_Meas_m", "input");
+REF_TO_TYPE.put("Locus/Measure/NE_Top_Height_Meas_m", "input");
+REF_TO_TYPE.put("Locus/Measure/SW_Top_Height_Meas_m", "input");
+REF_TO_TYPE.put("Locus/Measure/SE_Top_Height_Meas_m", "input");
+REF_TO_TYPE.put("Locus/Measure/Centre_Top_Height_Meas_m", "input");
+REF_TO_TYPE.put("Locus/Measure/NW_Bottom_Height_Meas_m", "input");
+REF_TO_TYPE.put("Locus/Measure/NE_Bottom_Height_Meas_m", "input");
+REF_TO_TYPE.put("Locus/Measure/SW_Bottom_Height_Meas_m", "input");
+REF_TO_TYPE.put("Locus/Measure/SE_Bottom_Height_Meas_m", "input");
+REF_TO_TYPE.put("Locus/Measure/Centre_Bottom_Height_Meas_m", "input");
 REF_TO_TYPE.put("Locus/Measure/Elevation_Top_Calc_masl", "input");
 REF_TO_TYPE.put("Locus/Measure/Elevation_Bottom_Calc_masl", "input");
 REF_TO_TYPE.put("Locus/Measure/NW_Top_Elevation_Calc_masl", "input");
@@ -376,16 +376,16 @@ REF_TO_TYPE.put("Stratum_Feature/General/Preliminary_Cultural_Association", "inp
 REF_TO_TYPE.put("Stratum_Feature/General/Discussion", "input");
 REF_TO_TYPE.put("Stratum_Feature/General/Length", "input");
 REF_TO_TYPE.put("Stratum_Feature/General/Width", "input");
-REF_TO_TYPE.put("Stratum_Feature/General/NW_Top_Depth_Meas_masl", "input");
-REF_TO_TYPE.put("Stratum_Feature/General/NE_Top_Depth_Meas_masl", "input");
-REF_TO_TYPE.put("Stratum_Feature/General/SW_Top_Depth_Meas_masl", "input");
-REF_TO_TYPE.put("Stratum_Feature/General/SE_Top_Depth_Meas_masl", "input");
-REF_TO_TYPE.put("Stratum_Feature/General/Center_Top_Depth_Meas_masl", "input");
-REF_TO_TYPE.put("Stratum_Feature/General/NW_Bottom_Depth_Meas_masl", "input");
-REF_TO_TYPE.put("Stratum_Feature/General/NE_Bottom_Depth_Meas_masl", "input");
-REF_TO_TYPE.put("Stratum_Feature/General/SW_Bottom_Depth_Meas_masl", "input");
-REF_TO_TYPE.put("Stratum_Feature/General/SE_Bottom_Depth_Meas_masl", "input");
-REF_TO_TYPE.put("Stratum_Feature/General/Centre_Bottom_Depth_Meas_masl", "input");
+REF_TO_TYPE.put("Stratum_Feature/General/NW_Top_Depth_Meas_m", "input");
+REF_TO_TYPE.put("Stratum_Feature/General/NE_Top_Depth_Meas_m", "input");
+REF_TO_TYPE.put("Stratum_Feature/General/SW_Top_Depth_Meas_m", "input");
+REF_TO_TYPE.put("Stratum_Feature/General/SE_Top_Depth_Meas_m", "input");
+REF_TO_TYPE.put("Stratum_Feature/General/Center_Top_Depth_Meas_m", "input");
+REF_TO_TYPE.put("Stratum_Feature/General/NW_Bottom_Depth_Meas_m", "input");
+REF_TO_TYPE.put("Stratum_Feature/General/NE_Bottom_Depth_Meas_m", "input");
+REF_TO_TYPE.put("Stratum_Feature/General/SW_Bottom_Depth_Meas_m", "input");
+REF_TO_TYPE.put("Stratum_Feature/General/SE_Bottom_Depth_Meas_m", "input");
+REF_TO_TYPE.put("Stratum_Feature/General/Centre_Bottom_Depth_Meas_m", "input");
 REF_TO_TYPE.put("Stratum_Feature/General/NW_Top_Elevation_Calc_masl", "input");
 REF_TO_TYPE.put("Stratum_Feature/General/NE_Top_Elevation_Calc_masl", "input");
 REF_TO_TYPE.put("Stratum_Feature/General/SW_Top_Elevation_Calc_masl", "input");
@@ -491,7 +491,7 @@ REF_TO_TYPE.put("FCN/General/FCN_X_Measurement_m", "input");
 REF_TO_TYPE.put("FCN/General/X_Calculated_Coord", "input");
 REF_TO_TYPE.put("FCN/General/FCN_Y_Measurement_m", "input");
 REF_TO_TYPE.put("FCN/General/Y_Calculated_Coord", "input");
-REF_TO_TYPE.put("FCN/General/Calculate_X_Y_Coordinates", "button");
+REF_TO_TYPE.put("FCN/General/Calculate_X_Y_Coords_from_Trench_SW_Corner", "button");
 REF_TO_TYPE.put("FCN/General/Latitude", "input");
 REF_TO_TYPE.put("FCN/General/Longitude", "input");
 REF_TO_TYPE.put("FCN/General/Northing", "input");
@@ -631,18 +631,18 @@ DATA_REFS.add("Locus/General/Locus_timestamp");
 DATA_REFS.add("Locus/Measure/Measure_Length");
 DATA_REFS.add("Locus/Measure/Measure_Width");
 DATA_REFS.add("Locus/Measure/Measure_Depth");
-DATA_REFS.add("Locus/Measure/Absolute_Height_Top_Meas_masl");
-DATA_REFS.add("Locus/Measure/Absolute_Height_Bottom_Meas_masl");
-DATA_REFS.add("Locus/Measure/NW_Top_Height_Meas_masl");
-DATA_REFS.add("Locus/Measure/NE_Top_Height_Meas_masl");
-DATA_REFS.add("Locus/Measure/SW_Top_Height_Meas_masl");
-DATA_REFS.add("Locus/Measure/SE_Top_Height_Meas_masl");
-DATA_REFS.add("Locus/Measure/Centre_Top_Height_Meas_masl");
-DATA_REFS.add("Locus/Measure/NW_Bottom_Height_Meas_masl");
-DATA_REFS.add("Locus/Measure/NE_Bottom_Height_Meas_masl");
-DATA_REFS.add("Locus/Measure/SW_Bottom_Height_Meas_masl");
-DATA_REFS.add("Locus/Measure/SE_Bottom_Height_Meas_masl");
-DATA_REFS.add("Locus/Measure/Centre_Bottom_Height_Meas_masl");
+DATA_REFS.add("Locus/Measure/Absolute_Height_Top_Meas_m");
+DATA_REFS.add("Locus/Measure/Absolute_Height_Bottom_Meas_m");
+DATA_REFS.add("Locus/Measure/NW_Top_Height_Meas_m");
+DATA_REFS.add("Locus/Measure/NE_Top_Height_Meas_m");
+DATA_REFS.add("Locus/Measure/SW_Top_Height_Meas_m");
+DATA_REFS.add("Locus/Measure/SE_Top_Height_Meas_m");
+DATA_REFS.add("Locus/Measure/Centre_Top_Height_Meas_m");
+DATA_REFS.add("Locus/Measure/NW_Bottom_Height_Meas_m");
+DATA_REFS.add("Locus/Measure/NE_Bottom_Height_Meas_m");
+DATA_REFS.add("Locus/Measure/SW_Bottom_Height_Meas_m");
+DATA_REFS.add("Locus/Measure/SE_Bottom_Height_Meas_m");
+DATA_REFS.add("Locus/Measure/Centre_Bottom_Height_Meas_m");
 DATA_REFS.add("Locus/Measure/Elevation_Top_Calc_masl");
 DATA_REFS.add("Locus/Measure/Elevation_Bottom_Calc_masl");
 DATA_REFS.add("Locus/Measure/NW_Top_Elevation_Calc_masl");
@@ -741,16 +741,16 @@ DATA_REFS.add("Stratum_Feature/General/Preliminary_Cultural_Association");
 DATA_REFS.add("Stratum_Feature/General/Discussion");
 DATA_REFS.add("Stratum_Feature/General/Length");
 DATA_REFS.add("Stratum_Feature/General/Width");
-DATA_REFS.add("Stratum_Feature/General/NW_Top_Depth_Meas_masl");
-DATA_REFS.add("Stratum_Feature/General/NE_Top_Depth_Meas_masl");
-DATA_REFS.add("Stratum_Feature/General/SW_Top_Depth_Meas_masl");
-DATA_REFS.add("Stratum_Feature/General/SE_Top_Depth_Meas_masl");
-DATA_REFS.add("Stratum_Feature/General/Center_Top_Depth_Meas_masl");
-DATA_REFS.add("Stratum_Feature/General/NW_Bottom_Depth_Meas_masl");
-DATA_REFS.add("Stratum_Feature/General/NE_Bottom_Depth_Meas_masl");
-DATA_REFS.add("Stratum_Feature/General/SW_Bottom_Depth_Meas_masl");
-DATA_REFS.add("Stratum_Feature/General/SE_Bottom_Depth_Meas_masl");
-DATA_REFS.add("Stratum_Feature/General/Centre_Bottom_Depth_Meas_masl");
+DATA_REFS.add("Stratum_Feature/General/NW_Top_Depth_Meas_m");
+DATA_REFS.add("Stratum_Feature/General/NE_Top_Depth_Meas_m");
+DATA_REFS.add("Stratum_Feature/General/SW_Top_Depth_Meas_m");
+DATA_REFS.add("Stratum_Feature/General/SE_Top_Depth_Meas_m");
+DATA_REFS.add("Stratum_Feature/General/Center_Top_Depth_Meas_m");
+DATA_REFS.add("Stratum_Feature/General/NW_Bottom_Depth_Meas_m");
+DATA_REFS.add("Stratum_Feature/General/NE_Bottom_Depth_Meas_m");
+DATA_REFS.add("Stratum_Feature/General/SW_Bottom_Depth_Meas_m");
+DATA_REFS.add("Stratum_Feature/General/SE_Bottom_Depth_Meas_m");
+DATA_REFS.add("Stratum_Feature/General/Centre_Bottom_Depth_Meas_m");
 DATA_REFS.add("Stratum_Feature/General/NW_Top_Elevation_Calc_masl");
 DATA_REFS.add("Stratum_Feature/General/NE_Top_Elevation_Calc_masl");
 DATA_REFS.add("Stratum_Feature/General/SW_Top_Elevation_Calc_masl");
@@ -3247,8 +3247,8 @@ void validateLocus() {
   f.add(fieldPair("Locus/Measure/Measure_Length", "{Length__m_}"));
   f.add(fieldPair("Locus/Measure/Measure_Width", "{Width__m_}"));
   f.add(fieldPair("Locus/Measure/Measure_Depth", "{Depth__m_}"));
-  f.add(fieldPair("Locus/Measure/Absolute_Height_Top_Meas_masl", "{Absolute_Height_Top_Meas__masl_}"));
-  f.add(fieldPair("Locus/Measure/Absolute_Height_Bottom_Meas_masl", "{Absolute_Height_Bottom_Meas__masl_}"));
+  f.add(fieldPair("Locus/Measure/Absolute_Height_Top_Meas_m", "{Absolute_Height_Top_Meas__m_}"));
+  f.add(fieldPair("Locus/Measure/Absolute_Height_Bottom_Meas_m", "{Absolute_Height_Bottom_Meas__m_}"));
   f.add(fieldPair("Locus/Measure/Volume_Liters", "{Volume__liters_}"));
   f.add(fieldPair("Locus/Cut/Your_Identification_Type_of_Cut", "{Your_Identification__Type_of_Cut_}"));
   f.add(fieldPair("Locus/Cut/Shape_in_Plan", "{Shape_in_Plan}"));
@@ -7047,13 +7047,13 @@ final String REF_STRATUM_FEATURE_SW_CORNER_ELEVATION_MASL =
 
 // Locus fields from columns to calculate
 final List REFS_LOCUS_DIM_FIELDS  = getRefsMatching(
-    "Locus/Measure/*_Meas_masl");
+    "Locus/Measure/*_Meas_m");
 final List REFS_LOCUS_CALC_FIELDS = getRefsMatching(
     "Locus/Measure/*_Calc_masl");
 
 // Stratum Feature fields from columns to calculate
 final List REFS_STRATUM_FEATURE_DIM_FIELDS  = getRefsMatching(
-    "Stratum_Feature/General/*_Meas_masl");
+    "Stratum_Feature/General/*_Meas_m");
 final List REFS_STRATUM_FEATURE_CALC_FIELDS = getRefsMatching(
     "Stratum_Feature/General/*_Calc_masl");
 
@@ -7172,7 +7172,7 @@ addOnEvent(
 );
 
 addOnEvent(
-    "FCN/General/Calculate_X_Y_Coordinates",
+    "FCN/General/Calculate_X_Y_Coords_from_Trench_SW_Corner",
     "click",
     "calculateFcnXYCoordinates()"
 );

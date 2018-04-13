@@ -62,7 +62,7 @@ addOnEvent(
 );
 
 addOnEvent(
-    "FCN/General/Calculate_X_Y_Coordinates",
+    "FCN/General/Calculate_X_Y_Coords_from_Trench_SW_Corner",
     "click",
     "calculateFcnXYCoordinates()"
 );

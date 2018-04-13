@@ -292,7 +292,6 @@
     <Brief_Description>
       <desc>Enter a brief, clear name for the Locus eg 'House A - west wall'</desc>
     </Brief_Description>
-    <!--TODO: The following two cols are new cols-->
     <cols>
       <Locus_Mid_X_Measurement_m b="decimal">
         Mid X Measurement (m)
@@ -305,9 +304,7 @@
       </Locus_Mid_Y_Measurement_m>
       <Mid_Y_Calculated_Coord b="decimal" f="readonly"/>
     </cols>
-    <Calculate_X_and_Y_values t="button">
-      <!--TODO: Make me do something-->
-    </Calculate_X_and_Y_values>
+    <Calculate_X_and_Y_values t="button"/>
     <cols>
       <col>
         <Date_Opened>
@@ -418,44 +415,44 @@
     </cols>
     <cols>
       <col>
-        <Absolute_Height_Top_Meas_masl f="notnull" b="decimal">
-          Absolute Height Top Meas (masl)
+        <Absolute_Height_Top_Meas_m f="notnull" b="decimal">
+          Absolute Height Top Meas (m)
           <desc>The highest elevation or 'starting level' recorded for that locus relative to the site grid.</desc>
-        </Absolute_Height_Top_Meas_masl>
-        <Absolute_Height_Bottom_Meas_masl f="notnull" b="decimal">
-          Absolute Height Bottom Meas (masl)
+        </Absolute_Height_Top_Meas_m>
+        <Absolute_Height_Bottom_Meas_m f="notnull" b="decimal">
+          Absolute Height Bottom Meas (m)
           <desc>The lowest elevation recorded for that locus relative to the site grid.</desc>
-        </Absolute_Height_Bottom_Meas_masl>
-        <NW_Top_Height_Meas_masl b="decimal">
-          NW Top Height Meas (masl)
-        </NW_Top_Height_Meas_masl>
-        <NE_Top_Height_Meas_masl b="decimal">
-          NE Top Height Meas (masl)
-        </NE_Top_Height_Meas_masl>
-        <SW_Top_Height_Meas_masl b="decimal">
-          SW Top Height Meas (masl)
-        </SW_Top_Height_Meas_masl>
-        <SE_Top_Height_Meas_masl b="decimal">
-          SE Top Height Meas (masl)
-        </SE_Top_Height_Meas_masl>
-        <Centre_Top_Height_Meas_masl b="decimal">
-          Centre Top Height Meas (masl)
-        </Centre_Top_Height_Meas_masl>
-        <NW_Bottom_Height_Meas_masl b="decimal">
-          NW Bottom Height Meas (masl)
-        </NW_Bottom_Height_Meas_masl>
-        <NE_Bottom_Height_Meas_masl b="decimal">
-          NE Bottom Height Meas (masl)
-        </NE_Bottom_Height_Meas_masl>
-        <SW_Bottom_Height_Meas_masl b="decimal">
-          SW Bottom Height Meas (masl)
-        </SW_Bottom_Height_Meas_masl>
-        <SE_Bottom_Height_Meas_masl b="decimal">
-          SE Bottom Height Meas (masl)
-        </SE_Bottom_Height_Meas_masl>
-        <Centre_Bottom_Height_Meas_masl b="decimal">
-          Centre Bottom Height Meas (masl)
-        </Centre_Bottom_Height_Meas_masl>
+        </Absolute_Height_Bottom_Meas_m>
+        <NW_Top_Height_Meas_m b="decimal">
+          NW Top Height Meas (m)
+        </NW_Top_Height_Meas_m>
+        <NE_Top_Height_Meas_m b="decimal">
+          NE Top Height Meas (m)
+        </NE_Top_Height_Meas_m>
+        <SW_Top_Height_Meas_m b="decimal">
+          SW Top Height Meas (m)
+        </SW_Top_Height_Meas_m>
+        <SE_Top_Height_Meas_m b="decimal">
+          SE Top Height Meas (m)
+        </SE_Top_Height_Meas_m>
+        <Centre_Top_Height_Meas_m b="decimal">
+          Centre Top Height Meas (m)
+        </Centre_Top_Height_Meas_m>
+        <NW_Bottom_Height_Meas_m b="decimal">
+          NW Bottom Height Meas (m)
+        </NW_Bottom_Height_Meas_m>
+        <NE_Bottom_Height_Meas_m b="decimal">
+          NE Bottom Height Meas (m)
+        </NE_Bottom_Height_Meas_m>
+        <SW_Bottom_Height_Meas_m b="decimal">
+          SW Bottom Height Meas (m)
+        </SW_Bottom_Height_Meas_m>
+        <SE_Bottom_Height_Meas_m b="decimal">
+          SE Bottom Height Meas (m)
+        </SE_Bottom_Height_Meas_m>
+        <Centre_Bottom_Height_Meas_m b="decimal">
+          Centre Bottom Height Meas (m)
+        </Centre_Bottom_Height_Meas_m>
       </col>
       <col>
         <Elevation_Top_Calc_masl b="decimal" f="readonly">
@@ -1153,36 +1150,36 @@
     </cols>
     <cols>
       <col>
-        <NW_Top_Depth_Meas_masl b="decimal">
-          NW Top Depth Meas (masl)
-        </NW_Top_Depth_Meas_masl>
-        <NE_Top_Depth_Meas_masl b="decimal">
-          NE Top Depth Meas (masl)
-        </NE_Top_Depth_Meas_masl>
-        <SW_Top_Depth_Meas_masl b="decimal">
-          SW Top Depth Meas (masl)
-        </SW_Top_Depth_Meas_masl>
-        <SE_Top_Depth_Meas_masl b="decimal">
-          SE Top Depth Meas (masl)
-        </SE_Top_Depth_Meas_masl>
-        <Center_Top_Depth_Meas_masl b="decimal">
-          Center Top Depth Meas (masl)
-        </Center_Top_Depth_Meas_masl>
-        <NW_Bottom_Depth_Meas_masl b="decimal">
-          NW Bottom Depth Meas (masl)
-        </NW_Bottom_Depth_Meas_masl>
-        <NE_Bottom_Depth_Meas_masl b="decimal">
-          NE Bottom Depth Meas (masl)
-        </NE_Bottom_Depth_Meas_masl>
-        <SW_Bottom_Depth_Meas_masl b="decimal">
-          SW Bottom Depth Meas (masl)
-        </SW_Bottom_Depth_Meas_masl>
-        <SE_Bottom_Depth_Meas_masl b="decimal">
-          SE Bottom Depth Meas (masl)
-        </SE_Bottom_Depth_Meas_masl>
-        <Centre_Bottom_Depth_Meas_masl b="decimal">
-          Centre Bottom Depth Meas (masl)
-        </Centre_Bottom_Depth_Meas_masl>
+        <NW_Top_Depth_Meas_m b="decimal">
+          NW Top Depth Meas (m)
+        </NW_Top_Depth_Meas_m>
+        <NE_Top_Depth_Meas_m b="decimal">
+          NE Top Depth Meas (m)
+        </NE_Top_Depth_Meas_m>
+        <SW_Top_Depth_Meas_m b="decimal">
+          SW Top Depth Meas (m)
+        </SW_Top_Depth_Meas_m>
+        <SE_Top_Depth_Meas_m b="decimal">
+          SE Top Depth Meas (m)
+        </SE_Top_Depth_Meas_m>
+        <Center_Top_Depth_Meas_m b="decimal">
+          Center Top Depth Meas (m)
+        </Center_Top_Depth_Meas_m>
+        <NW_Bottom_Depth_Meas_m b="decimal">
+          NW Bottom Depth Meas (m)
+        </NW_Bottom_Depth_Meas_m>
+        <NE_Bottom_Depth_Meas_m b="decimal">
+          NE Bottom Depth Meas (m)
+        </NE_Bottom_Depth_Meas_m>
+        <SW_Bottom_Depth_Meas_m b="decimal">
+          SW Bottom Depth Meas (m)
+        </SW_Bottom_Depth_Meas_m>
+        <SE_Bottom_Depth_Meas_m b="decimal">
+          SE Bottom Depth Meas (m)
+        </SE_Bottom_Depth_Meas_m>
+        <Centre_Bottom_Depth_Meas_m b="decimal">
+          Centre Bottom Depth Meas (m)
+        </Centre_Bottom_Depth_Meas_m>
       </col>
       <col>
         <NW_Top_Elevation_Calc_masl b="decimal" f="readonly">
@@ -1218,7 +1215,6 @@
       </col>
     </cols>
     <Calculate_All_Elevations t="button"/>
-    <!--TODO: The following two <cols> are neu-->
     <cols>
       <Stratum_Feature_Mid_X_Measurement_m b="decimal">
         Mid X Measurement (m)
@@ -1239,7 +1235,6 @@
     </cols>
     <Calculate_Stratum_Feature_Mid_X_Y_Coordinates t="button">
       Calculate Stratum/Feature Mid X,Y Coordinates
-      <!--TODO: Make me do da ting-->
     </Calculate_Stratum_Feature_Mid_X_Y_Coordinates>
     <Plans>
       <desc>Reference numbers to plans or drawings of this feature.</desc>
@@ -1621,7 +1616,6 @@
       Burial locus codes begin with the letter Z, followed by the trench letter. Hence burial ZHA is the first burial locus from trench H.
       Check with the trench supervisor who will assign the locus code from the central register.</desc>
     </Locus_ID>
-    <!--TODO: The following two cols are new cols-->
     <cols>
       <FCN_X_Measurement_m b="decimal">
         X Measurement (m)
@@ -1634,10 +1628,9 @@
       </FCN_Y_Measurement_m>
       <Y_Calculated_Coord b="decimal" f="readonly"/>
     </cols>
-    <Calculate_X_Y_Coordinates t="button">
-      Calculate X,Y Coordinates
-      <!--TODO: Make me do something-->
-    </Calculate_X_Y_Coordinates>
+    <Calculate_X_Y_Coords_from_Trench_SW_Corner t="button">
+      Calculate X,Y Coords from Trench SW Corner
+    </Calculate_X_Y_Coords_from_Trench_SW_Corner>
     <gps/>
     <Collection_Method>
       <opts>

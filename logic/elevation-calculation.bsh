@@ -7,13 +7,13 @@ final String REF_STRATUM_FEATURE_SW_CORNER_ELEVATION_MASL =
 
 // Locus fields from columns to calculate
 final List REFS_LOCUS_DIM_FIELDS  = getRefsMatching(
-    "Locus/Measure/*_Meas_masl");
+    "Locus/Measure/*_Meas_m");
 final List REFS_LOCUS_CALC_FIELDS = getRefsMatching(
     "Locus/Measure/*_Calc_masl");
 
 // Stratum Feature fields from columns to calculate
 final List REFS_STRATUM_FEATURE_DIM_FIELDS  = getRefsMatching(
-    "Stratum_Feature/General/*_Meas_masl");
+    "Stratum_Feature/General/*_Meas_m");
 final List REFS_STRATUM_FEATURE_CALC_FIELDS = getRefsMatching(
     "Stratum_Feature/General/*_Calc_masl");
 
