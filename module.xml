@@ -1710,8 +1710,8 @@
     <Device_Code i="User/User_List/Device_Code!">
       <!--@SOURCE: vocabs/device-code.xml-->
     </Device_Code>
-    <FCN_SW_Corner_Northing b="decimal" i="Trench/Trench/Northing"/>
-    <FCN_SW_Corner_Easting b="decimal" i="Trench/Trench/Easting"/>
+    <FCN_SW_Corner_Northing b="decimal" i="Locus/Vars/Locus_SW_Corner_Northing Trench/Trench/Northing"/>
+    <FCN_SW_Corner_Easting b="decimal" i="Locus/Vars/Locus_SW_Corner_Easting Trench/Trench/Easting"/>
   </Vars>
 </FCN>
 
