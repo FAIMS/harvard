@@ -32,7 +32,7 @@ boolean CGisDisplayedRelationship() {return displayedTabGroup.equals("Stratum_Fe
 
 // Depends on the following globals:
 //   - selectedRelId
-//   - userid        (Defined by autogen)
+//   - userId        (Defined by autogen)
 void deleteRelationship() {
   if (isNull(selectedRelId)) {
     showToast("{no_relationship_selected}");
@@ -41,7 +41,7 @@ void deleteRelationship() {
 
   String q = "";
   q += " INSERT INTO aentreln (uuid, relationshipid, deleted, participatesverb, userid)";
-  q += " SELECT uuid, relationshipid, 'true', participatesverb, '"+userid+"'";
+  q += " SELECT uuid, relationshipid, 'true', participatesverb, '"+userId+"'";
   q += " FROM latestnondeletedaentreln";
   q += " WHERE relationshipid = '"+selectedRelId+"'";
 

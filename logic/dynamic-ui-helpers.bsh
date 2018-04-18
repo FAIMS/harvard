@@ -16,7 +16,7 @@ void hideView(String refView) {
     q += " FROM  attributekey";
     q += " WHERE attributename = '{attributename}'";
     q  = replaceFirst(q, "{uuid}", uuid);
-    q  = replaceFirst(q, "{userid}", userid);
+    q  = replaceFirst(q, "{userid}", userId);
     q  = replaceFirst(q, "{attributename}", attribName);
 
     fetchOne(q);
