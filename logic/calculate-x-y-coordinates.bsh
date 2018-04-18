@@ -13,12 +13,12 @@ void addFieldValuesAsDoubles(
 void calculateLocusMidXYCoordinates() {
   addFieldValuesAsDoubles(
       "Locus/General/Locus_Mid_X_Measurement_m",
-      "Locus/Vars/Locus_SW_Corner_Northing",
+      "Locus/Vars/Locus_SW_Corner_Easting",
       "Locus/General/Mid_X_Calculated_Coord"
   );
   addFieldValuesAsDoubles(
       "Locus/General/Locus_Mid_Y_Measurement_m",
-      "Locus/Vars/Locus_SW_Corner_Easting",
+      "Locus/Vars/Locus_SW_Corner_Northing",
       "Locus/General/Mid_Y_Calculated_Coord"
   );
 }
@@ -26,12 +26,12 @@ void calculateLocusMidXYCoordinates() {
 void calculateStratumFeatureMidXYCoordinates() {
   addFieldValuesAsDoubles(
       "Stratum_Feature/General/Stratum_Feature_Mid_X_Measurement_m",
-      "Stratum_Feature/Vars/Stratum_Feature_SW_Corner_Northing",
+      "Stratum_Feature/Vars/Stratum_Feature_SW_Corner_Easting",
       "Stratum_Feature/General/Stratum_Feature_Mid_X_Calculated"
   );
   addFieldValuesAsDoubles(
       "Stratum_Feature/General/Stratum_Feature_Mid_Y_Measurement_m",
-      "Stratum_Feature/Vars/Stratum_Feature_SW_Corner_Easting",
+      "Stratum_Feature/Vars/Stratum_Feature_SW_Corner_Northing",
       "Stratum_Feature/General/Stratum_Feature_Mid_Y_Calculated"
   );
 }
@@ -39,12 +39,12 @@ void calculateStratumFeatureMidXYCoordinates() {
 void calculateFcnXYCoordinates() {
   addFieldValuesAsDoubles(
       "FCN/General/FCN_X_Measurement_m",
-      "FCN/Vars/FCN_SW_Corner_Northing",
+      "FCN/Vars/FCN_SW_Corner_Easting",
       "FCN/General/X_Calculated_Coord"
   );
   addFieldValuesAsDoubles(
       "FCN/General/FCN_Y_Measurement_m",
-      "FCN/Vars/FCN_SW_Corner_Easting",
+      "FCN/Vars/FCN_SW_Corner_Northing",
       "FCN/General/Y_Calculated_Coord"
   );
 }

@@ -764,7 +764,6 @@ DATA_REFS.add("Trench/Trench/Trench_timestamp");
 DATA_REFS.add("Trench/Trench/Date_Closed");
 DATA_REFS.add("Trench/Trench/Brief_Description");
 DATA_REFS.add("Trench/Trench/Your_Discussion");
-DATA_REFS.add("Trench/FCNs/List_of_Existing_FCNs");
 DATA_REFS.add("Trench/Vars/Trench_Year_of_Campaign");
 DATA_REFS.add("Trench/Vars/Device_Code");
 DATA_REFS.add("Trench_Files/Add_Trench_Files/Trench_Files_Site_Name");
@@ -3839,6 +3838,12 @@ void validateSite() {
 }
 void validateTrench() {
   List f = new ArrayList(); // Fields to be validated
+  f.add(fieldPair("Trench/Trench/Trench_SW_Corner_Elevation_masl", "{Trench_SW_Corner_Elevation__masl_}"));
+  f.add(fieldPair("Trench/Trench/Latitude", "{Latitude}"));
+  f.add(fieldPair("Trench/Trench/Longitude", "{Longitude}"));
+  f.add(fieldPair("Trench/Trench/Northing", "{Northing}"));
+  f.add(fieldPair("Trench/Trench/Easting", "{Easting}"));
+  f.add(fieldPair("Trench/Trench/Accuracy", "{Accuracy}"));
   f.add(fieldPair("Trench/Trench/Excavation_Method", "{Excavation_Method}"));
 
   String validationMessage = validateFields(f, "PLAINTEXT");
@@ -7800,12 +7805,12 @@ void addFieldValuesAsDoubles(
 void calculateLocusMidXYCoordinates() {
   addFieldValuesAsDoubles(
       "Locus/General/Locus_Mid_X_Measurement_m",
-      "Locus/Vars/Locus_SW_Corner_Northing",
+      "Locus/Vars/Locus_SW_Corner_Easting",
       "Locus/General/Mid_X_Calculated_Coord"
   );
   addFieldValuesAsDoubles(
       "Locus/General/Locus_Mid_Y_Measurement_m",
-      "Locus/Vars/Locus_SW_Corner_Easting",
+      "Locus/Vars/Locus_SW_Corner_Northing",
       "Locus/General/Mid_Y_Calculated_Coord"
   );
 }
@@ -7813,12 +7818,12 @@ void calculateLocusMidXYCoordinates() {
 void calculateStratumFeatureMidXYCoordinates() {
   addFieldValuesAsDoubles(
       "Stratum_Feature/General/Stratum_Feature_Mid_X_Measurement_m",
-      "Stratum_Feature/Vars/Stratum_Feature_SW_Corner_Northing",
+      "Stratum_Feature/Vars/Stratum_Feature_SW_Corner_Easting",
       "Stratum_Feature/General/Stratum_Feature_Mid_X_Calculated"
   );
   addFieldValuesAsDoubles(
       "Stratum_Feature/General/Stratum_Feature_Mid_Y_Measurement_m",
-      "Stratum_Feature/Vars/Stratum_Feature_SW_Corner_Easting",
+      "Stratum_Feature/Vars/Stratum_Feature_SW_Corner_Northing",
       "Stratum_Feature/General/Stratum_Feature_Mid_Y_Calculated"
   );
 }
@@ -7826,12 +7831,12 @@ void calculateStratumFeatureMidXYCoordinates() {
 void calculateFcnXYCoordinates() {
   addFieldValuesAsDoubles(
       "FCN/General/FCN_X_Measurement_m",
-      "FCN/Vars/FCN_SW_Corner_Northing",
+      "FCN/Vars/FCN_SW_Corner_Easting",
       "FCN/General/X_Calculated_Coord"
   );
   addFieldValuesAsDoubles(
       "FCN/General/FCN_Y_Measurement_m",
-      "FCN/Vars/FCN_SW_Corner_Easting",
+      "FCN/Vars/FCN_SW_Corner_Northing",
       "FCN/General/Y_Calculated_Coord"
   );
 }

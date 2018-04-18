@@ -1207,7 +1207,7 @@
             </select1>
           </group>
         </group>
-        <input faims_attribute_name="Trench SW Corner Elevation masl" faims_attribute_type="measure" ref="Trench_SW_Corner_Elevation_masl">
+        <input faims_attribute_name="Trench SW Corner Elevation masl" faims_attribute_type="measure" ref="Trench_SW_Corner_Elevation_masl" faims_style_class="required">
           <label>{Trench_SW_Corner_Elevation__masl_}</label>
         </input>
         <input faims_web="true" ref="Grid_SW_Corner_Coordinates">
@@ -1217,13 +1217,13 @@
           <label/>
           <group ref="Col_1" faims_style="even">
             <label/>
-            <input faims_attribute_name="Latitude"   faims_attribute_type="measure" ref="Latitude"   faims_style_class="readonly">
+            <input faims_attribute_name="Latitude" faims_attribute_type="measure" ref="Latitude" faims_style_class="required" faims_read_only="true">
               <label>{Latitude}</label>
             </input>
           </group>
           <group ref="Col_2" faims_style="even">
             <label/>
-            <input faims_attribute_name="Longitude"   faims_attribute_type="measure" ref="Longitude"   faims_style_class="readonly">
+            <input faims_attribute_name="Longitude" faims_attribute_type="measure" ref="Longitude" faims_style_class="required" faims_read_only="true">
               <label>{Longitude}</label>
             </input>
           </group>
@@ -1232,19 +1232,19 @@
           <label/>
           <group ref="Col_1" faims_style="even">
             <label/>
-            <input faims_attribute_name="Northing"   faims_attribute_type="measure" ref="Northing"   faims_style_class="readonly">
+            <input faims_attribute_name="Northing" faims_attribute_type="measure" ref="Northing" faims_style_class="required" faims_read_only="true">
               <label>{Northing}</label>
             </input>
           </group>
           <group ref="Col_2" faims_style="even">
             <label/>
-            <input faims_attribute_name="Easting"   faims_attribute_type="measure" ref="Easting"   faims_style_class="readonly">
+            <input faims_attribute_name="Easting" faims_attribute_type="measure" ref="Easting" faims_style_class="required" faims_read_only="true">
               <label>{Easting}</label>
             </input>
           </group>
           <group ref="Col_3" faims_style="even">
             <label/>
-            <input faims_attribute_name="Accuracy" faims_attribute_type="measure" ref="Accuracy" faims_read_only="true">
+            <input faims_attribute_name="Accuracy" faims_attribute_type="measure" ref="Accuracy" faims_style_class="required" faims_read_only="true">
               <label>{Accuracy}</label>
             </input>
           </group>
@@ -1316,7 +1316,7 @@
         <trigger ref="Create_New_FCN">
           <label>{Create_New_FCN}</label>
         </trigger>
-        <select1 appearance="compact" faims_attribute_name="List of Existing FCNs" faims_attribute_type="vocab" ref="List_of_Existing_FCNs">
+        <select1 appearance="compact" ref="List_of_Existing_FCNs">
           <label>{List_of_Existing_FCNs}</label>
           <item>
             <label>Options not loaded</label>
