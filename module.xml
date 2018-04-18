@@ -140,11 +140,11 @@
         <!--@SOURCE: vocabs/trench-dimensions.xml-->
       </Trench_Dimension_2_m>
     </cols>
-    <Trench_SW_Corner_Elevation_masl b="decimal">
+    <Trench_SW_Corner_Elevation_masl b="decimal" f="notnull">
       Trench SW Corner Elevation (masl)
     </Trench_SW_Corner_Elevation_masl>
     <Grid_SW_Corner_Coordinates t="webview"/>
-    <gps/>
+    <gps f="notnull"/>
     <Excavation_Method t="checkbox" f="notnull">
       <desc>Enter details here about the method of archaeological excavation.</desc>
       <opts>
@@ -190,7 +190,7 @@
   </Strata_Features>
   <FCNs f="noscroll">
     <Create_New_FCN        t="button" lc="FCN"/>
-    <List_of_Existing_FCNs t="list"/>
+    <List_of_Existing_FCNs t="list" f="nodata"/>
   </FCNs>
   <Diaries f="noscroll">
     <Create_New_Diary         t="button" lc="Diary"/>
