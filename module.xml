@@ -1697,6 +1697,7 @@
       <!--@SOURCE: vocabs/boolean.xml-->
     </Analyzed>
     <FCN_Group_Comment/>
+    <Print_FCN_Label t="button" c="orange"/>
     <Attach_File t="file"/>
     <View_Attached_Files t="viewfiles"/>
     <Attach_Photograph t="camera"/>
@@ -1797,5 +1798,6 @@
   <!--@SOURCE: logic/field-clearing.bsh-->
   <!--@SOURCE: logic/elevation-calculation.bsh-->
   <!--@SOURCE: logic/calculate-x-y-coordinates.bsh-->
+  <!--@SOURCE: logic/qr-codes.bsh-->
 ]]></logic>
 </module>

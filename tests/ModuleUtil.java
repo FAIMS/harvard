@@ -672,6 +672,15 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: button
+        Ref:  FCN/General/Print_FCN_Label
+     */
+    public static View get_FCN_General_PrintFCNLabel(Solo solo) {
+        String ref = "FCN/General/Print_FCN_Label";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: button
         Ref:  FCN/General/Take_From_GPS_1
      */
     public static View get_FCN_General_TakeFromGPS1(Solo solo) {

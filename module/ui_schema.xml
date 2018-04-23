@@ -42,6 +42,7 @@
               <Next_FCN_ID/>
             </Next_IDs>
             <Search>
+              <Load_FCN_Label/>
               <Colgroup_0>
                 <Col_0>
                   <Search_Term/>
@@ -825,6 +826,7 @@
               <Weighted/>
               <Analyzed/>
               <FCN_Group_Comment/>
+              <Print_FCN_Label/>
               <Attach_File/>
               <Attach_File_Button_1/>
               <View_Attached_Files/>
@@ -1073,6 +1075,9 @@
       </group>
       <group ref="Search" faims_scrollable="false">
         <label>{Search}</label>
+        <trigger ref="Load_FCN_Label">
+          <label>{Load_FCN_Label}</label>
+        </trigger>
         <group ref="Colgroup_0" faims_style="orientation">
           <label/>
           <group ref="Col_0" faims_style="even">
@@ -3083,6 +3088,9 @@
         <input faims_attribute_name="FCN Group Comment" faims_attribute_type="measure" ref="FCN_Group_Comment">
           <label>{FCN_Group_Comment}</label>
         </input>
+        <trigger ref="Print_FCN_Label" faims_style_class="orange">
+          <label>{Print_FCN_Label}</label>
+        </trigger>
         <select faims_sync="true" type="file" faims_attribute_name="Attach File" faims_attribute_type="measure" ref="Attach_File">
           <label>{Attach_File}</label>
           <item>
