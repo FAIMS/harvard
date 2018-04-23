@@ -7,3 +7,9 @@
 .readonly {
   color: #B2B2B2;
 }
+.required-readonly {
+  color: #B2B2B2;
+}
+.required-readonly-label {
+  color: red;
+}

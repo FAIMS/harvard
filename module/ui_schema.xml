@@ -1217,13 +1217,13 @@
           <label/>
           <group ref="Col_1" faims_style="even">
             <label/>
-            <input faims_attribute_name="Latitude" faims_attribute_type="measure" ref="Latitude" faims_style_class="required" faims_read_only="true">
+            <input faims_attribute_name="Latitude"   faims_attribute_type="measure" ref="Latitude"   faims_style_class="required-readonly">
               <label>{Latitude}</label>
             </input>
           </group>
           <group ref="Col_2" faims_style="even">
             <label/>
-            <input faims_attribute_name="Longitude" faims_attribute_type="measure" ref="Longitude" faims_style_class="required" faims_read_only="true">
+            <input faims_attribute_name="Longitude"   faims_attribute_type="measure" ref="Longitude"   faims_style_class="required-readonly">
               <label>{Longitude}</label>
             </input>
           </group>
@@ -1232,13 +1232,13 @@
           <label/>
           <group ref="Col_1" faims_style="even">
             <label/>
-            <input faims_attribute_name="Northing" faims_attribute_type="measure" ref="Northing" faims_style_class="required" faims_read_only="true">
+            <input faims_attribute_name="Northing"   faims_attribute_type="measure" ref="Northing"   faims_style_class="required-readonly">
               <label>{Northing}</label>
             </input>
           </group>
           <group ref="Col_2" faims_style="even">
             <label/>
-            <input faims_attribute_name="Easting" faims_attribute_type="measure" ref="Easting" faims_style_class="required" faims_read_only="true">
+            <input faims_attribute_name="Easting"   faims_attribute_type="measure" ref="Easting"   faims_style_class="required-readonly">
               <label>{Easting}</label>
             </input>
           </group>
