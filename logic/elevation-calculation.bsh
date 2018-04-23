@@ -26,7 +26,7 @@ assert(
     REFS_STRATUM_FEATURE_CALC_FIELDS.size());
 
 // Calculation
-void calculateElevations(String refCornerElevation, refsIn, List refsOut) {
+void calculateElevations(String refCornerElevation, List refsIn, List refsOut) {
   double valCornerElevation = getFieldValueAsDouble(refCornerElevation);
 
   for (int i = 0; i < refsIn.size(); i++) {
@@ -34,7 +34,7 @@ void calculateElevations(String refCornerElevation, refsIn, List refsOut) {
     String refOut = refsOut.get(i);
 
     double valIn  = getFieldValueAsDouble(refIn);
-    double valOut = valCornerElevation + valIn;
+    double valOut = valCornerElevation - valIn;
 
     setFieldValue(refOut, "" + valOut);
   }

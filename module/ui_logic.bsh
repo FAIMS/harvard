@@ -2199,7 +2199,6 @@ void timedPopulateCursorList(String ref, String q, int limit) {
 
 void setUpTypeHierarchy() {
   //- 
-  //  - Legacy
   //  - Site
   //    - Trench
   //      - Trench Files
@@ -2213,41 +2212,42 @@ void setUpTypeHierarchy() {
   //      - FCN
   //      - Diary
   //      - Legacy
+  //  - Legacy
 
   n0 = Tree("", 1);
-  n1 = Tree("Legacy", 1);
-  n2 = Tree("Site", 1);
-  n3 = Tree("Trench", 1);
-  n4 = Tree("Trench Files", 1);
-  n5 = Tree("Locus", 1);
-  n6 = Tree("Soil Munsel Color", 1);
-  n7 = Tree("Sediment Aggregate", 1);
-  n8 = Tree("FCN", 1);
-  n9 = Tree("Photograph Log", 1);
-  n10 = Tree("Stratum Feature", 1);
-  n11 = Tree("Photograph Log", 1);
-  n12 = Tree("FCN", 1);
-  n13 = Tree("Diary", 1);
+  n1 = Tree("Site", 1);
+  n2 = Tree("Trench", 1);
+  n3 = Tree("Trench Files", 1);
+  n4 = Tree("Locus", 1);
+  n5 = Tree("Soil Munsel Color", 1);
+  n6 = Tree("Sediment Aggregate", 1);
+  n7 = Tree("FCN", 1);
+  n8 = Tree("Photograph Log", 1);
+  n9 = Tree("Stratum Feature", 1);
+  n10 = Tree("Photograph Log", 1);
+  n11 = Tree("FCN", 1);
+  n12 = Tree("Diary", 1);
+  n13 = Tree("Legacy", 1);
   n14 = Tree("Legacy", 1);
 
   n0.addChild(n1);
-  n0.addChild(n2);
+  n0.addChild(n14);
+
+  n1.addChild(n2);
 
   n2.addChild(n3);
+  n2.addChild(n4);
+  n2.addChild(n9);
+  n2.addChild(n11);
+  n2.addChild(n12);
+  n2.addChild(n13);
 
-  n3.addChild(n4);
-  n3.addChild(n5);
-  n3.addChild(n10);
-  n3.addChild(n12);
-  n3.addChild(n13);
-  n3.addChild(n14);
+  n4.addChild(n5);
+  n4.addChild(n6);
+  n4.addChild(n7);
+  n4.addChild(n8);
 
-  n5.addChild(n6);
-  n5.addChild(n7);
-  n5.addChild(n8);
-  n5.addChild(n9);
-
-  n10.addChild(n11);
+  n9.addChild(n10);
 
 
   PERF_TYPE_TREE = n0;
@@ -7748,7 +7748,7 @@ assert(
     REFS_STRATUM_FEATURE_CALC_FIELDS.size());
 
 // Calculation
-void calculateElevations(String refCornerElevation, refsIn, List refsOut) {
+void calculateElevations(String refCornerElevation, List refsIn, List refsOut) {
   double valCornerElevation = getFieldValueAsDouble(refCornerElevation);
 
   for (int i = 0; i < refsIn.size(); i++) {
@@ -7756,7 +7756,7 @@ void calculateElevations(String refCornerElevation, refsIn, List refsOut) {
     String refOut = refsOut.get(i);
 
     double valIn  = getFieldValueAsDouble(refIn);
-    double valOut = valCornerElevation + valIn;
+    double valOut = valCornerElevation - valIn;
 
     setFieldValue(refOut, "" + valOut);
   }
