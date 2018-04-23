@@ -416,14 +416,14 @@
     </cols>
     <cols>
       <col>
-        <Absolute_Height_Top_Meas_m f="notnull" b="decimal">
-          Absolute Height Top Meas (m)
+        <Maximum_Top_Height_Meas_m f="notnull" b="decimal">
+          Maximum Top Height Meas (m)
           <desc>The highest elevation or 'starting level' recorded for that locus relative to the site grid.</desc>
-        </Absolute_Height_Top_Meas_m>
-        <Absolute_Height_Bottom_Meas_m f="notnull" b="decimal">
-          Absolute Height Bottom Meas (m)
+        </Maximum_Top_Height_Meas_m>
+        <Minimum_Top_Height_Meas_m f="notnull" b="decimal">
+          Minimum Top Height Meas (m)
           <desc>The lowest elevation recorded for that locus relative to the site grid.</desc>
-        </Absolute_Height_Bottom_Meas_m>
+        </Minimum_Top_Height_Meas_m>
         <NW_Top_Height_Meas_m b="decimal">
           NW Top Height Meas (m)
         </NW_Top_Height_Meas_m>

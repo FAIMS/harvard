@@ -271,8 +271,8 @@
               </Colgroup_1>
               <Colgroup_2>
                 <Col_1>
-                  <Absolute_Height_Top_Meas_m/>
-                  <Absolute_Height_Bottom_Meas_m/>
+                  <Maximum_Top_Height_Meas_m/>
+                  <Minimum_Top_Height_Meas_m/>
                   <NW_Top_Height_Meas_m/>
                   <NE_Top_Height_Meas_m/>
                   <SW_Top_Height_Meas_m/>
@@ -886,8 +886,8 @@
       <bind nodeset="/faims/Locus/Measure/Colgroup_1/Col_1/Measure_Length" type="decimal"/>
       <bind nodeset="/faims/Locus/Measure/Colgroup_1/Col_2/Measure_Width" type="decimal"/>
       <bind nodeset="/faims/Locus/Measure/Colgroup_1/Col_3/Measure_Depth" type="decimal"/>
-      <bind nodeset="/faims/Locus/Measure/Colgroup_2/Col_1/Absolute_Height_Top_Meas_m" type="decimal"/>
-      <bind nodeset="/faims/Locus/Measure/Colgroup_2/Col_1/Absolute_Height_Bottom_Meas_m" type="decimal"/>
+      <bind nodeset="/faims/Locus/Measure/Colgroup_2/Col_1/Maximum_Top_Height_Meas_m" type="decimal"/>
+      <bind nodeset="/faims/Locus/Measure/Colgroup_2/Col_1/Minimum_Top_Height_Meas_m" type="decimal"/>
       <bind nodeset="/faims/Locus/Measure/Colgroup_2/Col_1/NW_Top_Height_Meas_m" type="decimal"/>
       <bind nodeset="/faims/Locus/Measure/Colgroup_2/Col_1/NE_Top_Height_Meas_m" type="decimal"/>
       <bind nodeset="/faims/Locus/Measure/Colgroup_2/Col_1/SW_Top_Height_Meas_m" type="decimal"/>
@@ -1655,11 +1655,11 @@
           <label/>
           <group ref="Col_1" faims_style="even">
             <label/>
-            <input faims_attribute_name="Absolute Height Top Meas m" faims_attribute_type="measure" ref="Absolute_Height_Top_Meas_m" faims_style_class="required">
-              <label>{Absolute_Height_Top_Meas__m_}</label>
+            <input faims_attribute_name="Maximum Top Height Meas m" faims_attribute_type="measure" ref="Maximum_Top_Height_Meas_m" faims_style_class="required">
+              <label>{Maximum_Top_Height_Meas__m_}</label>
             </input>
-            <input faims_attribute_name="Absolute Height Bottom Meas m" faims_attribute_type="measure" ref="Absolute_Height_Bottom_Meas_m" faims_style_class="required">
-              <label>{Absolute_Height_Bottom_Meas__m_}</label>
+            <input faims_attribute_name="Minimum Top Height Meas m" faims_attribute_type="measure" ref="Minimum_Top_Height_Meas_m" faims_style_class="required">
+              <label>{Minimum_Top_Height_Meas__m_}</label>
             </input>
             <input faims_attribute_name="NW Top Height Meas m" faims_attribute_type="measure" ref="NW_Top_Height_Meas_m">
               <label>{NW_Top_Height_Meas__m_}</label>

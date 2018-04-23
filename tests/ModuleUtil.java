@@ -2247,24 +2247,6 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: input
-        Ref:  Locus/Measure/Absolute_Height_Bottom_Meas_m
-     */
-    public static EditText get_Locus_Measure_AbsoluteHeightBottomMeasm(Solo solo) {
-        String ref = "Locus/Measure/Absolute_Height_Bottom_Meas_m";
-        return (android.widget.EditText) solo.getView((Object) ref);
-    }
-
-    /*
-        Type: input
-        Ref:  Locus/Measure/Absolute_Height_Top_Meas_m
-     */
-    public static EditText get_Locus_Measure_AbsoluteHeightTopMeasm(Solo solo) {
-        String ref = "Locus/Measure/Absolute_Height_Top_Meas_m";
-        return (android.widget.EditText) solo.getView((Object) ref);
-    }
-
-    /*
-        Type: input
         Ref:  Locus/Measure/Centre_Bottom_Elevation_Calc_masl
      */
     public static View get_Locus_Measure_CentreBottomElevationCalcmasl(Solo solo) {
@@ -2319,6 +2301,15 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: input
+        Ref:  Locus/Measure/Maximum_Top_Height_Meas_m
+     */
+    public static EditText get_Locus_Measure_MaximumTopHeightMeasm(Solo solo) {
+        String ref = "Locus/Measure/Maximum_Top_Height_Meas_m";
+        return (android.widget.EditText) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: input
         Ref:  Locus/Measure/Measure_Depth
      */
     public static EditText get_Locus_Measure_MeasureDepth(Solo solo) {
@@ -2341,6 +2332,15 @@ public class ModuleUtil extends ModuleHelper {
      */
     public static EditText get_Locus_Measure_MeasureWidth(Solo solo) {
         String ref = "Locus/Measure/Measure_Width";
+        return (android.widget.EditText) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: input
+        Ref:  Locus/Measure/Minimum_Top_Height_Meas_m
+     */
+    public static EditText get_Locus_Measure_MinimumTopHeightMeasm(Solo solo) {
+        String ref = "Locus/Measure/Minimum_Top_Height_Meas_m";
         return (android.widget.EditText) solo.getView((Object) ref);
     }
 
