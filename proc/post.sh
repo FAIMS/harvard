@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 cd data
-tar -cvzf ../module/data.tar.gz *
+tar -cvzf ../module/data.tar.gz * >/dev/null
 cd ..
 #cp files/* module/
 
@@ -9,7 +9,7 @@ cd module
 
 string="
         <select1 ref=\"Entity_Types\">
-          <label>{Entity_Types}<\/label>
+          <label>\{Entity_Types\}<\/label>
           <item>
             <label>Options not loaded<\/label>
             <value>Options not loaded<\/value>

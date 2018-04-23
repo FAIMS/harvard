@@ -1756,7 +1756,6 @@
         <str>
           <fmt> $0</fmt>
         </str>
-        <!--@SOURCE: vocabs/area-code.xml-->
       </Legacy_Trench_ID>
       <Legacy_Locus_ID f="id notnull">
         Locus ID
