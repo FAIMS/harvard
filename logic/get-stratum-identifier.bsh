@@ -1,7 +1,7 @@
 /******************************* GET STRATUM ID *******************************/
 String REF_FCN_STRATUM_IDENTIFIER = "FCN/General/Stratum_Identifier";
 
-void getStratumId() {
+void getStratumIdentifier() {
   String q = "";
   q += " /* Get identifier from Stratum Feature UUID */";
   q += " SELECT response";
@@ -42,6 +42,7 @@ void getStratumId() {
         val += result.get(i).get(0) + (i < result.size() - 1 ? "; " : "");
 
       setFieldValue(REF_FCN_STRATUM_IDENTIFIER, val);
+      showToast("{get_stratum_identifier_done}");
     }
   };
 
@@ -49,4 +50,8 @@ void getStratumId() {
   fetchAll(q, populateStatumId);
 }
 
-addOnEvent("FCN/General/Get_Stratum_Identifier", "click", "getStratumId()");
+addOnEvent(
+    "FCN/General/Get_Stratum_Identifier",
+    "click",
+    "getStratumIdentifier()"
+);

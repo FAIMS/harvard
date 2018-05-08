@@ -161,6 +161,7 @@ valid_control_head=Invalid Field(s) Found
 valid_control_body_1=The following fields are invalid:\n
 valid_control_body_2=You must enter data into these fields to proceed.
 invalid_trench_id_body=Please enter a 'Trench ID' consisting of a captial 'T' followed by one or more digits.
+get_stratum_identifier_done=Done!
 EOF
 
 rm ui_schema.xml.original
