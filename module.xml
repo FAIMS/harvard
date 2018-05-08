@@ -1617,6 +1617,8 @@
       Burial locus codes begin with the letter Z, followed by the trench letter. Hence burial ZHA is the first burial locus from trench H.
       Check with the trench supervisor who will assign the locus code from the central register.</desc>
     </Locus_ID>
+    <Stratum_Identifier/>
+    <Get_Stratum_Identifier t="button"/>
     <cols>
       <FCN_X_Measurement_m b="decimal">
         X Measurement (m)
@@ -1797,5 +1799,6 @@
   <!--@SOURCE: logic/field-clearing.bsh-->
   <!--@SOURCE: logic/elevation-calculation.bsh-->
   <!--@SOURCE: logic/calculate-x-y-coordinates.bsh-->
+  <!--@SOURCE: logic/get-stratum-identifier.bsh-->
 ]]></logic>
 </module>

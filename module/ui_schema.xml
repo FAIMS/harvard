@@ -779,6 +779,8 @@
               <FCN_Site_Name/>
               <FCN_Trench_ID/>
               <Locus_ID/>
+              <Stratum_Identifier/>
+              <Get_Stratum_Identifier/>
               <Colgroup_1>
                 <Col_1>
                   <FCN_X_Measurement_m/>
@@ -2960,6 +2962,12 @@
         <input faims_attribute_name="FCN Locus ID" faims_attribute_type="measure" ref="Locus_ID" faims_read_only="true">
           <label>{Locus_ID}</label>
         </input>
+        <input faims_attribute_name="Stratum Identifier" faims_attribute_type="measure" ref="Stratum_Identifier">
+          <label>{Stratum_Identifier}</label>
+        </input>
+        <trigger ref="Get_Stratum_Identifier">
+          <label>{Get_Stratum_Identifier}</label>
+        </trigger>
         <group ref="Colgroup_1" faims_style="orientation">
           <label/>
           <group ref="Col_1" faims_style="even">

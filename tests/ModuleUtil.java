@@ -672,6 +672,15 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: button
+        Ref:  FCN/General/Get_Stratum_Identifier
+     */
+    public static View get_FCN_General_GetStratumIdentifier(Solo solo) {
+        String ref = "FCN/General/Get_Stratum_Identifier";
+        return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: button
         Ref:  FCN/General/Take_From_GPS_1
      */
     public static View get_FCN_General_TakeFromGPS1(Solo solo) {
@@ -1838,6 +1847,15 @@ public class ModuleUtil extends ModuleHelper {
     public static View get_FCN_General_Northing(Solo solo) {
         String ref = "FCN/General/Northing";
         return (android.view.View) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: input
+        Ref:  FCN/General/Stratum_Identifier
+     */
+    public static EditText get_FCN_General_StratumIdentifier(Solo solo) {
+        String ref = "FCN/General/Stratum_Identifier";
+        return (android.widget.EditText) solo.getView((Object) ref);
     }
 
     /*
