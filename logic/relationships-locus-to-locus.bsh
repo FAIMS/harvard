@@ -248,7 +248,7 @@ void addRelationship() {
     return;
   }
   if (isNull(childUuid)) {
-    showToast("no_locus_selected");
+    showToast("{no_locus_selected}");
     return;
   }
 
