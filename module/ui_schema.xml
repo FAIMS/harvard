@@ -776,38 +776,50 @@
           </Stratum_Feature_Relationship>
           <FCN>
             <General>
-              <FCN_ID/>
-              <FCN_Site_Name/>
-              <FCN_Trench_ID/>
-              <Locus_ID/>
+              <Colgroup_1>
+                <Col_1>
+                  <FCN_ID/>
+                </Col_1>
+                <Col_2>
+                  <FCN_Site_Name/>
+                </Col_2>
+              </Colgroup_1>
+              <Colgroup_2>
+                <Col_1>
+                  <FCN_Trench_ID/>
+                </Col_1>
+                <Col_2>
+                  <Locus_ID/>
+                </Col_2>
+              </Colgroup_2>
               <Stratum_Identifier/>
               <Get_Stratum_Identifier/>
-              <Colgroup_1>
+              <Colgroup_3>
                 <Col_1>
                   <FCN_X_Measurement_m/>
                 </Col_1>
                 <Col_2>
                   <X_Calculated_Coord/>
                 </Col_2>
-              </Colgroup_1>
-              <Colgroup_2>
+              </Colgroup_3>
+              <Colgroup_4>
                 <Col_1>
                   <FCN_Y_Measurement_m/>
                 </Col_1>
                 <Col_2>
                   <Y_Calculated_Coord/>
                 </Col_2>
-              </Colgroup_2>
+              </Colgroup_4>
               <Calculate_X_Y_Coords_from_Trench_SW_Corner/>
-              <Colgroup_3>
+              <Colgroup_5>
                 <Col_1>
                   <Latitude/>
                 </Col_1>
                 <Col_2>
                   <Longitude/>
                 </Col_2>
-              </Colgroup_3>
-              <Colgroup_4>
+              </Colgroup_5>
+              <Colgroup_6>
                 <Col_1>
                   <Northing/>
                 </Col_1>
@@ -817,7 +829,7 @@
                 <Col_3>
                   <Accuracy/>
                 </Col_3>
-              </Colgroup_4>
+              </Colgroup_6>
               <Take_From_GPS_1/>
               <Collection_Method/>
               <FCN_Class/>
@@ -979,10 +991,10 @@
       <bind nodeset="/faims/Stratum_Feature/Vars/Stratum_Feature_SW_Corner_Northing" type="decimal"/>
       <bind nodeset="/faims/Stratum_Feature/Vars/Stratum_Feature_SW_Corner_Easting" type="decimal"/>
       <bind nodeset="/faims/Sediment_Aggregate/Sediment_Aggregate/Colgroup_1/Col_2/Percentage" type="decimal"/>
-      <bind nodeset="/faims/FCN/General/Colgroup_1/Col_1/FCN_X_Measurement_m" type="decimal"/>
-      <bind nodeset="/faims/FCN/General/Colgroup_1/Col_2/X_Calculated_Coord" type="decimal"/>
-      <bind nodeset="/faims/FCN/General/Colgroup_2/Col_1/FCN_Y_Measurement_m" type="decimal"/>
-      <bind nodeset="/faims/FCN/General/Colgroup_2/Col_2/Y_Calculated_Coord" type="decimal"/>
+      <bind nodeset="/faims/FCN/General/Colgroup_3/Col_1/FCN_X_Measurement_m" type="decimal"/>
+      <bind nodeset="/faims/FCN/General/Colgroup_3/Col_2/X_Calculated_Coord" type="decimal"/>
+      <bind nodeset="/faims/FCN/General/Colgroup_4/Col_1/FCN_Y_Measurement_m" type="decimal"/>
+      <bind nodeset="/faims/FCN/General/Colgroup_4/Col_2/Y_Calculated_Coord" type="decimal"/>
       <bind nodeset="/faims/FCN/General/FCN_Weight_g" type="decimal"/>
       <bind nodeset="/faims/FCN/Vars/FCN_SW_Corner_Northing" type="decimal"/>
       <bind nodeset="/faims/FCN/Vars/FCN_SW_Corner_Easting" type="decimal"/>
@@ -2957,25 +2969,43 @@
       <label>{FCN}</label>
       <group ref="General">
         <label>{General}</label>
-        <input faims_attribute_name="FCN ID" faims_attribute_type="measure" ref="FCN_ID" faims_style_class="required">
-          <label>{FCN_ID}</label>
-        </input>
-        <input faims_attribute_name="FCN Site Name" faims_attribute_type="measure" ref="FCN_Site_Name" faims_read_only="true">
-          <label>{Site_Name}</label>
-        </input>
-        <input faims_attribute_name="FCN Trench ID" faims_attribute_type="measure" ref="FCN_Trench_ID" faims_read_only="true">
-          <label>{Trench_ID}</label>
-        </input>
-        <input faims_attribute_name="FCN Locus ID" faims_attribute_type="measure" ref="Locus_ID" faims_read_only="true">
-          <label>{Locus_ID}</label>
-        </input>
+        <group ref="Colgroup_1" faims_style="orientation">
+          <label/>
+          <group ref="Col_1" faims_style="even">
+            <label/>
+            <input faims_attribute_name="FCN ID" faims_attribute_type="measure" ref="FCN_ID" faims_style_class="required">
+              <label>{FCN_ID}</label>
+            </input>
+          </group>
+          <group ref="Col_2" faims_style="even">
+            <label/>
+            <input faims_attribute_name="FCN Site Name" faims_attribute_type="measure" ref="FCN_Site_Name" faims_read_only="true">
+              <label>{Site_Name}</label>
+            </input>
+          </group>
+        </group>
+        <group ref="Colgroup_2" faims_style="orientation">
+          <label/>
+          <group ref="Col_1" faims_style="even">
+            <label/>
+            <input faims_attribute_name="FCN Trench ID" faims_attribute_type="measure" ref="FCN_Trench_ID" faims_read_only="true">
+              <label>{Trench_ID}</label>
+            </input>
+          </group>
+          <group ref="Col_2" faims_style="even">
+            <label/>
+            <input faims_attribute_name="FCN Locus ID" faims_attribute_type="measure" ref="Locus_ID" faims_read_only="true">
+              <label>{Locus_ID}</label>
+            </input>
+          </group>
+        </group>
         <input faims_attribute_name="Stratum Identifier" faims_attribute_type="measure" ref="Stratum_Identifier">
           <label>{Stratum_Identifier}</label>
         </input>
         <trigger ref="Get_Stratum_Identifier">
           <label>{Get_Stratum_Identifier}</label>
         </trigger>
-        <group ref="Colgroup_1" faims_style="orientation">
+        <group ref="Colgroup_3" faims_style="orientation">
           <label/>
           <group ref="Col_1" faims_style="even">
             <label/>
@@ -2990,7 +3020,7 @@
             </input>
           </group>
         </group>
-        <group ref="Colgroup_2" faims_style="orientation">
+        <group ref="Colgroup_4" faims_style="orientation">
           <label/>
           <group ref="Col_1" faims_style="even">
             <label/>
@@ -3008,7 +3038,7 @@
         <trigger ref="Calculate_X_Y_Coords_from_Trench_SW_Corner">
           <label>{Calculate_X_Y_Coords_from_Trench_SW_Corner}</label>
         </trigger>
-        <group ref="Colgroup_3" faims_style="orientation">
+        <group ref="Colgroup_5" faims_style="orientation">
           <label/>
           <group ref="Col_1" faims_style="even">
             <label/>
@@ -3023,7 +3053,7 @@
             </input>
           </group>
         </group>
-        <group ref="Colgroup_4" faims_style="orientation">
+        <group ref="Colgroup_6" faims_style="orientation">
           <label/>
           <group ref="Col_1" faims_style="even">
             <label/>
