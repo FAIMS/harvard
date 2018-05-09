@@ -68,6 +68,41 @@ replacement="
               <Select_User\/>"
 perl -0777 -i.original -pe "s/$string/$replacement/igs" ui_schema.xml
 
+# QR code loading button
+string="
+            <Search>
+              <Colgroup_0>
+                <Col_0>
+                  <Search_Term\/>"
+replacement="
+            <Search>
+              <Load_FCN_Label\/>
+              <Colgroup_0>
+                <Col_0>
+                  <Search_Term\/>"
+perl -0777 -i.original -pe "s/$string/$replacement/igs" ui_schema.xml
+
+string="
+      <group ref=\"Search\" faims_scrollable=\"false\">
+        <label>\{Search}<\/label>
+        <group ref=\"Colgroup_0\" faims_style=\"orientation\">
+          <label\/>
+          <group ref=\"Col_0\" faims_style=\"even\">
+            <label\/>
+            <input ref=\"Search_Term\">"
+replacement="
+      <group ref=\"Search\" faims_scrollable=\"false\">
+        <label>\{Search}<\/label>
+        <trigger ref=\"Load_FCN_Label\">
+          <label>\{Load_FCN_Label}<\/label>
+        <\/trigger>
+        <group ref=\"Colgroup_0\" faims_style=\"orientation\">
+          <label\/>
+          <group ref=\"Col_0\" faims_style=\"even\">
+            <label\/>
+            <input ref=\"Search_Term\">"
+perl -0777 -i.original -pe "s/$string/$replacement/igs" ui_schema.xml
+
 string="Map     REF_TO_TYPE                    = new HashMap"
 replacement="Map     REF_TO_TYPE                    = new LinkedHashMap"
 perl -0777 -i.original -pe "s/$string/$replacement/igs" ui_logic.bsh
@@ -107,6 +142,9 @@ cat << EOF >> ui_styling.css
 }
 .required-readonly-label {
   color: red;
+}
+.orange {
+  background-color: orange;
 }
 EOF
 
@@ -162,6 +200,10 @@ valid_control_body_1=The following fields are invalid:\n
 valid_control_body_2=You must enter data into these fields to proceed.
 invalid_trench_id_body=Please enter a 'Trench ID' consisting of a captial 'T' followed by one or more digits.
 get_stratum_identifier_done=Done!
+Load_FCN_Label=Load FCN Label
+calibrate_printer=Calibrate Printer
+bounce_pre=You are doing that too much. Wait
+bounce_post=seconds and try again.
 EOF
 
 rm ui_schema.xml.original

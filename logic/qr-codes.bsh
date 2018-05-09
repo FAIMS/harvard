@@ -1,0 +1,7 @@
+/********************** LOADING OF RECORDS FROM QR CODES **********************/
+final String _REF_LOAD_FCN_LABEL = "Control/Search/Load_FCN_Label";
+
+if (!isInUnitTestTime())
+  assert(isValidRef(_REF_LOAD_FCN_LABEL));
+
+bindQrScanning("Control/Search/Load_FCN_Label");

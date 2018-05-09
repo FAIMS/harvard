@@ -1699,6 +1699,7 @@
       <!--@SOURCE: vocabs/boolean.xml-->
     </Analyzed>
     <FCN_Group_Comment/>
+    <Print_FCN_Label t="button" c="orange"/>
     <Attach_File t="file"/>
     <View_Attached_Files t="viewfiles"/>
     <Attach_Photograph t="camera"/>
@@ -1715,6 +1716,8 @@
     </Device_Code>
     <FCN_SW_Corner_Northing b="decimal" i="Locus/Vars/Locus_SW_Corner_Northing Trench/Trench/Northing"/>
     <FCN_SW_Corner_Easting b="decimal" i="Locus/Vars/Locus_SW_Corner_Easting Trench/Trench/Easting"/>
+    <author/>
+    <timestamp/>
   </Vars>
 </FCN>
 
@@ -1800,5 +1803,7 @@
   <!--@SOURCE: logic/elevation-calculation.bsh-->
   <!--@SOURCE: logic/calculate-x-y-coordinates.bsh-->
   <!--@SOURCE: logic/get-stratum-identifier.bsh-->
+  <!--@SOURCE: logic/qr-codes.bsh-->
+  <!--@SOURCE: logic/printer.bsh-->
 ]]></logic>
 </module>
