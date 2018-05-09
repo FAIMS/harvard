@@ -655,8 +655,8 @@ REF_TO_TYPE.put("FCN/General/FCN_ID", "input");
 REF_TO_TYPE.put("FCN/General/FCN_Site_Name", "input");
 REF_TO_TYPE.put("FCN/General/FCN_Trench_ID", "input");
 REF_TO_TYPE.put("FCN/General/Locus_ID", "input");
-REF_TO_TYPE.put("FCN/General/Stratum_Identifier", "input");
-REF_TO_TYPE.put("FCN/General/Get_Stratum_Identifier", "button");
+REF_TO_TYPE.put("FCN/General/FCN_Stratum_Feature_ID", "input");
+REF_TO_TYPE.put("FCN/General/Get_Stratum_Feature_ID", "button");
 REF_TO_TYPE.put("FCN/General/FCN_X_Measurement_m", "input");
 REF_TO_TYPE.put("FCN/General/X_Calculated_Coord", "input");
 REF_TO_TYPE.put("FCN/General/FCN_Y_Measurement_m", "input");
@@ -981,7 +981,7 @@ DATA_REFS.add("FCN/General/FCN_ID");
 DATA_REFS.add("FCN/General/FCN_Site_Name");
 DATA_REFS.add("FCN/General/FCN_Trench_ID");
 DATA_REFS.add("FCN/General/Locus_ID");
-DATA_REFS.add("FCN/General/Stratum_Identifier");
+DATA_REFS.add("FCN/General/FCN_Stratum_Feature_ID");
 DATA_REFS.add("FCN/General/FCN_X_Measurement_m");
 DATA_REFS.add("FCN/General/X_Calculated_Coord");
 DATA_REFS.add("FCN/General/FCN_Y_Measurement_m");
@@ -6262,6 +6262,8 @@ ATTRIBS_TRENCH_ID        = getAttribNamesEndingWithAsString("Trench ID");
 ATTRIBS_LOCUS_ID         = getAttribNamesEndingWithAsString("Locus ID");
 ATTRIBS_SITE_NAME        = getAttribNamesEndingWithAsString("Site Name");
 ATTRIBS_YEAR_OF_CAMPAIGN = getAttribNamesEndingWithAsString("Year of Campaign");
+
+final String REF_FCN_STRATUM_FEATURE_ID = "FCN/General/FCN_Stratum_Feature_ID";
 /******************************* RELATIONSHIPS ********************************/
 /* Variables and functions shared by entity-specfic code fo relating          */
 /* entities.                                                                  */
@@ -7856,20 +7858,27 @@ addOnEvent(
     "calculateFcnXYCoordinates()"
 );
 /******************************* GET STRATUM ID *******************************/
-String REF_FCN_STRATUM_IDENTIFIER = "FCN/General/Stratum_Identifier";
+final String REF_STRATUM_FEATURE_STRATUM_FEATURE_ID =
+    "Stratum_Feature/General/Stratum_Feature_ID";
 
 void getStratumIdentifier() {
+  String attrNameStratumFeatureId =
+      getAttributeName(REF_STRATUM_FEATURE_STRATUM_FEATURE_ID);
+
   String q = "";
   q += " /* Get identifier from Stratum Feature UUID */";
-  q += " SELECT response";
-  q += "   FROM latestNonDeletedArchEntFormattedIdentifiers";
-  q += "  WHERE uuid IN (";
+  q += " SELECT measure";
+  q += "   FROM latestnondeletedaentvalue";
+  q += "   JOIN attributekey USING (attributeid)";
+  q += "  WHERE attributename = '{attrNameStratumFeatureId}'";
+  q += "    AND uuid IN (";
   q += "        /* Get Stratum Feature UUID from Locus UUID */";
   q += "        SELECT parentUuid";
   q += "          FROM parentchild";
   q += "         WHERE relationshipid IN (";
   q += "               SELECT relationshipid";
-  q += "                 FROM latestnondeletedrelationship JOIN relntype USING (relntypeid)";
+  q += "                 FROM latestnondeletedrelationship";
+  q += "                 JOIN relntype USING (relntypeid)";
   q += "                WHERE relntypename = 'Stratum Feature - Locus'";
   q += "                   OR relntypename NOT LIKE '%-%'";
   q += "             )";
@@ -7879,7 +7888,8 @@ void getStratumIdentifier() {
   q += "                 FROM parentchild";
   q += "                WHERE relationshipid IN (";
   q += "                      SELECT relationshipid";
-  q += "                        FROM latestnondeletedrelationship JOIN relntype USING (relntypeid)";
+  q += "                        FROM latestnondeletedrelationship";
+  q += "                        JOIN relntype USING (relntypeid)";
   q += "                       WHERE relntypename = 'Locus - FCN'";
   q += "                    )";
   q += "                  AND childUuid = '{childUuid}'";
@@ -7887,6 +7897,7 @@ void getStratumIdentifier() {
   q += "             )";
   q += "           AND parentaenttypename = 'Stratum Feature'";
   q += "      )";
+  q  = replaceFirst(q, "{attrNameStratumFeatureId}", attrNameStratumFeatureId);
   q  = replaceFirst(q, "{childUuid}", getUuid());
 
   FetchCallback populateStatumId = new FetchCallback() {
@@ -7898,7 +7909,7 @@ void getStratumIdentifier() {
       for (int i = 0; i < result.size(); i++)
         val += result.get(i).get(0) + (i < result.size() - 1 ? "; " : "");
 
-      setFieldValue(REF_FCN_STRATUM_IDENTIFIER, val);
+      setFieldValue(REF_FCN_STRATUM_FEATURE_ID, val);
       showToast("{get_stratum_identifier_done}");
     }
   };
@@ -7908,7 +7919,7 @@ void getStratumIdentifier() {
 }
 
 addOnEvent(
-    "FCN/General/Get_Stratum_Identifier",
+    "FCN/General/Get_Stratum_Feature_ID",
     "click",
     "getStratumIdentifier()"
 );
@@ -7929,7 +7940,6 @@ final String REF_FCN_SITE_NAME          = "FCN/General/FCN_Site_Name";
 final String REF_FCN_FCN_ID             = "FCN/General/FCN_ID";
 final String REF_FCN_TRENCH_ID          = "FCN/General/FCN_Trench_ID";
 final String REF_FCN_LOCUS_ID           = "FCN/General/Locus_ID";
-final String REF_FCN_STRATUM_IDENTIFIER = "FCN/General/Stratum_Identifier";
 final String REF_FCN_FCN_CLASS          = "FCN/General/FCN_Class";
 final String REF_FCN_FCN_QUANTITY       = "FCN/General/FCN_Quantity";
 
@@ -7960,7 +7970,7 @@ void printLabel() {
   String fcnId            = getFieldValue(REF_FCN_FCN_ID);
   String trenchId         = getFieldValue(REF_FCN_TRENCH_ID);
   String locusId          = getFieldValue(REF_FCN_LOCUS_ID);
-  String stratumFeatureId = getFieldValue(REF_FCN_STRATUM_IDENTIFIER);
+  String stratumFeatureId = getFieldValue(REF_FCN_STRATUM_FEATURE_ID);
   String fcnClass         = getFieldValue(REF_FCN_FCN_CLASS, true);
   String fcnQuantity      = getFieldValue(REF_FCN_FCN_QUANTITY, true);
   String uuid             = getUuid();

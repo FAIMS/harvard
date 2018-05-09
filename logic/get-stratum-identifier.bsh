@@ -1,18 +1,25 @@
 /******************************* GET STRATUM ID *******************************/
-String REF_FCN_STRATUM_IDENTIFIER = "FCN/General/Stratum_Identifier";
+final String REF_STRATUM_FEATURE_STRATUM_FEATURE_ID =
+    "Stratum_Feature/General/Stratum_Feature_ID";
 
 void getStratumIdentifier() {
+  String attrNameStratumFeatureId =
+      getAttributeName(REF_STRATUM_FEATURE_STRATUM_FEATURE_ID);
+
   String q = "";
   q += " /* Get identifier from Stratum Feature UUID */";
-  q += " SELECT response";
-  q += "   FROM latestNonDeletedArchEntFormattedIdentifiers";
-  q += "  WHERE uuid IN (";
+  q += " SELECT measure";
+  q += "   FROM latestnondeletedaentvalue";
+  q += "   JOIN attributekey USING (attributeid)";
+  q += "  WHERE attributename = '{attrNameStratumFeatureId}'";
+  q += "    AND uuid IN (";
   q += "        /* Get Stratum Feature UUID from Locus UUID */";
   q += "        SELECT parentUuid";
   q += "          FROM parentchild";
   q += "         WHERE relationshipid IN (";
   q += "               SELECT relationshipid";
-  q += "                 FROM latestnondeletedrelationship JOIN relntype USING (relntypeid)";
+  q += "                 FROM latestnondeletedrelationship";
+  q += "                 JOIN relntype USING (relntypeid)";
   q += "                WHERE relntypename = 'Stratum Feature - Locus'";
   q += "                   OR relntypename NOT LIKE '%-%'";
   q += "             )";
@@ -22,7 +29,8 @@ void getStratumIdentifier() {
   q += "                 FROM parentchild";
   q += "                WHERE relationshipid IN (";
   q += "                      SELECT relationshipid";
-  q += "                        FROM latestnondeletedrelationship JOIN relntype USING (relntypeid)";
+  q += "                        FROM latestnondeletedrelationship";
+  q += "                        JOIN relntype USING (relntypeid)";
   q += "                       WHERE relntypename = 'Locus - FCN'";
   q += "                    )";
   q += "                  AND childUuid = '{childUuid}'";
@@ -30,6 +38,7 @@ void getStratumIdentifier() {
   q += "             )";
   q += "           AND parentaenttypename = 'Stratum Feature'";
   q += "      )";
+  q  = replaceFirst(q, "{attrNameStratumFeatureId}", attrNameStratumFeatureId);
   q  = replaceFirst(q, "{childUuid}", getUuid());
 
   FetchCallback populateStatumId = new FetchCallback() {
@@ -41,7 +50,7 @@ void getStratumIdentifier() {
       for (int i = 0; i < result.size(); i++)
         val += result.get(i).get(0) + (i < result.size() - 1 ? "; " : "");
 
-      setFieldValue(REF_FCN_STRATUM_IDENTIFIER, val);
+      setFieldValue(REF_FCN_STRATUM_FEATURE_ID, val);
       showToast("{get_stratum_identifier_done}");
     }
   };
@@ -51,7 +60,7 @@ void getStratumIdentifier() {
 }
 
 addOnEvent(
-    "FCN/General/Get_Stratum_Identifier",
+    "FCN/General/Get_Stratum_Feature_ID",
     "click",
     "getStratumIdentifier()"
 );

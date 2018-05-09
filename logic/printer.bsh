@@ -8,7 +8,6 @@ final String REF_FCN_SITE_NAME          = "FCN/General/FCN_Site_Name";
 final String REF_FCN_FCN_ID             = "FCN/General/FCN_ID";
 final String REF_FCN_TRENCH_ID          = "FCN/General/FCN_Trench_ID";
 final String REF_FCN_LOCUS_ID           = "FCN/General/Locus_ID";
-final String REF_FCN_STRATUM_IDENTIFIER = "FCN/General/Stratum_Identifier";
 final String REF_FCN_FCN_CLASS          = "FCN/General/FCN_Class";
 final String REF_FCN_FCN_QUANTITY       = "FCN/General/FCN_Quantity";
 
@@ -39,7 +38,7 @@ void printLabel() {
   String fcnId            = getFieldValue(REF_FCN_FCN_ID);
   String trenchId         = getFieldValue(REF_FCN_TRENCH_ID);
   String locusId          = getFieldValue(REF_FCN_LOCUS_ID);
-  String stratumFeatureId = getFieldValue(REF_FCN_STRATUM_IDENTIFIER);
+  String stratumFeatureId = getFieldValue(REF_FCN_STRATUM_FEATURE_ID);
   String fcnClass         = getFieldValue(REF_FCN_FCN_CLASS, true);
   String fcnQuantity      = getFieldValue(REF_FCN_FCN_QUANTITY, true);
   String uuid             = getUuid();

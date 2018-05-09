@@ -171,3 +171,5 @@ ATTRIBS_TRENCH_ID        = getAttribNamesEndingWithAsString("Trench ID");
 ATTRIBS_LOCUS_ID         = getAttribNamesEndingWithAsString("Locus ID");
 ATTRIBS_SITE_NAME        = getAttribNamesEndingWithAsString("Site Name");
 ATTRIBS_YEAR_OF_CAMPAIGN = getAttribNamesEndingWithAsString("Year of Campaign");
+
+final String REF_FCN_STRATUM_FEATURE_ID = "FCN/General/FCN_Stratum_Feature_ID";

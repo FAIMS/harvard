@@ -672,10 +672,10 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: button
-        Ref:  FCN/General/Get_Stratum_Identifier
+        Ref:  FCN/General/Get_Stratum_Feature_ID
      */
-    public static View get_FCN_General_GetStratumIdentifier(Solo solo) {
-        String ref = "FCN/General/Get_Stratum_Identifier";
+    public static View get_FCN_General_GetStratumFeatureID(Solo solo) {
+        String ref = "FCN/General/Get_Stratum_Feature_ID";
         return (android.view.View) solo.getView((Object) ref);
     }
 
@@ -1788,6 +1788,15 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: input
+        Ref:  FCN/General/FCN_Stratum_Feature_ID
+     */
+    public static EditText get_FCN_General_FCNStratumFeatureID(Solo solo) {
+        String ref = "FCN/General/FCN_Stratum_Feature_ID";
+        return (android.widget.EditText) solo.getView((Object) ref);
+    }
+
+    /*
+        Type: input
         Ref:  FCN/General/FCN_Trench_ID
      */
     public static View get_FCN_General_FCNTrenchID(Solo solo) {
@@ -1856,15 +1865,6 @@ public class ModuleUtil extends ModuleHelper {
     public static View get_FCN_General_Northing(Solo solo) {
         String ref = "FCN/General/Northing";
         return (android.view.View) solo.getView((Object) ref);
-    }
-
-    /*
-        Type: input
-        Ref:  FCN/General/Stratum_Identifier
-     */
-    public static EditText get_FCN_General_StratumIdentifier(Solo solo) {
-        String ref = "FCN/General/Stratum_Identifier";
-        return (android.widget.EditText) solo.getView((Object) ref);
     }
 
     /*

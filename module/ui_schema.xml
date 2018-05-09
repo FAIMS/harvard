@@ -792,8 +792,8 @@
                   <Locus_ID/>
                 </Col_2>
               </Colgroup_2>
-              <Stratum_Identifier/>
-              <Get_Stratum_Identifier/>
+              <FCN_Stratum_Feature_ID/>
+              <Get_Stratum_Feature_ID/>
               <Colgroup_3>
                 <Col_1>
                   <FCN_X_Measurement_m/>
@@ -2999,11 +2999,11 @@
             </input>
           </group>
         </group>
-        <input faims_attribute_name="Stratum Identifier" faims_attribute_type="measure" ref="Stratum_Identifier">
-          <label>{Stratum_Identifier}</label>
+        <input faims_attribute_name="FCN Stratum Feature ID" faims_attribute_type="measure" ref="FCN_Stratum_Feature_ID">
+          <label>{Stratum_Feature_ID}</label>
         </input>
-        <trigger ref="Get_Stratum_Identifier">
-          <label>{Get_Stratum_Identifier}</label>
+        <trigger ref="Get_Stratum_Feature_ID">
+          <label>{Get_Stratum_Feature_ID}</label>
         </trigger>
         <group ref="Colgroup_3" faims_style="orientation">
           <label/>

@@ -1621,8 +1621,12 @@
         Check with the trench supervisor who will assign the locus code from the central register.</desc>
       </Locus_ID>
     </cols>
-    <Stratum_Identifier/>
-    <Get_Stratum_Identifier t="button"/>
+    <FCN_Stratum_Feature_ID>
+      Stratum/Feature ID
+    </FCN_Stratum_Feature_ID>
+    <Get_Stratum_Feature_ID t="button">
+      Get Stratum/Feature ID
+    </Get_Stratum_Feature_ID>
     <cols>
       <FCN_X_Measurement_m b="decimal">
         X Measurement (m)
