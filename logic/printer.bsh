@@ -1,0 +1,156 @@
+/********************************** PRINTER ***********************************/
+      long   LAST_PRINT_TIME = 0;
+final long   MAX_BOUNCE_TIME = 5 * 1000;
+
+final String REF_FCN_TIMESTAMP    = "FCN/Vars/FCN_timestamp";
+final String REF_FCN_AUTHOR       = "FCN/Vars/FCN_author";
+final String REF_FCN_SITE_NAME    = "FCN/General/FCN_Site_Name";
+final String REF_FCN_FCN_ID       = "FCN/General/FCN_ID";
+final String REF_FCN_TRENCH_ID    = "FCN/General/FCN_Trench_ID";
+final String REF_FCN_LOCUS_ID     = "FCN/General/Locus_ID";
+final String REF_FCN_STRATUM_FEATURE_IDENTIFIER
+                                  = "FCN/General/Stratum_Feature_Identifier";
+final String REF_FCN_FCN_CLASS    = "FCN/General/FCN_Class";
+final String REF_FCN_FCN_QUANTITY = "FCN/General/FCN_Quantity";
+
+void printLabel() {
+  long currentTime = System.currentTimeMillis();
+  if (LAST_PRINT_TIME + MAX_BOUNCE_TIME > currentTime) {
+    String msg = "";
+    msg = "{bounce_pre} %s {bounce_post}";
+    msg = replaceFirst(msg, "" + (MAX_BOUNCE_TIME / 1000));
+    showToast(msg);
+    return;
+  }
+
+  triggerAutoSave();
+
+  String timestamp = getFieldValue(REF_FCN_TIMESTAMP);
+  SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd HH:mm:ssZ");
+  Date date = parser.parse(timestamp);
+  SimpleDateFormat fmtYyyy = new SimpleDateFormat("yyyy");
+  SimpleDateFormat fmtMm   = new SimpleDateFormat("MM");
+  SimpleDateFormat fmtDd   = new SimpleDateFormat("dd");
+
+  String yyyy             = fmtYyyy.format(date);
+  String mm               = fmtMm  .format(date);
+  String dd               = fmtDd  .format(date);
+  String author           = getFieldValue(REF_FCN_AUTHOR);
+  String siteName         = getFieldValue(REF_FCN_SITE_NAME);
+  String fcnId            = getFieldValue(REF_FCN_FCN_ID);
+  String trenchId         = getFieldValue(REF_FCN_TRENCH_ID);
+  String locusId          = getFieldValue(REF_FCN_LOCUS_ID);
+  String stratumFeatureId = getFieldValue(REF_FCN_STRATUM_FEATURE_IDENTIFIER);
+  String fcnClass         = getFieldValue(REF_FCN_FCN_CLASS, true);
+  String fcnQuantity      = getFieldValue(REF_FCN_FCN_QUANTITY, true);
+  String uuid             = getUuid();
+
+  String cmd = "";
+  cmd += "\r\n^XA";
+  cmd += "\r\n^CI28";
+  cmd += "\r\n^POI";
+  cmd += "\r\n";
+  cmd += "\r\n^CW1,E:DRO000.TTF";
+  cmd += "\r\n^FO5,5";
+  cmd += "\r\n^GB390,370,2^FS";
+  cmd += "\r\n";
+  cmd += "\r\n^A1,30,30";
+  cmd += "\r\n^FO10,10";
+  cmd += "\r\n^FDTRAP 洮河流域考古项目^FS";
+  cmd += "\r\n";
+  cmd += "\r\n^A1,30,30";
+  cmd += "\r\n^FO10,45";
+  cmd += "\r\n^FDSite遗址: {siteName}^FS";
+  cmd += "\r\n";
+  cmd += "\r\n^A1,20,20";
+  cmd += "\r\n^FO10,80";
+  cmd += "\r\n^FD{dd}日{mm}月^FS";
+  cmd += "\r\n";
+  cmd += "\r\n^A1,20,20";
+  cmd += "\r\n^FO10,105";
+  cmd += "\r\n^FD{yyyy}^FS";
+  cmd += "\r\n";
+  cmd += "\r\n^A1,50,50";
+  cmd += "\r\n^FO110,80";
+  cmd += "\r\n^FDFCN: {fcnId}^FS";
+  cmd += "\r\n";
+  cmd += "\r\n^A1,30,30";
+  cmd += "\r\n^FO10,135";
+  cmd += "\r\n^FDTrench探方: {trenchId}^FS";
+  cmd += "\r\n";
+  cmd += "\r\n^A1,30,30";
+  cmd += "\r\n^FO10,170";
+  cmd += "\r\n^FDLocus单位: {locusId}^FS";
+  cmd += "\r\n";
+  cmd += "\r\n^A1,25,25";
+  cmd += "\r\n^FO10,205";
+  cmd += "\r\n^FDStratum/Feature地层/遗迹: {stratumFeatureId}^FS";
+  cmd += "\r\n";
+  cmd += "\r\n^A1,20,20";
+  cmd += "\r\n^FO10,235";
+  cmd += "\r\n^FD{author}^FS";
+  cmd += "\r\n";
+  cmd += "\r\n^A1,25,25";
+  cmd += "\r\n^FO10,260";
+  cmd += "\r\n^TBN,220,55";
+  cmd += "\r\n^FDClass遗物种类: {fcnClass}^FS";
+  cmd += "\r\n";
+  cmd += "\r\n^A1,25,25";
+  cmd += "\r\n^FO10,320";
+  cmd += "\r\n^FDQuant数量: {fcnQuantity}^FS";
+  cmd += "\r\n";
+  cmd += "\r\n^A1,20,20";
+  cmd += "\r\n^FO270,135";
+  cmd += "\r\n^FDBag^FS";
+  cmd += "\r\n";
+  cmd += "\r\n^A1,40,40";
+  cmd += "\r\n^FO290,160";
+  cmd += "\r\n^FD_ / _^FS";
+  cmd += "\r\n";
+  cmd += "\r\n^FO255,235";
+  cmd += "\r\n";
+  cmd += "\r\n^BXN,8,200";
+  cmd += "\r\n";
+  cmd += "\r\n^FD{uuid}^FS";
+  cmd += "\r\n";
+  cmd += "\r\n^XZ";
+
+  cmd  = replaceFirst(cmd, "{author}",           author);
+  cmd  = replaceFirst(cmd, "{siteName}",         siteName);
+  cmd  = replaceFirst(cmd, "{dd}",               dd);
+  cmd  = replaceFirst(cmd, "{mm}",               mm);
+  cmd  = replaceFirst(cmd, "{yyyy}",             yyyy);
+  cmd  = replaceFirst(cmd, "{fcnId}",            fcnId);
+  cmd  = replaceFirst(cmd, "{trenchId}",         trenchId);
+  cmd  = replaceFirst(cmd, "{locusId}",          locusId);
+  cmd  = replaceFirst(cmd, "{stratumFeatureId}", stratumFeatureId);
+  cmd  = replaceFirst(cmd, "{fcnClass}",         fcnClass);
+  cmd  = replaceFirst(cmd, "{fcnQuantity}",      fcnQuantity);
+  cmd  = replaceFirst(cmd, "{uuid}",             uuid);
+
+  Log.d("printLabel", cmd);
+
+  writeBluetoothMessage(cmd);
+  LAST_PRINT_TIME = currentTime;
+}
+
+void calibratePrinter() {
+  String cmd = "";
+  cmd += "\r\n! U1 getvar \"device.languages\"";
+  cmd += "\r\n{}";
+  cmd += "\r\n";
+  cmd += "\r\n{\"ezpl.print_width\":\"406\",\"zpl.label_length\":\"389\",\"zpl.calibrate\":\"\"}";
+  cmd += "\r\n^JUS";
+
+}
+
+addActionBarItem("calibrate_printer", new ActionButtonCallback() {
+  actionOnLabel() {
+    "{calibrate_printer}";
+  }
+  actionOn() {
+    calibratePrinter();
+  }
+});
+
+addOnEvent("FCN/General/Print_FCN_Label", "click", "printLabel()");

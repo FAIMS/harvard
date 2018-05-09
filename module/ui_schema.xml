@@ -838,6 +838,8 @@
               <Device_Code/>
               <FCN_SW_Corner_Northing/>
               <FCN_SW_Corner_Easting/>
+              <FCN_author/>
+              <FCN_timestamp/>
             </Vars>
           </FCN>
           <Soil_Munsel_Color>
@@ -3132,6 +3134,12 @@
         </input>
         <input faims_attribute_name="FCN SW Corner Easting" faims_attribute_type="measure" ref="FCN_SW_Corner_Easting">
           <label>{FCN_SW_Corner_Easting}</label>
+        </input>
+        <input faims_attribute_name="FCN author" faims_attribute_type="measure" ref="FCN_author" faims_read_only="true">
+          <label>{Author}</label>
+        </input>
+        <input faims_attribute_name="FCN timestamp" faims_attribute_type="measure" ref="FCN_timestamp" faims_read_only="true">
+          <label>{Timestamp}</label>
         </input>
       </group>
     </group>

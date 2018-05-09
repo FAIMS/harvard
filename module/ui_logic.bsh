@@ -685,6 +685,8 @@ REF_TO_TYPE.put("FCN/Vars/FCN_Year_of_Campaign", "input");
 REF_TO_TYPE.put("FCN/Vars/Device_Code", "dropdown");
 REF_TO_TYPE.put("FCN/Vars/FCN_SW_Corner_Northing", "input");
 REF_TO_TYPE.put("FCN/Vars/FCN_SW_Corner_Easting", "input");
+REF_TO_TYPE.put("FCN/Vars/FCN_author", "input");
+REF_TO_TYPE.put("FCN/Vars/FCN_timestamp", "input");
 REF_TO_TYPE.put("Soil_Munsel_Color/Add_Soil_Munsel_Color/Soil_Munsel_Color", "dropdown");
 REF_TO_TYPE.put("Soil_Munsel_Color/Vars/Soil_Munsel_Color_Locus_ID", "input");
 REF_TO_TYPE.put("Soil_Munsel_Color/Vars/Device_Code", "dropdown");
@@ -1001,6 +1003,8 @@ DATA_REFS.add("FCN/Vars/FCN_Year_of_Campaign");
 DATA_REFS.add("FCN/Vars/Device_Code");
 DATA_REFS.add("FCN/Vars/FCN_SW_Corner_Northing");
 DATA_REFS.add("FCN/Vars/FCN_SW_Corner_Easting");
+DATA_REFS.add("FCN/Vars/FCN_author");
+DATA_REFS.add("FCN/Vars/FCN_timestamp");
 DATA_REFS.add("Soil_Munsel_Color/Add_Soil_Munsel_Color/Soil_Munsel_Color");
 DATA_REFS.add("Soil_Munsel_Color/Vars/Soil_Munsel_Color_Locus_ID");
 DATA_REFS.add("Soil_Munsel_Color/Vars/Device_Code");
@@ -4088,9 +4092,11 @@ void populateAuthorAndTimestamp(String tabgroup) {
   tabgroupToAuthor.put("Locus", "Locus/General/Locus_author");
   tabgroupToAuthor.put("Stratum_Feature", "Stratum_Feature/General/Stratum_Feature_author");
   tabgroupToAuthor.put("Diary", "Diary/Diary/Diary_author");
+  tabgroupToAuthor.put("FCN", "FCN/Vars/FCN_author");
   tabgroupToTimestamp.put("Trench", "Trench/Trench/Trench_timestamp");
   tabgroupToTimestamp.put("Locus", "Locus/General/Locus_timestamp");
   tabgroupToTimestamp.put("Stratum_Feature", "Stratum_Feature/General/Stratum_Feature_timestamp");
+  tabgroupToTimestamp.put("FCN", "FCN/Vars/FCN_timestamp");
   String authorPath    = tabgroupToAuthor.get(tabgroup);
   String timestampPath = tabgroupToTimestamp.get(tabgroup);
 
@@ -7846,122 +7852,33 @@ addOnEvent(
     "click",
     "calculateFcnXYCoordinates()"
 );
-/*************** LOADING AND CREATION OF RECORDS FROM QR CODES ****************/
-String SCANNED_IGSN    = "";
-long   LAST_PRINT_TIME = 0;
-long   MAX_BOUNCE_TIME = 5 * 1000;
-String _REF_LOAD_FCN_LABEL = "Control/Search/Load_FCN_Label";
+/********************** LOADING OF RECORDS FROM QR CODES **********************/
+final String _REF_LOAD_FCN_LABEL = "Control/Search/Load_FCN_Label";
 
 if (!isInUnitTestTime())
   assert(isValidRef(_REF_LOAD_FCN_LABEL));
 
-String parseIgsnFromUrl(String url) {
-  String  match   = "";
-  Pattern pattern = Pattern.compile(".+\\/(.+)");
-  Matcher matcher = pattern.matcher(url);
-  while (matcher.find())
-    match = matcher.group(1);
+bindQrScanning("Control/Search/Load_FCN_Label");
+/********************************** PRINTER ***********************************/
+      long   LAST_PRINT_TIME = 0;
+final long   MAX_BOUNCE_TIME = 5 * 1000;
 
-  return match;
-}
-
-String parseIgsnToLoadEntity(String igsn) {
-  String parsed =
-      parsePrefix1 (igsn) + "-"
-    + parsePrefix2 (igsn) + "-"
-    + parseSampleId(igsn);
-
-  String suffix = parseSuffix(igsn);
-  Log.d("suffix", "" + suffix);
-  if (!isNull(suffix))
-    parsed += "-" + suffix;
-
-  return parsed;
-}
-
-String safeDashSplit(String s, int idx) {
-  String[] parts = s.split("-");
-  if (parts.length > idx) return parts[idx];
-  else                    return "";
-}
-
-String parsePrefix1(String igsn) {
-  String prefix1 = safeDashSplit(igsn, 0);
-  Log.d("prefix1", "" + prefix1);
-  return prefix1;
-}
-
-String parsePrefix2(String igsn) {
-  Log.d("prefix2", "" + safeDashSplit(igsn, 1));
-  return safeDashSplit(igsn, 1);
-}
-
-String parseSampleId(String igsn) {
-  return safeDashSplit(igsn, 2);
-}
-
-String parseSuffix(String igsn) {
-  String suffix = safeDashSplit(igsn, 3);
-  Log.d("suffix2", "" + suffix);
-  Log.d("igsn", "" + igsn);
-  if (!isNull(suffix))
-    suffix = "{" + suffix + "}";
-  Log.d("suffix3", "" + suffix);
-
-  if ("W".equals(parsePrefix2(igsn)))
-    return getVocabId("Water Sample Suffix", suffix);
-  if ("S".equals(parsePrefix2(igsn)))
-    return getVocabId("Soil Sample Suffix",  suffix);
-  if ("CR".equals(parsePrefix2(igsn)))
-    return getVocabId("Soil Crust Sample Suffix",  suffix);
-
-  return "";
-}
-
-String getIgsn(String tabGroup) {
-  String igsn =
-        getFieldValue(tabGroup + "/Basic_Info/Sample_Prefix_1") + "-"
-      + getFieldValue(tabGroup + "/Basic_Info/Sample_Prefix_2") + "-"
-      + getFieldValue(tabGroup + "/Basic_Info/Sample_ID");
-
-  String suffixRef = tabGroup + "/Basic_Info/Suffix";
-  String suffix = "";
-  if (isValidRef(suffixRef))
-    suffix = getMenuValue(suffixRef);
-
-  if (!isNull(suffix))
-    igsn += "-" + guessArch16nValFromKey(suffix);
-
-  return igsn;
-}
-
-String getSampleType(String tabGroup) {
-  if ("Soil_Crust_Sample".equals(tabGroup))
-    return "Soil (Crust)";
-  else
-    return tabGroup.split("_")[0];
-}
-
-String prefix2ToType(String prefix2) {
-  Map m = new HashMap();
-  m.put("W" , "Water Sample"       );
-  m.put("V" , "Vegetation Sample"  );
-  m.put("R" , "Rock Sample"        );
-  m.put("S" , "Soil Sample"        );
-  m.put("CR", "Soil (Crust) Sample");
-
-  return m.get(prefix2);
-}
-
-String getSampleTypeFromIgsn(String igsn) {
-  return prefix2ToType(parsePrefix2(igsn));
-}
+final String REF_FCN_TIMESTAMP    = "FCN/Vars/FCN_timestamp";
+final String REF_FCN_AUTHOR       = "FCN/Vars/FCN_author";
+final String REF_FCN_SITE_NAME    = "FCN/General/FCN_Site_Name";
+final String REF_FCN_FCN_ID       = "FCN/General/FCN_ID";
+final String REF_FCN_TRENCH_ID    = "FCN/General/FCN_Trench_ID";
+final String REF_FCN_LOCUS_ID     = "FCN/General/Locus_ID";
+final String REF_FCN_STRATUM_FEATURE_IDENTIFIER
+                                  = "FCN/General/Stratum_Feature_Identifier";
+final String REF_FCN_FCN_CLASS    = "FCN/General/FCN_Class";
+final String REF_FCN_FCN_QUANTITY = "FCN/General/FCN_Quantity";
 
 void printLabel() {
   long currentTime = System.currentTimeMillis();
   if (LAST_PRINT_TIME + MAX_BOUNCE_TIME > currentTime) {
     String msg = "";
-    msg = "You are doing that too much. Wait %s seconds and try again.";
+    msg = "{bounce_pre} %s {bounce_post}";
     msg = replaceFirst(msg, "" + (MAX_BOUNCE_TIME / 1000));
     showToast(msg);
     return;
@@ -7969,144 +7886,133 @@ void printLabel() {
 
   triggerAutoSave();
 
-  String tabGroup = getDisplayedTabGroup();
+  String timestamp = getFieldValue(REF_FCN_TIMESTAMP);
+  SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd HH:mm:ssZ");
+  Date date = parser.parse(timestamp);
+  SimpleDateFormat fmtYyyy = new SimpleDateFormat("yyyy");
+  SimpleDateFormat fmtMm   = new SimpleDateFormat("MM");
+  SimpleDateFormat fmtDd   = new SimpleDateFormat("dd");
 
-  String igsn       = getIgsn(tabGroup);
-  String sampleType = getSampleType(tabGroup);
-  String timestamp  = getFormattedTimestampField(tabGroup);
-
-  Log.d("printLabel", igsn + " " + sampleType + " " + timestamp);
+  String yyyy             = fmtYyyy.format(date);
+  String mm               = fmtMm  .format(date);
+  String dd               = fmtDd  .format(date);
+  String author           = getFieldValue(REF_FCN_AUTHOR);
+  String siteName         = getFieldValue(REF_FCN_SITE_NAME);
+  String fcnId            = getFieldValue(REF_FCN_FCN_ID);
+  String trenchId         = getFieldValue(REF_FCN_TRENCH_ID);
+  String locusId          = getFieldValue(REF_FCN_LOCUS_ID);
+  String stratumFeatureId = getFieldValue(REF_FCN_STRATUM_FEATURE_IDENTIFIER);
+  String fcnClass         = getFieldValue(REF_FCN_FCN_CLASS, true);
+  String fcnQuantity      = getFieldValue(REF_FCN_FCN_QUANTITY, true);
+  String uuid             = getUuid();
 
   String cmd = "";
-  cmd += "\r\n^XA^POI";
-  cmd += "\r\n^FO500,20^A0,20,20^FDCSIRO^FS";
-  cmd += "\r\n^FO460,50";
-  cmd += "\r\n^BXN,6,200";
-  cmd += "\r\n^FDhttp://igsn.org/{igsn}^FS";
-  cmd += "\r\n^FO15,25^A0,90,40^FD{igsn}^FS";
-  cmd += "\r\n^FO15,130^A0,60,35^TBN,120,100^FD{sample_type}^FS";
-  cmd += "\r\n^FO205,130^A0,60,35^FD{timestamp}^FS";
-  cmd += "\r\n^FO0,115^GB430,0,2^FS";
-  cmd += "\r\n^FO190,115^GB0,85,2^FS";
+  cmd += "\r\n^XA";
+  cmd += "\r\n^CI28";
+  cmd += "\r\n^POI";
+  cmd += "\r\n";
+  cmd += "\r\n^CW1,E:DRO000.TTF";
+  cmd += "\r\n^FO5,5";
+  cmd += "\r\n^GB390,370,2^FS";
+  cmd += "\r\n";
+  cmd += "\r\n^A1,30,30";
+  cmd += "\r\n^FO10,10";
+  cmd += "\r\n^FDTRAP &#27950;&#27827;&#27969;&#22495;&#32771;&#21476;&#39033;&#30446;^FS";
+  cmd += "\r\n";
+  cmd += "\r\n^A1,30,30";
+  cmd += "\r\n^FO10,45";
+  cmd += "\r\n^FDSite&#36951;&#22336;: {siteName}^FS";
+  cmd += "\r\n";
+  cmd += "\r\n^A1,20,20";
+  cmd += "\r\n^FO10,80";
+  cmd += "\r\n^FD{dd}&#26085;{mm}&#26376;^FS";
+  cmd += "\r\n";
+  cmd += "\r\n^A1,20,20";
+  cmd += "\r\n^FO10,105";
+  cmd += "\r\n^FD{yyyy}^FS";
+  cmd += "\r\n";
+  cmd += "\r\n^A1,50,50";
+  cmd += "\r\n^FO110,80";
+  cmd += "\r\n^FDFCN: {fcnId}^FS";
+  cmd += "\r\n";
+  cmd += "\r\n^A1,30,30";
+  cmd += "\r\n^FO10,135";
+  cmd += "\r\n^FDTrench&#25506;&#26041;: {trenchId}^FS";
+  cmd += "\r\n";
+  cmd += "\r\n^A1,30,30";
+  cmd += "\r\n^FO10,170";
+  cmd += "\r\n^FDLocus&#21333;&#20301;: {locusId}^FS";
+  cmd += "\r\n";
+  cmd += "\r\n^A1,25,25";
+  cmd += "\r\n^FO10,205";
+  cmd += "\r\n^FDStratum/Feature&#22320;&#23618;/&#36951;&#36857;: {stratumFeatureId}^FS";
+  cmd += "\r\n";
+  cmd += "\r\n^A1,20,20";
+  cmd += "\r\n^FO10,235";
+  cmd += "\r\n^FD{author}^FS";
+  cmd += "\r\n";
+  cmd += "\r\n^A1,25,25";
+  cmd += "\r\n^FO10,260";
+  cmd += "\r\n^TBN,220,55";
+  cmd += "\r\n^FDClass&#36951;&#29289;&#31181;&#31867;: {fcnClass}^FS";
+  cmd += "\r\n";
+  cmd += "\r\n^A1,25,25";
+  cmd += "\r\n^FO10,320";
+  cmd += "\r\n^FDQuant&#25968;&#37327;: {fcnQuantity}^FS";
+  cmd += "\r\n";
+  cmd += "\r\n^A1,20,20";
+  cmd += "\r\n^FO270,135";
+  cmd += "\r\n^FDBag^FS";
+  cmd += "\r\n";
+  cmd += "\r\n^A1,40,40";
+  cmd += "\r\n^FO290,160";
+  cmd += "\r\n^FD_ / _^FS";
+  cmd += "\r\n";
+  cmd += "\r\n^FO255,235";
+  cmd += "\r\n";
+  cmd += "\r\n^BXN,8,200";
+  cmd += "\r\n";
+  cmd += "\r\n^FD{uuid}^FS";
+  cmd += "\r\n";
   cmd += "\r\n^XZ";
-  cmd  = replaceFirst(cmd, "{igsn}", igsn);
-  cmd  = replaceFirst(cmd, "{igsn}", igsn);
-  cmd  = replaceFirst(cmd, "{sample_type}", sampleType);
-  cmd  = replaceFirst(cmd, "{timestamp}", timestamp);
+
+  cmd  = replaceFirst(cmd, "{author}",           author);
+  cmd  = replaceFirst(cmd, "{siteName}",         siteName);
+  cmd  = replaceFirst(cmd, "{dd}",               dd);
+  cmd  = replaceFirst(cmd, "{mm}",               mm);
+  cmd  = replaceFirst(cmd, "{yyyy}",             yyyy);
+  cmd  = replaceFirst(cmd, "{fcnId}",            fcnId);
+  cmd  = replaceFirst(cmd, "{trenchId}",         trenchId);
+  cmd  = replaceFirst(cmd, "{locusId}",          locusId);
+  cmd  = replaceFirst(cmd, "{stratumFeatureId}", stratumFeatureId);
+  cmd  = replaceFirst(cmd, "{fcnClass}",         fcnClass);
+  cmd  = replaceFirst(cmd, "{fcnQuantity}",      fcnQuantity);
+  cmd  = replaceFirst(cmd, "{uuid}",             uuid);
+
   Log.d("printLabel", cmd);
 
   writeBluetoothMessage(cmd);
   LAST_PRINT_TIME = currentTime;
 }
 
-void scanRecordFromQrCode() {
-  scanCode("loadEntityFromScannedIgsn()");
+void calibratePrinter() {
+  String cmd = "";
+  cmd += "\r\n! U1 getvar \"device.languages\"";
+  cmd += "\r\n{}";
+  cmd += "\r\n";
+  cmd += "\r\n{\"ezpl.print_width\":\"406\",\"zpl.label_length\":\"389\",\"zpl.calibrate\":\"\"}";
+  cmd += "\r\n^JUS";
+
 }
 
-void loadEntityFromScannedIgsn() {
-  String code = getLastScanContents();
-  String igsn = parseIgsnFromUrl(code);
-  loadEntityFromIgsn(igsn);
-}
-
-void loadEntityFromIgsn(String igsn) {
-  if (isNull(igsn)) {
-    showWarning("{load_scanned_err_head}", "{load_scanned_err_body}");
-    return;
+addActionBarItem("calibrate_printer", new ActionButtonCallback() {
+  actionOnLabel() {
+    "{calibrate_printer}";
   }
-
-  q  = "";
-  q += " SELECT  uuid";
-  q += " from (select uuid, measure, '-'||vocabid as vocabid";
-  q += "         FROM latestnondeletedaentvalue";
-  q += "         JOIN latestnondeletedarchent using (uuid)";
-  q += "         JOIN attributekey USING (attributeid)";
-  q += "        WHERE attributename IN (";
-  q += "                'Sample Prefix 1',";
-  q += "                'Sample Prefix 2',";
-  q += "                'Sample ID',";
-  q += "                'Water Sample Suffix',";
-  q += "                'Soil Sample Suffix',";
-  q += "                'Soil Crust Sample Suffix')";
-  q += "        ORDER BY CASE attributename ";
-  q += "                 WHEN 'Sample Prefix 1' THEN 1 ";
-  q += "                 WHEN 'Sample Prefix 2' THEN 2 ";
-  q += "                 WHEN 'Sample ID'       THEN 3";
-  q += "                 ELSE 4 END)";
-  q += " GROUP BY uuid";
-  q += " HAVING COALESCE(GROUP_CONCAT(measure, '-'),'') ||";
-  q += "        COALESCE(GROUP_CONCAT(vocabid, '-'),'') = %s;";
-
-  q  = dbReplaceFirst(q, parseIgsnToLoadEntity(igsn));
-  Log.d("", q);
-
-  FetchCallback cb = new FetchCallback() {
-    onFetch(result) {
-      print("" + result);
-      if (result == null || result.size() == 0)
-        createSampleFromIgsn(igsn);
-      else
-        loadEntityFrom(result.get(0).get(0));
-    }
-  };
-
-  fetchAll(q, cb);
-}
-
-void createSampleFromIgsn(String igsn) {
-  String type = getSampleTypeFromIgsn(igsn);
-
-  String head;
-  String body;
-  String cbOk;
-  String cbBad;
-  if (isNull(type)) {
-    head = "Invalid IGSN";
-    body = "The scanned IGSN does not have a valid type.";
-
-    showWarning(head, body);
-  } else {
-    head  = "New Sample";
-
-    body  = "A sample having the scanned IGSN was not found on this device. A ";
-    body += "new {sample_type} with this IGSN will be created instead. Tap ";
-    body += " 'OK' to proceed or 'Cancel' otherwise.";
-    body  = replaceFirst(body, "{sample_type}", type);
-
-    cbOk  = fun2str("reallyCreateSampleFromIgsn", new Object[]{type, igsn});
-
-    cbBad = "";
-
-    showAlert(head, body, cbOk, cbBad);
+  actionOn() {
+    calibratePrinter();
   }
-}
-
-void reallyCreateSampleFromIgsn(String type, String igsn) {
-  SCANNED_IGSN = igsn;
-
-  onClickProjectNewSample(type);
-}
-
-void setIgsn() {
-  if (isNull(SCANNED_IGSN))
-    return;
-
-  String tabGroup = getDisplayedTabGroup();
-
-  String prefix1  = parsePrefix1 (SCANNED_IGSN);
-  String prefix2  = parsePrefix2 (SCANNED_IGSN);
-  String sampleId = parseSampleId(SCANNED_IGSN);
-  String suffix   = parseSuffix  (SCANNED_IGSN);
-  SCANNED_IGSN = "";
-
-  setFieldValue(tabGroup + "/Basic_Info/Sample_Prefix_1", prefix1);
-  setFieldValue(tabGroup + "/Basic_Info/Sample_Prefix_2", prefix2);
-  setFieldValue(tabGroup + "/Basic_Info/Sample_ID",       sampleId);
-  if (SUFFIX_TAB_GROUPS.contains(tabGroup))
-  setFieldValue(tabGroup + "/Basic_Info/Suffix",          suffix);
-}
-
-bindQrScanning("Control/Search/Load_FCN_Label");
+});
 
 addOnEvent("FCN/General/Print_FCN_Label", "click", "printLabel()");
 
