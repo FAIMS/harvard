@@ -1091,7 +1091,7 @@
       </group>
       <group ref="Search" faims_scrollable="false">
         <label>{Search}</label>
-        <trigger ref="Load_FCN_Label">
+        <trigger ref="Load_FCN_Label" faims_style_class="blue">
           <label>{Load_FCN_Label}</label>
         </trigger>
         <group ref="Colgroup_0" faims_style="orientation">

@@ -93,7 +93,7 @@ string="
 replacement="
       <group ref=\"Search\" faims_scrollable=\"false\">
         <label>\{Search}<\/label>
-        <trigger ref=\"Load_FCN_Label\">
+        <trigger ref=\"Load_FCN_Label\" faims_style_class=\"blue\">
           <label>\{Load_FCN_Label}<\/label>
         <\/trigger>
         <group ref=\"Colgroup_0\" faims_style=\"orientation\">
@@ -145,6 +145,9 @@ cat << EOF >> ui_styling.css
 }
 .orange {
   background-color: orange;
+}
+.blue {
+  background-color: #33b5e5;
 }
 EOF
 

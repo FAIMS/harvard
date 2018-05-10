@@ -2213,6 +2213,7 @@ void timedPopulateCursorList(String ref, String q, int limit) {
 
 void setUpTypeHierarchy() {
   //- 
+  //  - Legacy
   //  - Site
   //    - Trench
   //      - Trench Files
@@ -2226,42 +2227,41 @@ void setUpTypeHierarchy() {
   //      - FCN
   //      - Diary
   //      - Legacy
-  //  - Legacy
 
   n0 = Tree("", 1);
-  n1 = Tree("Site", 1);
-  n2 = Tree("Trench", 1);
-  n3 = Tree("Trench Files", 1);
-  n4 = Tree("Locus", 1);
-  n5 = Tree("Soil Munsel Color", 1);
-  n6 = Tree("Sediment Aggregate", 1);
-  n7 = Tree("FCN", 1);
-  n8 = Tree("Photograph Log", 1);
-  n9 = Tree("Stratum Feature", 1);
-  n10 = Tree("Photograph Log", 1);
-  n11 = Tree("FCN", 1);
-  n12 = Tree("Diary", 1);
-  n13 = Tree("Legacy", 1);
+  n1 = Tree("Legacy", 1);
+  n2 = Tree("Site", 1);
+  n3 = Tree("Trench", 1);
+  n4 = Tree("Trench Files", 1);
+  n5 = Tree("Locus", 1);
+  n6 = Tree("Soil Munsel Color", 1);
+  n7 = Tree("Sediment Aggregate", 1);
+  n8 = Tree("FCN", 1);
+  n9 = Tree("Photograph Log", 1);
+  n10 = Tree("Stratum Feature", 1);
+  n11 = Tree("Photograph Log", 1);
+  n12 = Tree("FCN", 1);
+  n13 = Tree("Diary", 1);
   n14 = Tree("Legacy", 1);
 
   n0.addChild(n1);
-  n0.addChild(n14);
-
-  n1.addChild(n2);
+  n0.addChild(n2);
 
   n2.addChild(n3);
-  n2.addChild(n4);
-  n2.addChild(n9);
-  n2.addChild(n11);
-  n2.addChild(n12);
-  n2.addChild(n13);
 
-  n4.addChild(n5);
-  n4.addChild(n6);
-  n4.addChild(n7);
-  n4.addChild(n8);
+  n3.addChild(n4);
+  n3.addChild(n5);
+  n3.addChild(n10);
+  n3.addChild(n12);
+  n3.addChild(n13);
+  n3.addChild(n14);
 
-  n9.addChild(n10);
+  n5.addChild(n6);
+  n5.addChild(n7);
+  n5.addChild(n8);
+  n5.addChild(n9);
+
+  n10.addChild(n11);
 
 
   PERF_TYPE_TREE = n0;
@@ -7975,103 +7975,108 @@ void printLabel() {
   String fcnQuantity      = getFieldValue(REF_FCN_FCN_QUANTITY, true);
   String uuid             = getUuid();
 
-  String cmd = "";
-  cmd += "\r\n^XA";
-  cmd += "\r\n^CI28";
-  cmd += "\r\n^POI";
-  cmd += "\r\n";
-  cmd += "\r\n^CW1,E:DRO000.TTF";
-  cmd += "\r\n^FO5,5";
-  cmd += "\r\n^GB390,370,2^FS";
-  cmd += "\r\n";
-  cmd += "\r\n^A1,30,30";
-  cmd += "\r\n^FO10,10";
-  cmd += "\r\n^FDTRAP &#27950;&#27827;&#27969;&#22495;&#32771;&#21476;&#39033;&#30446;^FS";
-  cmd += "\r\n";
-  cmd += "\r\n^A1,30,30";
-  cmd += "\r\n^FO10,45";
-  cmd += "\r\n^FDSite&#36951;&#22336;: {siteName}^FS";
-  cmd += "\r\n";
-  cmd += "\r\n^A1,20,20";
-  cmd += "\r\n^FO10,80";
-  cmd += "\r\n^FD{dd}&#26085;{mm}&#26376;^FS";
-  cmd += "\r\n";
-  cmd += "\r\n^A1,20,20";
-  cmd += "\r\n^FO10,105";
-  cmd += "\r\n^FD{yyyy}^FS";
-  cmd += "\r\n";
-  cmd += "\r\n^A1,50,50";
-  cmd += "\r\n^FO110,80";
-  cmd += "\r\n^FDFCN: {fcnId}^FS";
-  cmd += "\r\n";
-  cmd += "\r\n^A1,30,30";
-  cmd += "\r\n^FO10,135";
-  cmd += "\r\n^FDTrench&#25506;&#26041;: {trenchId}^FS";
-  cmd += "\r\n";
-  cmd += "\r\n^A1,30,30";
-  cmd += "\r\n^FO10,170";
-  cmd += "\r\n^FDLocus&#21333;&#20301;: {locusId}^FS";
-  cmd += "\r\n";
-  cmd += "\r\n^A1,25,25";
-  cmd += "\r\n^FO10,205";
-  cmd += "\r\n^FDStratum/Feature&#22320;&#23618;/&#36951;&#36857;: {stratumFeatureId}^FS";
-  cmd += "\r\n";
-  cmd += "\r\n^A1,20,20";
-  cmd += "\r\n^FO10,235";
-  cmd += "\r\n^FD{author}^FS";
-  cmd += "\r\n";
-  cmd += "\r\n^A1,25,25";
-  cmd += "\r\n^FO10,260";
-  cmd += "\r\n^TBN,220,55";
-  cmd += "\r\n^FDClass&#36951;&#29289;&#31181;&#31867;: {fcnClass}^FS";
-  cmd += "\r\n";
-  cmd += "\r\n^A1,25,25";
-  cmd += "\r\n^FO10,320";
-  cmd += "\r\n^FDQuant&#25968;&#37327;: {fcnQuantity}^FS";
-  cmd += "\r\n";
-  cmd += "\r\n^A1,20,20";
-  cmd += "\r\n^FO270,135";
-  cmd += "\r\n^FDBag^FS";
-  cmd += "\r\n";
-  cmd += "\r\n^A1,40,40";
-  cmd += "\r\n^FO290,160";
-  cmd += "\r\n^FD_ / _^FS";
-  cmd += "\r\n";
-  cmd += "\r\n^FO255,235";
-  cmd += "\r\n";
-  cmd += "\r\n^BXN,8,200";
-  cmd += "\r\n";
-  cmd += "\r\n^FD{uuid}^FS";
-  cmd += "\r\n";
-  cmd += "\r\n^XZ";
+  String msg = "";
+  msg += "\r\n^XA";
+  msg += "\r\n^CI28";
+  msg += "\r\n^POI";
+  msg += "\r\n";
+  msg += "\r\n^CW1,E:DRO000.TTF";
+  msg += "\r\n^FO5,5";
+  msg += "\r\n^GB390,370,2^FS";
+  msg += "\r\n";
+  msg += "\r\n^A1,30,30";
+  msg += "\r\n^FO10,10";
+  msg += "\r\n^FDTRAP \u6D2E\u6CB3\u6D41\u57DF\u8003\u53E4\u9879\u76EE^FS";
+  msg += "\r\n";
+  msg += "\r\n^A1,30,30";
+  msg += "\r\n^FO10,45";
+  msg += "\r\n^FDSite\u9057\u5740: {siteName}^FS";
+  msg += "\r\n";
+  msg += "\r\n^A1,20,20";
+  msg += "\r\n^FO10,80";
+  msg += "\r\n^FD{dd}\u65E5{mm}\u6708^FS";
+  msg += "\r\n";
+  msg += "\r\n^A1,20,20";
+  msg += "\r\n^FO10,105";
+  msg += "\r\n^FD{yyyy}^FS";
+  msg += "\r\n";
+  msg += "\r\n^A1,50,50";
+  msg += "\r\n^FO110,80";
+  msg += "\r\n^FDFCN: {fcnId}^FS";
+  msg += "\r\n";
+  msg += "\r\n^A1,30,30";
+  msg += "\r\n^FO10,135";
+  msg += "\r\n^FDTrench\u63A2\u65B9: {trenchId}^FS";
+  msg += "\r\n";
+  msg += "\r\n^A1,30,30";
+  msg += "\r\n^FO10,170";
+  msg += "\r\n^FDLocus\u5355\u4F4D: {locusId}^FS";
+  msg += "\r\n";
+  msg += "\r\n^A1,25,25";
+  msg += "\r\n^FO10,205";
+  msg += "\r\n^FDStratum/Feature\u5730\u5C42/\u9057\u8FF9: {stratumFeatureId}^FS";
+  msg += "\r\n";
+  msg += "\r\n^A1,20,20";
+  msg += "\r\n^FO10,235";
+  msg += "\r\n^FD{author}^FS";
+  msg += "\r\n";
+  msg += "\r\n^A1,25,25";
+  msg += "\r\n^FO10,260";
+  msg += "\r\n^TBN,220,55";
+  msg += "\r\n^FDClass\u9057\u7269\u79CD\u7C7B: {fcnClass}^FS";
+  msg += "\r\n";
+  msg += "\r\n^A1,25,25";
+  msg += "\r\n^FO10,320";
+  msg += "\r\n^FDQuant\u6570\u91CF: {fcnQuantity}^FS";
+  msg += "\r\n";
+  msg += "\r\n^A1,20,20";
+  msg += "\r\n^FO270,135";
+  msg += "\r\n^FDBag^FS";
+  msg += "\r\n";
+  msg += "\r\n^A1,40,40";
+  msg += "\r\n^FO290,160";
+  msg += "\r\n^FD_ / _^FS";
+  msg += "\r\n";
+  msg += "\r\n^FO255,235";
+  msg += "\r\n";
+  msg += "\r\n^BXN,8,200";
+  msg += "\r\n";
+  msg += "\r\n^FD{uuid}^FS";
+  msg += "\r\n";
+  msg += "\r\n^XZ";
+  msg += "\r\n";
 
-  cmd  = replaceFirst(cmd, "{author}",           author);
-  cmd  = replaceFirst(cmd, "{siteName}",         siteName);
-  cmd  = replaceFirst(cmd, "{dd}",               dd);
-  cmd  = replaceFirst(cmd, "{mm}",               mm);
-  cmd  = replaceFirst(cmd, "{yyyy}",             yyyy);
-  cmd  = replaceFirst(cmd, "{fcnId}",            fcnId);
-  cmd  = replaceFirst(cmd, "{trenchId}",         trenchId);
-  cmd  = replaceFirst(cmd, "{locusId}",          locusId);
-  cmd  = replaceFirst(cmd, "{stratumFeatureId}", stratumFeatureId);
-  cmd  = replaceFirst(cmd, "{fcnClass}",         fcnClass);
-  cmd  = replaceFirst(cmd, "{fcnQuantity}",      fcnQuantity);
-  cmd  = replaceFirst(cmd, "{uuid}",             uuid);
+  msg  = replaceFirst(msg, "{author}",           author);
+  msg  = replaceFirst(msg, "{siteName}",         siteName);
+  msg  = replaceFirst(msg, "{dd}",               dd);
+  msg  = replaceFirst(msg, "{mm}",               mm);
+  msg  = replaceFirst(msg, "{yyyy}",             yyyy);
+  msg  = replaceFirst(msg, "{fcnId}",            fcnId);
+  msg  = replaceFirst(msg, "{trenchId}",         trenchId);
+  msg  = replaceFirst(msg, "{locusId}",          locusId);
+  msg  = replaceFirst(msg, "{stratumFeatureId}", stratumFeatureId);
+  msg  = replaceFirst(msg, "{fcnClass}",         fcnClass);
+  msg  = replaceFirst(msg, "{fcnQuantity}",      fcnQuantity);
+  msg  = replaceFirst(msg, "{uuid}",             uuid);
 
-  Log.d("printLabel", cmd);
+  Log.d("printLabel", msg);
 
-  writeBluetoothMessage(cmd);
+  writeBluetoothMessage(msg);
   LAST_PRINT_TIME = currentTime;
 }
 
 void calibratePrinter() {
-  String cmd = "";
-  cmd += "\r\n! U1 getvar \"device.languages\"";
-  cmd += "\r\n{}";
-  cmd += "\r\n";
-  cmd += "\r\n{\"ezpl.print_width\":\"406\",\"zpl.label_length\":\"389\",\"zpl.calibrate\":\"\"}";
-  cmd += "\r\n^JUS";
+  List cmdList = new ArrayList();
+  cmdList.add("! U1 setvar \"ezpl.print_width\" \"406\"");
+  cmdList.add("~JC");
+  cmdList.add("^XA^JUS^XZ");
 
+  String msg = "";
+  for (String cmd : cmdList) msg += cmd + "\r\n";
+
+  Log.d("calibratePrinter", msg);
+
+  writeBluetoothMessage(msg);
 }
 
 addActionBarItem("calibrate_printer", new ActionButtonCallback() {
@@ -8084,6 +8089,20 @@ addActionBarItem("calibrate_printer", new ActionButtonCallback() {
 });
 
 addOnEvent("FCN/General/Print_FCN_Label", "click", "printLabel()");
+/********************************* BLUETOOTH **********************************/
+{
+  ToggleActionButtonCallback enableBluetooth = new ToggleActionButtonCallback() {
+      actionOnLabel () { return "Disable Bluetooth"; }
+      actionOffLabel() { return "Enable Bluetooth"; }
+
+      actionOff() { createBluetoothConnection("", 0); }
+      actionOn () { destroyBluetoothConnection(); }
+
+      isActionOff() { return isBluetoothConnected(); }
+  };
+
+  addActionBarItem("bluetooth", enableBluetooth);
+}
 
 
 /******************************************************************************/

@@ -1813,5 +1813,6 @@
   <!--@SOURCE: logic/get-stratum-identifier.bsh-->
   <!--@SOURCE: logic/qr-codes.bsh-->
   <!--@SOURCE: logic/printer.bsh-->
+  <!--@SOURCE: logic/bluetooth.bsh-->
 ]]></logic>
 </module>
