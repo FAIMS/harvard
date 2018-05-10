@@ -211,6 +211,8 @@ bounce_pre=You are doing that too much. Wait
 bounce_post=seconds and try again.
 EOF
 
+diff english.0.properties english.0.properties.old >english.0.properties.diff
+
 rm ui_schema.xml.original
 rm validation.xml.original
 rm ui_logic.bsh.original

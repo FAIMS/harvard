@@ -1,0 +1,199 @@
+0a1
+> 0_5_x_0_5_m=0.5 x 0.5 m
+2d2
+< 10=10
+706,715c706
+< 10_50=10-50
+< 11=11
+< 12=12
+< 13=13
+< 14=14
+< 15=15
+< 16=16
+< 17=17
+< 18=18
+< 19=19
+---
+> 10_x_10_m=10 x 10 m
+716a708
+> 1_x_1_m=1 x 1 m
+718d709
+< 20=20
+720d710
+< 2_5=2-5
+1411a1402,1403
+> 2_x_1_m=2 x 1 m
+> 2_x_2_m=2 x 2 m
+1417,1418d1408
+< 5=5
+< 50_=50+
+2093,2094c2083
+< 5_10=5-10
+< 6=6
+---
+> 5_x_5_m=5 x 5 m
+2096d2084
+< 7=7
+2805d2792
+< 8=8
+2807d2793
+< 9=9
+2809a2796,2797
+> Absolute_Height_Bottom__m_=Absolute Height Bottom (m)
+> Absolute_Height_Top__m_=Absolute Height Top (m)
+2858,2861d2845
+< Calculate_All_Elevations=Calculate All Elevations
+< Calculate_Stratum_Feature_Mid_X_Y_Coordinates=Calculate Stratum/Feature Mid X,Y Coordinates
+< Calculate_X_Y_Coords_from_Trench_SW_Corner=Calculate X,Y Coords from Trench SW Corner
+< Calculate_X_and_Y_values=Calculate X and Y values
+2863a2848
+> Center_Bottom_Height=Center Bottom Height
+2865,2871c2850
+< Center_Top_Depth_Meas__m_=Center Top Depth Meas (m)
+< Center_Top_Elevation_Calc__masl_=Center Top Elevation Calc (masl)
+< Centre_Bottom_Depth_Meas__m_=Centre Bottom Depth Meas (m)
+< Centre_Bottom_Elevation_Calc__masl_=Centre Bottom Elevation Calc (masl)
+< Centre_Bottom_Height_Meas__m_=Centre Bottom Height Meas (m)
+< Centre_Top_Elevation_Calc__masl_=Centre Top Elevation Calc (masl)
+< Centre_Top_Height_Meas__m_=Centre Top Height Meas (m)
+---
+> Center_Top_Height=Center Top Height
+2944,2945d2922
+< Elevation_Bottom_Calc__masl_=Elevation Bottom Calc (masl)
+< Elevation_Top_Calc__masl_=Elevation Top Calc (masl)
+2965,2966d2941
+< FCN_SW_Corner_Easting=FCN SW Corner Easting
+< FCN_SW_Corner_Northing=FCN SW Corner Northing
+2993d2967
+< Get_Stratum_Feature_ID=Get Stratum/Feature ID
+2995a2970,2971
+> Grid_X=Grid X
+> Grid_Y=Grid Y
+3044d3019
+< Loaded_Map_Configuration=Loaded Map Configuration
+3051,3053d3025
+< Locus_SW_Corner_Easting=Locus SW Corner Easting
+< Locus_SW_Corner_Elevation__masl_=Locus SW Corner Elevation (masl)
+< Locus_SW_Corner_Northing=Locus SW Corner Northing
+3063d3034
+< Maximum_Top_Height_Meas__m_=Maximum Top Height Meas (m)
+3069,3071d3039
+< Mid_X_Calculated=Mid X Calculated
+< Mid_X_Calculated_Coord=Mid X Calculated Coord
+< Mid_X_Measurement__m_=Mid X Measurement (m)
+3073,3075d3040
+< Mid_Y_Calculated=Mid Y Calculated
+< Mid_Y_Calculated_Coord=Mid Y Calculated Coord
+< Mid_Y_Measurement__m_=Mid Y Measurement (m)
+3077d3041
+< Minimum_Top_Height_Meas__m_=Minimum Top Height Meas (m)
+3083,3085c3047
+< NE_Bottom_Depth_Meas__m_=NE Bottom Depth Meas (m)
+< NE_Bottom_Elevation_Calc__masl_=NE Bottom Elevation Calc (masl)
+< NE_Bottom_Height_Meas__m_=NE Bottom Height Meas (m)
+---
+> NE_Bottom_Height=NE Bottom Height
+3088,3090c3050
+< NE_Top_Depth_Meas__m_=NE Top Depth Meas (m)
+< NE_Top_Elevation_Calc__masl_=NE Top Elevation Calc (masl)
+< NE_Top_Height_Meas__m_=NE Top Height Meas (m)
+---
+> NE_Top_Height=NE Top Height
+3095,3097c3055
+< NW_Bottom_Depth_Meas__m_=NW Bottom Depth Meas (m)
+< NW_Bottom_Elevation_Calc__masl_=NW Bottom Elevation Calc (masl)
+< NW_Bottom_Height_Meas__m_=NW Bottom Height Meas (m)
+---
+> NW_Bottom_Height=NW Bottom Height
+3100,3102c3058
+< NW_Top_Depth_Meas__m_=NW Top Depth Meas (m)
+< NW_Top_Elevation_Calc__masl_=NW Top Elevation Calc (masl)
+< NW_Top_Height_Meas__m_=NW Top Height Meas (m)
+---
+> NW_Top_Height=NW Top Height
+3154d3109
+< Preliminary_Cultural_Association=Preliminary Cultural Association
+3157d3111
+< Print_FCN_Label=Print FCN Label
+3177,3179c3131
+< SE_Bottom_Depth_Meas__m_=SE Bottom Depth Meas (m)
+< SE_Bottom_Elevation_Calc__masl_=SE Bottom Elevation Calc (masl)
+< SE_Bottom_Height_Meas__m_=SE Bottom Height Meas (m)
+---
+> SE_Bottom_Height=SE Bottom Height
+3181,3183c3133
+< SE_Top_Depth_Meas__m_=SE Top Depth Meas (m)
+< SE_Top_Elevation_Calc__masl_=SE Top Elevation Calc (masl)
+< SE_Top_Height_Meas__m_=SE Top Height Meas (m)
+---
+> SE_Top_Height=SE Top Height
+3185,3187c3135
+< SW_Bottom_Depth_Meas__m_=SW Bottom Depth Meas (m)
+< SW_Bottom_Elevation_Calc__masl_=SW Bottom Elevation Calc (masl)
+< SW_Bottom_Height_Meas__m_=SW Bottom Height Meas (m)
+---
+> SW_Bottom_Height=SW Bottom Height
+3189,3191c3137
+< SW_Top_Depth_Meas__m_=SW Top Depth Meas (m)
+< SW_Top_Elevation_Calc__masl_=SW Top Elevation Calc (masl)
+< SW_Top_Height_Meas__m_=SW Top Height Meas (m)
+---
+> SW_Top_Height=SW Top Height
+3197d3142
+< Saved_Map_Configuration=Saved Map Configuration
+3199a3145
+> Search_Button=Search Button
+3248,3250d3193
+< Stratum_Feature_SW_Corner_Easting=Stratum Feature SW Corner Easting
+< Stratum_Feature_SW_Corner_Elevation__masl_=Stratum_Feature SW Corner Elevation (masl)
+< Stratum_Feature_SW_Corner_Northing=Stratum Feature SW Corner Northing
+3291,3292c3234
+< Trench_Dimension_1__m_=Trench Dimension 1 (m)
+< Trench_Dimension_2__m_=Trench Dimension 2 (m)
+---
+> Trench_Dimensions=Trench Dimensions
+3295d3236
+< Trench_SW_Corner_Elevation__masl_=Trench SW Corner Elevation (masl)
+3324,3325d3264
+< X_Calculated_Coord=X Calculated Coord
+< X_Measurement__m_=X Measurement (m)
+3328,3329d3266
+< Y_Calculated_Coord=Y Calculated Coord
+< Y_Measurement__m_=Y Measurement (m)
+3332a3270
+> Your_Description=Your Description
+3334,3336c3272
+< Your_Identification__Type_of_Cut_=Your Identification (Type of Cut)
+< Your_Identification__Type_of_Deposit_=Your Identification (Type of Deposit)
+< Your_Interpretation_Discussion=Your Interpretation/Discussion
+---
+> Your_Interpretation=Your Interpretation
+3339,3343c3275
+< create_dummy_records=Create Dummy Records
+< display_record_digest=Display Record Digest
+< each=each
+< enable_record_creation=Enable Record Creation
+< err_load_entity_body=A record with the provided UUID could not be found.
+---
+> err_load_entity_body=The record could not be loaded. It may have been deleted by another user.
+3345,3346d3276
+< load_scanned_err_body=No record could be found on this device which corresponds to the QR code or barcode you have scanned. This might be because this device has not been synchronised with the server. Synchronisation can be enabled via the action bar, which appears as an elipsis at the top-right of the screen. Please try scanning the QR code or barcode again once synchronisation is complete.
+< load_scanned_err_head=Could Not Load Record
+3353,3358d3282
+< signup_body=You have successfuly signed up. You may now log in as the newly created user.
+< signup_head=Signup Successful
+< this_module=this module
+< valid_control_body_1=The following fields are invalid:\n
+< valid_control_body_2=You must enter data into these fields to proceed.
+< valid_control_head=Invalid Field(s) Found
+3405a3330,3332
+> perf_test_head=Begin a Performance Test?
+> perf_test_body=Do you wish to begin a performance test? Tapping 'OK' will create many entities. (The exact number depends on the number of arch ent types present in this module.) Entity creation takes a few minutes.\n\nIf you would not like to run a performance test, tap 'Cancel' to dismiss this message.\n\nIf you would not like to see this message again, please set this device's date to any year after 2010.
+> 
+3409,3414d3335
+< invalid_trench_id_body=Please enter a 'Trench ID' consisting of a captial 'T' followed by one or more digits.
+< get_stratum_identifier_done=Done!
+< Load_FCN_Label=Load FCN Label
+< calibrate_printer=Calibrate Printer
+< bounce_pre=You are doing that too much. Wait
+< bounce_post=seconds and try again.
