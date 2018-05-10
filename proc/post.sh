@@ -133,6 +133,8 @@ replacement="
     <\/property>"
 perl -0777 -i.original -pe "s/$string/$replacement/igs" validation.xml
 
+sed -i '/^perf_/ d' english.0.properties
+
 cat << EOF >> ui_styling.css
 .readonly {
   color: #B2B2B2;
