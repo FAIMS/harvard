@@ -133,7 +133,11 @@ replacement="
     <\/property>"
 perl -0777 -i.original -pe "s/$string/$replacement/igs" validation.xml
 
+sed -i '/^create_dummy_records/ d' english.0.properties
+sed -i '/^display_record_digest/ d' english.0.properties
+sed -i '/^enable_record_creation/ d' english.0.properties
 sed -i '/^perf_/ d' english.0.properties
+sed -i '/^signup_/ d' english.0.properties
 
 cat << EOF >> ui_styling.css
 .readonly {
