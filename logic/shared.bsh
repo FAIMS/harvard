@@ -154,6 +154,16 @@ double getFieldValueAsDouble(String ref) {
   return parseDouble(getFieldValue(ref));
 }
 
+String arch16nSubstituteValues(String arch16nKey) {
+  if (isInUnitTestTime())
+    return "";
+
+  List entries = new ArrayList();
+  entries.add(new NameValuePair(arch16nKey, ""));
+  entries = linker.convertToNameValuePairs(entries);
+  return entries.get(0).getName();
+}
+
 void assert(boolean condition) {
   if (condition)
     return;

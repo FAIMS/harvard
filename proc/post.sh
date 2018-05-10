@@ -211,7 +211,15 @@ bounce_pre=You are doing that too much. Wait
 bounce_post=seconds and try again.
 EOF
 
-diff english.0.properties english.0.properties.old >english.0.properties.diff
+# Produce a file showing the new arch16n entries
+diff \
+    -u0 \
+    english.0.properties \
+    english.0.properties.old | \
+    grep -E '^\+' | \
+    sed '/^\+\+\+ / d' | \
+    cut -c 2- \
+    >english.0.properties.additions
 
 rm ui_schema.xml.original
 rm validation.xml.original

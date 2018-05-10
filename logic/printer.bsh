@@ -126,6 +126,7 @@ void printLabel() {
   msg  = replaceFirst(msg, "{fcnClass}",         fcnClass);
   msg  = replaceFirst(msg, "{fcnQuantity}",      fcnQuantity);
   msg  = replaceFirst(msg, "{uuid}",             uuid);
+  msg  = arch16nSubstituteValues(msg);
 
   Log.d("printLabel", msg);
 
