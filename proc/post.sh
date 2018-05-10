@@ -214,8 +214,8 @@ EOF
 # Produce a file showing the new arch16n entries
 diff \
     -u0 \
-    english.0.properties \
-    english.0.properties.old | \
+    english.0.properties.old \
+    english.0.properties | \
     grep -E '^\+' | \
     sed '/^\+\+\+ / d' | \
     cut -c 2- \
