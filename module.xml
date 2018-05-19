@@ -140,9 +140,9 @@
         <!--@SOURCE: vocabs/trench-dimensions.xml-->
       </Trench_Dimension_2_m>
     </cols>
-    <Trench_SW_Corner_Elevation__masl_ b="decimal" f="notnull">
+    <Trench_SW_Corner_Elevation_masl b="decimal" f="notnull">
       Trench SW Corner Elevation (masl)
-    </Trench_SW_Corner_Elevation__masl_>
+    </Trench_SW_Corner_Elevation_masl>
     <Grid_SW_Corner_Coordinates t="webview"/>
     <gps f="notnull"/>
     <Excavation_Method t="checkbox" f="notnull">
@@ -1069,7 +1069,7 @@
         <fmt> $0</fmt>
       </str>
     </Locus_Year_of_Campaign>
-    <Locus_SW_Corner_Elevation_masl b="decimal" i="Trench/Trench/Trench_SW_Corner_Elevation__masl_">
+    <Locus_SW_Corner_Elevation_masl b="decimal" i="Trench/Trench/Trench_SW_Corner_Elevation_masl">
       Locus SW Corner Elevation (masl)
     </Locus_SW_Corner_Elevation_masl>
     <Locus_SW_Corner_Northing b="decimal" i="Trench/Trench/Northing"/>
@@ -1308,7 +1308,7 @@
     </R_Paren>
     <Last_Feature_Type t="dropdown" vp="Stratum_Feature/General/Feature_Type"/>
     <Last_Feature_Prefix/>
-    <Stratum_Feature_SW_Corner_Elevation_masl b="decimal" i="Trench/Trench/Trench_SW_Corner_Elevation__masl_">
+    <Stratum_Feature_SW_Corner_Elevation_masl b="decimal" i="Trench/Trench/Trench_SW_Corner_Elevation_masl">
       Stratum_Feature SW Corner Elevation (masl)
     </Stratum_Feature_SW_Corner_Elevation_masl>
     <Stratum_Feature_SW_Corner_Northing b="decimal" i="Trench/Trench/Northing"/>

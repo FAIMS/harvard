@@ -344,7 +344,7 @@ REF_TO_TYPE.put("Trench/Trench/Trench_Trench_ID", "input");
 REF_TO_TYPE.put("Trench/Trench/Team_Members", "input");
 REF_TO_TYPE.put("Trench/Trench/Trench_Dimension_1_m", "dropdown");
 REF_TO_TYPE.put("Trench/Trench/Trench_Dimension_2_m", "dropdown");
-REF_TO_TYPE.put("Trench/Trench/Trench_SW_Corner_Elevation__masl_", "input");
+REF_TO_TYPE.put("Trench/Trench/Trench_SW_Corner_Elevation_masl", "input");
 REF_TO_TYPE.put("Trench/Trench/Grid_SW_Corner_Coordinates", "webview");
 REF_TO_TYPE.put("Trench/Trench/Latitude", "input");
 REF_TO_TYPE.put("Trench/Trench/Longitude", "input");
@@ -758,7 +758,7 @@ DATA_REFS.add("Trench/Trench/Trench_Trench_ID");
 DATA_REFS.add("Trench/Trench/Team_Members");
 DATA_REFS.add("Trench/Trench/Trench_Dimension_1_m");
 DATA_REFS.add("Trench/Trench/Trench_Dimension_2_m");
-DATA_REFS.add("Trench/Trench/Trench_SW_Corner_Elevation__masl_");
+DATA_REFS.add("Trench/Trench/Trench_SW_Corner_Elevation_masl");
 DATA_REFS.add("Trench/Trench/Latitude");
 DATA_REFS.add("Trench/Trench/Longitude");
 DATA_REFS.add("Trench/Trench/Northing");
@@ -3064,14 +3064,14 @@ inheritFieldValue("Trench/Trench/Trench_Trench_ID", "Locus/General/Locus_Trench_
 inheritFieldValue("Trench/Trench/Team_Members", "Locus/General/Team_Members", true);
 inheritFieldValue("User/User_List/Device_Code", "Locus/Vars/Device_Code", false);
 inheritFieldValue("Trench/Vars/Trench_Year_of_Campaign", "Locus/Vars/Locus_Year_of_Campaign", true);
-inheritFieldValue("Trench/Trench/Trench_SW_Corner_Elevation__masl_", "Locus/Vars/Locus_SW_Corner_Elevation_masl", true);
+inheritFieldValue("Trench/Trench/Trench_SW_Corner_Elevation_masl", "Locus/Vars/Locus_SW_Corner_Elevation_masl", true);
 inheritFieldValue("Trench/Trench/Northing", "Locus/Vars/Locus_SW_Corner_Northing", true);
 inheritFieldValue("Trench/Trench/Easting", "Locus/Vars/Locus_SW_Corner_Easting", true);
 inheritFieldValue("Trench/Trench/Trench_Trench_ID", "Stratum_Feature/General/Stratum_Feature_Trench_ID", true);
 inheritFieldValue("User/User_List/Device_Code", "Stratum_Feature/Vars/Device_Code", false);
 inheritFieldValue("Trench/Trench/Trench_Site_Name", "Stratum_Feature/Vars/Stratum_Feature_Site_Name", true);
 inheritFieldValue("Trench/Vars/Trench_Year_of_Campaign", "Stratum_Feature/Vars/Stratum_Feature_Year_of_Campaign", true);
-inheritFieldValue("Trench/Trench/Trench_SW_Corner_Elevation__masl_", "Stratum_Feature/Vars/Stratum_Feature_SW_Corner_Elevation_masl", true);
+inheritFieldValue("Trench/Trench/Trench_SW_Corner_Elevation_masl", "Stratum_Feature/Vars/Stratum_Feature_SW_Corner_Elevation_masl", true);
 inheritFieldValue("Trench/Trench/Northing", "Stratum_Feature/Vars/Stratum_Feature_SW_Corner_Northing", true);
 inheritFieldValue("Trench/Trench/Easting", "Stratum_Feature/Vars/Stratum_Feature_SW_Corner_Easting", true);
 inheritFieldValue("Locus/General/Locus_Locus_ID", "Sediment_Aggregate/Vars/Locus_ID", true);
@@ -3852,7 +3852,7 @@ void validateSite() {
 }
 void validateTrench() {
   List f = new ArrayList(); // Fields to be validated
-  f.add(fieldPair("Trench/Trench/Trench_SW_Corner_Elevation__masl_", "{Trench_SW_Corner_Elevation__masl_}"));
+  f.add(fieldPair("Trench/Trench/Trench_SW_Corner_Elevation_masl", "{Trench_SW_Corner_Elevation__masl_}"));
   f.add(fieldPair("Trench/Trench/Latitude", "{Latitude}"));
   f.add(fieldPair("Trench/Trench/Longitude", "{Longitude}"));
   f.add(fieldPair("Trench/Trench/Northing", "{Northing}"));
@@ -6303,14 +6303,14 @@ putIntoNestedSet(INHERITED_DST_TO_SRC, "Locus/General/Locus_Trench_ID", "Trench/
 putIntoNestedSet(INHERITED_DST_TO_SRC, "Locus/General/Team_Members", "Trench/Trench/Team_Members");
 putIntoNestedSet(INHERITED_DST_TO_SRC, "Locus/Vars/Device_Code", "User/User_List/Device_Code");
 putIntoNestedSet(INHERITED_DST_TO_SRC, "Locus/Vars/Locus_Year_of_Campaign", "Trench/Vars/Trench_Year_of_Campaign");
-putIntoNestedSet(INHERITED_DST_TO_SRC, "Locus/Vars/Locus_SW_Corner_Elevation_masl", "Trench/Trench/Trench_SW_Corner_Elevation__masl_");
+putIntoNestedSet(INHERITED_DST_TO_SRC, "Locus/Vars/Locus_SW_Corner_Elevation_masl", "Trench/Trench/Trench_SW_Corner_Elevation_masl");
 putIntoNestedSet(INHERITED_DST_TO_SRC, "Locus/Vars/Locus_SW_Corner_Northing", "Trench/Trench/Northing");
 putIntoNestedSet(INHERITED_DST_TO_SRC, "Locus/Vars/Locus_SW_Corner_Easting", "Trench/Trench/Easting");
 putIntoNestedSet(INHERITED_DST_TO_SRC, "Stratum_Feature/General/Stratum_Feature_Trench_ID", "Trench/Trench/Trench_Trench_ID");
 putIntoNestedSet(INHERITED_DST_TO_SRC, "Stratum_Feature/Vars/Device_Code", "User/User_List/Device_Code");
 putIntoNestedSet(INHERITED_DST_TO_SRC, "Stratum_Feature/Vars/Stratum_Feature_Site_Name", "Trench/Trench/Trench_Site_Name");
 putIntoNestedSet(INHERITED_DST_TO_SRC, "Stratum_Feature/Vars/Stratum_Feature_Year_of_Campaign", "Trench/Vars/Trench_Year_of_Campaign");
-putIntoNestedSet(INHERITED_DST_TO_SRC, "Stratum_Feature/Vars/Stratum_Feature_SW_Corner_Elevation_masl", "Trench/Trench/Trench_SW_Corner_Elevation__masl_");
+putIntoNestedSet(INHERITED_DST_TO_SRC, "Stratum_Feature/Vars/Stratum_Feature_SW_Corner_Elevation_masl", "Trench/Trench/Trench_SW_Corner_Elevation_masl");
 putIntoNestedSet(INHERITED_DST_TO_SRC, "Stratum_Feature/Vars/Stratum_Feature_SW_Corner_Northing", "Trench/Trench/Northing");
 putIntoNestedSet(INHERITED_DST_TO_SRC, "Stratum_Feature/Vars/Stratum_Feature_SW_Corner_Easting", "Trench/Trench/Easting");
 putIntoNestedSet(INHERITED_DST_TO_SRC, "Sediment_Aggregate/Vars/Locus_ID", "Locus/General/Locus_Locus_ID");
@@ -6401,6 +6401,9 @@ String getArch16nKey(String ref) {
 
   if (isNull(lastRefPart))
     return null;
+
+  if ("Trench_SW_Corner_Elevation_masl".equals(lastRefPart))
+    return "{Trench_SW_Corner_Elevation__masl_}";
 
   String candidate;
 

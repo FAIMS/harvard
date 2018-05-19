@@ -3435,10 +3435,10 @@ public class ModuleUtil extends ModuleHelper {
 
     /*
         Type: input
-        Ref:  Trench/Trench/Trench_SW_Corner_Elevation__masl_
+        Ref:  Trench/Trench/Trench_SW_Corner_Elevation_masl
      */
     public static EditText get_Trench_Trench_TrenchSWCornerElevationmasl(Solo solo) {
-        String ref = "Trench/Trench/Trench_SW_Corner_Elevation__masl_";
+        String ref = "Trench/Trench/Trench_SW_Corner_Elevation_masl";
         return (android.widget.EditText) solo.getView((Object) ref);
     }
 

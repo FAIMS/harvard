@@ -245,6 +245,9 @@ String getArch16nKey(String ref) {
   if (isNull(lastRefPart))
     return null;
 
+  if ("Trench_SW_Corner_Elevation_masl".equals(lastRefPart))
+    return "{Trench_SW_Corner_Elevation__masl_}";
+
   String candidate;
 
   candidate = "{" + getTabGroupRef(ref) + "_" + lastRefPart + "}";
