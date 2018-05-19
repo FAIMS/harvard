@@ -1814,5 +1814,6 @@
   <!--@SOURCE: logic/qr-codes.bsh-->
   <!--@SOURCE: logic/printer.bsh-->
   <!--@SOURCE: logic/bluetooth.bsh-->
+  <!--@SOURCE: logic/sw-corner-validation.bsh-->
 ]]></logic>
 </module>

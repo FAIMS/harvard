@@ -97,3 +97,5 @@ Load_FCN_Label=Load FCN Label
 calibrate_printer=Calibrate Printer
 bounce_pre=You are doing that too much. Wait
 bounce_post=seconds and try again.
+sw_corner_validation_head=Please Fill-in Grid SW Corner Coordinates First
+sw_corner_validation_body=The record you are trying to create uses a snapshot of this Trench's SW Corner Coordinates. Because this snapshot is taken once, upon creation, it must be valid when trying to create any other records which depend on it. Please ensure this Trench's SW Corner Coordinates are filled-in and try again.
