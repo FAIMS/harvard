@@ -2,7 +2,7 @@
 <ValidationSchema>
   <ArchaeologicalElement name="Site"/>
   <ArchaeologicalElement name="Trench">
-    <property name="Trench SW Corner Elevation masl">
+    <property name="Trench SW Corner Elevation  masl ">
       <validator type="blankchecker">
         <param type="field" value="measure"/>
       </validator>
