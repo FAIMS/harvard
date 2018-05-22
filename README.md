@@ -5,11 +5,11 @@ This module was created for the **The Tao River Archaeological Project**, based 
 This module was co-developed by Prof Rowan Flad at Harvard University and Petra Janouchova and Adela Sobotkova at the FAIMS Project, Department of Ancient History, Macquarie University.
 
 ## Funding:
-Development of this module was funded in 2016 and 2017 by other sources of funding (Harvard University).
+Development of this module was funded in 2016 - 2018 by Harvard University.
 
 
 ## Date of release:
-June 2016, May 2017
+June 2016, May 2017, May 2018
 
 ## FAIMS Mobile version:
 FAIMS **v2.5** (Android 6+)
@@ -29,10 +29,13 @@ This module is part of the **FAIMS Demo library** on our publicly accessible Dem
 * validated fields with user observations
 * controlled vocabularies
 * language translation into Chinese (Q&A Prof Flad)
+* connectivity with mobile Zebra printer, QR code and label generation
+* automated calculation of absolute coordinates and elevations from manual trench measurements
 
 ## This module can be used with no or minor modification for:
-* Locus based complex excavation
+* Locus-based complex excavation
 * Archaeological sampling in a grid
+* Printing sample labels with a mobile thermal printer
 
 ## Contact info:
 For more details about the **The Tao River Archaeological Project** please visit https://projects.iq.harvard.edu/flad/projects. If you have any questions about the **The Tao River Archaeological Project** , contact Prof Rowan Flad at rflad@fas.harvard.edu.
