@@ -107,6 +107,17 @@ string="Map     REF_TO_TYPE                    = new HashMap"
 replacement="Map     REF_TO_TYPE                    = new LinkedHashMap"
 perl -0777 -i.original -pe "s/$string/$replacement/igs" ui_logic.bsh
 
+string="inheritFieldValue\\((\"[^\"]+\"), (\"[^\"]+\"), ((true)|(false))\\);"
+replacement="putIntoNestedSet(INHERITED_DST_TO_SRC, \\2, \\1);"
+tmp=$(tempfile)
+perl -ne "print if s/$string/$replacement/igs" ui_logic.bsh >"$tmp"
+sed -i.sed \
+    -e "/{{inherited-to-source}}/{
+    r $tmp
+    d
+}" ui_logic.bsh
+
+
 # Remove faims_read_only from gps fields. Fake it using a CSS style
 refs="((Latitude)|(Longitude)|(Northing)|(Easting))"
 
@@ -216,6 +227,8 @@ Load_FCN_Label=Load FCN Label
 calibrate_printer=Calibrate Printer
 bounce_pre=You are doing that too much. Wait
 bounce_post=seconds and try again.
+inherited_validation_head=Please Fill-in Inherited Fields First
+inherited_validation_body=The record you are trying to create uses a snapshot of some of this record's fields. Because this snapshot is taken once, upon creation, it should be valid when trying to create any other records which depend on it. Please ensure the following fields are filled in and try again, or press 'OK' to ignore this message and create a new record anyway:
 EOF
 
 # Produce a file showing the new arch16n entries

@@ -1,0 +1,90 @@
+/*************************** INHERITANCE VALIDATION ***************************/
+boolean IGNORE_INHERITANCE_VALIDATION = false;
+
+boolean validateInheritance(String dstTabGroup, String evtRef) {
+  boolean isValid = true;
+
+  if (IGNORE_INHERITANCE_VALIDATION)
+    return isValid;
+
+  String srcTabGroup = getTabGroupRef(evtRef);
+  if (!inheritsFrom(dstTabGroup, srcTabGroup))
+    return isValid;
+
+  String head = "{inherited_validation_head}";
+  String body = "{inherited_validation_body}";
+
+  Set srcRefs = INHERITED_DST_TAB_GROUP_TO_SRC.get(dstTabGroup);
+  for (String srcRef : srcRefs) {
+    if (!getTabGroupRef(srcRef).equals(srcTabGroup))
+      continue;
+    if (!isNull(getFieldValue(srcRef)))
+      continue;
+
+    body += "\n\t- " + getArch16nKey(srcRef);
+    isValid = false;
+  }
+
+  if (!isValid) {
+    String cbOk = replaceFirst("IGNORE_INHERITANCE_VALIDATION = true; executeOnEvent(\"%s\", \"click\")", evtRef);
+    showAlert(head, body, cbOk, "");
+  }
+
+  return isValid;
+}
+
+// Site
+addOnEventCond(
+    "Site/Site/Create_New_Trench",
+    "click",
+    "validateInheritance(\"Trench\", \"Site/Site/Create_New_Trench\")");
+
+// Trench
+addOnEventCond(
+    "Trench/Loci/Create_New_Locus",
+    "click",
+    "validateInheritance(\"Locus\", \"Trench/Loci/Create_New_Locus\")");
+addOnEventCond(
+    "Trench/Strata_Features/Create_New_Stratum_Feature",
+    "click",
+    "validateInheritance(\"Stratum_Feature\", \"Trench/Strata_Features/Create_New_Stratum_Feature\")");
+addOnEventCond(
+    "Trench/FCNs/Create_New_FCN",
+    "click",
+    "validateInheritance(\"FCN\", \"Trench/FCNs/Create_New_FCN\")");
+addOnEventCond(
+    "Trench/Diaries/Create_New_Diary",
+    "click",
+    "validateInheritance(\"Diary\", \"Trench/Diaries/Create_New_Diary\")");
+addOnEventCond(
+    "Trench/Legacies/Create_New_Legacy",
+    "click",
+    "validateInheritance(\"Legacy\", \"Trench/Legacies/Create_New_Legacy\")");
+
+// Locus
+addOnEventCond(
+    "Locus/Deposit/Add_Munsel_Color",
+    "click",
+    "validateInheritance(\"Soil_Munsel_Color\", \"Locus/Deposit/Add_Munsel_Color\")");
+addOnEventCond(
+    "Locus/Deposit/Add_New_Sediment_Aggregate",
+    "click",
+    "validateInheritance(\"Sediment_Aggregate\", \"Locus/Deposit/Add_New_Sediment_Aggregate\")");
+addOnEventCond(
+    "Locus/FCNs/Add_FCN",
+    "click",
+    "validateInheritance(\"FCN\", \"Locus/FCNs/Add_FCN\")");
+addOnEventCond(
+    "Locus/Add/Add_Photograph_Log",
+    "click",
+    "validateInheritance(\"Photograph_Log\", \"Locus/Add/Add_Photograph_Log\")");
+
+// Stratum/Feature
+addOnEventCond(
+    "Stratum_Feature/Add/Add_Photograph_Log",
+    "click",
+    "validateInheritance(\"Photograph_Log\", \"Stratum_Feature/Add/Add_Photograph_Log\")");
+
+for (String ref : getTabGroups()) {
+  addOnEvent(ref, "show", "IGNORE_INHERITANCE_VALIDATION = false");
+}
