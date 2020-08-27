@@ -95,8 +95,11 @@ If you have any questions about the module, please contact the FAIMS team at **e
 
 <p align="left">
  <img src="https://github.com/FAIMS/harvard/blob/master/screenshots/TaoRiver_printing.png" width="250"/>
+ <img src="https://github.com/FAIMS/harvard/blob/master/screenshots/TaoRiver_Printer_menu.png" width="250"/>
 </p>
 
 <p align="left">
  <img src="https://github.com/FAIMS/harvard/blob/master/screenshots/2018_label_printing_Rowan_Flad_Tao_River.JPG" />
 </p>
+
+If you want to know more about Zebra printing labels in the field, watch our short video on YouTube https://www.youtube.com/watch?v=Wx0vSblD_bM
