@@ -90,3 +90,13 @@ If you have any questions about the module, please contact the FAIMS team at **e
  <img src="https://github.com/FAIMS/harvard/blob/master/screenshots/Screenshot_20180410-114023.png" width="250"/>
   <img src="https://github.com/FAIMS/harvard/blob/master/screenshots/Screenshot_20180410-114038.png" width="250"/>
 </p>
+
+## Printing in the field with Zebra printer: 
+
+<p align="left">
+ <img src="https://github.com/FAIMS/harvard/blob/master/screenshots/TaoRiver_printing.png" width="250"/>
+</p>
+
+<p align="left">
+ <img src="https://github.com/FAIMS/harvard/blob/master/screenshots/2018_label_printing_Rowan_Flad_Tao_River.JPG" />
+</p>
